@@ -38,24 +38,24 @@ dateTime:
     long: minute | minutes
 
 timeAgo:
-  just-now: "just now"
-  ago: "{0} ago"
-  in: "in {0}"
-  last-month: "last month"
-  next-month: "next month"
-  month: "month | months"
-  last-year: "last year"
-  next-year: "next year"
-  year: "year | years"
-  yesterday: "yesterday"
-  tomorrow: "tomorrow"
-  day: "day | days"
-  last-week: "last week"
-  next-week: "next week"
-  week: "week | weeks"
-  hour: "hour | hours"
-  minute: "minute | minutes"
-  second: "second | seconds"
+  just-now: 'just now'
+  ago: '{0} ago'
+  in: 'in {0}'
+  last-month: 'last month'
+  next-month: 'next month'
+  month: 'month | months'
+  last-year: 'last year'
+  next-year: 'next year'
+  year: 'year | years'
+  yesterday: 'yesterday'
+  tomorrow: 'tomorrow'
+  day: 'day | days'
+  last-week: 'last week'
+  next-week: 'next week'
+  week: 'week | weeks'
+  hour: 'hour | hours'
+  minute: 'minute | minutes'
+  second: 'second | seconds'
 
 dateTimeFormat:
   # TODO: https://github.com/tc39/proposal-intl-duration-format
@@ -1035,9 +1035,9 @@ item:
       long: 'Blunt'
       short: 'b'
       title: 'Blunt damage'
-      description: "
+      description: '
         <p>Blunt damage refers to the trauma caused by impact weapons like hammers, maces, or clubs.</p>
-        <p>This type of damage is akin to pierce damage in terms of its effectiveness against armoured foes. However, unlike pierce damage, blunt damage does not have an increased headshot multiplier. This makes blunt better for general use comparatively to that of pierce.</p>"
+        <p>This type of damage is akin to pierce damage in terms of its effectiveness against armoured foes. However, unlike pierce damage, blunt damage does not have an increased headshot multiplier. This makes blunt better for general use comparatively to that of pierce.</p>'
 
   requirementFormat: '{value} str'
 
@@ -1229,3 +1229,33 @@ rankTable:
 
 patchNotes:
   showAllPatches: '+ {count} patch | + {count} patches'
+
+strategus:
+  registration:
+    welcome: Welcome to Strategus!
+    description:
+      'Strategus is a multiplayer campaign for cRPG where players can aquire fiefs and land and
+      gather armies on a real-time map. Strategus expands the world of cRPG to a browser-based map
+      of Calradia, where players take their armies into battle against other players or serve as a
+      mercenary in scheduled battles on the cRPG servers.'
+    join:
+      'You will join the campaign in region: {region}'
+    hint:
+      "If this doesn't seem right you can try re-login or contact an administrator"
+
+  movementType:
+    Move: Move
+    Follow: Follow
+    Attack: Attack
+
+  settlementType:
+    Village: Village
+    Castle: Castle
+    Town: Town
+
+  control:
+    locateParty: Locate party
+    searchBySettlements: Search settlement
+    terrainLayerToggle: Terrain layer toggle
+    terrainEditorToggle: Terrain editor toggle
+
