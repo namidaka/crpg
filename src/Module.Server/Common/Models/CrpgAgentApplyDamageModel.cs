@@ -202,16 +202,6 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         defenderStunMultiplier = 1f;
     }
 
-    private int GetSkillValue(IAgentOriginBase agentOrigin, SkillObject skill)
-    {
-        if (agentOrigin is CrpgBattleAgentOrigin crpgOrigin)
-        {
-            return crpgOrigin.Skills.GetPropertyValue(skill);
-        }
-
-        return 0;
-    }
-
     public override bool DecideCrushedThrough(Agent attackerAgent, Agent defenderAgent, float totalAttackEnergy, Agent.UsageDirection attackDirection, StrikeType strikeType, WeaponComponentData defendItem, bool isPassiveUsage)
     {
         EquipmentIndex wieldedItemIndex = attackerAgent.GetWieldedItemIndex(Agent.HandIndex.OffHand);
@@ -230,7 +220,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         int attackerPowerStrikeSkill = GetSkillValue(defenderAgent.Origin, CrpgSkills.PowerStrike);
         int defenderShieldSkill = GetSkillValue(defenderAgent.Origin, CrpgSkills.Shield);
         float defenderDefendPower = Math.Max(defenderShieldSkill * 6 + 3, defenderStrengthSkill);
-        Random rand = new Random();
+        Random rand = new();
         int randomNumber = rand.Next(0, 1001);
         if (defendItem != null && defendItem.IsShield)
         {
@@ -238,5 +228,15 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         }
 
         return (randomNumber / 10f) > Math.Pow(attackerPowerStrikeSkill / defenderStrengthSkill, 2) * 100f;
+    }
+
+    private int GetSkillValue(IAgentOriginBase agentOrigin, SkillObject skill)
+    {
+        if (agentOrigin is CrpgBattleAgentOrigin crpgOrigin)
+        {
+            return crpgOrigin.Skills.GetPropertyValue(skill);
+        }
+
+        return 0;
     }
 }
