@@ -491,23 +491,6 @@ internal class MatchBalancer
         return newDifferenceVector.Length() < oldDifferenceVector.Length();
     }
 
-    private bool IsSwapValid(List<WeightedCrpgUser> strongTeam, List<WeightedCrpgUser> weakTeam, bool swappingFromWeakTeam,
-        int sourceGroupSize, float sourceGroupWeight, int destinationGroupSize, float destinationGroupWeight,
-        float sizeScaler)
-    {
-        float newTeamWeightDiff = swappingFromWeakTeam
-            ? strongTeam.Sum(u => u.Weight) + 2f * sourceGroupWeight - 2f * destinationGroupWeight - weakTeam.Sum(u => u.Weight)
-            : strongTeam.Sum(u => u.Weight) - 2f * sourceGroupWeight + 2f * destinationGroupWeight - weakTeam.Sum(u => u.Weight);
-        float newTeamSizeDiff = swappingFromWeakTeam
-            ? strongTeam.Count + 2 * sourceGroupSize - 2f * destinationGroupSize - weakTeam.Count
-            : strongTeam.Count - 2 * sourceGroupSize + 2f * destinationGroupSize - weakTeam.Count;
-
-        Vector2 oldDifferenceVector = new((strongTeam.Count - weakTeam.Count) * sizeScaler,
-            strongTeam.Sum(u => u.Weight) - weakTeam.Sum(u => u.Weight));
-        Vector2 newDifferenceVector = new(newTeamSizeDiff * sizeScaler, newTeamWeightDiff);
-        return newDifferenceVector.Length() < oldDifferenceVector.Length();
-    }
-
     private bool IsWeightRatioAcceptable(GameMatch gameMatch, float percentageDifference)
     {
         double weightRatio = Math.Abs(
