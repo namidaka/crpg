@@ -352,6 +352,8 @@ internal class MatchBalancer
         }
 
         bestWeightedCrpgUserToSwap1List = bestWeightedCrpgUserToSwap1 == null ? new List<WeightedCrpgUser>() : new List<WeightedCrpgUser> { bestWeightedCrpgUserToSwap1 };
+
+        // TODO : checking only for weight difference , but what about size?
         if (Math.Abs(MatchBalancingHelpers.ComputeTeamDiffAfterSwap(teamToSwapFrom, teamToSwapTo, bestWeightedCrpgUserToSwap1List, bestWeightedCrpgUsersToSwap2)) - teamWeightDiff > 0)
         {
             return false;
