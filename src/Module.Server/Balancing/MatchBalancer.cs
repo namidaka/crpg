@@ -334,7 +334,7 @@ internal class MatchBalancer
         {
             sizeOffset = (teamSizeDifference + 1) / 2f;
             List<WeightedCrpgUser> userSingleton = new() { user };
-            moveWeightHalfDifference = MatchBalancingHelpers.ComputeMoveWeightHalfDifference(teamToSwapFrom, teamToSwapTo, user)
+            moveWeightHalfDifference = MatchBalancingHelpers.ComputeMoveWeightHalfDifference(teamToSwapFrom, teamToSwapTo, user);
             targetWeight = swappingFromWeakTeam
             ? moveWeightHalfDifference + Math.Abs(teamWeightDiff) / 2f
             : moveWeightHalfDifference - Math.Abs(teamWeightDiff) / 2f;
