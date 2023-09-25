@@ -206,7 +206,8 @@ internal static class MatchBalancingHelpers
         for (int i = 0; i < teamToSelectFrom.Count; i++)
         {
             WeightedCrpgUser bestUserToAdd = teamToSelectFromCopy.First();
-            Vector2 bestUserToAddVector = new(sizeScaler, ComputeMoveWeightHalfDifference(teamToSelectFromCopy, teamToSwapIntoCopy, bestUserToAdd));
+            float moveWeightHalfDifference = ComputeMoveWeightHalfDifference(teamToSelectFromCopy, teamToSwapIntoCopy, bestUserToAdd);
+            Vector2 bestUserToAddVector = new(sizeScaler, moveWeightHalfDifference);
             Vector2 objectiveVector = new(sizeScaler * desiredSize, targetWeight);
             if (objectiveVector.Length() == 0f)
             {
@@ -215,12 +216,13 @@ internal static class MatchBalancingHelpers
 
             foreach (WeightedCrpgUser user in teamToSelectFromCopy)
             {
-                Vector2 userVector = new(sizeScaler, ComputeMoveWeightHalfDifference(teamToSelectFromCopy, teamToSwapIntoCopy, user));
+                moveWeightHalfDifference = ComputeMoveWeightHalfDifference(teamToSelectFromCopy, teamToSwapIntoCopy, user);
+                Vector2 userVector = new(sizeScaler, moveWeightHalfDifference);
 
                 if ((usersToSwapVector + userVector - objectiveVector).Length() < (usersToSwapVector + bestUserToAddVector - objectiveVector).Length())
                 {
                     bestUserToAdd = user;
-                    bestUserToAddVector = new(sizeScaler, bestUserToAdd.Weight);
+                    bestUserToAddVector = new(sizeScaler, moveWeightHalfDifference);
                 }
             }
 
