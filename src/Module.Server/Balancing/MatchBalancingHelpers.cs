@@ -316,16 +316,19 @@ internal static class MatchBalancingHelpers
             return 0;
         }
 
-        List<ClanGroup> teamAClanGroups = SplitUsersIntoClanGroups(teamToSwapFrom);
-        List<ClanGroup> teamBClanGroups = SplitUsersIntoClanGroups(teamToSwapInto);
+        List<ClanGroup> teamToSwapFromClanGroups = SplitUsersIntoClanGroups(teamToSwapFrom);
+        List<ClanGroup> teamToSwapIntoClanGroups = SplitUsersIntoClanGroups(teamToSwapInto);
         List<WeightedCrpgUser> newTeamA = teamToSwapFrom.ToList(); // ToList To do a deep copy of the list and not Impact the original one
         List<WeightedCrpgUser> newTeamB = teamToSwapInto.ToList();
         newTeamA.Remove(userToMove);
         newTeamB.Add(userToMove);
         List<ClanGroup> newteamToSwapFromClanGroups = SplitUsersIntoClanGroups(newTeamA);
         List<ClanGroup> newteamToSwapIntoClanGroups = SplitUsersIntoClanGroups(newTeamB);
-        return (teamAClanGroups.Sum(c => c.Weight()) - newteamToSwapFromClanGroups.Sum(c => c.Weight()) + newteamToSwapIntoClanGroups.Sum(c => c.Weight()) - teamBClanGroups.Sum(c => c.Weight())) / 2f;
+        float oldDifference = teamToSwapFromClanGroups.Sum(c => c.Weight()) - teamToSwapIntoClanGroups.Sum(c => c.Weight());
+        float newDifference = newteamToSwapFromClanGroups.Sum(c => c.Weight()) - newteamToSwapIntoClanGroups.Sum(c => c.Weight());
+        return (oldDifference - newDifference) / 2f;
     }
+
 
     public static float ComputeTeamDiffAfterSwap(List<WeightedCrpgUser> teamToSwapFrom, List<WeightedCrpgUser> teamToSwapInto, List<WeightedCrpgUser> usersToMoveFromTeam1, List<WeightedCrpgUser> usersToMoveFromTeam2)
     {
