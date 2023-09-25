@@ -230,7 +230,7 @@ internal static class MatchBalancingHelpers
             {
                 teamToSelectFromCopy.Remove(bestUserToAdd);
                 usersToSwap.Add(bestUserToAdd);
-                usersToSwapVector = new(usersToSwap.Count * sizeScaler, usersToSwap.Sum(u => u.Weight));
+                usersToSwapVector += bestUserToAddVector;
             }
             else
             {
