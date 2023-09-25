@@ -323,7 +323,7 @@ internal class MatchBalancer
 
         List<WeightedCrpgUser> bestWeightedCrpgUsersToSwap2 = MatchBalancingHelpers.FindWeightedCrpgUsersToSwap((float)targetWeight, teamToSwapTo, teamToSwapFrom, targetSize, sizeScaler);
 
-        float sizeDifferenceAfterSwap = teamSizeDifference + (bestWeightedCrpgUserToSwap1List.Count - bestWeightedCrpgUsersToSwap2.Count) / 2f;
+        float sizeDifferenceAfterSwap = teamSizeDifference + (bestWeightedCrpgUserToSwap1List.Count - bestWeightedCrpgUsersToSwap2.Count) * 2f;
 
         // the pair difference (strong - weak) needs to be close to zero
         Vector2 bestPairVector = new(
@@ -339,8 +339,9 @@ internal class MatchBalancer
             ? moveWeightHalfDifference + Math.Abs(teamWeightDiff) / 2f
             : moveWeightHalfDifference - Math.Abs(teamWeightDiff) / 2f;
             List<WeightedCrpgUser> potentialWeightedCrpgUsersToSwap = MatchBalancingHelpers.FindWeightedCrpgUsersToSwap((float)targetWeight, teamToSwapTo, teamToSwapFrom, targetSize, sizeScaler);
+            sizeDifferenceAfterSwap = teamSizeDifference + (1 - potentialWeightedCrpgUsersToSwap.Count) * 2;
             Vector2 potentialPairVector = new(
-                (teamToSwapFrom.Count - 1 - teamToSwapTo.Count + potentialWeightedCrpgUsersToSwap.Count) * sizeScaler,
+                sizeDifferenceAfterSwap * sizeScaler,
                 (float)Math.Abs(MatchBalancingHelpers.ComputeTeamDiffAfterSwap(teamToSwapFrom, teamToSwapTo, userSingleton, potentialWeightedCrpgUsersToSwap)));
             if (potentialPairVector.Length() < bestPairVector.Length())
             {
