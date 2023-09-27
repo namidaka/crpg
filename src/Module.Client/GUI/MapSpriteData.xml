@@ -1597,15 +1597,15 @@
     </GenericSprite>
     <GenericSprite>
       <Name>crpg_battle_thearena</Name>
-      <SpritePartName>crpg_dtv_encampment</SpritePartName>
+      <SpritePartName>crpg_battle_thearena</SpritePartName>
     </GenericSprite>
     <GenericSprite>
       <Name>crpg_battle_krakatoa</Name>
-      <SpritePartName>crpg_dtv_encampment</SpritePartName>
+      <SpritePartName>crpg_battle_krakatoa</SpritePartName>
     </GenericSprite>
     <GenericSprite>
       <Name>crpg_dtv_frozenshore</Name>
-      <SpritePartName>crpg_dtv_encampment</SpritePartName>
+      <SpritePartName>crpg_dtv_frozenshore</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>
