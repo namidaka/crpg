@@ -45,6 +45,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ModuleData\items\arm_armors.xml" />
+    <Content Include="ModuleData\items\banners.xml" />
+    <Content Include="ModuleData\items\body_armors.xml" />
+    <Content Include="ModuleData\items\head_armors.xml" />
+    <Content Include="ModuleData\items\horses_and_others.xml" />
+    <Content Include="ModuleData\items\leg_armors.xml" />
+    <Content Include="ModuleData\items\shields.xml" />
+    <Content Include="ModuleData\items\shoulder_armors.xml" />
+    <Content Include="ModuleData\items\weapons.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Lib.Harmony" Version="2.2.2" GeneratePathProperty="true" />
     <PackageReference Include="MonoMod.Common" Version="22.6.3.1" GeneratePathProperty="true" />
     <PackageReference Include="Mono.Cecil" Version="0.11.4" GeneratePathProperty="true" />
