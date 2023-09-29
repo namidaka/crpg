@@ -5,7 +5,7 @@ namespace Crpg.Domain.Entities.Servers;
 public class GameServerConfig : AuditableEntity
 {
     // Common settings for all type of server
-    public string ServerName { get; set; } = "cRPGServer";
+    public string ServerName { get; set; } = string.Empty;
     public Region Region { get; set; }
     public int ServerInstance { get; set; }
     public GameMode GameMode { get; set; }
