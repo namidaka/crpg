@@ -1,5 +1,5 @@
 ﻿namespace Crpg.Domain.Entities.Servers;
-public enum GameType
+public enum GameMode
 {
     cRPGBattle,
     cRPGConquest,

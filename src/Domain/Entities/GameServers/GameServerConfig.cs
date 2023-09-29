@@ -5,9 +5,10 @@ namespace Crpg.Domain.Entities.Servers;
 public class GameServerConfig : AuditableEntity
 {
     // Common settings for all type of server
-    public ServerIdentifier Identifier { get; set; }
     public string ServerName { get; set; } = "cRPGServer";
-    public GameType GameType { get; set; }
+    public Region Region { get; set; }
+    public int ServerInstance { get; set; }
+    public GameMode GameMode { get; set; }
     public string? GamePassword { get; set; }
     public string? WelcomeMessage { get; set; }
     public List<string> Maps { get; set; } = new List<string>();
