@@ -12,7 +12,6 @@ public partial class AddGameServerConfiguration : Migration
     {
         migrationBuilder.AlterDatabase()
 
-            .Annotation("Npgsql:Enum:restriction_type", "all,join,chat")
             .Annotation("Npgsql:Enum:role", "user,moderator,game_admin,admin")
             .OldAnnotation("Npgsql:Enum:role", "user,moderator,game_admin,admin");
 
