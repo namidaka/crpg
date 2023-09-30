@@ -10,6 +10,7 @@ using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
@@ -82,6 +83,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<BattleMercenaryApplication> BattleMercenaryApplications { get; set; } = default!;
     public DbSet<ActivityLog> ActivityLogs { get; set; } = default!;
     public DbSet<ActivityLogMetadata> ActivityLogMetadata { get; set; } = default!;
+    public DbSet<GameServerConfig> GameServerConfigs { get; set; } = default!;
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -143,6 +145,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         modelBuilder.HasPostgresEnum<BattleMercenaryApplicationStatus>();
         modelBuilder.HasPostgresEnum<Region>();
         modelBuilder.HasPostgresEnum<ActivityLogType>();
+        modelBuilder.HasPostgresEnum<GameMode>();
 
         // Ensure that the PostGIS extension is installed.
         modelBuilder.HasPostgresExtension("postgis");
