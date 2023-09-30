@@ -17,8 +17,8 @@ using NetTopologySuite.Geometries;
 namespace Crpg.Persistence.Migrations;
 
 [DbContext(typeof(CrpgDbContext))]
-[Migration("20230930160849_AddGameServerConfiguration")]
-partial class AddGameServerConfiguration
+[Migration("20230930223236_AddServerConfiguration_2")]
+partial class AddServerConfiguration2
 {
     /// <inheritdoc />
     protected override void BuildTargetModel(ModelBuilder modelBuilder)
