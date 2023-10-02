@@ -1,4 +1,4 @@
-﻿namespace Crpg.Domain.Entities.Servers;
+﻿namespace Crpg.Domain.Entities.GameServers;
 public enum GameMode
 {
     CRPGBattle,

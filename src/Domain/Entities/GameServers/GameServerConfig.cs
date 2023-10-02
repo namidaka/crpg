@@ -1,6 +1,7 @@
 ﻿using Crpg.Domain.Common;
+using Crpg.Domain.Entities.GameServers;
 
-namespace Crpg.Domain.Entities.Servers;
+namespace Crpg.Domain.Entities.GameServers;
 
 public class GameServerConfig : AuditableEntity
 {
@@ -12,7 +13,7 @@ public class GameServerConfig : AuditableEntity
     public GameMode GameMode { get; set; }
     public string? GamePassword { get; set; }
     public string? WelcomeMessage { get; set; }
-    public List<string> Maps { get; set; } = new List<string>();
+    public List<Map> Maps { get; set; } = new List<Map>();
     public bool? AllowPollsToKickPlayers { get; set; }
     public bool? AllowPollsToChangeMaps { get; set; }
     public bool? DisableCultureVoting { get; set; }
