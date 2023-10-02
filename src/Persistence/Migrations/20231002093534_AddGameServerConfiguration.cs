@@ -59,7 +59,7 @@ public partial class AddGameServerConfiguration : Migration
                 crpghappyhours = table.Column<TimeSpan>(name: "crpg_happy_hours", type: "interval", nullable: true),
                 crpgapplyharmonypatches = table.Column<bool>(name: "crpg_apply_harmony_patches", type: "boolean", nullable: true),
                 updatedat = table.Column<DateTime>(name: "updated_at", type: "timestamp with time zone", nullable: false),
-                createdat = table.Column<DateTime>(name: "created_at", type: "timestamp with time zone", nullable: false)
+                createdat = table.Column<DateTime>(name: "created_at", type: "timestamp with time zone", nullable: false),
             },
             constraints: table =>
             {
