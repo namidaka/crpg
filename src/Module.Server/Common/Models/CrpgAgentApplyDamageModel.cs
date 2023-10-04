@@ -202,7 +202,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         defenderStunMultiplier = 1f;
     }
 
-    // Consider reworking once https://forums.taleworlds.com/index.php?threads/missioncombatmechanicshelper-getdefendcollisionresults-bypass-strikemagnitudecalculationmodel.459379 is fixed
+    // TODO : Consider reworking once https://forums.taleworlds.com/index.php?threads/missioncombatmechanicshelper-getdefendcollisionresults-bypass-strikemagnitudecalculationmodel.459379 is fixed
     public override bool DecideCrushedThrough(
         Agent attackerAgent,
         Agent defenderAgent,
