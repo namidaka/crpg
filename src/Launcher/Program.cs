@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Http.Headers;
@@ -190,8 +191,6 @@ static GameInstallationInfo? ResolveBannerlordXboxInstallation()
 static async Task UpdateCrpgAsync(string bannerlordPath, bool isBeta = false,bool isServer = false)
 {
     string crpgPath = Path.Combine(bannerlordPath, "Modules/cRPG");
-    string tagPath = Path.Combine(crpgPath, "Tag.txt");
-    string? tag = File.Exists(tagPath) ? File.ReadAllText(tagPath) : null;
     string websiteUrl = "https://c-rpg.eu/";
     string fileName = "crpg.zip";
     if (isBeta)
@@ -205,6 +204,8 @@ static async Task UpdateCrpgAsync(string bannerlordPath, bool isBeta = false,boo
         fileName = "cRPGServer.zip";
     }
 
+    string tagPath = Path.Combine(crpgPath, "Tag.txt");
+    string? tag = File.Exists(tagPath) ? File.ReadAllText(tagPath) : null;
     string crpgUrl = websiteUrl + fileName;
     using HttpClient httpClient = new(new SocketsHttpHandler
     {
@@ -237,11 +238,27 @@ static async Task UpdateCrpgAsync(string bannerlordPath, bool isBeta = false,boo
     {
         if (Directory.Exists(crpgPath))
         {
-            Directory.Delete(crpgPath, true);
+            // Delete all files except *.txt
+            foreach (var file in Directory.GetFiles(crpgPath))
+            {
+                if (!file.EndsWith(".txt", StringComparison.OrdinalIgnoreCase))
+                {
+                    File.Delete(file);
+                }
+            }
+
+            // Recursively delete all subdirectories
+            foreach (var dir in Directory.GetDirectories(crpgPath))
+            {
+                Directory.Delete(dir, true);
+            }
+        }
+        if (!Directory.Exists(crpgPath))
+        {
+            Directory.CreateDirectory(crpgPath);
         }
 
-        Directory.CreateDirectory(crpgPath);
-        archive.ExtractToDirectory(crpgPath); // No async overload :(
+        archive.ExtractToDirectory(crpgPath,overwriteFiles : true); // No async overload :(
     }
 
     tag = res.Headers.ETag?.Tag;
