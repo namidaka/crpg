@@ -1,4 +1,4 @@
-﻿$instanceLetter = "a"
+﻿$instanceLetter = "b"
 $instance = "crpg01$instanceLetter"
 $port = 7210
 
@@ -6,7 +6,7 @@ $Host.UI.RawUI.WindowTitle = "$instance"
 
 $env:CRPG_SERVICE = "crpg-game-server"
 $env:CRPG_INSTANCE = $instance
-$serverPath = "$env:mb_server_path\bin\Win64_Shipping_Server"
+$serverPath = "$env:mb_beta_server_path\bin\Win64_Shipping_Server"
 # Load the XML content from a file
 
 
@@ -17,7 +17,7 @@ function IsLatest {
 $webClient = New-Object System.Net.WebClient
 
 # Download the XML content
-$responseContent = $webClient.DownloadString("https://www.c-rpg.eu/SubModule.xml")
+$responseContent = $webClient.DownloadString("https://namidaka.fr/SubModule.xml")
 
 # Parse the XML content
 try {
@@ -45,13 +45,13 @@ while ($true)
 {
     $Process = Start-Process -WorkingDirectory "$serverPath" `
         -FilePath "DedicatedCustomServer.Starter.exe" `
-        -ArgumentList "_MODULES_*Native*Multiplayer*cRPG*_MODULES_","/dedicatedcustomserverconfigfile","..\cRPG\$instanceLetter.txt","/DisableErrorReporting","/port $port" `
+        -ArgumentList "_MODULES_*Native*Multiplayer*cRPG_Beta*_MODULES_","/dedicatedcustomserverconfigfile","..\cRPG_Beta\$instanceLetter.txt","/DisableErrorReporting","/port $port" `
         -PassThru
 
     # Periodically check for new version while the process is running
     do {
         Start-Sleep -Seconds 2
-        [xml]$currentSubmodule = Get-Content "$env:mb_server_path\Modules\cRPG\SubModule.xml"
+        [xml]$currentSubmodule = Get-Content "$env:mb_beta_server_path\Modules\cRPG_Beta\SubModule.xml"
         $needToUpdate = IsLatest
         if (-not ($needToUpdate -eq "no")) {
             $Process.Kill()
@@ -60,10 +60,17 @@ while ($true)
             break
         }
     } while (!$Process.HasExited)
-
-    & ".\Crpg.Launcher.exe" -beta -server -path "$env:mb_server_path"
-
-    Start-Sleep -Seconds 3
+    do {
+        Start-Sleep -Seconds 30
+        [xml]$currentSubmodule = Get-Content "$env:mb_beta_server_path\Modules\cRPG_Beta\SubModule.xml"
+        $needToUpdate = IsLatest
+        if (($needToUpdate -eq "no")) {
+            $Process.Kill()
+            Write-Host "Update is probably finished"
+            break
+        }
+        Write-Host "Update is still ongoing"
+    } while (!$Process.HasExited)
     Write-Host "$(Get-Date): process stopped with exit code $($Process.ExitCode)"
 
     $LogFolder = "C:\ProgramData\Mount and Blade II Bannerlord\logs"
@@ -72,3 +79,4 @@ while ($true)
     Copy-Item -Path "$LogFolder\rgl_log_errors_$($Process.Id).txt" -Destination "$LogFolder\$($FileName)-errors.txt"
     Start-Sleep -Seconds 5
 }
+
