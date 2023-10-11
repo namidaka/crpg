@@ -1,6 +1,6 @@
 ﻿$instanceLetter = "a"
 $instance = "crpg01$instanceLetter"
-$port = 7211
+$port = 7210
 
 $Host.UI.RawUI.WindowTitle = "$instance"
 
