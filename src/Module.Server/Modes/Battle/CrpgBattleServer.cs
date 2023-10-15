@@ -52,16 +52,6 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         AddTeams();
     }
 
-    public override void OnAgentCreated(Agent agent)
-    {
-        if (_isSkirmish || !agent.IsHuman)
-        {
-            return;
-        }
-
-        ((CrpgBattleFlagSystem)_flagSystem).IncrementInitiallySpawnedPlayerCount();
-    }
-
     public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
     {
         if (_isSkirmish || !affectedAgent.IsHuman)

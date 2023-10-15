@@ -1,4 +1,5 @@
-﻿using NetworkMessages.FromServer;
+﻿using Crpg.Module.Helpers;
+using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
@@ -8,8 +9,6 @@ using Timer = TaleWorlds.Core.Timer;
 namespace Crpg.Module.Modes.Battle.FlagSystems;
 internal class CrpgBattleFlagSystem : AbstractFlagSystem
 {
-    private int initiallySpawnedPlayerCount;
-
     public CrpgBattleFlagSystem(Mission mission, MultiplayerGameNotificationsComponent notificationsComponent, CrpgBattleClient battleClient)
         : base(mission, notificationsComponent, battleClient)
     {
@@ -44,30 +43,35 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
         Debug.Print("Random Flag has been spawned");
     }
 
-    public void IncrementInitiallySpawnedPlayerCount()
-    {
-        initiallySpawnedPlayerCount++;
-    }
-
     public void CheckForDeadPlayerFlagSpawnThreshold()
     {
-        float currentSpawnedPlayerCount = GetCurrentSpawnedPlayerCount();
-        if (currentSpawnedPlayerCount / initiallySpawnedPlayerCount <= 0.4f)
+        float attackerCount = Mission.AttackerTeam.ActiveAgents.Count;
+        float defenderCount = Mission.DefenderTeam.ActiveAgents.Count;
+        // TODO: Create a key for it in server configuration
+        float overpowerThreshold = 2f;
+
+        if (attackerCount == 1 || defenderCount == 1)
         {
             GetCheckFlagRemovalTimer(Mission.CurrentTime, GetBattleClient().FlagManipulationTime).Reset(Mission.CurrentTime, 0);
         }
+
+        if (attackerCount > 7 || defenderCount > 7)
+        {
+            return;
+        }
+
+        if (MathHelper.Within(attackerCount / defenderCount, 1 / overpowerThreshold, overpowerThreshold))
+        {
+            return;
+        }
+
+        GetCheckFlagRemovalTimer(Mission.CurrentTime, GetBattleClient().FlagManipulationTime).Reset(Mission.CurrentTime, 0);
     }
 
     public override FlagCapturePoint GetRandomFlag()
     {
         var uncapturedFlags = GetAllFlags().Where(f => GetFlagOwner(f) == null).ToArray();
         return uncapturedFlags.GetRandomElement();
-    }
-
-    public override void ResetFlags()
-    {
-        base.ResetFlags();
-        initiallySpawnedPlayerCount = 0;
     }
 
     protected override bool IsAgentCountingAroundFlag(Agent agent) => !agent.IsActive() || !agent.IsHuman || agent.HasMount;
@@ -81,13 +85,5 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
         GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, null));
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
         return flag.FlagIndex;
-    }
-
-    private int GetCurrentSpawnedPlayerCount()
-    {
-        int attackerCount = Mission.AttackerTeam.ActiveAgents.Count;
-        int defenderCount = Mission.DefenderTeam.ActiveAgents.Count;
-
-        return attackerCount + defenderCount;
     }
 }
