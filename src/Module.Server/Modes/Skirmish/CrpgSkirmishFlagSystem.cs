@@ -20,7 +20,7 @@ internal class CrpgSkirmishFlagSystem : AbstractFlagSystem
             return;
         }
 
-        Timer checkFlagRemovalTimer = GetCheckFlagRemovalTimer(Mission.CurrentTime, 10);
+        Timer checkFlagRemovalTimer = GetCheckFlagRemovalTimer(Mission.CurrentTime, GetBattleClient().FlagManipulationTime);
         if (!checkFlagRemovalTimer.Check(Mission.CurrentTime))
         {
             return;
