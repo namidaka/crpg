@@ -7,7 +7,7 @@ namespace Crpg.Module.Modes.Battle;
 [DefineGameNetworkMessageTypeForMod(GameNetworkMessageSendType.FromServer)]
 internal sealed class CrpgBattleSpawnFlagMessage : GameNetworkMessage
 {
-    private static readonly CompressionInfo.Integer FlagCapturePointCharCompressionInfo = new(65, 68);
+    private static readonly CompressionInfo.Integer FlagCapturePointCharCompressionInfo = new(65, 5);
     public int FlagChar { get; set; } = default!;
 
     protected override void OnWrite()
