@@ -208,7 +208,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
             }
             else
             {
-                registerer.Register<CrpgBattleSpawnFlagMessage>(OnFlagsRemovedBattle);
+                registerer.Register<CrpgBattleSpawnFlagMessage>(OnFlagsSpawnedBattle);
             }
         }
     }
@@ -295,7 +295,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
         ChangeNumberOfFlags();
     }
 
-    private void OnFlagsRemovedBattle(CrpgBattleSpawnFlagMessage message)
+    private void OnFlagsSpawnedBattle(CrpgBattleSpawnFlagMessage message)
     {
         TextObject textObject = new("{=nbOZ9BNX}Flag {NAME} has spawned.",
                 new Dictionary<string, object> { ["NAME"] = char.ConvertFromUtf32(message.FlagChar) });
