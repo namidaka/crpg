@@ -20,16 +20,16 @@ internal class CrpgSkirmishFlagSystem : AbstractFlagSystem
             return;
         }
 
-        Timer checkFlagRemovalTimer = GetCheckFlagRemovalTimer(Mission.CurrentTime, GetBattleClient().FlagManipulationTime);
-        if (checkFlagRemovalTimer.Check(Mission.CurrentTime))
+        Timer checkFlagRemovalTimer = GetCheckFlagRemovalTimer(Mission.CurrentTime, 10);
+        if (!checkFlagRemovalTimer.Check(Mission.CurrentTime))
         {
             return;
         }
 
-        var lastFlag = GetLastFlag();
+        var randomFlag = GetRandomFlag();
 
         int[] flagIndexesToRemove = GetAllFlags()
-            .Where(f => f.FlagIndex != lastFlag.FlagIndex)
+            .Where(f => f.FlagIndex != randomFlag.FlagIndex)
             .Select(RemoveFlag)
             .ToArray();
 
@@ -37,7 +37,7 @@ internal class CrpgSkirmishFlagSystem : AbstractFlagSystem
 
         if (flagIndexesToRemove.Length > 0) // In case there is only one flag on the map.
         {
-            GetNotificationsComponent().FlagXRemaining(lastFlag);
+            GetNotificationsComponent().FlagXRemaining(randomFlag);
 
             GameNetwork.BeginBroadcastModuleEvent();
             GameNetwork.WriteMessage(new FlagDominationFlagsRemovedMessage());
