@@ -85,7 +85,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         _flagSystem.ResetFlags();
         _morale = 0.0f;
         _flagSystem.SetCheckFlagRemovalTimer(null);
-        _flagSystem.SetWereFlagsManipulated(false);
+        _flagSystem.SetHasFlagCountChanged(false);
     }
 
     public override bool CheckForWarmupEnd()
@@ -128,7 +128,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
 
         if (!_flagSystem.HasNoFlags() && Math.Abs(_morale) >= 1.0)
         {
-            if (!_flagSystem.WereFlagsManipulated())
+            if (!_flagSystem.HasFlagCountChanged())
             {
                 return true;
             }
@@ -192,7 +192,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
 
     public override bool CheckIfOvertime()
     {
-        if (!_flagSystem.WereFlagsManipulated())
+        if (!_flagSystem.HasFlagCountChanged())
         {
             return false;
         }
@@ -269,7 +269,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         float moraleGain = teamFlagsDelta <= 0
             ? MBMath.ClampFloat(-1 - _morale, -2f, -1f) * moraleMultiplier
             : MBMath.ClampFloat(1 - _morale, 1f, 2f) * moraleMultiplier;
-        if (_flagSystem.WereFlagsManipulated()) // For the last flag, the morale is moving faster.
+        if (_flagSystem.HasFlagCountChanged()) // For the last flag, the morale is moving faster.
         {
             moraleGain *= moraleGainMultiplierLastFlag;
         }

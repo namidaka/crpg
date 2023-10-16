@@ -16,7 +16,7 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
 
     public override void CheckForManipulationOfFlags()
     {
-        if (WereFlagsManipulated())
+        if (HasFlagCountChanged())
         {
             return;
         }
@@ -30,7 +30,7 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
         var randomFlag = GetRandomFlag();
         SpawnFlag(randomFlag);
 
-        SetWereFlagsManipulated(true);
+        SetHasFlagCountChanged(true);
 
         GameNetwork.BeginBroadcastModuleEvent();
         GameNetwork.WriteMessage(new CrpgBattleSpawnFlagMessage

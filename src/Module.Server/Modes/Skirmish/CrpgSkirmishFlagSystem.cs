@@ -15,7 +15,7 @@ internal class CrpgSkirmishFlagSystem : AbstractFlagSystem
 
     public override void CheckForManipulationOfFlags()
     {
-        if (WereFlagsManipulated())
+        if (HasFlagCountChanged())
         {
             return;
         }
@@ -33,7 +33,7 @@ internal class CrpgSkirmishFlagSystem : AbstractFlagSystem
             .Select(RemoveFlag)
             .ToArray();
 
-        SetWereFlagsManipulated(true);
+        SetHasFlagCountChanged(true);
 
         if (flagIndexesToRemove.Length > 0) // In case there is only one flag on the map.
         {

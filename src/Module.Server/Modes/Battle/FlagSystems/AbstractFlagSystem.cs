@@ -21,7 +21,7 @@ internal abstract class AbstractFlagSystem
     private readonly CrpgBattleClient _battleClient;
 
     /// <summary>True if a random flag has been spawned.</summary>
-    private bool _wereFlagsManipulated;
+    private bool _hasFlagCountChanged;
     private Timer? _checkFlagRemovalTimer;
 
     private FlagCapturePoint[] _flags = Array.Empty<FlagCapturePoint>();
@@ -209,9 +209,9 @@ internal abstract class AbstractFlagSystem
 
     public abstract void CheckForManipulationOfFlags();
 
-    public bool WereFlagsManipulated() => _wereFlagsManipulated;
+    public bool HasFlagCountChanged() => _hasFlagCountChanged;
 
-    public void SetWereFlagsManipulated(bool wereFlagsManipulated) => _wereFlagsManipulated = wereFlagsManipulated;
+    public void SetHasFlagCountChanged(bool hasFlagCountChanged) => _hasFlagCountChanged = hasFlagCountChanged;
 
     public Timer GetCheckFlagRemovalTimer(float currentTime, float flagManipulationTime)
     {
