@@ -8,8 +8,8 @@ public class GameServerConfig : AuditableEntity
     // Common settings for all type of server
     public int Id { get; set; }
     public string ServerName { get; set; } = string.Empty;
-    public Region Region { get; set; }
     public int ServerInstance { get; set; }
+    public Region Region { get; set; }
     public GameMode GameMode { get; set; }
     public string? GamePassword { get; set; }
     public string? WelcomeMessage { get; set; }
