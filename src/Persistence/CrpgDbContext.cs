@@ -84,6 +84,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<ActivityLog> ActivityLogs { get; set; } = default!;
     public DbSet<ActivityLogMetadata> ActivityLogMetadata { get; set; } = default!;
     public DbSet<GameServerConfig> GameServerConfigs { get; set; } = default!;
+    public DbSet<Map> Maps { get; set; } = default!;
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
