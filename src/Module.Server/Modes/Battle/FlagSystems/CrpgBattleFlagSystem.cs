@@ -78,12 +78,8 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
 
     protected override void ResetFlag(FlagCapturePoint flag) => flag.RemovePointAsServer();
 
-    private int SpawnFlag(FlagCapturePoint flag)
+    private void SpawnFlag(FlagCapturePoint flag)
     {
         flag.ResetPointAsServer(TeammateColorsExtensions.NEUTRAL_COLOR, TeammateColorsExtensions.NEUTRAL_COLOR2);
-        GameNetwork.BeginBroadcastModuleEvent();
-        GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, null));
-        GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
-        return flag.FlagIndex;
     }
 }
