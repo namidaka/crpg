@@ -10,8 +10,8 @@ public class GameServerConfiguration : IEntityTypeConfiguration<GameServerConfig
     {
         builder.HasKey(g => g.Id);
         builder
-            .HasMany(g => g.Maps)
-            .WithOne()
+            .HasMany(m => m.Maps)
+            .WithOne(g => g.GameServerConfig)
             .HasForeignKey("GameServerConfigId");
     }
 }
