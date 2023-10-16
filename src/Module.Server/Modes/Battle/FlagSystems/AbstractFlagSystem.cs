@@ -91,7 +91,7 @@ internal abstract class AbstractFlagSystem
             for (; proximitySearch.LastFoundAgent != null; AgentProximityMap.FindNext(Mission.Current, ref proximitySearch))
             {
                 Agent agent = proximitySearch.LastFoundAgent;
-                if (IsAgentCountingAroundFlag(agent))
+                if (CanAgentCaptureFlag(agent))
                 {
                     continue;
                 }
@@ -230,7 +230,7 @@ internal abstract class AbstractFlagSystem
 
     protected MultiplayerGameNotificationsComponent GetNotificationsComponent() => _notificationsComponent;
 
-    protected abstract bool IsAgentCountingAroundFlag(Agent agent);
+    protected abstract bool CanAgentCaptureFlag(Agent agent);
 
     protected abstract void ResetFlag(FlagCapturePoint flag);
 

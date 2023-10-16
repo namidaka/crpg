@@ -85,7 +85,7 @@ internal class CrpgSkirmishFlagSystem : AbstractFlagSystem
         return dominatingTeamFlags.GetRandomElement();
     }
 
-    protected override bool IsAgentCountingAroundFlag(Agent agent) => !agent.IsActive() || !agent.IsHuman;
+    protected override bool CanAgentCaptureFlag(Agent agent) => !agent.IsActive() || !agent.IsHuman;
 
     protected override void ResetFlag(FlagCapturePoint flag) => flag.ResetPointAsServer(TeammateColorsExtensions.NEUTRAL_COLOR, TeammateColorsExtensions.NEUTRAL_COLOR2);
 

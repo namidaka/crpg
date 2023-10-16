@@ -128,11 +128,6 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
 
         if (!_flagSystem.HasNoFlags() && Math.Abs(_morale) >= 1.0)
         {
-            if (!_flagSystem.HasFlagCountChanged())
-            {
-                return true;
-            }
-
             var lastFlag = _flagSystem.GetLastFlag();
             var lastFlagOwner = _flagSystem.GetFlagOwner(lastFlag);
             if (lastFlagOwner == null)

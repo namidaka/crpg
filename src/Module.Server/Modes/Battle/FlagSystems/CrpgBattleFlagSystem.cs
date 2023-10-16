@@ -74,7 +74,7 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
         return uncapturedFlags.GetRandomElement();
     }
 
-    protected override bool IsAgentCountingAroundFlag(Agent agent) => !agent.IsActive() || !agent.IsHuman || agent.HasMount;
+    protected override bool CanAgentCaptureFlag(Agent agent) => !agent.IsActive() || !agent.IsHuman || agent.HasMount;
 
     protected override void ResetFlag(FlagCapturePoint flag) => flag.RemovePointAsServer();
 
