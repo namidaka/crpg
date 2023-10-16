@@ -416,6 +416,10 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                     props.WeaponUnsteadyBeginTime = 1.0f + weaponSkill * 0.005f;
                     props.WeaponUnsteadyEndTime = 3.0f + weaponSkill * 0.01f;
                 }
+                if (equippedItem.WeaponClass is WeaponClass.Mace or WeaponClass.OneHandedAxe or WeaponClass.OneHandedSword)
+                {
+                    props.ThrustOrRangedReadySpeedMultiplier *= 0.9f;
+                }
 
                 props.CombatMaxSpeedMultiplier *= ImpactofStrAndWeaponLengthOnCombatMaxSpeedMultiplier(equippedItem.WeaponLength, strengthSkill);
             }
