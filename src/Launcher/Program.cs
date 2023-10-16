@@ -237,10 +237,26 @@ static async Task UpdateCrpgAsync(string bannerlordPath, bool isBeta = false,boo
     {
         if (Directory.Exists(crpgPath))
         {
-            Directory.Delete(crpgPath, true);
+            // Delete all files except *.txt
+            foreach (var file in Directory.GetFiles(crpgPath))
+            {
+                if (!file.EndsWith(".txt", StringComparison.OrdinalIgnoreCase))
+                {
+                    File.Delete(file);
+                }
+            }
+
+            // Recursively delete all subdirectories
+            foreach (var dir in Directory.GetDirectories(crpgPath))
+            {
+                Directory.Delete(dir, true);
+            }
+        }
+        else
+        {
+            Directory.CreateDirectory(crpgPath);
         }
 
-        Directory.CreateDirectory(crpgPath);
         archive.ExtractToDirectory(crpgPath); // No async overload :(
     }
 
