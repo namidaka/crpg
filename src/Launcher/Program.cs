@@ -257,7 +257,7 @@ static async Task UpdateCrpgAsync(string bannerlordPath, bool isBeta = false,boo
             Directory.CreateDirectory(crpgPath);
         }
 
-        archive.ExtractToDirectory(crpgPath); // No async overload :(
+        archive.ExtractToDirectory(crpgPath, true); // No async overload :(
     }
 
     tag = res.Headers.ETag?.Tag;
