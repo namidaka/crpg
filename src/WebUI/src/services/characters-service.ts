@@ -267,7 +267,7 @@ export const computeSpeedStats = (
   const timeToMaxSpeed =
     0.8 *
       (1 + perceivedWeight / 15) *
-      (20 / (20 + Math.pow((20 * athletics + 3 * agility) / 120, 2))) + (totalEncumbrance - freeWeight) / 50.0 +
+      (20 / (20 + Math.pow((20 * athletics + 3 * agility) / 120, 2))) + (totalEncumbrance - freeWeight) / 100.0 +
     timeToMaxSpeedWeaponLenghthTerm;
 
   const movementSpeedPenaltyWhenAttacking =
