@@ -66,15 +66,15 @@ internal class CrpgStrikeMagnitudeModel : MultiplayerStrikeMagnitudeModel
             case WeaponClass.OneHandedPolearm:
             case WeaponClass.TwoHandedPolearm:
             case WeaponClass.LowGripPolearm:
-                impactPointFactor = (float)Math.Pow(10f, -4f * Math.Pow(impactPoint - 0.93, 2f));
+                impactPointFactor = (float)Math.Pow(10f, -1.3f * Math.Pow(impactPoint - 0.85f, 2f));
                 return BladeDamageFactorToDamageRatio *
-                    (0.4f + 0.6f * impactPointFactor) *
+                    (0.5f + 0.5f * impactPointFactor) *
                     (float)(Math.Pow(swingSpeedPercentage, 5f) + magnitudeBonusFromExtraSpeed);
 
             default: // Weapon that do not have a wooden handle
-                impactPointFactor = (float)Math.Pow(10f, -4f * Math.Pow(impactPoint - 0.75, 2f));
+                impactPointFactor = (float)Math.Pow(10f, -1.5f * Math.Pow(impactPoint - 0.8f, 2f));
                 return BladeDamageFactorToDamageRatio
-                    * (0.8f + 0.2f * impactPointFactor)
+                    * (0.7f + 0.3f * impactPointFactor)
                     * (float)(Math.Pow(swingSpeedPercentage, 5f) + magnitudeBonusFromExtraSpeed);
         }
     }

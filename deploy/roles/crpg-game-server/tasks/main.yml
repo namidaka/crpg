@@ -35,13 +35,6 @@
   delegate_to: localhost
   become: false
 
-- name: copy SubModule.xml server to host
-  copy:
-    src: "{{ crpg_game_server_local_path  }}/Modules/cRPG/SubModule.xml"
-    dest: "{{ crpg_ui_path }}/SubModule.xml"
-    owner: nginx
-    group: nginx
-
 - name: copy game server to host
   copy:
     src: /tmp/crpg-server.zip
@@ -49,6 +42,12 @@
     owner: nginx
     group: nginx
 
+- name: copy SubModule.xml server to host
+  copy:
+    src: "{{ crpg_game_server_local_path  }}/Modules/cRPG/SubModule.xml"
+    dest: "{{ crpg_ui_path }}/SubModule.xml"
+    owner: nginx
+    group: nginx
 - name: remove temporary archive
   file:
     path: /tmp/crpg-server.zip
