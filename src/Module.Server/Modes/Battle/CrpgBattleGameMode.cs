@@ -65,7 +65,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
             ViewCreator.CreateMultiplayerTeamSelectUIHandler(),
             ViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
             new CrpgEndOfRoundUiHandler(),
-            ViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
+            new CrpgEndOfBattleUIHandler(),
             ViewCreator.CreatePollProgressUIHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
