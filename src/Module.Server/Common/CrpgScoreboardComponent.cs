@@ -71,7 +71,7 @@ internal class CrpgScoreboardComponent : MissionScoreboardComponent
         }
         else if (affectedAgent.IsMount && affectedCharacterAgent != null)
         {
-            score = damagedHp / affectedAgent.BaseHealthLimit * 70f * ratingFactor;
+            score = damagedHp / affectedAgent.BaseHealthLimit * 40f * ratingFactor;
         }
 
         if (affectorCharacterAgent == affectedCharacterAgent)
