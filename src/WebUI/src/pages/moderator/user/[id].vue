@@ -29,7 +29,7 @@ await loadUser();
   <div class="container">
     <div class="mb-14 flex items-center justify-center gap-8">
       <h1 class="text-xl text-content-100">
-        <UserMedia :user="user!" size="xl" />
+        <UserMedia :user="user!" size="xl" :clan="user?.clan" />
       </h1>
 
       <div class="flex items-center justify-center gap-2">
