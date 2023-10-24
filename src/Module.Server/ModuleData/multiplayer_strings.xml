@@ -127,6 +127,8 @@
   <string id="str_multiplayer_scene_name.crpg_conquest_orlghelovar" text="{=ofvazCUE}Orlghelovar" />
   <string id="str_multiplayer_scene_name.crpg_conquest_silverskalitz" text="{=jyeZFBYc}Silver Skalitz" />
   <string id="str_multiplayer_scene_name.crpg_conquest_skalalanding" text="{=tyxhM0QA}Skala Landing" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_hailescastle" text="{=juxFygAw}Hailes Castle" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_jameyyedcastle" text="{=TtprOazr}Jameyyed Castle" />
 
   <!-- DTV Maps -->
   <string id="str_multiplayer_scene_name.crpg_dtv_encampment" text="{=ArnxGr8j1j}Encampment" />
