@@ -3288,7 +3288,7 @@
         <equipment slot="Gloves" id="Item.crpg_sa_1ChurburghGauntlet_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sa_1ChurburghBoots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_15_v1_h0" />
-        <equipment slot="HorseHarness" id="Item.crpg_imperial_scale_barding_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_whussar_horsearmor_h0" />
         <equipment slot="Item0" id="Item.crpg_decorated_demilance_h0" />
         <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v2_h0" />
         <equipment slot="Item2" id="Item.crpg_knightly_cavalry_sword_h0" />
