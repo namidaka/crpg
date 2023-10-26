@@ -3011,7 +3011,7 @@
       <skill id="Athletics" value="156" />
       <skill id="Riding" value="180" />
       <skill id="WeaponMaster" value="8" />
-      <skill id="MountedArchery" value="8" />
+      <skill id="MountedArchery" value="4" />
       <skill id="Shield" value="5" />
       <skill id="OneHanded" value="160" />
       <skill id="TwoHanded" value="0" />
@@ -3027,7 +3027,7 @@
         <equipment slot="Body" id="Item.crpg_eastern_lamellar_armor_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
-        <equipment slot="Horse" id="Item.crpg_mount1_balanced_10_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_h0" />
         <equipment slot="Item0" id="Item.crpg_heavy_cavalry_lance_h0" />
         <equipment slot="Item1" id="Item.crpg_decorated_steppe_shield_v2_h0" />
@@ -3044,7 +3044,7 @@
         <equipment slot="Item0" id="Item.crpg_noble_steppe_bow_h0" />
         <equipment slot="Item1" id="Item.crpg_stacked_steppe_arrows_h0" />
         <equipment slot="Item2" id="Item.crpg_stacked_steppe_arrows_h0" />
-        <equipment slot="Item3" id="Item.crpg_glaive_v1_h0" />
+        <equipment slot="Item3" id="Item.crpg_fine_steel_scimitar_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_plumed_nomad_helmet_v2_h0" />
@@ -3052,7 +3052,7 @@
         <equipment slot="Body" id="Item.crpg_eastern_stitched_leather_coat_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
-        <equipment slot="Horse" id="Item.crpg_mount1_balanced_14_v1_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_steppe_fur_harness_h0" />
         <equipment slot="Item0" id="Item.crpg_noble_steppe_bow_h0" />
         <equipment slot="Item1" id="Item.crpg_stacked_steppe_arrows_h0" />
@@ -3081,7 +3081,7 @@
       <skill id="Athletics" value="196" />
       <skill id="Riding" value="240" />
       <skill id="WeaponMaster" value="12" />
-      <skill id="MountedArchery" value="12" />
+      <skill id="MountedArchery" value="6" />
       <skill id="Shield" value="0" />
       <skill id="OneHanded" value="0" />
       <skill id="TwoHanded" value="0" />
@@ -3097,7 +3097,7 @@
         <equipment slot="Body" id="Item.crpg_khuzait_heavy_armor_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_sa_1ChurburghGauntlet_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
-        <equipment slot="Horse" id="Item.crpg_mount1_maneuverable_14_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_h0" />
         <equipment slot="Item0" id="Item.crpg_glaive_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_heavy_hunting_bow_h0" />

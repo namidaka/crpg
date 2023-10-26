@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DtvData>
-
+  
   <Round reward="70">
     <Wave>
       <Group classDivisionId="crpg_dtv_peasant" count="2.0" />
@@ -189,7 +189,7 @@
 
   <Round reward="620">
     <Wave>
-      <Group classDivisionId="crpg_dtv_khuzait_soldier" count="2.0" />
+      <Group classDivisionId="crpg_dtv_khuzait_soldier" count="1.5" />
       <Group classDivisionId="crpg_dtv_khuzait_horseman" count="0.5" />
     </Wave>
     <Wave>
