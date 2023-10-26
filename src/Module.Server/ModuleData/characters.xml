@@ -2952,6 +2952,160 @@
     </Equipments>
   </NPCCharacter>
 
+  <NPCCharacter id="crpg_dtv_khuzait_soldier"
+              name="{=}Khuzait Footsoldier">
+    <face>
+      <BodyProperties version="4"
+                      age="25"
+                      weight="0.5"
+                      build="0.5"
+                      key="0029980D802C201188544C4B173B887936C3AD57957148D57A43385BB754C5B501777613078DE55A0000000000000000000000003EFC10C40000000006E41145" />
+    </face>
+    <skills>
+      <skill id="Strength" value="18" />
+      <skill id="Agility" value="18" />
+      <skill id="IronFlesh" value="5" />
+      <skill id="PowerStrike" value="5" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="6" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="3" />
+      <skill id="OneHanded" value="150" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_plumed_fur_lined_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_khuzait_leather_pauldron_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_khuzait_belt_leather_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_khuzait_curved_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_steppe_light_mace_h0" />
+        <equipment slot="Item1" id="Item.crpg_decorated_steppe_shield_v2_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+
+  <NPCCharacter id="crpg_dtv_khuzait_horseman"
+              name="{=}Khuzait Horseman">
+    <face>
+      <BodyProperties version="4"
+                      age="52.18"
+                      weight="0.5"
+                      build="0.5"
+                      key="002EB80FC0441507973D576434A667C6B769A5A468B3983C277C464A9667486304977646095726B80000000000000000000000003EFC10C4000000003B249045" />
+    </face>
+    <skills>
+      <skill id="Strength" value="24" />
+      <skill id="Agility" value="24" />
+      <skill id="IronFlesh" value="4" />
+      <skill id="PowerStrike" value="8" />
+      <skill id="PowerDraw" value="8" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="Riding" value="180" />
+      <skill id="WeaponMaster" value="8" />
+      <skill id="MountedArchery" value="8" />
+      <skill id="Shield" value="5" />
+      <skill id="OneHanded" value="160" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="160" />
+      <skill id="Bow" value="160" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_eastern_vendel_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_lamellar_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_eastern_lamellar_armor_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_balanced_10_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_cavalry_lance_h0" />
+        <equipment slot="Item1" id="Item.crpg_decorated_steppe_shield_v2_h0" />
+        <equipment slot="Item2" id="Item.crpg_iron_saber_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_spiked_helmet_with_facemask_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_lamellar_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_eastern_lamellar_armor_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_steppe_fur_harness_h0" />
+        <equipment slot="Item0" id="Item.crpg_noble_steppe_bow_h0" />
+        <equipment slot="Item1" id="Item.crpg_stacked_steppe_arrows_h0" />
+        <equipment slot="Item2" id="Item.crpg_stacked_steppe_arrows_h0" />
+        <equipment slot="Item3" id="Item.crpg_glaive_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_plumed_nomad_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_leather_lamellar_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_eastern_stitched_leather_coat_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_balanced_14_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_steppe_fur_harness_h0" />
+        <equipment slot="Item0" id="Item.crpg_noble_steppe_bow_h0" />
+        <equipment slot="Item1" id="Item.crpg_stacked_steppe_arrows_h0" />
+        <equipment slot="Item2" id="Item.crpg_stacked_steppe_arrows_h0" />
+        <equipment slot="Item3" id="Item.crpg_fine_steel_scimitar_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+
+  <NPCCharacter id="crpg_dtv_khuzait_boss"
+              name="{=}The Khan">
+    <face>
+      <BodyProperties version="4"
+                      age="128"
+                      weight="0.5"
+                      build="0.5"
+                      key="0031840D802C3811482ABA9AC97353648A7451B876B48B8462396659D7B989CA0FB776FF0BD567460000000000000000000000003EFC10C4000000007F7C60C4" />
+    </face>
+    <skills>
+      <skill id="Strength" value="39" />
+      <skill id="Agility" value="36" />
+      <skill id="IronFlesh" value="13" />
+      <skill id="PowerStrike" value="13" />
+      <skill id="PowerDraw" value="12" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="196" />
+      <skill id="Riding" value="240" />
+      <skill id="WeaponMaster" value="12" />
+      <skill id="MountedArchery" value="12" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="200" />
+      <skill id="Bow" value="200" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_khuzait_noble_helmet_with_neckguard_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_lamellar_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_khuzait_heavy_armor_v1_h0" />
+        <equipment slot="Gloves" id="Item.crpg_sa_1ChurburghGauntlet_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_maneuverable_14_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_h0" />
+        <equipment slot="Item0" id="Item.crpg_glaive_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_heavy_hunting_bow_h0" />
+        <equipment slot="Item2" id="Item.crpg_stacked_steppe_arrows_h0" />
+        <equipment slot="Item3" id="Item.crpg_stacked_steppe_arrows_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_dwarven_engineer"
                 name="{=}Dwarven Engineer">

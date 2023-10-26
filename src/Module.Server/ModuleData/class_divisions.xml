@@ -1608,6 +1608,78 @@
     </Perks>
   </MPClassDivision>
 
+  <MPClassDivision id="crpg_dtv_khuzait_soldier"
+                 hero="crpg_dtv_khuzait_soldier"
+                 troop="crpg_dtv_khuzait_soldier"
+                 hero_idle_anim="act_vlandia_mp_voulgier_idle"
+                 troop_idle_anim="act_idle_spear_1_left_stance"
+                 multiplier="0"
+                 cost="0"
+                 icon="Special_Swordsman"
+                 melee_ai="40"
+                 ranged_ai="0"
+                 armor="0"
+                 movement_speed="0"
+                 combat_movement_speed="0"
+                 acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+  <MPClassDivision id="crpg_dtv_khuzait_horseman"
+                 hero="crpg_dtv_khuzait_horseman"
+                 troop="crpg_dtv_khuzait_horseman"
+                 hero_mount_idle_anim="act_vlandia_mp_vanguard_mount_idle"
+                 troop_mount_idle_anim="act_horse_idle_1"
+                 multiplier="0"
+                 cost="0"
+                 icon="Cavalry_Light"
+                 melee_ai="40"
+                 ranged_ai="40"
+                 armor="0"
+                 movement_speed="0"
+                 combat_movement_speed="0"
+                 acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+  <MPClassDivision id="crpg_dtv_khuzait_boss"
+               hero="crpg_dtv_khuzait_boss"
+               troop="crpg_dtv_khuzait_boss"
+               hero_mount_idle_anim="act_vlandia_mp_vanguard_mount_idle"
+               troop_mount_idle_anim="act_horse_idle_1"
+               multiplier="0"
+               cost="0"
+               icon="Cavalry_Light"
+               melee_ai="70"
+               ranged_ai="70"
+               armor="0"
+               movement_speed="0"
+               combat_movement_speed="0"
+               acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
   <MPClassDivision id="crpg_dtv_dwarven_engineer"
                    hero="crpg_dtv_dwarven_engineer"
                    troop="crpg_dtv_dwarven_engineer"

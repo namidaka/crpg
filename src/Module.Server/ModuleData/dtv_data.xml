@@ -186,8 +186,25 @@
       <Group classDivisionId="crpg_dtv_highland_boss" />
     </Wave>
   </Round>
-  
+
   <Round reward="620">
+    <Wave>
+      <Group classDivisionId="crpg_dtv_khuzait_soldier" count="2.0" />
+      <Group classDivisionId="crpg_dtv_khuzait_horseman" count="0.5" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_khuzait_soldier" count="2.0" />
+      <Group classDivisionId="crpg_dtv_khuzait_horseman" count="1.5" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_khuzait_soldier" count="2.0" />
+      <Group classDivisionId="crpg_dtv_khuzait_horseman" count="3.0" />
+      <Group classDivisionId="crpg_dtv_khuzait_boss" />
+    </Wave>
+  </Round>
+
+
+  <Round reward="670">
     <Wave>
       <Group classDivisionId="crpg_dtv_dwarven_engineer" count="1.0" />
       <Group classDivisionId="crpg_dtv_dwarven_axelord" count="0.8" />
@@ -206,7 +223,7 @@
     </Wave>
   </Round>
 
-  <Round reward="670">
+  <Round reward="720">
     <Wave>
       <Group classDivisionId="crpg_dtv_tincan_soldier" count="1.5" />
       <Group classDivisionId="crpg_dtv_tincan_archer" count="1.0" />
