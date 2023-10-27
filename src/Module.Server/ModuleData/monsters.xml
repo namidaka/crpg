@@ -184,4 +184,10 @@
     action_set="as_human"
     weight="500"
   <Monster
+  <Monster
+  id="light_bot"
+  base_monster="human"
+  action_set="as_human"
+  weight="30"
+  <Monster
 </Monsters>
