@@ -64,7 +64,7 @@
     <XmlNode>
       <XmlName id="DtvData" path="dtv_data"/>
     </XmlNode>
-        <XmlNode>
+    <XmlNode>
       <XmlName id="Monsters" path="monsters"/>
     </XmlNode>
     <XmlNode>

@@ -179,9 +179,9 @@
     <!-- flag name="CanGetAlarmed" /-->
   </Monster>
   <Monster
-		id="light_bot"
+    id="light_bot"
     base_monster="human"
-		weight="20">
+    weight="20">
   </Monster>
   <Monster
     id="heavy_bot"
