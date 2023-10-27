@@ -67,5 +67,8 @@
     <XmlNode>
       <XmlName id="Monsters" path="monsters"/>
     </XmlNode>
+    <XmlNode>
+      <XmlName id="Skins" path="skins"/>
+    </XmlNode>
   </Xmls>
 </Module>
