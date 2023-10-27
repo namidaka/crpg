@@ -1073,7 +1073,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_peasant"
-                name="{=}Angry Peasant">
+                name="{=}Angry Peasant"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1117,7 +1118,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_peasant_boss"
-                name="{=}Furious Peasant">
+                name="{=}Furious Peasant"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1157,7 +1159,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_recruit_squire"
-                name="{=}Squire">
+                name="{=}Squire"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1201,7 +1204,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_recruit_archer"
-                name="{=}Recruit">
+                name="{=}Recruit"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1252,7 +1256,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_recruit_cavalry"
-                name="{=}Pompous Nobleman">
+                name="{=}Pompous Nobleman"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1303,7 +1308,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_recruit_boss"
-                name="{=}Bernard">
+                name="{=}Bernard"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="48.92"
@@ -1341,7 +1347,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_looter"
-                name="{=}Merry Man">
+                name="{=}Merry Man"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1396,7 +1403,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_looter_boss"
-                name="{=}Robin Hood">
+                name="{=}Robin Hood"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1437,7 +1445,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_fancy_lad"
-                name="{=}Fancy Lad">
+                name="{=}Fancy Lad"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1491,7 +1500,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_fancy_cavalry"
-                name="{=}Fancy Jockey">
+                name="{=}Fancy Jockey"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1541,7 +1551,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_fancy_boss"
-                name="{=}Droobert Humperdink">
+                name="{=}Droobert Humperdink"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1582,7 +1593,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_viking_huscarl"
-                name="{=}Huscarl">
+                name="{=}Huscarl"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1632,7 +1644,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_viking_raider"
-                name="{=}Raider">
+                name="{=}Raider"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1682,7 +1695,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_viking_boss"
-                name="{=}Jarl Ulfric">
+                name="{=}Jarl Ulfric"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1724,7 +1738,8 @@
 
 
   <NPCCharacter id="crpg_dtv_samurai_warrior"
-                name="{=}Samurai">
+                name="{=}Samurai"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1776,7 +1791,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_samurai_ashigaru"
-                name="{=}Ashigaru">
+                name="{=}Ashigaru"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1824,7 +1840,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_samurai_boss"
-                name="{=}Sensei">
+                name="{=}Sensei"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1865,7 +1882,8 @@
 
   <NPCCharacter id="crpg_dtv_amazon_warrior"
                 name="{=}Amazonian Warrior"
-                is_female="true">
+                is_female="true"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1917,7 +1935,8 @@
 
   <NPCCharacter id="crpg_dtv_amazon_archer"
                 name="{=}Amazonian Huntress"
-                is_female="true">
+                is_female="true"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -1970,7 +1989,8 @@
 
   <NPCCharacter id="crpg_dtv_amazon_boss"
                 name="{=}Penthesilea"
-                is_female="true">
+                is_female="true"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -2014,7 +2034,8 @@
 
 
   <NPCCharacter id="crpg_dtv_english_billman"
-                name="{=}Billman">
+                name="{=}Billman"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="22.12"
@@ -2063,7 +2084,8 @@
 
 
   <NPCCharacter id="crpg_dtv_english_manatarms"
-                name="{=}Man-at-arms">
+                name="{=}Man-at-arms"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="22.03"
@@ -2123,7 +2145,8 @@
 
 
   <NPCCharacter id="crpg_dtv_english_archer"
-                name="{=}Yeoman Archer">
+                name="{=}Yeoman Archer"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="22.12"
@@ -2176,7 +2199,8 @@
 
 
   <NPCCharacter id="crpg_dtv_english_knight"
-                name="{=}Dismounted Knight">
+                name="{=}Dismounted Knight"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="22.03"
@@ -2227,7 +2251,8 @@
 
 
   <NPCCharacter id="crpg_dtv_english_boss"
-                name="{=}Duke Raphael">
+                name="{=}Duke Raphael"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="22.03"
@@ -2268,7 +2293,8 @@
   </NPCCharacter>
   
   <NPCCharacter id="crpg_dtv_aserai_warrior"
-              name="{=}Aserai Warrior">
+                name="{=}Aserai Warrior"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="22.09"
@@ -2318,7 +2344,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_aserai_archer"
-              name="{=}Aserai Archer">
+                name="{=}Aserai Archer"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="22.09"
@@ -2370,7 +2397,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_aserai_camelry"
-              name="{=}Aserai Camelry">
+                name="{=}Aserai Camelry"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="22.09"
@@ -2426,7 +2454,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_aserai_boss"
-              name="{=}SalArnDin">
+                name="{=}SalArnDin"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="25"
@@ -2470,7 +2499,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_legion_veles"
-            name="{=}Veles">
+                name="{=}Veles"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -2523,7 +2553,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_legion_archer"
-          name="{=}Sagittarius">
+                name="{=}Sagittarius"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -2575,7 +2606,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_legion_soldier"
-              name="{=}Legionary">
+                name="{=}Legionary"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -2626,7 +2658,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_legion_centurion"
-            name="{=}Centurion">
+                name="{=}Centurion"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -2669,7 +2702,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_legion_cavalry"
-            name="{=}Auxilliary Cavalry">
+                name="{=}Auxilliary Cavalry"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -2722,7 +2756,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_legion_boss"
-            name="{=}Septimius">
+                name="{=}Septimius"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -2767,7 +2802,8 @@
 
 
   <NPCCharacter id="crpg_dtv_highland_warrior"
-              name="{=}Highland Warrior">
+                name="{=}Highland Warrior"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="69"
@@ -2815,7 +2851,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_highland_ranger"
-              name="{=}Highland Ranger">
+                name="{=}Highland Ranger"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -2867,7 +2904,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_highland_soldier"
-                name="{=}Highland Soldier">
+                name="{=}Highland Soldier"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -2917,7 +2955,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_highland_boss"
-              name="{=}Connor Macleod">
+                name="{=}Connor Macleod"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3110,7 +3149,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_dwarven_engineer"
-                name="{=}Dwarven Engineer">
+                name="{=}Dwarven Engineer"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3162,7 +3202,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_dwarven_axelord"
-              name="{=}Legendary Axedwarf">
+                name="{=}Legendary Axedwarf"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3210,7 +3251,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_dwarven_hammerlord"
-            name="{=}Legendary Hammerdwarf">
+                name="{=}Legendary Hammerdwarf"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3258,7 +3300,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_dwarven_boss"
-            name="{=}Urist">
+                name="{=}Urist"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3300,7 +3343,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_tincan_soldier"
-                name="{=}Tincan">
+                name="{=}Tincan"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3357,7 +3401,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_tincan_archer"
-              name="{=}Tincan">
+                name="{=}Tincan"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3409,7 +3454,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_tincan_cavalry"
-            name="{=}Heavy Cavalry">
+                name="{=}Heavy Cavalry"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3453,7 +3499,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_tincan_boss"
-              name="{=}The Can Opener">
+                name="{=}The Can Opener"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"

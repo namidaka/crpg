@@ -64,11 +64,11 @@
     <XmlNode>
       <XmlName id="DtvData" path="dtv_data"/>
     </XmlNode>
-    <XmlNode>
+        <XmlNode>
       <XmlName id="Monsters" path="monsters"/>
     </XmlNode>
     <XmlNode>
-      <XmlName id="Skins" path="skins"/>
+      <XmlName id="skins" path="skins"/>
     </XmlNode>
   </Xmls>
 </Module>
