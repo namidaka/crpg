@@ -1907,7 +1907,7 @@
         <equipment slot="Body" id="Item.crpg_battania_brass_plate_armor_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_northern_brass_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_pilum_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_pilum_v4_h0" />
         <equipment slot="Item1" id="Item.crpg_iron_spatha_h0" />
         <equipment slot="Item2" id="Item.crpg_steel_round_shield_v2_h0" />
       </EquipmentRoster>
@@ -2095,7 +2095,7 @@
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard2_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_cavalier_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_knightly_spiked_battle_axe_h0" />
+        <equipment slot="Item0" id="Item.crpg_knightly_spiked_battle_axe_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_wide_heater_shield_v2_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -2256,7 +2256,7 @@
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_sallet_base_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_pauldron_cape_a_v2_h0" />
-        <equipment slot="Body" id="Item.crpg_sa_coat2_v1_h0" />
+        <equipment slot="Body" id="Item.crpg_sa_coat2_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_lordly_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_steel_pick_h0" />
@@ -2658,8 +2658,8 @@
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
         <equipment slot="Item0" id="Item.crpg_emirs_oval_shield_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_decorated_short_spatha_h0" />
-        <equipment slot="Item2" id="Item.crpg_pilum_v3_h0" />
-        <equipment slot="Item3" id="Item.crpg_pilum_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_pilum_v4_h0" />
+        <equipment slot="Item3" id="Item.crpg_pilum_v4_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
