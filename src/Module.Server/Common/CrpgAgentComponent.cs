@@ -21,18 +21,18 @@ internal class CrpgAgentComponent : AgentComponent
         if (Agent.HasMount)
         {
             MissionEquipment equipment = Agent.Equipment;
-            EquipmentIndex wieldedItemIndex = Agent.GetWieldedItemIndex(Agent.HandIndex.OffHand);
-            WeaponComponentData? secondaryItem = wieldedItemIndex != EquipmentIndex.None
-                ? equipment[wieldedItemIndex].CurrentUsageItem
+            EquipmentIndex offHandItemIndex = Agent.GetWieldedItemIndex(Agent.HandIndex.OffHand);
+            WeaponComponentData? offHandItem = offHandItemIndex != EquipmentIndex.None
+                ? equipment[offHandItemIndex].CurrentUsageItem
                 : null;
-            if (secondaryItem == null)
+            if (offHandItem == null)
             {
                 return;
             }
 
-            if (secondaryItem.WeaponClass == WeaponClass.LargeShield)
+            if (offHandItem.WeaponClass == WeaponClass.LargeShield)
             {
-                Agent.DropItem(wieldedItemIndex);
+                Agent.DropItem(offHandItemIndex);
             }
         }
     }
