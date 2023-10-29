@@ -81,7 +81,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 .BodyProperties(character.GetBodyPropertiesMin())
                 .InitialPosition(in spawnFrame.origin)
                 .InitialDirection(in initialDirection);
-
+                
             if (crpgPeer.Clan != null)
             {
                 agentBuildData.ClothingColor1(crpgPeer.Clan.PrimaryColor);
@@ -103,7 +103,13 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 
             Agent agent = Mission.SpawnAgent(agentBuildData);
             OnPeerSpawned(agent);
-            agent.WieldInitialWeapons();
+            CrpgAgentComponent agentComponent = new(agent);
+            agent.AddComponent(agentComponent);
+            if (!agent.HasMount)
+            {
+                agent.WieldInitialWeapons();
+            }
+
             missionPeer.HasSpawnedAgentVisuals = true;
             AgentVisualSpawnComponent.RemoveAgentVisuals(missionPeer, sync: true);
         }
