@@ -108,6 +108,25 @@ internal class CrpgBattleSpawningBehavior : CrpgSpawningBehaviorBase
         }
 
         bool hasMount = characterEquipment[EquipmentIndex.Horse].Item != null;
+        // Disallow spawning as cavalry with a large shield.
+        if (hasMount && DoesEquipmentContainLargeShield(characterEquipment))
+        {
+            if (_notifiedPlayersAboutSpawnRestriction.Add(networkPeer.VirtualPlayer.Id))
+            {
+                GameNetwork.BeginModuleEventAsServer(networkPeer);
+                GameNetwork.WriteMessage(new CrpgNotificationId
+                {
+                    Type = CrpgNotificationType.Announcement,
+                    TextId = "str_notification",
+                    TextVariation = "cavalry_with_large_shield",
+                    SoundEvent = string.Empty,
+                });
+                GameNetwork.EndModuleEventAsServer();
+            }
+
+            return false;
+        }
+
         // Disallow spawning cavalry before the cav spawn delay ended.
         if (hasMount && _cavalrySpawnDelayTimer != null && !_cavalrySpawnDelayTimer.Check())
         {

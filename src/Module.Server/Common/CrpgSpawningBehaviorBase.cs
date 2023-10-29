@@ -215,6 +215,20 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
         return false;
     }
 
+    protected bool DoesEquipmentContainLargeShield(Equipment equipment)
+    {
+        for (var i = EquipmentIndex.Weapon0; i <= EquipmentIndex.ExtraWeaponSlot; i += 1)
+        {
+            var weaponClass = equipment[i].Item?.WeaponComponent?.Weapons[0]?.WeaponClass;
+            if (weaponClass == WeaponClass.LargeShield)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void ResetSpawnTeams()
     {
         foreach (NetworkCommunicator networkPeer in GameNetwork.NetworkPeers)
