@@ -12,7 +12,7 @@ internal class CrpgAgentComponent : AgentComponent
     {
         agent.OnAgentWieldedItemChange = (Action)Delegate.Combine(agent.OnAgentWieldedItemChange, new Action(DropShieldIfNeeded));
     }
-    public virtual void OnDismount(Agent mount)
+    public override void OnMount(Agent mount)
     {
         DropShieldIfNeeded();
     }
