@@ -81,7 +81,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 .BodyProperties(character.GetBodyPropertiesMin())
                 .InitialPosition(in spawnFrame.origin)
                 .InitialDirection(in initialDirection);
-                
+
             if (crpgPeer.Clan != null)
             {
                 agentBuildData.ClothingColor1(crpgPeer.Clan.PrimaryColor);
