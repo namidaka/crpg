@@ -11,7 +11,6 @@ namespace Crpg.Module.Common;
 
 public class RemoveIpFromFirewallBehavior : MissionNetwork
 {
-
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();

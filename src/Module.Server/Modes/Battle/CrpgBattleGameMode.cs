@@ -163,6 +163,6 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new CrpgRewardClient(),
                     new HotConstantsClient(),
 #endif
-                }); ;
+                });
     }
 }

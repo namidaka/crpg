@@ -11,14 +11,14 @@ public static class Firewall
         return "Bannerlord Firewall " + port.ToString();
     }
 
-    public static IFirewallRule GetFirewallRule(int port, IFirewallRule? _cachedFirewallRule)
+    public static IFirewallRule GetFirewallRule(int port, IFirewallRule? cachedFirewallRule)
     {
-        if (_cachedFirewallRule == null)
+        if (cachedFirewallRule == null)
         {
-            _cachedFirewallRule = FirewallManager.Instance.Rules.SingleOrDefault(r => r.Name == GetFirewallRuleName(port));
+            cachedFirewallRule = FirewallManager.Instance.Rules.SingleOrDefault(r => r.Name == GetFirewallRuleName(port));
         }
 
-        return _cachedFirewallRule;
+        return cachedFirewallRule;
     }
 
     public static IFirewallRule? CreateFirewallRule(int port)
