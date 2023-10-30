@@ -37,7 +37,6 @@ internal class CrpgSubModule : MBSubModuleBase
     public static CrpgSubModule Instance => _lazyInstance.Value;
     public Dictionary<PlayerId, IAddress> WhitelistedIps = new();
     private IFirewallRule? _cachedFirewallRule;
-    private int _port;
     public int Port()
     {
         return TaleWorlds.MountAndBlade.Module.CurrentModule.StartupInfo.ServerPort;
@@ -58,10 +57,10 @@ internal class CrpgSubModule : MBSubModuleBase
     protected override void OnSubModuleLoad()
     {
         base.OnSubModuleLoad();
-        if (Firewall.GetFirewallRule(_port, _cachedFirewallRule) == null)
+        if (Firewall.GetFirewallRule(Port(), _cachedFirewallRule) == null)
         {
-            Debug.Print("[Firewall] FirewallRule " + Firewall.GetFirewallRuleName(_port) + " not found on your server. Creating...", 0, Debug.DebugColor.Red);
-            _cachedFirewallRule = Firewall.CreateFirewallRule(_port);
+            Debug.Print("[Firewall] FirewallRule " + Firewall.GetFirewallRuleName(Port()) + " not found on your server. Creating...", 0, Debug.DebugColor.Red);
+            _cachedFirewallRule = Firewall.CreateFirewallRule(Port());
         }
 
         _constants = LoadCrpgConstants();
