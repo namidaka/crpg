@@ -152,6 +152,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                     new ServerMetricsBehavior(),
                     new NotAllPlayersReadyComponent(),
+                    new RemoveIpFromFirewallBehavior(),
                     new DrowningBehavior(),
                     new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
 #else
@@ -162,6 +163,6 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new CrpgRewardClient(),
                     new HotConstantsClient(),
 #endif
-                });
+                }); ;
     }
 }

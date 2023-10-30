@@ -2,18 +2,16 @@ using System.Net;
 using TaleWorlds.Library;
 using TaleWorlds.PlayerServices;
 using WindowsFirewallHelper;
-namespace Crpg.Module.Firewall;
-public class Firewall
-{
-    public Dictionary<PlayerId, IAddress> WhitelistedIps = new();
 
-    private IFirewallRule? _cachedFirewallRule;
-    public string GetFirewallRuleName(int port)
+namespace Crpg.Module;
+public static class Firewall
+{
+    public static string GetFirewallRuleName(int port)
     {
         return "Bannerlord Firewall " + port.ToString();
     }
 
-    public IFirewallRule GetFirewallRule(int port)
+    public static IFirewallRule GetFirewallRule(int port, IFirewallRule? _cachedFirewallRule)
     {
         if (_cachedFirewallRule == null)
         {
@@ -23,16 +21,17 @@ public class Firewall
         return _cachedFirewallRule;
     }
 
-    public void CreateFirewallRule(int port)
+    public static IFirewallRule? CreateFirewallRule(int port)
     {
-        _cachedFirewallRule = FirewallManager.Instance.CreatePortRule(
+        IFirewallRule? firewallRule = FirewallManager.Instance.CreatePortRule(
         FirewallProfiles.Domain | FirewallProfiles.Private | FirewallProfiles.Public,
         GetFirewallRuleName(port),
         FirewallAction.Allow,
         Convert.ToUInt16(port), FirewallProtocol.UDP);
-        _cachedFirewallRule.IsEnable = true;
-        _cachedFirewallRule.Direction = FirewallDirection.Inbound;
-        FirewallManager.Instance.Rules.Add(_cachedFirewallRule);
+        firewallRule.IsEnable = true;
+        firewallRule.Direction = FirewallDirection.Inbound;
+        FirewallManager.Instance.Rules.Add(firewallRule);
         Debug.Print("[BannerlordFirewall] FirewallRule " + GetFirewallRuleName(port) + " is created for your bannerlord server.", 0, Debug.DebugColor.Green);
+        return firewallRule;
     }
 }

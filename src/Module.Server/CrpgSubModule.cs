@@ -11,6 +11,9 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
+using System.Runtime.CompilerServices;
+using TaleWorlds.PlayerServices;
+using WindowsFirewallHelper;
 
 #if CRPG_SERVER
 using Crpg.Module.HarmonyPatches;
@@ -29,9 +32,24 @@ namespace Crpg.Module;
 
 internal class CrpgSubModule : MBSubModuleBase
 {
+    private static readonly Lazy<CrpgSubModule> _lazyInstance =
+        new(() => new CrpgSubModule());
+    public static CrpgSubModule Instance => _lazyInstance.Value;
+    public Dictionary<PlayerId, IAddress> WhitelistedIps = new();
+    private IFirewallRule? _cachedFirewallRule;
+    private int _port;
+    public int Port()
+    {
+        return TaleWorlds.MountAndBlade.Module.CurrentModule.StartupInfo.ServerPort;
+    }
+
+    public IFirewallRule? GetCachedFirewallRule()
+    {
+        return _cachedFirewallRule;
+    }
     static CrpgSubModule()
     {
-        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
+            AppDomain.CurrentDomain.UnhandledException += (_, args) =>
             Debug.Print(args.ExceptionObject.ToString(), color: Debug.DebugColor.Red);
     }
 
@@ -40,6 +58,11 @@ internal class CrpgSubModule : MBSubModuleBase
     protected override void OnSubModuleLoad()
     {
         base.OnSubModuleLoad();
+        if (Firewall.GetFirewallRule(_port, _cachedFirewallRule) == null)
+        {
+            Debug.Print("[BannerlordFirewall] FirewallRule " + Firewall.GetFirewallRuleName(_port) + " not found on your server. Creating...", 0, Debug.DebugColor.Red);
+            _cachedFirewallRule = Firewall.CreateFirewallRule(_port);
+        }
 
         _constants = LoadCrpgConstants();
         TaleWorlds.MountAndBlade.Module.CurrentModule.AddMultiplayerGameMode(new CrpgBattleGameMode(_constants, isSkirmish: true));
