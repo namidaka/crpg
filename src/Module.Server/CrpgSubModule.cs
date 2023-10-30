@@ -49,7 +49,7 @@ internal class CrpgSubModule : MBSubModuleBase
     }
     static CrpgSubModule()
     {
-            AppDomain.CurrentDomain.UnhandledException += (_, args) =>
+        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
             Debug.Print(args.ExceptionObject.ToString(), color: Debug.DebugColor.Red);
     }
 
