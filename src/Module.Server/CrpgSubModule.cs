@@ -60,7 +60,7 @@ internal class CrpgSubModule : MBSubModuleBase
         base.OnSubModuleLoad();
         if (Firewall.GetFirewallRule(_port, _cachedFirewallRule) == null)
         {
-            Debug.Print("[BannerlordFirewall] FirewallRule " + Firewall.GetFirewallRuleName(_port) + " not found on your server. Creating...", 0, Debug.DebugColor.Red);
+            Debug.Print("[Firewall] FirewallRule " + Firewall.GetFirewallRuleName(_port) + " not found on your server. Creating...", 0, Debug.DebugColor.Red);
             _cachedFirewallRule = Firewall.CreateFirewallRule(_port);
         }
 

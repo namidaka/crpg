@@ -30,7 +30,7 @@ public class CustomBattleServerPatch
 
             SingleIP firewallIp = SingleIP.Parse(playerData.IpAddress);
             CrpgSubModule.Instance.WhitelistedIps[playerData.PlayerId] = firewallIp;
-            Debug.Print("[BannerlordFirewall] " + playerData.IpAddress + " added to whitelisted ip address", 0, Debug.DebugColor.Green);
+            Debug.Print("[Firewall] " + playerData.IpAddress + " added to whitelisted ip address", 0, Debug.DebugColor.Green);
         }
 
         Firewall.GetFirewallRule(CrpgSubModule.Instance.Port(), cachedFirewallRule).RemoteAddresses = CrpgSubModule.Instance.WhitelistedIps.Values.ToArray();

@@ -31,7 +31,7 @@ public static class Firewall
         firewallRule.IsEnable = true;
         firewallRule.Direction = FirewallDirection.Inbound;
         FirewallManager.Instance.Rules.Add(firewallRule);
-        Debug.Print("[BannerlordFirewall] FirewallRule " + GetFirewallRuleName(port) + " is created for your bannerlord server.", 0, Debug.DebugColor.Green);
+        Debug.Print("[Firewall] FirewallRule " + GetFirewallRuleName(port) + " is created for your bannerlord server.", 0, Debug.DebugColor.Green);
         return firewallRule;
     }
 }
