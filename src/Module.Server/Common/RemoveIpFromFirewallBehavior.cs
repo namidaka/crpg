@@ -7,7 +7,6 @@ namespace Crpg.Module.Common;
 
 public class RemoveIpFromFirewallBehavior : MissionNetwork
 {
-#if CRPG_SERVER
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
@@ -30,5 +29,4 @@ public class RemoveIpFromFirewallBehavior : MissionNetwork
             Firewall.GetFirewallRule(CrpgSubModule.Instance.Port(), cachedFirewallRule).RemoteAddresses = addresses;
         }
     }
-#endif
 }

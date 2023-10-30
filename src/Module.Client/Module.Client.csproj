@@ -49,6 +49,8 @@
     <Compile Remove="..\Module.Server\Common\ChatCommands\**\*" />
     <Compile Remove="..\Module.Server\Rewards\CrpgRewardServer.cs" />
     <Compile Remove="..\Module.Server\HarmonyPatches\**\*" />
+    <Compile Remove="..\Module.Server\Firewall\*" />
+    <Compile Remove="..\Module.Server\Common\RemoveIpFromFirewallBehavior.cs" />
   </ItemGroup>
 
   <ItemGroup>
