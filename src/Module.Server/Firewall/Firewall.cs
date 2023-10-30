@@ -8,7 +8,7 @@ public static class Firewall
 {
     public static string GetFirewallRuleName(int port)
     {
-        return "Bannerlord Firewall " + port.ToString();
+        return "Firewall " + port.ToString();
     }
 
     public static IFirewallRule GetFirewallRule(int port, IFirewallRule? cachedFirewallRule)
