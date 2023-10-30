@@ -1228,5 +1228,4 @@ rankTable:
   title: Rank table
 
 patchNotes:
-  latest: Latest
   showAllPatches: '+ {count} patch | + {count} patches'
