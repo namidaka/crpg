@@ -11,11 +11,11 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
+
+#if CRPG_SERVER
 using System.Runtime.CompilerServices;
 using TaleWorlds.PlayerServices;
 using WindowsFirewallHelper;
-
-#if CRPG_SERVER
 using Crpg.Module.HarmonyPatches;
 #else
 using TaleWorlds.Engine.GauntletUI;
@@ -32,6 +32,7 @@ namespace Crpg.Module;
 
 internal class CrpgSubModule : MBSubModuleBase
 {
+#if CRPG_SERVER
     private static readonly Lazy<CrpgSubModule> _lazyInstance =
         new(() => new CrpgSubModule());
     public static CrpgSubModule Instance => _lazyInstance.Value;
@@ -46,6 +47,7 @@ internal class CrpgSubModule : MBSubModuleBase
     {
         return _cachedFirewallRule;
     }
+#endif
     static CrpgSubModule()
     {
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
@@ -57,12 +59,13 @@ internal class CrpgSubModule : MBSubModuleBase
     protected override void OnSubModuleLoad()
     {
         base.OnSubModuleLoad();
+#if CRPG_SERVER
         if (Firewall.GetFirewallRule(Port(), _cachedFirewallRule) == null)
         {
             Debug.Print("[Firewall] FirewallRule " + Firewall.GetFirewallRuleName(Port()) + " not found on your server. Creating...", 0, Debug.DebugColor.Red);
             _cachedFirewallRule = Firewall.CreateFirewallRule(Port());
         }
-
+#endif
         _constants = LoadCrpgConstants();
         TaleWorlds.MountAndBlade.Module.CurrentModule.AddMultiplayerGameMode(new CrpgBattleGameMode(_constants, isSkirmish: true));
         TaleWorlds.MountAndBlade.Module.CurrentModule.AddMultiplayerGameMode(new CrpgBattleGameMode(_constants, isSkirmish: false));
@@ -83,9 +86,9 @@ internal class CrpgSubModule : MBSubModuleBase
 #endif
 
         // Uncomment to start watching UI changes.
-        #if CRPG_CLIENT
+#if CRPG_CLIENT
         // UIResourceManager.UIResourceDepot.StartWatchingChangesInDepot();
-        #endif
+#endif
     }
 
     protected override void InitializeGameStarter(Game game, IGameStarter starterObject)
@@ -104,9 +107,9 @@ internal class CrpgSubModule : MBSubModuleBase
     {
         base.OnApplicationTick(delta);
         // Uncomment to hot reload UI after changes.
-        #if CRPG_CLIENT
+#if CRPG_CLIENT
         // UIResourceManager.UIResourceDepot.CheckForChanges();
-        #endif
+#endif
     }
 
     private CrpgConstants LoadCrpgConstants()
