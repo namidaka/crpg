@@ -12,6 +12,7 @@ public class CustomBattleServerPatch
         var cachedFirewallRule = CrpgSubModule.Instance.GetCachedFirewallRule();
         if (cachedFirewallRule == null)
         {
+            Debug.Print("cached Firewall Rule was Null");
             return true;
         }
 
@@ -33,7 +34,7 @@ public class CustomBattleServerPatch
             Debug.Print("[Firewall] " + playerData.IpAddress + " added to whitelisted ip address", 0, Debug.DebugColor.Green);
         }
 
-        Firewall.GetFirewallRule(CrpgSubModule.Instance.Port(), cachedFirewallRule).RemoteAddresses = CrpgSubModule.Instance.WhitelistedIps.Values.ToArray();
+        cachedFirewallRule.RemoteAddresses = CrpgSubModule.Instance.WhitelistedIps.Values.ToArray();
         return true;
     }
 }

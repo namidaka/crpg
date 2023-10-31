@@ -11,6 +11,8 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.Diamond;
+using WindowsFirewallHelper.Addresses;
 
 #if CRPG_SERVER
 using System.Runtime.CompilerServices;
@@ -33,9 +35,7 @@ namespace Crpg.Module;
 internal class CrpgSubModule : MBSubModuleBase
 {
 #if CRPG_SERVER
-    private static readonly Lazy<CrpgSubModule> _lazyInstance =
-        new(() => new CrpgSubModule());
-    public static CrpgSubModule Instance => _lazyInstance.Value;
+    public static CrpgSubModule Instance = default!;
     public Dictionary<PlayerId, IAddress> WhitelistedIps = new();
     private IFirewallRule? _cachedFirewallRule;
     public int Port()
@@ -59,11 +59,19 @@ internal class CrpgSubModule : MBSubModuleBase
     protected override void OnSubModuleLoad()
     {
         base.OnSubModuleLoad();
+
 #if CRPG_SERVER
-        if (Firewall.GetFirewallRule(Port(), _cachedFirewallRule) == null)
+        CrpgSubModule.Instance = this;
+
+        var firewallRule = Firewall.GetFirewallRule(Port(), _cachedFirewallRule);
+        if (firewallRule == null)
         {
             Debug.Print("[Firewall] FirewallRule " + Firewall.GetFirewallRuleName(Port()) + " not found on your server. Creating...", 0, Debug.DebugColor.Red);
             _cachedFirewallRule = Firewall.CreateFirewallRule(Port());
+        }
+        else
+        {
+            _cachedFirewallRule = firewallRule;
         }
 #endif
         _constants = LoadCrpgConstants();

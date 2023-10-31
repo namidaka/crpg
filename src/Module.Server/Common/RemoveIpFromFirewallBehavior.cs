@@ -26,7 +26,7 @@ public class RemoveIpFromFirewallBehavior : MissionNetwork
             CrpgSubModule.Instance.WhitelistedIps.Remove(networkPeer.PlayerConnectionInfo.PlayerID);
             IAddress[] addresses = CrpgSubModule.Instance.WhitelistedIps.Values.ToArray();
             Debug.Print("[Firewall] " + networkPeer.UserName + " was removed from the firewall whitelist, whitelisted ip count: " + addresses.Length.ToString(), 0, Debug.DebugColor.Red);
-            Firewall.GetFirewallRule(CrpgSubModule.Instance.Port(), cachedFirewallRule).RemoteAddresses = addresses;
+            cachedFirewallRule.RemoteAddresses = addresses;
         }
     }
 }
