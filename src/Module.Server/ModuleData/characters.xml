@@ -1909,7 +1909,7 @@
         <equipment slot="Body" id="Item.crpg_battania_brass_plate_armor_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_northern_brass_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_pilum_v4_h0" />
+        <equipment slot="Item0" id="Item.crpg_broad_blade_javelin_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_iron_spatha_h0" />
         <equipment slot="Item2" id="Item.crpg_steel_round_shield_v2_h0" />
       </EquipmentRoster>
