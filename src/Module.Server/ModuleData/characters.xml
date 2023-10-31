@@ -2996,7 +2996,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_khuzait_soldier"
-              name="{=}Khuzait Footsoldier">
+                name="{=}Khuzait Footsoldier"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="25"
@@ -3036,7 +3037,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_khuzait_horseman"
-              name="{=}Khuzait Horseman">
+                name="{=}Khuzait Horseman"
+                race="light_bot">
     <face>
       <BodyProperties version="4"
                       age="52.18"
@@ -3104,7 +3106,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_khuzait_boss"
-              name="{=}The Khan">
+                name="{=}The Khan"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="128"
@@ -3540,7 +3543,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_halloween_soldier"
-              name="{=}Hallowed Soldier">
+                name="{=}Hallowed Soldier"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3609,7 +3613,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_halloween_monster"
-            name="{=}Putrid Monster">
+                name="{=}Putrid Monster"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3664,7 +3669,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_halloween_cavalry"
-        name="{=}Hallowed Horseman">
+                name="{=}Hallowed Horseman"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
@@ -3708,7 +3714,8 @@
   </NPCCharacter>
 
   <NPCCharacter id="crpg_dtv_halloween_boss"
-          name="{=}The Headless Horseman">
+                name="{=}The Headless Horseman"
+                race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="23"
