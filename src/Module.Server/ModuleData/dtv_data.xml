@@ -206,18 +206,18 @@
   <Round reward="670">
     <Wave>
       <Group classDivisionId="crpg_dtv_dwarven_engineer" count="1.0" />
-      <Group classDivisionId="crpg_dtv_dwarven_axelord" count="0.8" />
-      <Group classDivisionId="crpg_dtv_dwarven_hammerlord" count="0.2" />
-    </Wave>
-    <Wave>
-      <Group classDivisionId="crpg_dtv_dwarven_engineer" count="1.0" />
-      <Group classDivisionId="crpg_dtv_dwarven_axelord" count="1.0" />
-      <Group classDivisionId="crpg_dtv_dwarven_hammerlord" count="0.5" />
+      <Group classDivisionId="crpg_dtv_dwarven_axelord" count="0.6" />
+      <Group classDivisionId="crpg_dtv_dwarven_hammerlord" count="0.6" />
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_dwarven_engineer" count="1.5" />
       <Group classDivisionId="crpg_dtv_dwarven_axelord" count="0.75" />
       <Group classDivisionId="crpg_dtv_dwarven_hammerlord" count="0.75" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_dwarven_engineer" count="1.5" />
+      <Group classDivisionId="crpg_dtv_dwarven_axelord" count="1.0" />
+      <Group classDivisionId="crpg_dtv_dwarven_hammerlord" count="1.0" />
       <Group classDivisionId="crpg_dtv_dwarven_boss" />
     </Wave>
   </Round>
@@ -228,14 +228,14 @@
       <Group classDivisionId="crpg_dtv_tincan_archer" count="1.0" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_tincan_soldier" count="1.5" />
+      <Group classDivisionId="crpg_dtv_tincan_soldier" count="2.0" />
       <Group classDivisionId="crpg_dtv_tincan_archer" count="1.0" />
       <Group classDivisionId="crpg_dtv_tincan_cavalry" count="0.8" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_tincan_soldier" count="2" />
+      <Group classDivisionId="crpg_dtv_tincan_soldier" count="2.0" />
       <Group classDivisionId="crpg_dtv_tincan_archer" count="1.0" />
-      <Group classDivisionId="crpg_dtv_tincan_cavalry" count="1.0" />
+      <Group classDivisionId="crpg_dtv_tincan_cavalry" count="1.2" />
       <Group classDivisionId="crpg_dtv_tincan_boss" />
     </Wave>
   </Round>
