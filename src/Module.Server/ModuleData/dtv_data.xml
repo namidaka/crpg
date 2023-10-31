@@ -193,12 +193,12 @@
       <Group classDivisionId="crpg_dtv_khuzait_horseman" count="0.5" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_khuzait_soldier" count="2.0" />
-      <Group classDivisionId="crpg_dtv_khuzait_horseman" count="1.5" />
+      <Group classDivisionId="crpg_dtv_khuzait_soldier" count="1.5" />
+      <Group classDivisionId="crpg_dtv_khuzait_horseman" count="1.0" />
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_khuzait_soldier" count="2.0" />
-      <Group classDivisionId="crpg_dtv_khuzait_horseman" count="3.0" />
+      <Group classDivisionId="crpg_dtv_khuzait_horseman" count="2.0" />
       <Group classDivisionId="crpg_dtv_khuzait_boss" />
     </Wave>
   </Round>
