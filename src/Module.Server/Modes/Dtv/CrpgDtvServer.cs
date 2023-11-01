@@ -11,7 +11,7 @@ namespace Crpg.Module.Modes.Dtv;
 internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 {
     private const int RewardMultiplier = 2;
-    private const int MapDuration = 60 * 90;
+    private const int MapDuration = 60 * 120;
 
     private readonly CrpgRewardServer _rewardServer;
     private readonly CrpgDtvData _dtvData;
