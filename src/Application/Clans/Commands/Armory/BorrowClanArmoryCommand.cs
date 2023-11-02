@@ -58,7 +58,7 @@ public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowViewMod
                 return new(result.Errors);
             }
 
-            _db.ActivityLogs.Add(_activityLogService.CreateBorrowClanArmoryItem(clan.Id, user.Id, req.UserItemId));
+            _db.ActivityLogs.Add(_activityLogService.CreateBorrowClanArmoryItem(user.Id, clan.Id, req.UserItemId));
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' borrowed item '{1}' from the armory '{2}'", req.UserId, req.UserItemId, req.ClanId);

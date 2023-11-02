@@ -36,7 +36,9 @@ const props = defineProps<{
 const userStore = useUserStore();
 
 const { clanId, clan, loadClan } = useClan(props.id);
-const { clanMembers, loadClanMembers, clanMembersCount, isLastMember } = useClanMembers();
+const { clanMembers, loadClanMembers, clanMembersCount, isLastMember } = useClanMembers(
+  clanId.value
+);
 const { applicationsCount, loadClanApplications } = useClanApplications();
 
 const selfMember = computed(() => getClanMember(clanMembers.value, userStore.user!.id));
@@ -57,6 +59,8 @@ const canUpdateClan = computed(() =>
   selfMember.value === null ? false : canUpdateClanValidate(selfMember.value.role)
 );
 
+const canUseClanArmory = computed(() => Boolean(selfMember.value));
+
 const applicationSent = ref<boolean>(false);
 const apply = async () => {
   applicationSent.value = true;
@@ -69,7 +73,7 @@ const canUpdateMember = computed(() =>
 
 const updateMember = async (userId: number, selectedRole: ClanMemberRole) => {
   await updateClanMember(clanId.value, userId, selectedRole);
-  await loadClanMembers(0, { id: clanId.value });
+  await loadClanMembers();
   notify(t('clan.member.update.notify.success'));
 };
 
@@ -82,7 +86,7 @@ const kickMember = async (member: ClanMember) => {
   const isSelfMember = checkIsSelfMember(member);
 
   await kickClanMember(clanId.value, member.user.id);
-  await loadClanMembers(0, { id: clanId.value });
+  await loadClanMembers();
   if (isSelfMember) {
     await userStore.getUserClanAndRole();
   }
@@ -109,7 +113,7 @@ const selectedClanMember = computed(() =>
 const { pageModel, perPage } = usePagination();
 
 const fetchPageData = async (clanId: number) => {
-  await Promise.all([loadClan(0, { id: clanId }), loadClanMembers(0, { id: clanId })]);
+  await Promise.all([loadClan(0, { id: clanId }), loadClanMembers()]);
 
   if (canManageApplications.value) {
     await loadClanApplications(0, { id: clanId });
@@ -136,15 +140,7 @@ await fetchPageData(clanId.value);
         <ClanTagIcon :color="clan.primaryColor" size="4x" />
       </div>
 
-      <div class="item-center flex select-none justify-center gap-4 md:gap-8">
-        <SvgSpriteImg
-          name="logo-decor"
-          viewBox="0 0 108 10"
-          class="w-16 rotate-180 transform md:w-28"
-        />
-        <h1 data-aq-clan-info="name" class="text-2xl text-content-100">{{ clan.name }}</h1>
-        <SvgSpriteImg name="logo-decor" viewBox="0 0 108 10" class="w-16 md:w-28" />
-      </div>
+      <Heading :title="clan.name" data-aq-clan-info="name" />
     </div>
 
     <div class="container">
@@ -189,6 +185,17 @@ await fetchPageData(clanId.value);
     </div>
 
     <div class="flex items-center justify-center gap-3">
+      <OButton
+        v-if="canUseClanArmory"
+        tag="router-link"
+        :to="{ name: 'ClansIdArmory', params: { id: clanId } }"
+        variant="primary"
+        outlined
+        icon-left="armory"
+        :label="$t('clan.armory.title')"
+        size="xl"
+      />
+
       <template v-if="canManageApplications || canUpdateClan">
         <OButton
           v-if="canManageApplications"

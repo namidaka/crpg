@@ -58,7 +58,7 @@ public record AddClanArmoryCommand : IMediatorRequest<ClanArmoryItemViewModel>
                 return new(result.Errors);
             }
 
-            _db.ActivityLogs.Add(_activityLogService.CreateAddClanArmoryItem(clan.Id, user.Id, req.UserItemId));
+            _db.ActivityLogs.Add(_activityLogService.CreateAddClanArmoryItem(user.Id, clan.Id, req.UserItemId));
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' added item '{1}' to the armory '{2}'", req.UserId, req.UserItemId, req.ClanId);

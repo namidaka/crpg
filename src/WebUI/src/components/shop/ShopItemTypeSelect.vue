@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { WeaponClass, type ItemFlat, ItemType } from '@/models/item';
+import { WeaponClass, ItemType } from '@/models/item';
+import { type Buckets } from '@/models/item-search';
+
 import {
   humanizeBucket, // TODO: FIXME:
   itemTypeByWeaponClass,
@@ -9,8 +11,8 @@ import {
 const props = defineProps<{
   itemType: ItemType;
   weaponClass: WeaponClass | null;
-  itemTypeBuckets: itemsjs.Buckets<ItemFlat[keyof ItemFlat]>;
-  weaponClassBuckets: itemsjs.Buckets<ItemFlat[keyof ItemFlat]>;
+  itemTypeBuckets: Buckets;
+  weaponClassBuckets: Buckets;
 }>();
 
 const emit = defineEmits<{
@@ -59,7 +61,11 @@ const subLevelActive = computed(
         />
 
         <template
-          v-if="subLevelActive && weaponClassModel !== null && (bucket.key as ItemType) === itemTypeByWeaponClass[weaponClassModel]"
+          v-if="
+            subLevelActive &&
+            weaponClassModel !== null &&
+            (bucket.key as ItemType) === itemTypeByWeaponClass[weaponClassModel]
+          "
         >
           <OIcon icon="chevron-right" size="lg" class="text-content-400" />
 
