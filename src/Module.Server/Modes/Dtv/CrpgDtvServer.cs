@@ -174,6 +174,12 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _currentWave = -1;
         SpawningBehavior.RequestSpawnSessionForRoundStart(firstRound: _currentRound == 0);
         SendDataToPeers(new CrpgDtvRoundStartMessage { Round = _currentRound });
+        foreach (Agent mount in Mission.MountsWithoutRiders) // force mounts to flee
+        {
+            CommonAIComponent commonAIComponent = mount.CommonAIComponent;
+            commonAIComponent?.Panic();
+        }
+
         _currentRoundStartTime = MissionTime.Now;
         _waveStartTimer = new MissionTimer(15f);
         _waveStarted = false;
