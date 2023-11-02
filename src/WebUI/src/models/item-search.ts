@@ -20,3 +20,5 @@ export interface Aggregation extends Omit<itemsjs.Aggregation, 'title'> {
 export type AggregationConfig = Partial<Record<keyof ItemFlat, Aggregation>>;
 
 export type SortingConfig = Record<string, itemsjs.Sorting<ItemFlat>>;
+
+export type Buckets = itemsjs.Buckets<ItemFlat[keyof ItemFlat]>;

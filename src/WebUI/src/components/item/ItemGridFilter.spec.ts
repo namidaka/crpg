@@ -44,5 +44,3 @@ it.todo('TODO:', () => {});
 //     expect(wrapper.emitted('update:modelValue')![0]).toEqual(['OneHandedWeapon']);
 //   });
 // });
-
-it.todo('', () => {});

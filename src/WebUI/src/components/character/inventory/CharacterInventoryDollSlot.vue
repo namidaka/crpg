@@ -3,7 +3,6 @@ import { FontAwesomeLayersText } from '@fortawesome/vue-fontawesome';
 import { type CharacterArmorOverall } from '@/models/character';
 import { ItemSlot } from '@/models/item';
 import { type UserItem } from '@/models/user';
-import { getItemImage } from '@/services/item-service';
 
 const {
   slot,
@@ -31,7 +30,7 @@ const {
 
 <template>
   <div
-    class="group relative flex h-28 items-center justify-center rounded-lg bg-base-200 p-1.5 ring"
+    class="group relative flex h-28 items-center justify-center rounded-lg bg-base-200 ring"
     :class="[
       [available ? 'ring-border-300' : 'ring-transparent hover:ring-border-200'],
       {
@@ -41,23 +40,13 @@ const {
       },
     ]"
   >
-    <template v-if="userItem !== undefined">
-      <img
-        class="h-full w-full cursor-grab select-none object-contain"
-        :src="getItemImage(userItem.item.baseId)"
-        :alt="userItem.item.name"
-        data-aq-character-slot-item-thumb
-      />
-
-      <div class="absolute left-1.5 top-1.5 z-10">
-        <ItemRankIcon
-          v-if="userItem !== undefined && userItem.item.rank > 0"
-          class="cursor-default opacity-80 hover:opacity-100"
-          :rank="userItem.item.rank"
-        />
-      </div>
-
-      <div class="absolute bottom-1.5 right-1.5 z-10 cursor-default opacity-80 hover:opacity-100">
+    <ItemCard
+      v-if="userItem !== undefined"
+      :item="userItem.item"
+      class="cursor-grab !ring-0"
+      data-aq-character-slot-item-thumb
+    >
+      <template #badges-top-right>
         <Tag
           v-if="notMeetRequirement"
           rounded
@@ -65,8 +54,8 @@ const {
           icon="alert"
           v-tooltip="$t('character.inventory.item.requirement.tooltip.title')"
         />
-      </div>
-    </template>
+      </template>
+    </ItemCard>
 
     <Tooltip
       v-else
