@@ -1389,7 +1389,6 @@
         <equipment slot="Body" id="Item.crpg_northern_leather_vest_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_hosen_2_v1_h0" />
         <equipment slot="Item0" id="Item.crpg_iron_hand_axe_h0" />
-        <equipment slot="Item1" id="Item.crpg_noyans_shield_v2_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandia_bandit_cape_a_v2_h0" />
@@ -1784,8 +1783,6 @@
         <equipment slot="Gloves" id="Item.crpg_guarded_armwraps_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_yellow_katana_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_rokusun_yumi_h0" />
-        <equipment slot="Item2" id="Item.crpg_range_arrows_v1_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3081,14 +3078,14 @@
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_spiked_helmet_with_facemask_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_lamellar_shoulders_v2_h0" />
-        <equipment slot="Body" id="Item.crpg_eastern_lamellar_armor_v3_h0" />
+        <equipment slot="Body" id="Item.crpg_leather_lamellar_armor_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_steppe_fur_harness_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_noble_steppe_bow_h0" />
-        <equipment slot="Item1" id="Item.crpg_broad_head_arrows_h0" />
-        <equipment slot="Item2" id="Item.crpg_fine_steel_scimitar_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_cavalry_lance_h0" />
+        <equipment slot="Item1" id="Item.crpg_decorated_steppe_shield_v2_h0" />
+        <equipment slot="Item2" id="Item.crpg_iron_saber_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_jackolantern_h0" />
