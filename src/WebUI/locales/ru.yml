@@ -486,12 +486,6 @@ character:
       count: '... | {count} предмет | {count} предмета | {count} предметов'
       sum: 'на сумму {sum}'
 
-    sort:
-      price_asc: Дешевле
-      price_desc: Дороже
-      type_asc: По типу
-      rank_desc: По рангу
-
     item:
       sell:
         title: Продать {price}
@@ -1209,6 +1203,12 @@ item:
   format:
     upkeep: '{upkeep} / @:dateTime.hours.short'
     rank: 'Ранг предмета {rank}'
+
+  sort:
+    price_asc: Дешевле
+    price_desc: Дороже
+    type_asc: По типу
+    rank_desc: По рангу
 
 leaderboard:
   title: Таблица лидеров

@@ -13,6 +13,7 @@ import {
   clanExistValidate,
   canUpdateClan,
   canManageApplications,
+  canUseClanArmory,
 } from '@/middlewares/clan';
 import { characterValidate, activeCharacterRedirect } from '@/middlewares/character';
 import { parseQuery, stringifyQuery, scrollBehavior } from '@/utils/router';
@@ -28,6 +29,7 @@ const getRouteMiddleware = (name: RouteMiddleware) => {
     clanExistValidate: clanExistValidate,
     canUpdateClan: canUpdateClan,
     canManageApplications: canManageApplications,
+    canUseClanArmory: canUseClanArmory,
   };
 
   return middlewareMap[name];

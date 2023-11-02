@@ -52,6 +52,7 @@ declare module 'vue-router/auto/routes' {
     'Clans': RouteRecordInfo<'Clans', '/clans', Record<never, never>, Record<never, never>>,
     'ClansId': RouteRecordInfo<'ClansId', '/clans/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'ClansIdApplications': RouteRecordInfo<'ClansIdApplications', '/clans/:id/applications', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    'ClansIdArmory': RouteRecordInfo<'ClansIdArmory', '/clans/:id/armory', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'ClansIdUpdate': RouteRecordInfo<'ClansIdUpdate', '/clans/:id/update', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'ClansCreate': RouteRecordInfo<'ClansCreate', '/clans/create', Record<never, never>, Record<never, never>>,
     'Leaderboard': RouteRecordInfo<'Leaderboard', '/leaderboard', Record<never, never>, Record<never, never>>,

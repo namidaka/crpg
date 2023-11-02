@@ -72,16 +72,7 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
           <OIcon icon="trophy-cup" size="5x" class="text-more-support" />
         </div>
 
-        <div class="item-center flex select-none justify-center gap-4 md:gap-8">
-          <SvgSpriteImg
-            name="logo-decor"
-            viewBox="0 0 108 10"
-            class="w-16 rotate-180 transform md:w-28"
-          />
-          <h1 class="text-2xl text-content-100">{{ $t('leaderboard.title') }}</h1>
-
-          <SvgSpriteImg name="logo-decor" viewBox="0 0 108 10" class="w-16 md:w-28" />
-        </div>
+        <Heading :title="$t('leaderboard.title')" />
       </div>
 
       <div class="flex items-center justify-between gap-4">
