@@ -21,6 +21,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     private int _currentWave;
     private bool _gameStarted;
     private bool _waveStarted;
+    private bool _timerExpired;
     private MissionTimer? _waveStartTimer;
     private MissionTimer? _endGameTimer;
     private MissionTime _currentRoundStartTime;
@@ -31,6 +32,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _dtvData = ReadDtvData();
         _gameStarted = false;
         _currentRound = -1;
+        _timerExpired = false;
     }
 
     public override bool IsGameModeHidingAllAgentVisuals => true;
@@ -80,6 +82,17 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
     public override void OnMissionTick(float dt)
     {
+        if (!_timerExpired && TimerComponent.CheckIfTimerPassed() && _gameStarted) // Award players if timer expires
+        {
+            _timerExpired = true;
+            float roundDuration = _currentRoundStartTime.ElapsedSeconds;
+            _ = _rewardServer.UpdateCrpgUsersAsync(
+            durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: Math.Max(_currentWave, 0)),
+            durationUpkeep: roundDuration,
+            updateUserStats: false,
+            constantMultiplier: RewardMultiplier);
+        }
+
         base.OnMissionTick(dt);
         if (MissionLobbyComponent.CurrentMultiplayerState != MissionLobbyComponent.MultiplayerGameState.Playing
             || !CanGameModeSystemsTickThisFrame)
