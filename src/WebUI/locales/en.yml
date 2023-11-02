@@ -101,8 +101,10 @@ action:
   upgrade: Upgrade
   reforge: Reforge
   enter: Enter
+  copy: Copy to clipboard
   copied: Copied
   start: Start
+  ok: Ok
 
 login:
   label: Login with
@@ -514,17 +516,11 @@ character:
     desc: <p>If you cannot pay upkeep at the end of the round your items will be break</p><p>You can repair your items for a fee in your inventory</p>
 
   inventory:
-    empty: The inventory is empty..
+    empty: The inventory is empty
     total:
       tpl: '{count} {sum}'
       count: '... | {count} item | {count} items'
       sum: 'worth {sum}'
-
-    sort:
-      price_asc: Price (asc)
-      price_desc: Price (desc)
-      type_asc: By type
-      rank_desc: By rank
 
     item:
       sell:
@@ -580,6 +576,14 @@ character:
           description: 'Are you sure you want to reforge this item for {gold}? You will get {loomPoints} back, in exchange {oldItem} will be changed to {newItem}'
         notify:
           success: 'Item successfully reforged'
+      clanArmory:
+        inArmory:
+          title: Item is in the clan armory
+          notify:
+            warning: The item is in the clan armory. Get it from there first.
+    filter:
+      hideInArmory: Hide the items in the armory
+      showInArmory: Show the items in the armory
 
   doll:
     slot:
@@ -766,7 +770,41 @@ clan:
       decline:
         notify:
           success: Application declined
-
+  armory:
+    title: Clan armory
+    empty: The armory is empty
+    filter:
+      hideOwned: Hide owned items
+      hideBorrowed: Show only available  items
+    item:
+      owner:
+        tooltip:
+          title: Owner {user}
+      borrow:
+        title: Borrow from {user}
+        notify:
+          success: The item successfully borrowed from the armory
+      borrowed:
+        title: Borrowed by {user}
+      borrower:
+        tooltip:
+          title: Borrower {user}
+      add:
+        title: Add to armory
+        confirm:
+          description: 'Are you sure you want to add the item to the armory?'
+        notify:
+          success: The item has been successfully added to the clan armory.
+      remove:
+        title: Remove from armory
+        confirm:
+          description: 'Are you sure you want your item back from the armory?'
+        notify:
+          success: The item has been successfully returned to the clan armory.
+      return:
+        title: Return to armory
+        notify:
+          success: The item has been successfully returned to the clan armory.
 user:
   field:
     name: User name
@@ -1237,6 +1275,12 @@ item:
     upkeep: '{upkeep} / @:dateTime.hours.short'
     rank: 'Item rank {rank}'
 
+  sort:
+    price_asc: Price (asc)
+    price_desc: Price (desc)
+    type_asc: By type
+    rank_desc: By rank
+
 activityLog:
   form:
     from: From
@@ -1264,6 +1308,10 @@ activityLog:
     ServerJoined: 'The user has joined the server'
     ChatMessageSent: 'Wrote a message: {message} {instance}'
     TeamHit: 'Dealt {damage} damage to {targetUserId} {instance}'
+    ClanArmoryAddItem: 'Item {userItemId} added to clan {clanId} armory'
+    ClanArmoryRemoveItem: 'Item {userItemId} removed from clan {clanId} armory'
+    ClanArmoryReturnItem: 'Item {userItemId} was returned from clan {clanId} armory'
+    ClanArmoryBorrowItem: 'Item {userItemId} was borrowed from clan {clanId} armory'
 
 leaderboard:
   title: Leaderboard

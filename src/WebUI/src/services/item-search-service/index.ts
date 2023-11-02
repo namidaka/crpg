@@ -14,18 +14,21 @@ import {
 import { excludeRangeFilters, applyFilters } from './helpers';
 
 export const generateEmptyFiltersModel = (aggregations: AggregationConfig) => {
-  return (Object.keys(aggregations) as [keyof ItemFlat]).reduce((model, aggKey) => {
-    // model[aggKey] = []; // alwaysArray? TODO: https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/itemsjs/index.d.ts#L38
+  return (Object.keys(aggregations) as [keyof ItemFlat]).reduce(
+    (model, aggKey) => {
+      // model[aggKey] = []; // alwaysArray? TODO: https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/itemsjs/index.d.ts#L38
 
-    if (aggKey === 'weaponUsage') {
-      // @ts-ignore
-      model[aggKey] = ['Primary'];
-    } else {
-      model[aggKey] = [];
-    }
+      if (aggKey === 'weaponUsage') {
+        // @ts-ignore
+        model[aggKey] = ['Primary'];
+      } else {
+        model[aggKey] = [];
+      }
 
-    return model;
-  }, {} as FiltersModel<string[]>);
+      return model;
+    },
+    {} as FiltersModel<string[]>
+  );
 };
 
 export const getAggregationsConfig = (

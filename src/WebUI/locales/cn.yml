@@ -515,12 +515,6 @@ character:
       count: '... | {count} 件物品 | {count} 件物品'
       sum: '总价值为 {sum}'
 
-    sort:
-      price_asc: 价格（升序）
-      price_desc: 价格（降序）
-      type_asc: 按类型排序
-      rank_desc: 按等级划分
-
     item:
       sell:
         title: 售价{price}
@@ -1229,6 +1223,12 @@ item:
   format:
     upkeep: '{upkeep} / @:dateTime.hours.short'
     rank: '物品阶级 {rank}'
+
+  sort:
+    price_asc: 价格（升序）
+    price_desc: 价格（降序）
+    type_asc: 按类型排序
+    rank_desc: 按等级划分
 
 leaderboard:
   title: 排行榜

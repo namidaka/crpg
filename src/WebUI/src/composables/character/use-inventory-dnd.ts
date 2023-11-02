@@ -4,6 +4,7 @@ import { type UserItem } from '@/models/user';
 import { getAvailableSlotsByItem, getLinkedSlots } from '@/services/item-service';
 import { notify, NotificationType } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
+import { useUserStore } from '@/stores/user';
 
 // Shared state
 const focusedItemId = ref<number | null>(null);
@@ -12,6 +13,7 @@ const fromSlot = ref<ItemSlot | null>(null);
 const toSlot = ref<ItemSlot | null>(null);
 
 export const useInventoryDnD = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) => {
+  const { user } = toRefs(useUserStore());
   const { emit } = getCurrentInstance() as NonNullable<ReturnType<typeof getCurrentInstance>>;
 
   const onDragStart = (item: UserItem | null = null, slot: ItemSlot | null = null) => {
@@ -19,6 +21,14 @@ export const useInventoryDnD = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) =
 
     if (item.isBroken) {
       notify(t('character.inventory.item.broken.notify.warning'), NotificationType.Warning);
+      return;
+    }
+
+    if (item.isArmoryItem && user.value!.id === item.userId) {
+      notify(
+        t('character.inventory.item.clanArmory.inArmory.notify.warning'),
+        NotificationType.Warning
+      );
       return;
     }
 
