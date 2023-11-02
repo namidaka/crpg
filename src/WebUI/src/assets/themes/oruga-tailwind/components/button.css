@@ -47,7 +47,7 @@
 }
 
 .o-btn--lg {
-  @apply px-3 py-3.5;
+  @apply px-3 py-3.5 h-14;
 }
 
 .o-btn--lg .o-btn__label {

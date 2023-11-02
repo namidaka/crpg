@@ -740,13 +740,13 @@ export const computeBrokenItemRepairCost = (price: number) =>
 export const getRankColor = (rank: ItemRank) => {
   switch (rank) {
     case 1:
-      return '#1eff00';
+      return '#4ade80';
 
     case 2:
-      return '#0070dd';
+      return '#60a5fa';
 
     case 3:
-      return '#a335ee';
+      return '#c084fc';
 
     default:
       return '#fff';

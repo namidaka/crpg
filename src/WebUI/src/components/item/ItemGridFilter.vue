@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { type ItemFlat, ItemType } from '@/models/item';
+import { ItemType } from '@/models/item';
+import { type Buckets } from '@/models/item-search';
+
 import { humanizeBucket } from '@/services/item-service';
 
-const props = defineProps<{
+const { modelValue, buckets } = defineProps<{
   modelValue: ItemType[];
-  buckets: itemsjs.Buckets<ItemFlat[keyof ItemFlat]>;
+  buckets: Buckets;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', type: ItemType[]): void;
+  'update:modelValue': [type: ItemType[]];
 }>();
 
 const itemTypeModel = computed({
@@ -22,11 +24,11 @@ const itemTypeModel = computed({
   },
 
   get() {
-    if (props.modelValue.length === 0) {
+    if (modelValue.length === 0) {
       return ItemType.Undefined;
     }
 
-    return props.modelValue[0];
+    return modelValue[0];
   },
 });
 </script>
@@ -38,12 +40,12 @@ const itemTypeModel = computed({
         <OIcon icon="grid" size="xl" v-tooltip.bottom="'All'" />
       </template>
     </OTabItem>
-    <OTabItem v-for="bucket in props.buckets" :value="bucket.key">
+    <OTabItem v-for="bucket in buckets" :value="bucket.key">
       <template #header>
         <OIcon
-          :icon="humanizeBucket('type', bucket.key)!.icon!.name"
+          :icon="humanizeBucket('type', bucket.key).icon!.name"
           size="xl"
-          v-tooltip.bottom="humanizeBucket('type', bucket.key)!.label"
+          v-tooltip.bottom="humanizeBucket('type', bucket.key).label"
         />
       </template>
     </OTabItem>

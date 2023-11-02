@@ -27,9 +27,11 @@ export interface UserPublic
 
 export interface UserItem {
   id: number;
+  userId: number;
+  createdAt: Date;
   item: Item;
   isBroken: boolean;
-  createdAt: Date;
+  isArmoryItem: false;
 }
 
 export interface UserItemsByType {

@@ -1,6 +1,5 @@
-import type itemsjs from 'itemsjs';
 import { type ItemFlat, ItemType, WeaponClass } from '@/models/item';
-import { type AggregationConfig, AggregationView } from '@/models/item-search';
+import { type AggregationConfig, AggregationView, type Buckets } from '@/models/item-search';
 
 const { mockedItemsJSAggregation, mockedItemsJSSearch, mockedAggregationsConfig } = vi.hoisted(
   () => ({
@@ -77,9 +76,7 @@ it.each([
   [[{ key: '1' }], [1]],
   [[{ key: 'null' }, { key: '123' }], [123]],
 ])('getBucketValues - buckets: %j', (buckets, expectation) => {
-  expect(getBucketValues(buckets as itemsjs.Buckets<ItemFlat[keyof ItemFlat]>)).toEqual(
-    expectation
-  );
+  expect(getBucketValues(buckets as Buckets)).toEqual(expectation);
 });
 
 it.each([

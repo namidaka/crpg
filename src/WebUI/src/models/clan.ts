@@ -1,5 +1,5 @@
 import { Region } from '@/models/region';
-import { type UserPublic } from '@/models/user';
+import { UserItem, type UserPublic } from '@/models/user';
 
 export interface Clan {
   id: number;
@@ -52,4 +52,17 @@ export interface ClanInvitation {
   inviter: UserPublic;
   type: ClanInvitationType;
   status: ClanInvitationStatus;
+}
+
+// TODO:
+interface Borrow {
+  updatedAt: Date;
+  userId: number;
+  userItemId: number;
+}
+
+export interface ClanArmoryItem {
+  userItem: UserItem;
+  borrow: Borrow | null;
+  updatedAt: Date;
 }
