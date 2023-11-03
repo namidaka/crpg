@@ -328,6 +328,19 @@ internal static class CommonErrors
         Detail = $"User item with id '{userItemId}' was not found",
     };
 
+    public static Error UserItemMinRank(int userItemId, int rank) =>
+        new(ErrorType.Validation, ErrorCode.UserItemMinRank)
+        {
+            Title = "User item rank is too low",
+            Detail = $"User item with id '{userItemId}' has too low rank ({rank})",
+        };
+
+    public static Error UserItemInUse(int userItemId) => new(ErrorType.Conflict, ErrorCode.ItemNotOwned)
+    {
+        Title = "User item is in use.",
+        Detail = $"User item with id '{userItemId}' is in use",
+    };
+
     public static Error UserNotAClanMember(int userId, int clanId) => new(ErrorType.Forbidden, ErrorCode.UserNotAClanMember)
     {
         Title = "User is not a member of the clan",

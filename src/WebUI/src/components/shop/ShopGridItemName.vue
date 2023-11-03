@@ -6,15 +6,17 @@ const { item, showTier = false } = defineProps<{
   item: ItemFlat;
   showTier?: boolean;
 }>();
+
+const thumb = computed(() => getItemImage(item.baseId));
 </script>
 
 <template>
   <div class="flex items-center gap-4">
     <div class="relative h-16 w-32">
       <VTooltip placement="auto" popperClass="expanded">
-        <img :src="getItemImage(item.baseId)" class="h-full w-full object-contain" />
+        <img :src="thumb" class="h-full w-full object-contain" />
         <template #popper>
-          <img :src="getItemImage(item.baseId)" class="h-full w-full object-contain" />
+          <img :src="thumb" class="h-full w-full object-contain" />
         </template>
       </VTooltip>
 
