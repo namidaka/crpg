@@ -49,6 +49,7 @@ builder.Services
     // .AddHostedService<StrategusWorker>() Disable strategus for now.
     .AddHostedService<DonorSynchronizerWorker>()
     .AddHostedService<ActivityLogsCleanerWorker>()
+    .AddHostedService<ClanArmoryWorker>()
     .AddHttpContextAccessor() // Injects IHttpContextAccessor
     .AddScoped<ICurrentUserService, CurrentUserService>()
     .AddSingleton<XboxService>()
