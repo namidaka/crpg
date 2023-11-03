@@ -10,5 +10,15 @@ public class ClanMemberConfiguration : IEntityTypeConfiguration<ClanMember>
     {
         builder.HasKey(cm => cm.UserId);
         builder.HasQueryFilter(cm => cm.User!.DeletedAt == null);
+
+        builder.HasOne(e => e.User)
+            .WithOne(e => e.ClanMembership)
+            .HasForeignKey<ClanMember>(e => e.UserId)
+            .IsRequired();
+
+        builder.HasOne(e => e.Clan)
+            .WithMany(e => e.Members)
+            .HasForeignKey(e => e.ClanId)
+            .IsRequired();
     }
 }
