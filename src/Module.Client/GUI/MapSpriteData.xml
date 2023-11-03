@@ -1691,15 +1691,15 @@
     </GenericSprite>
     <GenericSprite>
       <Name>crpg_conquest_knightscrest</Name>
-      <SpritePartName>crpg_dtv_rosethornecastle</SpritePartName>
+      <SpritePartName>crpg_conquest_knightscrest</SpritePartName>
     </GenericSprite>
     <GenericSprite>
       <Name>crpg_battle_snowytown</Name>
-      <SpritePartName>crpg_dtv_rosethornecastle</SpritePartName>
+      <SpritePartName>crpg_battle_snowytown</SpritePartName>
     </GenericSprite>
     <GenericSprite>
       <Name>crpg_battle_lighthouse</Name>
-      <SpritePartName>crpg_dtv_rosethornecastle</SpritePartName>
+      <SpritePartName>crpg_battle_lighthouse</SpritePartName>
     </GenericSprite>
     <GenericSprite>
       <Name>crpg_conquest_talmberg</Name>
