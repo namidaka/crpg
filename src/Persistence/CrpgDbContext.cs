@@ -70,6 +70,8 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<Restriction> Restrictions { get; set; } = default!;
     public DbSet<Clan> Clans { get; set; } = default!;
     public DbSet<ClanMember> ClanMembers { get; set; } = default!;
+    public DbSet<ArmoryItem> ArmoryItems { get; set; } = default!;
+    public DbSet<ArmoryBorrow> ArmoryBorrows { get; set; } = default!;
     public DbSet<ClanInvitation> ClanInvitations { get; set; } = default!;
     public DbSet<Party> Parties { get; set; } = default!;
     public DbSet<Settlement> Settlements { get; set; } = default!;

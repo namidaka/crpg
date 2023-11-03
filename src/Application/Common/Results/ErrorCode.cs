@@ -61,6 +61,7 @@ public enum ErrorCode
     UserItemIsNotBroken,
     UserItemMaxRankReached,
     UserItemNotFound,
+    UserItemMinRank,
     UserNotAClanMember,
     UserNotFound,
     UserNotInAClan,

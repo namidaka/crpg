@@ -19,4 +19,6 @@ public class UserItem : AuditableEntity
     /// Characters with that item equipped.
     /// </summary>
     public List<EquippedItem> EquippedItems { get; set; } = new();
+    public ArmoryItem? ArmoryItem { get; set; }
+    public ArmoryBorrow? ArmoryBorrow { get; set; }
 }
