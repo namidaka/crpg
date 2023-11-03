@@ -51,4 +51,6 @@ public class User : AuditableEntity
     public IList<Restriction> Restrictions { get; set; } = new List<Restriction>();
     public ClanMember? ClanMembership { get; set; }
     public Party? Party { get; set; }
+
+    public IList<ClanArmoryBorrow> ArmoryBorrows { get; set; } = new List<ClanArmoryBorrow>();
 }

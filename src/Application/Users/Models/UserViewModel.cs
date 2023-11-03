@@ -1,4 +1,6 @@
+using Crpg.Application.Clans.Models;
 using Crpg.Application.Common.Mappings;
+using Crpg.Application.Items.Models;
 using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.Users;
 

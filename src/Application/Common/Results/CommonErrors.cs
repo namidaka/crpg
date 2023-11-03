@@ -78,6 +78,12 @@ internal static class CommonErrors
         Title = "A characteristic was decreased when it is not allowed",
     };
 
+    public static Error ClanArmoryItemBusy(int userItemId) => new(ErrorType.Conflict, ErrorCode.ItemDisabled)
+    {
+        Title = "User item is busy",
+        Detail = $"User item with id '{userItemId}' is busy",
+    };
+
     public static Error ClanInvitationClosed(int clanInvitationId, ClanInvitationStatus status) => new(ErrorType.NotFound, ErrorCode.ClanInvitationClosed)
     {
         Title = "Clan invitation was closed",
@@ -327,6 +333,13 @@ internal static class CommonErrors
         Title = "User item was not found",
         Detail = $"User item with id '{userItemId}' was not found",
     };
+
+    public static Error UserItemMinRank(int userItemId, int rank) =>
+        new(ErrorType.Validation, ErrorCode.UserItemMinRank)
+        {
+            Title = "User item rank is too low",
+            Detail = $"User item with id '{userItemId}' has too low rank ({rank})",
+        };
 
     public static Error UserNotAClanMember(int userId, int clanId) => new(ErrorType.Forbidden, ErrorCode.UserNotAClanMember)
     {
