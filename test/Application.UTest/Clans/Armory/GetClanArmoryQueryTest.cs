@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Crpg.Application.Clans.Queries;
+using Crpg.Application.Common.Services;
+using Crpg.Domain.Entities.Users;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+
+namespace Crpg.Application.UTest.Clans.Armory;
+public class GetClanArmoryQueryTest : TestBase
+{
+    private IClanService ClanService { get; } = new ClanService();
+
+    [Test]
+    public async Task ShouldGetClanArmoryItems()
+    {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
+        int count = 2;
+        await ClanArmoryTestHelper.AddItems(ArrangeDb, "user0", count);
+        await ClanArmoryTestHelper.BorrowItems(ArrangeDb, "user1", count);
+        await ArrangeDb.SaveChangesAsync();
+
+        var user = await ActDb.Users
+            .Include(e => e.ClanMembership)
+            .FirstAsync(e => e.Name == "user1");
+
+        var handler = new GetClanArmoryQuery.Handler(ActDb, Mapper, ClanService);
+        var result = await handler.Handle(new GetClanArmoryQuery
+        {
+            UserId = user.Id,
+            ClanId = user.ClanMembership!.ClanId,
+        }, CancellationToken.None);
+
+        var items = result.Data!;
+        var item = items.First();
+
+        Assert.That(result.Errors, Is.Null);
+        Assert.That(items.Count, Is.EqualTo(count));
+        Assert.That(item.UserItem, Is.Not.Null);
+        Assert.That(item.UserItem!.Item, Is.Not.Null);
+        Assert.That(item.Borrow, Is.Not.Null);
+    }
+}
