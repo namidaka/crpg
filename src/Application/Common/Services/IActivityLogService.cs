@@ -20,6 +20,10 @@ internal interface IActivityLogService
     ActivityLog CreateCharacterRespecializedLog(int userId, int characterId, int price);
     ActivityLog CreateCharacterRetiredLog(int userId, int characterId, int level);
     ActivityLog CreateCharacterRewardedLog(int userId, int characterId, int experience);
+    ActivityLog CreateAddClanArmoryItem(int userId, int clanId, int userItemId);
+    ActivityLog CreateRemoveClanArmoryItem(int userId, int clanId, int userItemId);
+    ActivityLog CreateBorrowClanArmoryItem(int userId, int clanId, int userItemId);
+    ActivityLog CreateReturnClanArmoryItem(int userId, int clanId, int userItemId);
 }
 
 internal class ActivityLogService : IActivityLogService
@@ -156,6 +160,42 @@ internal class ActivityLogService : IActivityLogService
         {
             new("characterId", characterId.ToString()),
             new("experience", experience.ToString()),
+        });
+    }
+
+    public ActivityLog CreateAddClanArmoryItem(int userId, int clanId, int userItemId)
+    {
+        return CreateLog(ActivityLogType.AddClanArmoryItem, userId, new ActivityLogMetadata[]
+        {
+            new("userItemId", userId.ToString()),
+            new("clanId", clanId.ToString()),
+        });
+    }
+
+    public ActivityLog CreateRemoveClanArmoryItem(int userId, int clanId, int userItemId)
+    {
+        return CreateLog(ActivityLogType.RemoveClanArmoryItem, userId, new ActivityLogMetadata[]
+        {
+            new("userItemId", userId.ToString()),
+            new("clanId", clanId.ToString()),
+        });
+    }
+
+    public ActivityLog CreateBorrowClanArmoryItem(int userId, int clanId, int userItemId)
+    {
+        return CreateLog(ActivityLogType.BorrowClanArmoryItem, userId, new ActivityLogMetadata[]
+        {
+            new("userItemId", userId.ToString()),
+            new("clanId", clanId.ToString()),
+        });
+    }
+
+    public ActivityLog CreateReturnClanArmoryItem(int userId, int clanId, int userItemId)
+    {
+        return CreateLog(ActivityLogType.ReturnClanArmoryItem, userId, new ActivityLogMetadata[]
+        {
+            new("userItemId", userId.ToString()),
+            new("clanId", clanId.ToString()),
         });
     }
 
