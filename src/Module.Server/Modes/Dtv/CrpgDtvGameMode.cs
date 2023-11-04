@@ -126,7 +126,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 notificationsComponent,
                 new WelcomeMessageBehavior(warmupComponent),
 #if CRPG_SERVER
-                new CrpgDtvServer(rewardServer,lobbyComponent),
+                new CrpgDtvServer(rewardServer, lobbyComponent),
                 rewardServer,
                 // SpawnFrameBehaviour: where to spawn, SpawningBehaviour: when to spawn
                 new SpawnComponent(new BattleSpawnFrameBehavior(), spawnBehaviour),
