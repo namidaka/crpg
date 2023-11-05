@@ -43,7 +43,7 @@ internal class CrpgRewardServer : MissionLogic
         CrpgWarmupComponent? warmupComponent,
         bool enableTeamHitCompensations,
         bool enableRating,
-        bool enableLowPopulationUpkeep = true)
+        bool enableLowPopulationUpkeep = false)
     {
         _crpgClient = crpgClient;
         _constants = constants;
@@ -146,7 +146,7 @@ internal class CrpgRewardServer : MissionLogic
         }
 
         bool veryLowPopulationServer = networkPeers.Length < 2;
-        bool lowPopulationServer = _isLowPopulationUpkeepEnabled && networkPeers.Length < 12;
+        bool lowPopulationServer = !_isLowPopulationUpkeepEnabled && networkPeers.Length < 12;
         // Force constant multiplier if there is low population.
         constantMultiplier = veryLowPopulationServer ? ExperienceMultiplierMin : constantMultiplier;
 
