@@ -33,6 +33,7 @@ internal class CrpgRewardServer : MissionLogic
     private readonly Dictionary<int, AgentHitRegistry> _agentsThatGotTeamHitThisRoundByCrpgUserId;
     private readonly bool _isTeamHitCompensationsEnabled;
     private readonly bool _isRatingEnabled;
+    private readonly bool _isLowPopulationUpkeepEnabled;
 
     private bool _lastRewardDuringHappyHours;
 
@@ -41,7 +42,8 @@ internal class CrpgRewardServer : MissionLogic
         CrpgConstants constants,
         CrpgWarmupComponent? warmupComponent,
         bool enableTeamHitCompensations,
-        bool enableRating)
+        bool enableRating,
+        bool enableLowPopulationUpkeep = true)
     {
         _crpgClient = crpgClient;
         _constants = constants;
@@ -54,6 +56,7 @@ internal class CrpgRewardServer : MissionLogic
         _agentsThatGotTeamHitThisRoundByCrpgUserId = new();
         _isTeamHitCompensationsEnabled = enableTeamHitCompensations;
         _isRatingEnabled = enableRating;
+        _isLowPopulationUpkeepEnabled = enableLowPopulationUpkeep;
     }
 
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
@@ -143,7 +146,7 @@ internal class CrpgRewardServer : MissionLogic
         }
 
         bool veryLowPopulationServer = networkPeers.Length < 2;
-        bool lowPopulationServer = networkPeers.Length < 12;
+        bool lowPopulationServer = _isLowPopulationUpkeepEnabled && networkPeers.Length < 12;
         // Force constant multiplier if there is low population.
         constantMultiplier = veryLowPopulationServer ? ExperienceMultiplierMin : constantMultiplier;
 
