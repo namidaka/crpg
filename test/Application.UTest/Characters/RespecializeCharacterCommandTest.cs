@@ -18,6 +18,7 @@ public class RespecializeCharacterCommandTest : TestBase
 {
     private static readonly Constants Constants = new()
     {
+        RespecializePriceHalfLife = 12,
         RespecializePriceForLevel30 = 5000,
         FreeRespecializeIntervalDays = 7,
     };

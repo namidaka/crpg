@@ -49,6 +49,8 @@
     <Compile Remove="..\Module.Server\Common\ChatCommands\**\*" />
     <Compile Remove="..\Module.Server\Rewards\CrpgRewardServer.cs" />
     <Compile Remove="..\Module.Server\HarmonyPatches\**\*" />
+    <Compile Remove="..\Module.Server\Firewall\*" />
+    <Compile Remove="..\Module.Server\Common\RemoveIpFromFirewallBehavior.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,5 +70,9 @@
     <Reference Remove="$(MB_CLIENT_PATH)/bin/Win64_Shipping_Client/TaleWorlds.Native.dll" />
     <!-- This library causes dependency conflict. -->
     <Reference Remove="$(MB_CLIENT_PATH)/bin/Win64_Shipping_Client/TaleWorlds.Starter.DotNetCore.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WindowsFirewallHelper" Version="2.2.0.86" />
   </ItemGroup>
 </Project>

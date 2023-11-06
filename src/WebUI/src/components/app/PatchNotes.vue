@@ -23,7 +23,7 @@ const timeAgo = useLocaleTimeAgo(new Date(latestPatch.value.createdAt));
         >
           {{ latestPatch.title }}
         </div>
-        <Tag variant="primary" :label="$t('patchNotes.latest')" />
+        <Tag variant="primary" :label="latestPatch.tagName" />
       </div>
       <div class="pl-8 text-[0.7rem] leading-none">{{ timeAgo }}</div>
     </a>

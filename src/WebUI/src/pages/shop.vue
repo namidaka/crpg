@@ -241,7 +241,7 @@ const newItemCount = computed(
               expanded
               clearable
               size="sm"
-              iconRighclearabletClickable
+              iconRightClickable
               data-aq-search-shop-input
             />
           </div>

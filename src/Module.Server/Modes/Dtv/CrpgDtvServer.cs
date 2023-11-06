@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
 using Crpg.Module.Rewards;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Network.Messages;
@@ -11,7 +12,7 @@ namespace Crpg.Module.Modes.Dtv;
 internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 {
     private const int RewardMultiplier = 2;
-    private const int MapDuration = 60 * 90;
+    private const int MapDuration = 60 * 120;
 
     private readonly CrpgRewardServer _rewardServer;
     private readonly CrpgDtvData _dtvData;
@@ -21,6 +22,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     private int _currentWave;
     private bool _gameStarted;
     private bool _waveStarted;
+    private bool _timerExpired;
     private MissionTimer? _waveStartTimer;
     private MissionTimer? _endGameTimer;
     private MissionTime _currentRoundStartTime;
@@ -31,6 +33,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _dtvData = ReadDtvData();
         _gameStarted = false;
         _currentRound = -1;
+        _timerExpired = false;
     }
 
     public override bool IsGameModeHidingAllAgentVisuals => true;
@@ -53,6 +56,18 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     {
         base.AfterStart();
         AddTeams();
+    }
+
+    public override void OnBehaviorInitialize()
+    {
+        base.OnBehaviorInitialize();
+        MissionLobbyComponent.CurrentMultiplayerStateChanged += RewardIfEndOfMission;
+    }
+
+    public override void OnRemoveBehavior()
+    {
+        base.OnRemoveBehavior();
+        MissionLobbyComponent.CurrentMultiplayerStateChanged -= RewardIfEndOfMission;
     }
 
     public override bool CheckForWarmupEnd()
@@ -118,6 +133,20 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         }
     }
 
+    public void RewardIfEndOfMission(MissionLobbyComponent.MultiplayerGameState newState)
+    {
+        if (!_timerExpired && TimerComponent.CheckIfTimerPassed() && newState == MissionLobbyComponent.MultiplayerGameState.Ending) // Award players if timer expires
+        {
+            _timerExpired = true;
+            float roundDuration = _currentRoundStartTime.ElapsedSeconds;
+            _ = _rewardServer.UpdateCrpgUsersAsync(
+                durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: Math.Max(_currentWave, 0)),
+                durationUpkeep: roundDuration,
+                updateUserStats: false,
+                constantMultiplier: RewardMultiplier);
+        }
+    }
+
     public override void OnScoreHit(
         Agent affectedAgent,
         Agent affectorAgent,
@@ -137,6 +166,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
         if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // Viscount under attack
         {
+            affectedAgent.Health = Math.Min(blow.InflictedDamage + affectedAgent.Health, affectedAgent.BaseHealthLimit);
             SendDataToPeers(new CrpgDtvViscountUnderAttackMessage { Attacker = affectorAgent });
         }
     }
@@ -174,6 +204,11 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _currentWave = -1;
         SpawningBehavior.RequestSpawnSessionForRoundStart(firstRound: _currentRound == 0);
         SendDataToPeers(new CrpgDtvRoundStartMessage { Round = _currentRound });
+        foreach (Agent mount in Mission.MountsWithoutRiders) // force mounts to flee
+        {
+            mount.CommonAIComponent.Panic();
+        }
+
         _currentRoundStartTime = MissionTime.Now;
         _waveStartTimer = new MissionTimer(15f);
         _waveStarted = false;

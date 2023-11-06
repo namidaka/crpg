@@ -21,3 +21,4 @@ WarmupTimeLimit 1
 start_game
 set_automated_battle_count -1
 enable_automated_battle_switching
+crpg_apply_harmony_patches

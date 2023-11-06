@@ -17,7 +17,7 @@
   <SpriteCategories>
     <SpriteCategory>
       <Name>ui_mploading</Name>
-      <SpriteSheetCount>128</SpriteSheetCount>
+      <SpriteSheetCount>133</SpriteSheetCount>
       <SpriteSheetSize ID="1" Width="3840" Height="1935" />
       <SpriteSheetSize ID="2" Width="3840" Height="1935" />
       <SpriteSheetSize ID="3" Width="3383" Height="1902" />
@@ -134,6 +134,11 @@
       <SpriteSheetSize ID="126" Width="1920" Height="1080" />
       <SpriteSheetSize ID="127" Width="1920" Height="1080" />
       <SpriteSheetSize ID="128" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="129" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="130" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="131" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="132" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="133" Width="1920" Height="1080" />
       <AlwaysLoad />
     </SpriteCategory>
   </SpriteCategories>
@@ -1173,6 +1178,51 @@
       <SheetY>0</SheetY>
       <CategoryName>ui_mploading</CategoryName>
     </SpritePart>
+    <SpritePart>
+      <SheetID>129</SheetID>
+      <Name>crpg_dtv_rosethornecastle</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>130</SheetID>
+      <Name>crpg_conquest_knightscrest</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>131</SheetID>
+      <Name>crpg_battle_snowytown</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>132</SheetID>
+      <Name>crpg_battle_lighthouse</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>133</SheetID>
+      <Name>crpg_conquest_talmberg</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
   </SpriteParts>
   <Sprites>
     <GenericSprite>
@@ -1634,6 +1684,26 @@
     <GenericSprite>
       <Name>crpg_conquest_jameyyedcastle</Name>
       <SpritePartName>crpg_conquest_jameyyedcastle</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_dtv_rosethornecastle</Name>
+      <SpritePartName>crpg_dtv_rosethornecastle</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_knightscrest</Name>
+      <SpritePartName>crpg_conquest_knightscrest</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_battle_snowytown</Name>
+      <SpritePartName>crpg_battle_snowytown</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_battle_lighthouse</Name>
+      <SpritePartName>crpg_battle_lighthouse</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_talmberg</Name>
+      <SpritePartName>crpg_conquest_talmberg</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>

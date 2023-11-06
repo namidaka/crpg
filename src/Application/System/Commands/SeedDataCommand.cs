@@ -1231,10 +1231,18 @@ public record SeedDataCommand : IMediatorRequest
             var leblenion = await GetSettlementByName("Leblenion");
             var rhemtoil = await GetSettlementByName("Rhemtoil");
 
+            Party orleParty = new()
+            {
+                User = orle,
+                Troops = 1,
+                Position = epicrotea.Position,
+                Status = PartyStatus.IdleInSettlement,
+                TargetedSettlement = epicrotea,
+            };
             Party brainfartParty = new()
             {
                 User = brainfart,
-                Troops = 1,
+                Troops = 1000,
                 Position = new Point(112, -88),
                 Status = PartyStatus.Idle,
             };
@@ -1388,7 +1396,7 @@ public record SeedDataCommand : IMediatorRequest
             Party tjensParty = new()
             {
                 User = tjens,
-                Troops = 20,
+                Troops = 500,
                 Position = new Point(112, -93),
                 Status = PartyStatus.MovingToSettlement,
                 TargetedSettlement = rhotae,
@@ -1404,7 +1412,7 @@ public record SeedDataCommand : IMediatorRequest
             Party magnucleanParty = new()
             {
                 User = magnuclean,
-                Troops = 9,
+                Troops = 100,
                 Position = new Point(120, -88),
                 Status = PartyStatus.MovingToSettlement,
                 TargetedSettlement = rhemtoil,

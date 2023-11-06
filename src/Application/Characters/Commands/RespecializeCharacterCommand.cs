@@ -87,7 +87,7 @@ public record RespecializeCharacterCommand : IMediatorRequest<CharacterViewModel
 
             TimeSpan timePassed = _dateTime.UtcNow - character.Limitations!.LastRespecializeAt;
             // 12 Hours half life
-            double decayDivider = Math.Pow(2, timePassed.TotalHours / 12f);
+            double decayDivider = Math.Pow(2, timePassed.TotalHours / _constants.RespecializePriceHalfLife);
 
             return (int)((float)character.Experience / _experienceTable.GetExperienceForLevel(30) * _constants.RespecializePriceForLevel30 / decayDivider);
         }

@@ -116,6 +116,8 @@
   <string id="str_multiplayer_scene_name.crpg_battle_weirwater" text="{=NuReq6rk}Weirwater" />
   <string id="str_multiplayer_scene_name.crpg_battle_whitebridge" text="{=jP0ySZzV}White Bridge" />
   <string id="str_multiplayer_scene_name.crpg_battle_zemouri" text="{=LLWi2bYx}Zemouri" />
+  <string id="str_multiplayer_scene_name.crpg_battle_snowytown" text="{=SToiplkd}Snowy Town" />
+  <string id="str_multiplayer_scene_name.crpg_battle_lighthouse" text="{=LHuikjha}Lighthouse" />
 
   <!-- Conquest Maps -->
   <string id="str_multiplayer_scene_name.crpg_conquest_acre" text="{=9Mpawm9h}Acre" />
@@ -129,10 +131,13 @@
   <string id="str_multiplayer_scene_name.crpg_conquest_skalalanding" text="{=tyxhM0QA}Skala Landing" />
   <string id="str_multiplayer_scene_name.crpg_conquest_hailescastle" text="{=juxFygAw}Hailes Castle" />
   <string id="str_multiplayer_scene_name.crpg_conquest_jameyyedcastle" text="{=TtprOazr}Jameyyed Castle" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_knightscrest" text="{=Kgiopaqf}Knights Crest" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_talmberg" text="{=TBergyuj}Talmberg" />
 
   <!-- DTV Maps -->
   <string id="str_multiplayer_scene_name.crpg_dtv_encampment" text="{=ArnxGr8j1j}Encampment" />
   <string id="str_multiplayer_scene_name.crpg_dtv_frozenshore" text="{=AkdJDF58}Frozen Shore" />
   <string id="str_multiplayer_scene_name.crpg_dtv_qalat" text="{=V5jaECxf}Qalat" />
   <string id="str_multiplayer_scene_name.crpg_dtv_weepinghill" text="{=jKsuXc4Z}Weeping Hill" />
+  <string id="str_multiplayer_scene_name.crpg_dtv_rosethornecastle" text="{=UcsEXc5J}Rosethorne Castle" />
 </strings>

@@ -398,6 +398,12 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
         int endingStage = _currentStage;
         _currentStage += 1;
 
+        _ = _rewardServer.UpdateCrpgUsersAsync(
+            durationRewarded: _rewardTickTimer!.GetRemainingTimeInSeconds(),
+            defenderMultiplierGain: -CrpgRewardServer.ExperienceMultiplierMax,
+            attackerMultiplierGain: CrpgRewardServer.ExperienceMultiplierMax);
+        _isOddRewardTick = true;
+
         if (_currentStage >= _flagStages.Length)
         {
             return;
@@ -416,12 +422,6 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
             GameNetwork.WriteMessage(new FlagDominationFlagsRemovedMessage());
             GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
         }
-
-        _ = _rewardServer.UpdateCrpgUsersAsync(
-            durationRewarded: _rewardTickTimer!.GetRemainingTimeInSeconds(),
-            defenderMultiplierGain: -CrpgRewardServer.ExperienceMultiplierMax,
-            attackerMultiplierGain: CrpgRewardServer.ExperienceMultiplierMax);
-        _isOddRewardTick = true;
 
         StartStage(_currentStage);
     }

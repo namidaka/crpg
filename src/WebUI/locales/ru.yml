@@ -1201,5 +1201,4 @@ rankTable:
   title: Ранги
 
 patchNotes:
-  latest: Последний
   showAllPatches: '+ {count} патчей | + {count} патч | + {count} патча | + {count} патчей'

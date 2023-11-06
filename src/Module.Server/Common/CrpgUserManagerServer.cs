@@ -312,6 +312,8 @@ internal class CrpgUserManagerServer : MissionNetwork
                 || !int.TryParse(array[i + 3], out int sizeX)
                 || !int.TryParse(array[i + 4], out int sizeY)
                 || !int.TryParse(array[i + 5], out int posX)
+                || Math.Abs(sizeX) > 8000
+                || Math.Abs(sizeY) > 8000
                 || posX > maxX
                 || posX < minX
                 || !int.TryParse(array[i + 6], out int posY)

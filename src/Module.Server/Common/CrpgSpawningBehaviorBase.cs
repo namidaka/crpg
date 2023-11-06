@@ -103,7 +103,13 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 
             Agent agent = Mission.SpawnAgent(agentBuildData);
             OnPeerSpawned(agent);
-            agent.WieldInitialWeapons();
+            CrpgAgentComponent agentComponent = new(agent);
+            agent.AddComponent(agentComponent);
+            if (!agent.HasMount)
+            {
+                agent.WieldInitialWeapons();
+            }
+
             missionPeer.HasSpawnedAgentVisuals = true;
             AgentVisualSpawnComponent.RemoveAgentVisuals(missionPeer, sync: true);
         }

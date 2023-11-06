@@ -20,6 +20,7 @@ import {
   experienceMultiplierByGeneration,
   maxExperienceMultiplierForGeneration,
   respecializePriceForLevel30,
+  respecializePriceHalfLife,
   freeRespecializeIntervalDays,
   damageFactorForPowerStrike,
   damageFactorForPowerDraw,
@@ -404,7 +405,7 @@ export const getRespecCapability = (
     return { price: 0, nextFreeAt: { days: 0, hours: 0, minutes: 0 }, enabled: true };
   }
 
-  const decayDivider = (new Date().getTime() - lastRespecDate.getTime()) / (12 * 1000 * 3600);
+  const decayDivider = (new Date().getTime() - lastRespecDate.getTime()) / (respecializePriceHalfLife * 1000 * 3600);
   const price = character.forTournament
     ? 0
     : Math.floor(

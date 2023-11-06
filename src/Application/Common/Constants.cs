@@ -11,6 +11,7 @@ public class Constants
     public float ExperienceMultiplierByGeneration { get; set; }
     public float MaxExperienceMultiplierForGeneration { get; set; }
     public int RespecializePriceForLevel30 { get; set; }
+    public float RespecializePriceHalfLife { get; set; }
     public int FreeRespecializeIntervalDays { get; set; }
     public int MinimumRetirementLevel { get; set; }
     public float BaseExperienceGainPerSecond { get; set; }

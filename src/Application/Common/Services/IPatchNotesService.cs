@@ -12,7 +12,7 @@ public interface IPatchNotesService
     Task<IList<PatchNotes>> GetPatchNotesAsync(CancellationToken cancellationToken);
 }
 
-public record PatchNotes(string Id, string Title, Uri Url, DateTime CreatedAt);
+public record PatchNotes(string Id, string Title, string TagName, Uri Url, DateTime CreatedAt);
 
 internal class GithubPatchNotesService : IPatchNotesService
 {
@@ -60,7 +60,7 @@ internal class GithubPatchNotesService : IPatchNotesService
             var res = await _githubHttpClient.GetFromJsonAsync<GithubRelease[]>("repos/namidaka/crpg/releases",
                 cancellationToken);
             patchNotes = res!
-                .Select(r => new PatchNotes(r.Id.ToString(), r.Name, r.HtmlUrl, r.PublishedAt))
+                .Select(r => new PatchNotes(r.Id.ToString(), r.Name, r.TagName, r.HtmlUrl, r.PublishedAt))
                 .ToArray();
         }
         catch (Exception e)
@@ -82,6 +82,9 @@ internal class GithubPatchNotesService : IPatchNotesService
 
         [JsonPropertyName("name")]
         public string Name { get; set; } = string.Empty;
+
+        [JsonPropertyName("tag_name")]
+        public string TagName { get; set; } = default!;
 
         [JsonPropertyName("html_url")]
         public Uri HtmlUrl { get; set; } = default!;

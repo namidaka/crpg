@@ -115,6 +115,7 @@ internal class CrpgDuelGameMode : MissionBasedMultiplayerGameMode
                     new CrpgActivityLogsBehavior(null, chatBox, crpgClient),
                     new ServerMetricsBehavior(),
                     new NotAllPlayersReadyComponent(),
+                    new RemoveIpFromFirewallBehavior(),
                     new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
 #else
                     new MultiplayerAchievementComponent(),

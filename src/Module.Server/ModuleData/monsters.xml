@@ -178,4 +178,14 @@
 			CanRetreat="true" />
     <!-- flag name="CanGetAlarmed" /-->
   </Monster>
+  <Monster
+    id="light_bot"
+    base_monster="human"
+    weight="20">
+  </Monster>
+  <Monster
+    id="heavy_bot"
+    base_monster="human"
+    weight="160">
+  </Monster>
 </Monsters>

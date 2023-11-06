@@ -1192,5 +1192,4 @@ rankTable:
   title: 段位表
 
 patchNotes:
-  latest: 最新版
   showAllPatches: '+ {count} 补丁'
