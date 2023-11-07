@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Crpg.Domain.Entities.Clans;
-using Crpg.Domain.Entities.Items;
+﻿using Crpg.Domain.Entities.Items;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Crpg.Persistence.Configurations;
 
-public class ArmoryItemConfiguration : IEntityTypeConfiguration<ArmoryItem>
+public class ClanArmoryItemConfiguration : IEntityTypeConfiguration<ClanArmoryItem>
 {
-    public void Configure(EntityTypeBuilder<ArmoryItem> builder)
+    public void Configure(EntityTypeBuilder<ClanArmoryItem> builder)
     {
         builder.HasKey(e => e.UserItemId);
 
@@ -22,15 +16,15 @@ public class ArmoryItemConfiguration : IEntityTypeConfiguration<ArmoryItem>
             .IsRequired();
 
         builder.HasOne(e => e.UserItem)
-            .WithOne(e => e.ArmoryItem)
-            .HasForeignKey<ArmoryItem>(e => e.UserItemId)
+            .WithOne(e => e.ClanArmoryItem)
+            .HasForeignKey<ClanArmoryItem>(e => e.UserItemId)
             .IsRequired();
     }
 }
 
-public class ArmoryBorrowConfiguration : IEntityTypeConfiguration<ArmoryBorrow>
+public class ClanArmoryBorrowConfiguration : IEntityTypeConfiguration<ClanArmoryBorrow>
 {
-    public void Configure(EntityTypeBuilder<ArmoryBorrow> builder)
+    public void Configure(EntityTypeBuilder<ClanArmoryBorrow> builder)
     {
         builder.HasKey(e => e.UserItemId);
 
@@ -40,17 +34,17 @@ public class ArmoryBorrowConfiguration : IEntityTypeConfiguration<ArmoryBorrow>
             .IsRequired();
 
         builder.HasOne(e => e.User)
-            .WithMany(e => e.ArmoryBorrows)
+            .WithMany(e => e.ClanArmoryBorrows)
             .HasForeignKey(e => e.UserId)
             .IsRequired();
 
-        builder.HasOne(e => e.ArmoryItem)
+        builder.HasOne(e => e.ClanArmoryItem)
             .WithOne(e => e.Borrow)
-            .HasForeignKey<ArmoryBorrow>(e => e.UserItemId)
+            .HasForeignKey<ClanArmoryBorrow>(e => e.UserItemId)
             .IsRequired();
 
         builder.HasOne(e => e.UserItem)
-            .WithOne(e => e.ArmoryBorrow)
-            .HasForeignKey<ArmoryBorrow>(e => e.UserItemId);
+            .WithOne(e => e.ClanArmoryBorrow)
+            .HasForeignKey<ClanArmoryBorrow>(e => e.UserItemId);
     }
 }

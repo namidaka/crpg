@@ -2,9 +2,9 @@
 using Crpg.Application.Clans.Models;
 using Crpg.Application.Clans.Queries;
 using Crpg.Application.Common.Results;
+using Crpg.Application.Items.Models;
 using Crpg.Domain.Entities.Clans;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crpg.WebApi.Controllers;
@@ -62,6 +62,7 @@ public class ClansController : BaseController
     /// <returns>The created clan.</returns>
     /// <response code="201">Created.</response>
     /// <response code="400">Bad Request.</response>
+    ///
     [HttpPost]
     public Task<ActionResult<Result<ClanViewModel>>> CreateClan([FromBody] CreateClanCommand clan)
     {
@@ -147,5 +148,75 @@ public class ClansController : BaseController
     {
         invite = invite with { UserId = CurrentUser.User!.Id, ClanId = clanId, ClanInvitationId = invitationId };
         return ResultToActionAsync(Mediator.Send(invite));
+    }
+
+    /// <summary>
+    /// Gets the armory items.
+    /// </summary>
+    /// <param name="clanId">Clan id.</param>
+    /// <returns>List of clan armory items.</returns>
+    /// <response code="200">Ok.</response>
+    /// <response code="404">Clan was not found.</response>
+    [HttpGet("{clanId}/armory")]
+    public Task<ActionResult<Result<IList<ClanArmoryItemViewModel>>>> GetClanArmory([FromRoute] int clanId) =>
+        ResultToActionAsync(Mediator.Send(new GetClanArmoryQuery { UserId = CurrentUser.User!.Id, ClanId = clanId }));
+
+    /// <summary>
+    /// Add an item to the armory.
+    /// </summary>
+    /// <param name="clanId">Clan id.</param>
+    /// <param name="req">Item id.</param>
+    /// <returns>Added item.</returns>
+    /// <response code="201">Item added to clan armory.</response>
+    /// <response code="400">Bad request.</response>
+    /// <response code="409">Conflict.</response>
+    [HttpPost("{clanId}/armory")]
+    public Task<ActionResult<Result<ClanArmoryItemViewModel>>> AddClanArmory([FromRoute] int clanId, [FromBody] AddClanArmoryCommand req)
+    {
+        req = req with { UserId = CurrentUser.User!.Id, ClanId = clanId };
+        return ResultToActionAsync(Mediator.Send(req));
+    }
+
+    /// <summary>
+    /// Remove an item from the armory.
+    /// </summary>
+    /// <param name="clanId">Clan id.</param>
+    /// <param name="userItemId">Item id.</param>
+    /// <response code="204">Item removed from clan armory.</response>
+    /// <response code="400">Bad request.</response>
+    [HttpDelete("{clanId}/armory/{userItemId}")]
+    public Task<ActionResult> Remove([FromRoute] int clanId, [FromRoute] int userItemId)
+    {
+        RemoveClanArmoryCommand req = new() { UserId = CurrentUser.User!.Id, ClanId = clanId, UserItemId = userItemId,  };
+        return ResultToActionAsync(Mediator.Send(req));
+    }
+
+    /// <summary>
+    /// Borrow an item from the armory.
+    /// </summary>
+    /// <param name="clanId">Clan id.</param>
+    /// <param name="userItemId">Item id.</param>
+    /// <returns> Borrowed item.</returns>
+    /// <response code="200">Ok.</response>
+    /// <response code="400">Bad request.</response>
+    [HttpPut("{clanId}/armory/{userItemId}/borrow")]
+    public Task<ActionResult<Result<ClanArmoryBorrowViewModel>>> Borrow([FromRoute] int clanId, [FromRoute] int userItemId)
+    {
+        var req = new BorrowClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id };
+        return ResultToActionAsync(Mediator.Send(req));
+    }
+
+    /// <summary>
+    /// Return an item to the armory.
+    /// </summary>
+    /// <param name="clanId">Clan id.</param>
+    /// <param name="userItemId">Item id.</param>
+    /// <response code="200">Ok.</response>
+    /// <response code="400">Bad request.</response>
+    [HttpPut("{clanId}/armory/{userItemId}/return")]
+    public Task<ActionResult> Return([FromRoute] int clanId, [FromRoute] int userItemId)
+    {
+        var req = new ReturnClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id };
+        return ResultToActionAsync(Mediator.Send(req));
     }
 }

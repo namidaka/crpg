@@ -78,7 +78,7 @@ internal static class CommonErrors
         Title = "A characteristic was decreased when it is not allowed",
     };
 
-    public static Error ArmoryItemBusy(int userItemId) => new(ErrorType.Conflict, ErrorCode.ItemDisabled)
+    public static Error ClanArmoryItemBusy(int userItemId) => new(ErrorType.Conflict, ErrorCode.ItemDisabled)
     {
         Title = "User item is busy",
         Detail = $"User item with id '{userItemId}' is busy",

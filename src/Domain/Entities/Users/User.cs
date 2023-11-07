@@ -52,5 +52,5 @@ public class User : AuditableEntity
     public ClanMember? ClanMembership { get; set; }
     public Party? Party { get; set; }
 
-    public IList<ArmoryBorrow> ArmoryBorrows { get; set; } = new List<ArmoryBorrow>();
+    public IList<ClanArmoryBorrow> ClanArmoryBorrows { get; set; } = new List<ClanArmoryBorrow>();
 }

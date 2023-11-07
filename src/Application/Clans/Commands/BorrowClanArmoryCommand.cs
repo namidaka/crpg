@@ -10,14 +10,14 @@ using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Clans.Commands;
 
-public record ArmoryBorrowCommand : IMediatorRequest<ArmoryBorrowViewModel>
+public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowViewModel>
 {
     public int UserItemId { get; init; }
     public int UserId { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<ArmoryBorrowCommand, ArmoryBorrowViewModel>
+    internal class Handler : IMediatorRequestHandler<BorrowClanArmoryCommand, ClanArmoryBorrowViewModel>
     {
-        private static readonly ILogger Logger = LoggerFactory.CreateLogger<ArmoryBorrowCommand>();
+        private static readonly ILogger Logger = LoggerFactory.CreateLogger<BorrowClanArmoryCommand>();
 
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ public record ArmoryBorrowCommand : IMediatorRequest<ArmoryBorrowViewModel>
             _mapper = mapper;
         }
 
-        public async Task<Result<ArmoryBorrowViewModel>> Handle(ArmoryBorrowCommand req, CancellationToken cancellationToken)
+        public async Task<Result<ClanArmoryBorrowViewModel>> Handle(BorrowClanArmoryCommand req, CancellationToken cancellationToken)
         {
             var user = await _db.Users.AsNoTracking()
                 .Include(e => e.Items)
@@ -45,17 +45,17 @@ public record ArmoryBorrowCommand : IMediatorRequest<ArmoryBorrowViewModel>
             }
 
             var userItem = await _db.UserItems.AsNoTracking()
-                .Include(e => e.ArmoryItem!)
+                .Include(e => e.ClanArmoryItem!)
                     .ThenInclude(e => e.Borrow)
                 .FirstOrDefaultAsync(e => e.Id == req.UserItemId, cancellationToken);
-            if (userItem == null || userItem.ArmoryItem == null)
+            if (userItem == null || userItem.ClanArmoryItem == null)
             {
                 return new(CommonErrors.UserItemNotFound(req.UserItemId));
             }
 
-            if (userItem.ArmoryItem.Borrow != null)
+            if (userItem.ClanArmoryItem.Borrow != null)
             {
-                return new(CommonErrors.ArmoryItemBusy(req.UserItemId));
+                return new(CommonErrors.ClanArmoryItemBusy(req.UserItemId));
             }
 
             if (user.Items.Any(e => e.ItemId == userItem.ItemId))
@@ -72,14 +72,14 @@ public record ArmoryBorrowCommand : IMediatorRequest<ArmoryBorrowViewModel>
                 return new(CommonErrors.ClanNotFound(user.ClanMembership.ClanId));
             }
 
-            var borrow = new ArmoryBorrow { UserItemId = req.UserItemId, UserId = req.UserId };
+            var borrow = new ClanArmoryBorrow { UserItemId = req.UserItemId, UserId = req.UserId };
             clan.ArmoryBorrows.Add(borrow);
 
             await _db.SaveChangesAsync(cancellationToken);
 
-            Logger.LogInformation("User '{0}' borrowed item '{2}' from the armory '{3}'", req.UserId, req.UserItemId, user.ClanMembership.ClanId);
+            Logger.LogInformation("User '{0}' borrowed item '{1}' from the armory '{2}'", req.UserId, req.UserItemId, user.ClanMembership.ClanId);
 
-            return new(_mapper.Map<ArmoryBorrowViewModel>(borrow));
+            return new(_mapper.Map<ClanArmoryBorrowViewModel>(borrow));
         }
     }
 }
