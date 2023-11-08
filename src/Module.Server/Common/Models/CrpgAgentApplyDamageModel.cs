@@ -44,6 +44,12 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             WeaponClass.TwoHandedSword,
         };
         float finalDamage = base.CalculateDamage(attackInformation, collisionData, weapon, baseDamage);
+
+        if (IsPlayerCharacterAttackingViscountBot(attackInformation))
+        {
+            return 0f;
+        }
+
         if (weapon.IsEmpty)
         {
             // Increase fist damage with strength.
@@ -249,5 +255,19 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         }
 
         return 0;
+    }
+
+    private bool IsPlayerCharacterAttackingViscountBot(AttackInformation attackInformation)
+    {
+        if (attackInformation.AttackerAgentOrigin is CrpgBattleAgentOrigin)
+        {
+            bool isVictimTheViscountBot = attackInformation.VictimAgentCharacter != null
+                ? attackInformation.VictimAgentCharacter.StringId.Equals("crpg_dtv_viscount")
+                : false;
+
+            return isVictimTheViscountBot;
+        }
+
+        return false;
     }
 }
