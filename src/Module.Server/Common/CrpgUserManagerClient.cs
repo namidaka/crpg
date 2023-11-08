@@ -1,5 +1,6 @@
 ﻿using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Common.Network;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.PlatformService;
 
@@ -60,7 +61,7 @@ internal class CrpgUserManagerClient : MissionNetwork
         crpgPeer.User = message.User;
         if (crpgPeer.User.ClanMembership != null)
         {
-            crpgPeer.Clan = new CrpgClan { Id = crpgPeer.User.ClanMembership.ClanId };
+            crpgPeer.Clan = new CrpgClan { Id = crpgPeer.User.ClanMembership.ClanId, Name = message.ClanName };
         }
     }
 

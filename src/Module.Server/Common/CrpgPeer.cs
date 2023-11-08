@@ -10,8 +10,16 @@ internal class CrpgPeer : PeerComponent
 {
     private CrpgUser? _user;
     private int _rewardMultiplier;
-
-    public CrpgClan? Clan { get; set; }
+    private CrpgClan? _clan;
+    public CrpgClan? Clan
+    {
+        get => _clan;
+        set
+        {
+            _clan = value ?? throw new ArgumentNullException();
+            SynchronizeUserToEveryone(); // Synchronize the property with the client.
+        }
+    }
 
     public SpawnInfo? LastSpawnInfo { get; set; }
 
@@ -54,7 +62,7 @@ internal class CrpgPeer : PeerComponent
         }
 
         GameNetwork.BeginModuleEventAsServer(networkPeer);
-        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = User });
+        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = User, ClanName = Clan?.Name ?? string.Empty });
         GameNetwork.EndModuleEventAsServer();
     }
 
@@ -66,7 +74,7 @@ internal class CrpgPeer : PeerComponent
         }
 
         GameNetwork.BeginBroadcastModuleEvent();
-        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = _user });
+        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = _user, ClanName = Clan?.Name ?? string.Empty });
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
     }
 }

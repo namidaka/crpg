@@ -20,6 +20,9 @@
       <XmlName id="GameText" path="multiplayer_strings"/>
     </XmlNode>
     <XmlNode>
+      <XmlName id="GameText" path="native_strings"/>
+    </XmlNode>
+    <XmlNode>
       <XmlName id="CraftingPieces" path="crafting_pieces"/>
     </XmlNode>
     <XmlNode>

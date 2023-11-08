@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<strings>
+   <string id="str_scoreboard_header.clan" text="{=dqsSd8S} Clan" />
+   <string id="str_scoreboard_header.level" text="{=dqEf8D5} Level" />
+</strings>
