@@ -297,8 +297,19 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
 
     private void OnFlagsSpawnedBattle(CrpgBattleSpawnFlagMessage message)
     {
-        TextObject textObject = new("{=nbOZ9BNX}Flag {NAME} has spawned.",
-                new Dictionary<string, object> { ["NAME"] = char.ConvertFromUtf32(message.FlagChar) });
+        string flagSpawnMessage;
+        if (_notifiedForFlagRemoval)
+        {
+            // TODO: This message also gets sent even if the whole warning hasn't passed. May need to consider that.
+            flagSpawnMessage = "{=nbOZ9BNX}Flag {NAME} has spawned.";
+        }
+        else
+        {
+            _notifiedForFlagRemoval = true;
+            flagSpawnMessage = "{=fgOZ6GNZ}Flag {NAME} has spawned early.";
+        }
+
+        TextObject textObject = new(flagSpawnMessage, new Dictionary<string, object> { ["NAME"] = char.ConvertFromUtf32(message.FlagChar) });
         string soundEventPath = "event:/ui/mission/multiplayer/pointsremoved";
         MBInformationManager.AddQuickInformation(textObject, 0, null, soundEventPath);
 

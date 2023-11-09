@@ -52,10 +52,10 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
 
         if (attackerCount == 1 || defenderCount == 1)
         {
-            GetCheckFlagRemovalTimer(Mission.CurrentTime, GetBattleClient().FlagManipulationTime).Reset(Mission.CurrentTime, 0);
+            ResetFlagSpawnTimer();
         }
 
-        if (attackerCount > 7 || defenderCount > 7)
+        if (Math.Min(attackerCount, defenderCount) > 7)
         {
             return;
         }
@@ -65,7 +65,7 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
             return;
         }
 
-        GetCheckFlagRemovalTimer(Mission.CurrentTime, GetBattleClient().FlagManipulationTime).Reset(Mission.CurrentTime, 0);
+        ResetFlagSpawnTimer();
     }
 
     public override FlagCapturePoint GetRandomFlag()
@@ -77,6 +77,11 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
     protected override bool CanAgentCaptureFlag(Agent agent) => !agent.IsActive() || !agent.IsHuman || agent.HasMount;
 
     protected override void ResetFlag(FlagCapturePoint flag) => flag.RemovePointAsServer();
+
+    private void ResetFlagSpawnTimer()
+    {
+        GetCheckFlagRemovalTimer(Mission.CurrentTime, GetBattleClient().FlagManipulationTime).Reset(Mission.CurrentTime, 0);
+    }
 
     private void SpawnFlag(FlagCapturePoint flag)
     {
