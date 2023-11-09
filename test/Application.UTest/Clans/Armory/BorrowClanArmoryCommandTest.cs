@@ -92,7 +92,7 @@ public class BorrowClanArmoryCommandTest : ClanArmoryTest
     [Test]
     public async Task ShouldNotBorrowWithWrongClan()
     {
-        await AddItems(ArrangeDb,"user0");
+        await AddItems(ArrangeDb, "user0");
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users

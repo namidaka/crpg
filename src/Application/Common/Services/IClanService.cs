@@ -173,16 +173,19 @@ internal class ClanService : IClanService
         var userItem = await db.UserItems
             .Where(e => e.Id == userItemId && e.UserId == user.Id)
             .Include(e => e.ClanArmoryItem)
+            .Include(e => e.EquippedItems)
             .FirstOrDefaultAsync(cancellationToken);
         if (userItem == null || userItem.ClanArmoryItem == null)
         {
             return new(CommonErrors.UserItemNotFound(userItemId));
         }
 
+        db.EquippedItems.RemoveRange(userItem.EquippedItems);
         db.ClanArmoryItems.Remove(userItem.ClanArmoryItem);
 
         return Result.NoErrors;
     }
+
     public async Task<Result<ClanArmoryBorrow>> BorrowArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken)
     {
         await db.Entry(user)
@@ -239,7 +242,7 @@ internal class ClanService : IClanService
 
         var borrow = await db.ClanArmoryBorrows
             .Where(e => e.UserItemId == userItemId && e.UserId == user.Id && e.ClanId == clan.Id)
-            .Include(e => e.UserItem)
+            .Include(e => e.UserItem!).ThenInclude(e => e.EquippedItems)
             .FirstOrDefaultAsync(cancellationToken);
         if (borrow == null)
         {
@@ -251,6 +254,7 @@ internal class ClanService : IClanService
             return new(CommonErrors.ItemBroken(borrow.UserItem.ItemId));
         }
 
+        db.EquippedItems.RemoveRange(borrow.UserItem.EquippedItems);
         db.ClanArmoryBorrows.Remove(borrow);
 
         return Result.NoErrors;
