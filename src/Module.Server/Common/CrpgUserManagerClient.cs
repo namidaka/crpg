@@ -1,6 +1,5 @@
 ﻿using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Common.Network;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.PlatformService;
 

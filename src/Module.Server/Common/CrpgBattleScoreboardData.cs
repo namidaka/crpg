@@ -1,11 +1,8 @@
-﻿using System.Globalization;
-using Crpg.Module.Common;
+﻿using Crpg.Module.Common;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 
-using TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges;
-
-namespace Crpg.Module.Modes.Skirmish;
+namespace Crpg.Module.Common;
 
 internal class CrpgBattleScoreboardData : IScoreboardData
 {
