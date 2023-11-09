@@ -77,7 +77,7 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
     public override void StartMultiplayerGame(string scene)
     {
         CrpgNotificationComponent notificationsComponent = new();
-        CrpgScoreboardComponent scoreboardComponent = new(new SiegeScoreboardData());
+        CrpgScoreboardComponent scoreboardComponent = new(new CrpgBattleScoreboardData());
         var lobbyComponent = MissionLobbyComponent.CreateBehavior();
 
 #if CRPG_SERVER

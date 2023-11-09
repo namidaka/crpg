@@ -118,7 +118,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new MissionBoundaryCrossingHandler(), // kills agent out of mission boundaries
                 new MultiplayerPollComponent(), // poll logic to kick player, ban player, change game
                 new MissionOptionsComponent(),
-                new CrpgScoreboardComponent(new BattleScoreboardData()),
+                new CrpgScoreboardComponent(new CrpgBattleScoreboardData()),
                 new MissionAgentPanicHandler(),
                 new EquipmentControllerLeaveLogic(),
                 new MultiplayerPreloadHelper(),

@@ -72,7 +72,7 @@ internal class CrpgSiegeGameMode : MissionBasedMultiplayerGameMode
     {
         CrpgNotificationComponent notificationsComponent = new();
         CrpgSiegeClient siegeClient = new();
-        CrpgScoreboardComponent scoreboardComponent = new(new SiegeScoreboardData());
+        CrpgScoreboardComponent scoreboardComponent = new(new CrpgBattleScoreboardData());
         var lobbyComponent = MissionLobbyComponent.CreateBehavior();
 
 #if CRPG_SERVER
