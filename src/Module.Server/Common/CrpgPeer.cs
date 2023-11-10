@@ -74,7 +74,7 @@ internal class CrpgPeer : PeerComponent
         }
 
         GameNetwork.BeginBroadcastModuleEvent();
-        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = _user, ClanName = Clan?.Name ?? string.Empty });
+        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = _user, ClanName = Clan?.Name ?? string.Empty, ClanTag = Clan?.Tag ?? string.Empty });
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
     }
 }
