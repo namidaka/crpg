@@ -20,5 +20,4 @@ public record UserItemViewModel : IMapFrom<UserItem>
         profile.CreateMap<UserItem, UserItemViewModel>()
             .ForMember(e => e.IsArmoryItem, e => e.MapFrom(c => c.ClanArmoryItem != null));
     }
-
 }

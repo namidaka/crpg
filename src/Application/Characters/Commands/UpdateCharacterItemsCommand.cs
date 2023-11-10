@@ -75,7 +75,7 @@ public record UpdateCharacterItemsCommand : IMediatorRequest<IList<EquippedItemV
                 .ToArray();
             Dictionary<int, UserItem> userItemsById = await _db.UserItems
                 .Include(ui => ui.Item)
-                .Where(ui => ui.UserId == req.UserId && newUserItemIds.Contains(ui.Id))
+                .Where(ui => (ui.ClanArmoryBorrow!.UserId == req.UserId || ui.UserId == req.UserId) && newUserItemIds.Contains(ui.Id))
                 .ToDictionaryAsync(ui => ui.Id, cancellationToken);
 
             Dictionary<ItemSlot, EquippedItem> oldItemsBySlot = character.EquippedItems.ToDictionary(c => c.Slot);

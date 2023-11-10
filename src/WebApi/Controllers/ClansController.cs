@@ -151,7 +151,6 @@ public class ClansController : BaseController
         return ResultToActionAsync(Mediator.Send(invite));
     }
 
-
     /// <summary>
     /// Gets the armory items.
     /// </summary>
