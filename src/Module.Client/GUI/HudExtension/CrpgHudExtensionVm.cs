@@ -863,6 +863,7 @@ internal class CrpgHudExtensionVm : ViewModel
             mpPlayerVM.HasSetCompassElement = false;
             mpPlayerVM.CompassElement = new MPTeammateCompassTargetVM((TargetIconType)Enum.Parse(typeof(TargetIconType), mpPlayerVM.CompassElement.IconType), crpgPeer.Clan.PrimaryColor, crpgPeer.Clan.SecondaryColor, BannerCode.CreateFrom(crpgPeer.Clan.BannerKey), true);
             mpPlayerVM.HasSetCompassElement = true;
+            mpPlayerVM.Name = "piece of shit";
         }
     }
 
