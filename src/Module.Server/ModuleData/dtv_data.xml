@@ -240,22 +240,4 @@
     </Wave>
   </Round>
 
-  <Round reward="800">
-    <Wave>
-      <Group classDivisionId="crpg_dtv_halloween_soldier" count="1.5" />
-      <Group classDivisionId="crpg_dtv_halloween_monster" count="1.5" />
-    </Wave>
-    <Wave>
-      <Group classDivisionId="crpg_dtv_halloween_soldier" count="2.0" />
-      <Group classDivisionId="crpg_dtv_halloween_monster" count="2.0" />
-      <Group classDivisionId="crpg_dtv_halloween_cavalry" count="0.5" />
-    </Wave>
-    <Wave>
-      <Group classDivisionId="crpg_dtv_halloween_soldier" count="2.5" />
-      <Group classDivisionId="crpg_dtv_halloween_monster" count="2.5" />
-      <Group classDivisionId="crpg_dtv_halloween_cavalry" count="1.0" />
-      <Group classDivisionId="crpg_dtv_halloween_boss" />
-    </Wave>
-  </Round>
-
 </DtvData>
