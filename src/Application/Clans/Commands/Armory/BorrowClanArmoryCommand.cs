@@ -46,7 +46,6 @@ public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowViewMod
 
             var clan = await _db.Clans
                 .Where(e => e.Id == req.ClanId)
-                .Include(e => e.ArmoryItems)
                 .FirstOrDefaultAsync(cancellationToken);
             if (clan == null)
             {

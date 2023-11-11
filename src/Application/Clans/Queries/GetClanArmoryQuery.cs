@@ -4,6 +4,7 @@ using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Application.Items.Models;
+using Crpg.Domain.Entities.Items;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Clans.Queries;
@@ -43,9 +44,10 @@ public record GetClanArmoryQuery : IMediatorRequest<IList<ClanArmoryItemViewMode
             }
 
             var clan = await _db.Clans.AsNoTracking()
-                .Include(e => e.ArmoryItems).ThenInclude(e => e.UserItem!).ThenInclude(e => e.Item)
+                .Where(e => e.Id == req.ClanId)
                 .Include(e => e.ArmoryItems).ThenInclude(e => e.Borrow)
-                .FirstOrDefaultAsync(e => e.Id == req.ClanId, cancellationToken);
+                .Include(e => e.ArmoryItems).ThenInclude(e => e.UserItem!).ThenInclude(e => e.Item)
+                .FirstOrDefaultAsync(cancellationToken);
             if (clan == null)
             {
                 return new(CommonErrors.ClanNotFound(req.ClanId));

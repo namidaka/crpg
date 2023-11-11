@@ -46,8 +46,6 @@ public class Clan : AuditableEntity
     public int ArmoryUsageCost { get; set; }
     public int ArmoryBorrowFee { get; set; }
     public TimeSpan ArmoryTimeout { get; set; } = TimeSpan.FromDays(3);  // return an item if a borrower is not active for N days
-    public IList<ClanArmoryItem> ArmoryItems { get; set; } = new List<ClanArmoryItem>();
-    public IList<ClanArmoryBorrow> ArmoryBorrows { get; set; } = new List<ClanArmoryBorrow>();
 
     /// <summary>
     /// Discord url of the clan.
@@ -56,4 +54,6 @@ public class Clan : AuditableEntity
 
     public IList<ClanMember> Members { get; set; } = new List<ClanMember>();
     public IList<ClanInvitation> Invitations { get; set; } = new List<ClanInvitation>();
+    public IList<ClanArmoryItem> ArmoryItems { get; set; } = new List<ClanArmoryItem>();
+    public IList<ClanArmoryBorrow> ArmoryBorrows { get; set; } = new List<ClanArmoryBorrow>();
 }

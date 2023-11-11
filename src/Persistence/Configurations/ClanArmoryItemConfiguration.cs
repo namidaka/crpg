@@ -16,14 +16,19 @@ public class ClanArmoryItemConfiguration : IEntityTypeConfiguration<ClanArmoryIt
     {
         builder.HasKey(e => e.UserItemId);
 
-        builder.HasOne(e => e.Clan)
+        builder.HasOne(e => e.ClanMember)
             .WithMany(e => e.ArmoryItems)
-            .HasForeignKey(e => e.ClanId)
+            .HasForeignKey(e => e.UserId)
             .IsRequired();
 
         builder.HasOne(e => e.UserItem)
             .WithOne(e => e.ClanArmoryItem)
             .HasForeignKey<ClanArmoryItem>(e => e.UserItemId)
+            .IsRequired();
+
+        builder.HasOne(e => e.Clan)
+            .WithMany(e => e.ArmoryItems)
+            .HasForeignKey(e => e.ClanId)
             .IsRequired();
     }
 }

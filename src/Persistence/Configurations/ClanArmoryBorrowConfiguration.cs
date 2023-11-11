@@ -15,12 +15,7 @@ public class ClanArmoryBorrowConfiguration : IEntityTypeConfiguration<ClanArmory
     {
         builder.HasKey(e => e.UserItemId);
 
-        builder.HasOne(e => e.Clan)
-            .WithMany(e => e.ArmoryBorrows)
-            .HasForeignKey(e => e.ClanId)
-            .IsRequired();
-
-        builder.HasOne(e => e.User)
+        builder.HasOne(e => e.ClanMember)
             .WithMany(e => e.ArmoryBorrows)
             .HasForeignKey(e => e.UserId)
             .IsRequired();
@@ -32,6 +27,12 @@ public class ClanArmoryBorrowConfiguration : IEntityTypeConfiguration<ClanArmory
 
         builder.HasOne(e => e.UserItem)
             .WithOne(e => e.ClanArmoryBorrow)
-            .HasForeignKey<ClanArmoryBorrow>(e => e.UserItemId);
+            .HasForeignKey<ClanArmoryBorrow>(e => e.UserItemId)
+            .IsRequired();
+
+        builder.HasOne(e => e.Clan)
+            .WithMany(e => e.ArmoryBorrows)
+            .HasForeignKey(e => e.ClanId)
+            .IsRequired();
     }
 }

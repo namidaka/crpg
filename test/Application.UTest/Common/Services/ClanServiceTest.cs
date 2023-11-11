@@ -1,6 +1,8 @@
 ﻿using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
+using Crpg.Application.UTest.Clans.Armory;
 using Crpg.Domain.Entities.Clans;
+using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -176,5 +178,146 @@ public class ClanServiceTest : TestBase
         Assert.That(res.Errors, Is.Null);
         Assert.That(AssertDb.Clans, Has.Exactly(1).Matches<Clan>(c => c.Id == clan.Id));
         Assert.That(AssertDb.ClanMembers, Has.Exactly(0).Matches<ClanMember>(cm => cm.UserId == user.Id));
+    }
+
+    [Test]
+    public async Task AddArmoryItemShouldWork()
+    {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
+
+        var user = await ActDb.Users
+            .Include(e => e.ClanMembership)
+            .Include(e => e.Items)
+            .Where(e => e.Name == "user0")
+            .FirstAsync();
+
+        var clan = await ActDb.Clans
+            .Where(e => e.Id == user.ClanMembership!.ClanId)
+            .FirstAsync();
+
+        var item = user.Items.First();
+
+        var service = new ClanService();
+        var result = await service.AddArmoryItem(ActDb, clan, user, item.Id);
+        Assert.That(result.Errors, Is.Null.Or.Empty);
+        Assert.That(result.Data, Is.Not.Null);
+
+        await ActDb.SaveChangesAsync();
+
+        Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(1));
+
+        user = await AssertDb.Users
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+            .Where(e => e.Id == user.Id)
+            .FirstAsync();
+        Assert.That(user.ClanMembership!.ArmoryItems.Count, Is.EqualTo(1));
+        Assert.That(user.ClanMembership.ArmoryBorrows.Count, Is.EqualTo(0));
+    }
+
+    [Test]
+    public async Task RemoveArmoryItemShouldWork()
+    {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
+        await ClanArmoryTestHelper.AddItems(ArrangeDb, "user0");
+
+        var user = await ActDb.Users
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
+            .Where(e => e.Name == "user0")
+            .FirstAsync();
+
+        var clan = await ActDb.Clans
+            .Where(e => e.Id == user.ClanMembership!.ClanId)
+            .FirstAsync();
+
+        var item = user.Items.First(e => e.ClanArmoryItem != null);
+
+        var service = new ClanService();
+        var result = await service.RemoveArmoryItem(ActDb, clan, user, item.Id);
+        Assert.That(result.Errors, Is.Null.Or.Empty);
+
+        await ActDb.SaveChangesAsync();
+
+        Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(0));
+
+        user = await AssertDb.Users
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
+            .Where(e => e.Id == user.Id)
+            .FirstAsync();
+        Assert.That(user.ClanMembership!.ArmoryItems.Count, Is.EqualTo(0));
+    }
+
+    [Test]
+    public async Task BorrowArmoryItemShouldWork()
+    {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
+        await ClanArmoryTestHelper.AddItems(ArrangeDb, "user0");
+
+        var user = await ActDb.Users
+            .Include(e => e.ClanMembership)
+            .Where(e => e.Name == "user1")
+            .FirstAsync();
+
+        var clan = await ActDb.Clans
+            .Include(e => e.Members).ThenInclude(e => e.ArmoryItems)
+            .Where(e => e.Id == user.ClanMembership!.ClanId)
+            .FirstAsync();
+
+        var item = clan.Members.First(e => e.ArmoryItems.Count > 0).ArmoryItems.First();
+
+        var service = new ClanService();
+        var result = await service.BorrowArmoryItem(ActDb, clan, user, item.UserItemId);
+        Assert.That(result.Errors, Is.Null.Or.Empty);
+
+        await ActDb.SaveChangesAsync();
+
+        Assert.That(AssertDb.ClanArmoryBorrows.Count(), Is.EqualTo(1));
+        Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(1));
+
+        user = await AssertDb.Users
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+            .Where(e => e.Id == user.Id)
+            .FirstAsync();
+        Assert.That(user.ClanMembership!.ArmoryBorrows.Count, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task ReturnArmoryItemShouldWork()
+    {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
+        await ClanArmoryTestHelper.AddItems(ArrangeDb, "user0");
+        await ClanArmoryTestHelper.BorrowItems(ArrangeDb, "user1");
+
+        var user = await ActDb.Users
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+            .Include(e => e.Items)
+            .Where(e => e.Name == "user1")
+            .FirstAsync();
+
+        var clan = await ActDb.Clans
+            .Where(e => e.Id == user.ClanMembership!.ClanId)
+            .FirstAsync();
+
+        var item = user.ClanMembership!.ArmoryBorrows.First();
+
+        var service = new ClanService();
+        var result = await service.ReturnArmoryItem(ActDb, clan, user, item.UserItemId);
+        Assert.That(result.Errors, Is.Null.Or.Empty);
+
+        await ActDb.SaveChangesAsync();
+
+        Assert.That(AssertDb.ClanArmoryBorrows.Count(), Is.EqualTo(0));
+        Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(1));
+
+        user = await AssertDb.Users
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+            .Where(e => e.Id == user.Id)
+            .FirstAsync();
+        Assert.That(user.ClanMembership!.ArmoryBorrows.Count, Is.EqualTo(0));
+        Assert.That(user.ClanMembership.ArmoryItems.Count, Is.EqualTo(0));
     }
 }

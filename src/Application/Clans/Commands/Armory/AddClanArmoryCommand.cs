@@ -47,7 +47,6 @@ public record AddClanArmoryCommand : IMediatorRequest<ClanArmoryItemViewModel>
 
             var clan = await _db.Clans
                 .Where(e => e.Id == req.ClanId)
-                .Include(e => e.ArmoryItems)
                 .FirstOrDefaultAsync(cancellationToken);
             if (clan == null)
             {

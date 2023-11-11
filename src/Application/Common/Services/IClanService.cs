@@ -17,10 +17,10 @@ internal interface IClanService
     Task<Result<ClanMember>> JoinClan(ICrpgDbContext db, User user, int clanId, CancellationToken cancellationToken);
     Task<Result> LeaveClan(ICrpgDbContext db, ClanMember member, CancellationToken cancellationToken);
 
-    Task<Result<ClanArmoryItem>> AddArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken);
-    Task<Result> RemoveArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken);
-    Task<Result<ClanArmoryBorrow>> BorrowArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken);
-    Task<Result> ReturnArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken);
+    Task<Result<ClanArmoryItem>> AddArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken = default);
+    Task<Result> RemoveArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken = default);
+    Task<Result<ClanArmoryBorrow>> BorrowArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken = default);
+    Task<Result> ReturnArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken = default);
 }
 
 internal class ClanService : IClanService
@@ -101,11 +101,27 @@ internal class ClanService : IClanService
             db.Clans.Remove(member.Clan);
         }
 
+        await db.Entry(member)
+            .Collection(e => e.ArmoryItems)
+            .Query().Include(e => e.Borrow!).ThenInclude(e => e.UserItem!).ThenInclude(e => e.EquippedItems)
+            .LoadAsync();
+
+        await db.Entry(member)
+            .Collection(e => e.ArmoryBorrows)
+            .Query().Include(e => e.UserItem!).ThenInclude(e => e.EquippedItems)
+            .LoadAsync();
+
+        db.EquippedItems.RemoveRange(member.ArmoryItems.SelectMany(e => e.Borrow != null ? e.Borrow.UserItem!.EquippedItems : new()));
+        db.EquippedItems.RemoveRange(member.ArmoryBorrows.SelectMany(e => e.UserItem!.EquippedItems));
+        db.ClanArmoryBorrows.RemoveRange(member.ArmoryItems.Select(e => e.Borrow).OfType<ClanArmoryBorrow>());
+        db.ClanArmoryBorrows.RemoveRange(member.ArmoryBorrows);
+        db.ClanArmoryItems.RemoveRange(member.ArmoryItems);
+
         db.ClanMembers.Remove(member);
         return Result.NoErrors;
     }
 
-    public async Task<Result<ClanArmoryItem>> AddArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken)
+    public async Task<Result<ClanArmoryItem>> AddArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken = default)
     {
         await db.Entry(user)
             .Reference(e => e.ClanMembership)
@@ -135,30 +151,26 @@ internal class ClanService : IClanService
 
         if (userItem.EquippedItems.Any())
         {
-            return new(CommonErrors.ClanArmoryItemBusy(userItemId));
+            return new(CommonErrors.UserItemInUse(userItemId));
         }
 
         if (userItem.ClanArmoryItem != null)
         {
-            return new(CommonErrors.ClanArmoryItemBusy(userItemId));
+            return new(CommonErrors.UserItemInUse(userItemId));
         }
-
-        await db.Entry(clan)
-            .Collection(e => e.ArmoryItems)
-            .LoadAsync();
 
         if (userItem.Item!.Rank < clan.ArmoryMinRank)
         {
             return new(CommonErrors.UserItemMinRank(userItemId, userItem.Item.Rank));
         }
 
-        var armoryItem = new ClanArmoryItem { UserItem = userItem };
-        clan.ArmoryItems.Add(armoryItem);
+        var armoryItem = new ClanArmoryItem { ClanId = clan.Id, UserItemId = userItem.Id, UserId = user.Id };
+        db.ClanArmoryItems.Add(armoryItem);
 
         return new(armoryItem);
     }
 
-    public async Task<Result> RemoveArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken)
+    public async Task<Result> RemoveArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken = default)
     {
         await db.Entry(user)
             .Reference(e => e.ClanMembership)
@@ -173,6 +185,7 @@ internal class ClanService : IClanService
         var userItem = await db.UserItems
             .Where(e => e.Id == userItemId && e.UserId == user.Id)
             .Include(e => e.ClanArmoryItem)
+            .Include(e => e.ClanArmoryBorrow)
             .Include(e => e.EquippedItems)
             .FirstOrDefaultAsync(cancellationToken);
         if (userItem == null || userItem.ClanArmoryItem == null)
@@ -181,12 +194,17 @@ internal class ClanService : IClanService
         }
 
         db.EquippedItems.RemoveRange(userItem.EquippedItems);
+        if (userItem.ClanArmoryBorrow != null)
+        {
+            db.ClanArmoryBorrows.Remove(userItem.ClanArmoryBorrow);
+        }
+
         db.ClanArmoryItems.Remove(userItem.ClanArmoryItem);
 
         return Result.NoErrors;
     }
 
-    public async Task<Result<ClanArmoryBorrow>> BorrowArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken)
+    public async Task<Result<ClanArmoryBorrow>> BorrowArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken = default)
     {
         await db.Entry(user)
             .Reference(e => e.ClanMembership)
@@ -202,8 +220,8 @@ internal class ClanService : IClanService
             return new(errors);
         }
 
-        var armoryItem = await db.ClanArmoryItems.AsNoTracking()
-            .Where(e => e.UserItemId == userItemId && e.ClanId == clan.Id)
+        var armoryItem = await db.ClanArmoryItems
+            .Where(e => e.UserItemId == userItemId && e.ClanId == clan.Id && e.UserId != user.Id)
             .Include(e => e.UserItem)
             .Include(e => e.Borrow)
             .FirstOrDefaultAsync(cancellationToken);
@@ -214,7 +232,7 @@ internal class ClanService : IClanService
 
         if (armoryItem.Borrow != null)
         {
-            return new(CommonErrors.ClanArmoryItemBusy(userItemId));
+            return new(CommonErrors.UserItemInUse(userItemId));
         }
 
         if (user.Items.Any(e => e.ItemId == armoryItem.UserItem!.ItemId))
@@ -222,13 +240,13 @@ internal class ClanService : IClanService
             return new(CommonErrors.ItemAlreadyOwned(armoryItem.UserItem!.ItemId));
         }
 
-        var borrow = new ClanArmoryBorrow { ClanId = clan.Id, UserItemId = userItemId, UserId = user.Id };
+        var borrow = new ClanArmoryBorrow { ClanId = clan.Id, UserItemId = armoryItem.UserItemId, UserId = user.Id };
         db.ClanArmoryBorrows.Add(borrow);
 
         return new(borrow);
     }
 
-    public async Task<Result> ReturnArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken)
+    public async Task<Result> ReturnArmoryItem(ICrpgDbContext db, Clan clan, User user, int userItemId, CancellationToken cancellationToken = default)
     {
         await db.Entry(user)
             .Reference(e => e.ClanMembership)

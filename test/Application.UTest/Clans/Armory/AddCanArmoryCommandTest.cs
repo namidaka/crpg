@@ -15,11 +15,15 @@ using Moq;
 using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Clans.Armory;
-public class AddCanArmoryCommandTest : ClanArmoryTest
+public class AddCanArmoryCommandTest : TestBase
 {
+    private IClanService ClanService { get; } = new ClanService();
+
     [Test]
     public async Task ShouldAdd()
     {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
+
         var user = await ActDb.Users
             .Include(e => e.Items)
             .Include(e => e.ClanMembership)
@@ -52,6 +56,7 @@ public class AddCanArmoryCommandTest : ClanArmoryTest
     [Test]
     public async Task ShouldNotAddBrokenItem()
     {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
         var user = await ArrangeDb.Users
             .Include(e => e.Items)
             .FirstAsync();
@@ -87,7 +92,8 @@ public class AddCanArmoryCommandTest : ClanArmoryTest
     [Test]
     public async Task ShouldNotAddTwice()
     {
-        await AddItems(ArrangeDb, "user0");
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
+        await ClanArmoryTestHelper.AddItems(ArrangeDb, "user0");
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
@@ -119,6 +125,7 @@ public class AddCanArmoryCommandTest : ClanArmoryTest
     [Test]
     public async Task ShouldNotAddWithWrongUser()
     {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
         var user0 = await ActDb.Users
             .Include(e => e.Items)
             .FirstAsync();
@@ -151,6 +158,7 @@ public class AddCanArmoryCommandTest : ClanArmoryTest
     [Test]
     public async Task ShouldNotAddWithWrongClan()
     {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
         var user = await ActDb.Users
             .Include(e => e.Items)
             .Include(e => e.ClanMembership)
@@ -179,6 +187,7 @@ public class AddCanArmoryCommandTest : ClanArmoryTest
     [Test]
     public async Task ShouldNotAddEquippedItem()
     {
+        await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
         var user = await ArrangeDb.Users
             .Include(e => e.Items)
             .Include(e => e.Characters)
