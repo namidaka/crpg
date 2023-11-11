@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using Crpg.Module.Api.Models.Clans;
+using Crpg.Module.Common;
 using Crpg.Module.Helpers;
 using Crpg.Module.Modes.Conquest;
 using Crpg.Module.Modes.Siege;
@@ -673,6 +675,7 @@ internal class CrpgHudExtensionVm : ViewModel
     private void OnCurrentGameModeStateChanged()
     {
         CheckTimers(true);
+        UpdateTeamBanners();
     }
 
     private void UpdateTeamScores()
@@ -690,10 +693,55 @@ internal class CrpgHudExtensionVm : ViewModel
 
     private void UpdateTeamBanners()
     {
-        ImageIdentifierVM attackerImageId = new(BannerCode.CreateFrom(_mission.AttackerTeam.Banner), true);
-        ImageIdentifierVM defenderImageId = new(BannerCode.CreateFrom(_mission.DefenderTeam.Banner), true);
+        var attackerBannerCode = BannerCode.CreateFrom(ResolveTeamBannerKey(_mission.AttackerTeam) ?? _mission.AttackerTeam.Banner);
+        var defenderBannerCode = BannerCode.CreateFrom(ResolveTeamBannerKey(_mission.DefenderTeam) ?? _mission.DefenderTeam.Banner);
+        ImageIdentifierVM attackerImageId = new(attackerBannerCode, true);
+        ImageIdentifierVM defenderImageId = new(defenderBannerCode, true);
         AllyBanner = _isAttackerTeamAlly ? attackerImageId : defenderImageId;
         EnemyBanner = _isAttackerTeamAlly ? defenderImageId : attackerImageId;
+    }
+
+    private Banner? ResolveTeamBannerKey(Team team)
+    {
+        Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
+
+        foreach (var networkPeer in GameNetwork.NetworkPeers)
+        {
+            var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
+            var missionPeer = networkPeer.GetComponent<MissionPeer>();
+
+            if (missionPeer == null || crpgPeer?.User == null || missionPeer.Team != team || crpgPeer?.Clan == null)
+            {
+                continue;
+            }
+
+            if (crpgPeer.Clan == null)
+            {
+                continue;
+            }
+
+            int peerClanId = crpgPeer.Clan.Id;
+
+            if (clanNumber.ContainsKey(peerClanId))
+            {
+                var clan = clanNumber[peerClanId];
+                clan.count++;
+                clanNumber[peerClanId] = clan;
+            }
+            else
+            {
+                clanNumber.Add(peerClanId, (1, crpgPeer.Clan));
+            }
+        }
+
+        var maxClan = clanNumber.OrderByDescending(c => c.Value.count).FirstOrDefault();
+
+        if (maxClan.Value.clan == null)
+        {
+            return null;
+        }
+
+        return new Banner(maxClan.Value.clan.BannerKey, maxClan.Value.clan.PrimaryColor, maxClan.Value.clan.SecondaryColor);
     }
 
     private void OnTeamChanged(NetworkCommunicator peer, Team previousTeam, Team newTeam)

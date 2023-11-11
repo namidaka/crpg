@@ -88,7 +88,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 agentBuildData.ClothingColor2(crpgPeer.Clan.SecondaryColor);
                 if (!string.IsNullOrEmpty(crpgPeer.Clan.BannerKey))
                 {
-                    agentBuildData.Banner(new Banner(crpgPeer.Clan.BannerKey));
+                    agentBuildData.Banner(new Banner(crpgPeer.Clan.BannerKey, crpgPeer.Clan.PrimaryColor, crpgPeer.Clan.SecondaryColor));
                 }
             }
             else

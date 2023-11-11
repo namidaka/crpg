@@ -62,7 +62,7 @@ internal class CrpgPeer : PeerComponent
         }
 
         GameNetwork.BeginModuleEventAsServer(networkPeer);
-        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = User, ClanName = Clan?.Name ?? string.Empty, ClanTag = Clan?.Tag ?? string.Empty });
+        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = User, ClanName = Clan?.Name ?? string.Empty, ClanTag = Clan?.Tag ?? string.Empty, BannerKey = Clan?.BannerKey ?? string.Empty, PrimaryColor = Clan?.PrimaryColor ?? 0, SecondaryColor = Clan?.SecondaryColor ?? 0 });
         GameNetwork.EndModuleEventAsServer();
     }
 
@@ -74,7 +74,7 @@ internal class CrpgPeer : PeerComponent
         }
 
         GameNetwork.BeginBroadcastModuleEvent();
-        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = _user, ClanName = Clan?.Name ?? string.Empty, ClanTag = Clan?.Tag ?? string.Empty });
+        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = _user, ClanName = Clan?.Name ?? string.Empty, ClanTag = Clan?.Tag ?? string.Empty, BannerKey = Clan?.BannerKey ?? string.Empty, PrimaryColor = Clan?.PrimaryColor ?? 0, SecondaryColor = Clan?.SecondaryColor ?? 0 });
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
     }
 }
