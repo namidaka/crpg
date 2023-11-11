@@ -860,6 +860,7 @@ internal class CrpgHudExtensionVm : ViewModel
         CrpgPeer crpgPeer = mpPlayerVM.Peer.GetComponent<CrpgPeer>();
         if (crpgPeer != null && crpgPeer.Clan != null)
         {
+            mpPlayerVM.HasSetCompassElement = false;
             mpPlayerVM.CompassElement = new MPTeammateCompassTargetVM((TargetIconType)Enum.Parse(typeof(TargetIconType), mpPlayerVM.CompassElement.IconType), crpgPeer.Clan.PrimaryColor, crpgPeer.Clan.SecondaryColor, BannerCode.CreateFrom(crpgPeer.Clan.BannerKey), true);
             mpPlayerVM.HasSetCompassElement = true;
         }
@@ -885,7 +886,6 @@ internal class CrpgHudExtensionVm : ViewModel
             else
             {
                 MPPlayerVM playerVm = new(peer);
-                AssignClanColorsToPlayerVm(playerVm);
                 Teammates.Add(playerVm);
                 _teammateDictionary.Add(peer, playerVm);
             }
