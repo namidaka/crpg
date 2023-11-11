@@ -143,18 +143,19 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 team.Side == BattleSideEnum.Attacker ? teamCulture.Color : teamCulture.ClothAlternativeColor)
             .ClothingColor2(team.Side == BattleSideEnum.Attacker
                 ? teamCulture.Color2
-                : teamCulture.ClothAlternativeColor2);
+                : teamCulture.ClothAlternativeColor2)
+            .Banner(new Banner("1.88.85.1468.1468.764.764.1.0.0.511.12.116.783.783.764.764.1.1.0", 0, 0));
 
         var bodyProperties = BodyProperties.GetRandomBodyProperties(
-            character.Race,
-            character.IsFemale,
-            character.GetBodyPropertiesMin(),
-            character.GetBodyPropertiesMax(),
-            (int)agentBuildData.AgentOverridenSpawnEquipment.HairCoverType,
-            agentBuildData.AgentEquipmentSeed,
-            character.HairTags,
-            character.BeardTags,
-            character.TattooTags);
+        character.Race,
+        character.IsFemale,
+        character.GetBodyPropertiesMin(),
+        character.GetBodyPropertiesMax(),
+        (int)agentBuildData.AgentOverridenSpawnEquipment.HairCoverType,
+        agentBuildData.AgentEquipmentSeed,
+        character.HairTags,
+        character.BeardTags,
+        character.TattooTags);
         agentBuildData.BodyProperties(bodyProperties);
 
         Agent agent = Mission.SpawnAgent(agentBuildData);
