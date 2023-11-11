@@ -899,7 +899,8 @@ internal class CrpgHudExtensionVm : ViewModel
 
         foreach (MPPlayerVM teammate in Teammates)
         {
-            teammate.RefreshDivision();
+            //teammate.RefreshDivision();
+            teammate.RefreshActivePerks();
             AssignClanColorsToPlayerVm(teammate);
             teammate.RefreshGold();
             teammate.RefreshProperties();
