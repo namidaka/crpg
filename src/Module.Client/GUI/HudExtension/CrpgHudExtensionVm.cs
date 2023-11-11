@@ -878,7 +878,7 @@ internal class CrpgHudExtensionVm : ViewModel
                 if (crpgPeer != null && crpgPeer.Clan != null)
                 {
                     playerVm.CompassElement.Color = UintColorToString(crpgPeer.Clan.PrimaryColor);
-                    playerVm.CompassElement.Color = UintColorToString(crpgPeer.Clan.SecondaryColor);
+                    playerVm.CompassElement.Color2 = UintColorToString(crpgPeer.Clan.SecondaryColor);
                 }
 
                 Teammates.Add(playerVm);
