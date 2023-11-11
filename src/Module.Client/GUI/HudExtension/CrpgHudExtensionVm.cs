@@ -764,10 +764,7 @@ internal class CrpgHudExtensionVm : ViewModel
 
     private void OnTeamChanged(NetworkCommunicator peer, Team previousTeam, Team newTeam)
     {
-        var allyTeam = _isAttackerTeamAlly ? _mission.AttackerTeam : _mission.DefenderTeam;
-        var enemyTeam = _isAttackerTeamAlly ? _mission.DefenderTeam : _mission.AttackerTeam;
-        var allyBanner = ResolveTeamBannerKey(allyTeam);
-        var enemyBanner = ResolveTeamBannerKey(enemyTeam);
+
         if (peer.IsMine)
         {
             if (_isTeamScoresEnabled || _gameMode.GameType == MissionLobbyComponent.MultiplayerGameType.Battle)
@@ -778,6 +775,11 @@ internal class CrpgHudExtensionVm : ViewModel
 
             CommanderInfo?.OnTeamChanged();
         }
+
+        var allyTeam = _isAttackerTeamAlly ? _mission.AttackerTeam : _mission.DefenderTeam;
+        var enemyTeam = _isAttackerTeamAlly ? _mission.DefenderTeam : _mission.AttackerTeam;
+        var allyBanner = ResolveTeamBannerKey(allyTeam);
+        var enemyBanner = ResolveTeamBannerKey(enemyTeam);
 
         UpdateTeamBanners(allyBanner, enemyBanner, allyTeam, enemyTeam);
 
