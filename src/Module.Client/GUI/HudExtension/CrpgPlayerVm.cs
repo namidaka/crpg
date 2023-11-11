@@ -14,7 +14,7 @@ using TaleWorlds.MountAndBlade.MissionRepresentatives;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory;
 
-namespace Crpg.Module.GUI.Hud
+namespace Crpg.Module.GUI.HudExtension
 {
     public class CrpgPlayerVM : ViewModel
     {
@@ -361,7 +361,7 @@ namespace Crpg.Module.GUI.Hud
                 _cachedCulture = Peer.Culture;
                 uint color1 = Peer.Team?.Color ?? 0;
                 uint color2 = Peer.Team?.Color2 ?? 0;
-                CrpgPeer crpgPeer = Peer.GetComponent<CrpgPeer>();
+                var crpgPeer = Peer.GetComponent<CrpgPeer>();
                 if (crpgPeer != null && crpgPeer.Clan != null)
                 {
                     color1 = crpgPeer.Clan.PrimaryColor;
@@ -402,7 +402,7 @@ namespace Crpg.Module.GUI.Hud
             {
                 uint color1 = Peer.Team?.Color ?? 0;
                 uint color2 = Peer.Team?.Color2 ?? 0;
-                CrpgPeer crpgPeer = Peer.GetComponent<CrpgPeer>();
+                var crpgPeer = Peer.GetComponent<CrpgPeer>();
                 if (crpgPeer != null && crpgPeer.Clan != null)
                 {
                     color1 = crpgPeer.Clan.PrimaryColor;

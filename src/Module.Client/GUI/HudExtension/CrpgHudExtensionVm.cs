@@ -22,8 +22,8 @@ internal class CrpgHudExtensionVm : ViewModel
 {
     private const float RemainingTimeWarningThreshold = 5f;
     private readonly Mission _mission;
-    private readonly Dictionary<MissionPeer, MPPlayerVM> _teammateDictionary;
-    private readonly Dictionary<MissionPeer, MPPlayerVM> _enemyDictionary;
+    private readonly Dictionary<MissionPeer, CrpgPlayerVM> _teammateDictionary;
+    private readonly Dictionary<MissionPeer, CrpgPlayerVM> _enemyDictionary;
     private readonly MissionScoreboardComponent _missionScoreboardComponent;
     private readonly MissionMultiplayerGameModeBaseClient _gameMode;
     private readonly bool _isTeamScoresEnabled;
@@ -84,8 +84,8 @@ internal class CrpgHudExtensionVm : ViewModel
         UpdateShowTeamScores();
         Teammates = new MBBindingList<CrpgPlayerVM>();
         Enemies = new MBBindingList<CrpgPlayerVM>();
-        _teammateDictionary = new Dictionary<MissionPeer, MPPlayerVM>();
-        _enemyDictionary = new Dictionary<MissionPeer, MPPlayerVM>();
+        _teammateDictionary = new Dictionary<MissionPeer, CrpgPlayerVM>();
+        _enemyDictionary = new Dictionary<MissionPeer, CrpgPlayerVM>();
         ShowHud = true;
         RefreshValues();
     }
@@ -912,7 +912,7 @@ internal class CrpgHudExtensionVm : ViewModel
 
     private void OnRefreshEnemyMembers()
     {
-        List<MPPlayerVM> enemies = Enemies.ToList();
+        List<CrpgPlayerVM> enemies = Enemies.ToList();
         foreach (MissionPeer peer in VirtualPlayer.Peers<MissionPeer>())
         {
             if (peer.GetNetworkPeer().GetComponent<MissionPeer>() == null
@@ -930,19 +930,19 @@ internal class CrpgHudExtensionVm : ViewModel
             }
             else
             {
-                MPPlayerVM playerVm = new(peer);
+                CrpgPlayerVM playerVm = new(peer);
                 Enemies.Add(playerVm);
                 _enemyDictionary.Add(peer, playerVm);
             }
         }
 
-        foreach (MPPlayerVM enemy in enemies)
+        foreach (CrpgPlayerVM enemy in enemies)
         {
             Enemies.Remove(enemy);
             _enemyDictionary.Remove(enemy.Peer);
         }
 
-        foreach (MPPlayerVM enemy in Enemies)
+        foreach (CrpgPlayerVM enemy in Enemies)
         {
             enemy.RefreshDivision();
             enemy.UpdateDisabled();
