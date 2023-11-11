@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Common;
+using Crpg.Module.GUI.Hud;
 using Crpg.Module.Helpers;
 using Crpg.Module.Modes.Conquest;
 using Crpg.Module.Modes.Siege;
@@ -43,8 +44,8 @@ internal class CrpgHudExtensionVm : ViewModel
     private string? _warmupInfoText;
     private int _allyTeamScore = -1;
     private int _enemyTeamScore = -1;
-    private MBBindingList<MPPlayerVM> _teammatesList = default!;
-    private MBBindingList<MPPlayerVM> _enemiesList = default!;
+    private MBBindingList<CrpgPlayerVM> _teammatesList = default!;
+    private MBBindingList<CrpgPlayerVM> _enemiesList = default!;
     private bool _showHud;
     private bool _showCommanderInfo;
     private bool _showPowerLevels;
@@ -81,8 +82,8 @@ internal class CrpgHudExtensionVm : ViewModel
         IsRoundCountdownSuspended = false;
         _isTeamScoresEnabled = isTeamsEnabled;
         UpdateShowTeamScores();
-        Teammates = new MBBindingList<MPPlayerVM>();
-        Enemies = new MBBindingList<MPPlayerVM>();
+        Teammates = new MBBindingList<CrpgPlayerVM>();
+        Enemies = new MBBindingList<CrpgPlayerVM>();
         _teammateDictionary = new Dictionary<MissionPeer, MPPlayerVM>();
         _enemyDictionary = new Dictionary<MissionPeer, MPPlayerVM>();
         ShowHud = true;
@@ -147,7 +148,7 @@ internal class CrpgHudExtensionVm : ViewModel
     }
 
     [DataSourceProperty]
-    public MBBindingList<MPPlayerVM> Teammates
+    public MBBindingList<CrpgPlayerVM> Teammates
     {
         get
         {
@@ -166,7 +167,7 @@ internal class CrpgHudExtensionVm : ViewModel
     }
 
     [DataSourceProperty]
-    public MBBindingList<MPPlayerVM> Enemies
+    public MBBindingList<CrpgPlayerVM> Enemies
     {
         get
         {
@@ -855,7 +856,7 @@ internal class CrpgHudExtensionVm : ViewModel
         color1 = "#" + color1 + "FF";
         return color1;
     }
-    private void AssignClanColorsToPlayerVm(MPPlayerVM mpPlayerVM)
+    private void AssignClanColorsToPlayerVm(CrpgPlayerVM mpPlayerVM)
     {
         CrpgPeer crpgPeer = mpPlayerVM.Peer.GetComponent<CrpgPeer>();
         if (crpgPeer != null && crpgPeer.Clan != null)
@@ -886,19 +887,19 @@ internal class CrpgHudExtensionVm : ViewModel
             }
             else
             {
-                MPPlayerVM playerVm = new(peer);
+                CrpgPlayerVM playerVm = new(peer);
                 Teammates.Add(playerVm);
                 _teammateDictionary.Add(peer, playerVm);
             }
         }
 
-        foreach (MPPlayerVM teammate in teammates)
+        foreach (CrpgPlayerVM teammate in teammates)
         {
             Teammates.Remove(teammate);
             _teammateDictionary.Remove(teammate.Peer);
         }
 
-        foreach (MPPlayerVM teammate in Teammates)
+        foreach (CrpgPlayerVM teammate in Teammates)
         {
             //teammate.RefreshDivision();
             teammate.RefreshActivePerks();
