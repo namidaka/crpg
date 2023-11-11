@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Common;
@@ -10,6 +11,7 @@ using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
+using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions;
 
 namespace Crpg.Module.GUI.HudExtension;
@@ -829,6 +831,7 @@ internal class CrpgHudExtensionVm : ViewModel
                 AllyTeamColor = allyColor1;
                 AllyTeamColor2 = allyColor2;
             }
+
             CommanderInfo.RefreshColors(AllyTeamColor, AllyTeamColor2, EnemyTeamColor!, EnemyTeamColor2!);
         }
     }
@@ -871,6 +874,13 @@ internal class CrpgHudExtensionVm : ViewModel
             else
             {
                 MPPlayerVM playerVm = new(peer);
+                CrpgPeer crpgPeer = peer.GetComponent<CrpgPeer>();
+                if (crpgPeer != null && crpgPeer.Clan != null)
+                {
+                    playerVm.CompassElement.Color = UintColorToString(crpgPeer.Clan.PrimaryColor);
+                    playerVm.CompassElement.Color = UintColorToString(crpgPeer.Clan.SecondaryColor);
+                }
+
                 Teammates.Add(playerVm);
                 _teammateDictionary.Add(peer, playerVm);
             }
