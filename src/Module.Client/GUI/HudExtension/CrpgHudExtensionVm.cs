@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Common;
 using Crpg.Module.Helpers;
@@ -674,8 +675,12 @@ internal class CrpgHudExtensionVm : ViewModel
 
     private void OnCurrentGameModeStateChanged()
     {
+        var allyTeam = _isAttackerTeamAlly ? _mission.AttackerTeam : _mission.DefenderTeam;
+        var enemyTeam = _isAttackerTeamAlly ? _mission.DefenderTeam : _mission.AttackerTeam;
+        var allyBanner = ResolveTeamBannerKey(allyTeam);
+        var enemyBanner = ResolveTeamBannerKey(enemyTeam);
         CheckTimers(true);
-        UpdateTeamBanners();
+        UpdateTeamBanners(allyBanner, enemyBanner, allyTeam, enemyTeam);
     }
 
     private void UpdateTeamScores()
@@ -691,14 +696,27 @@ internal class CrpgHudExtensionVm : ViewModel
         EnemyTeamScore = _isAttackerTeamAlly ? defenderScore : attackScore;
     }
 
-    private void UpdateTeamBanners()
+    private void UpdateTeamBanners(Banner? allyBanner, Banner? enemyBanner, Team allyTeam, Team enemyTeam)
     {
-        var attackerBannerCode = BannerCode.CreateFrom(ResolveTeamBannerKey(_mission.AttackerTeam) ?? _mission.AttackerTeam.Banner);
-        var defenderBannerCode = BannerCode.CreateFrom(ResolveTeamBannerKey(_mission.DefenderTeam) ?? _mission.DefenderTeam.Banner);
-        ImageIdentifierVM attackerImageId = new(attackerBannerCode, true);
-        ImageIdentifierVM defenderImageId = new(defenderBannerCode, true);
-        AllyBanner = _isAttackerTeamAlly ? attackerImageId : defenderImageId;
-        EnemyBanner = _isAttackerTeamAlly ? defenderImageId : attackerImageId;
+        var allyBannerCode = BannerCode.CreateFrom(allyBanner ?? allyTeam.Banner);
+        var enemyBannerCode = BannerCode.CreateFrom(enemyBanner ?? enemyTeam.Banner);
+        ImageIdentifierVM allyImageId = new(allyBannerCode, true);
+        ImageIdentifierVM enemyImageId = new(enemyBannerCode, true);
+
+        AllyBanner = allyImageId;
+        EnemyBanner = enemyImageId;
+
+        if (allyBanner != null)
+        {
+            AllyTeamColor = UintColorToString(allyBanner.GetPrimaryColor());
+            AllyTeamColor2 = UintColorToString(allyBanner.GetSecondaryColor());
+        }
+
+        if (enemyBanner != null)
+        {
+            EnemyTeamColor = UintColorToString(enemyBanner.GetPrimaryColor());
+            EnemyTeamColor2 = UintColorToString(enemyBanner.GetSecondaryColor());
+        }
     }
 
     private Banner? ResolveTeamBannerKey(Team team)
@@ -746,6 +764,10 @@ internal class CrpgHudExtensionVm : ViewModel
 
     private void OnTeamChanged(NetworkCommunicator peer, Team previousTeam, Team newTeam)
     {
+        var allyTeam = _isAttackerTeamAlly ? _mission.AttackerTeam : _mission.DefenderTeam;
+        var enemyTeam = _isAttackerTeamAlly ? _mission.DefenderTeam : _mission.AttackerTeam;
+        var allyBanner = ResolveTeamBannerKey(allyTeam);
+        var enemyBanner = ResolveTeamBannerKey(enemyTeam);
         if (peer.IsMine)
         {
             if (_isTeamScoresEnabled || _gameMode.GameType == MissionLobbyComponent.MultiplayerGameType.Battle)
@@ -757,7 +779,7 @@ internal class CrpgHudExtensionVm : ViewModel
             CommanderInfo?.OnTeamChanged();
         }
 
-        UpdateTeamBanners();
+        UpdateTeamBanners(allyBanner, enemyBanner, allyTeam, enemyTeam);
 
         if (CommanderInfo == null)
         {
@@ -765,31 +787,46 @@ internal class CrpgHudExtensionVm : ViewModel
         }
 
         Teammates.FirstOrDefault(x => x.Peer.GetNetworkPeer() == peer)?.RefreshTeam();
-        GetTeamColors(_mission.AttackerTeam, out string attackerColor1, out string attackerColor2);
+        GetTeamColors(allyTeam, out string allyColor1, out string allyColor2);
+        GetTeamColors(enemyTeam, out string enemyColor1, out string enemyColor2);
         if (_isTeamScoresEnabled || _gameMode.GameType == MissionLobbyComponent.MultiplayerGameType.Battle)
         {
-            GetTeamColors(_mission.DefenderTeam, out string defenderColor1, out string defenderColor2);
-            if (_isAttackerTeamAlly)
+            if (allyBanner != null)
             {
-                AllyTeamColor = attackerColor1;
-                AllyTeamColor2 = attackerColor2;
-                EnemyTeamColor = defenderColor1;
-                EnemyTeamColor2 = defenderColor2;
+                AllyTeamColor = UintColorToString(allyBanner.GetPrimaryColor());
+                AllyTeamColor2 = UintColorToString(allyBanner.GetSecondaryColor());
             }
             else
             {
-                AllyTeamColor = defenderColor1;
-                AllyTeamColor2 = defenderColor2;
-                EnemyTeamColor = attackerColor1;
-                EnemyTeamColor2 = attackerColor2;
+                AllyTeamColor = allyColor1;
+                AllyTeamColor2 = allyColor2;
+            }
+
+            if (enemyBanner != null)
+            {
+                EnemyTeamColor = UintColorToString(enemyBanner.GetPrimaryColor());
+                EnemyTeamColor2 = UintColorToString(enemyBanner.GetSecondaryColor());
+            }
+            else
+            {
+                EnemyTeamColor = enemyColor1;
+                EnemyTeamColor2 = enemyColor2;
             }
 
             CommanderInfo.RefreshColors(AllyTeamColor, AllyTeamColor2, EnemyTeamColor, EnemyTeamColor2);
         }
         else
         {
-            AllyTeamColor = attackerColor1;
-            AllyTeamColor2 = attackerColor2;
+            if (allyBanner != null)
+            {
+                AllyTeamColor = UintColorToString(allyBanner.GetPrimaryColor());
+                AllyTeamColor2 = UintColorToString(allyBanner.GetSecondaryColor());
+            }
+            else
+            {
+                AllyTeamColor = allyColor1;
+                AllyTeamColor2 = allyColor2;
+            }
             CommanderInfo.RefreshColors(AllyTeamColor, AllyTeamColor2, EnemyTeamColor!, EnemyTeamColor2!);
         }
     }
@@ -802,6 +839,14 @@ internal class CrpgHudExtensionVm : ViewModel
         color2 = team.Color2.ToString("X");
         color2 = color2.Remove(0, 2);
         color2 = "#" + color2 + "FF";
+    }
+
+    private string UintColorToString(uint color)
+    {
+        string color1 = color.ToString("X");
+        color1 = color1.Remove(0, 2);
+        color1 = "#" + color1 + "FF";
+        return color1;
     }
 
     private void OnRefreshTeamMembers()
