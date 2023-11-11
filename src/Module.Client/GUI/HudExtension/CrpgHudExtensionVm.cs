@@ -13,6 +13,7 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions;
+using TaleWorlds.PlayerServices;
 
 namespace Crpg.Module.GUI.HudExtension;
 
@@ -791,6 +792,7 @@ internal class CrpgHudExtensionVm : ViewModel
         }
 
         Teammates.FirstOrDefault(x => x.Peer.GetNetworkPeer() == peer)?.RefreshTeam();
+
         GetTeamColors(allyTeam, out string allyColor1, out string allyColor2);
         GetTeamColors(enemyTeam, out string enemyColor1, out string enemyColor2);
         if (_isTeamScoresEnabled || _gameMode.GameType == MissionLobbyComponent.MultiplayerGameType.Battle)
@@ -853,6 +855,16 @@ internal class CrpgHudExtensionVm : ViewModel
         color1 = "#" + color1 + "FF";
         return color1;
     }
+    private void AssignClanColorsToPlayerVm(MPPlayerVM mpPlayerVM)
+    {
+        CrpgPeer crpgPeer = mpPlayerVM.Peer.GetComponent<CrpgPeer>();
+        if (crpgPeer != null && crpgPeer.Clan != null)
+        {
+            mpPlayerVM.HasSetCompassElement = false;
+            mpPlayerVM.CompassElement.RefreshColor(crpgPeer.Clan.PrimaryColor, crpgPeer.Clan.SecondaryColor);
+            mpPlayerVM.HasSetCompassElement = true;
+        }
+    }
 
     private void OnRefreshTeamMembers()
     {
@@ -874,15 +886,7 @@ internal class CrpgHudExtensionVm : ViewModel
             else
             {
                 MPPlayerVM playerVm = new(peer);
-                CrpgPeer crpgPeer = peer.GetComponent<CrpgPeer>();
-                if (crpgPeer != null && crpgPeer.Clan != null)
-                {
-                    playerVm.HasSetCompassElement = false;
-                    playerVm.CompassElement.Color = UintColorToString(crpgPeer.Clan.PrimaryColor);
-                    playerVm.CompassElement.Color2 = UintColorToString(crpgPeer.Clan.SecondaryColor);
-                    playerVm.HasSetCompassElement = true;
-                }
-
+                AssignClanColorsToPlayerVm(playerVm);
                 Teammates.Add(playerVm);
                 _teammateDictionary.Add(peer, playerVm);
             }
@@ -897,6 +901,7 @@ internal class CrpgHudExtensionVm : ViewModel
         foreach (MPPlayerVM teammate in Teammates)
         {
             teammate.RefreshDivision();
+            AssignClanColorsToPlayerVm(teammate);
             teammate.RefreshGold();
             teammate.RefreshProperties();
             teammate.UpdateDisabled();
