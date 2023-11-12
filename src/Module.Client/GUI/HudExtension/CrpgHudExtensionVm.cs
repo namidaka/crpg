@@ -762,12 +762,7 @@ internal class CrpgHudExtensionVm : ViewModel
             CommanderInfo?.OnTeamChanged();
         }
 
-        var allyTeam = _isAttackerTeamAlly ? _mission.AttackerTeam : _mission.DefenderTeam;
-        var enemyTeam = _isAttackerTeamAlly ? _mission.DefenderTeam : _mission.AttackerTeam;
-        var allyBanner = ResolveTeamBannerKey(allyTeam);
-        var enemyBanner = ResolveTeamBannerKey(enemyTeam);
-
-        UpdateTeamBanners(allyBanner, enemyBanner, allyTeam, enemyTeam);
+        UpdateTeamBanners();
 
         if (CommanderInfo == null)
         {
