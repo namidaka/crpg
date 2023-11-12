@@ -674,12 +674,8 @@ internal class CrpgHudExtensionVm : ViewModel
 
     private void OnCurrentGameModeStateChanged()
     {
-        var allyTeam = _isAttackerTeamAlly ? _mission.AttackerTeam : _mission.DefenderTeam;
-        var enemyTeam = _isAttackerTeamAlly ? _mission.DefenderTeam : _mission.AttackerTeam;
-        var allyBanner = ResolveTeamBannerKey(allyTeam);
-        var enemyBanner = ResolveTeamBannerKey(enemyTeam);
         CheckTimers(true);
-        UpdateTeamBanners(allyBanner, enemyBanner, allyTeam, enemyTeam);
+        UpdateTeamBanners();
     }
 
     private void UpdateTeamScores()
@@ -695,8 +691,12 @@ internal class CrpgHudExtensionVm : ViewModel
         EnemyTeamScore = _isAttackerTeamAlly ? defenderScore : attackScore;
     }
 
-    private void UpdateTeamBanners(Banner? allyBanner, Banner? enemyBanner, Team allyTeam, Team enemyTeam)
+    private void UpdateTeamBanners()
     {
+        var allyTeam = _isAttackerTeamAlly ? _mission.AttackerTeam : _mission.DefenderTeam;
+        var enemyTeam = _isAttackerTeamAlly ? _mission.DefenderTeam : _mission.AttackerTeam;
+        var allyBanner = ResolveTeamBannerKey(allyTeam);
+        var enemyBanner = ResolveTeamBannerKey(enemyTeam);
         var allyBannerCode = BannerCode.CreateFrom(allyBanner ?? allyTeam.Banner);
         var enemyBannerCode = BannerCode.CreateFrom(enemyBanner ?? enemyTeam.Banner);
         ImageIdentifierVM allyImageId = new(allyBannerCode, true);
