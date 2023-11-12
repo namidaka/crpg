@@ -359,8 +359,8 @@ namespace Crpg.Module.GUI.HudExtension
             {
                 _cachedClass = mPHeroClassForPeer;
                 _cachedCulture = Peer.Culture;
-                uint color1 = Peer.Team?.Color ?? 0;
-                uint color2 = Peer.Team?.Color2 ?? 0;
+                uint color1 = 0;
+                uint color2 = 0;
                 var crpgPeer = Peer.GetComponent<CrpgPeer>();
                 if (crpgPeer != null && crpgPeer.Clan != null)
                 {
@@ -368,8 +368,8 @@ namespace Crpg.Module.GUI.HudExtension
                     color2 = crpgPeer.Clan.SecondaryColor;
                 }
 
-                BannerCode bannercode = BannerCode.CreateFrom(new Banner(Peer.Peer.BannerCode, color1, color2));
-                CompassElement = new MPTeammateCompassTargetVM(targetIconType, color1, color2, bannercode, Peer.Team?.IsPlayerAlly ?? false);
+                BannerCode bannercode = BannerCode.CreateFrom(new Banner(Peer.Peer.BannerCode, 0, 0));
+                CompassElement = new MPTeammateCompassTargetVM(targetIconType, 0, 0, bannercode, Peer.Team?.IsPlayerAlly ?? false);
                 HasSetCompassElement = true;
                 Name = Peer.DisplayedName;
                 RefreshActivePerks();
@@ -400,8 +400,8 @@ namespace Crpg.Module.GUI.HudExtension
         {
             if (Peer != null)
             {
-                uint color1 = Peer.Team?.Color ?? 0;
-                uint color2 = Peer.Team?.Color2 ?? 0;
+                uint color1 = 0;
+                uint color2 = 0;
                 var crpgPeer = Peer.GetComponent<CrpgPeer>();
                 if (crpgPeer != null && crpgPeer.Clan != null)
                 {
@@ -409,7 +409,7 @@ namespace Crpg.Module.GUI.HudExtension
                     color2 = crpgPeer.Clan.SecondaryColor;
                 }
 
-                BannerCode bannerCode = BannerCode.CreateFrom(new Banner(Peer.Peer.BannerCode, Peer.Team?.Color ?? 0, Peer.Team?.Color2 ?? 0));
+                BannerCode bannerCode = BannerCode.CreateFrom(new Banner(Peer.Peer.BannerCode,0,0));
                 CompassElement.RefreshTeam(bannerCode, Peer.Team?.IsPlayerAlly ?? false);
                 CompassElement.RefreshColor(Peer.Team?.Color ?? 0, Peer.Team?.Color2 ?? 0);
             }
