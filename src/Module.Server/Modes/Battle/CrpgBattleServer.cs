@@ -181,6 +181,9 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
     public override void OnAgentBuild(Agent agent, Banner banner)
     {
         base.OnAgentBuild(agent, banner);
+        banner.ChangePrimaryColor(0);
+        banner.ChangeBackgroundColor(0, 0);
+        banner.ChangeIconColors(0);
         // Synchronize health with all clients to make the spectator health bar work.
         agent.UpdateSyncHealthToAllClients(true);
     }
