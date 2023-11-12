@@ -88,7 +88,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 agentBuildData.ClothingColor2(crpgPeer.Clan.SecondaryColor);
                 if (!string.IsNullOrEmpty(crpgPeer.Clan.BannerKey))
                 {
-                    agentBuildData.Banner(new Banner(crpgPeer.Clan.BannerKey));
+                    agentBuildData.Banner(new Banner(crpgPeer.Clan.BannerKey, crpgPeer.Clan.PrimaryColor, crpgPeer.Clan.SecondaryColor));
                 }
             }
             else
@@ -146,15 +146,15 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 : teamCulture.ClothAlternativeColor2);
 
         var bodyProperties = BodyProperties.GetRandomBodyProperties(
-            character.Race,
-            character.IsFemale,
-            character.GetBodyPropertiesMin(),
-            character.GetBodyPropertiesMax(),
-            (int)agentBuildData.AgentOverridenSpawnEquipment.HairCoverType,
-            agentBuildData.AgentEquipmentSeed,
-            character.HairTags,
-            character.BeardTags,
-            character.TattooTags);
+        character.Race,
+        character.IsFemale,
+        character.GetBodyPropertiesMin(),
+        character.GetBodyPropertiesMax(),
+        (int)agentBuildData.AgentOverridenSpawnEquipment.HairCoverType,
+        agentBuildData.AgentEquipmentSeed,
+        character.HairTags,
+        character.BeardTags,
+        character.TattooTags);
         agentBuildData.BodyProperties(bodyProperties);
 
         Agent agent = Mission.SpawnAgent(agentBuildData);
