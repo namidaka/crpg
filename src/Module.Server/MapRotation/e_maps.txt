@@ -1,0 +1,4 @@
+add_map_to_automated_battle_pool crpg_dtv_qalat
+add_map_to_automated_battle_pool crpg_dtv_weepinghill
+add_map_to_automated_battle_pool crpg_dtv_encampment
+add_map_to_automated_battle_pool crpg_dtv_rosethornecastle
