@@ -23,7 +23,7 @@ const props = withDefaults(
   >
     <div class="group relative h-full w-full cursor-grab">
       <img
-        :src="getItemImage(userItem.item.id)"
+        :src="getItemImage(userItem.item.baseId)"
         :alt="userItem.item.name"
         class="h-full w-full select-none object-contain"
         v-tooltip.bottom="userItem.item.name"

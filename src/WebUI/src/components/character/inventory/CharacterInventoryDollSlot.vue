@@ -44,7 +44,7 @@ const {
     <template v-if="userItem !== undefined">
       <img
         class="h-full w-full cursor-grab select-none object-contain"
-        :src="getItemImage(userItem.item.id)"
+        :src="getItemImage(userItem.item.baseId)"
         :alt="userItem.item.name"
         data-aq-character-slot-item-thumb
       />
