@@ -21,4 +21,8 @@ public enum ActivityLogType
     ServerJoined,
     ChatMessageSent,
     TeamHit,
+    AddClanArmoryItem,
+    RemoveClanArmoryItem,
+    ReturnClanArmoryItem,
+    BorrowClanArmoryItem,
 }
