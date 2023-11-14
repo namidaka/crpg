@@ -1087,6 +1087,10 @@ internal class ItemExporter : IDataExporter
     {
         return int.Parse(id.Split('_').Last().Substring(1));
     }
+    private static int ItemRank(ItemObject mbItem)
+    {
+        return IdToHeirloomLevel(mbItem.StringId);
+    }
 
     private static string ToggleRefund(string id)
     {
@@ -1166,6 +1170,10 @@ internal class ItemExporter : IDataExporter
             does not need an agent. It was observed that the bow's camera angle and the animal's camera angle were
             good substitute for respectively shield and hand armor.
              */
+            if (ItemRank(mbItem) > 0)
+            {
+                continue;
+            }
             mbItem.Type = mbItem.Type switch
             {
                 ItemObject.ItemTypeEnum.Shield => ItemObject.ItemTypeEnum.Bow,
@@ -1180,7 +1188,7 @@ internal class ItemExporter : IDataExporter
             // TODO: what is second argument "additionalArgs"?
             TableauCacheManager.Current.BeginCreateItemTexture(mbItem, null, texture =>
             {
-                texture.SaveToFile(Path.Combine(outputPath, mbItem.StringId + ".png"));
+                texture.SaveToFile(Path.Combine(outputPath, mbItem.StringId.Substring(0, mbItem.StringId.Length - 3) + ".png"));
                 createTextureTaskSource.SetResult(null);
             });
         }
