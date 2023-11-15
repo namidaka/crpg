@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Crpg.Application.Clans.Commands.Armory;
+﻿using Crpg.Application.Clans.Commands.Armory;
 using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
-using Crpg.Application.Items.Commands;
-using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;
-using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Clans.Armory;
