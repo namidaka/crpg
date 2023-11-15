@@ -28,14 +28,13 @@
         "bradlc.vscode-tailwindcss",
         "naumovs.color-highlight",
         "streetsidesoftware.code-spell-checker",
-        "fabiospampinato.vscode-terminals"
+        "fabiospampinato.vscode-terminals",
+        "rangav.vscode-thunder-client",
+        "antfu.goto-alias"
       ],
       "settings": {
         "tailwindCSS.experimental.classRegex": [
-          [
-            "/\\*@tw\\*/ ([^;]*);",
-            "'([^']*)'"
-          ]
+          ["/\\*@tw\\*/ ([^;]*);", "'([^']*)'"]
         ],
         "typescript.preferences.autoImportFileExcludePatterns": [
           "vue-router" // ref: https://github.com/posva/unplugin-vue-router#setup
@@ -44,10 +43,7 @@
     }
   },
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [
-    8000,
-    8080
-  ],
+  "forwardPorts": [8000, 8080],
   // [Optional] To reuse of your local HTTPS dev cert:
   //
   // 1. Export it locally using this command:
@@ -75,8 +71,8 @@
   // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "root",
 
-   // https://code.visualstudio.com/remote/advancedcontainers/persist-bash-history
+  // https://code.visualstudio.com/remote/advancedcontainers/persist-bash-history
   "mounts": [
     "source=projectname-bashhistory,target=/commandhistory,type=volume"
-]
+  ]
 }

@@ -11,11 +11,11 @@ const rankColor = computed(() => getRankColor(rank));
   <VTooltip>
     <OIcon
       icon="rare-duotone"
-      size="xs"
+      size="sm"
       :style="{
         '--fa-primary-opacity': 0.15,
         '--fa-primary-color': '#fff',
-        '--fa-secondary-opacity': 0.75,
+        '--fa-secondary-opacity': 1,
         '--fa-secondary-color': rankColor,
       }"
     />

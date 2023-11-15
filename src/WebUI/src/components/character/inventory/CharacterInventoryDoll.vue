@@ -40,7 +40,7 @@ const {
   onDrop,
 } = useInventoryDnD(equippedItemsBySlot);
 
-const { openItemDetail, getElementBounds } = useItemDetail();
+const { toggleItemDetail } = useItemDetail();
 </script>
 
 <template>
@@ -84,12 +84,11 @@ const { openItemDetail, getElementBounds } = useItemDetail();
         @dragstart="onDragStart(equippedItemsBySlot[slot.key], slot.key)"
         @unEquip="onUnEquipItem(slot.key)"
         @click="
-          (e: MouseEvent) =>
+          e =>
             equippedItemsBySlot[slot.key] !== undefined &&
-            openItemDetail({
+            toggleItemDetail(e.target as HTMLElement, {
               id: equippedItemsBySlot[slot.key].item.id,
               userId: equippedItemsBySlot[slot.key].id,
-              bound: getElementBounds(e.target as HTMLElement),
             })
         "
       />

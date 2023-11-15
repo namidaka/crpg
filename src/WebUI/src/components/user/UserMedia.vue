@@ -8,6 +8,7 @@ const {
   clanRole = null,
   isSelf = false,
   hiddenPlatform = false,
+  hiddenTitle = false,
   size = 'sm',
 } = defineProps<{
   user: UserPublic;
@@ -15,6 +16,7 @@ const {
   clanRole?: ClanMemberRole | null;
   isSelf?: boolean;
   hiddenPlatform?: boolean;
+  hiddenTitle?: boolean;
   size?: 'sm' | 'xl';
 }>();
 </script>
@@ -25,7 +27,7 @@ const {
       :src="user.avatar"
       alt=""
       class="rounded-full"
-      :class="size === 'xl' ? 'h-10 w-10' : 'h-7 w-7'"
+      :class="[size === 'xl' ? 'h-10 w-10' : 'h-7 w-7', { 'ring-2  ring-status-success ': isSelf }]"
     />
 
     <template v-if="clan">
@@ -44,7 +46,11 @@ const {
       </RouterLink>
     </template>
 
-    <div class="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap" :title="user.name">
+    <div
+      v-if="!hiddenTitle"
+      class="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap"
+      :title="user.name"
+    >
       {{ user.name }}
       <template v-if="isSelf">({{ $t('you') }})</template>
     </div>

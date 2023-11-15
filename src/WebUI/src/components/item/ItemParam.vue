@@ -62,25 +62,29 @@ const formattedBuckets = computed(() => {
   return [humanizeBucket(field, rawBuckets.value, item)];
 });
 
+// TODO: to tailwind cfg
+const colorPositive = '#34d399';
+const colorNegative = '#ef4444';
+
 // TODO: spec, refactor: more readable
 const fieldStyle = computed(() => {
   if (!isCompare || typeof rawBuckets.value !== 'number') return '';
 
   if (compareMode === ItemCompareMode.Absolute) {
-    if (isBest.value) return 'color: rgb(52 211 153)';
-    else return 'color:rgb(208 79 44)';
+    if (isBest.value) return `color: ${colorPositive}`;
+    else return `color: ${colorNegative}`;
   }
 
   if (compareMode === ItemCompareMode.Relative) {
     if (relativeValue === undefined || rawBuckets.value === relativeValue) return '';
 
     if (compareRule.value === ItemFieldCompareRule.Less) {
-      if (relativeValue > rawBuckets.value) return 'color: rgb(52 211 153)';
+      if (relativeValue > rawBuckets.value) return `color: ${colorPositive}`;
     } else {
-      if (rawBuckets.value > relativeValue) return 'color: rgb(52 211 153)';
+      if (rawBuckets.value > relativeValue) return `color: ${colorPositive}`;
     }
 
-    return 'color:rgb(208 79 44)';
+    return `color: ${colorNegative}`;
   }
 });
 </script>
@@ -110,7 +114,7 @@ const fieldStyle = computed(() => {
               ) && formattedValue.label !== ''
             "
             :label="formattedValue.label"
-            size="sm"
+            size="lg"
           />
 
           <div v-else class="text-xs font-bold">
