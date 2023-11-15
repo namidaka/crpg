@@ -70,6 +70,7 @@ const emit = defineEmits<{
           <VTooltip placement="auto" class="inline-block">
             <span class="font-bold text-content-100">{{ activityLog.metadata.itemId }}</span>
             <template #popper>
+              <!-- TODO: need baseId (replace _h0?) -->
               <img
                 :src="getItemImage(activityLog.metadata.itemId)"
                 class="h-full w-full object-contain"
