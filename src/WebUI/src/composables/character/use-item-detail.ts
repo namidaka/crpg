@@ -8,7 +8,7 @@ interface ElementBound {
 
 interface OpenedItem {
   id: string;
-  userId: number; // TODO: FIXME:
+  userItemId: number;
   bound: ElementBound;
 }
 
