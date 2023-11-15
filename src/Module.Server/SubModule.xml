@@ -52,5 +52,8 @@
     <XmlNode>
       <XmlName id="Items" path="items/weapons"/>
     </XmlNode>
+    <XmlNode>
+      <XmlName id="Monsters" path="monsters"/>
+    </XmlNode>
   </Xmls>
 </Module>
