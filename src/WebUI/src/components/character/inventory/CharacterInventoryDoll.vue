@@ -88,7 +88,7 @@ const { toggleItemDetail } = useItemDetail();
             equippedItemsBySlot[slot.key] !== undefined &&
             toggleItemDetail(e.target as HTMLElement, {
               id: equippedItemsBySlot[slot.key].item.id,
-              userId: equippedItemsBySlot[slot.key].id,
+              userItemId: equippedItemsBySlot[slot.key].id,
             })
         "
       />
