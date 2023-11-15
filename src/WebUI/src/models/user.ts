@@ -31,7 +31,7 @@ export interface UserItem {
   createdAt: Date;
   item: Item;
   isBroken: boolean;
-  isArmoryItem: false;
+  isArmoryItem: boolean;
 }
 
 export interface UserItemsByType {

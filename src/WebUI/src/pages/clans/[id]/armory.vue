@@ -212,7 +212,7 @@ const getBorrower = (clanArmoryItem: ClanArmoryItem) => {
                 e =>
                   toggleItemDetail(e.target as HTMLElement, {
                     id: clanArmoryItem.userItem.item.id,
-                    userId: 111, // TODO: FIXME:
+                    userItemId: clanArmoryItem.userItem.id,
                   })
               "
             />
