@@ -82,7 +82,12 @@ public static class ClanArmoryTestHelper
             .Where(e => e.Id == user.ClanMembership!.ClanId)
             .FirstAsync();
 
-        var items = clan.Members.SelectMany(e => e.ArmoryItems).Take(count);
+        var items = clan.Members
+            .SelectMany(e => e.ArmoryItems)
+            .Where(e => e.Borrow == null)
+            .Take(count);
+        Assert.That(items.Count, Is.GreaterThanOrEqualTo(count));
+
         var list = new List<ClanArmoryBorrow>();
         foreach (var item in items)
         {

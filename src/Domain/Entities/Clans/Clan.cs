@@ -43,9 +43,7 @@ public class Clan : AuditableEntity
     public Region Region { get; set; }
 
     public int ArmoryMinRank { get; set; }
-    public int ArmoryUsageCost { get; set; }
     public int ArmoryBorrowFee { get; set; }
-    public TimeSpan ArmoryTimeout { get; set; } = TimeSpan.FromDays(3);  // return an item if a borrower is not active for N days
 
     /// <summary>
     /// Discord url of the clan.
