@@ -145,6 +145,14 @@ const emit = defineEmits<{
       <template #message v-if="'message' in activityLog.metadata">
         <span class="font-bold text-content-100">{{ activityLog.metadata.message }}</span>
       </template>
+
+      <template #clanId v-if="'clanId' in activityLog.metadata">
+        <span class="font-bold text-content-100">{{ activityLog.metadata.clanId }}</span>
+      </template>
+
+      <template #userItemId v-if="'userItemId' in activityLog.metadata">
+        <span class="font-bold text-content-100">{{ activityLog.metadata.userItemId }}</span>
+      </template>
     </i18n-t>
   </div>
 </template>

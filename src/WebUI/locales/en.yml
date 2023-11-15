@@ -1256,6 +1256,10 @@ activityLog:
     ServerJoined: 'The user has joined the server'
     ChatMessageSent: 'Wrote a message: {message} {instance}'
     TeamHit: 'Dealt {damage} damage to {targetUserId} {instance}'
+    ClanArmoryAddItem: 'Item {userItemId} added to clan {clanId} armory'
+    ClanArmoryRemoveItem: 'Item {userItemId} removed from clan {clanId} armory'
+    ClanArmoryReturnItem: 'Item {userItemId} was returned from clan {clanId} armory'
+    ClanArmoryBorrowItem: 'Item {userItemId} was borrowed from clan {clanId} armory'
 
 leaderboard:
   title: Leaderboard

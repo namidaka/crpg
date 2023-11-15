@@ -734,13 +734,56 @@ public record SeedDataCommand : IMediatorRequest
                     new("instance", "crpg01a"),
                 },
             };
-
+            ActivityLog activityLogClanArmoryAddItem = new()
+            {
+                Type = ActivityLogType.ClanArmoryAddItem,
+                User = takeo,
+                CreatedAt = DateTime.UtcNow.AddMinutes(-1),
+                Metadata =
+                {
+                    new("clanId", "2"),
+                    new("userItemId", "1"),
+                },
+            };
+            ActivityLog activityLogClanArmoryRemoveItem = new()
+            {
+                Type = ActivityLogType.ClanArmoryRemoveItem,
+                User = takeo,
+                CreatedAt = DateTime.UtcNow.AddMinutes(-1),
+                Metadata =
+                {
+                    new("clanId", "2"),
+                    new("userItemId", "1"),
+                },
+            };
+            ActivityLog activityLogClanArmoryReturnItem = new()
+            {
+                Type = ActivityLogType.ClanArmoryReturnItem,
+                User = takeo,
+                CreatedAt = DateTime.UtcNow.AddMinutes(-1),
+                Metadata =
+                {
+                    new("clanId", "2"),
+                    new("userItemId", "1"),
+                },
+            };
+            ActivityLog activityLogClanArmoryBorrowItem = new()
+            {
+                Type = ActivityLogType.ClanArmoryBorrowItem,
+                User = takeo,
+                CreatedAt = DateTime.UtcNow.AddMinutes(-1),
+                Metadata =
+                {
+                    new("clanId", "2"),
+                    new("userItemId", "1"),
+                },
+            };
             ActivityLog[] newActivityLogs =
             {
                 activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserReward1, activityLogItemBought1,
                 activityLogItemSold1, activityLogItemBroke1, activityLogItemUpgraded1, activityLogCharacterCreated1, activityLogCharacterDeleted1,
                 activityLogCharacterRespecialized1, activityLogCharacterRetired1, activityLogCharacterRewarded1, activityLogServerJoined1,
-                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2,
+                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem, activityLogClanArmoryRemoveItem, activityLogClanArmoryReturnItem, activityLogClanArmoryBorrowItem,
             };
 
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());

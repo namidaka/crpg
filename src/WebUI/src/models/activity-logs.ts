@@ -16,6 +16,10 @@ export enum ActivityLogType {
   ServerJoined = 'ServerJoined',
   ChatMessageSent = 'ChatMessageSent',
   TeamHit = 'TeamHit',
+  ClanArmoryAddItem = 'ClanArmoryAddItem',
+  ClanArmoryRemoveItem = 'ClanArmoryRemoveItem',
+  ClanArmoryReturnItem = 'ClanArmoryReturnItem',
+  ClanArmoryBorrowItem = 'ClanArmoryBorrowItem',
 }
 
 export interface ActivityLog {

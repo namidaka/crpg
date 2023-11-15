@@ -165,7 +165,7 @@ internal class ActivityLogService : IActivityLogService
 
     public ActivityLog CreateAddClanArmoryItem(int userId, int clanId, int userItemId)
     {
-        return CreateLog(ActivityLogType.AddClanArmoryItem, userId, new ActivityLogMetadata[]
+        return CreateLog(ActivityLogType.ClanArmoryAddItem, userId, new ActivityLogMetadata[]
         {
             new("userItemId", userId.ToString()),
             new("clanId", clanId.ToString()),
@@ -174,7 +174,7 @@ internal class ActivityLogService : IActivityLogService
 
     public ActivityLog CreateRemoveClanArmoryItem(int userId, int clanId, int userItemId)
     {
-        return CreateLog(ActivityLogType.RemoveClanArmoryItem, userId, new ActivityLogMetadata[]
+        return CreateLog(ActivityLogType.ClanArmoryRemoveItem, userId, new ActivityLogMetadata[]
         {
             new("userItemId", userId.ToString()),
             new("clanId", clanId.ToString()),
@@ -183,7 +183,7 @@ internal class ActivityLogService : IActivityLogService
 
     public ActivityLog CreateBorrowClanArmoryItem(int userId, int clanId, int userItemId)
     {
-        return CreateLog(ActivityLogType.BorrowClanArmoryItem, userId, new ActivityLogMetadata[]
+        return CreateLog(ActivityLogType.ClanArmoryBorrowItem, userId, new ActivityLogMetadata[]
         {
             new("userItemId", userId.ToString()),
             new("clanId", clanId.ToString()),
@@ -192,7 +192,7 @@ internal class ActivityLogService : IActivityLogService
 
     public ActivityLog CreateReturnClanArmoryItem(int userId, int clanId, int userItemId)
     {
-        return CreateLog(ActivityLogType.ReturnClanArmoryItem, userId, new ActivityLogMetadata[]
+        return CreateLog(ActivityLogType.ClanArmoryReturnItem, userId, new ActivityLogMetadata[]
         {
             new("userItemId", userId.ToString()),
             new("clanId", clanId.ToString()),
