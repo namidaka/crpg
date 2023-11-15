@@ -286,7 +286,7 @@ internal class ItemExporter : IDataExporter
         CrpgItem crpgItem = new()
         {
             Id = mbItem.StringId,
-            BaseId = mbItem.StringId.Substring(0, mbItem.StringId.Length - 3),
+            BaseId = mbItem.StringId.Split('_').Last().Substring(0, 1) == "h" ? mbItem.StringId.Substring(0, mbItem.StringId.Length - 3) : mbItem.StringId,
             Name = mbItem.Name.ToString(),
             Culture = MbToCrpgCulture(mbItem.Culture),
             Type = MbToCrpgItemType(mbItem.Type),
@@ -457,108 +457,108 @@ internal class ItemExporter : IDataExporter
         Debug.Print("adding to dictionary h0 items");
         for (int i = 0; i < nodes1.Length; i += 1)
         {
-                var node1 = nodes1[i];
-                if (node1.Name == "Item" || node1.Name == "CraftedItem" || node1.Name == "CraftingPiece")
+            var node1 = nodes1[i];
+            if (node1.Name == "Item" || node1.Name == "CraftedItem" || node1.Name == "CraftingPiece")
+            {
+                int heirloomLevel = IdToHeirloomLevel(node1.Attributes!["id"].Value);
+                string baseId = node1.Attributes!["id"].Value.Remove(node1.Attributes!["id"].Value.Length - 2);
+                if (heirloomLevel == 0)
                 {
-                    int heirloomLevel = IdToHeirloomLevel(node1.Attributes!["id"].Value);
-                    string baseId = node1.Attributes!["id"].Value.Remove(node1.Attributes!["id"].Value.Length - 2);
-                    if (heirloomLevel == 0)
+                    if (!baseItem.ContainsKey(baseId))
                     {
-                        if (!baseItem.ContainsKey(baseId))
-                        {
-                            baseItem[baseId] = node1;
-                        }
-                        else
-                        {
-                        }
+                        baseItem[baseId] = node1;
                     }
                     else
                     {
-                        if (!upgradedItem.ContainsKey(baseId))
-                        {
-                            List<XmlNode> upgradedItemNodes = new()
+                    }
+                }
+                else
+                {
+                    if (!upgradedItem.ContainsKey(baseId))
+                    {
+                        List<XmlNode> upgradedItemNodes = new()
                             {
                                 node1,
                             };
 
-                            upgradedItem[baseId] = upgradedItemNodes;
-                        }
-                        else
-                        {
+                        upgradedItem[baseId] = upgradedItemNodes;
+                    }
+                    else
+                    {
                         upgradedItem[baseId].Add(node1);
-                        }
                     }
                 }
+            }
 
-                // weapon descriptions
-                if (node1.Name == "WeaponDescription")
+            // weapon descriptions
+            if (node1.Name == "WeaponDescription")
+            {
+                Debug.Print($"Parsing Weapon Description {node1.Attributes!["id"].Value!}");
+                var availablePiecesNodes1 = node1.SelectSingleNode("AvailablePieces").ChildNodes.Cast<XmlNode>().ToArray();
+                for (int j = 0; j < availablePiecesNodes1.Length; j += 1)
                 {
-                    Debug.Print($"Parsing Weapon Description {node1.Attributes!["id"].Value!}");
-                    var availablePiecesNodes1 = node1.SelectSingleNode("AvailablePieces").ChildNodes.Cast<XmlNode>().ToArray();
-                    for (int j = 0; j < availablePiecesNodes1.Length; j += 1)
+                    var availablePieceNode = availablePiecesNodes1[j];
+                    int heirloomLevel = IdToHeirloomLevel(availablePieceNode.Attributes!["id"].Value);
+                    string baseId = availablePieceNode.Attributes!["id"].Value.Remove(availablePieceNode.Attributes!["id"].Value.Length - 2);
+                    if (heirloomLevel == 0)
                     {
-                        var availablePieceNode = availablePiecesNodes1[j];
-                        int heirloomLevel = IdToHeirloomLevel(availablePieceNode.Attributes!["id"].Value);
-                        string baseId = availablePieceNode.Attributes!["id"].Value.Remove(availablePieceNode.Attributes!["id"].Value.Length - 2);
-                        if (heirloomLevel == 0)
+                    }
+                    else
+                    {
+                        if (!upgradedAvailablePiece.ContainsKey((availablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)))
                         {
-                        }
-                        else
-                        {
-                            if (!upgradedAvailablePiece.ContainsKey((availablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)))
-                            {
-                                List<XmlNode> upgradedItemNodes = new()
+                            List<XmlNode> upgradedItemNodes = new()
                                     {
                                         availablePieceNode,
                                     };
 
-                                upgradedAvailablePiece[(availablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)] = upgradedItemNodes;
-                            }
-                            else
-                            {
-                                upgradedAvailablePiece[(availablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)].Add(availablePieceNode);
-                            }
-                        }
-                    }
-                }
-
-                // Crafting Template
-                if (node1.Name == "CraftingTemplate")
-                {
-                    Debug.Print($"Parsing CraftingTemplate {node1.Attributes!["id"].Value!}");
-
-                    var usablePiecesNodes1 = node1.SelectSingleNode("UsablePieces").ChildNodes.Cast<XmlNode>().ToArray();
-
-                    Debug.Print($"{node1.Attributes!["id"].Value!} has {usablePiecesNodes1.Count()} usablepieces");
-
-                    for (int j = 0; j < usablePiecesNodes1.Length; j += 1)
-                    {
-                        var usablePieceNode = usablePiecesNodes1[j];
-                        Debug.Print($"checking  {usablePieceNode.Attributes["piece_id"]!.Value}");
-                        int heirloomLevel = IdToHeirloomLevel(usablePieceNode.Attributes!["piece_id"].Value);
-                        string baseId = usablePieceNode.Attributes!["piece_id"].Value.Remove(usablePieceNode.Attributes!["piece_id"].Value.Length - 2);
-                        if (heirloomLevel == 0)
-                        {
+                            upgradedAvailablePiece[(availablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)] = upgradedItemNodes;
                         }
                         else
                         {
-                            if (!upgradedUsablePiece.ContainsKey((usablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)))
-                            {
-                                List<XmlNode> upgradedItemNodes = new()
+                            upgradedAvailablePiece[(availablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)].Add(availablePieceNode);
+                        }
+                    }
+                }
+            }
+
+            // Crafting Template
+            if (node1.Name == "CraftingTemplate")
+            {
+                Debug.Print($"Parsing CraftingTemplate {node1.Attributes!["id"].Value!}");
+
+                var usablePiecesNodes1 = node1.SelectSingleNode("UsablePieces").ChildNodes.Cast<XmlNode>().ToArray();
+
+                Debug.Print($"{node1.Attributes!["id"].Value!} has {usablePiecesNodes1.Count()} usablepieces");
+
+                for (int j = 0; j < usablePiecesNodes1.Length; j += 1)
+                {
+                    var usablePieceNode = usablePiecesNodes1[j];
+                    Debug.Print($"checking  {usablePieceNode.Attributes["piece_id"]!.Value}");
+                    int heirloomLevel = IdToHeirloomLevel(usablePieceNode.Attributes!["piece_id"].Value);
+                    string baseId = usablePieceNode.Attributes!["piece_id"].Value.Remove(usablePieceNode.Attributes!["piece_id"].Value.Length - 2);
+                    if (heirloomLevel == 0)
+                    {
+                    }
+                    else
+                    {
+                        if (!upgradedUsablePiece.ContainsKey((usablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)))
+                        {
+                            List<XmlNode> upgradedItemNodes = new()
                                 {
                                     usablePieceNode,
                                 };
 
-                                upgradedUsablePiece[(usablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)] = upgradedItemNodes;
-                            }
-                            else
-                            {
-                                upgradedUsablePiece[(usablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)].Add(usablePieceNode);
-                            }
+                            upgradedUsablePiece[(usablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)] = upgradedItemNodes;
+                        }
+                        else
+                        {
+                            upgradedUsablePiece[(usablePieceNode.ParentNode.ParentNode.Attributes["id"]!.Value, baseId)].Add(usablePieceNode);
                         }
                     }
+                }
 
-                    Debug.Print($"Finished Parsing CraftingTemplate {node1.Attributes!["id"].Value!}");
+                Debug.Print($"Finished Parsing CraftingTemplate {node1.Attributes!["id"].Value!}");
             }
         }
 
@@ -583,7 +583,8 @@ internal class ItemExporter : IDataExporter
                         newNodeh3.Attributes!["id"].Value = baseId + "h3";
                         node1.ParentNode.InsertAfter(newNodeh1, node1);
                         node1.ParentNode.InsertAfter(newNodeh2, newNodeh1);
-                        node1.ParentNode.InsertAfter(newNodeh3, newNodeh2);                 }
+                        node1.ParentNode.InsertAfter(newNodeh3, newNodeh2);
+                    }
                 }
             }
             else if (node1.Name == "CraftedItem")
@@ -715,7 +716,7 @@ internal class ItemExporter : IDataExporter
                         {
                             ModifyChildHeirloomNodesAttribute(nonHeirloomNode, node1, "ItemComponent/Horse", "maneuver", newMount.maneuverbonus);
                             ModifyChildHeirloomNodesAttribute(nonHeirloomNode, node1, "ItemComponent/Horse", "speed", newMount.speedbonus);
-                            ModifyChildHeirloomNodesAttribute(nonHeirloomNode, node1, "ItemComponent/Horse", "extra_health",0 , ihatemountsPercentage: newMount.healthbonusPercentage);
+                            ModifyChildHeirloomNodesAttribute(nonHeirloomNode, node1, "ItemComponent/Horse", "extra_health", 0, ihatemountsPercentage: newMount.healthbonusPercentage);
                         }
 
                         break;
@@ -1085,7 +1086,19 @@ internal class ItemExporter : IDataExporter
     };
     private static int IdToHeirloomLevel(string id)
     {
-        return int.Parse(id.Split('_').Last().Substring(1));
+        try
+        {
+            if (id.Split('_').Last().Substring(0, 1) == "h")
+            {
+                return int.Parse(id.Split('_').Last().Substring(1));
+            }
+            else
+                return 0;
+        }
+        catch
+        {
+            return 0;
+        }
     }
     private static int ItemRank(ItemObject mbItem)
     {
