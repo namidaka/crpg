@@ -2,7 +2,6 @@
 using Crpg.Application.Common.Services;
 using Crpg.Application.UTest.Clans.Armory;
 using Crpg.Domain.Entities.Clans;
-using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
