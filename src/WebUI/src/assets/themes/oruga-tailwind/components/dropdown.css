@@ -27,6 +27,10 @@
   @apply max-w-xs rounded-lg bg-base-200 px-4 py-3.5 text-content-100 drop-shadow-md;
 }
 
+.v-popper--theme-tooltip.expanded .v-popper__inner {
+  @apply max-w-full;
+}
+
 .v-popper--theme-tooltip .v-popper__arrow-inner,
 .v-popper--theme-tooltip .v-popper__arrow-outer {
   @apply border-base-200;

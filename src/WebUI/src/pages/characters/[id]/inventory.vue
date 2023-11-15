@@ -425,7 +425,7 @@ whenever(escape, () => {
         />
 
         <CharacterInventoryItemDetail
-          class="w-72"
+          class="w-80"
           :compareResult="
             compareItemsResult.find(cr => cr.type === flatItems.find(fi => fi.id === oi.id)!.type)
               ?.compareResult

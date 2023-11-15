@@ -11,10 +11,9 @@ const { item, showTier = false } = defineProps<{
 <template>
   <div class="flex items-center gap-4">
     <div class="relative h-16 w-32">
-      <VTooltip placement="auto">
+      <VTooltip placement="auto" popperClass="expanded">
         <img :src="getItemImage(item.baseId)" class="h-full w-full object-contain" />
         <template #popper>
-          <div class="mb-2 text-content-100">{{ item.name }}</div>
           <img :src="getItemImage(item.baseId)" class="h-full w-full object-contain" />
         </template>
       </VTooltip>
