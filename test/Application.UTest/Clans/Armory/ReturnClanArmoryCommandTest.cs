@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Crpg.Application.Clans.Commands.Armory;
+﻿using Crpg.Application.Clans.Commands.Armory;
 using Crpg.Application.Common.Services;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -28,7 +23,7 @@ public class ReturnClanArmoryCommandTest : TestBase
 
         var item = user.ClanMembership!.ArmoryBorrows.First();
 
-        var handler = new ReturnClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new ReturnClanArmoryCommand
         {
             UserItemId = item.UserItemId,
@@ -62,7 +57,7 @@ public class ReturnClanArmoryCommandTest : TestBase
 
         var item = user.Items.First(e => e.ClanArmoryBorrow != null);
 
-        var handler = new ReturnClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new ReturnClanArmoryCommand
         {
             UserItemId = item.Id,
@@ -92,7 +87,7 @@ public class ReturnClanArmoryCommandTest : TestBase
             .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
             .FirstAsync(e => e.Name == "user1");
 
-        var handler = new ReturnClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new ReturnClanArmoryCommand
         {
             UserItemId = user.Items.First(e => e.ClanArmoryItem == null).Id,
@@ -126,7 +121,7 @@ public class ReturnClanArmoryCommandTest : TestBase
 
         var item = user.Items.First(e => e.ClanArmoryItem != null);
 
-        var handler = new ReturnClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new ReturnClanArmoryCommand
         {
             UserItemId = item.Id,

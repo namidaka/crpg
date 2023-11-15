@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Crpg.Application.Clans.Commands.Armory;
+﻿using Crpg.Application.Clans.Commands.Armory;
 using Crpg.Application.Common.Services;
 using Crpg.Domain.Entities.Items;
 using Microsoft.EntityFrameworkCore;

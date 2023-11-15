@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Crpg.Application.Clans.Commands.Armory;
-using Crpg.Application.Common.Services;
+﻿using Crpg.Application.Clans.Commands.Armory;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Clans.Armory;
 public class ReturnUnusedClanArmoryItemsCommandTest : TestBase
 {
-    private IClanService ClanService { get; } = new ClanService();
-    private IActivityLogService ActivityService { get; } = new ActivityLogService();
-
     [Test]
     public async Task ShouldReturn()
     {
@@ -27,7 +18,7 @@ public class ReturnUnusedClanArmoryItemsCommandTest : TestBase
 
         Assert.That(ActDb.ClanArmoryBorrows.Count(), Is.EqualTo(4));
 
-        var handler = new ReturnUnusedClanArmoryItemsCommand.Handler(ActDb, ClanService);
+        var handler = new ReturnUnusedClanArmoryItemsCommand.Handler(ActDb);
         var result = await handler.Handle(new ReturnUnusedClanArmoryItemsCommand
         {
             Timeout = TimeSpan.FromDays(3),
