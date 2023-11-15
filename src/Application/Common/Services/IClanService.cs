@@ -154,11 +154,6 @@ internal class ClanService : IClanService
             return new(CommonErrors.UserItemInUse(userItemId));
         }
 
-        if (userItem.Item!.Rank < clan.ArmoryMinRank)
-        {
-            return new(CommonErrors.UserItemMinRank(userItemId, userItem.Item.Rank));
-        }
-
         var armoryItem = new ClanArmoryItem { ClanId = clan.Id, UserItemId = userItem.Id, UserId = user.Id };
         db.ClanArmoryItems.Add(armoryItem);
 

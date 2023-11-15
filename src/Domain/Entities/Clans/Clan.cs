@@ -42,8 +42,6 @@ public class Clan : AuditableEntity
     /// </summary>
     public Region Region { get; set; }
 
-    public int ArmoryMinRank { get; set; } = 0;
-
     /// <summary>
     /// Discord url of the clan.
     /// </summary>
