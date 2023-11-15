@@ -48,7 +48,6 @@
     <Compile Remove="..\Module.Server\Common\MapPoolComponent.cs" />
     <Compile Remove="..\Module.Server\Common\ChatCommands\**\*" />
     <Compile Remove="..\Module.Server\Rewards\CrpgRewardServer.cs" />
-    <Compile Remove="..\Module.Server\HarmonyPatches\**\*" />
     <Compile Remove="..\Module.Server\Firewall\*" />
     <Compile Remove="..\Module.Server\Common\RemoveIpFromFirewallBehavior.cs" />
   </ItemGroup>
@@ -77,6 +76,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="DataExport\ItemExporter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Bannerlord.Lib.Harmony" Version="2.2.2" />
     <PackageReference Include="WindowsFirewallHelper" Version="2.2.0.86" />
   </ItemGroup>
 </Project>

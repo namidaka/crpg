@@ -26,6 +26,7 @@ using System.Runtime.CompilerServices;
 using Crpg.Module.DataExport;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using Crpg.Module.HarmonyPatches;
 #endif
 
 namespace Crpg.Module;
@@ -69,7 +70,7 @@ internal class CrpgSubModule : MBSubModuleBase
 
 #if CRPG_EXPORT
         LoadMainMenu();
-
+        BannerlordPatches.Apply();
         /*
         TaleWorlds.MountAndBlade.Module.CurrentModule.AddInitialStateOption(new InitialStateOption("Scale",
             new TextObject("Scale"), 4578, Scale, () => (false, null)));*/
