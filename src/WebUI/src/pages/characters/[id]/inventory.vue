@@ -357,7 +357,7 @@ if (userStore.clan?.id) {
                   e =>
                     toggleItemDetail(e.target as HTMLElement, {
                       id: userItem.item.id,
-                      userId: userItem.id,
+                      userItemId: userItem.id,
                     })
                 "
               />
@@ -474,49 +474,49 @@ if (userStore.clan?.id) {
               ?.compareResult
           "
           :item="flatItems.find(fi => fi.id === di.id)!"
-          :userItem="userStore.userItems.find(ui => ui.id === di.userId)!"
-          :equipped="equippedItemsIds.includes(di.userId)"
-          :owner="getClanArmoryItemOwner(userStore.userItems.find(ui => ui.id === di.userId)!)"
+          :userItem="userStore.userItems.find(ui => ui.id === di.userItemId)!"
+          :equipped="equippedItemsIds.includes(di.userItemId)"
+          :owner="getClanArmoryItemOwner(userStore.userItems.find(ui => ui.id === di.userItemId)!)"
           @sell="
             () => {
               closeItemDetail(di.id);
-              onSellUserItem(di.userId);
+              onSellUserItem(di.userItemId);
             }
           "
           @repair="
             () => {
               closeItemDetail(di.id);
-              onRepairUserItem(di.userId);
+              onRepairUserItem(di.userItemId);
             }
           "
           @upgrade="
             () => {
               closeItemDetail(di.id);
-              onUpgradeUserItem(di.userId);
+              onUpgradeUserItem(di.userItemId);
             }
           "
           @reforge="
             () => {
               closeItemDetail(di.id);
-              onReforgeUserItem(di.userId);
+              onReforgeUserItem(di.userItemId);
             }
           "
           @returnToClanArmory="
             () => {
               closeItemDetail(di.id);
-              onReturnToClanArmory(di.userId);
+              onReturnToClanArmory(di.userItemId);
             }
           "
           @removeFromClanArmory="
             () => {
               closeItemDetail(di.id);
-              onRemoveFromClanArmory(di.userId);
+              onRemoveFromClanArmory(di.userItemId);
             }
           "
           @addToClanArmory="
             () => {
               closeItemDetail(di.id);
-              onAddItemToClanArmory(di.userId);
+              onAddItemToClanArmory(di.userItemId);
             }
           "
         />

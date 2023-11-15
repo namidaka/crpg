@@ -54,8 +54,7 @@ export interface ClanInvitation {
   status: ClanInvitationStatus;
 }
 
-// TODO:
-interface Borrow {
+export interface Borrow {
   updatedAt: Date;
   userId: number;
   userItemId: number;
