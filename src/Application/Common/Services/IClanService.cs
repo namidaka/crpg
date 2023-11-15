@@ -144,11 +144,6 @@ internal class ClanService : IClanService
             return new(CommonErrors.UserItemNotFound(userItemId));
         }
 
-        if (userItem.IsBroken)
-        {
-            return new(CommonErrors.ItemBroken(userItem.ItemId));
-        }
-
         if (userItem.EquippedItems.Any())
         {
             return new(CommonErrors.UserItemInUse(userItemId));
@@ -267,12 +262,7 @@ internal class ClanService : IClanService
             return new(CommonErrors.UserItemNotFound(userItemId));
         }
 
-        if (borrow.UserItem!.IsBroken)
-        {
-            return new(CommonErrors.ItemBroken(borrow.UserItem.ItemId));
-        }
-
-        db.EquippedItems.RemoveRange(borrow.UserItem.EquippedItems);
+        db.EquippedItems.RemoveRange(borrow.UserItem!.EquippedItems);
         db.ClanArmoryBorrows.Remove(borrow);
 
         return Result.NoErrors;
