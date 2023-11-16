@@ -18,57 +18,68 @@ const { user } = toRefs(useUserStore());
 <template>
   <ItemCard class="cursor-pointer" :item="clanArmoryItem.userItem.item">
     <template #badges-top-right>
-      <VTooltip>
-        <UserMedia :user="owner" hiddenPlatform hiddenTitle :isSelf="user!.id === owner.id" />
-        <template #popper>
-          <div class="flex items-center gap-2">
-            <i18n-t
-              scope="global"
-              keypath="clan.armory.item.owner.tooltip.title"
-              tag="div"
-              class="flex items-center gap-2"
-            >
-              <template #user>
-                <UserMedia
-                  class="max-w-[10rem]"
-                  :user="owner"
-                  :isSelf="user!.id === clanArmoryItem.userItem.userId"
-                  hiddenPlatform
-                />
-              </template>
-            </i18n-t>
-          </div>
-        </template>
-      </VTooltip>
+      <div class="group flex items-center">
+        <VTooltip :class="{ 'transition-transform group-hover:-translate-x-3.5': borrower }">
+          <UserMedia
+            :user="owner"
+            hiddenPlatform
+            hiddenTitle
+            hiddenClan
+            :isSelf="user!.id === owner.id"
+          />
+          <template #popper>
+            <div class="flex items-center gap-2">
+              <i18n-t
+                scope="global"
+                keypath="clan.armory.item.owner.tooltip.title"
+                tag="div"
+                class="flex items-center gap-2"
+              >
+                <template #user>
+                  <UserMedia
+                    class="max-w-[10rem]"
+                    :user="owner"
+                    :isSelf="user!.id === clanArmoryItem.userItem.userId"
+                    hiddenPlatform
+                    hiddenClan
+                  />
+                </template>
+              </i18n-t>
+            </div>
+          </template>
+        </VTooltip>
 
-      <VTooltip v-if="borrower">
-        <UserMedia
-          :user="borrower"
-          hiddenPlatform
-          hiddenTitle
-          class="-ml-4"
-          :isSelf="user!.id === borrower.id"
-        />
-        <template #popper>
-          <div class="flex items-center gap-2">
-            <i18n-t
-              scope="global"
-              keypath="clan.armory.item.borrower.tooltip.title"
-              tag="div"
-              class="flex items-center gap-2"
-            >
-              <template #user>
-                <UserMedia
-                  class="max-w-[10rem]"
-                  :user="borrower"
-                  :isSelf="user!.id === borrower.id"
-                  hiddenPlatform
-                />
-              </template>
-            </i18n-t>
-          </div>
-        </template>
-      </VTooltip>
+        <VTooltip v-if="borrower">
+          <UserMedia
+            :user="borrower"
+            hiddenPlatform
+            hiddenTitle
+            hiddenClan
+            class="relative z-10 -ml-2.5"
+            :isSelf="user!.id === borrower.id"
+          />
+          <template #popper>
+            <div class="flex items-center gap-2">
+              <i18n-t
+                scope="global"
+                keypath="clan.armory.item.borrower.tooltip.title"
+                tag="div"
+                class="flex items-center gap-2"
+              >
+                <template #user>
+                  <UserMedia
+                    class="max-w-[10rem]"
+                    :user="borrower"
+                    :isSelf="user!.id === borrower.id"
+                    hiddenPlatform
+                    hiddenClan
+                  />
+                </template>
+              </i18n-t>
+            </div>
+          </template>
+        </VTooltip>
+      </div>
     </template>
   </ItemCard>
 </template>

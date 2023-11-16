@@ -30,13 +30,12 @@ import {
   returnItemToClanArmory,
   removeItemFromClanArmory,
   addItemToClanArmory,
+  getClanArmoryItemOwner,
 } from '@/services/clan-service';
-
 import { scrollToTop } from '@/utils/scroll';
 import { useItemDetail } from '@/composables/character/use-item-detail';
 import { useStickySidebar } from '@/composables/use-sticky-sidebar';
 import { useInventoryDnD } from '@/composables/character/use-inventory-dnd';
-
 import {
   characterKey,
   characterCharacteristicsKey,
@@ -46,7 +45,6 @@ import {
   equippedItemsBySlotKey,
 } from '@/symbols/character';
 import { mainHeaderHeightKey } from '@/symbols/common';
-
 import { useClanMembers } from '@/composables/clan/use-clan-members';
 
 definePage({
@@ -71,7 +69,7 @@ const upkeepIsHigh = computed(() =>
 );
 const equippedItemsIds = computed(() => characterItems.value.map(ei => ei.userItem.id));
 
-const changeEquippedItems = async (items: EquippedItemId[]) => {
+const onChangeEquippedItems = async (items: EquippedItemId[]) => {
   await updateCharacterItems(character.value.id, items);
   await loadCharacterItems(0, { id: character.value.id });
 };
@@ -163,12 +161,6 @@ const onRemoveFromClanArmory = async (userItemId: number) => {
 const hideInArmoryItemsModel = useStorage<boolean>('character-inventory-in-armory-items', true);
 const hasArmoryItems = computed(() => userStore.userItems.some(ui => ui.isArmoryItem));
 
-const getClanArmoryItemOwner = (userItem: UserItem) => {
-  if (!userStore.clan?.id || !userItem.isArmoryItem) return null;
-  if (userItem.userId === userStore.user!.id) return null;
-  return clanMembers.value.find(cm => cm.user.id === userItem.userId)?.user || null;
-};
-
 const flatItems = computed(() =>
   createItemIndex(
     extractItemFromUserItem(
@@ -199,11 +191,6 @@ const sortingConfig: SortingConfig = {
     order: 'desc',
   },
 };
-
-const filterByTypeModel = ref<ItemType[]>([]);
-const filterByNameModel = ref<string>('');
-const sortingModel = useStorage<string>('character-inventory-sorting', 'rank_desc');
-
 const aggregationConfig = {
   type: {
     title: 'type',
@@ -215,6 +202,10 @@ const aggregationConfig = {
     chosen_filters_on_top: false,
   },
 } as AggregationConfig;
+
+const filterByTypeModel = ref<ItemType[]>([]);
+const filterByNameModel = ref<string>('');
+const sortingModel = useStorage<string>('character-inventory-sorting', 'rank_desc');
 
 const searchResult = computed(() =>
   getSearchResult({
@@ -251,8 +242,7 @@ const totalItemsCost = computed(() =>
 
 const equippedItemsBySlot = computed(() =>
   characterItems.value.reduce((out, ei) => {
-    // @ts-ignore // TODO: fix ts err
-    out[ei.slot] = ei.userItem;
+    out[ei.slot] = ei.userItem as UserItem;
     return out;
   }, {} as UserItemsBySlot)
 );
@@ -280,12 +270,14 @@ const compareItemsResult = computed(() => {
 const aside = ref<HTMLDivElement | null>(null);
 const { top: stickySidebarTop } = useStickySidebar(aside, mainHeaderHeight.value + 16, 16);
 
-await userStore.fetchUserItems();
+const promises: Promise<any>[] = [userStore.fetchUserItems()];
 
 const { clanMembers, loadClanMembers } = useClanMembers(userStore.clan?.id);
 if (userStore.clan?.id) {
-  await loadClanMembers();
+  promises.push(loadClanMembers());
 }
+
+await Promise.all(promises);
 </script>
 
 <template>
@@ -349,7 +341,7 @@ if (userStore.clan?.id) {
                 :notMeetRequirement="
                   validateItemNotMeetRequirement(userItem.item, characterCharacteristics)
                 "
-                :owner="getClanArmoryItemOwner(userItem)"
+                :owner="getClanArmoryItemOwner(userItem, userStore.user!.id, clanMembers)"
                 draggable="true"
                 @dragstart="onDragStart(userItem)"
                 @dragend="onDragEnd"
@@ -409,7 +401,7 @@ if (userStore.clan?.id) {
     </div>
 
     <div class="sticky left-0 col-span-5 self-start" :style="{ top: `${mainHeaderHeight + 16}px` }">
-      <CharacterInventoryDoll @change="changeEquippedItems" />
+      <CharacterInventoryDoll @change="onChangeEquippedItems" />
     </div>
 
     <div
@@ -456,7 +448,6 @@ if (userStore.clan?.id) {
     <ItemDetailGroup>
       <template #default="di">
         <CharacterInventoryItemDetail
-          class="w-80"
           :compareResult="
             compareItemsResult.find(cr => cr.type === flatItems.find(fi => fi.id === di.id)!.type)
               ?.compareResult
@@ -464,7 +455,13 @@ if (userStore.clan?.id) {
           :item="flatItems.find(fi => fi.id === di.id)!"
           :userItem="userStore.userItems.find(ui => ui.id === di.userItemId)!"
           :equipped="equippedItemsIds.includes(di.userItemId)"
-          :owner="getClanArmoryItemOwner(userStore.userItems.find(ui => ui.id === di.userItemId)!)"
+          :owner="
+            getClanArmoryItemOwner(
+              userStore.userItems.find(ui => ui.id === di.userItemId)!,
+              userStore.user!.id,
+              clanMembers
+            )
+          "
           @sell="
             () => {
               closeItemDetail(di.id);

@@ -2,12 +2,13 @@ import qs from 'qs';
 import { type Item } from '@/models/item';
 import { type User, type UserPublic, type UserItem, type UserItemsByType } from '@/models/user';
 import { Platform } from '@/models/platform';
-import { type ClanEdition, type ClanMemberRole } from '@/models/clan';
+import { type Clan, type ClanEdition, type ClanMemberRole } from '@/models/clan';
 import { type RestrictionWithActive } from '@/models/restriction';
 
 import { get, post, put, del } from '@/services/crpg-client';
 import { getActiveJoinRestriction, mapRestrictions } from '@/services/restriction-service';
 import { mapClanResponse } from '@/services/clan-service';
+import { pick } from '@/utils/object';
 
 export const getUser = () => get<User>('/users/self');
 
@@ -99,3 +100,8 @@ export const getUserRestrictions = async (id: number) =>
 // TODO: SPEC
 export const getUserActiveJoinRestriction = async (id: number) =>
   getActiveJoinRestriction(await getUserRestrictions(id));
+
+export const mapUserToUserPublic = (user: User, userClan: Clan | null): UserPublic => ({
+  ...pick(user, ['id', 'platform', 'platformUserId', 'name', 'region', 'avatar']),
+  clan: userClan,
+});
