@@ -24,11 +24,11 @@ public class ClanArmoryCasesTest : TestBase
         Assert.That(result.Errors, Is.Null.Or.Empty);
         await ActDb.SaveChangesAsync();
 
-        Assert.That(AssertDb.ClanArmoryBorrows.Count(), Is.EqualTo(0));
+        Assert.That(AssertDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(0));
         Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(0));
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
             .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
             .Where(e => e.Name == "user0")
             .FirstAsync();
@@ -37,13 +37,13 @@ public class ClanArmoryCasesTest : TestBase
 
         user = await AssertDb.Users
             .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
             .Include(e => e.Items)
             .Where(e => e.Name == "user1")
             .FirstAsync();
 
         Assert.That(user.ClanMembership, Is.Not.Null);
         Assert.That(user.ClanMembership!.ArmoryItems.Count, Is.EqualTo(0));
-        Assert.That(user.ClanMembership!.ArmoryBorrows.Count, Is.EqualTo(0));
+        Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
     }
 }

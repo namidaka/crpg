@@ -10,13 +10,13 @@ using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Clans.Commands.Armory;
 
-public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowViewModel>
+public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowedItemViewModel>
 {
     public int UserItemId { get; init; }
     public int UserId { get; init; }
     public int ClanId { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<BorrowClanArmoryCommand, ClanArmoryBorrowViewModel>
+    internal class Handler : IMediatorRequestHandler<BorrowClanArmoryCommand, ClanArmoryBorrowedItemViewModel>
     {
         private static readonly ILogger Logger = LoggerFactory.CreateLogger<BorrowClanArmoryCommand>();
 
@@ -33,7 +33,7 @@ public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowViewMod
             _clanService = clanService;
         }
 
-        public async Task<Result<ClanArmoryBorrowViewModel>> Handle(BorrowClanArmoryCommand req, CancellationToken cancellationToken)
+        public async Task<Result<ClanArmoryBorrowedItemViewModel>> Handle(BorrowClanArmoryCommand req, CancellationToken cancellationToken)
         {
             var user = await _db.Users
                 .Where(e => e.Id == req.UserId)
@@ -63,7 +63,7 @@ public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowViewMod
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' borrowed item '{1}' from the armory '{2}'", req.UserId, req.UserItemId, req.ClanId);
 
-            return new(_mapper.Map<ClanArmoryBorrowViewModel>(result.Data!));
+            return new(_mapper.Map<ClanArmoryBorrowedItemViewModel>(result.Data!));
         }
     }
 }

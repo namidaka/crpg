@@ -44,7 +44,7 @@ public record GetClanArmoryQuery : IMediatorRequest<IList<ClanArmoryItemViewMode
 
             var clan = await _db.Clans.AsNoTracking()
                 .Where(e => e.Id == req.ClanId)
-                .Include(e => e.ArmoryItems).ThenInclude(e => e.Borrow)
+                .Include(e => e.ArmoryItems).ThenInclude(e => e.BorrowedItem)
                 .Include(e => e.ArmoryItems).ThenInclude(e => e.UserItem!).ThenInclude(e => e.Item)
                 .FirstOrDefaultAsync(cancellationToken);
             if (clan == null)
