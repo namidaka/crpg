@@ -21,5 +21,5 @@ public class UserItem : AuditableEntity
     /// </summary>
     public List<EquippedItem> EquippedItems { get; set; } = new();
     public ClanArmoryItem? ClanArmoryItem { get; set; }
-    public ClanArmoryBorrow? ClanArmoryBorrow { get; set; }
+    public ClanArmoryBorrowedItem? ClanArmoryBorrowedItem { get; set; }
 }

@@ -16,7 +16,7 @@ public class ReturnUnusedClanArmoryItemsCommandTest : TestBase
         await ArrangeDb.Users.ForEachAsync(u => u.UpdatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(10)));
         await ArrangeDb.SaveChangesAsync();
 
-        Assert.That(ActDb.ClanArmoryBorrows.Count(), Is.EqualTo(4));
+        Assert.That(ActDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(4));
 
         var handler = new ReturnUnusedClanArmoryItemsCommand.Handler(ActDb);
         var result = await handler.Handle(new ReturnUnusedClanArmoryItemsCommand
@@ -26,6 +26,6 @@ public class ReturnUnusedClanArmoryItemsCommandTest : TestBase
 
         Assert.That(result.Errors, Is.Null);
 
-        Assert.That(AssertDb.ClanArmoryBorrows.Count(), Is.EqualTo(0));
+        Assert.That(AssertDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(0));
     }
 }

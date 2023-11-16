@@ -202,7 +202,7 @@ public class ClansController : BaseController
     /// <response code="200">Ok.</response>
     /// <response code="400">Bad request.</response>
     [HttpPut("{clanId}/armory/{userItemId}/borrow")]
-    public Task<ActionResult<Result<ClanArmoryBorrowViewModel>>> Borrow([FromRoute] int clanId, [FromRoute] int userItemId)
+    public Task<ActionResult<Result<ClanArmoryBorrowedItemViewModel>>> Borrow([FromRoute] int clanId, [FromRoute] int userItemId)
     {
         var req = new BorrowClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
         return ResultToActionAsync(Mediator.Send(req));

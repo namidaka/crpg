@@ -38,10 +38,10 @@ public class BorrowClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Null);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
             .FirstAsync(e => e.Id == user.Id);
 
-        Assert.That(user.ClanMembership!.ArmoryBorrows.Count, Is.EqualTo(1));
+        Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(1));
     }
 
     [Test]
@@ -73,10 +73,10 @@ public class BorrowClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
             .FirstAsync(e => e.Id == user.Id);
 
-        Assert.That(user.ClanMembership!.ArmoryBorrows.Count, Is.EqualTo(0));
+        Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
     }
 
     [Test]
@@ -107,10 +107,10 @@ public class BorrowClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-             .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+             .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
              .FirstAsync(e => e.Id == user.Id);
 
-        Assert.That(user.ClanMembership!.ArmoryBorrows.Count, Is.EqualTo(0));
+        Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
     }
 
     [Test]
@@ -148,9 +148,9 @@ public class BorrowClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-             .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrows)
+             .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
              .FirstAsync(e => e.Id == user.Id);
 
-        Assert.That(user.ClanMembership!.ArmoryBorrows.Count, Is.EqualTo(0));
+        Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
     }
 }
