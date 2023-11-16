@@ -69,7 +69,7 @@
 }
 
 .o-table--hoverable tbody tr:not(.o-table__tr--selected) {
-  @apply cursor-pointer hover:bg-base-200;
+  @apply cursor-pointer hover:bg-base-200/50;
 }
 
 .o-table--table__empty {

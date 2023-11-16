@@ -78,7 +78,7 @@ const { pageModel, perPage } = usePagination();
           }"
           class="inline-block hover:text-content-100"
         >
-          <UserMedia :user="restriction.restrictedUser" class="max-w-[10rem]" />
+          <UserMedia class="max-w-[10rem]" :user="restriction.restrictedUser" hiddenClan />
         </RouterLink>
       </template>
     </OTableColumn>
