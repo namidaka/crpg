@@ -41,7 +41,7 @@ public class AddCanArmoryCommandTest : TestBase
 
         var view = result.Data!;
         Assert.That(view.UserItem, Is.Not.Null);
-        Assert.That(view.Borrow, Is.Null);
+        Assert.That(view.BorrowedItem, Is.Null);
     }
 
     [Test]
