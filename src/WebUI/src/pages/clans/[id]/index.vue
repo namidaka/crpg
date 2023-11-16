@@ -338,6 +338,7 @@ await fetchPageData(clanId.value);
                 "
                 :user="member.user"
                 :isSelf="checkIsSelfMember(member)"
+                hiddenClan
               />
             </template>
           </OTableColumn>
@@ -355,8 +356,8 @@ await fetchPageData(clanId.value);
                 member.role === ClanMemberRole.Leader
                   ? 'text-more-support'
                   : member.role === ClanMemberRole.Officer
-                  ? 'text-content-100'
-                  : 'text-content-400'
+                    ? 'text-content-100'
+                    : 'text-content-400'
               "
             >
               <ClanRoleIcon

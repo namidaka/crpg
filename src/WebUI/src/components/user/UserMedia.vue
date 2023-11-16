@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { type Clan, ClanMemberRole } from '@/models/clan';
+import { ClanMemberRole } from '@/models/clan';
 import { type UserPublic } from '@/models/user';
 
 const {
   user,
-  clan = null,
   clanRole = null,
   isSelf = false,
   hiddenPlatform = false,
   hiddenTitle = false,
+  hiddenClan = false,
   size = 'sm',
 } = defineProps<{
   user: UserPublic;
-  clan?: Clan | null;
   clanRole?: ClanMemberRole | null;
   isSelf?: boolean;
   hiddenPlatform?: boolean;
   hiddenTitle?: boolean;
+  hiddenClan?: boolean;
   size?: 'sm' | 'xl';
 }>();
 </script>
@@ -27,13 +27,13 @@ const {
       :src="user.avatar"
       alt=""
       class="rounded-full"
-      :class="[size === 'xl' ? 'h-10 w-10' : 'h-7 w-7', { 'ring-2  ring-status-success ': isSelf }]"
+      :class="[size === 'xl' ? 'h-10 w-10' : 'h-7 w-7', { 'ring-2  ring-status-success': isSelf }]"
     />
 
-    <template v-if="clan">
+    <template v-if="!hiddenClan && user.clan">
       <RouterLink
         class="group flex items-center gap-1 hover:opacity-75"
-        :to="{ name: 'ClansId', params: { id: clan.id } }"
+        :to="{ name: 'ClansId', params: { id: user.clan.id } }"
       >
         <ClanRoleIcon
           v-if="
@@ -41,8 +41,8 @@ const {
           "
           :role="clanRole"
         />
-        <ClanTagIcon :color="clan.primaryColor" />
-        [{{ clan.tag }}]
+        <ClanTagIcon :color="user.clan.primaryColor" />
+        [{{ user.clan.tag }}]
       </RouterLink>
     </template>
 

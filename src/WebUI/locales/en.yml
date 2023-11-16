@@ -782,6 +782,8 @@ clan:
           title: Owner {user}
       borrow:
         title: Borrow from {user}
+        validation:
+          borrowed: The item has already been borrowed
         notify:
           success: The item successfully borrowed from the armory
       borrowed:

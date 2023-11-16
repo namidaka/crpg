@@ -21,7 +21,7 @@ const isOwnItem = computed(() => user.value?.id === clanArmoryItem.userItem.user
 </script>
 
 <template>
-  <ItemDetail class="w-72" :item="clanArmoryItem.userItem.item">
+  <ItemDetail :item="clanArmoryItem.userItem.item">
     <template #actions>
       <ConfirmActionTooltip
         v-if="isOwnItem"
@@ -39,7 +39,15 @@ const isOwnItem = computed(() => user.value?.id === clanArmoryItem.userItem.user
         />
       </ConfirmActionTooltip>
 
-      <OButton v-else-if="borrower" variant="secondary" disabled expanded rounded size="lg">
+      <OButton
+        v-else-if="borrower"
+        variant="secondary"
+        disabled
+        expanded
+        rounded
+        size="lg"
+        v-tooltip="$t('clan.armory.item.borrow.validation.borrowed')"
+      >
         <i18n-t
           scope="global"
           keypath="clan.armory.item.borrowed.title"
@@ -47,7 +55,7 @@ const isOwnItem = computed(() => user.value?.id === clanArmoryItem.userItem.user
           class="flex items-center gap-2"
         >
           <template #user>
-            <UserMedia :user="borrower" hiddenPlatform />
+            <UserMedia :user="borrower" hiddenPlatform hiddenClan />
           </template>
         </i18n-t>
       </OButton>
@@ -67,7 +75,7 @@ const isOwnItem = computed(() => user.value?.id === clanArmoryItem.userItem.user
           class="flex items-center gap-2"
         >
           <template #user>
-            <UserMedia :user="owner" hiddenPlatform />
+            <UserMedia :user="owner" hiddenPlatform hiddenClan />
           </template>
         </i18n-t>
       </OButton>

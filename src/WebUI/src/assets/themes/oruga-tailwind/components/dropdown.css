@@ -32,6 +32,10 @@
   @apply max-w-full;
 }
 
+.v-popper--theme-tooltip.dense .v-popper__inner {
+  @apply p-0;
+}
+
 .v-popper--theme-tooltip .v-popper__arrow-inner,
 .v-popper--theme-tooltip .v-popper__arrow-outer {
   @apply border-base-200;

@@ -122,7 +122,7 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
           field="user.name"
           :label="$t('leaderboard.table.cols.player')"
         >
-          <UserMedia :user="row.user" :clan="row.user.clan" hiddenPlatform class="max-w-[20rem]" />
+          <UserMedia :user="row.user" hiddenPlatform class="max-w-[20rem]" />
         </OTableColumn>
 
         <OTableColumn field="class" :width="80">

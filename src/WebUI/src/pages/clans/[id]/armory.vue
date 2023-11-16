@@ -1,25 +1,18 @@
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core';
-
 import { ItemType } from '@/models/item';
 import { type AggregationConfig, AggregationView, type SortingConfig } from '@/models/item-search';
-import { type ClanArmoryItem } from '@/models/clan';
-
 import { createItemIndex } from '@/services/item-search-service/indexator';
 import { getSearchResult } from '@/services/item-search-service';
-
+import { getClanArmoryItemBorrower } from '@/services/clan-service';
 import { notify } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
-
 import { useClan } from '@/composables/clan/use-clan';
 import { useClanArmory } from '@/composables/clan/use-clan-armory';
 import { useItemDetail } from '@/composables/character/use-item-detail';
 import { usePagination } from '@/composables/use-pagination';
 import { useClanMembers } from '@/composables/clan/use-clan-members';
-
 import { useUserStore } from '@/stores/user';
-
-const userStore = useUserStore();
 
 definePage({
   props: true,
@@ -34,10 +27,13 @@ const props = defineProps<{
   id: string;
 }>();
 
+const userStore = useUserStore();
+
 const { clanId, loadClan } = useClan(props.id);
 const { clanArmory, loadClanArmory, isLoadingClanArmory, borrowItem, removeItem } = useClanArmory(
   clanId.value
 );
+const { clanMembers, loadClanMembers } = useClanMembers(clanId.value);
 
 const onBorrowFromClanArmory = async (userItemId: number) => {
   await borrowItem(userItemId);
@@ -61,11 +57,25 @@ const sortingConfig: SortingConfig = {
     order: 'asc',
   },
 };
+const aggregationConfig = {
+  type: {
+    title: 'type',
+    description: '',
+    sort: 'term',
+    size: 1000,
+    conjunction: false,
+    view: AggregationView.Radio,
+    chosen_filters_on_top: false,
+  },
+} as AggregationConfig;
+
 const sortingModel = ref<string>('rank_desc');
 const filterByTypeModel = ref<ItemType[]>([]);
 const filterByNameModel = ref<string>('');
 const { pageModel } = usePagination();
 const perPage = 16;
+const hideOwnedItemsModel = useStorage<boolean>('clan-armory-hide-owned-items', true);
+const hideBorrowedItemsModel = useStorage<boolean>('clan-armory-hide-borrowed-items', true);
 
 const flatItems = computed(() =>
   createItemIndex(
@@ -78,18 +88,6 @@ const flatItems = computed(() =>
       .map(ca => ca.userItem.item)
   )
 );
-
-const aggregationConfig = {
-  type: {
-    title: 'type',
-    description: '',
-    sort: 'term',
-    size: 1000,
-    conjunction: false,
-    view: AggregationView.Radio,
-    chosen_filters_on_top: false,
-  },
-} as AggregationConfig;
 
 const searchResult = computed(() =>
   getSearchResult({
@@ -106,9 +104,6 @@ const searchResult = computed(() =>
     },
   })
 );
-
-const hideOwnedItemsModel = useStorage<boolean>('clan-armory-hide-owned-items', true);
-const hideBorrowedItemsModel = useStorage<boolean>('clan-armory-hide-borrowed-items', true);
 
 const filteredClanArmoryItems = computed(() => {
   const foundedItemIds = searchResult.value.data.items.map(item => item.id);
@@ -127,20 +122,11 @@ const filteredClanArmoryItems = computed(() => {
 
 const { toggleItemDetail, closeItemDetail } = useItemDetail();
 
-// TODO:
-const { clanMembers, loadClanMembers } = useClanMembers(clanId.value);
-
 await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClanMembers()]);
-
-// TODO:
-const getBorrower = (clanArmoryItem: ClanArmoryItem) => {
-  if (clanArmoryItem.borrow?.userId === null) return null;
-  return clanMembers.value.find(cm => cm.user.id === clanArmoryItem.borrow?.userId)?.user || null;
-};
 </script>
 
 <template>
-  <div class="px-6 py-6">
+  <div class="p-6">
     <OButton
       v-tooltip.bottom="$t('nav.back')"
       tag="router-link"
@@ -207,7 +193,7 @@ const getBorrower = (clanArmoryItem: ClanArmoryItem) => {
               v-for="clanArmoryItem in filteredClanArmoryItems"
               :clanArmoryItem="clanArmoryItem"
               :owner="clanMembers.find(cm => cm.user.id === clanArmoryItem.userItem.userId)!.user"
-              :borrower="getBorrower(clanArmoryItem)"
+              :borrower="getClanArmoryItemBorrower(clanArmoryItem, clanMembers)"
               @click="
                 e =>
                   toggleItemDetail(e.target as HTMLElement, {
@@ -246,7 +232,12 @@ const getBorrower = (clanArmoryItem: ClanArmoryItem) => {
                 cm.user.id === clanArmory.find(ca => ca.userItem.item.id === di.id)!.userItem.userId
             )!.user
           "
-          :borrower="getBorrower(clanArmory.find(ca => ca.userItem.item.id === di.id)!)"
+          :borrower="
+            getClanArmoryItemBorrower(
+              clanArmory.find(ca => ca.userItem.item.id === di.id)!,
+              clanMembers
+            )
+          "
           @borrow="
             id => {
               closeItemDetail(di.id);

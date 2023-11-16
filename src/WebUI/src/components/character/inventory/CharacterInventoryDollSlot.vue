@@ -43,7 +43,7 @@ const {
     <ItemCard
       v-if="userItem !== undefined"
       :item="userItem.item"
-      class="cursor-grab !ring-0"
+      class="h-full cursor-grab !ring-0"
       data-aq-character-slot-item-thumb
     >
       <template #badges-top-right>
