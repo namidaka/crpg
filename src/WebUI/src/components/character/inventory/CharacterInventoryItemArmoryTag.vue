@@ -6,7 +6,7 @@ const { owner } = defineProps<{ owner?: UserPublic | null }>();
 
 <template>
   <VTooltip v-if="owner">
-    <UserMedia :user="owner" hiddenPlatform hiddenTitle />
+    <UserMedia :user="owner" hiddenPlatform hiddenTitle hiddenClan />
     <template #popper>
       <div class="flex items-center gap-2">
         <i18n-t

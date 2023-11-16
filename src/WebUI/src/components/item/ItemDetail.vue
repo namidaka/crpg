@@ -53,22 +53,24 @@ const aggregationsConfig = computed(() =>
 </script>
 
 <template>
-  <article>
+  <article class="w-80 p-4">
     <div class="relative mb-3">
-      <img
-        :src="thumb"
-        :alt="item.name"
-        :title="item.name"
-        class="pointer-events-none w-full select-none object-contain"
-      />
+      <div class="-mx-4 -mt-4">
+        <img
+          :src="thumb"
+          :alt="item.name"
+          :title="item.name"
+          class="pointer-events-none w-full select-none object-contain"
+        />
+      </div>
 
-      <div class="absolute left-0 top-0 z-10 flex items-center gap-1">
+      <div class="absolute left-0 top-4 z-10 flex items-center gap-1">
         <ItemRankIcon v-if="item.rank > 0" :rank="item.rank" />
 
         <slot name="badges-top-left" />
       </div>
 
-      <div class="absolute right-0 top-0 z-10 flex items-center gap-1">
+      <div class="absolute right-0 top-4 z-10 flex items-center gap-1">
         <slot name="badges-top-right" />
       </div>
 
@@ -83,6 +85,7 @@ const aggregationsConfig = computed(() =>
 
     <h3 class="mb-6 font-bold" :style="{ color: rankColor }">
       {{ item.name }}
+
       <Tag
         icon="popup"
         variant="primary"

@@ -6,17 +6,17 @@ const { item } = defineProps<{
   item: Item;
 }>();
 
-const { rankColor, thumb } = useItem(toRef(() => item));
+const { thumb } = useItem(toRef(() => item));
 </script>
 
 <template>
   <article
-    class="w-full items-center justify-center space-y-1 rounded-lg bg-base-200 p-1.5 ring ring-transparent hover:ring-border-200"
+    class="min-h-[5rem] items-center justify-center space-y-1 rounded-lg bg-base-200 ring ring-transparent hover:ring-border-200"
   >
-    <div class="relative">
-      <img :src="thumb" :alt="item.name" class="h-20 w-full select-none object-contain" />
+    <div class="relative h-full">
+      <img :src="thumb" :alt="item.name" class="h-full select-none object-contain" />
 
-      <div class="absolute left-0 top-0 z-10 flex items-center gap-1">
+      <div class="absolute left-1 top-1 z-10 flex items-center gap-1">
         <ItemRankIcon
           v-if="item.rank > 0"
           :rank="item.rank"
@@ -25,21 +25,17 @@ const { rankColor, thumb } = useItem(toRef(() => item));
         <slot name="badges-top-left" />
       </div>
 
-      <div class="absolute right-0 top-0 z-10 flex items-center gap-1">
+      <div class="absolute right-1 top-1 z-10 flex items-center gap-1">
         <slot name="badges-top-right" />
       </div>
 
-      <div class="absolute bottom-0 left-0 z-10 flex items-center gap-1">
+      <div class="absolute bottom-1 left-0 z-10 flex items-center gap-1">
         <slot name="badges-bottom-left" />
       </div>
 
-      <div class="absolute bottom-0 right-0 z-10 flex items-center gap-1">
+      <div class="absolute bottom-1 right-0 z-10 flex items-center gap-1">
         <slot name="badges-bottom-right" />
       </div>
     </div>
-
-    <h4 class="line-clamp-1 text-3xs font-bold" :style="{ color: rankColor }" v-tooltip="item.name">
-      {{ item.name }}
-    </h4>
   </article>
 </template>

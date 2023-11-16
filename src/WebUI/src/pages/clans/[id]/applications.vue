@@ -67,7 +67,7 @@ await loadClanApplications(0, { id: clanId.value });
               field="name"
               :label="$t('clan.application.table.column.name')"
             >
-              <UserMedia :user="application.invitee" />
+              <UserMedia :user="application.invitee" hiddenClan />
             </OTableColumn>
 
             <OTableColumn

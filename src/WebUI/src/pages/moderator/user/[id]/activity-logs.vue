@@ -277,9 +277,9 @@ await fetchActivityLogsWithUsers();
       <ActivityLogItem
         v-for="activityLog in sortedActivityLogs"
         :activityLog="activityLog"
-        :isSelfUser="activityLog.userId === user.id"
+        :isSelfUser="activityLog.userId === user!.id"
         :user="
-          activityLog.userId === user.id ? user : activityLogsWithUsers.users[activityLog.userId]
+          activityLog.userId === user!.id ? user! : activityLogsWithUsers.users[activityLog.userId]
         "
         :users="activityLogsWithUsers.users"
         @addUser="addAdditionalUser"
