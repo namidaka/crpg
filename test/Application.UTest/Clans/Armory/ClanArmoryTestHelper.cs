@@ -14,7 +14,12 @@ public static class ClanArmoryTestHelper
 
     public static async Task CommonSetUp(ICrpgDbContext db, int nusers = 4, int itemsPerUser = 4)
     {
-        var items = Enumerable.Range(0, nusers * itemsPerUser).Select(idx => new Item { Id = $"{idx}", Name = $"item{idx}" }).ToList();
+        var items = Enumerable.Range(0, nusers * itemsPerUser).Select(idx => new Item 
+        { 
+            Id = $"{idx}",
+            Name = $"item{idx}",
+            Enabled = true,
+        }).ToList();
         var clan = new Clan { };
 
         var users = Enumerable.Range(0, nusers).Select(idx => new User
@@ -62,7 +67,7 @@ public static class ClanArmoryTestHelper
         return list;
     }
 
-    public static async Task<IList<ClanArmoryBorrow>> BorrowItems(ICrpgDbContext db, string userName, int count = 1)
+    public static async Task<IList<ClanArmoryBorrowedItem>> BorrowItems(ICrpgDbContext db, string userName, int count = 1)
     {
         var user = await db.Users
             .Include(e => e.Items)
@@ -77,11 +82,11 @@ public static class ClanArmoryTestHelper
 
         var items = clan.Members
             .SelectMany(e => e.ArmoryItems)
-            .Where(e => e.Borrow == null)
+            .Where(e => e.BorrowedItem == null)
             .Take(count);
         Assert.That(items.Count, Is.GreaterThanOrEqualTo(count));
 
-        var list = new List<ClanArmoryBorrow>();
+        var list = new List<ClanArmoryBorrowedItem>();
         foreach (var item in items)
         {
             var result = await ClanService.BorrowArmoryItem(db, clan, user, item.UserItemId);

@@ -6,6 +6,6 @@ namespace Crpg.Application.Items.Models;
 public class ClanArmoryItemViewModel : IMapFrom<ClanArmoryItem>
 {
     public UserItemViewModel? UserItem { get; set; }
-    public ClanArmoryBorrowViewModel? Borrow { get; set; }
+    public ClanArmoryBorrowedItemViewModel? BorrowedItem { get; set; }
     public DateTime UpdatedAt { get; set; }
 }
