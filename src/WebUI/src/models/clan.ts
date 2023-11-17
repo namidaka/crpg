@@ -54,14 +54,14 @@ export interface ClanInvitation {
   status: ClanInvitationStatus;
 }
 
-export interface Borrow {
+export interface BorrowedItem {
   updatedAt: Date;
-  userId: number;
+  borrowerUserId: number;
   userItemId: number;
 }
 
 export interface ClanArmoryItem {
   userItem: UserItem;
-  borrow: Borrow | null;
+  borrowedItem: BorrowedItem | null;
   updatedAt: Date;
 }

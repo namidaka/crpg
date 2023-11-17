@@ -170,7 +170,8 @@ region-title: Region
 
 clanBalancingExplanation: "
   <h3>You're not in any clan</h3>
-  <p>In order to play with friends on the same team, we recommend creating a new clan or joining an existing clan</p>"
+  <p>In order to play with friends on the same team, we recommend creating a new clan or joining an existing clan</p>
+  <p>Also, being in a clan allows you to share and lend items (clan armory)</p>"
 
 welcome:
   title: 'Welcome warrior!'
@@ -735,11 +736,11 @@ clan:
       transferRights: Transfer the rights to control
       confirmationDialog:
         title: Confirmation
-        desc: Confirm the transfer of the clan to another member.
+        desc: Confirm the transfer of the clan to another member
       notify:
         success: Member updated
     kick:
-      title: You can {memberLink}. This action cannot be undone.
+      title: You can {memberLink}. This action cannot be undone
       memberLink: kick this user
       dialog:
         title: Kick {memberName} ?
@@ -775,11 +776,11 @@ clan:
     empty: The armory is empty
     filter:
       hideOwned: Hide owned items
-      hideBorrowed: Show only available  items
+      hideBorrowed: Show only available items
     item:
-      owner:
+      lender:
         tooltip:
-          title: Owner {user}
+          title: Lender {user}
       borrow:
         title: Borrow from {user}
         validation:
@@ -794,19 +795,20 @@ clan:
       add:
         title: Add to armory
         confirm:
-          description: 'Are you sure you want to add the item to the armory?'
+          description: Are you sure you want to add the item to the armory?
         notify:
-          success: The item has been successfully added to the clan armory.
+          success: The item has been successfully added to the clan armory
       remove:
         title: Remove from armory
         confirm:
-          description: 'Are you sure you want your item back from the armory?'
+          description: Are you sure you want your item back from the armory?
         notify:
-          success: The item has been successfully returned to the clan armory.
+          success: The item has been successfully returned to the clan armory
       return:
         title: Return to armory
         notify:
-          success: The item has been successfully returned to the clan armory.
+          success: The item has been successfully returned to the clan armory
+
 user:
   field:
     name: User name

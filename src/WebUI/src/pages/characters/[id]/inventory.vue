@@ -30,7 +30,7 @@ import {
   returnItemToClanArmory,
   removeItemFromClanArmory,
   addItemToClanArmory,
-  getClanArmoryItemOwner,
+  getClanArmoryItemLender,
 } from '@/services/clan-service';
 import { scrollToTop } from '@/utils/scroll';
 import { useItemDetail } from '@/composables/character/use-item-detail';
@@ -341,7 +341,7 @@ await Promise.all(promises);
                 :notMeetRequirement="
                   validateItemNotMeetRequirement(userItem.item, characterCharacteristics)
                 "
-                :owner="getClanArmoryItemOwner(userItem, userStore.user!.id, clanMembers)"
+                :lender="getClanArmoryItemLender(userItem, userStore.user!.id, clanMembers)"
                 draggable="true"
                 @dragstart="onDragStart(userItem)"
                 @dragend="onDragEnd"
@@ -467,8 +467,8 @@ await Promise.all(promises);
           :item="flatItems.find(fi => fi.id === di.id)!"
           :userItem="userStore.userItems.find(ui => ui.id === di.userItemId)!"
           :equipped="equippedItemsIds.includes(di.userItemId)"
-          :owner="
-            getClanArmoryItemOwner(
+          :lender="
+            getClanArmoryItemLender(
               userStore.userItems.find(ui => ui.id === di.userItemId)!,
               userStore.user!.id,
               clanMembers
