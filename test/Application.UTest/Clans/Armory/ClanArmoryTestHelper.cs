@@ -14,8 +14,8 @@ public static class ClanArmoryTestHelper
 
     public static async Task CommonSetUp(ICrpgDbContext db, int nusers = 4, int itemsPerUser = 4)
     {
-        var items = Enumerable.Range(0, nusers * itemsPerUser).Select(idx => new Item 
-        { 
+        var items = Enumerable.Range(0, nusers * itemsPerUser).Select(idx => new Item
+        {
             Id = $"{idx}",
             Name = $"item{idx}",
             Enabled = true,
