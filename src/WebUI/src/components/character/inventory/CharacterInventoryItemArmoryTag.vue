@@ -16,7 +16,7 @@ const { lender } = defineProps<{ lender?: UserPublic | null }>();
           class="flex items-center gap-2"
         >
           <template #user>
-            <UserMedia class="max-w-[10rem]" :user="lender" hiddenPlatform />
+            <UserMedia class="max-w-[10rem]" :user="lender" hiddenClan hiddenPlatform />
           </template>
         </i18n-t>
       </div>
