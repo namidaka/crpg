@@ -84,6 +84,8 @@ import {
   computeSalePrice,
   computeBrokenItemRepairCost,
   computeAverageRepairCostPerHour,
+  canUpgrade,
+  canAddedToClanArmory,
 } from './item-service';
 
 beforeEach(() => {
@@ -103,7 +105,7 @@ it('getItems', async () => {
 
 it('getItemImage', () => {
   expect(getItemImage('crpg_aserai_noble_sword_2_t5')).toEqual(
-    '/items/crpg_aserai_noble_sword_2_t5.png'
+    '/items/crpg_aserai_noble_sword_2_t5.webp'
   );
 });
 
@@ -686,4 +688,18 @@ it.each<[number, number]>([
   [100000, 11519],
 ])('computeAverageRepairCostPerHour - price: %s,', (price, expectation) => {
   expect(computeAverageRepairCostPerHour(price)).toEqual(expectation);
+});
+
+it.each<[ItemType, boolean]>([
+  [ItemType.OneHandedWeapon, true],
+  [ItemType.Banner, false],
+])('canUpgrade - type: %s', (itemType, expectation) => {
+  expect(canUpgrade(itemType)).toEqual(expectation);
+});
+
+it.each<[ItemType, boolean]>([
+  [ItemType.OneHandedWeapon, true],
+  [ItemType.Banner, false],
+])('canAddedToClanArmory - type: %s', (itemType, expectation) => {
+  expect(canAddedToClanArmory(itemType)).toEqual(expectation);
 });

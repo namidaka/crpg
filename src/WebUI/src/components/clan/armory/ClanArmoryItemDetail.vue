@@ -45,7 +45,10 @@ const isOwnItem = computed(() => user.value?.id === clanArmoryItem.userItem.user
         expanded
         rounded
         size="lg"
-        v-tooltip="$t('clan.armory.item.borrow.validation.borrowed')"
+        v-tooltip="{
+          content: $t('clan.armory.item.borrow.validation.borrowed'),
+          popperClass: 'v-popper--theme-tooltip-danger',
+        }"
       >
         <i18n-t
           scope="global"
