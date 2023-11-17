@@ -192,7 +192,7 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
             <ClanArmoryItemCard
               v-for="clanArmoryItem in filteredClanArmoryItems"
               :clanArmoryItem="clanArmoryItem"
-              :owner="clanMembers.find(cm => cm.user.id === clanArmoryItem.userItem.userId)!.user"
+              :lender="clanMembers.find(cm => cm.user.id === clanArmoryItem.userItem.userId)!.user"
               :borrower="getClanArmoryItemBorrower(clanArmoryItem, clanMembers)"
               @click="
                 e =>
@@ -226,7 +226,7 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
       <template #default="di">
         <ClanArmoryItemDetail
           :clanArmoryItem="clanArmory.find(ca => ca.userItem.item.id === di.id)!"
-          :owner="
+          :lender="
             clanMembers.find(
               cm =>
                 cm.user.id === clanArmory.find(ca => ca.userItem.item.id === di.id)!.userItem.userId

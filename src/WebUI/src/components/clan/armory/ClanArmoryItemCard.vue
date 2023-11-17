@@ -5,8 +5,7 @@ import { useUserStore } from '@/stores/user';
 
 const { clanArmoryItem } = defineProps<{
   clanArmoryItem: ClanArmoryItem;
-  // TODO:
-  owner: UserPublic;
+  lender: UserPublic;
   borrower: UserPublic | null;
 }>();
 
@@ -21,24 +20,24 @@ const { user } = toRefs(useUserStore());
       <div class="group flex items-center">
         <VTooltip :class="{ 'transition-transform group-hover:-translate-x-3.5': borrower }">
           <UserMedia
-            :user="owner"
+            :user="lender"
             hiddenPlatform
             hiddenTitle
             hiddenClan
-            :isSelf="user!.id === owner.id"
+            :isSelf="user!.id === lender.id"
           />
           <template #popper>
             <div class="flex items-center gap-2">
               <i18n-t
                 scope="global"
-                keypath="clan.armory.item.owner.tooltip.title"
+                keypath="clan.armory.item.lender.tooltip.title"
                 tag="div"
                 class="flex items-center gap-2"
               >
                 <template #user>
                   <UserMedia
                     class="max-w-[10rem]"
-                    :user="owner"
+                    :user="lender"
                     :isSelf="user!.id === clanArmoryItem.userItem.userId"
                     hiddenPlatform
                     hiddenClan

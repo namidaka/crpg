@@ -5,8 +5,7 @@ import { useUserStore } from '@/stores/user';
 
 const { clanArmoryItem } = defineProps<{
   clanArmoryItem: ClanArmoryItem;
-  // TODO:
-  owner: UserPublic;
+  lender: UserPublic;
   borrower: UserPublic | null;
 }>();
 
@@ -75,7 +74,7 @@ const isOwnItem = computed(() => user.value?.id === clanArmoryItem.userItem.user
           class="flex items-center gap-2"
         >
           <template #user>
-            <UserMedia :user="owner" hiddenPlatform hiddenClan />
+            <UserMedia :user="lender" hiddenPlatform hiddenClan />
           </template>
         </i18n-t>
       </OButton>
