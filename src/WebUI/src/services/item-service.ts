@@ -32,28 +32,6 @@ import { n, t } from '@/services/translate-service';
 import { notify, NotificationType } from '@/services/notification-service';
 import { roundFLoat } from '@/utils/math';
 
-// TODO: delete mocks
-// import {
-//   BecDeCorbin,
-//   // Longsword,
-//   // SimpleShortSpear,
-//   // Bow,
-//   NobleCavalryLance,
-//   Pike,
-//   WoodenSword,
-// } from '@/services/item-search-service/__tests__/mocks';
-
-// export const getItems = () =>
-//   new Promise(res => {
-//     res([
-//       //
-//       BecDeCorbin,
-//       // WoodenSword,
-//       Pike,
-//       NobleCavalryLance,
-//     ]);
-//   });
-
 export const getItems = () => get<Item[]>('/items');
 
 export const getItemImage = (baseId: string) => `/items/${baseId}.webp`;
@@ -703,14 +681,12 @@ export const getItemFieldRelativeDiffStr = (value: number, relativeValue: number
 };
 
 export const getItemGraceTimeEnd = (userItem: UserItem) => {
-  const graceTimeEnd = new Date(userItem.createdAt);
+  const graceTimeEnd = userItem.createdAt;
   graceTimeEnd.setHours(graceTimeEnd.getHours() + 1); // TODO: to constants
   return graceTimeEnd;
 };
 
-export const isGraceTimeExpired = (itemGraceTimeEnd: Date) => {
-  return itemGraceTimeEnd < new Date();
-};
+export const isGraceTimeExpired = (itemGraceTimeEnd: Date) => itemGraceTimeEnd < new Date();
 
 export const computeSalePrice = (userItem: UserItem) => {
   const graceTimeEnd = getItemGraceTimeEnd(userItem);
@@ -749,6 +725,7 @@ export const getRankColor = (rank: ItemRank) => {
 };
 
 export const canUpgrade = (type: ItemType) => type !== ItemType.Banner;
+
 export const canAddedToClanArmory = (type: ItemType) => type !== ItemType.Banner;
 
 export const reforgeCostByRank: Record<ItemRank, number> = {

@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { HumanDuration } from '@/models/datetime';
 
 export const parseTimestamp = (ts: number): HumanDuration => {
@@ -41,3 +42,19 @@ export const computeLeftMs = (createdAt: Date, duration: number) => {
 
 export const isBetween = (date: Date, start: Date, end: Date) =>
   date.valueOf() >= start.valueOf() && date.valueOf() <= end.valueOf();
+
+// https://medium.com/@vladkens/automatic-parsing-of-date-strings-in-rest-protocol-with-typescript-cf43554bd157
+const ISODateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
+const isIsoDateString = (value: unknown): value is string => {
+  return typeof value === 'string' && ISODateFormat.test(value);
+};
+export const JSONDateToJs = (data: unknown) => {
+  if (isIsoDateString(data)) return DateTime.fromISO(data).toJSDate();
+  if (data === null || data === undefined || typeof data !== 'object') return data;
+  for (const [key, val] of Object.entries(data)) {
+    // @ts-expect-error this is a hack to make the type checker happy
+    if (isIsoDateString(val)) data[key] = DateTime.fromISO(val).toJSDate();
+    else if (typeof val === 'object') JSONDateToJs(val);
+  }
+  return data;
+};

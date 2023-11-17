@@ -28,6 +28,11 @@
   @apply max-w-xs rounded-lg bg-base-200 px-4 py-3.5 text-content-200 drop-shadow-md;
 }
 
+.v-popper--theme-tooltip.v-popper--theme-tooltip-danger .v-popper__inner {
+    @apply text-status-danger;
+}
+
+
 .v-popper--theme-tooltip.expanded .v-popper__inner {
   @apply max-w-full;
 }

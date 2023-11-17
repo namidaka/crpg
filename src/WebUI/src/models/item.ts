@@ -194,7 +194,7 @@ export type ItemRank = 0 | 1 | 2 | 3;
 export interface Item {
   baseId: string;
   id: string;
-  createdAt: string;
+  createdAt: Date;
   rank: ItemRank;
   name: string;
   price: number;
