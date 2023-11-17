@@ -83,7 +83,7 @@ const flatItems = computed(() =>
       .filter(
         item =>
           (hideOwnedItemsModel.value ? item.userItem.userId !== userStore.user!.id : true) &&
-          (hideBorrowedItemsModel.value ? item.borrow === null : true)
+          (hideBorrowedItemsModel.value ? item.borrowedItem === null : true)
       )
       .map(ca => ca.userItem.item)
   )
