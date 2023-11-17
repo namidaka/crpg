@@ -16,7 +16,7 @@ const checkIsRestrictionActive = (
       restrictedUser!.id === r.restrictedUser!.id && // groupBy user - there may be restrisctions for other users on the list (/admin page)
       type === r.type &&
       id !== r.id &&
-      new Date(createdAt).getTime() < new Date(r.createdAt).getTime() // check whether the the current restriction is NOT the newest
+      createdAt.getTime() < r.createdAt.getTime() // check whether the the current restriction is NOT the newest
   );
 };
 
@@ -31,7 +31,7 @@ export const mapRestrictions = (restrictions: Restriction[]): RestrictionWithAct
 export const getRestrictions = async () =>
   mapRestrictions(await get<Restriction[]>('/restrictions'));
 
-export const restrictUser = async (payload: RestrictionCreation) =>
+export const restrictUser = (payload: RestrictionCreation) =>
   post<Restriction>('/restrictions', payload);
 
 export const getActiveJoinRestriction = (restrictions: RestrictionWithActive[]) =>

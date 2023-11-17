@@ -48,7 +48,6 @@ import { ItemSlot, ItemType, type Item, type ItemArmorComponent } from '@/models
 import { type HumanDuration } from '@/models/datetime';
 
 import { get, put, del } from '@/services/crpg-client';
-import { mapUserItem } from '@/services/users-service';
 import { armorTypes, computeAverageRepairCostPerHour } from '@/services/item-service';
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
 import { computeLeftMs, parseTimestamp } from '@/utils/date';
@@ -92,13 +91,8 @@ export const getCharacterRating = (characterId: number) =>
   get<CharacterRating>(`/users/self/characters/${characterId}/rating`);
 
 // TODO: spec
-export const getCharacterLimitations = async (characterId: number) => {
-  const res = await get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`);
-  return {
-    ...res,
-    lastRespecializeAt: new Date(res.lastRespecializeAt),
-  };
-};
+export const getCharacterLimitations = (characterId: number) =>
+  get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`);
 
 export const getCharacterCharacteristics = (characterId: number) =>
   get<CharacterCharacteristics>(`/users/self/characters/${characterId}/characteristics`);
@@ -250,7 +244,7 @@ export const computeSpeedStats = (
     1 / (1 + applyPolynomialFunction(strength - 3, weightReductionPolynomialFactor));
   const freeWeight = 2.5 * (1 + (strength - 3) / 30);
   const perceivedWeight = Math.max(totalEncumbrance - freeWeight, 0) * weightReductionFactor;
-  const nakedSpeed = 0.60 + 0.03 * (20 * athletics + 2 * agility) / 26.0;
+  const nakedSpeed = 0.6 + (0.03 * (20 * athletics + 2 * agility)) / 26.0;
   const currentSpeed = clamp(
     nakedSpeed * Math.pow(361 / (361 + Math.pow(perceivedWeight, 5)), 0.055),
     0.1,
@@ -268,7 +262,8 @@ export const computeSpeedStats = (
   const timeToMaxSpeed =
     0.8 *
       (1 + perceivedWeight / 15) *
-      (20 / (20 + Math.pow((20 * athletics + 3 * agility) / 120, 2))) + (totalEncumbrance - freeWeight) / 100.0 +
+      (20 / (20 + Math.pow((20 * athletics + 3 * agility) / 120, 2))) +
+    (totalEncumbrance - freeWeight) / 100.0 +
     timeToMaxSpeedWeaponLenghthTerm;
 
   const movementSpeedPenaltyWhenAttacking =
@@ -286,13 +281,8 @@ export const computeSpeedStats = (
   };
 };
 
-export const mapEquippedItem = (equippedItem: EquippedItem) => ({
-  ...equippedItem,
-  userItem: mapUserItem(equippedItem.userItem),
-});
-
 export const getCharacterItems = async (characterId: number) =>
-  (await get<EquippedItem[]>(`/users/self/characters/${characterId}/items`)).map(mapEquippedItem);
+  get<EquippedItem[]>(`/users/self/characters/${characterId}/items`);
 
 export const updateCharacterItems = (characterId: number, items: EquippedItemId[]) =>
   put<EquippedItem[]>(`/users/self/characters/${characterId}/items`, { items });
@@ -405,7 +395,8 @@ export const getRespecCapability = (
     return { price: 0, nextFreeAt: { days: 0, hours: 0, minutes: 0 }, enabled: true };
   }
 
-  const decayDivider = (new Date().getTime() - lastRespecDate.getTime()) / (respecializePriceHalfLife * 1000 * 3600);
+  const decayDivider =
+    (new Date().getTime() - lastRespecDate.getTime()) / (respecializePriceHalfLife * 1000 * 3600);
   const price = character.forTournament
     ? 0
     : Math.floor(

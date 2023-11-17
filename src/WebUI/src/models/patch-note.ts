@@ -3,5 +3,5 @@ export interface PatchNote {
   title: string;
   tagName: string;
   url: string;
-  createdAt: string;
+  createdAt: Date;
 }

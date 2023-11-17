@@ -48,6 +48,13 @@ import {
   canUpdateMemberValidate,
   canKickMemberValidate,
   getClanMember,
+  getClanArmory,
+  addItemToClanArmory,
+  removeItemFromClanArmory,
+  borrowItemFromClanArmory,
+  returnItemToClanArmory,
+  getClanArmoryItemBorrower,
+  getClanArmoryItemLender,
 } from './clan-service';
 
 it('mapClanResponse', () => {
@@ -347,7 +354,6 @@ it.each<[PartialDeep<ClanMember>, PartialDeep<ClanMember>, number, boolean]>([
     2,
     false,
   ],
-
   // an officer can kick a member
   [
     { role: ClanMemberRole.Officer, user: { id: 1 } },
@@ -363,3 +369,12 @@ it.each<[PartialDeep<ClanMember>, PartialDeep<ClanMember>, number, boolean]>([
     ).toEqual(expectation);
   }
 );
+
+it('getClanArmory', async () => {
+  const clanId = 1;
+  const clanArmory = [{ userItem: {}, borrowedItem: null, updatedAt: '' }];
+
+  mockGet(`/clans/${clanId}/armory`).willResolve(response(clanArmory));
+
+  expect(await getClanArmory(clanId)).toEqual(clanArmory);
+});
