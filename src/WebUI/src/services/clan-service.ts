@@ -142,11 +142,13 @@ export const getClanArmoryItemBorrower = (
   clanArmoryItem: ClanArmoryItem,
   clanMembers: ClanMember[]
 ) => {
-  if (clanArmoryItem.borrow === null) return null;
-  return clanMembers.find(cm => cm.user.id === clanArmoryItem.borrow!.userId)?.user || null;
+  if (clanArmoryItem.borrowedItem === null) return null;
+  return (
+    clanMembers.find(cm => cm.user.id === clanArmoryItem.borrowedItem!.borrowerUserId)?.user || null
+  );
 };
 
-export const getClanArmoryItemOwner = (
+export const getClanArmoryItemLender = (
   userItem: UserItem,
   userId: number,
   clanMembers: ClanMember[]

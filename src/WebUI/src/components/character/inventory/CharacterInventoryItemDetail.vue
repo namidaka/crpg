@@ -21,7 +21,7 @@ const {
   userItem: UserItem;
   compareResult?: CompareItemsResult;
   equipped?: boolean;
-  owner?: UserPublic | null;
+  lender?: UserPublic | null;
 }>();
 
 const { user, clan } = toRefs(useUserStore());
@@ -94,7 +94,7 @@ const isUpgradable = computed(() => canUpgrade(item.type) && !userItem.isArmoryI
         v-tooltip="$t('character.inventory.item.broken.tooltip.title')"
       />
 
-      <CharacterInventoryItemArmoryTag v-if="owner || userItem.isArmoryItem" :owner="owner" />
+      <CharacterInventoryItemArmoryTag v-if="lender || userItem.isArmoryItem" :lender="lender" />
     </template>
 
     <template #actions>

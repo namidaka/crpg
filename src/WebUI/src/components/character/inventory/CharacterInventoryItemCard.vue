@@ -10,7 +10,7 @@ const {
   userItem: UserItem;
   equipped: boolean;
   notMeetRequirement: boolean;
-  owner?: UserPublic | null;
+  lender?: UserPublic | null;
 }>();
 
 const isNew = computed(() => !isGraceTimeExpired(getItemGraceTimeEnd(userItem)));
@@ -28,7 +28,7 @@ const isNew = computed(() => !isGraceTimeExpired(getItemGraceTimeEnd(userItem)))
         class="cursor-default opacity-80 hover:opacity-100"
       />
 
-      <CharacterInventoryItemArmoryTag v-if="owner || userItem.isArmoryItem" :owner="owner" />
+      <CharacterInventoryItemArmoryTag v-if="lender || userItem.isArmoryItem" :lender="lender" />
     </template>
 
     <template #badges-bottom-left>
