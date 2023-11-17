@@ -60,8 +60,8 @@ namespace Crpg.Persistence.Migrations
                 columns: table => new
                 {
                     useritemid = table.Column<int>(name: "user_item_id", type: "integer", nullable: false),
-                    clanid = table.Column<int>(name: "clan_id", type: "integer", nullable: false),
-                    userid = table.Column<int>(name: "user_id", type: "integer", nullable: false),
+                    lenderclanid = table.Column<int>(name: "lender_clan_id", type: "integer", nullable: false),
+                    lenderuserid = table.Column<int>(name: "lender_user_id", type: "integer", nullable: false),
                     updatedat = table.Column<DateTime>(name: "updated_at", type: "timestamp with time zone", nullable: false),
                     createdat = table.Column<DateTime>(name: "created_at", type: "timestamp with time zone", nullable: false)
                 },
@@ -69,14 +69,14 @@ namespace Crpg.Persistence.Migrations
                 {
                     table.PrimaryKey("pk_clan_armory_items", x => x.useritemid);
                     table.ForeignKey(
-                        name: "fk_clan_armory_items_clan_members_clan_member_temp_id1",
-                        column: x => x.userid,
+                        name: "fk_clan_armory_items_clan_members_lender_temp_id1",
+                        column: x => x.lenderuserid,
                         principalTable: "clan_members",
                         principalColumn: "user_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_clan_armory_items_clans_clan_id",
-                        column: x => x.clanid,
+                        column: x => x.lenderclanid,
                         principalTable: "clans",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -89,38 +89,38 @@ namespace Crpg.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "clan_armory_borrows",
+                name: "clan_armory_borrowed_items",
                 columns: table => new
                 {
                     useritemid = table.Column<int>(name: "user_item_id", type: "integer", nullable: false),
-                    clanid = table.Column<int>(name: "clan_id", type: "integer", nullable: false),
-                    userid = table.Column<int>(name: "user_id", type: "integer", nullable: false),
+                    borrowerclanid = table.Column<int>(name: "borrower_clan_id", type: "integer", nullable: false),
+                    borroweruserid = table.Column<int>(name: "borrower_user_id", type: "integer", nullable: false),
                     updatedat = table.Column<DateTime>(name: "updated_at", type: "timestamp with time zone", nullable: false),
                     createdat = table.Column<DateTime>(name: "created_at", type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_clan_armory_borrows", x => x.useritemid);
+                    table.PrimaryKey("pk_clan_armory_borrowed_items", x => x.useritemid);
                     table.ForeignKey(
-                        name: "fk_clan_armory_borrows_clan_armory_items_armory_item_temp_id",
+                        name: "fk_clan_armory_borrowed_items_clan_armory_items_armory_item_te",
                         column: x => x.useritemid,
                         principalTable: "clan_armory_items",
                         principalColumn: "user_item_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_clan_armory_borrows_clan_members_clan_member_temp_id",
-                        column: x => x.userid,
+                        name: "fk_clan_armory_borrowed_items_clan_members_borrower_temp_id",
+                        column: x => x.borroweruserid,
                         principalTable: "clan_members",
                         principalColumn: "user_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_clan_armory_borrows_clans_clan_id",
-                        column: x => x.clanid,
+                        name: "fk_clan_armory_borrowed_items_clans_clan_id",
+                        column: x => x.borrowerclanid,
                         principalTable: "clans",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_clan_armory_borrows_user_items_user_item_id",
+                        name: "fk_clan_armory_borrowed_items_user_items_user_item_id",
                         column: x => x.useritemid,
                         principalTable: "user_items",
                         principalColumn: "id",
@@ -128,31 +128,31 @@ namespace Crpg.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_clan_armory_borrows_clan_id",
-                table: "clan_armory_borrows",
-                column: "clan_id");
+                name: "ix_clan_armory_borrowed_items_borrower_clan_id",
+                table: "clan_armory_borrowed_items",
+                column: "borrower_clan_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_clan_armory_borrows_user_id",
-                table: "clan_armory_borrows",
-                column: "user_id");
+                name: "ix_clan_armory_borrowed_items_borrower_user_id",
+                table: "clan_armory_borrowed_items",
+                column: "borrower_user_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_clan_armory_items_clan_id",
+                name: "ix_clan_armory_items_lender_clan_id",
                 table: "clan_armory_items",
-                column: "clan_id");
+                column: "lender_clan_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_clan_armory_items_user_id",
+                name: "ix_clan_armory_items_lender_user_id",
                 table: "clan_armory_items",
-                column: "user_id");
+                column: "lender_user_id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "clan_armory_borrows");
+                name: "clan_armory_borrowed_items");
 
             migrationBuilder.DropTable(
                 name: "clan_armory_items");

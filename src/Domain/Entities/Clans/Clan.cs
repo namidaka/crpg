@@ -50,5 +50,5 @@ public class Clan : AuditableEntity
     public IList<ClanMember> Members { get; set; } = new List<ClanMember>();
     public IList<ClanInvitation> Invitations { get; set; } = new List<ClanInvitation>();
     public IList<ClanArmoryItem> ArmoryItems { get; set; } = new List<ClanArmoryItem>();
-    public IList<ClanArmoryBorrow> ArmoryBorrows { get; set; } = new List<ClanArmoryBorrow>();
+    public IList<ClanArmoryBorrowedItem> ArmoryBorrowedItems { get; set; } = new List<ClanArmoryBorrowedItem>();
 }

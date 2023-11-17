@@ -10,9 +10,9 @@ public class ClanArmoryItemConfiguration : IEntityTypeConfiguration<ClanArmoryIt
     {
         builder.HasKey(e => e.UserItemId);
 
-        builder.HasOne(e => e.ClanMember)
+        builder.HasOne(e => e.Lender)
             .WithMany(e => e.ArmoryItems)
-            .HasForeignKey(e => e.UserId)
+            .HasForeignKey(e => e.LenderUserId)
             .IsRequired();
 
         builder.HasOne(e => e.UserItem)
@@ -22,7 +22,7 @@ public class ClanArmoryItemConfiguration : IEntityTypeConfiguration<ClanArmoryIt
 
         builder.HasOne(e => e.Clan)
             .WithMany(e => e.ArmoryItems)
-            .HasForeignKey(e => e.ClanId)
+            .HasForeignKey(e => e.LenderClanId)
             .IsRequired();
     }
 }
