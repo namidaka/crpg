@@ -102,8 +102,8 @@ action:
   reforge: 重铸
   enter: 进入
   copied: 复制的
-  copy: Копировать
-  ok: Ок
+  copy: 复制的
+  ok: 好的
 
 login:
   label: 登录
