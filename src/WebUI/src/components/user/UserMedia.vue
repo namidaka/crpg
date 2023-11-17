@@ -25,9 +25,9 @@ const {
   <div class="flex items-center gap-1.5">
     <img
       :src="user.avatar"
-      alt=""
       class="rounded-full"
-      :class="[size === 'xl' ? 'h-10 w-10' : 'h-7 w-7', { 'ring-2  ring-status-success': isSelf }]"
+      :alt="user.name"
+      :class="[size === 'xl' ? 'h-9 w-9' : 'h-6 w-6', { 'ring-2  ring-status-success': isSelf }]"
     />
 
     <template v-if="!hiddenClan && user.clan">

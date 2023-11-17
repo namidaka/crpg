@@ -6,7 +6,12 @@ import {
   getAggregationsConfig,
   getVisibleAggregationsConfig,
 } from '@/services/item-search-service';
-import { computeSalePrice, computeBrokenItemRepairCost, canUpgrade } from '@/services/item-service';
+import {
+  computeSalePrice,
+  computeBrokenItemRepairCost,
+  canUpgrade,
+  canAddedToClanArmory,
+} from '@/services/item-service';
 import { parseTimestamp } from '@/utils/date';
 import { omitPredicate } from '@/utils/object';
 import { useUserStore } from '@/stores/user';
@@ -66,11 +71,10 @@ const aggregationsConfig = computed(() =>
   )
 );
 
-// TODO:
 const isOwnArmoryItem = computed(() => userItem.isArmoryItem && userItem.userId === user.value!.id);
-
 const isSellable = computed(() => !userItem.isArmoryItem);
 const isUpgradable = computed(() => canUpgrade(item.type) && !userItem.isArmoryItem);
+const isCanAddedToClanArmory = computed(() => canAddedToClanArmory(item.type));
 </script>
 
 <template>
@@ -201,7 +205,7 @@ const isUpgradable = computed(() => canUpgrade(item.type) && !userItem.isArmoryI
 
       <!-- CLAN ARMORY -->
 
-      <template v-if="clan">
+      <template v-if="clan && isCanAddedToClanArmory">
         <ConfirmActionTooltip
           v-if="!userItem.isArmoryItem"
           class="flex-auto"

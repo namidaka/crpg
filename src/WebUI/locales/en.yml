@@ -101,8 +101,8 @@ action:
   reforge: Reforge
   enter: Enter
   copy: Copy to clipboard
-  copied: 复制的
-  ok: 好的
+  copied: Copied
+  ok: Ok
 
 login:
   label: Login with
