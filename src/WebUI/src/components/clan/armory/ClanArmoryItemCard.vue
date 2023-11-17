@@ -39,6 +39,7 @@ const { user } = toRefs(useUserStore());
                     class="max-w-[10rem]"
                     :user="lender"
                     :isSelf="user!.id === clanArmoryItem.userItem.userId"
+                    size="xl"
                     hiddenPlatform
                     hiddenClan
                   />
@@ -70,6 +71,7 @@ const { user } = toRefs(useUserStore());
                     class="max-w-[10rem]"
                     :user="borrower"
                     :isSelf="user!.id === borrower.id"
+                    size="xl"
                     hiddenPlatform
                     hiddenClan
                   />

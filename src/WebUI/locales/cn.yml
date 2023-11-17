@@ -104,7 +104,7 @@ action:
   enter: 进入
   copied: 复制的
   start: 启动
-  copied: 复制的
+  copy: 复制的
   ok: 好的
 
 login:
