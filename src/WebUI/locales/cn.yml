@@ -102,6 +102,8 @@ action:
   reforge: 重铸
   enter: 进入
   copied: 复制的
+  copy: Копировать
+  ok: Ок
 
 login:
   label: 登录
@@ -167,7 +169,8 @@ region-title: 区域
 
 clanBalancingExplanation: '
   <h3>你不在任何宗族中</h3>
-  <p>为了与同一团队的朋友一起游戏，我们建议创建一个新的宗族或加入一个现有的宗族</p>'
+  <p>为了与同一团队的朋友一起游戏，我们建议创建一个新的宗族或加入一个现有的宗族</p>
+  <p>此外，加入部族还可以共享和出借物品（部族军械库</p>'
 
 character:
   nav:
@@ -540,6 +543,14 @@ character:
           description: '你确定要用{gold}的金币来重铸该物品吗？你将会获得{loomPoints}转生点作为回报，同时物品{oldItem}将变成{newItem}'
         notify:
           success: '物品重铸成功'
+      clanArmory:
+        inArmory:
+          title: 物品在部族军械库中
+          notify:
+            warning: 该物品在部族军械库中。请先从那里获取。
+    filter:
+      hideInArmory: 将物品藏入军械库
+      showInArmory: 显示军械库中的物品
 
   doll:
     slot:
@@ -727,6 +738,43 @@ clan:
       decline:
         notify:
           success: 申请已被拒绝
+  armory:
+    title: 部族军械库
+    empty: 军械库是空的
+    filter:
+      hideOwned: 隐藏自有物品
+      hideBorrowed: 只显示可用项目
+    item:
+      lender:
+        tooltip:
+          title: 所有者 {user}
+      borrow:
+        title: 借用 {user}
+        validation:
+          borrowed: 物品已被借走
+        notify:
+          success: 从军械库成功借用的物品
+      borrowed:
+        title: 借用 {user}
+      borrower:
+        tooltip:
+          title: 借款人 {user}
+      add:
+        title: 添加到军械库
+        confirm:
+          description: 您确定要将该物品添加到军械库中吗？
+        notify:
+          success: 该物品已成功加入部族军械库
+      remove:
+        title: 从军械库移除
+        confirm:
+          description: 你确定要从军械库拿回你的物品吗？
+        notify:
+          success: 该物品已成功返回部族军械库
+      return:
+        title: 返回军械库
+        notify:
+          success: 该物品已成功返回部族军械库
 
 user:
   field:
