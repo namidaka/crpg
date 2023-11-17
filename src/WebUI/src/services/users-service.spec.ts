@@ -28,7 +28,6 @@ import {
   getUser,
   getUserById,
   deleteUser,
-  mapUserItem,
   extractItemFromUserItem,
   getUserItems,
   buyUserItem,
@@ -39,6 +38,7 @@ import {
   getUserActiveJoinRestriction,
   groupUserItemsByType,
   searchUser,
+  mapUserToUserPublic,
 } from './users-service';
 
 it('getUser', async () => {
@@ -57,19 +57,6 @@ it('deleteUser', async () => {
   mockDelete('/users/self').willResolve(null, 204);
 
   expect(await deleteUser()).toEqual(null);
-});
-
-it('mapUserItem', () => {
-  expect(
-    mapUserItem({
-      id: 1,
-      // @ts-ignore
-      createdAt: '2022-12-20T07:47:37.3198708Z',
-    })
-  ).toEqual({
-    id: 1,
-    createdAt: new Date('2022-12-20T07:47:37.3198708Z'),
-  });
 });
 
 it('extractItemFromUserItem', () => {
@@ -228,4 +215,8 @@ it('searchUser', async () => {
   mockGet(`/users/search/?name=${NAME}`, true).willResolve(response(USER));
 
   expect(await searchUser({ name: NAME })).toEqual(USER);
+});
+
+it('mapUserToUserPublic', async () => {
+  expect(mapUserToUserPublic(mockUser as User, null)).toEqual(mockUserPublic as UserPublic);
 });

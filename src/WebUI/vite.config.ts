@@ -141,7 +141,7 @@ export default defineConfig({
     include: ['./src/**/*.spec.ts'],
     setupFiles: ['./src/__test__/unit/setup.ts'],
     coverage: {
-      provider: 'c8',
+      provider: 'v8',
       reporter: ['json', 'text', 'html'],
       exclude: ['node_modules/', './src/__test__/unit/index.ts', '**/*.spec.ts'],
     },

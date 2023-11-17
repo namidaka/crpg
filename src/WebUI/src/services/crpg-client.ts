@@ -3,11 +3,17 @@ import { ErrorType, type Result } from '@/models/crpg-client-result';
 import { getToken, login } from '@/services/auth-service';
 import { NotificationType, notify } from '@/services/notification-service';
 import { sleep } from '@/utils/promise';
+import { JSONDateToJs } from '@/utils/date';
+
 import { Platform } from '@/models/platform';
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-async function trySend<T = any>(method: string, path: string, body?: any): Promise<Result<T>> {
+async function trySend<T = any>(
+  method: string,
+  path: string,
+  body?: any
+): Promise<Result<T> | null> {
   const token = await getToken();
 
   const response = await fetch(API_BASE_URL + path, {
@@ -26,7 +32,9 @@ async function trySend<T = any>(method: string, path: string, body?: any): Promi
     return null!;
   }
 
-  return response.status !== StatusCodes.NO_CONTENT ? await response.json() : null;
+  return response.status !== StatusCodes.NO_CONTENT
+    ? (JSONDateToJs(await response.json()) as Result<T>)
+    : null;
 }
 
 async function send(method: string, path: string, body?: any): Promise<any> {
@@ -51,7 +59,7 @@ async function send(method: string, path: string, body?: any): Promise<any> {
   }
 }
 
-export function tryGet<T = any>(path: string): Promise<Result<T>> {
+export function tryGet<T = any>(path: string): Promise<Result<T> | null> {
   return trySend<T>('GET', path);
 }
 

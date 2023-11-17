@@ -6,7 +6,7 @@ const { patchNotes = [] } = defineProps<{ patchNotes: PatchNote[] }>();
 
 const latestPatch = computed(() => patchNotes[0]);
 
-const timeAgo = useLocaleTimeAgo(new Date(latestPatch.value.createdAt));
+const timeAgo = useLocaleTimeAgo(latestPatch.value.createdAt);
 </script>
 
 <template>

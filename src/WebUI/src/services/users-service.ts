@@ -38,27 +38,21 @@ export const searchUser = async (payload: UserSearchQuery) => {
   return get<UserPublic[]>(`/users/search/?${qs.stringify(payload)}`);
 };
 
-export const mapUserItem = (userItem: UserItem): UserItem => ({
-  ...userItem,
-  createdAt: new Date(userItem.createdAt),
-});
-
 export const extractItemFromUserItem = (items: UserItem[]): Item[] => items.map(ui => ui.item);
 
-export const getUserItems = async () =>
-  (await get<UserItem[]>('/users/self/items')).map(mapUserItem);
+export const getUserItems = () => get<UserItem[]>('/users/self/items');
 
 export const buyUserItem = async (itemId: string) =>
-  mapUserItem(await post<UserItem>('/users/self/items', { itemId }));
+  post<UserItem>('/users/self/items', { itemId });
 
 export const repairUserItem = async (userItemId: number) =>
-  mapUserItem(await put<UserItem>(`/users/self/items/${userItemId}/repair`));
+  put<UserItem>(`/users/self/items/${userItemId}/repair`);
 
 export const upgradeUserItem = async (userItemId: number) =>
-  mapUserItem(await put<UserItem>(`/users/self/items/${userItemId}/upgrade`));
+  put<UserItem>(`/users/self/items/${userItemId}/upgrade`);
 
 export const reforgeUserItem = async (userItemId: number) =>
-  mapUserItem(await put<UserItem>(`/users/self/items/${userItemId}/reforge`));
+  put<UserItem>(`/users/self/items/${userItemId}/reforge`);
 
 export const sellUserItem = (userItemId: number) => del(`/users/self/items/${userItemId}`);
 
@@ -89,7 +83,6 @@ interface UserClan {
 export const getUserClan = async () => {
   const userClan = await get<UserClan | null>('/users/self/clans');
   if (userClan === null || userClan.clan === null) return null;
-
   // do conversion since argb values are stored as numbers in db and we need strings
   return { clan: mapClanResponse(userClan.clan), role: userClan.role };
 };
@@ -97,7 +90,6 @@ export const getUserClan = async () => {
 export const getUserRestrictions = async (id: number) =>
   mapRestrictions(await get<RestrictionWithActive[]>(`/users/${id}/restrictions`));
 
-// TODO: SPEC
 export const getUserActiveJoinRestriction = async (id: number) =>
   getActiveJoinRestriction(await getUserRestrictions(id));
 
