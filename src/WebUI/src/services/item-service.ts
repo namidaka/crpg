@@ -754,6 +754,7 @@ export const getRankColor = (rank: ItemRank) => {
 };
 
 export const canUpgrade = (type: ItemType) => type !== ItemType.Banner;
+export const canAddedToClanArmory = (type: ItemType) => type !== ItemType.Banner;
 
 export const reforgeCostByRank: Record<ItemRank, number> = {
   0: itemReforgeCostPerRank[0],
