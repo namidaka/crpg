@@ -6,16 +6,6 @@ const [expiredDate, nowDate, futureDate] = [
   '2022-11-27T22:00:00.0000000Z',
 ];
 
-// mock Date
-const DateReal = global.Date;
-vi.spyOn(global, 'Date').mockImplementation((...args: any[]) => {
-  if (args.length) {
-    // @ts-ignore
-    return new DateReal(...args);
-  }
-  return new Date(nowDate);
-});
-
 import {
   parseTimestamp,
   convertHumanDurationToMs,
@@ -23,6 +13,14 @@ import {
   computeLeftMs,
   isBetween,
 } from './date';
+
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 it.each<[[Date, Date, Date], boolean]>([
   [
@@ -54,13 +52,17 @@ it.each<[[Date, Date, Date], boolean]>([
 });
 
 it('computeLeftMs', () => {
+  vi.setSystemTime(nowDate);
   expect(computeLeftMs(new Date(nowDate), 1000)).toEqual(1000);
 });
 
-it('checkIsDateExpired', () => {
-  expect(checkIsDateExpired(new Date(expiredDate), 1000)).toEqual(true);
-  expect(checkIsDateExpired(new Date(nowDate), 1000)).toEqual(false);
-  expect(checkIsDateExpired(new Date(futureDate), 1000)).toEqual(false);
+it.each<[Date, number, boolean]>([
+  [new Date(expiredDate), 1000, true],
+  [new Date(nowDate), 1000, false],
+  [new Date(futureDate), 1000, false],
+])('checkIsDateExpired - date: %s, duration: %s', (date, duration, expectation) => {
+  vi.setSystemTime(nowDate);
+  expect(checkIsDateExpired(new Date(date), duration)).toEqual(expectation);
 });
 
 it.each<[HumanDuration, number]>([

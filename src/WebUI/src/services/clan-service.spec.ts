@@ -11,7 +11,9 @@ import {
   type ClanWithMemberCount,
   type Clan,
   type ClanEdition,
+  type ClanArmoryItem,
 } from '@/models/clan';
+import { type UserPublic, type UserItem } from '@/models/user';
 
 vi.mock('@/services/auth-service', () => ({
   getToken: vi.fn().mockResolvedValue('mockedToken'),
@@ -244,7 +246,7 @@ it('inviteToClan', async () => {
 
   expect(await inviteToClan(clanId, inviteeId)).toEqual(newInvitation);
 
-  expect(mock).toHaveFetchedWithBody({ inviteeId: inviteeId });
+  expect(mock).toHaveFetchedWithBody({ inviteeId });
 });
 
 it('getClanInvitations', async () => {
@@ -373,8 +375,130 @@ it.each<[PartialDeep<ClanMember>, PartialDeep<ClanMember>, number, boolean]>([
 it('getClanArmory', async () => {
   const clanId = 1;
   const clanArmory = [{ userItem: {}, borrowedItem: null, updatedAt: '' }];
-
   mockGet(`/clans/${clanId}/armory`).willResolve(response(clanArmory));
-
   expect(await getClanArmory(clanId)).toEqual(clanArmory);
+});
+
+it('addItemToClanArmory', async () => {
+  const clanId = 1;
+  const userItemId = 1;
+  const mock = mockPost(`/clans/${clanId}/armory`).willResolve(response('ok'));
+  expect(await addItemToClanArmory(clanId, userItemId)).toEqual('ok');
+  expect(mock).toHaveFetchedWithBody({ userItemId });
+});
+
+it('removeItemFromClanArmory', async () => {
+  const clanId = 1;
+  const userItemId = 1;
+  mockDelete(`/clans/${clanId}/armory/${userItemId}`).willResolve(response('ok'));
+  expect(await removeItemFromClanArmory(clanId, userItemId)).toEqual('ok');
+});
+
+it('borrowItemFromClanArmory', async () => {
+  const clanId = 1;
+  const userItemId = 1;
+  mockPut(`/clans/${clanId}/armory/${userItemId}/borrow`).willResolve(response('ok'));
+  expect(await borrowItemFromClanArmory(clanId, userItemId)).toEqual('ok');
+});
+
+it('returnItemToClanArmory', async () => {
+  const clanId = 1;
+  const userItemId = 1;
+  mockPut(`/clans/${clanId}/armory/${userItemId}/return`).willResolve(response('ok'));
+  expect(await returnItemToClanArmory(clanId, userItemId)).toEqual('ok');
+});
+
+it.each<[ClanArmoryItem, ClanMember[], UserPublic | null]>([
+  [
+    {
+      userItem: {},
+      borrowedItem: null,
+      updatedAt: new Date(),
+    } as ClanArmoryItem,
+    [],
+    null,
+  ],
+  [
+    {
+      userItem: {},
+      borrowedItem: {
+        borrowerUserId: 1,
+      },
+      updatedAt: new Date(),
+    } as ClanArmoryItem,
+    [],
+    null,
+  ],
+  [
+    {
+      userItem: {},
+      borrowedItem: {
+        borrowerUserId: 1,
+      },
+      updatedAt: new Date(),
+    } as ClanArmoryItem,
+    [
+      {
+        user: {
+          id: 1,
+        },
+      } as ClanMember,
+    ],
+    { id: 1 } as UserPublic,
+  ],
+])('getClanArmoryItemBorrower', (clanArmoryItem, clanMembers, expectation) => {
+  expect(getClanArmoryItemBorrower(clanArmoryItem, clanMembers)).toEqual(expectation);
+});
+
+it.each<[UserItem, number, ClanMember[], UserPublic | null]>([
+  [
+    {
+      isArmoryItem: false,
+      userId: 1,
+    } as UserItem,
+    1,
+    [],
+    null,
+  ],
+  [
+    {
+      isArmoryItem: true,
+      userId: 2,
+    } as UserItem,
+    1,
+    [],
+    null,
+  ],
+  [
+    {
+      isArmoryItem: true,
+      userId: 2,
+    } as UserItem,
+    1,
+    [
+      {
+        user: {
+          id: 1,
+        },
+      } as ClanMember,
+    ],
+    null,
+  ],
+  [
+    {
+      isArmoryItem: true,
+      userId: 2,
+    } as UserItem,
+    1,
+    [
+      {
+        user: {
+          id: 2,
+        },
+      } as ClanMember,
+    ],
+    { id: 2 } as UserPublic,
+  ],
+])('getClanArmoryItemLender', (userItem, userId, clanMembers, expectation) => {
+  expect(getClanArmoryItemLender(userItem, userId, clanMembers)).toEqual(expectation);
 });

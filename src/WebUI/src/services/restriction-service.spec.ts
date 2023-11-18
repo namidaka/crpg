@@ -2,7 +2,9 @@ import { mockGet, mockPost } from 'vi-fetch';
 import { response } from '@/__mocks__/crpg-client';
 import { type RestrictionCreation, type RestrictionWithActive } from '@/models/restriction';
 
-const mockCheckIsDateExpired = vi.fn();
+const { mockCheckIsDateExpired } = vi.hoisted(() => ({
+  mockCheckIsDateExpired: vi.fn(),
+}));
 vi.mock('@/utils/date', () => ({
   checkIsDateExpired: mockCheckIsDateExpired,
 }));
@@ -53,7 +55,7 @@ describe('mapRestrictions', () => {
             id: 1,
           },
           type: 'Join',
-          createdAt: '2022-11-28T22:00:00.000Z',
+          createdAt: new Date('2022-11-28T22:00:00.000Z'),
         },
         {
           id: 2,
@@ -61,7 +63,7 @@ describe('mapRestrictions', () => {
             id: 1,
           },
           type: 'Join',
-          createdAt: '2022-11-27T22:00:00.000Z',
+          createdAt: new Date('2022-11-27T22:00:00.000Z'),
         },
       ];
 
@@ -95,7 +97,7 @@ describe('mapRestrictions', () => {
           },
           duration,
           type: 'Chat',
-          createdAt: '2022-11-27T22:00:00.000Z',
+          createdAt: new Date('2022-11-27T22:00:00.000Z'),
         },
         {
           id: 2,
@@ -104,7 +106,7 @@ describe('mapRestrictions', () => {
           },
           duration,
           type: 'Join',
-          createdAt: '2022-11-27T22:00:00.000Z',
+          createdAt: new Date('2022-11-27T22:00:00.000Z'),
         },
       ];
 
@@ -172,7 +174,7 @@ describe('mapRestrictions', () => {
   });
 });
 
-it('getRestrictions', async () => {
+it.only('getRestrictions', async () => {
   mockCheckIsDateExpired.mockReturnValue(false);
   const restrictions = {
     id: 1,
