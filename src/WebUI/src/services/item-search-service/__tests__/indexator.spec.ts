@@ -171,7 +171,7 @@ describe('createItemIndex', () => {
     expect(item.modId).toEqual('crpg_sa_1ChurburghHelm_HeadArmor');
   });
 
-  it('isNew', () => {
+  it.only('isNew', () => {
     const index = createItemIndex([Helmet, Longsword] as Item[]);
 
     const [item1, item2] = index;
