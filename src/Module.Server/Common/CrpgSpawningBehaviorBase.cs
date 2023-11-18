@@ -105,7 +105,9 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             OnPeerSpawned(agent);
             CrpgAgentComponent agentComponent = new(agent);
             agent.AddComponent(agentComponent);
-            if (!agent.HasMount)
+
+            bool hasExtraSlotEquipped = characterEquipment[EquipmentIndex.ExtraWeaponSlot].Item != null;
+            if (!agent.HasMount || hasExtraSlotEquipped)
             {
                 agent.WieldInitialWeapons();
             }
