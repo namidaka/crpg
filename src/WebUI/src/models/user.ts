@@ -25,6 +25,7 @@ export interface UserPublic
   clan: Clan | null;
 }
 
+// TODO: to /models/item.ts
 export interface UserItem {
   id: number;
   userId: number;

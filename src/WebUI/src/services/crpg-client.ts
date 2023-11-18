@@ -3,7 +3,6 @@ import { ErrorType, type Result } from '@/models/crpg-client-result';
 import { getToken, login } from '@/services/auth-service';
 import { NotificationType, notify } from '@/services/notification-service';
 import { sleep } from '@/utils/promise';
-import { JSONDateToJs } from '@/utils/date';
 
 import { Platform } from '@/models/platform';
 
@@ -78,3 +77,19 @@ export function put<T = any>(path: string, body?: any): Promise<T> {
 export function del(path: string): Promise<any> {
   return send('DELETE', path);
 }
+
+// https://medium.com/@vladkens/automatic-parsing-of-date-strings-in-rest-protocol-with-typescript-cf43554bd157
+const ISODateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
+const isIsoDateString = (value: unknown): value is string => {
+  return typeof value === 'string' && ISODateFormat.test(value);
+};
+export const JSONDateToJs = (data: unknown) => {
+  if (isIsoDateString(data)) return new Date(data);
+  if (data === null || data === undefined || typeof data !== 'object') return data;
+  for (const [key, val] of Object.entries(data)) {
+    // @ts-expect-error this is a hack to make the type checker happy
+    if (isIsoDateString(val)) data[key] = new Date(val);
+    else if (typeof val === 'object') JSONDateToJs(val);
+  }
+  return data;
+};

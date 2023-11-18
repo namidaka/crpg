@@ -1,7 +1,6 @@
 import { mockGet, mockPost, mockPut, mockDelete } from 'vi-fetch';
-import { get, post, put, del } from './crpg-client';
+import { get, post, put, del, JSONDateToJs } from './crpg-client';
 import { ErrorType, type Result } from '@/models/crpg-client-result';
-import { sleep } from '@/utils/promise';
 
 const { mockedGetToken, mockedLogin, mockedNotify, mockedSleep } = vi.hoisted(() => ({
   mockedGetToken: vi.fn(),
@@ -14,6 +13,7 @@ vi.mock('@/services/auth-service', () => ({
   getToken: mockedGetToken,
   login: mockedLogin,
 }));
+
 vi.mock('@/utils/promise', () => ({
   sleep: mockedSleep,
 }));
@@ -156,5 +156,29 @@ describe('put', () => {
 
       expect(result).toEqual(null);
     });
+  });
+});
+
+it('JSONDateToJs', () => {
+  expect(JSONDateToJs('2023-11-17T18:50:13.659473Z')).toEqual(new Date('2023-11-17T18:50:13.659Z'));
+
+  expect(
+    JSONDateToJs({
+      createdAt: '2023-11-17T18:50:13.659473Z',
+    })
+  ).toEqual({ createdAt: new Date('2023-11-17T18:50:13.659Z') });
+
+  expect(
+    JSONDateToJs({
+      id: 1,
+      nested: {
+        createdAt: '2023-11-17T18:50:13.659473Z',
+      },
+    })
+  ).toEqual({
+    id: 1,
+    nested: {
+      createdAt: new Date('2023-11-17T18:50:13.659473Z'),
+    },
   });
 });
