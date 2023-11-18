@@ -18,7 +18,8 @@
 
   <ItemGroup>
     <ContentWithTargetPath Include="..\..\data\constants.json" Link="ModuleData\constants.json" TargetPath="..\..\ModuleData\constants.json" CopyToOutputDirectory="PreserveNewest" />
-    <ContentWithTargetPath Include="SubModule.xml;ds_config_crpg_*.txt;ModuleData\**\*;GUI\**\*.xml" TargetPath="..\..\%(Identity)" CopyToOutputDirectory="PreserveNewest" />
+    <ContentWithTargetPath Include="SubModule.xml;ModuleData\**\*;GUI\**\*.xml" TargetPath="..\..\%(Identity)" CopyToOutputDirectory="PreserveNewest" />
+    <ContentWithTargetPath Include="MapRotation\*.txt" TargetPath="..\..\%(Filename).txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +49,7 @@
     <PackageReference Include="Lib.Harmony" Version="2.2.2" GeneratePathProperty="true" />
     <PackageReference Include="MonoMod.Common" Version="22.6.3.1" GeneratePathProperty="true" />
     <PackageReference Include="Mono.Cecil" Version="0.11.4" GeneratePathProperty="true" />
-    <PackageReference Include="WindowsFirewallHelper" Version="2.2.0.86" GeneratePathProperty="true"/>
+    <PackageReference Include="WindowsFirewallHelper" Version="2.2.0.86" GeneratePathProperty="true" />
   </ItemGroup>
 
   <ItemGroup>

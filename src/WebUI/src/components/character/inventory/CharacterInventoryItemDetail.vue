@@ -82,7 +82,7 @@ const onNameCopy = () => {
   <article>
     <div class="relative mb-3">
       <img
-        :src="getItemImage(item.id)"
+        :src="getItemImage(item.baseId)"
         :alt="item.name"
         :title="item.name"
         class="pointer-events-none w-full select-none object-contain"

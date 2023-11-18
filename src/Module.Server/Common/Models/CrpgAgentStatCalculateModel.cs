@@ -295,20 +295,14 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         float freeWeight = 2.5f * (1 + (strengthSkill - 3f) / 30f);
         float perceivedWeight = Math.Max(totalEncumbrance - freeWeight, 0f) * weightReductionFactor;
         props.TopSpeedReachDuration = 0.8f * (1f + perceivedWeight / 15f) * (20f / (20f + (float)Math.Pow(athleticsSkill / 120f, 2f))) + (totalEncumbrance - freeWeight) / 100f + ImpactofStrAndWeaponLengthOnTimeToMaxSpeed(equippedItem != null ? equippedItem.WeaponLength : 75, strengthSkill);
-        float speed = 0.65f + 0.00105f * athleticsSkill;
+        float speed = 0.60f + 0.03f * athleticsSkill / 26f;
         props.MaxSpeedMultiplier = MBMath.ClampFloat(
             speed * (float)Math.Pow(361f / (361f + (float)Math.Pow(perceivedWeight, 5f)), 0.055f),
             0.1f,
             1.5f);
         float bipedalCombatSpeedMinMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalCombatSpeedMinMultiplier);
         float bipedalCombatSpeedMaxMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalCombatSpeedMaxMultiplier);
-        props.CombatMaxSpeedMultiplier =
-            MathF.Min(
-                MBMath.Lerp(
-                    bipedalCombatSpeedMaxMultiplier,
-                    bipedalCombatSpeedMinMultiplier,
-                    MathF.Min(perceivedWeight / 40f, 1f)),
-                1f);
+
         int itemSkill = GetEffectiveSkill(character, agent.Origin, agent.Formation, equippedItem?.RelevantSkill ?? DefaultSkills.Athletics);
         // Use weapon master here instead of wpf so the archer with no melee wpf can still fight.
         int weaponMaster = GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, CrpgSkills.WeaponMaster);
@@ -324,6 +318,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         int ridingSkill = GetEffectiveSkill(character, agent.Origin, agent.Formation, DefaultSkills.Riding);
         props.BipedalRangedReadySpeedMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalRangedReadySpeedMultiplier);
         props.BipedalRangedReloadSpeedMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalRangedReloadSpeedMultiplier);
+        props.CombatMaxSpeedMultiplier = bipedalCombatSpeedMaxMultiplier;
 
         if (equippedItem != null)
         {
@@ -410,6 +405,21 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             }
             else
             {
+                if (!(equippedItem.WeaponClass is WeaponClass.Banner or WeaponClass.Boulder or WeaponClass.Undefined))
+                {
+                    float adjustedWeaponLength = equippedItem.WeaponClass == WeaponClass.TwoHandedPolearm
+                        ? Math.Max(0, equippedItem.WeaponLength - 20f)
+                        : equippedItem.WeaponLength;
+                    adjustedWeaponLength *= equippedItem.ItemUsage.Contains("pike") ? 0.4f : 1.0f;
+                    props.CombatMaxSpeedMultiplier =
+                        MathF.Min(
+                        MBMath.Lerp(
+                        bipedalCombatSpeedMaxMultiplier,
+                        bipedalCombatSpeedMinMultiplier,
+                        MathF.Min(adjustedWeaponLength / 200f, 1f)),
+                        1f);
+                }
+
                 // does this govern couching?
                 if (equippedItem.WeaponFlags.HasAllFlags(WeaponFlags.WideGrip))
                 {
@@ -419,7 +429,12 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
 
                 if (equippedItem.WeaponClass is WeaponClass.Mace or WeaponClass.OneHandedAxe or WeaponClass.OneHandedSword or WeaponClass.Dagger)
                 {
-                    props.ThrustOrRangedReadySpeedMultiplier *= 0.82f;
+                    props.ThrustOrRangedReadySpeedMultiplier *= 0.75f;
+                }
+
+                if (equippedItem.WeaponClass is WeaponClass.TwoHandedPolearm)
+                {
+                    props.HandlingMultiplier *= 1.1f;
                 }
 
                 props.CombatMaxSpeedMultiplier *= ImpactofStrAndWeaponLengthOnCombatMaxSpeedMultiplier(equippedItem.WeaponLength, strengthSkill);

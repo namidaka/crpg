@@ -1,0 +1,3 @@
+crpg_battle_ketilsfarm
+crpg_battle_riverbank
+crpg_battle_skolderby

@@ -56,7 +56,7 @@ import { roundFLoat } from '@/utils/math';
 
 export const getItems = () => get<Item[]>('/items');
 
-export const getItemImage = (name: string) => `/items/${name}.png`;
+export const getItemImage = (baseId: string) => `/items/${baseId}.webp`;
 
 export const getItemUpgrades = (baseId: string) => get<Item[]>(`/items/upgrades/${baseId}`);
 

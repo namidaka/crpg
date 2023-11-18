@@ -1,8 +1,8 @@
 ﻿ServerName cRPG - Test DTV - c-rpg.eu
 GameType cRPGDTV
 GamePassword yoyo
-add_map_to_automated_battle_pool crpg_dtv_weepinghill
 add_map_to_automated_battle_pool crpg_dtv_qalat
+add_map_to_automated_battle_pool crpg_dtv_encampment
 AllowPollsToKickPlayers True
 disable_map_voting
 disable_culture_voting

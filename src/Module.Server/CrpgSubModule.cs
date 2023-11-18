@@ -11,14 +11,11 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.Diamond;
-using WindowsFirewallHelper.Addresses;
 
 #if CRPG_SERVER
-using System.Runtime.CompilerServices;
+using TaleWorlds.MountAndBlade.DedicatedCustomServer;
 using TaleWorlds.PlayerServices;
 using WindowsFirewallHelper;
-using Crpg.Module.HarmonyPatches;
 #else
 using TaleWorlds.Engine.GauntletUI;
 #endif
@@ -35,6 +32,7 @@ namespace Crpg.Module;
 internal class CrpgSubModule : MBSubModuleBase
 {
 #if CRPG_SERVER
+    private static bool _mapPoolAdded;
     public static CrpgSubModule Instance = default!;
     public Dictionary<PlayerId, IAddress> WhitelistedIps = new();
     private IFirewallRule? _cachedFirewallRule;
@@ -62,7 +60,6 @@ internal class CrpgSubModule : MBSubModuleBase
 
 #if CRPG_SERVER
         CrpgSubModule.Instance = this;
-
         var firewallRule = Firewall.GetFirewallRule(Port(), _cachedFirewallRule);
         if (firewallRule == null)
         {
@@ -119,7 +116,57 @@ internal class CrpgSubModule : MBSubModuleBase
         // UIResourceManager.UIResourceDepot.CheckForChanges();
 #endif
     }
+#if CRPG_SERVER
+    public override void OnMissionBehaviorInitialize(Mission mission)
+    {
+        base.OnMissionBehaviorInitialize(mission);
+        AddMaps();
+    }
 
+    private static void AddMaps()
+    {
+        if (_mapPoolAdded)
+        {
+            return;
+        }
+
+        string currentConfigFilePath = TaleWorlds.MountAndBlade.Module.CurrentModule.StartupInfo.CustomGameServerConfigFile;
+        string mapconfigfilepath = Path.Combine(Directory.GetCurrentDirectory(), ModuleHelper.GetModuleFullPath("cRPG"), currentConfigFilePath.Replace(".txt", string.Empty) + "_maps.txt");
+        if (File.Exists(mapconfigfilepath))
+        {
+            try
+            {
+                string[] maps = File.ReadAllLines(mapconfigfilepath);
+
+                for (int i = 0; i < 10; i++)
+                {
+                    foreach (string map in maps)
+                    {
+                        if (map == string.Empty)
+                        {
+                            continue;
+                        }
+
+                        DedicatedCustomServerSubModule.Instance.AddMapToAutomatedBattlePool(map);
+                        Debug.Print($"added {map} to map pool");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Print($"could not read the map file {mapconfigfilepath}");
+                Debug.Print($"{e.Message}");
+            }
+        }
+        else
+        {
+            Debug.Print("No separate map file");
+        }
+
+        _mapPoolAdded = true;
+        return;
+    }
+#endif
     private CrpgConstants LoadCrpgConstants()
     {
         string path = ModuleHelper.GetModuleFullPath("cRPG") + "ModuleData/constants.json";
