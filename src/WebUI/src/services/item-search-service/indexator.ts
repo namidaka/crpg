@@ -187,9 +187,9 @@ const mapMountProps = (item: Item) => {
   };
 };
 
-const newItemDateThreshold = new Date().setDate(new Date().getDate() - itemIsNewDays);
-
 const itemToFlat = (item: Item): ItemFlat => {
+  const newItemDateThreshold = new Date().setDate(new Date().getDate() - itemIsNewDays);
+
   const weaponProps = mapWeaponProps(item);
 
   const flags = [

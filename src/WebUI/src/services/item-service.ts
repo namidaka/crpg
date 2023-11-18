@@ -735,4 +735,4 @@ export const reforgeCostByRank: Record<ItemRank, number> = {
   3: itemReforgeCostPerRank[3],
 };
 
-export const itemIsNewDays = 30;
+export const itemIsNewDays = 1;
