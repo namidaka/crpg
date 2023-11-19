@@ -1,20 +1,22 @@
 import { mount } from '@vue/test-utils';
 
-const mockGetGameServerStats = vi.fn();
-vi.mock('@/service/game-server-statistics-service', () => ({
-  getGameServerStats: mockGetGameServerStats,
+const { mockedGetGameServerStats, mockedSubscribe, mockedUnsubscribe } = vi.hoisted(() => ({
+  mockedGetGameServerStats: vi.fn(),
+  mockedSubscribe: vi.fn(),
+  mockedUnsubscribe: vi.fn(),
 }));
-
-const mockSubscribe = vi.fn();
-const mockUnsubscribe = vi.fn();
-const mockUsePollInterval = vi.fn().mockImplementation(() => ({
-  subscribe: mockSubscribe,
-  unsubscribe: mockUnsubscribe,
+const { mockUsePollInterval } = vi.hoisted(() => ({
+  mockUsePollInterval: vi.fn().mockImplementation(() => ({
+    subscribe: mockedSubscribe,
+    unsubscribe: mockedUnsubscribe,
+  })),
 }));
 vi.mock('@/composables/use-poll-interval', () => ({
   usePollInterval: mockUsePollInterval,
 }));
-
+vi.mock('@/service/game-server-statistics-service', () => ({
+  getGameServerStats: mockedGetGameServerStats,
+}));
 import { useGameServerStats } from './use-game-server-stats';
 
 it('useGameServerStats composable lifecycle', async () => {
@@ -29,9 +31,9 @@ it('useGameServerStats composable lifecycle', async () => {
 
   const wrapper = mount(TestComponent);
 
-  expect(mockSubscribe).toBeCalled();
-  expect(mockGetGameServerStats).not.toBeCalled();
+  expect(mockedSubscribe).toBeCalled();
+  expect(mockedGetGameServerStats).not.toBeCalled();
 
   wrapper.unmount();
-  expect(mockUnsubscribe).toBeCalled();
+  expect(mockedUnsubscribe).toBeCalled();
 });
