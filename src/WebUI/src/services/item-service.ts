@@ -28,6 +28,7 @@ import { type EquippedItemsBySlot } from '@/models/character';
 import { Culture } from '@/models/culture';
 import { get } from '@/services/crpg-client';
 import { aggregationsConfig } from '@/services/item-search-service/aggregations';
+import { createItemIndex } from '@/services/item-search-service/indexator';
 import { n, t } from '@/services/translate-service';
 import { notify, NotificationType } from '@/services/notification-service';
 import { roundFLoat } from '@/utils/math';
@@ -36,7 +37,10 @@ export const getItems = () => get<Item[]>('/items');
 
 export const getItemImage = (baseId: string) => `/items/${baseId}.webp`;
 
-export const getItemUpgrades = (baseId: string) => get<Item[]>(`/items/upgrades/${baseId}`);
+export const getItemUpgrades = async (item: ItemFlat) =>
+  createItemIndex(await get<Item[]>(`/items/upgrades/${item.baseId}`))
+    // TODO: hotfix, avoid duplicate items with multiply weaponClass
+    .filter(el => el?.weaponClass === item?.weaponClass);
 
 export const armorTypes: ItemType[] = [
   ItemType.HeadArmor,

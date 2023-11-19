@@ -33,10 +33,8 @@ interface UserSearchQuery {
   name?: string;
 }
 
-// TODO: SPEC
-export const searchUser = async (payload: UserSearchQuery) => {
-  return get<UserPublic[]>(`/users/search/?${qs.stringify(payload)}`);
-};
+export const searchUser = async (payload: UserSearchQuery) =>
+  get<UserPublic[]>(`/users/search/?${qs.stringify(payload)}`);
 
 export const extractItemFromUserItem = (items: UserItem[]): Item[] => items.map(ui => ui.item);
 

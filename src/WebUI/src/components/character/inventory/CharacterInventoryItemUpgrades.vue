@@ -20,8 +20,8 @@ const emit = defineEmits<{
 
 const {
   itemUpgrades,
+  isLoading,
   relativeEntries,
-  currentItem,
   baseItem,
   nextItem,
   validation: upgradeValidation,
@@ -152,7 +152,7 @@ const {
                   {{ $t('character.inventory.item.reforge.tooltip.description') }}
                 </p>
 
-                <OTable :data="reforgeCostTable" bordered narrowed>
+                <OTable :data="reforgeCostTable" bordered narrowed :loading="isLoading">
                   <OTableColumn
                     #default="{ row }: { row: [string, number] }"
                     field="rank"
@@ -253,18 +253,11 @@ const {
       </div>
     </div>
 
-    <OTable
-      :data="itemUpgrades"
-      bordered
-      narrowed
-      hoverable
-      :selected="currentItem"
-      customRowKey="id"
-    >
+    <OTable :data="itemUpgrades" bordered narrowed hoverable :selected="item" customRowKey="id">
       <OTableColumn field="name" #default="{ row: rowItem }: { row: ItemFlat }">
         <div class="relative">
           <ShopGridItemName :item="rowItem">
-            <template v-if="currentItem?.id === rowItem.id" #bottom-right>
+            <template v-if="item?.id === rowItem.id" #bottom-right>
               <Tag
                 rounded
                 variant="primary"
@@ -277,7 +270,7 @@ const {
       </OTableColumn>
 
       <OTableColumn
-        v-for="field in (Object.keys(cols) as Array<keyof ItemFlat>)"
+        v-for="field in Object.keys(cols) as Array<keyof ItemFlat>"
         #default="{ row: rowItem }: { row: ItemFlat }"
         :field="field"
         :label="$t(`item.aggregations.${field}.title`)"

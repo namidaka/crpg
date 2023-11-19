@@ -23,7 +23,7 @@ export const useParty = () => {
     const res = await getUpdate();
 
     // Not registered to Strategus.
-    if (res.errors !== null) {
+    if (res?.errors !== null) {
       isRegistered.value = false;
       return;
     }

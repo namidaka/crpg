@@ -79,10 +79,6 @@ export function del(path: string): Promise<any> {
 }
 
 // https://medium.com/@vladkens/automatic-parsing-of-date-strings-in-rest-protocol-with-typescript-cf43554bd157
-const ISODateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
-const isIsoDateString = (value: unknown): value is string => {
-  return typeof value === 'string' && ISODateFormat.test(value);
-};
 export const JSONDateToJs = (data: unknown) => {
   if (isIsoDateString(data)) return new Date(data);
   if (data === null || data === undefined || typeof data !== 'object') return data;
@@ -93,3 +89,6 @@ export const JSONDateToJs = (data: unknown) => {
   }
   return data;
 };
+const ISODateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
+const isIsoDateString = (value: unknown): value is string =>
+  typeof value === 'string' && ISODateFormat.test(value);
