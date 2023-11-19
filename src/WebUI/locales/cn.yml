@@ -740,15 +740,15 @@ user:
     gold: 金币
     heirloom: 转生点
   settings:
-    title: 账号设置
+    title: 账户删除
     delete:
-      title: 你可以 {link}。该操作无法被恢复。
-      link: 删除你的账号
+      title: 警告：您可以{link}，此过程将删除您的所有 cRPG 角色和数据，并且不可逆转。
+      link: 删除您的账户
       dialog:
-        title: 正在删除账号
-        desc: 你确定要删除你的账号吗？这个操作不可撤回。
+        title: 警告 - 您即将删除您的帐户 - 警告
+        desc: 最后警告：此过程不可撤销 - 删除您的账户意味着您的账户将永久消失。与您在 cRPG 中的时间、角色、物品、等级等相关的所有数据都将被永久删除。一旦删除，我们将无法恢复数据。
       notify:
-        success: 账号已删除
+        success: 您的账户已被删除。
   restriction:
     notification: '你被封禁，时长为：{duration}'
     guide:
