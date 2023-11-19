@@ -1288,6 +1288,7 @@ rankTable:
 
 patchNotes:
   showAllPatches: '+ {count} patch | + {count} patches'
+  latestPatch: 'Latest patch'
 
 strategus:
   registration:

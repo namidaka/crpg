@@ -84,6 +84,7 @@ import {
   computeSalePrice,
   computeBrokenItemRepairCost,
   computeAverageRepairCostPerHour,
+  getItemUpgrades,
   canUpgrade,
   canAddedToClanArmory,
 } from './item-service';
@@ -695,6 +696,10 @@ it.each<[ItemType, boolean]>([
   [ItemType.Banner, false],
 ])('canUpgrade - type: %s', (itemType, expectation) => {
   expect(canUpgrade(itemType)).toEqual(expectation);
+});
+
+it.todo('TODO', () => {
+  // getItemUpgrades();
 });
 
 it.each<[ItemType, boolean]>([

@@ -174,7 +174,7 @@ describe('mapRestrictions', () => {
   });
 });
 
-it.only('getRestrictions', async () => {
+it('getRestrictions', async () => {
   mockCheckIsDateExpired.mockReturnValue(false);
   const restrictions = {
     id: 1,

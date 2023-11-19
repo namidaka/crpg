@@ -15,7 +15,6 @@ interface HHScheduleConfig {
 export const getHHScheduleConfig = () => {
   return import.meta.env.VITE_HH.split(',').reduce(
     (out, cur) => {
-      // TODO: try/catch
       const [region, start, end, tz] = cur.split('|') as [Region, string, string, string];
 
       const [startHours, startMinutes] = start.split(':');
