@@ -1,7 +1,10 @@
-const { mockedSetter, mockedSetLocaleMessage, mockSetAttribute } = vi.hoisted(() => ({
+const { mockedSetter, mockedSetLocaleMessage, mockSetAttribute, mockLocale } = vi.hoisted(() => ({
   mockedSetter: vi.fn(),
   mockedSetLocaleMessage: vi.fn(),
   mockSetAttribute: vi.fn(),
+  mockLocale: {
+    value: '',
+  },
 }));
 
 document.querySelector = vi.fn().mockReturnValue({
@@ -12,9 +15,6 @@ const spyGetItem = vi.spyOn(Storage.prototype, 'getItem');
 const spySetItem = vi.spyOn(Storage.prototype, 'setItem');
 const spyLanguageGetter = vi.spyOn(window.navigator, 'language', 'get');
 
-const mockLocale = {
-  value: '',
-};
 Object.defineProperty(mockLocale, 'value', {
   set: mockedSetter,
 });

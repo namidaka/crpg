@@ -90,7 +90,6 @@ export const getCharacterStatistics = (characterId: number) =>
 export const getCharacterRating = (characterId: number) =>
   get<CharacterRating>(`/users/self/characters/${characterId}/rating`);
 
-// TODO: spec
 export const getCharacterLimitations = (characterId: number) =>
   get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`);
 
@@ -110,7 +109,6 @@ export const updateCharacterCharacteristics = (
   req: CharacterCharacteristics
 ) => put<CharacterCharacteristics>(`/users/self/characters/${characterId}/characteristics`, req);
 
-//
 const computeExperienceDistribution = (level: number): number => {
   const [a, b] = experienceForLevelCoefs;
   return Math.pow(level - 1, a) + Math.pow(b, a / 2.0) * (level - 1);
@@ -343,6 +341,7 @@ export const computeLongestWeaponLength = (items: Item[]) => {
 };
 
 // TODO: handle upgrade items.
+// TODO: SPEC
 export const computeOverallAverageRepairCostByHour = (items: Item[]) =>
   Math.floor(items.reduce((total, item) => total + computeAverageRepairCostPerHour(item.price), 0));
 

@@ -69,7 +69,7 @@ it.each([
   expect(getRankByCompetitiveValue(createRankTable(), competitiveValue).title).toEqual(expectation);
 });
 
-describe.only('getLeaderBoard', () => {
+describe('getLeaderBoard', () => {
   let mock: FetchSpyInstance;
 
   beforeEach(() => {

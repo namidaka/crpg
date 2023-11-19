@@ -29,7 +29,6 @@ export const getLeaderBoard = async ({
   region?: Region;
   characterClass?: CharacterClass;
 }): Promise<CharacterCompetitiveNumbered[]> => {
-  // TODO: realize GET params in crpg-client
   const params = qs.stringify(
     { region, characterClass },
     {

@@ -1294,3 +1294,4 @@ rankTable:
 
 patchNotes:
   showAllPatches: '+ {count} 补丁'
+  latestPatch: '最新补丁'
