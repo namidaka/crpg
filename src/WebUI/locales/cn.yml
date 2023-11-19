@@ -740,7 +740,7 @@ user:
     gold: 金币
     heirloom: 转生点
   settings:
-    title: 账户删除
+    title: 账号设置
     delete:
       title: 警告：您可以{link}，此过程将删除您的所有 cRPG 角色和数据，并且不可逆转。
       link: 删除您的账户
