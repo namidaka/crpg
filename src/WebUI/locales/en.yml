@@ -745,15 +745,15 @@ user:
     gold: Gold
     heirloom: Heirlooms points
   settings:
-    title: Account settings
+    title: Account Deletion
     delete:
-      title: You can {link}. You won't be able to restore it.
+      title: WARNING: You can {link}. This process will delete ALL of your cRPG characters and data and is NOT reversible.
       link: delete your account
       dialog:
-        title: Deleting account
-        desc: Are you sure you want to delete your account? This action cannot be undone.
+        title: WARNING - You are about to delete your account - WARNING
+        desc: FINAL WARNING: This process CANNOT BE UNDONE - Deleting your account means it is GONE PERMANENTLY. Any and all data relating to your time in cRPG, characters, items, levels and more WILL be PERMANENTLY erased. We CANNOT recover data once this is actioned.
       notify:
-        success: Account deleted
+        success: Your account has now been deleted.
   restriction:
     notification: 'You are banned for: {duration}'
     guide:
