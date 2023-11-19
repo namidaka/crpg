@@ -1,5 +1,7 @@
-const mockedPush = vi.fn();
-const mockedUseRoute = vi.fn();
+const { mockedPush, mockedUseRoute } = vi.hoisted(() => ({
+  mockedPush: vi.fn(),
+  mockedUseRoute: vi.fn(),
+}));
 vi.mock('vue-router', () => ({
   useRoute: mockedUseRoute,
   useRouter: vi.fn().mockImplementation(() => ({

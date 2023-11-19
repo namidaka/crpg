@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { useTransition } from '@vueuse/core';
-import { useElementSize } from '@vueuse/core';
+import { useTransition, useElementSize } from '@vueuse/core';
 import VueCountdown from '@chenfengyuan/vue-countdown';
 import { Region } from '@/models/region';
 import { useUserStore } from '@/stores/user';
 import { logout } from '@/services/auth-service';
 import { getUserActiveJoinRestriction } from '@/services/users-service';
+import { mapUserToUserPublic } from '@/services/users-service';
 import { useHappyHours } from '@/composables/use-hh';
 import { useGameServerStats } from '@/composables/use-game-server-stats';
 import { usePollInterval } from '@/composables/use-poll-interval';
-import { mapUserToUserPublic } from '@/services/users-service';
 import { mainHeaderHeightKey } from '@/symbols/common';
 import { scrollToTop } from '@/utils/scroll';
 
 const userStore = useUserStore();
+const fetchUserPollId = Symbol('fetchUser');
+
 const route = useRoute();
 
 const { state: joinRestrictionRemainingDuration, execute: loadJoinRestriction } = useAsyncState(
@@ -32,6 +33,7 @@ const {
   onEndHHCountdown,
   transformSlotProps,
 } = useHappyHours();
+const HHPollId = Symbol('hh');
 
 const { gameServerStats, loadGameServerStats } = useGameServerStats();
 
@@ -51,18 +53,17 @@ const { height: mainHeaderHeight } = useElementSize(
 );
 provide(mainHeaderHeightKey, mainHeaderHeight);
 
-const { subscribe, unsubscribe } = usePollInterval();
-const id = Symbol('fetchUser');
+await Promise.all(promises);
 
-onMounted(() => {
-  subscribe(id, userStore.fetchUser);
-});
+const { subscribe, unsubscribe } = usePollInterval();
+
+subscribe(fetchUserPollId, userStore.fetchUser);
+subscribe(HHPollId, HHEvent.trigger);
 
 onBeforeUnmount(() => {
-  unsubscribe(id);
+  unsubscribe(fetchUserPollId);
+  unsubscribe(HHPollId);
 });
-
-await Promise.all(promises);
 </script>
 
 <template>
@@ -94,7 +95,7 @@ await Promise.all(promises);
 
           <MainNavigation />
 
-          <template v-if="isHHCountdownEnded && HHEventRemaining !== 0">
+          <template v-if="!isHHCountdownEnded && HHEventRemaining !== 0">
             <div class="h-8 w-px select-none bg-border-200" />
 
             <HHTooltip :region="userStore.user!.region!">
@@ -166,7 +167,6 @@ await Promise.all(promises);
                 </DropdownItem>
               </SwitchLanguageDropdown>
 
-              <!-- TODO: DropdownItem tag RouterLink -->
               <DropdownItem tag="RouterLink" :to="{ name: 'Settings' }" @click="hide">
                 <OIcon icon="settings" size="lg" />
                 {{ $t('setting.settings') }}

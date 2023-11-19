@@ -72,7 +72,7 @@ const aggregationsConfig = computed(() =>
 );
 
 const isOwnArmoryItem = computed(() => userItem.isArmoryItem && userItem.userId === user.value!.id);
-const isSellable = computed(() => !userItem.isArmoryItem);
+const isSellable = computed(() => userItem.item.rank <= 0 && !userItem.isArmoryItem);
 const isUpgradable = computed(() => canUpgrade(item.type) && !userItem.isArmoryItem);
 const isCanAddedToClanArmory = computed(() => canAddedToClanArmory(item.type));
 </script>

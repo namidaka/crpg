@@ -1,7 +1,12 @@
 import { type PartialDeep } from 'type-fest';
+import { createTestingPinia } from '@pinia/testing';
+
 import { type UserItem, type UserItemsBySlot } from '@/models/user';
 import { ItemSlot, ItemType } from '@/models/item';
 import { type CharacterCharacteristics } from '@/models/character';
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore(createTestingPinia());
 
 const { mockedEmit, mockedNotify, mockedGetAvailableSlotsByItem, mockedGetLinkedSlots } =
   vi.hoisted(() => ({
@@ -140,6 +145,34 @@ describe('useInventoryDnD', () => {
 
       expect(mockedNotify).toBeCalledWith(
         'character.inventory.item.broken.notify.warning',
+        'warning'
+      );
+
+      expect(focusedItemId.value).toEqual(null);
+      expect(availableSlots.value).toEqual([]);
+      expect(fromSlot.value).toEqual(null);
+
+      onDragEnd();
+    });
+
+    it('isArmoryItem item', () => {
+      userStore.$patch({ user: { id: 1 } });
+
+      const userItem: PartialDeep<UserItem> = {
+        id: 42,
+        userId: 1,
+        isArmoryItem: true,
+        item: { type: ItemType.HeadArmor, flags: [] },
+      };
+
+      const { focusedItemId, availableSlots, fromSlot, onDragStart, onDragEnd } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot)
+      );
+
+      onDragStart(userItem as UserItem, ItemSlot.Head);
+
+      expect(mockedNotify).toBeCalledWith(
+        'character.inventory.item.clanArmory.inArmory.notify.warning',
         'warning'
       );
 
