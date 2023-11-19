@@ -745,7 +745,7 @@ user:
     gold: Gold
     heirloom: Heirlooms points
   settings:
-    title: Account Deletion
+    title: Account Settings
     delete:
       title: WARNING: You can {link}. This process will delete ALL of your cRPG characters and data and is NOT reversible.
       link: delete your account
