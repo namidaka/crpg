@@ -2,11 +2,18 @@
 import { useVuelidate } from '@vuelidate/core';
 import { sameAs } from '@/services/validators-service';
 
-const props = defineProps<{
+const {
+  title,
+  description,
+  name,
+  confirmLabel,
+  noSelect = false,
+} = defineProps<{
   title?: string;
   description?: string;
   name: string;
   confirmLabel: string;
+  noSelect?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -18,7 +25,7 @@ const confirmNameModel = ref<string>('');
 const $v = useVuelidate(
   {
     confirmNameModel: {
-      sameAs: sameAs(props.name, props.name),
+      sameAs: sameAs(name, name),
     },
   },
   { confirmNameModel }
@@ -38,7 +45,7 @@ const onConfirm = async () => {
 </script>
 
 <template>
-  <div class="max-w-lg space-y-6 px-12 py-11 text-center">
+  <div class="max-w-xl space-y-6 px-12 py-11 text-center">
     <slot name="title">
       <h4 class="text-xl">{{ title }}</h4>
     </slot>
@@ -50,7 +57,9 @@ const onConfirm = async () => {
 
       <i18n-t scope="global" keypath="confirm.name" tag="p">
         <template #name>
-          <span class="font-bold text-primary">{{ name }}</span>
+          <span class="font-bold text-primary" :class="{ 'select-none': noSelect }">
+            {{ name }}
+          </span>
         </template>
       </i18n-t>
 

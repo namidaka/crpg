@@ -14,6 +14,10 @@ definePage({
 
 const userStore = useUserStore();
 
+await userStore.fetchCharacters();
+
+const canDeleteUser = computed(() => !userStore.characters.length);
+
 const onDeleteUser = async () => {
   await deleteUser();
   notify(t('user.settings.delete.notify.success'));
@@ -26,31 +30,63 @@ const onDeleteUser = async () => {
     <div class="mx-auto max-w-2xl py-12">
       <h1 class="mb-14 text-center text-xl text-content-100">{{ $t('user.settings.title') }}</h1>
 
-      <i18n-t scope="global" keypath="user.settings.delete.title" tag="div" class="text-center">
-        <template #link>
-          <Modal>
-            <span class="cursor-pointer text-status-danger">
-              {{ $t('user.settings.delete.link') }}
-            </span>
+      <FormGroup
+        icon="alert-circle"
+        :label="$t('user.settings.dangerZone')"
+        collapsed
+        variant="danger"
+      >
+        <div v-if="!canDeleteUser" class="text-status-warning">
+          {{ $t('user.settings.delete.validation.hasChar') }}
+        </div>
 
-            <template #popper="{ hide }">
-              <ConfirmActionForm
-                :title="$t('user.settings.delete.dialog.title')"
-                :description="$t('user.settings.delete.dialog.desc')"
-                :name="userStore.user!.name"
-                :confirmLabel="$t('action.delete')"
-                @cancel="hide"
-                @confirm="
-                  () => {
-                    onDeleteUser();
-                    hide();
-                  }
-                "
-              />
-            </template>
-          </Modal>
-        </template>
-      </i18n-t>
+        <i18n-t
+          scope="global"
+          keypath="user.settings.delete.title"
+          tag="div"
+          class="prose prose-invert leading-relaxed"
+          :class="{ 'pointer-events-none opacity-30': !canDeleteUser }"
+        >
+          <template #link>
+            <Modal :disabled="!canDeleteUser">
+              <span
+                class="cursor-pointer border-b border-dashed border-status-danger text-status-danger hover:border-0"
+              >
+                {{ $t('user.settings.delete.link') }}
+              </span>
+
+              <template #popper="{ hide }">
+                <ConfirmActionForm
+                  :name="
+                    $t('user.settings.delete.dialog.enterToConfirm', { user: userStore.user!.name })
+                  "
+                  :confirmLabel="$t('action.delete')"
+                  noSelect
+                  @cancel="hide"
+                  @confirm="
+                    () => {
+                      onDeleteUser();
+                      hide();
+                    }
+                  "
+                >
+                  <template #title>
+                    <div
+                      class="prose prose-invert prose-h4:text-status-danger prose-h5:text-status-danger"
+                      v-html="$t('user.settings.delete.dialog.title')"
+                    />
+                  </template>
+                  <template #description>
+                    <p class="leading-relaxed text-status-warning">
+                      {{ $t('user.settings.delete.dialog.desc') }}
+                    </p>
+                  </template>
+                </ConfirmActionForm>
+              </template>
+            </Modal>
+          </template>
+        </i18n-t>
+      </FormGroup>
     </div>
   </div>
 </template>

@@ -172,6 +172,21 @@ export default {
                   color: theme('colors.content.link.hover'),
                 },
               },
+              h3: {
+                fontSize: theme('fontSize.lg[0]'),
+                marginTop: theme('spacing')['2.5'],
+                marginBottom: theme('spacing')['2.5'],
+              },
+              h4: {
+                fontSize: theme('fontSize.lg[0]'),
+                marginTop: theme('spacing')['2.5'],
+                marginBottom: theme('spacing')['2.5'],
+              },
+              h5: {
+                fontWeight: theme('fontWeight.semibold'),
+                marginTop: theme('spacing')['2.5'],
+                marginBottom: theme('spacing')['2.5'],
+              },
             },
           },
 

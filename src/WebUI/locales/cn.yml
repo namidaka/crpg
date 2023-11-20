@@ -741,12 +741,19 @@ user:
     heirloom: 转生点
   settings:
     title: 账号设置
+    dangerZone: 危险区
     delete:
-      title: 警告：您可以{link}，此过程将删除您的所有 cRPG 角色和数据，并且不可逆转。
+      title: '警告：您可以{link}，此过程将删除您的所有 cRPG 角色和数据，并且不可逆转。'
       link: 删除您的账户
+      validation:
+        hasChar: 只要您至少有一个角色，就不能删除您的账户。
       dialog:
-        title: 警告 - 您即将删除您的帐户 - 警告
-        desc: 最后警告：此过程不可撤销 - 删除您的账户意味着您的账户将永久消失。与您在 cRPG 中的时间、角色、物品、等级等相关的所有数据都将被永久删除。一旦删除，我们将无法恢复数据。
+        title: '
+          <h5>警告</h5>
+          <h4>您即将删除您的帐户</h4>
+          <h5>警告</h5>'
+        desc: '最后警告：此过程不可撤销 - 删除您的账户意味着您的账户将永久消失。与您在 cRPG 中的时间、角色、物品、等级等相关的所有数据都将被永久删除。一旦删除，我们将无法恢复数据。'
+        enterToConfirm: '删除我的帐户 {user}'
       notify:
         success: 您的账户已被删除。
   restriction:
