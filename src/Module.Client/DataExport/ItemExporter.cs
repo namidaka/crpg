@@ -340,6 +340,7 @@ internal class ItemExporter : IDataExporter
         };
         if (mbItem.WeaponComponent != null)
         {
+            crpgItem.Weight = CrpgItemWeaponComponent.GetCustomWeight(mbItem.WeaponComponent.PrimaryWeapon);
             crpgItem.Weapons = mbItem.WeaponComponent.Weapons.Select(w => new CrpgItemWeaponComponent
             {
                 Class = MbToCrpgWeaponClass(w.WeaponClass),

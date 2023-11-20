@@ -1,4 +1,7 @@
-﻿namespace Crpg.Module.Api.Models.Items;
+﻿using TaleWorlds.Core;
+using TaleWorlds.Library;
+
+namespace Crpg.Module.Api.Models.Items;
 
 // Copy of Crpg.Application.Items.Model.ItemViewModel
 internal class CrpgItem
@@ -123,6 +126,69 @@ internal class CrpgItemWeaponComponent
     public int SwingDamage { get; set; }
     public CrpgDamageType SwingDamageType { get; set; }
     public int SwingSpeed { get; set; }
+
+    public static float GetCustomWeight(WeaponComponentData weapon)
+    {
+        float weight = GetBaseWeight(weapon);
+        weight *= (float)Math.Pow(weapon.WeaponLength / 110f, 0.4f);
+
+        float swingFactor = weapon.SwingDamage > 0 ? weapon.SwingDamage / GetDamageTypeFactor(weapon.SwingDamageType) : 0f;
+        float thrustFactor = weapon.ThrustDamage > 0 ? weapon.ThrustDamage / GetDamageTypeFactor(weapon.ThrustDamageType) : 0f;
+        weight *= Math.Min(swingFactor, thrustFactor) == 0
+            ? Math.Max(swingFactor, thrustFactor)
+            : 0.8f * Math.Max(swingFactor, thrustFactor) + 0.2f * Math.Min(swingFactor, thrustFactor);
+
+        if (weapon.WeaponFlags.HasAnyFlag(WeaponFlags.BonusAgainstShield))
+        {
+            weight *= 1.1f;
+        }
+
+        if (weapon.WeaponFlags.HasAnyFlag(WeaponFlags.CanCrushThrough))
+        {
+            weight *= 1.2f;
+        }
+
+        if (weapon.WeaponFlags.HasAnyFlag(WeaponFlags.CanKnockDown))
+        {
+            weight *= 1.1f;
+        }
+
+        if (weapon.WeaponFlags.HasAnyFlag(WeaponFlags.MultiplePenetration))
+        {
+            weight *= 1.05f;
+        }
+
+        return weight;
+    }
+
+    private static float GetBaseWeight(WeaponComponentData weapon)
+    {
+        return weapon.WeaponClass switch
+        {
+            WeaponClass.Dagger => 0.5f,
+            WeaponClass.OneHandedSword => 1.1f,
+            WeaponClass.TwoHandedSword => 1f,
+            WeaponClass.OneHandedAxe => 0.8f,
+            WeaponClass.TwoHandedAxe => 0.9f,
+            WeaponClass.Mace => 1.2f,
+            WeaponClass.TwoHandedMace => 0.7f,
+            WeaponClass.Pick => 1f,
+            WeaponClass.OneHandedPolearm => 1f,
+            WeaponClass.TwoHandedPolearm => 0.8f,
+            WeaponClass.LowGripPolearm => 1f,
+            _ => 1f,
+        };
+    }
+
+    private static float GetDamageTypeFactor(DamageTypes damageType)
+    {
+        return damageType switch
+        {
+            DamageTypes.Blunt => 20f,
+            DamageTypes.Pierce => 25f,
+            _ => 40f,
+        };
+    }
 }
 
 // Copy of Crpg.Domain.Entities.Items.DamageType
