@@ -4,18 +4,6 @@ import { useUserStore } from '@/stores/user';
 import { login } from '@/services/auth-service';
 import { Platform } from '@/models/platform';
 
-// Test may seem fragile because it depends on @/models/platform. If you wish, you can rewrite it using mock:
-// vi.mock('@/models/platform', () => ({
-//   get Platform() {
-//     return { Steam: 'Steam', MyLittlePonyGamePlatform: 'MyLittlePonyGamePlatform' };
-//   },
-// }));
-
-/*
-  TODO: FIXME:
-  All the mocks are broken (in other tests as well), figure it out: https://github.com/vitest-dev/vitest
-  Error: [vitest] There was an error when mocking a module. If you are using "vi.mock" factory, make sure there are no top level variables inside, since this call is hoisted to top of the file. Read more: https://vitest.dev/api/#vi-mock
-*/
 vi.mock('@/services/auth-service', () => ({
   login: vi.fn(),
 }));

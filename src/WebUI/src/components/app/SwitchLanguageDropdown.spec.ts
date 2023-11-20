@@ -1,13 +1,14 @@
 import { mount } from '@vue/test-utils';
 
-const mockSupportedLocales = vi.fn().mockReturnValue(['unicorn', 'pony']);
-const mockSwitchLanguage = vi.fn();
-const mockCurrentLocale = vi.fn().mockReturnValue('unicorn');
-
+const { mockedSupportedLocales, mockedSwitchLanguage, mockedCurrentLocale } = vi.hoisted(() => ({
+  mockedSupportedLocales: vi.fn().mockReturnValue(['unicorn', 'pony']),
+  mockedSwitchLanguage: vi.fn(),
+  mockedCurrentLocale: vi.fn().mockReturnValue('unicorn'),
+}));
 vi.mock('@/services/translate-service', () => ({
-  supportedLocales: mockSupportedLocales,
-  currentLocale: mockCurrentLocale,
-  switchLanguage: mockSwitchLanguage,
+  supportedLocales: mockedSupportedLocales,
+  currentLocale: mockedCurrentLocale,
+  switchLanguage: mockedSwitchLanguage,
 }));
 
 import SwitchLanguageDropdown from './SwitchLanguageDropdown.vue';
@@ -23,5 +24,5 @@ it('switch lang', async () => {
 
   await langItems.at(1)!.trigger('click');
 
-  expect(mockSwitchLanguage).toBeCalledWith('pony');
+  expect(mockedSwitchLanguage).toBeCalledWith('pony');
 });
