@@ -1,4 +1,4 @@
-// FIXME: repair test
+// TODO: FIXME:
 import { createTestingPinia } from '@pinia/testing';
 import { ItemType, WeaponClass } from '@/models/item';
 import { type UserItem } from '@/models/user';
@@ -6,62 +6,10 @@ import { type UserItem } from '@/models/user';
 import { mountWithRouter } from '@/__test__/unit/utils';
 import mockItems from '@/__mocks__/items.json';
 
-const mockGetItems = vi.fn().mockResolvedValue(mockItems);
-const mockGetCompareItemsResult = vi.fn().mockReturnValue({});
-vi.mock('@/services/item-service', () => ({
-  getItems: mockGetItems,
-  getCompareItemsResult: mockGetCompareItemsResult,
-}));
-
-const mockGetSearchResult = vi.fn().mockReturnValue({
-  data: {
-    aggregations: {},
-    items: [],
-  },
-  pagination: {
-    page: 1,
-    per_page: 1,
-    total: 1,
-  },
-});
-vi.mock('@/services/item-search-service', () => ({
-  getSearchResult: mockGetSearchResult,
-}));
-
-const aggregationConfig = { handling: {}, price: {} };
-const filterModel = { handling: [], price: [] };
-const mockAggregationsConfig = vi.fn().mockReturnValue(computed(() => aggregationConfig))();
-const mockResetFilter = vi.fn();
-const mockUseItemsFilter = vi.fn().mockImplementation(() => ({
-  itemTypeModel: computed(() => ItemType.OneHandedWeapon),
-  weaponClassModel: computed(() => WeaponClass.OneHandedSword),
-  nameModel: computed(() => ''),
-  filterModel: computed(() => filterModel),
-  updateFilterModel: vi.fn(),
-  resetFilters: mockResetFilter,
-  filteredByClassFlatItems: computed(() => []),
-  aggregationsConfig: mockAggregationsConfig,
-  aggregationsConfigVisible: computed(() => ({})),
-  aggregationByType: computed(() => ({ data: { buckets: [] } })),
-  aggregationByClass: computed(() => ({ data: { buckets: [] } })),
-  scopeAggregations: computed(() => ({})),
-}));
-vi.mock('@/composables/shop/use-filters', () => ({
-  useItemsFilter: mockUseItemsFilter,
-}));
-
 const page = 1;
 const perPage = 15;
-const perPageConfig = [10, 15, 20];
-const mockUsePagination = vi.fn().mockImplementation(() => ({
-  pageModel: computed(() => page),
-  perPageModel: computed(() => perPage),
-  perPageConfig: computed(() => perPageConfig),
-}));
-vi.mock('@/composables/use-pagination', () => ({
-  usePagination: mockUsePagination,
-}));
-
+const aggregationConfig = { handling: {}, price: {} };
+const filterModel = { handling: [], price: [] };
 const sortingConfig = {
   price_desc: {
     field: 'price_desc',
@@ -72,25 +20,92 @@ const sortingConfig = {
     order: 'asc',
   },
 };
-const mockUseItemsSort = vi.fn().mockImplementation(() => ({
-  sortingModel: computed(() => 'price_desc'),
-  sortingConfig: computed(() => sortingConfig),
+const {
+  mockedGetItems,
+  mockedGetCompareItemsResult,
+  mockedGetSearchResult,
+  mockResetFilter,
+  mockAggregationsConfig,
+  mockUseItemsFilter,
+  mockUsePagination,
+  mockUseItemsSort,
+  mockToggleCompare,
+  mockToggleToCompareList,
+} = vi.hoisted(() => ({
+  mockedGetItems: vi.fn(),
+  mockedGetCompareItemsResult: vi.fn().mockReturnValue({}),
+  mockedGetSearchResult: vi.fn().mockReturnValue({
+    data: {
+      aggregations: {},
+      items: [],
+    },
+    pagination: {
+      page: 1,
+      per_page: 1,
+      total: 1,
+    },
+  }),
+  mockResetFilter: vi.fn(),
+  mockAggregationsConfig: vi.fn(),
+  mockUseItemsFilter: vi.fn().mockImplementation(() => ({
+    itemTypeModel: computed(() => ItemType.OneHandedWeapon),
+    weaponClassModel: computed(() => WeaponClass.OneHandedSword),
+    nameModel: computed(() => ''),
+    filterModel: computed(() => filterModel),
+    updateFilterModel: vi.fn(),
+    resetFilters: mockResetFilter,
+    filteredByClassFlatItems: computed(() => []),
+    aggregationsConfig: mockAggregationsConfig,
+    aggregationsConfigVisible: computed(() => ({})),
+    aggregationByType: computed(() => ({ data: { buckets: [] } })),
+    aggregationByClass: computed(() => ({ data: { buckets: [] } })),
+    scopeAggregations: computed(() => ({})),
+  })),
+  mockUsePagination: vi.fn().mockImplementation(() => ({
+    pageModel: computed(() => 1),
+    perPageModel: computed(() => 15),
+    perPageConfig: computed(() => [10, 15, 20]),
+  })),
+  mockUseItemsSort: vi.fn().mockImplementation(() => ({
+    sortingModel: computed(() => 'price_desc'),
+    sortingConfig: computed(() => sortingConfig),
+  })),
+  mockToggleCompare: vi.fn(),
+  mockToggleToCompareList: vi.fn(),
+}));
+
+const { mockUseItemsCompare } = vi.hoisted(() => ({
+  mockUseItemsCompare: vi.fn().mockImplementation(() => ({
+    isCompare: computed(() => false),
+    toggleCompare: mockToggleCompare,
+    compareList: computed(() => []),
+    toggleToCompareList: mockToggleToCompareList,
+  })),
+}));
+
+vi.mock('@/services/item-service', () => ({
+  getItems: mockedGetItems,
+  getCompareItemsResult: mockedGetCompareItemsResult,
+}));
+vi.mock('@/services/item-search-service', () => ({
+  getSearchResult: mockedGetSearchResult,
+}));
+vi.mock('@/composables/shop/use-filters', () => ({
+  useItemsFilter: mockUseItemsFilter,
+}));
+vi.mock('@/composables/use-pagination', () => ({
+  usePagination: mockUsePagination,
 }));
 vi.mock('@/composables/shop/use-sort', () => ({
   useItemsSort: mockUseItemsSort,
 }));
-
-const mockToggleCompare = vi.fn();
-const mockToggleToCompareList = vi.fn();
-const mockUseItemsCompare = vi.fn().mockImplementation(() => ({
-  isCompare: computed(() => false),
-  toggleCompare: mockToggleCompare,
-  compareList: computed(() => []),
-  toggleToCompareList: mockToggleToCompareList,
-}));
 vi.mock('@/composables/shop/use-compare', () => ({
   useItemsCompare: mockUseItemsCompare,
 }));
+
+beforeAll(() => {
+  mockAggregationsConfig.mockReturnValue(computed(() => aggregationConfig))();
+});
 
 import { useUserStore } from '@/stores/user';
 import Page from './shop.vue';
@@ -119,14 +134,18 @@ const mountOptions = {
   },
 };
 
+beforeAll(() => {
+  mockedGetItems.mockResolvedValue(mockItems);
+});
+
 beforeEach(() => {
   userStore.$reset();
 });
 
-it('default state - empty query string', async () => {
+it.only('default state - empty query string', async () => {
   await mountWithRouter(mountOptions, routes, route);
 
-  expect(mockGetItems).toBeCalled();
+  expect(mockedGetItems).toBeCalled();
   expect(userStore.fetchUserItems).toBeCalled();
 
   expect(mockUseItemsFilter).toBeCalledWith(mockItems);
@@ -134,7 +153,7 @@ it('default state - empty query string', async () => {
   expect(mockUsePagination).toBeCalled();
   expect(mockUseItemsCompare).toBeCalled();
 
-  expect(mockGetSearchResult).toBeCalledWith({
+  expect(mockedGetSearchResult).toBeCalledWith({
     items: [],
     aggregationConfig: aggregationConfig,
     sortingConfig: sortingConfig,
@@ -144,7 +163,7 @@ it('default state - empty query string', async () => {
     query: '',
     filter: filterModel,
   });
-  expect(mockGetCompareItemsResult).not.toBeCalled();
+  expect(mockedGetCompareItemsResult).not.toBeCalled();
 });
 
 it('Reset filters', async () => {
@@ -183,7 +202,7 @@ describe('Toggle compare mode', () => {
 });
 
 describe('shop item', () => {
-  mockGetSearchResult.mockReturnValue({
+  mockedGetSearchResult.mockReturnValue({
     data: {
       aggregations: {},
       items: [{ id: '1' }, { id: '2' }],
@@ -287,7 +306,7 @@ describe('shop item', () => {
 
 describe('pagination', () => {
   it('pass props', async () => {
-    mockGetSearchResult.mockReturnValue({
+    mockedGetSearchResult.mockReturnValue({
       data: {
         aggregations: {},
         items: [],
