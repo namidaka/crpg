@@ -41,7 +41,10 @@ describe('characterValidate', () => {
     const result = await characterValidate(to, getRoute(), next);
 
     expect(userStore.fetchCharacters).toHaveBeenCalled();
-    expect(result).toEqual({ name: 'CharactersIdInventory', params: { id: ACTIVE_CHAR_ID } });
+    expect(result).toEqual({
+      name: 'CharactersIdInventory',
+      params: { id: String(ACTIVE_CHAR_ID) },
+    });
   });
 
   it('no redirect', async () => {
@@ -86,7 +89,7 @@ describe('activeCharacterRedirect', () => {
     expect(userStore.fetchCharacters).toHaveBeenCalled();
     expect(result).toEqual({
       name: 'CharactersIdInventory',
-      params: { id: ACTIVE_CHAR_ID },
+      params: { id: String(ACTIVE_CHAR_ID) },
     });
   });
 
@@ -100,7 +103,7 @@ describe('activeCharacterRedirect', () => {
     expect(userStore.fetchCharacters).not.toHaveBeenCalled();
     expect(result).toEqual({
       name: 'CharactersIdInventory',
-      params: { id: CHAR_ID },
+      params: { id: String(CHAR_ID) },
     });
   });
 });

@@ -44,7 +44,7 @@ it('with query', () => {
 });
 
 it('default value', () => {
-  userStore.$patch({ user: { region: null } });
+  userStore.$patch({ user: { region: Region.Eu } });
 
   mockedUseRoute.mockImplementation(() => ({
     query: {},
@@ -56,7 +56,7 @@ it('default value', () => {
 });
 
 it('regions list', () => {
-  userStore.$patch({ user: { region: null } });
+  userStore.$patch({ user: { region: Region.Eu } });
 
   mockedUseRoute.mockImplementation(() => ({
     query: {},

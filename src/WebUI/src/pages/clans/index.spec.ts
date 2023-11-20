@@ -91,7 +91,11 @@ const UNICORN_CLAN = {
 } as ClanWithMemberCount<Clan>;
 
 beforeEach(() => {
-  userStore.$reset();
+  userStore.$patch({
+    user: {
+      region: Region.Eu,
+    },
+  });
 });
 
 it('user haven`t a clan - createNewClanButton should be active', async () => {
@@ -101,7 +105,7 @@ it('user haven`t a clan - createNewClanButton should be active', async () => {
 });
 
 it('user have a clan - myClanButton should be active', async () => {
-  userStore.clan = { id: PONY_CLAN_ID } as Clan;
+  userStore.$patch({ clan: { id: PONY_CLAN_ID } as Clan });
   mockedGetFilteredClans.mockReturnValue([PONY_CLAN, UNICORN_CLAN]);
 
   const { wrapper } = await mountWithRouter(mountOptions, routes, route);

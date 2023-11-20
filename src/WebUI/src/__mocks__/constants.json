@@ -55,7 +55,7 @@
   "clanNameMinLength": 5,
   "clanNameMaxLength": 30,
   "clanDescriptionMinLength": 0,
-  "clanDescriptionMaxLength": 1000,
+  "clanDescriptionMaxLength": 100,
   "clanColorMinValue": 4278190080,
   "clanBannerKeyMaxLength": 100,
   "clanBannerKeyRegex": "^(-?\\d+\\.)*-?\\d+$",

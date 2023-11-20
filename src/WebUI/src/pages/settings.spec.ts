@@ -3,17 +3,17 @@ import { mount } from '@vue/test-utils';
 import { Region } from '@/models/region';
 import { User } from '@/models/user';
 
-const mockedNotify = vi.fn();
+const { mockedNotify, mockedDeleteUser, mockedLogout } = vi.hoisted(() => ({
+  mockedNotify: vi.fn(),
+  mockedDeleteUser: vi.fn(),
+  mockedLogout: vi.fn(),
+}));
 vi.mock('@/services/notification-service', () => ({
   notify: mockedNotify,
 }));
-
-const mockedDeleteUser = vi.fn();
 vi.mock('@/services/users-service', () => ({
   deleteUser: mockedDeleteUser,
 }));
-
-const mockedLogout = vi.fn();
 vi.mock('@/services/auth-service', () => ({
   logout: mockedLogout,
 }));
@@ -21,7 +21,7 @@ vi.mock('@/services/auth-service', () => ({
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore(createTestingPinia());
-userStore.user = { region: Region.Eu } as User;
+userStore.$patch({ user: { region: Region.Eu } as User });
 
 import Page from './settings.vue';
 
