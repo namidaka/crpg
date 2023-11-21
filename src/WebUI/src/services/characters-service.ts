@@ -47,12 +47,13 @@ import {
 } from '@/models/character';
 import { ItemSlot, ItemType, type Item, type ItemArmorComponent } from '@/models/item';
 import { type HumanDuration } from '@/models/datetime';
+import { type ActivityLog } from '@/models/activity-logs';
 
 import { get, put, del } from '@/services/crpg-client';
 import { armorTypes, computeAverageRepairCostPerHour } from '@/services/item-service';
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
 import { computeLeftMs, parseTimestamp } from '@/utils/date';
-import { range } from '@/utils/array';
+import { range, groupBy } from '@/utils/array';
 
 export const getCharacters = () => get<Character[]>('/users/self/characters');
 
@@ -90,6 +91,34 @@ export const deleteCharacter = (characterId: number) =>
 
 export const getCharacterStatistics = (characterId: number) =>
   get<CharacterStatistics>(`/users/self/characters/${characterId}/statistics`);
+
+//
+export const getCharacterStatisticsCharts = async (characterId: number, type: string) => {
+  const res = await get<ActivityLog[]>(`/users/self/characters/${characterId}/statistics/charts`);
+
+  return res.reduce((out, l) => {
+    const currentEl = out.find(el => el.name === l.metadata.instance);
+
+    if (currentEl) {
+      currentEl.data.push([
+        new Date(l.createdAt),
+        parseInt(type === 'Exp' ? l.metadata.experience : l.metadata.gold, 10),
+      ]);
+    } else {
+      out.push({
+        name: l.metadata.instance,
+        data: [
+          [
+            new Date(l.createdAt),
+            parseInt(type === 'Exp' ? l.metadata.experience : l.metadata.gold, 10),
+          ],
+        ],
+      });
+    }
+
+    return out;
+  }, []);
+};
 
 export const getCharacterRating = (characterId: number) =>
   get<CharacterRating>(`/users/self/characters/${characterId}/rating`);

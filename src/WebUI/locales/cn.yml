@@ -61,6 +61,7 @@ timeAgo:
 dateTimeFormat:
   # TODO: https://github.com/tc39/proposal-intl-duration-format
   countdown: '{hours}:{minutes}:{seconds}'
+  'dd': '{days} @:dateTime.days.short'
   'mm': '{minutes} @:dateTime.minutes.short'
   'hh': '{hours} @:dateTime.hours.short'
   'dd:hh:mm': '{days}@:dateTime.days.short {hours}@:dateTime.hours.short {minutes}@:dateTime.minutes.short'

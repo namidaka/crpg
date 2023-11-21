@@ -1,4 +1,5 @@
 using System.Net;
+using Crpg.Application.ActivityLogs.Models;
 using Crpg.Application.Characters.Commands;
 using Crpg.Application.Characters.Models;
 using Crpg.Application.Characters.Queries;
@@ -376,6 +377,22 @@ public class UsersController : BaseController
             UserId = CurrentUser.User!.Id,
             CharacterId = id,
         }));
+    }
+
+    /// <summary>
+    /// TODO:
+    /// </summary>
+    /// <param name="id">Character id.</param>
+    /// <returns>The character statistics charts.</returns>
+    /// <response code="200">Ok.</response>
+    [HttpGet("self/characters/{id}/statistics/charts")]
+    public async Task<ActionResult<Result<IList<ActivityLogViewModel>>>> GetCharacterStatisticsCharts([FromRoute] int id)
+    {
+        return ResultToAction(await Mediator.Send(new GetUserCharacterStatisticsChartsQuery
+        {
+            UserId = CurrentUser.User!.Id,
+            CharacterId = id,
+        }, CancellationToken.None));
     }
 
     /// <summary>
