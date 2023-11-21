@@ -10,4 +10,6 @@
   <file id="soln_module_sound" name="ModuleData/module_sounds.xml" type="module_sound" />
   <file id="soln_item_holsters" name="ModuleData/item_holsters.xml" type="item_holster" />
   <file id="soln_skins" name="ModuleData/skins.xml" type="skin" />
+  <file id="soln_collision_infos" name="ModuleData/collision_infos.xml" type="collision_infos" />
+  <file id="soln_physics_materials" name="ModuleData/physics_materials.xml" type="physics_material" />
 </base>
