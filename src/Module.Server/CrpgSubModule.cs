@@ -118,7 +118,7 @@ internal class CrpgSubModule : MBSubModuleBase
     }
 #if CRPG_SERVER
     public override void OnMultiplayerGameStart(Game game, object starterObject)
-        {
+    {
         base.OnMultiplayerGameStart(game, starterObject);
         AddMaps();
     }
