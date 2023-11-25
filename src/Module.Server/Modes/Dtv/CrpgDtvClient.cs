@@ -7,6 +7,33 @@ namespace Crpg.Module.Modes.Dtv;
 
 internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
 {
+    private int _currentWave;
+    private int _currentRound;
+
+    public int CurrentRound
+    {
+        get => _currentRound;
+        set
+        {
+            if (value != _currentRound)
+            {
+                _currentRound = value;
+            }
+        }
+    }
+
+    public int CurrentWave
+    {
+        get => _currentWave;
+        set
+        {
+            if (value != _currentWave)
+            {
+                _currentWave = value;
+            }
+        }
+    }
+
     public override bool IsGameModeUsingGold => false;
     public override bool IsGameModeTactical => false;
     public override bool IsGameModeUsingRoundCountdown => true;
@@ -36,11 +63,18 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
         registerer.Register<CrpgDtvWaveStartMessage>(HandleWaveStart);
         registerer.Register<CrpgDtvViscountUnderAttackMessage>(HandleViscountUnderAttack);
         registerer.Register<CrpgDtvGameEnd>(HandleViscountDeath);
+        registerer.Register<CrpgDtvCurrentProgressMessage>(HandleCurrentProgress);
     }
 
     private void HandleSetTimer(CrpgDtvSetTimerMessage message)
     {
         TimerComponent.StartTimerAsClient(message.StartTime, message.Duration);
+    }
+
+    private void HandleCurrentProgress(CrpgDtvCurrentProgressMessage message)
+    {
+        CurrentRound = message.Round + 1;
+        CurrentWave = message.Wave + 1;
     }
 
     private void HandleRoundStart(CrpgDtvRoundStartMessage message)
@@ -53,6 +87,8 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
             Color = new Color(0.48f, 0f, 1f),
             SoundEventPath = message.Round == 0 ? null : "event:/ui/notification/quest_finished",
         });
+        CurrentRound = message.Round + 1;
+        CurrentWave = 0;
     }
 
     private void HandleWaveStart(CrpgDtvWaveStartMessage message)
@@ -65,6 +101,7 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
             Color = new Color(218, 112, 214),
             SoundEventPath = message.Wave == 0 ? null : "event:/ui/notification/quest_update",
         });
+        CurrentWave = message.Wave + 1;
     }
 
     private void HandleViscountDeath(CrpgDtvGameEnd message)

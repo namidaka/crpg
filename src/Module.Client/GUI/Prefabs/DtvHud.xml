@@ -2,34 +2,83 @@
   <Constants>
   </Constants>
   <Window>
-    <ListPanel WidthSizePolicy="CoverChildren"
-               HeightSizePolicy="CoverChildren"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Top"
-               MarginTop="5">
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" OrderEnabledAlpha="0.2">
       <Children>
 
-        <BannerHud WidthSizePolicy="Fixed"
-                   HeightSizePolicy="Fixed"
-                   SuggestedWidth="50"
-                   SuggestedHeight="50"
-                   DataSource="{AllyBanner}" />
+        <ListPanel WidthSizePolicy="CoverChildren"
+                   HeightSizePolicy="CoverChildren"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   MarginTop="55">
+          <Children>
+            <ListPanel IsVisible="@IsGameStarted" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" StackLayout.LayoutMethod="HorizontalLeftToRight">
+              <Children>
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginRight="10" MarginTop="5" Brush="MPHUD.CountdownText" Brush.FontSize="24" Text="@RoundLabel" />
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginRight="10" MarginTop="5" Brush="MPHUD.CountdownText" Brush.FontSize="24" IntText="@CurrentRound" />
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="1" MarginRight="1" MarginTop="5" Brush="MPHUD.CountdownText" Brush.FontSize="24" Text="|"/>
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="10" MarginTop="5" Brush="MPHUD.CountdownText" Brush.FontSize="24" IntText="@CurrentWave" />
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="10" MarginTop="5" Brush="MPHUD.CountdownText" Brush.FontSize="24" Text="@WaveLabel" />
+              </Children>
+            </ListPanel>
+          </Children>
+        </ListPanel>
 
-        <TimerHud DataSource="{Timer}"
-                  WidthSizePolicy="Fixed"
-                  HeightSizePolicy="Fixed"
-                  SuggestedWidth="90"
-                  SuggestedHeight="26"
-                  VerticalAlignment="Center" />
+        <ListPanel WidthSizePolicy="CoverChildren"
+                  HeightSizePolicy="CoverChildren"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Top"
+                  MarginTop="5">
+          <Children>
 
-        <BannerHud
-          WidthSizePolicy="Fixed"
-          HeightSizePolicy="Fixed"
-          SuggestedWidth="50"
-          SuggestedHeight="50"
-          DataSource="{EnemyBanner}" />
+            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" StackLayout.LayoutMethod="HorizontalLeftToRight">
+              <Children>
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="25" SuggestedHeight="32" Sprite="MPHud\battle_mode_troop_count" Color="#f4e1c4ff"/>
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="10" MarginRight="10" MarginTop="5" Brush="MPHUD.ScoreText" Brush.FontSize="32" IntText="@DefenderMemberCount" />
+              </Children>
+            </ListPanel>
+
+            <BannerHud WidthSizePolicy="Fixed"
+                      HeightSizePolicy="Fixed"
+                      SuggestedWidth="50"
+                      SuggestedHeight="50"
+                      DataSource="{AllyBanner}" />
+
+            <TimerHud DataSource="{Timer}"
+                      WidthSizePolicy="Fixed"
+                      HeightSizePolicy="Fixed"
+                      SuggestedWidth="90"
+                      SuggestedHeight="26"
+                      VerticalAlignment="Center" />
+
+            <BannerHud
+              WidthSizePolicy="Fixed"
+              HeightSizePolicy="Fixed"
+              SuggestedWidth="50"
+              SuggestedHeight="50"
+              DataSource="{EnemyBanner}" />
+
+            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" StackLayout.LayoutMethod="HorizontalLeftToRight">
+              <Children>
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="10" MarginRight="10" MarginTop="5" Brush="MPHUD.ScoreText" Brush.FontSize="32" IntText="@AttackerMemberCount" />
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="25" SuggestedHeight="32" Sprite="MPHud\battle_mode_troop_count" Color="#f4e1c4ff"/>
+              </Children>
+            </ListPanel>
+
+          </Children>
+        </ListPanel>
+
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="30" HorizontalAlignment="Center" MarginTop="50">
+          <Children>
+            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" StackLayout.LayoutMethod="HorizontalSpaced">
+              <Children>
+
+              </Children>
+            </ListPanel>
+          </Children>
+        </Widget>
 
       </Children>
-    </ListPanel>
+    </Widget>
+
   </Window>
 </Prefab>

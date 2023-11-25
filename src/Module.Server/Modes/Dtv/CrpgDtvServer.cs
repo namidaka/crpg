@@ -184,6 +184,13 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             Duration = MapDuration,
         });
         GameNetwork.EndModuleEventAsServer();
+        GameNetwork.BeginModuleEventAsServer(networkPeer);
+        GameNetwork.WriteMessage(new CrpgDtvCurrentProgressMessage
+        {
+            Wave = _currentWave,
+            Round = _currentRound,
+        });
+        GameNetwork.EndModuleEventAsServer();
     }
 
     /// <summary>Work around the 60 minutes limit of MapTimeLimit.</summary>

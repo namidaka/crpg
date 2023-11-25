@@ -38,6 +38,8 @@
     <string id="nbOZ9BNX" text="Защитник {NAME} открыл ворота." />
     <string id="bbg3UpPX" text="Начался раунд {ROUND}..." />
     <string id="1y04FNHB" text="Началась волна {WAVE}!" />
+    <string id="8KlA48nt" text="Волна" />
+    <string id="1QzB15at" text="раунд" />
     <string id="4HrC30kl" text="Граф был убит!" />
     <string id="tdfOMWmf" text="Защитники были убиты!" />
     <string id="mfD3LkeQ" text="{AGENT} атаковал графа!" />
