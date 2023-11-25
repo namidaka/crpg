@@ -67,7 +67,8 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             Vec2 initialDirection = spawnFrame.rotation.f.AsVec2.Normalized();
             // Randomize direction so players don't go all straight.
             initialDirection.RotateCCW(MBRandom.RandomFloatRanged(-MathF.PI / 3f, MathF.PI / 3f));
-
+            var troopOrigin = new CrpgBattleAgentOrigin(character, characterSkills);
+            CrpgCharacterBuilder.AssignArmorsToTroopOrigin(troopOrigin, crpgPeer.User.Character.EquippedItems.ToList());
             AgentBuildData agentBuildData = new AgentBuildData(character)
                 .MissionPeer(missionPeer)
                 .Equipment(characterEquipment)
