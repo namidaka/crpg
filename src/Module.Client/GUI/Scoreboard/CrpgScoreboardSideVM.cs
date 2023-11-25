@@ -9,7 +9,7 @@ using TaleWorlds.ObjectSystem;
 
 namespace Crpg.Module.Gui;
 
-public class CrpgMissionScoreboardSideVM : ViewModel
+public class CrpgMissionScoreboardSideVM : MissionScoreboardSideVM
 {
     private MBBindingList<MissionScoreboardPlayerVM> _players = default!;
 
