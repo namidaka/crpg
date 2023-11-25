@@ -675,7 +675,7 @@ internal class CrpgHudExtensionVm : ViewModel
     private void OnCurrentGameModeStateChanged()
     {
         CheckTimers(true);
-        UpdateTeamBanners();
+        UpdateTeamBanners(AllyBanner, EnemyBanner);
     }
 
     private void UpdateTeamScores()
@@ -691,31 +691,31 @@ internal class CrpgHudExtensionVm : ViewModel
         EnemyTeamScore = _isAttackerTeamAlly ? defenderScore : attackScore;
     }
 
-    private void UpdateTeamBanners()
+    public static void UpdateTeamBanners(ImageIdentifierVM? allyBannerVM, ImageIdentifierVM? enemyBannerVM)
     {
-        var allyTeam = _isAttackerTeamAlly ? _mission.AttackerTeam : _mission.DefenderTeam;
-        var enemyTeam = _isAttackerTeamAlly ? _mission.DefenderTeam : _mission.AttackerTeam;
-        var allyBanner = ResolveTeamBannerKey(allyTeam);
-        var enemyBanner = ResolveTeamBannerKey(enemyTeam);
-        var allyBannerCode = BannerCode.CreateFrom(allyBanner ?? allyTeam.Banner);
-        var enemyBannerCode = BannerCode.CreateFrom(enemyBanner ?? enemyTeam.Banner);
+        var allyBanner = ResolveTeamBannerKey(allyTeam: true);
+        var enemyBanner = ResolveTeamBannerKey(allyTeam: false);
+        var allyBannerCode = BannerCode.CreateFrom(allyBanner);
+        var enemyBannerCode = BannerCode.CreateFrom(enemyBanner);
         ImageIdentifierVM allyImageId = new(allyBannerCode, true);
         ImageIdentifierVM enemyImageId = new(enemyBannerCode, true);
 
-        AllyBanner = allyImageId;
-        EnemyBanner = enemyImageId;
+        allyBannerVM = allyImageId;
+        enemyBannerVM = enemyImageId;
     }
 
-    private Banner? ResolveTeamBannerKey(Team team)
+    public static Banner? ResolveTeamBannerKey(bool allyTeam)
     {
         Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
-
+        Team myTeam = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team;
+        Team enemyTeam = Mission.Current.Teams.First(t => t.TeamIndex != myTeam.TeamIndex && t.TeamIndex != 0);
         foreach (var networkPeer in GameNetwork.NetworkPeers)
         {
             var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
             var missionPeer = networkPeer.GetComponent<MissionPeer>();
-
-            if (missionPeer == null || crpgPeer?.User == null || missionPeer.Team != team || crpgPeer?.Clan == null)
+            bool isAllied = missionPeer.Team == myTeam;
+            bool isSelected = allyTeam ? isAllied : !isAllied;
+            if (missionPeer == null || crpgPeer?.User == null || !isSelected || crpgPeer?.Clan == null)
             {
                 continue;
             }
@@ -743,7 +743,7 @@ internal class CrpgHudExtensionVm : ViewModel
 
         if (maxClan.Value.clan == null)
         {
-            return null;
+            return allyTeam ? myTeam.Banner : enemyTeam.Banner;
         }
 
         return new Banner(maxClan.Value.clan.BannerKey, maxClan.Value.clan.PrimaryColor, maxClan.Value.clan.SecondaryColor);
@@ -762,7 +762,7 @@ internal class CrpgHudExtensionVm : ViewModel
             CommanderInfo?.OnTeamChanged();
         }
 
-        UpdateTeamBanners();
+        UpdateTeamBanners(AllyBanner, EnemyBanner);
 
         if (CommanderInfo == null)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Crpg.Module.GUI.HudExtension;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -9,11 +10,11 @@ using TaleWorlds.ObjectSystem;
 
 namespace Crpg.Module.Gui;
 
-public class CrpgMissionScoreboardSideVM : MissionScoreboardSideVM
+public class CrpgScoreboardSideVM : ViewModel
 {
     private MBBindingList<MissionScoreboardPlayerVM> _players = default!;
 
-    private MBBindingList<MissionScoreboardHeaderItemVM> _entryProperties = default!;
+    private MBBindingList<CrpgMissionScoreboardHeaderItemVM> _entryProperties = default!;
 
     private MissionScoreboardPlayerSortControllerVM _playerSortController = default!;
 
@@ -36,7 +37,9 @@ public class CrpgMissionScoreboardSideVM : MissionScoreboardSideVM
     private string _teamColor = default!;
 
     private string _playersText = default!;
-    public CrpgMissionScoreboardSideVM(MissionScoreboardComponent.MissionScoreboardSide missionScoreboardSide, Action<MissionScoreboardPlayerVM> executeActivate, bool isSingleSide, bool isSecondSide)
+    private ImageIdentifierVM? _allyBanner;
+    private ImageIdentifierVM? _enemyBanner;
+    public CrpgScoreboardSideVM(MissionScoreboardComponent.MissionScoreboardSide missionScoreboardSide, Action<MissionScoreboardPlayerVM> executeActivate, bool isSingleSide, bool isSecondSide)
     {
         _executeActivate = executeActivate;
         _missionScoreboardSide = missionScoreboardSide;
@@ -48,10 +51,12 @@ public class CrpgMissionScoreboardSideVM : MissionScoreboardSideVM
         string[] valuesOf = missionScoreboardSide.GetValuesOf(null);
         string[] headerIds = missionScoreboardSide.GetHeaderIds();
         _bot = new MissionScoreboardPlayerVM(valuesOf, headerIds, score, _executeActivate);
+
         foreach (MissionPeer peer in missionScoreboardSide.Players)
         {
             AddPlayer(peer);
         }
+
         UpdateBotAttributes();
         UpdateRoundAttributes();
         string text = (_missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
@@ -80,20 +85,22 @@ public class CrpgMissionScoreboardSideVM : MissionScoreboardSideVM
         {
             Name = @object.Name.ToString();
         }
-        EntryProperties = new MBBindingList<MissionScoreboardHeaderItemVM>();
+        EntryProperties = new MBBindingList<CrpgMissionScoreboardHeaderItemVM>();
         string[] headerIds = _missionScoreboardSide.GetHeaderIds();
         string[] headerNames = _missionScoreboardSide.GetHeaderNames();
         for (int i = 0; i < headerIds.Length; i++)
         {
-            EntryProperties.Add(new MissionScoreboardHeaderItemVM(this, headerIds[i], headerNames[i], headerIds[i] == "avatar", _irregularHeaderIDs.Contains(headerIds[i])));
+            EntryProperties.Add(new CrpgMissionScoreboardHeaderItemVM(this, headerIds[i], headerNames[i], headerIds[i] == "avatar", _irregularHeaderIDs.Contains(headerIds[i])));
         }
         UpdatePlayersText();
+
         MissionScoreboardPlayerSortControllerVM playerSortController = PlayerSortController;
         if (playerSortController == null)
         {
             return;
         }
         playerSortController.RefreshValues();
+        CrpgHudExtensionVm.UpdateTeamBanners(AllyBanner, EnemyBanner);
     }
 
     public void Tick(float dt)
@@ -221,7 +228,7 @@ public class CrpgMissionScoreboardSideVM : MissionScoreboardSideVM
     }
 
     [DataSourceProperty]
-    public MBBindingList<MissionScoreboardHeaderItemVM> EntryProperties
+    public MBBindingList<CrpgMissionScoreboardHeaderItemVM> EntryProperties
     {
         get
         {
@@ -424,6 +431,43 @@ public class CrpgMissionScoreboardSideVM : MissionScoreboardSideVM
         }
     }
 
+    [DataSourceProperty]
+    public ImageIdentifierVM? AllyBanner
+    {
+        get
+        {
+            return _allyBanner;
+        }
+        set
+        {
+            if (value == _allyBanner)
+            {
+                return;
+            }
+
+            _allyBanner = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
+
+    [DataSourceProperty]
+    public ImageIdentifierVM? EnemyBanner
+    {
+        get
+        {
+            return _enemyBanner;
+        }
+        set
+        {
+            if (value == _enemyBanner)
+            {
+                return;
+            }
+
+            _enemyBanner = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
     private readonly MissionScoreboardComponent.MissionScoreboardSide _missionScoreboardSide;
 
     private readonly Dictionary<MissionPeer, MissionScoreboardPlayerVM> _playersMap;

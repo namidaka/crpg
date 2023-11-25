@@ -17,7 +17,7 @@ public class CrpgMissionScoreboardUIHandler : MissionView
 {
     private GauntletLayer? _gauntletLayer = default!;
 
-    private MissionScoreboardVM? _dataSource;
+    private CrpgMissionScoreboardVM? _dataSource;
 
     private bool _isSingleTeam;
 
@@ -171,7 +171,7 @@ public class CrpgMissionScoreboardUIHandler : MissionView
                 return;
             }
 
-            MissionScoreboardVM dataSource = _dataSource;
+            CrpgMissionScoreboardVM dataSource = _dataSource;
             dataSource.SetMouseState(isMouseVisible);
         }
     }
@@ -224,9 +224,9 @@ public class CrpgMissionScoreboardUIHandler : MissionView
 
     private void InitializeLayer()
     {
-        _dataSource = new MissionScoreboardVM(_isSingleTeam, Mission);
+        _dataSource = new CrpgMissionScoreboardVM(_isSingleTeam, Mission);
         _gauntletLayer = new GauntletLayer(ViewOrderPriority, "GauntletLayer", false);
-        _gauntletLayer.LoadMovie("MultiplayerScoreboard", _dataSource);
+        _gauntletLayer.LoadMovie("CrpgMultiplayerScoreboard", _dataSource);
         _gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("ScoreboardHotKeyCategory"));
         MissionScreen.AddLayer(_gauntletLayer);
         _dataSource.IsActive = _isActive;

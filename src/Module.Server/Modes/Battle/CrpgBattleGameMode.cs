@@ -13,6 +13,7 @@ using TaleWorlds.MountAndBlade.Source.Missions;
 using Crpg.Module.Api;
 using Crpg.Module.Common.ChatCommands;
 #else
+using Crpg.Module.GUI.Scoreboard;
 using Crpg.Module.GUI;
 using Crpg.Module.GUI.EndOfRound;
 using Crpg.Module.GUI.HudExtension;
@@ -63,7 +64,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
             crpgEscapeMenu,
             ViewCreator.CreateMissionAgentLabelUIHandler(mission),
             ViewCreator.CreateMultiplayerTeamSelectUIHandler(),
-            ViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
+            new CrpgMissionScoreboardUIHandler(false),
             new CrpgEndOfRoundUiHandler(),
             new CrpgEndOfBattleUIHandler(),
             ViewCreator.CreatePollProgressUIHandler(),
