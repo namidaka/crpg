@@ -72,7 +72,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             AgentBuildData agentBuildData = new AgentBuildData(character)
                 .MissionPeer(missionPeer)
                 .Equipment(characterEquipment)
-                .TroopOrigin(new CrpgBattleAgentOrigin(character, characterSkills))
+                .TroopOrigin(troopOrigin)
                 .Team(missionPeer.Team)
                 .VisualsIndex(0)
                 .IsFemale(missionPeer.Peer.IsFemale)
