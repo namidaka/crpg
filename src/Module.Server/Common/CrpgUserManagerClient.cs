@@ -30,6 +30,7 @@ internal class CrpgUserManagerClient : MissionNetwork
     {
         base.AddRemoveMessageHandlers(registerer);
         registerer.Register<UpdateCrpgUser>(HandleUpdateCrpgUser);
+        registerer.Register<UpdateCrpgUserClanInfo>(HandleUpdateCrpgUserClanInfo);
         registerer.Register<UpdateRewardMultiplier>(HandleUpdateRewardMultiplier);
     }
 
@@ -58,10 +59,28 @@ internal class CrpgUserManagerClient : MissionNetwork
         }
 
         crpgPeer.User = message.User;
-        if (crpgPeer.User.ClanMembership != null)
+    }
+
+    private void HandleUpdateCrpgUserClanInfo(UpdateCrpgUserClanInfo message)
+    {
+        if (message.Peer == null)
         {
-            crpgPeer.Clan = new CrpgClan { Id = crpgPeer.User.ClanMembership.ClanId, Name = message.ClanName, Tag = message.ClanTag, BannerKey = message.BannerKey, PrimaryColor = message.PrimaryColor, SecondaryColor = message.SecondaryColor };
+            return;
         }
+
+        // If the user has no CrpgPeer -> add one
+        CrpgPeer? crpgPeer = message.Peer.GetComponent<CrpgPeer>();
+        if (crpgPeer == null)
+        {
+            crpgPeer = message.Peer.AddComponent<CrpgPeer>();
+        }
+
+        if (crpgPeer.User == null)
+        {
+            return;
+        }
+
+        crpgPeer.Clan = message.Clan;
     }
 
     private void OnMyClientSynchronized()

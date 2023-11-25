@@ -15,21 +15,11 @@ internal sealed class UpdateCrpgUser : GameNetworkMessage
 {
     public VirtualPlayer? Peer { get; set; }
     public CrpgUser User { get; set; } = default!;
-    public string ClanName { get; set; } = default!;
-    public string ClanTag { get; set; } = default!;
-    public string BannerKey { get; set; } = default!;
-    public uint PrimaryColor { get; set; } = default!;
-    public uint SecondaryColor { get; set; } = default!;
 
     protected override void OnWrite()
     {
         WriteVirtualPlayerReferenceToPacket(Peer);
         WriteUserToPacket(User);
-        WriteStringToPacket(ClanName);
-        WriteStringToPacket(ClanTag);
-        WriteStringToPacket(BannerKey);
-        WriteUintToPacket(PrimaryColor, CompressionGeneric.ColorCompressionInfo);
-        WriteUintToPacket(SecondaryColor, CompressionGeneric.ColorCompressionInfo);
     }
 
     protected override bool OnRead()
@@ -37,11 +27,6 @@ internal sealed class UpdateCrpgUser : GameNetworkMessage
         bool bufferReadValid = true;
         Peer = ReadVirtualPlayerReferenceToPacket(ref bufferReadValid);
         User = ReadUserFromPacket(ref bufferReadValid);
-        ClanName = ReadStringFromPacket(ref bufferReadValid);
-        ClanTag = ReadStringFromPacket(ref bufferReadValid);
-        BannerKey = ReadStringFromPacket(ref bufferReadValid);
-        PrimaryColor = ReadUintFromPacket(CompressionGeneric.ColorCompressionInfo, ref bufferReadValid);
-        SecondaryColor = ReadUintFromPacket(CompressionGeneric.ColorCompressionInfo, ref bufferReadValid);
         return bufferReadValid;
     }
 

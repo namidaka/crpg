@@ -50,6 +50,7 @@ internal class CrpgUserManagerServer : MissionNetwork
         base.HandleEarlyNewClientAfterLoadingFinished(networkPeer);
         networkPeer.AddComponent<CrpgPeer>();
         SynchronizeCrpgUsersToPeer(networkPeer);
+        SynchronizeCrpgClanToPeer(networkPeer);
     }
 
     protected override void HandleNewClientAfterSynchronized(NetworkCommunicator networkPeer)
@@ -120,6 +121,23 @@ internal class CrpgUserManagerServer : MissionNetwork
             }
 
             crpgPeer.SynchronizeUserToPeer(networkPeer);
+        }
+    }
+
+    private void SynchronizeCrpgClanToPeer(NetworkCommunicator networkPeer)
+    {
+        foreach (NetworkCommunicator networkPeers in GameNetwork.NetworkPeers)
+        {
+            CrpgPeer crpgPeer = networkPeers.GetComponent<CrpgPeer>();
+            if (!networkPeers.IsConnectionActive
+                || !networkPeers.IsSynchronized
+                || networkPeer == networkPeers
+                || crpgPeer == null)
+            {
+                continue;
+            }
+
+            crpgPeer.SynchronizeClanToPeer(networkPeer);
         }
     }
 
