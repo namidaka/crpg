@@ -3,7 +3,6 @@ using Crpg.Module.Modes.Dtv;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions;
 
 namespace Crpg.Module.GUI.Dtv;
 
