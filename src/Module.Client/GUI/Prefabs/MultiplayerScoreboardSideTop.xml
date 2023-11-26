@@ -39,8 +39,8 @@
             <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="40" StackLayout.LayoutMethod="!NameAndSideListLayout">
               <Children>
                 <!-- Culture Name -->
-                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.FactionText" Text="@Name" ClipContents="false" />
-
+                <RichTextWidget IsVisible="*IsLeftSide" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.FactionText" Text="@AllyTeamName" ClipContents="false" />
+                <RichTextWidget IsHidden="*IsLeftSide" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.FactionText" Text="@EnemyTeamName" ClipContents="false" />
                 <!-- Attacker / Defender Icon -->
                 <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginRight="15" MarginLeft="15" IsVisible="@ShowAttackerOrDefenderIcons">
                   <Children>
