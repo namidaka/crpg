@@ -661,16 +661,17 @@ internal class CrpgHudExtensionVm : ViewModel
         {
             var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
             var missionPeer = networkPeer.GetComponent<MissionPeer>();
-            bool isAlliedOrIsTeam1 = byTeamIndex ? missionPeer.Team == Mission.Current.Teams[1] : missionPeer.Team == myTeam;
-            bool isEnemyOrTeam2 = byTeamIndex ? missionPeer.Team == Mission.Current.Teams[2] : missionPeer.Team != myTeam;
-            bool isSelected = allyTeamOrTeam1 ? isAlliedOrIsTeam1 : isEnemyOrTeam2;
+            bool isAlliedOrIsTeam1 = byTeamIndex
+                ? missionPeer.Team == Mission.Current.Teams[1]
+                : missionPeer.Team == myTeam;
+            bool isEnemyOrTeam2 = byTeamIndex
+                ? missionPeer.Team == Mission.Current.Teams[2]
+                : missionPeer.Team != myTeam;
+            bool isSelected = allyTeamOrTeam1
+                ? isAlliedOrIsTeam1
+                : isEnemyOrTeam2;
 
             if (missionPeer == null || crpgPeer?.User == null || !isSelected || crpgPeer?.Clan == null)
-            {
-                continue;
-            }
-
-            if (crpgPeer.Clan == null)
             {
                 continue;
             }
@@ -689,6 +690,7 @@ internal class CrpgHudExtensionVm : ViewModel
             }
         }
 
+        // TODO: ordering the dictionary is unnecessary, we just want the Tuple with the max count. Eventually look for a better way.
         var maxClan = clanNumber.OrderByDescending(c => c.Value.count).FirstOrDefault();
 
         if (maxClan.Value.clan == null)
