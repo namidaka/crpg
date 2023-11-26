@@ -182,7 +182,7 @@ internal class DtvHudVm : ViewModel
     {
         _timerVm.Tick(dt);
         IsGameStarted = !_client.IsInWarmup;
-        if (Mission.Current.Agents.Count > 0)
+        if (IsGameStarted && Mission.Current.Agents.Count > 0)
         {
             AttackerMemberCount = Mission.Current.AttackerTeam.ActiveAgents.Count;
             DefenderMemberCount = Mission.Current.DefenderTeam.ActiveAgents.Count;
