@@ -627,10 +627,10 @@ internal class CrpgHudExtensionVm : ViewModel
         }
     }
 
-    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerOrTeam1BannerVM, out ImageIdentifierVM? enemyBannerOrTeam2BannerVM, out string allyTeamOrTeam1Name, out string allyTeamOrTeam2Name, bool byTeamIndex = false)
+    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerOrTeam1BannerVM, out ImageIdentifierVM? enemyBannerOrTeam2BannerVM, out string allyTeamOrTeam1Name, out string enemyTeamOrTeam2Name, bool byTeamIndex = false)
     {
         var allyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: true, out allyTeamOrTeam1Name, byTeamIndex);
-        var enemyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: false, out allyTeamOrTeam2Name, byTeamIndex);
+        var enemyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: false, out enemyTeamOrTeam2Name, byTeamIndex);
         var allyBannerCode = BannerCode.CreateFrom(allyBanner);
         var enemyBannerCode = BannerCode.CreateFrom(enemyBanner);
         ImageIdentifierVM allyImageId = new(allyBannerCode, true);
