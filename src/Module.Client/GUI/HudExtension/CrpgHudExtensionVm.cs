@@ -651,10 +651,10 @@ internal class CrpgHudExtensionVm : ViewModel
         Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
         var myMissionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
         Team myTeam = (myMissionPeer?.Team?.TeamIndex ?? 0) == 0
-            ? Mission.Current.Teams.Defender
+            ? Mission.Current.Teams.Attacker
             : GameNetwork.MyPeer.GetComponent<MissionPeer>().Team;
         Team enemyTeam = myTeam.TeamIndex == 0
-            ? Mission.Current.Teams.Attacker
+            ? Mission.Current.Teams.Defender
             : Mission.Current.Teams.First(t => t.TeamIndex != myTeam.TeamIndex && t.TeamIndex != 0);
 
         foreach (var networkPeer in GameNetwork.NetworkPeers)
@@ -714,7 +714,7 @@ internal class CrpgHudExtensionVm : ViewModel
             {
                 if (allyTeamOrAttackerTeam)
                 {
-                    if (myTeam.TeamIndex == 1)
+                    if (myTeam.IsAttacker)
                     {
                         teamName = team1Name;
                     }
@@ -727,7 +727,7 @@ internal class CrpgHudExtensionVm : ViewModel
                 }
                 else
                 {
-                    if (myTeam.TeamIndex == 1)
+                    if (myTeam.IsAttacker)
                     {
                         teamName = team2Name;
                     }
@@ -819,7 +819,7 @@ internal class CrpgHudExtensionVm : ViewModel
         {
             if (_isTeamScoresEnabled || _gameMode.GameType == MissionLobbyComponent.MultiplayerGameType.Battle)
             {
-                _isAttackerTeamAlly = newTeam.Side == BattleSideEnum.Attacker;
+                _isAttackerTeamAlly = newTeam.Side == BattleSideEnum.Attacker || newTeam.Side == BattleSideEnum.None;
                 UpdateTeamScores();
             }
 
