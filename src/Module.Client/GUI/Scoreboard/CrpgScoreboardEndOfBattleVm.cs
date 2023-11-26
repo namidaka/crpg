@@ -68,10 +68,6 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
     public void Tick(float dt)
     {
         Countdown = MathF.Ceiling(_gameMode.RemainingTime);
-
-        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
-        AllyBanner = allyBanner;
-        EnemyBanner = enemyBanner;
     }
 
     private void OnPostMatchEnded()
@@ -106,6 +102,10 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
 
         BattleResult = 2;
         ResultText = GameTexts.FindText("str_draw", null).ToString();
+
+        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
+        AllyBanner = allyBanner;
+        EnemyBanner = enemyBanner;
     }
 
     private void InitSides()
@@ -285,6 +285,7 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
             }
         }
     }
+
     [DataSourceProperty]
     public ImageIdentifierVM? AllyBanner
     {
@@ -322,6 +323,7 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
             OnPropertyChangedWithValue(value);
         }
     }
+
     private MissionScoreboardComponent _missionScoreboardComponent;
 
     private MissionMultiplayerGameModeBaseClient _gameMode;

@@ -22,9 +22,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
 {
     private const float AttributeRefreshDuration = 1f;
 
-    private ChatBox _chatBox;
-
     private const float PermissionCheckDuration = 45f;
+
+    private ChatBox _chatBox;
 
     private readonly Dictionary<BattleSideEnum, CrpgScoreboardSideVM> _missionSides = default!;
 
@@ -123,8 +123,30 @@ internal class CrpgMissionScoreboardVM : ViewModel
         _missionScoreboardComponent.OnScoreboardInitialized += OnScoreboardInitialized;
         _missionScoreboardComponent.OnMVPSelected += OnMVPSelected;
         MissionName = "";
-        IsBotsEnabled = (missionBehavior.MissionType == MissionLobbyComponent.MultiplayerGameType.Captain || missionBehavior.MissionType == MissionLobbyComponent.MultiplayerGameType.Battle);
+        IsBotsEnabled = missionBehavior.MissionType == MissionLobbyComponent.MultiplayerGameType.Captain || missionBehavior.MissionType == MissionLobbyComponent.MultiplayerGameType.Battle;
         RefreshValues();
+    }
+
+    public override void RefreshValues()
+    {
+        base.RefreshValues();
+        MissionLobbyComponent missionBehavior = _mission.GetMissionBehavior<MissionLobbyComponent>();
+        UpdateToggleMuteText();
+        GameModeText = GameTexts.FindText("str_multiplayer_game_type", missionBehavior.MissionType.ToString()).ToString().ToLower();
+        EndOfBattle.RefreshValues();
+        Sides.ApplyActionOnAllItems(delegate (CrpgScoreboardSideVM x)
+        {
+            x.RefreshValues();
+        });
+        MapName = GameTexts.FindText("str_multiplayer_scene_name", missionBehavior.Mission.SceneName).ToString();
+        ServerName = MultiplayerOptions.OptionType.ServerName.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
+        InputKeyItemVM showMouseKey = ShowMouseKey;
+        if (showMouseKey == null)
+        {
+            return;
+        }
+
+        showMouseKey.RefreshValues();
     }
 
     private void OnPlayerPlatformMuteChanged(PlayerId playerId, bool isPlayerMuted)
@@ -155,28 +177,6 @@ internal class CrpgMissionScoreboardVM : ViewModel
                 }
             }
         }
-    }
-
-    public override void RefreshValues()
-    {
-        base.RefreshValues();
-        MissionLobbyComponent missionBehavior = _mission.GetMissionBehavior<MissionLobbyComponent>();
-        UpdateToggleMuteText();
-        GameModeText = GameTexts.FindText("str_multiplayer_game_type", missionBehavior.MissionType.ToString()).ToString().ToLower();
-        EndOfBattle.RefreshValues();
-        Sides.ApplyActionOnAllItems(delegate (CrpgScoreboardSideVM x)
-        {
-            x.RefreshValues();
-        });
-        MapName = GameTexts.FindText("str_multiplayer_scene_name", missionBehavior.Mission.SceneName).ToString();
-        ServerName = MultiplayerOptions.OptionType.ServerName.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
-        InputKeyItemVM showMouseKey = ShowMouseKey;
-        if (showMouseKey == null)
-        {
-            return;
-        }
-
-        showMouseKey.RefreshValues();
     }
 
     private void ExecutePopulateActionList(MissionScoreboardPlayerVM player)
@@ -332,10 +332,6 @@ internal class CrpgMissionScoreboardVM : ViewModel
                     missionScoreboardPlayerVM.RefreshDivision(IsSingleSide);
                 }
             }
-
-            CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
-            AllyBanner = allyBanner;
-            EnemyBanner = enemyBanner;
         }
     }
 
@@ -400,6 +396,10 @@ internal class CrpgMissionScoreboardVM : ViewModel
         {
             _missionSides[_missionScoreboardComponent.GetSideSafe(nextTeam.Side).Side].AddPlayer(client);
         }
+
+        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
+        AllyBanner = allyBanner;
+        EnemyBanner = enemyBanner;
     }
 
     private void OnRoundPropertiesChanged()
@@ -408,6 +408,10 @@ internal class CrpgMissionScoreboardVM : ViewModel
         {
             crpgScoreboardSideVM.UpdateRoundAttributes();
         }
+
+        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
+        AllyBanner = allyBanner;
+        EnemyBanner = enemyBanner;
     }
 
     private void OnPlayerPropertiesChanged(BattleSideEnum side, MissionPeer client)
@@ -416,6 +420,10 @@ internal class CrpgMissionScoreboardVM : ViewModel
         {
             _missionSides[_missionScoreboardComponent.GetSideSafe(side).Side].UpdatePlayerAttributes(client);
         }
+
+        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
+        AllyBanner = allyBanner;
+        EnemyBanner = enemyBanner;
     }
 
     private void OnBotPropertiesChanged(BattleSideEnum side)
@@ -430,6 +438,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
     private void OnScoreboardInitialized()
     {
         InitSides();
+        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
+        AllyBanner = allyBanner;
+        EnemyBanner = enemyBanner;
     }
 
     private void OnMVPSelected(MissionPeer mvpPeer, int mvpCount)

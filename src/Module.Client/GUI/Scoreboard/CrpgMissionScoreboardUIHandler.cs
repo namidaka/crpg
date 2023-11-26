@@ -97,8 +97,10 @@ public class CrpgMissionScoreboardUIHandler : MissionView
                 ToggleScoreboard(false);
                 return;
             }
+
             _scoreboardStayTimeElapsed += dt;
         }
+
         _dataSource?.Tick(dt);
         if (TaleWorlds.InputSystem.Input.IsGamepadActive)
         {
@@ -118,10 +120,12 @@ public class CrpgMissionScoreboardUIHandler : MissionView
             bool isActive = _isMissionEnding || (flag2 && !MissionScreen.IsRadialMenuActive && !Mission.IsOrderMenuOpen);
             ToggleScoreboard(isActive);
         }
+
         if (_isActive && (MissionScreen.SceneLayer.Input.IsGameKeyPressed(35) || (_gauntletLayer?.Input.IsGameKeyPressed(35) ?? false)))
         {
             _mouseRequstedWhileScoreboardActive = true;
         }
+
         bool mouseState = _isMissionEnding || (_isActive && _mouseRequstedWhileScoreboardActive);
         SetMouseState(mouseState);
     }
@@ -201,7 +205,7 @@ public class CrpgMissionScoreboardUIHandler : MissionView
 
     private void MissionLobbyComponentOnCurrentMultiplayerStateChanged(MissionLobbyComponent.MultiplayerGameState newState)
     {
-        _isMissionEnding = (newState == MissionLobbyComponent.MultiplayerGameState.Ending);
+        _isMissionEnding = newState == MissionLobbyComponent.MultiplayerGameState.Ending;
     }
 
     private void OnTeamChanged(NetworkCommunicator peer, Team previousTeam, Team newTeam)

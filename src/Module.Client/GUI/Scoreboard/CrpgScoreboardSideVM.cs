@@ -12,6 +12,27 @@ namespace Crpg.Module.Gui;
 
 public class CrpgScoreboardSideVM : ViewModel
 {
+    private const string _avatarHeaderId = "avatar";
+
+    private readonly MissionScoreboardComponent.MissionScoreboardSide _missionScoreboardSide;
+
+    private readonly Dictionary<MissionPeer, MissionScoreboardPlayerVM> _playersMap;
+
+    private readonly int _avatarHeaderIndex;
+
+    private MissionScoreboardPlayerVM _bot;
+
+    private Action<MissionScoreboardPlayerVM> _executeActivate;
+
+    private List<string> _irregularHeaderIDs = new()
+    {
+        "name",
+        "avatar",
+        "score",
+        "kill",
+        "assist",
+    };
+
     private MBBindingList<MissionScoreboardPlayerVM> _players = default!;
 
     private MBBindingList<CrpgMissionScoreboardHeaderItemVM> _entryProperties = default!;
@@ -63,13 +84,13 @@ public class CrpgScoreboardSideVM : ViewModel
         UpdateRoundAttributes();
         string text = (_missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
         BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(text);
-        UseSecondary = (_missionScoreboardSide.Side == BattleSideEnum.Defender);
+        UseSecondary = _missionScoreboardSide.Side == BattleSideEnum.Defender;
         IsSingleSide = isSingleSide;
         IsSecondSide = isSecondSide;
         CultureId = text;
         TeamColor = "0x" + @object.Color2.ToString("X");
         ShowAttackerOrDefenderIcons = Mission.Current.HasMissionBehavior<MissionMultiplayerSiegeClient>();
-        IsAttacker = (missionScoreboardSide.Side == BattleSideEnum.Attacker);
+        IsAttacker = missionScoreboardSide.Side == BattleSideEnum.Attacker;
         RefreshValues();
         NetworkCommunicator.OnPeerAveragePingUpdated += OnPeerPingUpdated;
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionChanged));
@@ -100,6 +121,7 @@ public class CrpgScoreboardSideVM : ViewModel
         {
             EntryProperties.Add(new CrpgMissionScoreboardHeaderItemVM(this, headerIds[i], headerNames[i], headerIds[i] == "avatar", _irregularHeaderIDs.Contains(headerIds[i])));
         }
+
         UpdatePlayersText();
 
         MissionScoreboardPlayerSortControllerVM playerSortController = PlayerSortController;
@@ -107,6 +129,7 @@ public class CrpgScoreboardSideVM : ViewModel
         {
             return;
         }
+
         playerSortController.RefreshValues();
     }
 
@@ -116,9 +139,6 @@ public class CrpgScoreboardSideVM : ViewModel
         {
             missionScoreboardPlayerVM.Tick(dt);
         }
-        /*
-
-        */
     }
 
     public override void OnFinalize()
@@ -151,6 +171,7 @@ public class CrpgScoreboardSideVM : ViewModel
         {
             Players.Remove(_bot);
         }
+
         SortPlayers();
     }
 
@@ -162,6 +183,7 @@ public class CrpgScoreboardSideVM : ViewModel
             string[] valuesOf = _missionScoreboardSide.GetValuesOf(player);
             _playersMap[player].UpdateAttributes(valuesOf, score);
         }
+
         SortPlayers();
     }
 
@@ -180,17 +202,18 @@ public class CrpgScoreboardSideVM : ViewModel
             int score = _missionScoreboardSide.GetScore(peer);
             string[] valuesOf = _missionScoreboardSide.GetValuesOf(peer);
             string[] headerIds = _missionScoreboardSide.GetHeaderIds();
-            MissionScoreboardPlayerVM missionScoreboardPlayerVM = new MissionScoreboardPlayerVM(peer, valuesOf, headerIds, score, _executeActivate);
+            MissionScoreboardPlayerVM missionScoreboardPlayerVM = new(peer, valuesOf, headerIds, score, _executeActivate);
             _playersMap.Add(peer, missionScoreboardPlayerVM);
             Players.Add(missionScoreboardPlayerVM);
         }
+
         SortPlayers();
         UpdatePlayersText();
     }
 
     private void UpdatePlayersText()
     {
-        TextObject textObject = new TextObject("{=R28ac5ij}{NUMBER} Players", null);
+        TextObject textObject = new("{=R28ac5ij}{NUMBER} Players", null);
         textObject.SetTextVariable("NUMBER", Players.Count);
         PlayersText = textObject.ToString();
     }
@@ -232,7 +255,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (_players != value)
             {
                 _players = value;
-                base.OnPropertyChangedWithValue(value, "Players");
+                OnPropertyChangedWithValue(value, "Players");
             }
         }
     }
@@ -249,7 +272,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _entryProperties)
             {
                 _entryProperties = value;
-                base.OnPropertyChangedWithValue(value, "EntryProperties");
+                OnPropertyChangedWithValue(value, "EntryProperties");
             }
         }
     }
@@ -266,7 +289,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _playerSortController)
             {
                 _playerSortController = value;
-                base.OnPropertyChangedWithValue(value, "PlayerSortController");
+                OnPropertyChangedWithValue(value, "PlayerSortController");
             }
         }
     }
@@ -283,7 +306,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _isSingleSide)
             {
                 _isSingleSide = value;
-                base.OnPropertyChangedWithValue(value, "IsSingleSide");
+                OnPropertyChangedWithValue(value, "IsSingleSide");
             }
         }
     }
@@ -300,7 +323,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _isSecondSide)
             {
                 _isSecondSide = value;
-                base.OnPropertyChangedWithValue(value, "IsSecondSide");
+                OnPropertyChangedWithValue(value, "IsSecondSide");
             }
         }
     }
@@ -317,7 +340,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _useSecondary)
             {
                 _useSecondary = value;
-                base.OnPropertyChangedWithValue(value, "UseSecondary");
+                OnPropertyChangedWithValue(value, "UseSecondary");
             }
         }
     }
@@ -334,7 +357,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _showAttackerOrDefenderIcons)
             {
                 _showAttackerOrDefenderIcons = value;
-                base.OnPropertyChangedWithValue(value, "ShowAttackerOrDefenderIcons");
+                OnPropertyChangedWithValue(value, "ShowAttackerOrDefenderIcons");
             }
         }
     }
@@ -351,7 +374,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _isAttacker)
             {
                 _isAttacker = value;
-                base.OnPropertyChangedWithValue(value, "IsAttacker");
+                OnPropertyChangedWithValue(value, "IsAttacker");
             }
         }
     }
@@ -368,10 +391,11 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _allyTeamName)
             {
                 _allyTeamName = value;
-                base.OnPropertyChangedWithValue(value, "Name");
+                OnPropertyChangedWithValue(value, "Name");
             }
         }
     }
+
     [DataSourceProperty]
     public string EnemyTeamName
     {
@@ -384,7 +408,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _enemyTeamName)
             {
                 _enemyTeamName = value;
-                base.OnPropertyChangedWithValue(value, "Name");
+                OnPropertyChangedWithValue(value, "Name");
             }
         }
     }
@@ -401,7 +425,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _playersText)
             {
                 _playersText = value;
-                base.OnPropertyChangedWithValue(value, "PlayersText");
+                OnPropertyChangedWithValue(value, "PlayersText");
             }
         }
     }
@@ -418,7 +442,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _cultureId)
             {
                 _cultureId = value;
-                base.OnPropertyChangedWithValue(value, "CultureId");
+                OnPropertyChangedWithValue(value, "CultureId");
             }
         }
     }
@@ -435,7 +459,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (_roundsWon != value)
             {
                 _roundsWon = value;
-                base.OnPropertyChangedWithValue(value, "RoundsWon");
+                OnPropertyChangedWithValue(value, "RoundsWon");
             }
         }
     }
@@ -452,7 +476,7 @@ public class CrpgScoreboardSideVM : ViewModel
             if (value != _teamColor)
             {
                 _teamColor = value;
-                base.OnPropertyChangedWithValue(value, "TeamColor");
+                OnPropertyChangedWithValue(value, "TeamColor");
             }
         }
     }
@@ -494,27 +518,4 @@ public class CrpgScoreboardSideVM : ViewModel
             OnPropertyChangedWithValue(value);
         }
     }
-
-    private readonly MissionScoreboardComponent.MissionScoreboardSide _missionScoreboardSide;
-
-    private readonly Dictionary<MissionPeer, MissionScoreboardPlayerVM> _playersMap;
-
-    private MissionScoreboardPlayerVM _bot;
-
-    private Action<MissionScoreboardPlayerVM> _executeActivate;
-
-    private const string _avatarHeaderId = "avatar";
-
-    private readonly int _avatarHeaderIndex;
-
-    private List<string> _irregularHeaderIDs = new List<string>
-    {
-        "name",
-        "avatar",
-        "score",
-        "kill",
-        "assist"
-    };
-
-
 }

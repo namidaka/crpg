@@ -58,7 +58,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             if (GameNetwork.IsMyPeerReady)
             {
                 _missionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
-                IsCancelDisabled = (_missionPeer.Team == null);
+                IsCancelDisabled = _missionPeer.Team == null;
             }
 
             Debug.Print("MultiplayerTeamSelectVM 7", 0, Debug.DebugColor.White, 17179869184UL);
@@ -216,7 +216,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
                 if (value != _team1)
                 {
                     _team1 = value;
-                    base.OnPropertyChangedWithValue(value, "Team1");
+                    OnPropertyChangedWithValue(value, "Team1");
                 }
             }
         }
@@ -233,7 +233,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
                 if (value != _team2)
                 {
                     _team2 = value;
-                    base.OnPropertyChangedWithValue(value, "Team2");
+                    OnPropertyChangedWithValue(value, "Team2");
                 }
             }
         }
@@ -250,7 +250,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
                 if (value != _teamSpectators)
                 {
                     _teamSpectators = value;
-                    base.OnPropertyChangedWithValue(value, "TeamSpectators");
+                    OnPropertyChangedWithValue(value, "TeamSpectators");
                 }
             }
         }
@@ -265,7 +265,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             set
             {
                 _teamSelectTitle = value;
-                base.OnPropertyChangedWithValue(value, "TeamSelectTitle");
+                OnPropertyChangedWithValue(value, "TeamSelectTitle");
             }
         }
 
@@ -281,7 +281,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
                 if (value != _isRoundCountdownAvailable)
                 {
                     _isRoundCountdownAvailable = value;
-                    base.OnPropertyChangedWithValue(value, "IsRoundCountdownAvailable");
+                    OnPropertyChangedWithValue(value, "IsRoundCountdownAvailable");
                 }
             }
         }
@@ -298,7 +298,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
                 if (value != _remainingRoundTime)
                 {
                     _remainingRoundTime = value;
-                    base.OnPropertyChangedWithValue(value, "RemainingRoundTime");
+                    OnPropertyChangedWithValue(value, "RemainingRoundTime");
                 }
             }
         }
@@ -313,7 +313,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             set
             {
                 _gamemodeLbl = value;
-                base.OnPropertyChangedWithValue(value, "GamemodeLbl");
+                OnPropertyChangedWithValue(value, "GamemodeLbl");
             }
         }
 
@@ -327,7 +327,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             set
             {
                 _autoassignLbl = value;
-                base.OnPropertyChangedWithValue(value, "AutoassignLbl");
+                OnPropertyChangedWithValue(value, "AutoassignLbl");
             }
         }
 
@@ -341,7 +341,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             set
             {
                 _isCancelDisabled = value;
-                base.OnPropertyChangedWithValue(value, "IsCancelDisabled");
+                OnPropertyChangedWithValue(value, "IsCancelDisabled");
             }
         }
 
