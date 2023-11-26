@@ -1,0 +1,233 @@
+<Prefab>
+  <Constants>
+    <Constant Name="PowerBar.Background.Width" BrushLayer="Default" BrushName="MPHUD.PowerBar.Background" BrushValueType="Width" />
+    <Constant Name="PowerBar.Background.Height" BrushLayer="Default" BrushName="MPHUD.PowerBar.Background" BrushValueType="Height" />
+
+    <Constant Name="PowerBar.Divider.Width" BrushLayer="Default" BrushName="MPHUD.PowerBar.Divider" BrushValueType="Width" />
+    <Constant Name="PowerBar.Divider.Height" BrushLayer="Default" BrushName="MPHUD.PowerBar.Divider" BrushValueType="Height" />
+
+    <Constant Name="MoraleWidget.Background.Width" BrushLayer="Default" BrushName="MPHUD.MoraleWidget.Background" BrushValueType="Width" />
+    <Constant Name="MoraleWidget.Background.Height" BrushLayer="Default" BrushName="MPHUD.MoraleWidget.Background" BrushValueType="Height" />
+
+    <Constant Name="MoraleWidget.Background.Width.Scaled" MultiplyResult="0.9" Value="!MoraleWidget.Background.Width" />
+    <Constant Name="MoraleWidget.Background.Height.Scaled" MultiplyResult="0.9" Value="!MoraleWidget.Background.Height" />
+
+    <Constant Name="MPHUD.MoraleWidget.Item.Height" BrushLayer="Default" BrushName="MPHUD.MoraleWidget.Item" BrushValueType="Height" />
+
+    <Constant Name="MoraleWidget.Arrow.Width" BrushLayer="Default" BrushName="MPHUD.MoraleWidget.Arrow" BrushValueType="Width" />
+    <Constant Name="MoraleWidget.Arrow.Height" BrushLayer="Default" BrushName="MPHUD.MoraleWidget.Arrow" BrushValueType="Height" />
+  </Constants>
+  <Window>
+    <HUDExtensionBrushWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsVisible="@ShowHud" IsOrderActive="@IsOrderActive" OrderEnabledAlpha="0.2">
+      <Children>
+        <!-- Time remaining & Team scores -->
+        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="5">
+          <Children>
+
+            <!--Ally Score-->
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="10" IsVisible="@ShowTeamScores" MarginRight="5" VerticalAlignment="Center" >
+              <Children>
+                <Widget DataSource="{CommanderInfo}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" >
+                  <Children>
+                    <TextWidget DataSource="{..}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" PositionYOffset="2" Brush="MPHUD.ScoreText" IntText="@AllyTeamScore" HorizontalAlignment="Right" ClipContents="false"/>
+                  </Children>
+                </Widget>
+              </Children>
+            </Widget>
+
+            <!--Ally Banner-->
+            <MaskedTextureWidget DataSource="{AllyBanner}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="80" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="MPLobby.Clan.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
+
+
+            <!--Countdown Timer-->
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="90" SuggestedHeight="26" VerticalAlignment="Center" IsVisible="@IsRoundCountdownAvailable">
+              <Children>
+                <BoolStateChangerWidget DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" BooleanCheck="@WarnRemainingTime" FalseState="Default" TargetWidget="CountdownText" TrueState="Warning">
+                  <Children>
+                    <TextWidget Id="CountdownText" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" Brush="MPHUD.CountdownText" IsHidden="@IsRoundCountdownSuspended" Text="@RemainingRoundTime" ClipContents="false"/>
+                  </Children>
+                </BoolStateChangerWidget>
+              </Children>
+            </Widget>
+
+            <!--Enemy Banner-->
+
+            <MaskedTextureWidget DataSource="{EnemyBanner}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="80" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="MPLobby.Clan.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
+
+
+            <!--Enemy Score-->
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="10" IsVisible="@ShowTeamScores" MarginLeft="5" VerticalAlignment="Center">
+              <Children>
+                <Widget DataSource="{CommanderInfo}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" >
+                  <Children>
+                    <TextWidget DataSource="{..}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" PositionYOffset="2" Brush="MPHUD.ScoreText" IntText="@EnemyTeamScore" ClipContents="false"/>
+                  </Children>
+                </Widget>
+              </Children>
+            </Widget>
+          </Children>
+        </ListPanel>
+
+        <!-- Warmup info -->
+        <Widget IsVisible="@IsInWarmup" DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="423" SuggestedHeight="75" HorizontalAlignment="Center" MarginTop="70" Sprite="MPHud\warmup_text_background" Color="#000000FF" AlphaFactor="0.5">
+          <Children>
+            <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPHUD.WarmupInfoText" Text="@WarmupInfoText" />
+          </Children>
+        </Widget>
+
+        <!-- Left/Right side: Team avatars + class info -->
+        <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="75">
+          <Children>
+
+            <!--Left Side-->
+            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+              <Children>
+                <MultiplayerTeamAvatarsSide DataSource="{Teammates}" HorizontalAlignment="Right" Parameter.LeftSide="true" />
+              </Children>
+            </Widget>
+
+            <!--Center Space-->
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="750" SuggestedHeight="75" />
+
+            <!--Right Side-->
+            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+              <Children>
+                <MultiplayerTeamAvatarsSide DataSource="{Enemies}" HorizontalAlignment="Left" Parameter.LeftSide="false" />
+              </Children>
+            </Widget>
+
+          </Children>
+        </ListPanel>
+
+        <!-- Spectator info -->
+        <MultiplayerSpectatorHUD DataSource="{SpectatorControls}" />
+
+        <!-- Sub Timer remaining -->
+        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="185" Brush="MPClassLoadout.CountdownText" IntText="@GeneralWarningCountdown" IsVisible="@IsGeneralWarningCountdownActive" />
+
+        <!-- Power Level Comparer -->
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="30" HorizontalAlignment="Center" MarginTop="20" IsVisible="@ShowPowerLevels">
+          <Children>
+            <ListPanel DataSource="{CommanderInfo}" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" StackLayout.LayoutMethod="HorizontalSpaced">
+              <Children>
+
+                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" StackLayout.LayoutMethod="HorizontalLeftToRight">
+                  <Children>
+                    <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="25" SuggestedHeight="32" Sprite="MPHud\battle_mode_troop_count" Color="#f4e1c4ff"/>
+                    <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="10" MarginRight="10" MarginTop="5" Brush="MPHUD.ScoreText" Brush.FontSize="32" IntText="@AllyMemberCount" />
+                  </Children>
+                </ListPanel>
+
+                <Widget DataSource="{PowerLevelComparer}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="550" SuggestedHeight="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <Children>
+
+                    <FillBarWidget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="125" HorizontalAlignment="Left" FillWidget="FillWidget" MaxAmountAsFloat="1.0" InitialAmountAsFloat="@AttackerRelativePower" Sprite="power_bar_fill_left_9" Color="#0000007F">
+                  <Children>
+                    <Widget Id="FillWidget" ClipContents="true" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right" VerticalAlignment="Center" Sprite="power_bar_fill_left_9" Color="@AttackerColor" />
+                  </Children>
+                </FillBarWidget>
+
+                    <FillBarWidget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="125" HorizontalAlignment="Right" FillWidget="FillWidget" MaxAmountAsFloat="1.0" InitialAmountAsFloat="@DefenderRelativePower" Sprite="power_bar_fill_right_9" Color="#0000007F">
+                  <Children>
+                    <Widget Id="FillWidget" ClipContents="true" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" VerticalAlignment="Center" Sprite="power_bar_fill_right_9" Color="@DefenderColor" />
+                  </Children>
+                </FillBarWidget>
+
+              </Children>
+            </Widget>
+
+                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" StackLayout.LayoutMethod="HorizontalLeftToRight">
+                  <Children>
+                    <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="10" MarginRight="10" MarginTop="5" Brush="MPHUD.ScoreText" Brush.FontSize="32" IntText="@EnemyMemberCount" />
+                    <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="25" SuggestedHeight="32" Sprite="MPHud\battle_mode_troop_count" Color="#f4e1c4ff"/>
+          </Children>
+        </ListPanel>
+
+              </Children>
+            </ListPanel>
+          </Children>
+        </Widget>
+
+        <!-- Commander Info -->
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="22" IsVisible="@ShowCommanderInfo">
+          <Children>
+            <Widget DataSource="{CommanderInfo}" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" SuggestedWidth="354" IsVisible="@ShowTacticalInfo">
+              <Children>
+
+                <!--Morale Comparer-->
+                <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" IsVisible="@UseMoraleComparer" MarginTop="32">
+                  <Children>
+
+                    <ListPanel Id="MoraleWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!MoraleWidget.Background.Width.Scaled" SuggestedHeight="!MoraleWidget.Background.Height.Scaled" Sprite="MPHud\morale_canvas" Color="#000000FF" AlphaFactor="0.5">
+                      <Children>
+                        <MoraleWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginRight="8" Container="Container" ExtendToLeft="true" FlowArrowWidget="Container\FlowArrow" IncreaseLevel="@AllyMoraleIncreaseLevel" ItemBackgroundBrush="MPHUD.MoraleWidget.ItemBackground" ItemBrush="MPHUD.MoraleWidget.Item" ItemContainer="Container\ItemContainer" ItemGlowBrush="MPHUD.MoraleWidget.ItemGlow" MoralePercentage="@AllyMoralePercentage" TeamColorAsStr="@AllyTeamColor" TeamColorAsStrSecondary="@AllyTeamColorSecondary">
+                          <Children>
+                            <ListPanel Id="Container" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right">
+                              <Children>
+                                <Widget Id="ItemContainer" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" PositionYOffset="2" MarginLeft="5" MarginRight="5">
+                                  <Children>
+                                    <!-- Children created by MoraleWidget -->
+                                  </Children>
+                                </Widget>
+                                <MoraleArrowBrushWidget Id="FlowArrow" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="6" SuggestedHeight="7" VerticalAlignment="Center" Brush="MPHUD.MoraleWidget.Arrow.Left" IsVisible="false" AreMoralesIndependent="@AreMoralesIndependent"/>
+                              </Children>
+                            </ListPanel>
+                          </Children>
+                        </MoraleWidget>
+
+                        <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="32.3" SuggestedHeight="23.75" VerticalAlignment="Center" PositionYOffset="3" Sprite="MPHud\morale_icon" />
+
+                        <MoraleWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="8" Container="Container" FlowArrowWidget="Container\FlowArrow" IncreaseLevel="@EnemyMoraleIncreaseLevel" ItemBackgroundBrush="MPHUD.MoraleWidget.ItemBackground" ItemBrush="MPHUD.MoraleWidget.Item" ItemContainer="Container\ItemContainer" ItemGlowBrush="MPHUD.MoraleWidget.ItemGlow" MoralePercentage="@EnemyMoralePercentage" TeamColorAsStr="@EnemyTeamColor" TeamColorAsStrSecondary="@EnemyTeamColorSecondary">
+                          <Children>
+                            <ListPanel Id="Container" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left">
+                              <Children>
+                                <MoraleArrowBrushWidget Id="FlowArrow" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="6" SuggestedHeight="7" VerticalAlignment="Center" Brush="MPHUD.MoraleWidget.Arrow.Right" IsVisible="false" AreMoralesIndependent="@AreMoralesIndependent"/>
+                                <Widget Id="ItemContainer" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" PositionYOffset="2" MarginLeft="5" MarginRight="5">
+                                  <Children>
+                                    <!-- Children created by MoraleWidget -->
+                                  </Children>
+                                </Widget>
+                              </Children>
+                            </ListPanel>
+                          </Children>
+                        </MoraleWidget>
+                      </Children>
+                    </ListPanel>
+
+                  </Children>
+                </Widget>
+
+                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="80" IsVisible="@ShowControlPointStatus">
+                  <Children>
+
+                    <Widget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" MarginRight="25">
+                      <Children>
+                        <ListPanel DataSource="{AllyControlPoints}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right">
+                          <ItemTemplate>
+                            <HUDExtensionFlag/>
+                          </ItemTemplate>
+                        </ListPanel>
+                      </Children>
+                    </Widget>
+                    <ListPanel DataSource="{NeutralControlPoints}" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" StackLayout.LayoutMethod="HorizontalCentered">
+                      <ItemTemplate>
+                        <HUDExtensionFlag/>
+                      </ItemTemplate>
+                    </ListPanel>
+                    <ListPanel DataSource="{EnemyControlPoints}" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" MarginLeft="25">
+                      <ItemTemplate>
+                        <HUDExtensionFlag/>
+                      </ItemTemplate>
+                    </ListPanel>
+
+                  </Children>
+                </ListPanel>
+
+              </Children>
+            </Widget>
+          </Children>
+        </Widget>
+      </Children>
+    </HUDExtensionBrushWidget>
+  </Window>
+</Prefab>

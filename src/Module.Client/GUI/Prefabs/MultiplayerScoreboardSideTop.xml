@@ -1,0 +1,174 @@
+<Prefab>
+  <Parameters>
+    <Parameter Name="IsLeftSide" DefaultValue="false" />
+  </Parameters>
+  <Constants>
+    <Constant Name="NameColumn.WidthRatio" Value="3" />
+    <Constant Name="ScoreColumn.WidthRatio" Value="2" />
+    <Constant Name="SoldiersColumn.WidthRatio" Value="2" />
+    <Constant Name="TitleRow.Height" Value="26" />
+    <Constant Name="Row.Height" Value="62" />
+
+    <Constant Name="SteamProfileFrame.Width" Additive="-18" BrushLayer="Default" BrushName="MPScoreboard.SteamProfileFrame" BrushValueType="Width" />
+    <Constant Name="SteamProfileFrame.Height" Additive="-18" BrushLayer="Default" BrushName="MPScoreboard.SteamProfileFrame" BrushValueType="Height" />
+
+    <Constant Name="PlayerIndicator.Width" BrushLayer="Default" BrushName="MPScoreboard.PlayerIndicator" BrushValueType="Width" />
+    <Constant Name="PlayerIndicator.Height" BrushLayer="Default" BrushName="MPScoreboard.PlayerIndicator" BrushValueType="Height" />
+
+    <Constant Name="ScoreText.HorizontalAlignment" BooleanCheck="*IsLeftSide" OnFalse="Left" OnTrue="Right" />
+    <Constant Name="ScoreText.PositionXOffset" BooleanCheck="*IsLeftSide" OnFalse="30" OnTrue="-30" />
+
+    <Constant Name="FactionText.HorizontalAlignment" BooleanCheck="*IsLeftSide" OnFalse="Right" OnTrue="Left" />
+    <Constant Name="FactionText.PositionXOffset" BooleanCheck="*IsLeftSide" OnFalse="-30" OnTrue="30" />
+
+    <Constant Name="Divider.Width" BrushName="MPScoreboard.Divider" BrushLayer="Default" BrushValueType="Width" Additive="250"/>
+    <Constant Name="Divider.Height" BrushName="MPScoreboard.Divider" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="DividerNotched.Width" BrushName="MPScoreboard.DividerNotched" BrushLayer="Default" BrushValueType="Width" Additive="20"/>
+    <Constant Name="DividerNotched.Height" BrushName="MPScoreboard.DividerNotched" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="NameAndSideListLayout" BooleanCheck="*IsLeftSide" OnTrue="HorizontalLeftToRight" OnFalse="HorizontalRightToLeft" />
+    <Constant Name="PlayerCountTextAlignment" BooleanCheck="*IsLeftSide" OnTrue="Left" OnFalse="Right" />
+  </Constants>
+  <Window>
+    <MultiplayerScoreboardSideWidget Id="SideParentWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" AlphaFactor="0.2" CultureId="@CultureId" MinHeight="1080" UseSecondary="@UseSecondary">
+      <Children>
+
+        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="!FactionText.HorizontalAlignment" PositionXOffset="!FactionText.PositionXOffset" VerticalAlignment="Top" PositionYOffset="-20" StackLayout.LayoutMethod="VerticalBottomToTop" IsHidden="@IsSingleSide">
+          <Children>
+            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="40" StackLayout.LayoutMethod="!NameAndSideListLayout">
+              <Children>
+                <!-- Culture Name -->
+                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.FactionText" Text="@Name" ClipContents="false" />
+
+                <!-- Attacker / Defender Icon -->
+                <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginRight="15" MarginLeft="15" IsVisible="@ShowAttackerOrDefenderIcons">
+                  <Children>
+                    <!-- Attacker Icon -->
+                    <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="58.5" SuggestedHeight="38" PositionYOffset="-3" Brush="MPScoreboard.Attacker.Icon" IsVisible="@IsAttacker" />
+
+                    <!-- Defender Icon -->
+                    <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="58.5" SuggestedHeight="38" PositionYOffset="-3" Brush="MPScoreboard.Defender.Icon" IsHidden="@IsAttacker" />
+                  </Children>
+                </Widget>
+
+              </Children>
+            </ListPanel>
+
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" HorizontalAlignment="!PlayerCountTextAlignment" Text="@PlayersText"/>
+          </Children>
+        </ListPanel>
+
+        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" PositionYOffset="-20"  StackLayout.LayoutMethod="VerticalBottomToTop" IsVisible="@IsSingleSide">
+          <Children>
+            <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="65"  MarginTop="20" Brush="MPScoreboard.FactionText" Text="@Name" ClipContents="false" />
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" Text="@PlayersText"/>
+          </Children>
+        </ListPanel>
+
+        <MultiplayerFactionBannerWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="150" SuggestedHeight="82" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="10" BannerWidget="Banner" FactionCode="@CultureId" UseSecondary="@UseSecondary" IconWidget="Icon" IsHidden="@IsSingleSide">
+          <Children>
+            <MaskedTextureWidget DataSource="{AllyBanner}" IsVisible="*IsLeftSide"  WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="96" SuggestedHeight="96" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="ClanNaming.Stage.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
+
+            <MaskedTextureWidget DataSource="{EnemyBanner}" IsHidden="*IsLeftSide" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="96" SuggestedHeight="96"  HorizontalAlignment="Center" VerticalAlignment="Center" Brush="ClanNaming.Stage.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
+          </Children>
+        </MultiplayerFactionBannerWidget>
+
+        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="!ScoreText.HorizontalAlignment" PositionXOffset="!ScoreText.PositionXOffset" MarginTop="30" Brush="MPScoreboard.ScoreText" IntText="@RoundsWon" IsHidden="@IsSingleSide" />
+
+        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="103" >
+          <Children>
+            <Widget Id="TitleDividerTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="13" HorizontalAlignment="Center" PositionXOffset="-1" Sprite="scoreboard_top_divider_9" Color="#A18661FF" HorizontalFlip="@IsSecondSide" IsHidden="@IsSingleSide"/>
+
+            <Widget Id="TitleDividerTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="2" HorizontalAlignment="Center" PositionXOffset="-1" Sprite="GradientDivider_9" Color="#A18661FF" HorizontalFlip="@IsSecondSide" IsVisible="@IsSingleSide"/>
+            
+            <!-- Titles -->
+            <Widget Id="TitlesContainer" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" VerticalAlignment="Center" SuggestedHeight="!TitleRow.Height">
+              <Children>
+                <MultiplayerScoreboardStatsListPanel Id="Titles" DataSource="{EntryProperties}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" StackLayout.LayoutMethod="HorizontalLeftToRight" NameColumnWidthRatio="!NameColumn.WidthRatio" ScoreColumnWidthRatio="!ScoreColumn.WidthRatio" SoldiersColumnWidthRatio="!SoldiersColumn.WidthRatio">
+                  <ItemTemplate>
+                    <Widget Id="@HeaderID" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+                      <Children>
+
+                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPScoreboard.TitleText" HorizontalAlignment="Center" VerticalAlignment="Center" Text="@Item" IsHidden="@IsIrregularStat" />
+                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPScoreboard.TitleText" HorizontalAlignment="Center" VerticalAlignment="Center" Text="" IsVisible="@IsAvatarStat" />
+
+                        <StringBasedVisibilityWidget Id="NameSortWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" FirstString="name" SecondString="@HeaderID" VerticalAlignment="Center">
+                          <Children>
+                            <SortButtonWidget DataSource="{PlayerSortController}" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.Click="ExecuteSortByName" IsSelected="@IsNameSelected" SortState="@NameState" SortVisualWidget="List\NameSortVisualWidget" UpdateChildrenStates="true" >
+                              <Children>
+                                <ListPanel UpdateChildrenStates="true" Id="List" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" StackLayout.LayoutMethod="HorizontalCentered">
+                                  <Children>
+                                    <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPScoreboard.Sortable.TitleText" Text="@NameText" />
+                                    <BrushWidget Id="NameSortVisualWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="9" SuggestedHeight="7" MarginRight="5" VerticalAlignment="Center" Brush="MPScoreboard.Sort.ArrowBrush"  />
+                                  </Children>
+                                </ListPanel>
+                              </Children>
+                            </SortButtonWidget>
+                          </Children>
+                        </StringBasedVisibilityWidget>
+
+                        <StringBasedVisibilityWidget Id="ScoreSortWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" FirstString="score" SecondString="@HeaderID" VerticalAlignment="Center" MarginLeft="5">
+                          <Children>
+                            <SortButtonWidget DataSource="{PlayerSortController}" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.Click="ExecuteSortByScore" IsSelected="@IsScoreSelected" SortState="@ScoreState" SortVisualWidget="List\ScoreSortVisualWidget" UpdateChildrenStates="true" >
+                              <Children>
+                                <ListPanel UpdateChildrenStates="true" Id="List" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" StackLayout.LayoutMethod="HorizontalCentered">
+                                  <Children>
+                                    <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPScoreboard.Sortable.TitleText" Text="@ScoreText" />
+                                    <BrushWidget Id="ScoreSortVisualWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="9" SuggestedHeight="7" MarginRight="5" VerticalAlignment="Center" Brush="MPScoreboard.Sort.ArrowBrush"  />
+                                  </Children>
+                                </ListPanel>
+                              </Children>
+                            </SortButtonWidget>
+                          </Children>
+                        </StringBasedVisibilityWidget>
+
+                        <StringBasedVisibilityWidget Id="KillSortWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" FirstString="kill" SecondString="@HeaderID" VerticalAlignment="Center" MarginLeft="5">
+                          <Children>
+                            <SortButtonWidget DataSource="{PlayerSortController}" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.Click="ExecuteSortByKill" IsSelected="@IsKillSelected" SortState="@KillState" SortVisualWidget="List\KillSortVisualWidget" UpdateChildrenStates="true" >
+                              <Children>
+                                <ListPanel UpdateChildrenStates="true" Id="List" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" StackLayout.LayoutMethod="HorizontalCentered">
+                                  <Children>
+                                    <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPScoreboard.Sortable.TitleText" Text="@KillText" />
+                                    <BrushWidget Id="KillSortVisualWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="9" SuggestedHeight="7" MarginRight="5" VerticalAlignment="Center" Brush="MPScoreboard.Sort.ArrowBrush"  />
+                                  </Children>
+                                </ListPanel>
+                              </Children>
+                            </SortButtonWidget>
+                          </Children>
+                        </StringBasedVisibilityWidget>
+
+                        <StringBasedVisibilityWidget Id="AssistSortWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" FirstString="assist" SecondString="@HeaderID" VerticalAlignment="Center" MarginLeft="5">
+                          <Children>
+                            <SortButtonWidget DataSource="{PlayerSortController}" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.Click="ExecuteSortByAssist" IsSelected="@IsAssistSelected" SortState="@AssistState" SortVisualWidget="List\AssistSortVisualWidget" UpdateChildrenStates="true" >
+                              <Children>
+                                <ListPanel UpdateChildrenStates="true" Id="List" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" StackLayout.LayoutMethod="HorizontalCentered">
+                                  <Children>
+                                    <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPScoreboard.Sortable.TitleText" Text="@AssistText" />
+                                    <BrushWidget Id="AssistSortVisualWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="9" SuggestedHeight="7" MarginRight="5" VerticalAlignment="Center" Brush="MPScoreboard.Sort.ArrowBrush"  />
+                                  </Children>
+                                </ListPanel>
+                              </Children>
+                            </SortButtonWidget>
+                          </Children>
+                        </StringBasedVisibilityWidget>
+
+                      </Children>
+                    </Widget>
+                  </ItemTemplate>
+                </MultiplayerScoreboardStatsListPanel>
+              </Children>
+            </Widget>
+            <Widget Id="TitleDividerBottom" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="13" HorizontalAlignment="Center" MarginTop="50" PositionXOffset="-1" Sprite="scoreboard_top_divider_9" Color="#A18661FF" VerticalFlip="true" HorizontalFlip="@IsSecondSide" IsHidden="@IsSingleSide"/>
+
+            <Widget Id="TitleDividerBottom" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="2" HorizontalAlignment="Center" MarginTop="50" PositionXOffset="-1" Sprite="GradientDivider_9" Color="#A18661FF" VerticalFlip="true" HorizontalFlip="@IsSecondSide" IsVisible="@IsSingleSide"/>
+
+          </Children>
+        </Widget>
+        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="85" Sprite="BlankWhiteSquare_9" Color="#A18661FF" IsHidden="@IsSingleSide" />
+        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="88" Sprite="GradientDivider_9" Color="#A18661FF" IsVisible="@IsSingleSide" />
+        
+      </Children>
+    </MultiplayerScoreboardSideWidget>
+  </Window>
+</Prefab>

@@ -15,6 +15,7 @@ using TaleWorlds.PlatformService;
 using TaleWorlds.PlayerServices;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using Crpg.Module.Gui;
+using Crpg.Module.GUI.HudExtension;
 
 namespace Crpg.Module.GUI.Scoreboard;
 internal class CrpgMissionScoreboardVM : ViewModel
@@ -80,6 +81,8 @@ internal class CrpgMissionScoreboardVM : ViewModel
     private bool _isPlayerActionsActive;
 
     private string _toggleMuteText = default!;
+    private ImageIdentifierVM? _allyBanner;
+    private ImageIdentifierVM? _enemyBanner;
     public CrpgMissionScoreboardVM(bool isSingleTeam, Mission mission)
     {
         _chatBox = Game.Current.GetGameHandler<ChatBox>();
@@ -325,6 +328,10 @@ internal class CrpgMissionScoreboardVM : ViewModel
                     missionScoreboardPlayerVM.RefreshDivision(IsSingleSide);
                 }
             }
+
+            CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner);
+            AllyBanner = allyBanner;
+            EnemyBanner = enemyBanner;
         }
     }
 
@@ -569,7 +576,43 @@ internal class CrpgMissionScoreboardVM : ViewModel
             }
         }
     }
+    [DataSourceProperty]
+    public ImageIdentifierVM? AllyBanner
+    {
+        get
+        {
+            return _allyBanner;
+        }
+        set
+        {
+            if (value == _allyBanner)
+            {
+                return;
+            }
 
+            _allyBanner = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
+
+    [DataSourceProperty]
+    public ImageIdentifierVM? EnemyBanner
+    {
+        get
+        {
+            return _enemyBanner;
+        }
+        set
+        {
+            if (value == _enemyBanner)
+            {
+                return;
+            }
+
+            _enemyBanner = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
     [DataSourceProperty]
     public MPEndOfBattleVM EndOfBattle
     {

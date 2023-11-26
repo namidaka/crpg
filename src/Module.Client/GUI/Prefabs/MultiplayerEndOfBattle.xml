@@ -1,0 +1,30 @@
+<Prefab>
+  <Window>
+    <MultiplayerEndOfBattleScreenWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="BlankWhiteSquare_9" Color="#000000AA" IsVisible="false" IsShown="@IsEnabled" FadeInDuration="0.3">
+      <Children>
+
+        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="50" HorizontalAlignment="Center" MarginTop="80" Brush="MPEndOfRound.Title" Text="@TitleText" />
+        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="110" HorizontalAlignment="Center" MarginTop="90" Brush="MPEndOfRound.Description" Text="@DescriptionText" />
+
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="270" IsVisible="@HasFirstPlace">
+          <Children>
+            <MultiplayerEndOfRound.MVP Parameter.DataSource="{FirstPlacePlayer}" Parameter.TextDataSource="{..\FirstPlacePlayer}" Parameter.TitleText="@PlacementText" Parameter.TitleFontSize="36" Parameter.DescriptionText="@ScoreText" Parameter.FrameWidth="230" Parameter.FrameExtendBottom="20" Parameter.FrameExtendTop="25" Parameter.ShowCompassElement="false" Parameter.TableauWidth="560" Parameter.TableauHeight="850" />
+          </Children>
+        </Widget>
+
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" MarginTop="250" MarginLeft="240" IsVisible="@HasSecondPlace">
+          <Children>
+            <MultiplayerEndOfRound.MVP Parameter.DataSource="{SecondPlacePlayer}" Parameter.TextDataSource="{..\SecondPlacePlayer}" Parameter.TitleText="@PlacementText" Parameter.TitleFontSize="30" Parameter.DescriptionText="@ScoreText" Parameter.FrameWidth="230" Parameter.FrameExtendBottom="20" Parameter.FrameExtendTop="25" Parameter.ShowCompassElement="false" Parameter.TableauWidth="400" Parameter.TableauHeight="650" />
+          </Children>
+        </Widget>
+
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" MarginTop="250" MarginRight="240" IsVisible="@HasThirdPlace">
+          <Children>
+            <MultiplayerEndOfRound.MVP Parameter.DataSource="{ThirdPlacePlayer}" Parameter.TextDataSource="{..\ThirdPlacePlayer}" Parameter.TitleText="@PlacementText" Parameter.TitleFontSize="30" Parameter.DescriptionText="@ScoreText" Parameter.FrameWidth="230" Parameter.FrameExtendBottom="20" Parameter.FrameExtendTop="25" Parameter.ShowCompassElement="false" Parameter.TableauWidth="400" Parameter.TableauHeight="650"/>
+          </Children>
+        </Widget>
+
+      </Children>
+    </MultiplayerEndOfBattleScreenWidget>
+  </Window>
+</Prefab>

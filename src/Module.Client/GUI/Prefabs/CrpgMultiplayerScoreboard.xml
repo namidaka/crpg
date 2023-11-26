@@ -1,0 +1,242 @@
+<Prefab>
+  <Constants>
+    <Constant Name="EndOfBattle.Panel.FirstAnimDelay" Value="0.75" />
+    <Constant Name="EndOfBattle.Panel.FirstAnimDuration" Value="0.15" />
+    <Constant Name="EndOfBattle.Panel.SecondAnimDelay" Value="1.3" />
+    <Constant Name="EndOfBattle.Panel.SecondAnimDuration" Value="0.6" />
+
+    <Constant Name="EndOfBattle.Panel.Height" Value="1080" />
+    <Constant Name="EndOfBattle.Header.Height" Value="120" />
+
+    <Constant Name="EndOfBattle.ResultBackground.Width" BrushName="MPScoreboard.EndOfBattle.ResultBackground" BrushLayer="Default" BrushValueType="Width" Additive="20"/>
+    <Constant Name="EndOfBattle.ResultBackground.Height" BrushName="MPScoreboard.EndOfBattle.ResultBackground" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="EndOfBattle.Banner.Left.Width" BrushName="MPTeamSelection.Banner.Left" BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="EndOfBattle.Banner.Left.Height" BrushName="MPTeamSelection.Banner.Left" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="EndOfBattle.Banner.Right.Width" BrushName="MPTeamSelection.Banner.Right" BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="EndOfBattle.Banner.Right.Height" BrushName="MPTeamSelection.Banner.Right" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="SingleColumned.Width" Value="1050"/>
+    <Constant Name="DoubleColumned.Width" Value="1800"/>
+
+    <Constant Name="Divider.Width" BrushName="MPScoreboard.Divider" BrushLayer="Default" BrushValueType="Width" Additive="250"/>
+    <Constant Name="Divider.Height" BrushName="MPScoreboard.Divider" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="DividerNotched.Width" BrushName="MPScoreboard.DividerNotched" BrushLayer="Default" BrushValueType="Width" Additive="20"/>
+    <Constant Name="DividerNotched.Height" BrushName="MPScoreboard.DividerNotched" BrushLayer="Default" BrushValueType="Height"/>
+
+  </Constants>
+
+  <VisualDefinitions>
+    <VisualDefinition Name="EndOfBattlePanel">
+      <VisualState State = "Default" SuggestedHeight="0" TransitionDuration="0"/>
+      <VisualState State = "PreOpened" SuggestedHeight="!EndOfBattle.Header.Height" TransitionDuration="!EndOfBattle.Panel.FirstAnimDuration"/>
+      <VisualState State = "Opened" SuggestedHeight="!EndOfBattle.Panel.Height" TransitionDuration="!EndOfBattle.Panel.SecondAnimDuration"/>
+    </VisualDefinition>
+    <VisualDefinition Name="ScoresPanel">
+      <VisualState State = "Default" MarginTop="0" TransitionDuration="0"/>
+      <VisualState State = "PreOpened" MarginTop="!EndOfBattle.Header.Height" TransitionDuration="!EndOfBattle.Panel.FirstAnimDuration"/>
+      <VisualState State = "Opened" MarginTop="!EndOfBattle.Panel.Height" TransitionDuration="!EndOfBattle.Panel.SecondAnimDuration"/>
+    </VisualDefinition>
+  </VisualDefinitions>
+
+  <Window>
+    <MultiplayerScoreboardScreenWidget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" DoNotAcceptEvents="true" IsSingleSide="@IsSingleSide" SingleColumnedWidth="!SingleColumned.Width" DoubleColumnedWidth="!DoubleColumned.Width" SidesList="ScrollablePanel\ClipRect\InnerPanel\ScoresPanel\SidesList" Sprite="flat_panel_9" ExtendLeft="40" ExtendRight="30" IsVisible="@IsActive" DoNotUseCustomScaleAndChildren="true">
+      <Children>
+        <Widget ClipContents="true" DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center">
+          <Children>
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="1662" SuggestedHeight="533" HorizontalAlignment="Center" VerticalAlignment="Bottom" Sprite="StdAssets\flat_panel_texture" />
+          </Children>
+        </Widget>
+
+        <!--Parent Scroller-->
+        <Widget  Id="ScrollbarContainer" HeightSizePolicy ="StretchToParent" WidthSizePolicy="CoverChildren" HorizontalAlignment="Right" MarginRight="30">
+          <Children>
+            <ScrollbarWidget Id="Scrollbar" HeightSizePolicy ="StretchToParent" WidthSizePolicy="Fixed" SuggestedWidth="3" MinValue="0" MaxValue="100"  MarginBottom="10" AlignmentAxis="Vertical" HorizontalAlignment="Left" MarginTop="20" VerticalAlignment="Top" Sprite="BlankWhiteSquare_9" Brush.AlphaFactor="0.4" Brush.Color="#A18661FF" Handle="ScrollbarHandle" ValueInt="0" >
+              <Children>
+                <Widget Id="ScrollbarHandle" WidthSizePolicy = "Fixed" HeightSizePolicy="Fixed" SuggestedWidth="7" HorizontalAlignment="Left" VerticalAlignment = "Top" Sprite="BlankWhiteSquare_9"  Color="#A18661FF" />
+              </Children>
+            </ScrollbarWidget>
+          </Children>
+        </Widget>
+
+
+        <ScrollablePanel Id="ScrollablePanel" HeightSizePolicy ="StretchToParent" WidthSizePolicy="StretchToParent" InnerPanel="ClipRect\InnerPanel" ClipRect="ClipRect" VerticalScrollbar="..\ScrollbarContainer\Scrollbar" AutoHideScrollBars="true">
+          <Children>
+            <Widget Id="ClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" ClipContents="true">
+              <Children>
+
+                <Widget Id="InnerPanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren">
+                  <Children>
+                    <MultiplayerScoreboardEndOfBattlePanelWidget Id="EndOfBattlePanel" DataSource="{EndOfBattle}" ClipContents="true" RenderLate="true" VisualDefinition="EndOfBattlePanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" FirstDelay="!EndOfBattle.Panel.FirstAnimDelay" SecondDelay="!EndOfBattle.Panel.SecondAnimDelay" IsAvailable="@IsAvailable">
+                      <Children>
+                        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!EndOfBattle.Header.Height">
+                          <Children>
+                            <!--<TextWidget Text="@CountdownTitle" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="140" MarginLeft="24" Brush="MPScoreboard.EndOfBattle.CountdownDescription"/>
+                            <TextWidget IntText="@Countdown" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="140" MarginLeft="164" PositionYOffset="5" Brush="MPScoreboard.EndOfBattle.CountdownValue"/>-->
+
+                            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!EndOfBattle.ResultBackground.Width" HorizontalAlignment="Center" MarginTop="5">
+                              <Children>
+                                <TextWidget Text="@Header" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="46" Brush="MPScoreboard.EndOfBattle.Title" />
+                                <MultiplayerBattleResultColorizedWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.ResultBackground.Width" SuggestedHeight="!EndOfBattle.ResultBackground.Height" Brush="MPScoreboard.EndOfBattle.ResultBackground" MarginTop="55" VictoryColor="#547539FF" DefeatColor="#813830FF" DrawColor="#817A30FF" BattleResult="@BattleResult">
+                                  <Children>
+                                    <TextWidget Text="@ResultText" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" Brush="MPScoreboard.EndOfBattle.Result" />
+                                  </Children>
+                                </MultiplayerBattleResultColorizedWidget>
+                              </Children>
+                            </Widget>
+                          </Children>
+                        </Widget>
+
+                        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!DividerNotched.Height" HorizontalAlignment="Center" MarginTop="115" MarginLeft="30" MarginRight="30" Sprite="MPClassLoadout\divider_notched_for_item_icons" />
+
+                        <MultiplayerFactionBannerWidget DataSource="{AllySide}" UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Left.Width" SuggestedHeight="!EndOfBattle.Banner.Left.Height" HorizontalAlignment="Left" MarginTop="128" MarginLeft="260" FactionCode="@CultureId" BannerWidget="Banner" IconWidget="Icon" UseSecondary="@UseSecondary">
+                          <Children>
+                            <BrushWidget Id="Banner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPTeamSelection.Banner.Left" />
+                            <Widget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="220" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-30" />
+
+                            <Widget IsHidden="@IsRoundWinner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPGeneral\MPScoreboard\loser_dirt" />
+
+                            <TextWidget Text="@FactionName" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="42" VerticalAlignment="Bottom" PositionYOffset="43" Brush="MPTeamSelection.FactionNameText"/>
+                            <TextWidget IntText="@score" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="72" VerticalAlignment="Bottom" PositionYOffset="87" Brush="MPScoreboard.FactionText"/>
+                          </Children>
+                        </MultiplayerFactionBannerWidget>
+
+                        <MultiplayerFactionBannerWidget DataSource="{EnemySide}" UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Right.Width" SuggestedHeight="!EndOfBattle.Banner.Right.Height" HorizontalAlignment="Right" MarginTop="128" MarginRight="260" FactionCode="@CultureId" BannerWidget="Banner" IconWidget="Icon" UseSecondary="@UseSecondary">
+                          <Children>
+                            <BrushWidget Id="Banner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPTeamSelection.Banner.Right" />
+                            <Widget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="220" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-30"/>
+
+                            <Widget IsHidden="@IsRoundWinner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPGeneral\MPScoreboard\loser_dirt" />
+
+                            <TextWidget Text="@FactionName" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="42" VerticalAlignment="Bottom" PositionYOffset="40" Brush="MPTeamSelection.FactionNameText"/>
+                            <TextWidget IntText="@Score" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="72" VerticalAlignment="Bottom" PositionYOffset="80" Brush="MPScoreboard.FactionText"/>
+                          </Children>
+                        </MultiplayerFactionBannerWidget>
+
+                        <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="700" SuggestedHeight="!Divider.Height" HorizontalAlignment="Center" MarginTop="818" Sprite="MPTeamSelection\divider" AlphaFactor="0.8"  />
+
+                      </Children>
+                    </MultiplayerScoreboardEndOfBattlePanelWidget>
+
+                    <DelayedStateChanger DataSource="{EndOfBattle}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Delay="!EndOfBattle.Panel.FirstAnimDelay" TargetWidget="..\ScoresPanel" Trigger="@IsAvailable" State="PreOpened" StateResetable="true"/>
+                    <DelayedStateChanger DataSource="{EndOfBattle}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Delay="!EndOfBattle.Panel.SecondAnimDelay" TargetWidget="..\ScoresPanel" Trigger="@IsAvailable" State="Opened" StateResetable="true"/>
+
+                    <Widget Id="ScoresPanel" VisualDefinition="ScoresPanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="1080" MarginLeft="30" MarginRight="55">
+                      <Children>
+                        <Widget DataSource="{EndOfBattle}" IsVisible="@IsAvailable" RenderLate="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!DividerNotched.Height" HorizontalAlignment="Center" PositionYOffset="-4" Sprite="MPClassLoadout\divider_notched_for_item_icons" />
+
+                        <!--Scoreboard Pinned Header-->
+                        <ListPanel Id="SidesList" StackLayout.LayoutMethod="HorizontalCentered" DataSource="{Sides}" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" VerticalAlignment="Top">
+                          <ItemTemplate>
+                            <MultiplayerScoreboardSideTop Parameter.IsLeftSide="false" DoNotUseCustomScaleAndChildren="true"/>
+                          </ItemTemplate>
+                          <ItemTemplate Type="First">
+                            <MultiplayerScoreboardSideTop Parameter.IsLeftSide="true" DoNotUseCustomScaleAndChildren="true"/>
+                          </ItemTemplate>
+                        </ListPanel>
+
+                        <ScrollablePanel Id="ScrollablePanel" WidthSizePolicy="StretchToParent"  HeightSizePolicy ="Fixed" SuggestedHeight="820" MarginTop="170" InnerPanel="ClipRect\SidesList" ClipRect="ClipRect" VerticalScrollbar="..\ScrollbarContainer\InnerScrollbar" AutoHideScrollBars="true" >
+                          <Children>
+                            <Widget Id="ClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" ClipContents="true">
+                              <Children>
+
+                                <!--Scoreboard Inner Scrollable Panel-->
+                                <ListPanel Id="SidesList" StackLayout.LayoutMethod="HorizontalCentered" DataSource="{Sides}" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" VerticalAlignment="Top" >
+                                  <ItemTemplate>
+                                    <MultiplayerScoreboardSideInner Parameter.IsLeftSide="false" DoNotUseCustomScaleAndChildren="true"/>
+                                  </ItemTemplate>
+                                  <ItemTemplate Type="First">
+                                    <MultiplayerScoreboardSideInner Parameter.IsLeftSide="true" DoNotUseCustomScaleAndChildren="true"/>
+                                  </ItemTemplate>
+                                </ListPanel>
+
+                              </Children>
+                            </Widget>
+                          </Children>
+                        </ScrollablePanel>
+
+                        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy ="Fixed" SuggestedHeight="820" MarginTop="170" HorizontalAlignment="Right" PositionXOffset="7" Id="ScrollbarContainer">
+                          <Children>
+                            <ScrollbarWidget Id="InnerScrollbar" HeightSizePolicy ="StretchToParent" WidthSizePolicy="Fixed" MinValue="0" MaxValue="100" SuggestedWidth="3" MarginBottom="10" AlignmentAxis="Vertical" HorizontalAlignment="Left" MarginTop="20" VerticalAlignment="Top" Sprite="BlankWhiteSquare_9" Brush.AlphaFactor="0.4" Brush.Color="#A18661FF" Handle="ScrollbarHandle" ValueInt="0" >
+                              <Children>
+                                <Widget Id="ScrollbarHandle" WidthSizePolicy = "Fixed" HeightSizePolicy="Fixed" SuggestedWidth="7" HorizontalAlignment="Left" VerticalAlignment = "Top" Sprite="BlankWhiteSquare_9"  Color="#A18661FF" />
+                              </Children>
+                            </ScrollbarWidget>
+                          </Children>
+                        </Widget>
+
+                        <Widget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="5" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="5" MarginBottom="85" Sprite="MPGeneral\MPScoreboard\divider_vertical" AlphaFactor="0.5" IsHidden="@IsSingleSide" />
+
+                        <!-- Map and Server Name -->
+                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="10" StackLayout.LayoutMethod="VerticalBottomToTop">
+                          <Children>
+                            <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" Brush="MPScoreboard.Info.Text" Text="@ServerName"  />
+                            <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" Brush="MPScoreboard.Info.Text" Text="@MapName" />
+                          </Children>
+                        </ListPanel>
+
+                        <!--Show Cursor Icon-->
+                        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Bottom" HorizontalAlignment="Center" MarginBottom="7" IsHidden="@IsMouseEnabled">
+                          <Children>
+                            <ListPanel DataSource="{ShowMouseKey}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop">
+                              <Children>
+                                <InputKeyVisualWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="50" VerticalAlignment="Center" HorizontalAlignment="Center" Color="#F4E1C4FF" KeyID="@KeyID"/>
+                                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="MPScoreboard.Info.Text" Text="@KeyName" />
+                              </Children>
+                            </ListPanel>
+                          </Children>
+                        </Widget>
+
+                        <!--Mute All Button-->
+                        <ButtonWidget DoNotPassEventsToChildren="true" ButtonType="Toggle" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" SuggestedWidth="31" SuggestedHeight="24" VerticalAlignment="Bottom" HorizontalAlignment="Left" MarginBottom="7" Command.Click="ExecuteToggleMute" UpdateChildrenStates="true">
+                          <Children>
+                            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight"  UpdateChildrenStates="true" >
+                              <Children>
+                                <ButtonWidget ButtonType="Toggle" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="31" SuggestedHeight="24" Brush="MPScoreboard.MuteAll.Button" />
+                                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Bottom" MarginLeft="5" Brush="MPScoreboard.MuteAll.Text" Text="@ToggleMuteText"/>
+                              </Children>
+                            </ListPanel>
+                          </Children>
+                        </ButtonWidget>
+
+                      </Children>
+                    </Widget>
+
+                  </Children>
+                </Widget>
+
+              </Children>
+            </Widget>
+
+          </Children>
+        </ScrollablePanel>
+
+
+
+        <ContextMenuBrushWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" ScrollPanelToWatch="..\ScrollablePanel" IsActivated="@IsPlayerActionsActive" IsVisible="false" ActionListPanel="ActionListPanel" Brush="Scoreboard.ContextMenu.Background">
+          <Children>
+            <ListPanel Id="ActionListPanel" DataSource="{PlayerActionList}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop" MarginLeft="5" MarginRight="5" MarginTop="5" MarginBottom="5">
+              <ItemTemplate>
+                <ContextMenuItemWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="35" TypeIconWidget="TypeIconWidget" ActionButtonWidget="ButtonDimensionsSyncWidget\ActionButtonWidget" TypeIconState="@Value">
+                  <Children>
+                    <BrushWidget Id="TypeIconWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="23" SuggestedHeight="23" Brush="Scoreboard.ContextMenu.Icon" VerticalAlignment="Center" MarginLeft="2"/>
+                    <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Text="@Definition" Brush="Scoreboard.ContextMenu.ItemText" VerticalAlignment="Center" MarginLeft="30" MarginRight="10" />
+                    <DimensionSyncWidget Id="ButtonDimensionsSyncWidget" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" DimensionToSync="Horizontal" WidgetToCopyHeightFrom="..\..\..\ActionListPanel" IsEnabled="@IsEnabled">
+                      <Children>
+                        <HintWidget DoNotAcceptEvents="@IsEnabled" DataSource="{Hint}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" />
+                        <ButtonWidget CanAcceptEvents="@IsEnabled" Id="ActionButtonWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" Command.Click="ExecuteAction" DoNotPassEventsToChildren="true" UpdateChildrenStates="true" Brush="MPLobby.Matchmaking.Region.DropdownItem"/>
+                      </Children>
+                    </DimensionSyncWidget>
+                  </Children>
+                </ContextMenuItemWidget>
+              </ItemTemplate>
+            </ListPanel>
+          </Children>
+        </ContextMenuBrushWidget>
+
+      </Children>
+    </MultiplayerScoreboardScreenWidget>
+  </Window>
+</Prefab>
