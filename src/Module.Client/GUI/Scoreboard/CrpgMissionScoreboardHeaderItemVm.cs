@@ -13,7 +13,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
     {
         private readonly CrpgScoreboardSideVM _side;
 
-        private string _headerID = "";
+        private string _headerID = string.Empty;
 
         private bool _isIrregularStat;
 

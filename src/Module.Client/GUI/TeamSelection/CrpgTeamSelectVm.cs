@@ -38,32 +38,30 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             _onAutoAssign = onAutoAssign;
             _gamemodeStr = gamemode;
             CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? team1Banner, out ImageIdentifierVM? team2Banner, out string team1Name, out string team2Name, byTeamIndex: true);
-            Debug.Print("MultiplayerTeamSelectVM 1", 0, Debug.DebugColor.White, 17179869184UL);
+
             _gameMode = mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>();
             MissionScoreboardComponent missionBehavior = mission.GetMissionBehavior<MissionScoreboardComponent>();
-            Debug.Print("MultiplayerTeamSelectVM 2", 0, Debug.DebugColor.White, 17179869184UL);
+
             IsRoundCountdownAvailable = _gameMode.IsGameModeUsingRoundCountdown;
-            Debug.Print("MultiplayerTeamSelectVM 3", 0, Debug.DebugColor.White, 17179869184UL);
-            Team team = teams.FirstOrDefault((Team t) => t.Side == BattleSideEnum.None);
-            TeamSpectators = new CrpgTeamSelectTeamInstanceVM(missionBehavior, team, null, null, onChangeTeamTo, false, new TextObject("{=pSheKLB4}Spectator", null).ToString());
-            Debug.Print("MultiplayerTeamSelectVM 4", 0, Debug.DebugColor.White, 17179869184UL);
-            Team team2 = teams.FirstOrDefault((Team t) => t.TeamIndex == 1);
-            BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
-            Team1 = new CrpgTeamSelectTeamInstanceVM(missionBehavior, team2, @object, team1Banner, onChangeTeamTo, false, team1Name);
-            Debug.Print("MultiplayerTeamSelectVM 5", 0, Debug.DebugColor.White, 17179869184UL);
-            Team team3 = teams.FirstOrDefault((Team t) => t.TeamIndex == 2);
-            @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
-            Team2 = new CrpgTeamSelectTeamInstanceVM(missionBehavior, team3, @object, team2Banner, onChangeTeamTo, true, team2Name);
-            Debug.Print("MultiplayerTeamSelectVM 6", 0, Debug.DebugColor.White, 17179869184UL);
+
+            Team spectatorTeam = teams.FirstOrDefault((Team t) => t.Side == BattleSideEnum.None);
+            TeamSpectators = new CrpgTeamSelectInstanceVM(missionBehavior, spectatorTeam, null, null, onChangeTeamTo, false, new TextObject("{=pSheKLB4}Spectator", null).ToString());
+
+            Team team1 = teams.FirstOrDefault((Team t) => t.TeamIndex == 1);
+            BasicCultureObject culture1 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
+            Team1 = new CrpgTeamSelectInstanceVM(missionBehavior, team1, culture1, team1Banner, onChangeTeamTo, false, team1Name);
+
+            Team team2 = teams.FirstOrDefault((Team t) => t.TeamIndex == 2);
+            BasicCultureObject culture2 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
+            Team2 = new CrpgTeamSelectInstanceVM(missionBehavior, team2, culture2, team2Banner, onChangeTeamTo, true, team2Name);
+
             if (GameNetwork.IsMyPeerReady)
             {
                 _missionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
                 IsCancelDisabled = _missionPeer.Team == null;
             }
 
-            Debug.Print("MultiplayerTeamSelectVM 7", 0, Debug.DebugColor.White, 17179869184UL);
             RefreshValues();
-            Debug.Print("MultiplayerTeamSelectVM 8", 0, Debug.DebugColor.White, 17179869184UL);
         }
 
         public override void RefreshValues()
@@ -86,19 +84,19 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
         {
             if (disabledTeams == null)
             {
-                CrpgTeamSelectTeamInstanceVM teamSpectators = TeamSpectators;
+                CrpgTeamSelectInstanceVM teamSpectators = TeamSpectators;
                 if (teamSpectators != null)
                 {
                     teamSpectators.SetIsDisabled(false, false);
                 }
 
-                CrpgTeamSelectTeamInstanceVM team = Team1;
+                CrpgTeamSelectInstanceVM team = Team1;
                 if (team != null)
                 {
                     team.SetIsDisabled(false, false);
                 }
 
-                CrpgTeamSelectTeamInstanceVM team2 = Team2;
+                CrpgTeamSelectInstanceVM team2 = Team2;
                 if (team2 == null)
                 {
                     return;
@@ -109,7 +107,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             }
             else
             {
-                CrpgTeamSelectTeamInstanceVM teamSpectators2 = TeamSpectators;
+                CrpgTeamSelectInstanceVM teamSpectators2 = TeamSpectators;
                 if (teamSpectators2 != null)
                 {
                     bool isCurrentTeam = false;
@@ -120,17 +118,17 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
                     }
                     else
                     {
-                        CrpgTeamSelectTeamInstanceVM teamSpectators3 = TeamSpectators;
+                        CrpgTeamSelectInstanceVM teamSpectators3 = TeamSpectators;
                         disabledForBalance = teamSpectators3 == null ? false : disabledTeams.Contains(teamSpectators3.Team);
                     }
 
                     teamSpectators2.SetIsDisabled(isCurrentTeam, disabledForBalance);
                 }
 
-                CrpgTeamSelectTeamInstanceVM team3 = Team1;
+                CrpgTeamSelectInstanceVM team3 = Team1;
                 if (team3 != null)
                 {
-                    CrpgTeamSelectTeamInstanceVM team4 = Team1;
+                    CrpgTeamSelectInstanceVM team4 = Team1;
                     Team? team5 = (team4 != null) ? team4.Team : null;
                     MissionPeer missionPeer = _missionPeer;
                     bool isCurrentTeam2 = team5 == ((missionPeer != null) ? missionPeer.Team : null);
@@ -141,20 +139,20 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
                     }
                     else
                     {
-                        CrpgTeamSelectTeamInstanceVM team6 = Team1;
+                        CrpgTeamSelectInstanceVM team6 = Team1;
                         disabledForBalance2 = team6 == null ? false : disabledTeams.Contains(team6.Team);
                     }
 
                     team3.SetIsDisabled(isCurrentTeam2, disabledForBalance2);
                 }
 
-                CrpgTeamSelectTeamInstanceVM team7 = Team2;
+                CrpgTeamSelectInstanceVM team7 = Team2;
                 if (team7 == null)
                 {
                     return;
                 }
 
-                CrpgTeamSelectTeamInstanceVM team8 = Team2;
+                CrpgTeamSelectInstanceVM team8 = Team2;
                 Team? team9 = (team8 != null) ? team8.Team : null;
                 MissionPeer missionPeer2 = _missionPeer;
                 bool isCurrentTeam3 = team9 == ((missionPeer2 != null) ? missionPeer2.Team : null);
@@ -165,7 +163,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
                 }
                 else
                 {
-                    CrpgTeamSelectTeamInstanceVM team10 = Team2;
+                    CrpgTeamSelectInstanceVM team10 = Team2;
                     disabledForBalance3 = team10 == null ? false : disabledTeams.Contains(team10.Team);
                 }
 
@@ -205,7 +203,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
         }
 
         [DataSourceProperty]
-        public CrpgTeamSelectTeamInstanceVM Team1
+        public CrpgTeamSelectInstanceVM Team1
         {
             get
             {
@@ -222,7 +220,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
         }
 
         [DataSourceProperty]
-        public CrpgTeamSelectTeamInstanceVM Team2
+        public CrpgTeamSelectInstanceVM Team2
         {
             get
             {
@@ -239,7 +237,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
         }
 
         [DataSourceProperty]
-        public CrpgTeamSelectTeamInstanceVM TeamSpectators
+        public CrpgTeamSelectInstanceVM TeamSpectators
         {
             get
             {
@@ -367,11 +365,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 
         private bool _isCancelDisabled;
 
-        private CrpgTeamSelectTeamInstanceVM _team1 = default!;
+        private CrpgTeamSelectInstanceVM _team1 = default!;
 
-        private CrpgTeamSelectTeamInstanceVM _team2 = default!;
+        private CrpgTeamSelectInstanceVM _team2 = default!;
 
-        private CrpgTeamSelectTeamInstanceVM _teamSpectators = default!;
+        private CrpgTeamSelectInstanceVM _teamSpectators = default!;
         private string _toggleMuteText = default!;
     }
 }

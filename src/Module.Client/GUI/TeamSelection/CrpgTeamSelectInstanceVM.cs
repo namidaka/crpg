@@ -10,9 +10,9 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 {
-    public class CrpgTeamSelectTeamInstanceVM : ViewModel
+    public class CrpgTeamSelectInstanceVM : ViewModel
     {
-        public CrpgTeamSelectTeamInstanceVM(MissionScoreboardComponent missionScoreboardComponent, Team team, BasicCultureObject? culture, ImageIdentifierVM? banner, Action<Team> onSelect, bool useSecondary, string teamName)
+        public CrpgTeamSelectInstanceVM(MissionScoreboardComponent missionScoreboardComponent, Team team, BasicCultureObject? culture, ImageIdentifierVM? banner, Action<Team> onSelect, bool useSecondary, string teamName)
         {
             Team = team;
             UseSecondary = useSecondary;
@@ -29,7 +29,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
                 UpdateTeamScores();
             }
 
-            CultureId = (culture == null) ? "" : culture.StringId;
+            CultureId = (culture == null) ? string.Empty : culture.StringId;
             if (team == null)
             {
                 IsDisabled = true;
@@ -39,10 +39,9 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             {
                 Banner = banner;
             }
-
             else
             {
-                this.Banner = banner;
+                Banner = banner;
             }
 
             _friends = new List<MPPlayerVM>();
@@ -103,7 +102,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             }
 
             FriendAvatars.Clear();
-            MBStringBuilder mbstringBuilder = default(MBStringBuilder);
+            MBStringBuilder mbstringBuilder = default!;
             mbstringBuilder.Initialize(16, "RefreshFriends");
             for (int i = 0; i < _friends.Count; i++)
             {
@@ -131,7 +130,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 
             mbstringBuilder.Release();
             HasExtraFriends = false;
-            FriendsExtraText = "";
+            FriendsExtraText = string.Empty;
         }
 
         public void SetIsDisabled(bool isCurrentTeam, bool disabledForBalance)
