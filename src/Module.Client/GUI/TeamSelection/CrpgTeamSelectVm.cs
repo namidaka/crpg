@@ -37,7 +37,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             _onClose = onClose;
             _onAutoAssign = onAutoAssign;
             _gamemodeStr = gamemode;
-            CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? team1Banner, out ImageIdentifierVM? team2Banner, byTeamIndex: true);
+            CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? team1Banner, out ImageIdentifierVM? team2Banner, out string team1Name, out string team2Name, byTeamIndex: true);
             Debug.Print("MultiplayerTeamSelectVM 1", 0, Debug.DebugColor.White, 17179869184UL);
             _gameMode = mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>();
             MissionScoreboardComponent missionBehavior = mission.GetMissionBehavior<MissionScoreboardComponent>();
@@ -45,15 +45,15 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             IsRoundCountdownAvailable = _gameMode.IsGameModeUsingRoundCountdown;
             Debug.Print("MultiplayerTeamSelectVM 3", 0, Debug.DebugColor.White, 17179869184UL);
             Team team = teams.FirstOrDefault((Team t) => t.Side == BattleSideEnum.None);
-            TeamSpectators = new CrpgTeamSelectTeamInstanceVM(missionBehavior, team, null, null, onChangeTeamTo, false);
+            TeamSpectators = new CrpgTeamSelectTeamInstanceVM(missionBehavior, team, null, null, onChangeTeamTo, false, new TextObject("{=pSheKLB4}Spectator", null).ToString());
             Debug.Print("MultiplayerTeamSelectVM 4", 0, Debug.DebugColor.White, 17179869184UL);
             Team team2 = teams.FirstOrDefault((Team t) => t.TeamIndex == 1);
             BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
-            Team1 = new CrpgTeamSelectTeamInstanceVM(missionBehavior, team2, @object, team1Banner, onChangeTeamTo, false);
+            Team1 = new CrpgTeamSelectTeamInstanceVM(missionBehavior, team2, @object, team1Banner, onChangeTeamTo, false, team1Name);
             Debug.Print("MultiplayerTeamSelectVM 5", 0, Debug.DebugColor.White, 17179869184UL);
             Team team3 = teams.FirstOrDefault((Team t) => t.TeamIndex == 2);
             @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
-            Team2 = new CrpgTeamSelectTeamInstanceVM(missionBehavior, team3, @object, team2Banner, onChangeTeamTo, true);
+            Team2 = new CrpgTeamSelectTeamInstanceVM(missionBehavior, team3, @object, team2Banner, onChangeTeamTo, true, team2Name);
             Debug.Print("MultiplayerTeamSelectVM 6", 0, Debug.DebugColor.White, 17179869184UL);
             if (GameNetwork.IsMyPeerReady)
             {

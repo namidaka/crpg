@@ -30,7 +30,9 @@ public class CrpgScoreboardSideVM : ViewModel
 
     private int _roundsWon;
 
-    private string _name = default!;
+    private string _allyTeamName = default!;
+
+    private string _enemyTeamName = default!;
 
     private string _cultureId = default!;
 
@@ -76,15 +78,21 @@ public class CrpgScoreboardSideVM : ViewModel
     public override void RefreshValues()
     {
         base.RefreshValues();
+        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out string myTeamName, out string enemyTeamName);
+        AllyBanner = allyBanner;
+        EnemyBanner = enemyBanner;
+
         BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>((_missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
         if (IsSingleSide)
         {
-            Name = MultiplayerOptions.OptionType.GameType.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
+            AllyTeamName = myTeamName;
         }
         else
         {
-            Name = @object.Name.ToString();
+            AllyTeamName = myTeamName;
+            EnemyTeamName = enemyTeamName;
         }
+
         EntryProperties = new MBBindingList<CrpgMissionScoreboardHeaderItemVM>();
         string[] headerIds = _missionScoreboardSide.GetHeaderIds();
         string[] headerNames = _missionScoreboardSide.GetHeaderNames();
@@ -108,10 +116,9 @@ public class CrpgScoreboardSideVM : ViewModel
         {
             missionScoreboardPlayerVM.Tick(dt);
         }
+        /*
 
-        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner,out ImageIdentifierVM? enemyBanner);
-        AllyBanner = allyBanner;
-        EnemyBanner = enemyBanner;
+        */
     }
 
     public override void OnFinalize()
@@ -350,17 +357,33 @@ public class CrpgScoreboardSideVM : ViewModel
     }
 
     [DataSourceProperty]
-    public string Name
+    public string AllyTeamName
     {
         get
         {
-            return _name;
+            return _allyTeamName;
         }
         set
         {
-            if (value != _name)
+            if (value != _allyTeamName)
             {
-                _name = value;
+                _allyTeamName = value;
+                base.OnPropertyChangedWithValue(value, "Name");
+            }
+        }
+    }
+    [DataSourceProperty]
+    public string EnemyTeamName
+    {
+        get
+        {
+            return _enemyTeamName;
+        }
+        set
+        {
+            if (value != _enemyTeamName)
+            {
+                _enemyTeamName = value;
                 base.OnPropertyChangedWithValue(value, "Name");
             }
         }
@@ -471,6 +494,7 @@ public class CrpgScoreboardSideVM : ViewModel
             OnPropertyChangedWithValue(value);
         }
     }
+
     private readonly MissionScoreboardComponent.MissionScoreboardSide _missionScoreboardSide;
 
     private readonly Dictionary<MissionPeer, MissionScoreboardPlayerVM> _playersMap;

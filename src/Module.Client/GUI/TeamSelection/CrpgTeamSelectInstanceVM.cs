@@ -12,7 +12,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 {
     public class CrpgTeamSelectTeamInstanceVM : ViewModel
     {
-        public CrpgTeamSelectTeamInstanceVM(MissionScoreboardComponent missionScoreboardComponent, Team team, BasicCultureObject? culture, ImageIdentifierVM? banner, Action<Team> onSelect, bool useSecondary)
+        public CrpgTeamSelectTeamInstanceVM(MissionScoreboardComponent missionScoreboardComponent, Team team, BasicCultureObject? culture, ImageIdentifierVM? banner, Action<Team> onSelect, bool useSecondary, string teamName)
         {
             Team = team;
             UseSecondary = useSecondary;
@@ -47,11 +47,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             _friends = new List<MPPlayerVM>();
             FriendAvatars = new MBBindingList<MPPlayerVM>();
             RefreshValues();
+            DisplayedPrimary = teamName;
         }
         public override void RefreshValues()
         {
             base.RefreshValues();
-            DisplayedPrimary = ((_culture == null) ? new TextObject("{=pSheKLB4}Spectator", null).ToString() : _culture.Name.ToString());
         }
 
         public override void OnFinalize()

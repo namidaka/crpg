@@ -677,7 +677,7 @@ internal class CrpgHudExtensionVm : ViewModel
     private void OnCurrentGameModeStateChanged()
     {
         CheckTimers(true);
-        UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner);
+        UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _ , out _);
         AllyBanner = allyBanner;
         EnemyBanner = enemyBanner;
     }
@@ -695,10 +695,10 @@ internal class CrpgHudExtensionVm : ViewModel
         EnemyTeamScore = _isAttackerTeamAlly ? defenderScore : attackScore;
     }
 
-    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerOrTeam1BannerVM, out ImageIdentifierVM? enemyBannerOrTeam2BannerVM, bool byTeamIndex = false)
+    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerOrTeam1BannerVM, out ImageIdentifierVM? enemyBannerOrTeam2BannerVM, out string allyTeamOrTeam1Name, out string allyTeamOrTeam2Name,  bool byTeamIndex = false)
     {
-        var allyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: true, byTeamIndex);
-        var enemyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: false, byTeamIndex);
+        var allyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: true, out allyTeamOrTeam1Name, byTeamIndex);
+        var enemyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: false,out allyTeamOrTeam2Name, byTeamIndex);
         var allyBannerCode = BannerCode.CreateFrom(allyBanner);
         var enemyBannerCode = BannerCode.CreateFrom(enemyBanner);
         ImageIdentifierVM allyImageId = new(allyBannerCode, true);
@@ -710,6 +710,12 @@ internal class CrpgHudExtensionVm : ViewModel
 
     public static Banner? ResolveTeamBannerKey(bool allyTeamOrTeam1, out string TeamName, bool byTeamIndex = false)
     {
+        if (Mission.Current.Teams.Count == 0)
+        {
+            TeamName = string.Empty;
+            return null;
+        }
+
         Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
         var myMissionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
         Team myTeam = (myMissionPeer?.Team?.TeamIndex ?? 0) == 0 ? Mission.Current.Teams[1] : GameNetwork.MyPeer.GetComponent<MissionPeer>().Team;
@@ -798,7 +804,7 @@ internal class CrpgHudExtensionVm : ViewModel
 
 
         }
-
+        TeamName = maxClan.Value.clan.Name;
         return new Banner(maxClan.Value.clan.BannerKey, maxClan.Value.clan.PrimaryColor, maxClan.Value.clan.SecondaryColor);
     }
 
@@ -815,7 +821,7 @@ internal class CrpgHudExtensionVm : ViewModel
             CommanderInfo?.OnTeamChanged();
         }
 
-        UpdateTeamBanners(out ImageIdentifierVM? allyBanner,out ImageIdentifierVM? enemyBanner);
+        UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
         AllyBanner = allyBanner;
         EnemyBanner = enemyBanner;
 

@@ -333,7 +333,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
                 }
             }
 
-            CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner);
+            CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
             AllyBanner = allyBanner;
             EnemyBanner = enemyBanner;
         }
