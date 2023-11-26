@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Common;
 using Crpg.Module.Helpers;
@@ -10,6 +11,7 @@ using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions;
+using TaleWorlds.ObjectSystem;
 
 namespace Crpg.Module.GUI.HudExtension;
 
@@ -706,7 +708,7 @@ internal class CrpgHudExtensionVm : ViewModel
         enemyBannerOrTeam2BannerVM = enemyImageId;
     }
 
-    public static Banner? ResolveTeamBannerKey(bool allyTeamOrTeam1, bool byTeamIndex = false)
+    public static Banner? ResolveTeamBannerKey(bool allyTeamOrTeam1, out string TeamName, bool byTeamIndex = false)
     {
         Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
         var myMissionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
@@ -749,14 +751,50 @@ internal class CrpgHudExtensionVm : ViewModel
 
         if (maxClan.Value.clan == null)
         {
-            return
-                byTeamIndex
-                    ? allyTeamOrTeam1
-                        ? Mission.Current.Teams[1].Banner
-                        : Mission.Current.Teams[2].Banner
-                    : allyTeamOrTeam1
-                        ? myTeam.Banner
-                        : enemyTeam.Banner;
+            var team1Name = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
+            var team2Name = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
+            if (byTeamIndex)
+            {
+                if (allyTeamOrTeam1)
+                {
+                    TeamName = team1Name;
+                    return Mission.Current.Teams[1].Banner;
+                }
+                else
+                {
+                    TeamName = team2Name;
+                    return Mission.Current.Teams[2].Banner;
+                }
+            }
+            else
+            {
+                if (allyTeamOrTeam1)
+                {
+                    if (myTeam.TeamIndex == 1)
+                    {
+                        TeamName = team1Name;
+                    }
+                    else
+                    {
+                        TeamName = team2Name;
+                    }
+
+                    return myTeam.Banner;
+                }
+                else
+                {
+                    if (myTeam.TeamIndex == 1)
+                    {
+                        TeamName = team2Name;
+                    }
+                    else
+                    {
+                        TeamName = team1Name;
+                    }
+
+                    return enemyTeam.Banner;
+                }
+            }
 
 
         }
