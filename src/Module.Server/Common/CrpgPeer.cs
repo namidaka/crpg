@@ -16,8 +16,8 @@ internal class CrpgPeer : PeerComponent
         get => _clan;
         set
         {
-            _clan = value ?? throw new ArgumentNullException();
-            SynchronizeUserToEveryone(); // Synchronize the property with the client.
+            _clan = value;
+            SynchronizeClanToEveryone(); // Synchronize the property with the client.
         }
     }
 
@@ -62,7 +62,19 @@ internal class CrpgPeer : PeerComponent
         }
 
         GameNetwork.BeginModuleEventAsServer(networkPeer);
-        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = User, ClanName = Clan?.Name ?? string.Empty, ClanTag = Clan?.Tag ?? string.Empty, BannerKey = Clan?.BannerKey ?? string.Empty, PrimaryColor = Clan?.PrimaryColor ?? 0, SecondaryColor = Clan?.SecondaryColor ?? 0 });
+        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = User });
+        GameNetwork.EndModuleEventAsServer();
+    }
+
+    public void SynchronizeClanToPeer(NetworkCommunicator networkPeer)
+    {
+        if (User == null || Clan == null)
+        {
+            return;
+        }
+
+        GameNetwork.BeginModuleEventAsServer(networkPeer);
+        GameNetwork.WriteMessage(new UpdateCrpgUserClanInfo { Peer = Peer, Clan = Clan });
         GameNetwork.EndModuleEventAsServer();
     }
 
@@ -74,7 +86,19 @@ internal class CrpgPeer : PeerComponent
         }
 
         GameNetwork.BeginBroadcastModuleEvent();
-        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = _user, ClanName = Clan?.Name ?? string.Empty, ClanTag = Clan?.Tag ?? string.Empty, BannerKey = Clan?.BannerKey ?? string.Empty, PrimaryColor = Clan?.PrimaryColor ?? 0, SecondaryColor = Clan?.SecondaryColor ?? 0 });
+        GameNetwork.WriteMessage(new UpdateCrpgUser { Peer = Peer, User = _user });
+        GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+    }
+
+    private void SynchronizeClanToEveryone()
+    {
+        if (_user == null || !GameNetwork.IsServerOrRecorder || _clan == null)
+        {
+            return;
+        }
+
+        GameNetwork.BeginBroadcastModuleEvent();
+        GameNetwork.WriteMessage(new UpdateCrpgUserClanInfo { Peer = Peer, Clan = _clan });
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
     }
 }
