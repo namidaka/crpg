@@ -10,10 +10,28 @@ internal class CrpgBattleScoreboardData : IScoreboardData
         return new MissionScoreboardComponent.ScoreboardHeader[]
         {
             new("ping", missionPeer => TaleWorlds.Library.MathF.Round(missionPeer.GetNetworkPeer().AveragePingInMilliseconds).ToString(), _ => "BOT"),
-            new("level", missionPeer => missionPeer.GetComponent<CrpgPeer>().User?.Character.Level.ToString() ?? string.Empty, _ => string.Empty),
+            new("level", missionPeer => {
+                var crpgPeer = missionPeer.GetComponent<CrpgPeer>();
+                if (crpgPeer == null)
+                {
+                    return string.Empty;
+                }
+
+                if (crpgPeer.User == null)
+                {
+                    return string.Empty;
+                }
+
+                return crpgPeer.User.Character.Level.ToString();
+                }, _ => string.Empty),
             new("clan", missionPeer =>
                 {
                     var crpgPeer = missionPeer.GetComponent<CrpgPeer>();
+                    if (crpgPeer == null)
+                    {
+                        return string.Empty;
+                    }
+
                     if (crpgPeer.Clan == null)
                     {
                         return string.Empty;

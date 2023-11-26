@@ -62,6 +62,25 @@ internal static class CrpgCharacterBuilder
         return equipment;
     }
 
+    public static void AssignArmorsToTroopOrigin(CrpgBattleAgentOrigin origin, List<CrpgEquippedItem> items)
+    {
+        foreach (var item in items)
+        {
+            var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(item.UserItem.ItemId);
+            if (itemObject.ItemType is ItemObject.ItemTypeEnum.HeadArmor or ItemObject.ItemTypeEnum.HandArmor or ItemObject.ItemTypeEnum.Cape or ItemObject.ItemTypeEnum.BodyArmor or ItemObject.ItemTypeEnum.LegArmor)
+            {
+                CrpgItemArmorComponent crpgItemArmorComponent = new()
+                {
+                    ArmArmor = itemObject.ArmorComponent.ArmArmor,
+                    BodyArmor = itemObject.ArmorComponent.BodyArmor,
+                    LegArmor = itemObject.ArmorComponent.LegArmor,
+                    HeadArmor = itemObject.ArmorComponent.HeadArmor,
+                };
+                origin.ArmorItems.Add((crpgItemArmorComponent, itemObject.ItemType));
+            }
+        }
+    }
+
     private static void AddEquipment(Equipment equipments, EquipmentIndex idx, string itemId)
     {
         var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(itemId);
