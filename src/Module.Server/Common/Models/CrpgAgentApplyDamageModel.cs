@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Helpers;
+﻿using System.Diagnostics.Eventing.Reader;
+using Crpg.Module.Helpers;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
@@ -52,9 +53,16 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
 
         if (weapon.IsEmpty)
         {
-            // Increase fist damage with strength.
+            // Increase fist damage with strength and glove armor.
+            // Alternate attack if is weapon empty is a kick.
             int strengthSkill = GetSkillValue(attackInformation.AttackerAgentOrigin, CrpgSkills.Strength);
-            return finalDamage * (1 + 0.03f * strengthSkill);
+            int glovearmor = GetGloveArmor(attackInformation.AttackerAgentOrigin);
+            if (collisionData.IsAlternativeAttack)
+            {
+                return (finalDamage * 0.75f) * (1 + 0.02f * strengthSkill);
+            }
+
+            return (finalDamage * 0.75f) * (1 + (0.02f * strengthSkill) + (0.04f * glovearmor));
         }
 
         // CalculateShieldDamage only has dmg as parameter. Therefore it cannot be used to get any Skill values.
@@ -269,5 +277,15 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         }
 
         return false;
+    }
+
+    private int GetGloveArmor(IAgentOriginBase agentOrigin)
+    {
+        if (agentOrigin is CrpgBattleAgentOrigin crpgOrigin)
+        {
+            return crpgOrigin.ArmorItems.FirstOrDefault(a => a.type == ItemObject.ItemTypeEnum.HandArmor).armor?.ArmArmor ?? 0;
+        }
+
+        return 0;
     }
 }
