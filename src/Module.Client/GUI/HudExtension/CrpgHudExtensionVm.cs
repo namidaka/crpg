@@ -629,15 +629,15 @@ internal class CrpgHudExtensionVm : ViewModel
 
     public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerOrTeam1BannerVM, out ImageIdentifierVM? enemyBannerOrTeam2BannerVM, out string allyTeamOrTeam1Name, out string enemyTeamOrTeam2Name, bool byTeamIndex = false)
     {
-        var allyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: true, out allyTeamOrTeam1Name, byTeamIndex);
-        var enemyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: false, out enemyTeamOrTeam2Name, byTeamIndex);
-        var allyBannerCode = BannerCode.CreateFrom(allyBanner);
-        var enemyBannerCode = BannerCode.CreateFrom(enemyBanner);
-        ImageIdentifierVM allyImageId = new(allyBannerCode, true);
-        ImageIdentifierVM enemyImageId = new(enemyBannerCode, true);
+        var allyOrTeam1Banner = ResolveTeamBannerKey(allyTeamOrTeam1: true, out allyTeamOrTeam1Name, byTeamIndex);
+        var enemyOrTeam2Banner = ResolveTeamBannerKey(allyTeamOrTeam1: false, out enemyTeamOrTeam2Name, byTeamIndex);
+        var allyOrTeam1BannerCode = BannerCode.CreateFrom(allyOrTeam1Banner);
+        var enemyOrTeam2BannerCode = BannerCode.CreateFrom(enemyOrTeam2Banner);
+        ImageIdentifierVM allyOrTeam2ImageId = new(allyOrTeam1BannerCode, true);
+        ImageIdentifierVM enemyOrTeam2ImageId = new(enemyOrTeam2BannerCode, true);
 
-        allyBannerOrTeam1BannerVM = allyImageId;
-        enemyBannerOrTeam2BannerVM = enemyImageId;
+        allyBannerOrTeam1BannerVM = allyOrTeam2ImageId;
+        enemyBannerOrTeam2BannerVM = enemyOrTeam2ImageId;
     }
 
     public static Banner? ResolveTeamBannerKey(bool allyTeamOrTeam1, out string teamName, bool byTeamIndex = false)
