@@ -14,6 +14,7 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.PlatformService;
 using TaleWorlds.PlayerServices;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
+using Crpg.Module.Gui;
 
 namespace Crpg.Module.GUI.Scoreboard;
 internal class CrpgMissionScoreboardVM : ViewModel
@@ -24,7 +25,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private const float PermissionCheckDuration = 45f;
 
-    private readonly Dictionary<BattleSideEnum, MissionScoreboardSideVM> _missionSides = default!;
+    private readonly Dictionary<BattleSideEnum, CrpgScoreboardSideVM> _missionSides = default!;
 
     private readonly MissionScoreboardComponent _missionScoreboardComponent = default!;
 
@@ -52,7 +53,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private MPEndOfBattleVM _endOfBattle = default!;
 
-    private MBBindingList<MissionScoreboardSideVM> _sides = default!;
+    private MBBindingList<CrpgScoreboardSideVM> _sides = default!;
 
     private MBBindingList<StringPairItemWithActionVM> _playerActionList = default!;
 
@@ -103,8 +104,8 @@ internal class CrpgMissionScoreboardVM : ViewModel
         }
         EndOfBattle = new MPEndOfBattleVM(mission, _missionScoreboardComponent, isSingleTeam);
         PlayerActionList = new MBBindingList<StringPairItemWithActionVM>();
-        Sides = new MBBindingList<MissionScoreboardSideVM>();
-        _missionSides = new Dictionary<BattleSideEnum, MissionScoreboardSideVM>();
+        Sides = new MBBindingList<CrpgScoreboardSideVM>();
+        _missionSides = new Dictionary<BattleSideEnum, CrpgScoreboardSideVM>();
         IsSingleSide = isSingleTeam;
         InitSides();
         GameKey gameKey = HotKeyManager.GetCategory("ScoreboardHotKeyCategory").GetGameKey(35);
@@ -122,9 +123,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private void OnPlayerPlatformMuteChanged(PlayerId playerId, bool isPlayerMuted)
     {
-        foreach (MissionScoreboardSideVM missionScoreboardSideVM in Sides)
+        foreach (CrpgScoreboardSideVM CrpgScoreboardSideVM in Sides)
         {
-            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in missionScoreboardSideVM.Players)
+            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in CrpgScoreboardSideVM.Players)
             {
                 if (missionScoreboardPlayerVM.Peer.Peer.Id.Equals(playerId))
                 {
@@ -137,9 +138,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private void OnPlayerMuteChanged(PlayerId playerId, bool isMuted)
     {
-        foreach (MissionScoreboardSideVM missionScoreboardSideVM in Sides)
+        foreach (CrpgScoreboardSideVM CrpgScoreboardSideVM in Sides)
         {
-            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in missionScoreboardSideVM.Players)
+            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in CrpgScoreboardSideVM.Players)
             {
                 if (missionScoreboardPlayerVM.Peer.Peer.Id.Equals(playerId))
                 {
@@ -157,7 +158,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
         UpdateToggleMuteText();
         GameModeText = GameTexts.FindText("str_multiplayer_game_type", missionBehavior.MissionType.ToString()).ToString().ToLower();
         EndOfBattle.RefreshValues();
-        Sides.ApplyActionOnAllItems(delegate (MissionScoreboardSideVM x)
+        Sides.ApplyActionOnAllItems(delegate (CrpgScoreboardSideVM x)
         {
             x.RefreshValues();
         });
@@ -313,13 +314,13 @@ internal class CrpgMissionScoreboardVM : ViewModel
                 endOfBattle.Tick(dt);
             }
             CheckAttributeRefresh(dt);
-            foreach (MissionScoreboardSideVM missionScoreboardSideVM in Sides)
+            foreach (CrpgScoreboardSideVM CrpgScoreboardSideVM in Sides)
             {
-                missionScoreboardSideVM.Tick(dt);
+                CrpgScoreboardSideVM.Tick(dt);
             }
-            foreach (MissionScoreboardSideVM missionScoreboardSideVM2 in Sides)
+            foreach (CrpgScoreboardSideVM CrpgScoreboardSideVM2 in Sides)
             {
-                foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in missionScoreboardSideVM2.Players)
+                foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in CrpgScoreboardSideVM2.Players)
                 {
                     missionScoreboardPlayerVM.RefreshDivision(IsSingleSide);
                 }
@@ -352,9 +353,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
         {
             _voiceChatHandler.OnPeerMuteStatusUpdated -= OnPeerMuteStatusUpdated;
         }
-        foreach (MissionScoreboardSideVM missionScoreboardSideVM in Sides)
+        foreach (CrpgScoreboardSideVM CrpgScoreboardSideVM in Sides)
         {
-            missionScoreboardSideVM.OnFinalize();
+            CrpgScoreboardSideVM.OnFinalize();
         }
     }
 
@@ -389,9 +390,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private void OnRoundPropertiesChanged()
     {
-        foreach (MissionScoreboardSideVM missionScoreboardSideVM in _missionSides.Values)
+        foreach (CrpgScoreboardSideVM CrpgScoreboardSideVM in _missionSides.Values)
         {
-            missionScoreboardSideVM.UpdateRoundAttributes();
+            CrpgScoreboardSideVM.UpdateRoundAttributes();
         }
     }
 
@@ -419,9 +420,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private void OnMVPSelected(MissionPeer mvpPeer, int mvpCount)
     {
-        foreach (MissionScoreboardSideVM missionScoreboardSideVM in Sides)
+        foreach (CrpgScoreboardSideVM CrpgScoreboardSideVM in Sides)
         {
-            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in missionScoreboardSideVM.Players)
+            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in CrpgScoreboardSideVM.Players)
             {
                 if (missionScoreboardPlayerVM.Peer == mvpPeer)
                 {
@@ -448,9 +449,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
         if (IsSingleSide)
         {
             MissionScoreboardComponent.MissionScoreboardSide sideSafe = _missionScoreboardComponent.GetSideSafe(BattleSideEnum.Defender);
-            MissionScoreboardSideVM missionScoreboardSideVM = new MissionScoreboardSideVM(sideSafe, new Action<MissionScoreboardPlayerVM>(ExecutePopulateActionList), IsSingleSide, false);
-            Sides.Add(missionScoreboardSideVM);
-            _missionSides.Add(sideSafe.Side, missionScoreboardSideVM);
+            CrpgScoreboardSideVM CrpgScoreboardSideVM = new(sideSafe, new Action<MissionScoreboardPlayerVM>(ExecutePopulateActionList), IsSingleSide, false);
+            Sides.Add(CrpgScoreboardSideVM);
+            _missionSides.Add(sideSafe.Side, CrpgScoreboardSideVM);
             return;
         }
 
@@ -470,16 +471,16 @@ internal class CrpgMissionScoreboardVM : ViewModel
         MissionScoreboardComponent.MissionScoreboardSide missionScoreboardSide = _missionScoreboardComponent.Sides.FirstOrDefault((MissionScoreboardComponent.MissionScoreboardSide s) => s != null && s.Side == firstSideToAdd);
         if (missionScoreboardSide != null)
         {
-            MissionScoreboardSideVM missionScoreboardSideVM2 = new MissionScoreboardSideVM(missionScoreboardSide, new Action<MissionScoreboardPlayerVM>(ExecutePopulateActionList), IsSingleSide, false);
-            Sides.Add(missionScoreboardSideVM2);
-            _missionSides.Add(missionScoreboardSide.Side, missionScoreboardSideVM2);
+            CrpgScoreboardSideVM CrpgScoreboardSideVM2 = new(missionScoreboardSide, new Action<MissionScoreboardPlayerVM>(ExecutePopulateActionList), IsSingleSide, false);
+            Sides.Add(CrpgScoreboardSideVM2);
+            _missionSides.Add(missionScoreboardSide.Side, CrpgScoreboardSideVM2);
         }
         missionScoreboardSide = _missionScoreboardComponent.Sides.FirstOrDefault((MissionScoreboardComponent.MissionScoreboardSide s) => s != null && s.Side == secondSideToAdd);
         if (missionScoreboardSide != null)
         {
-            MissionScoreboardSideVM missionScoreboardSideVM3 = new MissionScoreboardSideVM(missionScoreboardSide, new Action<MissionScoreboardPlayerVM>(ExecutePopulateActionList), IsSingleSide, true);
-            Sides.Add(missionScoreboardSideVM3);
-            _missionSides.Add(missionScoreboardSide.Side, missionScoreboardSideVM3);
+            CrpgScoreboardSideVM CrpgScoreboardSideVM3 = new(missionScoreboardSide, new Action<MissionScoreboardPlayerVM>(ExecutePopulateActionList), IsSingleSide, true);
+            Sides.Add(CrpgScoreboardSideVM3);
+            _missionSides.Add(missionScoreboardSide.Side, CrpgScoreboardSideVM3);
         }
     }
 
@@ -528,9 +529,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     public void ExecuteToggleMute()
     {
-        foreach (MissionScoreboardSideVM missionScoreboardSideVM in Sides)
+        foreach (CrpgScoreboardSideVM CrpgScoreboardSideVM in Sides)
         {
-            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in missionScoreboardSideVM.Players)
+            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in CrpgScoreboardSideVM.Players)
             {
                 if (!missionScoreboardPlayerVM.IsMine && missionScoreboardPlayerVM.Peer != null)
                 {
@@ -556,9 +557,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private void OnPeerMuteStatusUpdated(MissionPeer peer)
     {
-        foreach (MissionScoreboardSideVM missionScoreboardSideVM in Sides)
+        foreach (CrpgScoreboardSideVM CrpgScoreboardSideVM in Sides)
         {
-            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in missionScoreboardSideVM.Players)
+            foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in CrpgScoreboardSideVM.Players)
             {
                 if (missionScoreboardPlayerVM.Peer == peer)
                 {
@@ -604,7 +605,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
     }
 
     [DataSourceProperty]
-    public MBBindingList<MissionScoreboardSideVM> Sides
+    public MBBindingList<CrpgScoreboardSideVM> Sides
     {
         get
         {

@@ -100,7 +100,6 @@ public class CrpgScoreboardSideVM : ViewModel
             return;
         }
         playerSortController.RefreshValues();
-        CrpgHudExtensionVm.UpdateTeamBanners(AllyBanner, EnemyBanner);
     }
 
     public void Tick(float dt)
@@ -109,6 +108,9 @@ public class CrpgScoreboardSideVM : ViewModel
         {
             missionScoreboardPlayerVM.Tick(dt);
         }
+        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner,out ImageIdentifierVM? enemyBanner);
+        AllyBanner = allyBanner;
+        EnemyBanner = enemyBanner;
     }
 
     public override void OnFinalize()

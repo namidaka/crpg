@@ -675,7 +675,9 @@ internal class CrpgHudExtensionVm : ViewModel
     private void OnCurrentGameModeStateChanged()
     {
         CheckTimers(true);
-        UpdateTeamBanners(AllyBanner, EnemyBanner);
+        UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner);
+        AllyBanner = allyBanner;
+        EnemyBanner = enemyBanner;
     }
 
     private void UpdateTeamScores()
@@ -691,7 +693,7 @@ internal class CrpgHudExtensionVm : ViewModel
         EnemyTeamScore = _isAttackerTeamAlly ? defenderScore : attackScore;
     }
 
-    public static void UpdateTeamBanners(ImageIdentifierVM? allyBannerVM, ImageIdentifierVM? enemyBannerVM)
+    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerVM,out ImageIdentifierVM? enemyBannerVM)
     {
         var allyBanner = ResolveTeamBannerKey(allyTeam: true);
         var enemyBanner = ResolveTeamBannerKey(allyTeam: false);
@@ -707,8 +709,9 @@ internal class CrpgHudExtensionVm : ViewModel
     public static Banner? ResolveTeamBannerKey(bool allyTeam)
     {
         Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
-        Team myTeam = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team;
-        Team enemyTeam = Mission.Current.Teams.First(t => t.TeamIndex != myTeam.TeamIndex && t.TeamIndex != 0);
+        var myMissionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
+        Team myTeam = (myMissionPeer?.Team?.TeamIndex ?? 0) == 0 ? Mission.Current.Teams[1] : GameNetwork.MyPeer.GetComponent<MissionPeer>().Team;
+        Team enemyTeam = myTeam.TeamIndex == 0 ? Mission.Current.Teams[2] : Mission.Current.Teams.First(t => t.TeamIndex != myTeam.TeamIndex && t.TeamIndex != 0);
         foreach (var networkPeer in GameNetwork.NetworkPeers)
         {
             var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
@@ -762,7 +765,9 @@ internal class CrpgHudExtensionVm : ViewModel
             CommanderInfo?.OnTeamChanged();
         }
 
-        UpdateTeamBanners(AllyBanner, EnemyBanner);
+        UpdateTeamBanners(out ImageIdentifierVM? allyBanner,out ImageIdentifierVM? enemyBanner);
+        AllyBanner = allyBanner;
+        EnemyBanner = enemyBanner;
 
         if (CommanderInfo == null)
         {
