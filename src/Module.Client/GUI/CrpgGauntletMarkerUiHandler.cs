@@ -22,7 +22,7 @@ internal class CrpgGauntletMarkerUiHandler : MissionView
         base.OnMissionScreenInitialize();
         _dataSource = new CrpgMissionMarkerVm(MissionScreen.CombatCamera, _gameModeClient);
         _gauntletLayer = new GauntletLayer(1);
-        _gauntletLayer.LoadMovie("MPMissionMarkers", _dataSource);
+        _gauntletLayer.LoadMovie("CrpgMissionMarkers", _dataSource);
         MissionScreen.AddLayer(_gauntletLayer);
     }
 
