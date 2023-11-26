@@ -91,10 +91,9 @@
 
                         <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!DividerNotched.Height" HorizontalAlignment="Center" MarginTop="115" MarginLeft="30" MarginRight="30" Sprite="MPClassLoadout\divider_notched_for_item_icons" />
 
-                        <MultiplayerFactionBannerWidget DataSource="{AllySide}" UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Left.Width" SuggestedHeight="!EndOfBattle.Banner.Left.Height" HorizontalAlignment="Left" MarginTop="128" MarginLeft="260" FactionCode="@CultureId" BannerWidget="Banner" IconWidget="Icon" UseSecondary="@UseSecondary">
+                        <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Left.Width" SuggestedHeight="!EndOfBattle.Banner.Left.Height" HorizontalAlignment="Left" MarginTop="128" MarginLeft="260" FactionCode="@CultureId" BannerWidget="Banner" IconWidget="Icon" UseSecondary="@UseSecondary">
                           <Children>
-                            <BrushWidget Id="Banner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPTeamSelection.Banner.Left" />
-                            <Widget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="220" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-30" />
+                            <MaskedTextureWidget DataSource="{AllyBanner}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="ClanNaming.Stage.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
 
                             <Widget IsHidden="@IsRoundWinner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPGeneral\MPScoreboard\loser_dirt" />
 
@@ -103,10 +102,9 @@
                           </Children>
                         </MultiplayerFactionBannerWidget>
 
-                        <MultiplayerFactionBannerWidget DataSource="{EnemySide}" UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Right.Width" SuggestedHeight="!EndOfBattle.Banner.Right.Height" HorizontalAlignment="Right" MarginTop="128" MarginRight="260" FactionCode="@CultureId" BannerWidget="Banner" IconWidget="Icon" UseSecondary="@UseSecondary">
+                        <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Right.Width" SuggestedHeight="!EndOfBattle.Banner.Right.Height" HorizontalAlignment="Right" MarginTop="128" MarginRight="260" FactionCode="@CultureId" BannerWidget="Banner" IconWidget="Icon" UseSecondary="@UseSecondary">
                           <Children>
-                            <BrushWidget Id="Banner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPTeamSelection.Banner.Right" />
-                            <Widget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="220" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-30"/>
+                            <MaskedTextureWidget DataSource="{EnemyBanner}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="ClanNaming.Stage.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
 
                             <Widget IsHidden="@IsRoundWinner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPGeneral\MPScoreboard\loser_dirt" />
 

@@ -1,0 +1,43 @@
+<Prefab>
+  <Window>
+    <NameMarkerScreenWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="BlankWhiteSquare_9" Brush.AlphaFactor="0" Brush.Color="#000000FF" IsMarkersEnabled="@IsEnabled" TargetAlphaValue="0.0" MarkersContainer="MarkersContainer">
+      <Children>
+
+        <Widget Id="MarkersContainer" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+          <Children>
+
+            <Widget DataSource="{FlagTargets}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+              <ItemTemplate>
+                <MPMissionMarkerFlag />
+              </ItemTemplate>
+            </Widget>
+
+            <Widget DataSource="{PeerTargets}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+              <ItemTemplate>
+                <MPMissionMarkerPeer />
+              </ItemTemplate>
+            </Widget>
+
+            <Widget DataSource="{SiegeEngineTargets}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+              <ItemTemplate>
+                <MPMissionMarkerSiegeEngine />
+              </ItemTemplate>
+            </Widget>
+
+          </Children>
+        </Widget>
+
+        <Widget DataSource="{AlwaysVisibleTargets}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+          <ItemTemplate>
+            <AlwaysVisibleNameMarkerListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop" Position="@ScreenPosition" Command.Remove="ExecuteRemove">
+              <Children>
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="40" Sprite="General\Mission\PersonalKillfeed\kill_icon" Brush.Color="#FAFAFAFF" />
+              </Children>
+            </AlwaysVisibleNameMarkerListPanel>
+          </ItemTemplate>
+        </Widget>
+
+      </Children>
+    </NameMarkerScreenWidget>
+  </Window>
+</Prefab>

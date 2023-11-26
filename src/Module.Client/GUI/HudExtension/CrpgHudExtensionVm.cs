@@ -47,8 +47,8 @@ internal class CrpgHudExtensionVm : ViewModel
     private bool _isInWarmup;
     private int _generalWarningCountdown;
     private bool _isGeneralWarningCountdownActive;
-    private ImageIdentifierVM? _defenderBanner;
-    private ImageIdentifierVM? _attackerBanner;
+    private ImageIdentifierVM? _allyBanner;
+    private ImageIdentifierVM? _enemyBanner;
 
     public CrpgHudExtensionVm(Mission mission)
     {
@@ -185,16 +185,16 @@ internal class CrpgHudExtensionVm : ViewModel
     {
         get
         {
-            return _defenderBanner;
+            return _allyBanner;
         }
         set
         {
-            if (value == _defenderBanner)
+            if (value == _allyBanner)
             {
                 return;
             }
 
-            _defenderBanner = value;
+            _allyBanner = value;
             OnPropertyChangedWithValue(value);
         }
     }
@@ -204,16 +204,16 @@ internal class CrpgHudExtensionVm : ViewModel
     {
         get
         {
-            return _attackerBanner;
+            return _enemyBanner;
         }
         set
         {
-            if (value == _attackerBanner)
+            if (value == _enemyBanner)
             {
                 return;
             }
 
-            _attackerBanner = value;
+            _enemyBanner = value;
             OnPropertyChangedWithValue(value);
         }
     }
@@ -693,7 +693,7 @@ internal class CrpgHudExtensionVm : ViewModel
         EnemyTeamScore = _isAttackerTeamAlly ? defenderScore : attackScore;
     }
 
-    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerVM,out ImageIdentifierVM? enemyBannerVM)
+    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerVM, out ImageIdentifierVM? enemyBannerVM)
     {
         var allyBanner = ResolveTeamBannerKey(allyTeam: true);
         var enemyBanner = ResolveTeamBannerKey(allyTeam: false);

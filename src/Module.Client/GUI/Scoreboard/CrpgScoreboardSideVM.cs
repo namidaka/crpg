@@ -108,6 +108,7 @@ public class CrpgScoreboardSideVM : ViewModel
         {
             missionScoreboardPlayerVM.Tick(dt);
         }
+
         CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner,out ImageIdentifierVM? enemyBanner);
         AllyBanner = allyBanner;
         EnemyBanner = enemyBanner;
