@@ -95,10 +95,7 @@ internal class DtvHudVm : ViewModel
     [DataSourceProperty]
     public bool IsGameStarted
     {
-        get
-        {
-            return _isGameStarted;
-        }
+        get => _isGameStarted;
         set
         {
             if (value == _isGameStarted)
@@ -114,10 +111,7 @@ internal class DtvHudVm : ViewModel
     [DataSourceProperty]
     public string RoundLabel
     {
-        get
-        {
-            return _roundLabel;
-        }
+        get => _roundLabel;
         set
         {
             if (value != _roundLabel)
@@ -131,10 +125,7 @@ internal class DtvHudVm : ViewModel
     [DataSourceProperty]
     public string WaveLabel
     {
-        get
-        {
-            return _waveLabel;
-        }
+        get => _waveLabel;
         set
         {
             if (value != _waveLabel)
