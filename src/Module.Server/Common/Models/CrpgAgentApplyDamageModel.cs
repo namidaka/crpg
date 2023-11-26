@@ -54,15 +54,14 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         if (weapon.IsEmpty)
         {
             // Increase fist damage with strength and glove armor.
-            // Alternate attack if is weapon empty is a kick.
             int strengthSkill = GetSkillValue(attackInformation.AttackerAgentOrigin, CrpgSkills.Strength);
             int glovearmor = GetGloveArmor(attackInformation.AttackerAgentOrigin);
-            if (collisionData.IsAlternativeAttack)
+            if (collisionData.IsAlternativeAttack) //Kick
             {
-                return (finalDamage * 0.75f) * (1 + 0.02f * strengthSkill);
+                return finalDamage * 0.75f * (1 + 0.02f * strengthSkill);
             }
 
-            return (finalDamage * 0.75f) * (1 + (0.02f * strengthSkill) + (0.04f * glovearmor));
+            return finalDamage * 0.75f * (1 + 0.02f * strengthSkill + 0.04f * glovearmor);
         }
 
         // CalculateShieldDamage only has dmg as parameter. Therefore it cannot be used to get any Skill values.
