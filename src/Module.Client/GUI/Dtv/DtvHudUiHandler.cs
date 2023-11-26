@@ -1,4 +1,5 @@
-﻿using TaleWorlds.Engine.GauntletUI;
+﻿using Crpg.Module.Modes.Dtv;
+using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.TwoDimension;
 
@@ -9,6 +10,7 @@ internal class DtvHudUiHandler : MissionView
     private DtvHudVm? _dataSource;
     private GauntletLayer? _gauntletLayer;
     private SpriteCategory? _mpMissionCategory;
+    private CrpgDtvClient? _dtvClient;
 
     public DtvHudUiHandler()
     {
@@ -28,6 +30,18 @@ internal class DtvHudUiHandler : MissionView
         MissionScreen.AddLayer(_gauntletLayer);
     }
 
+    public override void AfterStart()
+    {
+        base.AfterStart();
+        _dtvClient = Mission.GetMissionBehavior<CrpgDtvClient>();
+        if (_dtvClient != null)
+        {
+            _dtvClient.OnUpdateCurrentProgress += OnUpdateProgress;
+            _dtvClient.OnRoundStart += OnUpdateProgress;
+            _dtvClient.OnWaveStart += OnUpdateProgress;
+        }
+    }
+
     public override void OnMissionScreenFinalize()
     {
         MissionScreen.RemoveLayer(_gauntletLayer);
@@ -40,5 +54,10 @@ internal class DtvHudUiHandler : MissionView
     {
         base.OnMissionScreenTick(dt);
         _dataSource!.Tick(dt);
+    }
+
+    private void OnUpdateProgress()
+    {
+        _dataSource!.UpdateProgress();
     }
 }

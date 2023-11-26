@@ -187,7 +187,10 @@ internal class DtvHudVm : ViewModel
             AttackerMemberCount = Mission.Current.AttackerTeam.ActiveAgents.Count;
             DefenderMemberCount = Mission.Current.DefenderTeam.ActiveAgents.Count;
         }
+    }
 
+    public void UpdateProgress()
+    {
         CurrentWave = _client.CurrentWave;
         CurrentRound = _client.CurrentRound;
     }

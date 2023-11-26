@@ -9,6 +9,9 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
 {
     private int _currentWave;
     private int _currentRound;
+    public event Action OnUpdateCurrentProgress = default!;
+    public event Action OnWaveStart = default!;
+    public event Action OnRoundStart = default!;
 
     public int CurrentRound
     {
@@ -75,6 +78,14 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
     {
         CurrentRound = message.Round + 1;
         CurrentWave = message.Wave + 1;
+
+        Action onUpdateCurrentProgressEvent = OnUpdateCurrentProgress;
+        if (onUpdateCurrentProgressEvent == null)
+        {
+            return;
+        }
+
+        OnUpdateCurrentProgress();
     }
 
     private void HandleRoundStart(CrpgDtvRoundStartMessage message)
@@ -89,6 +100,14 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
         });
         CurrentRound = message.Round + 1;
         CurrentWave = 0;
+
+        Action onRoundStartEvent = OnRoundStart;
+        if (onRoundStartEvent == null)
+        {
+            return;
+        }
+
+        OnRoundStart();
     }
 
     private void HandleWaveStart(CrpgDtvWaveStartMessage message)
@@ -102,6 +121,14 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
             SoundEventPath = message.Wave == 0 ? null : "event:/ui/notification/quest_update",
         });
         CurrentWave = message.Wave + 1;
+
+        Action onWaveStartEvent = OnWaveStart;
+        if (onWaveStartEvent == null)
+        {
+            return;
+        }
+
+        OnWaveStart();
     }
 
     private void HandleViscountDeath(CrpgDtvGameEnd message)
