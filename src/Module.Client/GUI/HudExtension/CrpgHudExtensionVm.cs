@@ -627,20 +627,20 @@ internal class CrpgHudExtensionVm : ViewModel
         }
     }
 
-    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerOrTeam1BannerVM, out ImageIdentifierVM? enemyBannerOrTeam2BannerVM, out string allyTeamOrTeam1Name, out string enemyTeamOrTeam2Name, bool byTeamIndex = false)
+    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerOrDefenderTeamBannerVM, out ImageIdentifierVM? enemyBannerOrAttackerTeamBannerVM, out string allyTeamOrAttackerTeamName, out string enemyTeamOrDefenderTeamName, bool byTeamSide = false)
     {
-        var allyOrTeam1Banner = ResolveTeamBannerKey(allyTeamOrTeam1: true, out allyTeamOrTeam1Name, byTeamIndex);
-        var enemyOrTeam2Banner = ResolveTeamBannerKey(allyTeamOrTeam1: false, out enemyTeamOrTeam2Name, byTeamIndex);
-        var allyOrTeam1BannerCode = BannerCode.CreateFrom(allyOrTeam1Banner);
-        var enemyOrTeam2BannerCode = BannerCode.CreateFrom(enemyOrTeam2Banner);
-        ImageIdentifierVM allyOrTeam2ImageId = new(allyOrTeam1BannerCode, true);
-        ImageIdentifierVM enemyOrTeam2ImageId = new(enemyOrTeam2BannerCode, true);
+        var allyOrAttackerTeamBanner = ResolveTeamBannerKey(allyTeamOrAttackerTeam: true, out allyTeamOrAttackerTeamName, byTeamSide);
+        var enemyOrDefenderTeamBanner = ResolveTeamBannerKey(allyTeamOrAttackerTeam: false, out enemyTeamOrDefenderTeamName, byTeamSide);
+        var allyOrAttackerTeamBannerCode = BannerCode.CreateFrom(allyOrAttackerTeamBanner);
+        var enemyOrDefenderTeamBannerCode = BannerCode.CreateFrom(enemyOrDefenderTeamBanner);
+        ImageIdentifierVM allyOrDefenderImageId = new(allyOrAttackerTeamBannerCode, true);
+        ImageIdentifierVM enemyOrAttackerImageId = new(enemyOrDefenderTeamBannerCode, true);
 
-        allyBannerOrTeam1BannerVM = allyOrTeam2ImageId;
-        enemyBannerOrTeam2BannerVM = enemyOrTeam2ImageId;
+        allyBannerOrDefenderTeamBannerVM = allyOrDefenderImageId;
+        enemyBannerOrAttackerTeamBannerVM = enemyOrAttackerImageId;
     }
 
-    public static Banner? ResolveTeamBannerKey(bool allyTeamOrTeam1, out string teamName, bool byTeamIndex = false)
+    public static Banner? ResolveTeamBannerKey(bool allyTeamOrAttackerTeam, out string teamName, bool byTeamSide = false)
     {
         if (Mission.Current.Teams.Count == 0)
         {
@@ -651,27 +651,27 @@ internal class CrpgHudExtensionVm : ViewModel
         Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
         var myMissionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
         Team myTeam = (myMissionPeer?.Team?.TeamIndex ?? 0) == 0
-            ? Mission.Current.Teams[1]
+            ? Mission.Current.Teams.Attacker
             : GameNetwork.MyPeer.GetComponent<MissionPeer>().Team;
         Team enemyTeam = myTeam.TeamIndex == 0
-            ? Mission.Current.Teams[2]
+            ? Mission.Current.Teams.Defender
             : Mission.Current.Teams.First(t => t.TeamIndex != myTeam.TeamIndex && t.TeamIndex != 0);
 
         foreach (var networkPeer in GameNetwork.NetworkPeers)
         {
             var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
             var missionPeer = networkPeer.GetComponent<MissionPeer>();
-            bool isAlliedOrIsTeam1 = byTeamIndex
-                ? missionPeer.Team == Mission.Current.Teams[1]
+            bool isAlliedOrIsTeam1 = byTeamSide
+                ? missionPeer.Team == Mission.Current.Teams.Attacker
                 : missionPeer.Team == myTeam;
-            bool isEnemyOrTeam2 = byTeamIndex
-                ? missionPeer.Team == Mission.Current.Teams[2]
+            bool isEnemyOrTeam2 = byTeamSide
+                ? missionPeer.Team == Mission.Current.Teams.Defender
                 : missionPeer.Team != myTeam;
-            bool isSelected = allyTeamOrTeam1
+            bool isSelected = allyTeamOrAttackerTeam
                 ? isAlliedOrIsTeam1
                 : isEnemyOrTeam2;
 
-            if (missionPeer == null || crpgPeer?.User == null || !isSelected || crpgPeer?.Clan == null)
+            if (missionPeer == null || crpgPeer?.User == null || !isSelected || crpgPeer?.Clan == null || missionPeer.Team.TeamIndex == 0)
             {
                 continue;
             }
@@ -697,22 +697,22 @@ internal class CrpgHudExtensionVm : ViewModel
         {
             string team1Name = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
             string team2Name = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
-            if (byTeamIndex)
+            if (byTeamSide)
             {
-                if (allyTeamOrTeam1)
+                if (allyTeamOrAttackerTeam)
                 {
                     teamName = team1Name;
-                    return Mission.Current.Teams[1].Banner;
+                    return Mission.Current.Teams.Attacker.Banner;
                 }
                 else
                 {
                     teamName = team2Name;
-                    return Mission.Current.Teams[2].Banner;
+                    return Mission.Current.Teams.Defender.Banner;
                 }
             }
             else
             {
-                if (allyTeamOrTeam1)
+                if (allyTeamOrAttackerTeam)
                 {
                     if (myTeam.TeamIndex == 1)
                     {

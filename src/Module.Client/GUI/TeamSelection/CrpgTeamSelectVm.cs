@@ -37,7 +37,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             _onClose = onClose;
             _onAutoAssign = onAutoAssign;
             _gamemodeStr = gamemode;
-            CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? team1Banner, out ImageIdentifierVM? team2Banner, out string team1Name, out string team2Name, byTeamIndex: true);
+            CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? team1Banner, out ImageIdentifierVM? team2Banner, out string team1Name, out string team2Name, byTeamSide: true);
 
             _gameMode = mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>();
             MissionScoreboardComponent missionBehavior = mission.GetMissionBehavior<MissionScoreboardComponent>();
@@ -47,11 +47,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             Team spectatorTeam = teams.FirstOrDefault((Team t) => t.Side == BattleSideEnum.None);
             TeamSpectators = new CrpgTeamSelectInstanceVM(missionBehavior, spectatorTeam, null, null, onChangeTeamTo, false, new TextObject("{=pSheKLB4}Spectator", null).ToString());
 
-            Team team1 = teams.FirstOrDefault((Team t) => t.TeamIndex == 1);
+            Team team1 = teams.FirstOrDefault((Team t) => t.Side == BattleSideEnum.Attacker);
             BasicCultureObject culture1 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
             Team1 = new CrpgTeamSelectInstanceVM(missionBehavior, team1, culture1, team1Banner, onChangeTeamTo, false, team1Name);
 
-            Team team2 = teams.FirstOrDefault((Team t) => t.TeamIndex == 2);
+            Team team2 = teams.FirstOrDefault((Team t) => t.Side == BattleSideEnum.Defender);
             BasicCultureObject culture2 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
             Team2 = new CrpgTeamSelectInstanceVM(missionBehavior, team2, culture2, team2Banner, onChangeTeamTo, true, team2Name);
 
