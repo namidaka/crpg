@@ -48,10 +48,7 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
         CountdownTitle = new TextObject("{=wGjQgQlY}Next Game begins in:", null).ToString();
         Header = new TextObject("{=HXxNfncd}End of Battle", null).ToString();
         MPEndOfBattleSideVM allySide = AllySide;
-        if (allySide != null)
-        {
-            allySide.RefreshValues();
-        }
+        allySide?.RefreshValues();
 
         MPEndOfBattleSideVM enemySide = EnemySide;
         if (enemySide == null)
@@ -116,7 +113,7 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
         _allyBattleSide = BattleSideEnum.Attacker;
         _enemyBattleSide = BattleSideEnum.Defender;
         NetworkCommunicator myPeer = GameNetwork.MyPeer;
-        MissionPeer? missionPeer = (myPeer != null) ? myPeer.GetComponent<MissionPeer>() : null;
+        MissionPeer? missionPeer = myPeer?.GetComponent<MissionPeer>();
         if (missionPeer != null)
         {
             Team team = missionPeer.Team;

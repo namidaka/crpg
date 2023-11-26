@@ -317,10 +317,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
         if (IsActive)
         {
             CrpgScoreboardEndOfBattleVM endOfBattle = EndOfBattle;
-            if (endOfBattle != null)
-            {
-                endOfBattle.Tick(dt);
-            }
+            endOfBattle?.Tick(dt);
 
             CheckAttributeRefresh(dt);
             foreach (CrpgScoreboardSideVM crpgScoreboardSideVM in Sides)

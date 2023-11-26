@@ -693,31 +693,34 @@ internal class CrpgHudExtensionVm : ViewModel
         EnemyTeamScore = _isAttackerTeamAlly ? defenderScore : attackScore;
     }
 
-    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerVM, out ImageIdentifierVM? enemyBannerVM)
+    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerOrTeam1BannerVM, out ImageIdentifierVM? enemyBannerOrTeam2BannerVM, bool byTeamIndex = false)
     {
-        var allyBanner = ResolveTeamBannerKey(allyTeam: true);
-        var enemyBanner = ResolveTeamBannerKey(allyTeam: false);
+        var allyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: true, byTeamIndex);
+        var enemyBanner = ResolveTeamBannerKey(allyTeamOrTeam1: false, byTeamIndex);
         var allyBannerCode = BannerCode.CreateFrom(allyBanner);
         var enemyBannerCode = BannerCode.CreateFrom(enemyBanner);
         ImageIdentifierVM allyImageId = new(allyBannerCode, true);
         ImageIdentifierVM enemyImageId = new(enemyBannerCode, true);
 
-        allyBannerVM = allyImageId;
-        enemyBannerVM = enemyImageId;
+        allyBannerOrTeam1BannerVM = allyImageId;
+        enemyBannerOrTeam2BannerVM = enemyImageId;
     }
 
-    public static Banner? ResolveTeamBannerKey(bool allyTeam)
+    public static Banner? ResolveTeamBannerKey(bool allyTeamOrTeam1, bool byTeamIndex = false)
     {
         Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
         var myMissionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
         Team myTeam = (myMissionPeer?.Team?.TeamIndex ?? 0) == 0 ? Mission.Current.Teams[1] : GameNetwork.MyPeer.GetComponent<MissionPeer>().Team;
         Team enemyTeam = myTeam.TeamIndex == 0 ? Mission.Current.Teams[2] : Mission.Current.Teams.First(t => t.TeamIndex != myTeam.TeamIndex && t.TeamIndex != 0);
+
         foreach (var networkPeer in GameNetwork.NetworkPeers)
         {
             var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
             var missionPeer = networkPeer.GetComponent<MissionPeer>();
-            bool isAllied = missionPeer.Team == myTeam;
-            bool isSelected = allyTeam ? isAllied : !isAllied;
+            bool isAlliedOrIsTeam1 = byTeamIndex ? missionPeer.Team == Mission.Current.Teams[1] : missionPeer.Team == myTeam;
+            bool isEnemyOrTeam2 = byTeamIndex ? missionPeer.Team == Mission.Current.Teams[2] : missionPeer.Team != myTeam;
+            bool isSelected = allyTeamOrTeam1 ? isAlliedOrIsTeam1 : isEnemyOrTeam2;
+
             if (missionPeer == null || crpgPeer?.User == null || !isSelected || crpgPeer?.Clan == null)
             {
                 continue;
@@ -746,7 +749,16 @@ internal class CrpgHudExtensionVm : ViewModel
 
         if (maxClan.Value.clan == null)
         {
-            return allyTeam ? myTeam.Banner : enemyTeam.Banner;
+            return
+                byTeamIndex
+                    ? allyTeamOrTeam1
+                        ? Mission.Current.Teams[1].Banner
+                        : Mission.Current.Teams[2].Banner
+                    : allyTeamOrTeam1
+                        ? myTeam.Banner
+                        : enemyTeam.Banner;
+
+
         }
 
         return new Banner(maxClan.Value.clan.BannerKey, maxClan.Value.clan.PrimaryColor, maxClan.Value.clan.SecondaryColor);

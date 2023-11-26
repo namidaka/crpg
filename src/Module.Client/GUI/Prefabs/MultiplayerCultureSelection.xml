@@ -1,0 +1,64 @@
+<Prefab>
+  <Constants>
+    <Constant Name="Background.Width" Value="800"/>
+
+    <Constant Name="Divider.Width" BrushName="MPTeamSelection.Divider" BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="Divider.Height" BrushName="MPTeamSelection.Divider" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="CloseButton.Width" BrushName="CloseButton.Flat" BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="CloseButton.Height" BrushName="CloseButton.Flat" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="BannerBrush" BooleanCheck="*IsAtLeft" OnTrue="MPTeamSelection.Banner.Left" OnFalse="MPTeamSelection.Banner.Right" />
+    <Constant Name="Banner.Width" BrushName="!BannerBrush" BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="Banner.Height" BrushName="!BannerBrush" BrushLayer="Default" BrushValueType="Height"/>
+
+  </Constants>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="BlankWhiteSquare_9" Color="#000000CC">
+      <Children>
+        <Widget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!Background.Width" HorizontalAlignment="Center" Sprite="flat_panel_9">
+          <Children>
+            <Widget ClipContents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="533" MarginLeft="60" MarginRight="60" VerticalAlignment="Bottom">
+              <Children>
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="1377" Sprite="StdAssets\flat_panel_texture" />
+              </Children>
+            </Widget>
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Top" HorizontalAlignment="Center" MarginTop="20" Brush="MPTeamSelection.HeaderText" Text="@CultureSelectionText"  />
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Divider.Width" SuggestedHeight="!Divider.Height" HorizontalAlignment="Center" MarginTop="70" Sprite="MPTeamSelection\divider_notched" />
+            <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="500" SuggestedHeight="50" VerticalAlignment="Top" HorizontalAlignment="Center" MarginTop="87" Brush="MPTeamSelection.SubHeaderText" Text="@GameModeText"/>
+
+            <NavigationScopeTargeter ScopeID="LeftCultureScope" ScopeParent="..\LeftCulture" />
+            <ButtonWidget Id="LeftCulture" UpdateChildrenStates="true" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Banner.Width" SuggestedHeight="!Banner.Height" MarginTop="50" MarginBottom="60" VerticalAlignment="Center" HorizontalAlignment="Left" MarginLeft="75" Command.Click="ExecuteSelectCulture" CommandParameter.Click="0" GamepadNavigationIndex="0">
+              <Children>
+                <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="200" SuggestedHeight="50" VerticalAlignment="Top" HorizontalAlignment="Center" PositionYOffset="-50" Brush="MPTeamSelection.FactionNameText" Text="@FirstCultureName"/>
+                <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" FactionCode="@FirstCultureCode" BannerWidget="Banner" IconWidget="Icon" UseSecondary="false">
+                  <Children>
+                    <BrushWidget Id="Banner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPTeamSelection.Banner.Right" />
+                    <Widget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="220" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-30"/>
+                  </Children>
+                </MultiplayerFactionBannerWidget>
+              </Children>
+            </ButtonWidget>
+
+            <NavigationScopeTargeter ScopeID="LeftCultureScope" ScopeParent="..\RightCulture" />
+            <ButtonWidget Id="RightCulture" UpdateChildrenStates="true" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Banner.Width" SuggestedHeight="!Banner.Height" MarginTop="50" MarginBottom="60" VerticalAlignment="Center" HorizontalAlignment="Right" MarginRight="75" Command.Click="ExecuteSelectCulture" CommandParameter.Click="1" GamepadNavigationIndex="0">
+              <Children>
+                <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="200" SuggestedHeight="50" VerticalAlignment="Top" HorizontalAlignment="Center" PositionYOffset="-50" Brush="MPTeamSelection.FactionNameText" Text="@SecondCultureName"/>
+                <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" FactionCode="@SecondCultureCode" BannerWidget="Banner" IconWidget="Icon" UseSecondary="false">
+                  <Children>
+                    <BrushWidget Id="Banner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPTeamSelection.Banner.Left" />
+                    <Widget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="220" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-30"/>
+                  </Children>
+                </MultiplayerFactionBannerWidget>
+              </Children>
+            </ButtonWidget>
+
+            <NavigationScopeTargeter ScopeID="CloseScope" ScopeParent="..\CloseButton" />
+            <ButtonWidget Id="CloseButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CloseButton.Width" SuggestedHeight="!CloseButton.Height" HorizontalAlignment="Right" VerticalAlignment="Top" MarginTop="10" MarginRight="55" Brush="CloseButton.Flat" Command.Click="ExecuteClose" GamepadNavigationIndex="0"/>
+
+          </Children>
+        </Widget>
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

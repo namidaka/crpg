@@ -1,0 +1,82 @@
+<Prefab>
+  <Parameters>
+    <Parameter Name="IsAtLeft" DefaultValue="true" />
+  </Parameters>
+  <Constants>
+    <Constant Name="BannerBrush" BooleanCheck="*IsAtLeft" OnTrue="MPTeamSelection.Banner.Left" OnFalse="MPTeamSelection.Banner.Right" />
+    <Constant Name="AvatarList.HorizontalAlignment" BooleanCheck="*IsAtLeft" OnTrue="Left" OnFalse="Right" />
+    <Constant Name="AvatarList.MarginLeft" BooleanCheck="*IsAtLeft" OnTrue="35" OnFalse="0" />
+    <Constant Name="AvatarList.MarginRight" BooleanCheck="*IsAtLeft" OnTrue="0" OnFalse="35" />
+
+    <Constant Name="LockImage.XOffset" BooleanCheck="*IsAtLeft" OnTrue="22" OnFalse="-22" />
+
+    <Constant Name="Banner.HorizontalAlignment" BooleanCheck="*IsAtLeft" OnTrue="Right" OnFalse="Left" />
+    <Constant Name="Banner.Width" BrushName="!BannerBrush" BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="Banner.Height" BrushName="!BannerBrush" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="AvatarFrame.Width" BrushName="MPTeamSelection.AvatarFrame" BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="AvatarFrame.Height" BrushName="MPTeamSelection.AvatarFrame" BrushLayer="Default" BrushValueType="Height"/>
+
+    <Constant Name="LockBackground.Width" BrushName="MPTeamSelection.LockBackground" BrushLayer="Default" BrushValueType="Width"/>
+    <Constant Name="LockBackground.Height" BrushName="MPTeamSelection.LockBackground" BrushLayer="Default" BrushValueType="Height"/>
+  </Constants>
+  <Window>
+    <Widget DoNotAcceptEvents="true" WidthSizePolicy = "CoverChildren" HeightSizePolicy = "CoverChildren" >
+      <Children>
+        <ListPanel DataSource = "{FriendAvatars}" StackLayout.LayoutMethod = "VerticalBottomToTop" WidthSizePolicy = "CoverChildren" HeightSizePolicy = "CoverChildren" HorizontalAlignment = "!AvatarList.HorizontalAlignment" VerticalAlignment="Top" MarginTop="140">
+          <ItemTemplate>
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="50" MarginBottom="5">
+              <Children>
+                <ImageIdentifierWidget DataSource="{Avatar}" DoNotAcceptEvents="true" ImageId="@Id" AdditionalArgs="@AdditionalArgs" ImageTypeCode="@ImageTypeCode" WidthSizePolicy = "StretchToParent" HeightSizePolicy = "StretchToParent" SuggestedWidth = "50" SuggestedHeight = "50" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Children>
+            </Widget>
+          </ItemTemplate>
+        </ListPanel>
+        <TextWidget Text="@FriendsExtraText" IsVisible="@HasExtraFriends" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!AvatarFrame.Width" SuggestedHeight="!AvatarFrame.Height" HorizontalAlignment = "!AvatarList.HorizontalAlignment" MarginTop="550" Brush="MPTeamSelection.ExtraFriendsText">
+          <Children>
+            <HintWidget DataSource="{FriendsExtraHint}" DoNotAcceptEvents="true" WidthSizePolicy = "StretchToParent" HeightSizePolicy = "StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" />
+          </Children>
+        </TextWidget>
+
+        <NavigationScopeTargeter ScopeID="TeamSelectionItemScope" ScopeParent="..\Button" />
+        <ButtonWidget Id="Button" Command.Click="ExecuteSelectTeam" UpdateChildrenStates="true" DoNotPassEventsToChildren="true" IsDisabled="@IsDisabled" WidthSizePolicy = "Fixed" HeightSizePolicy = "Fixed" SuggestedWidth = "!Banner.Width" SuggestedHeight = "!Banner.Height" MarginTop="50" MarginBottom="60" VerticalAlignment = "Center" HorizontalAlignment = "!Banner.HorizontalAlignment" MarginLeft="!AvatarList.MarginLeft" MarginRight="!AvatarList.MarginRight" GamepadNavigationIndex="0">
+          <Children>
+
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="63" SuggestedHeight="41" HorizontalAlignment="Center" PositionYOffset="-90" IsVisible="@IsSiege" UpdateChildrenStates="true">
+              <Children>
+                <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="63" SuggestedHeight="41" Brush="MPHud.Defender.Icon" HorizontalAlignment="Center" IsHidden="@IsAttacker"/>
+                <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="63" SuggestedHeight="41" Brush="MPHud.Attacker.Icon" HorizontalAlignment="Center" IsVisible="@IsAttacker"/>
+              </Children>
+            </Widget>
+
+
+            <TextWidget IntText="@Score" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" PositionYOffset="-85" Brush="MPTeamSelection.ScoreText" IsHidden="@IsSiege"/>
+
+            <TextWidget IsDisabled="@IsDisabled" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Top" HorizontalAlignment="Center" PositionYOffset="-50" Brush="MPTeamSelection.FactionNameText" Text="@DisplayedPrimary"/>
+
+
+            <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" FactionCode="@CultureId" BannerWidget="Banner" IconWidget="Icon" UseSecondary="@UseSecondary">
+              <Children>
+              <MaskedTextureWidget DataSource="{Banner}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="ClanNaming.Stage.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
+              </Children>
+            </MultiplayerFactionBannerWidget>
+
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="@DisplayedSecondary" PositionYOffset="24" Brush="MPTeamSelection.PlayerCountText"/>
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="@DisplayedSecondarySub" PositionYOffset="54" Brush="MPTeamSelection.BotCountText"/>
+          </Children>
+        </ButtonWidget>
+
+        <Widget DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" HorizontalAlignment="Center" VerticalAlignment="Center" PositionXOffset="!LockImage.XOffset" PositionYOffset="-40">
+          <Children>
+            <Widget IsVisible="@IsDisabled" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!LockBackground.Width" SuggestedHeight="!LockBackground.Height" HorizontalAlignment="Center" Sprite="MPTeamSelection\locked_for_balance" >
+              <Children>
+                <TextWidget Text="@LockText" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" PositionYOffset="2" Brush="MPTeamSelection.LockText"/>
+              </Children>
+            </Widget>
+          </Children>
+        </Widget>
+
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>
