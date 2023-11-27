@@ -10,7 +10,8 @@
 }
 
 .v-popper--theme-dropdown .v-popper__inner {
-  @apply rounded-lg border-none bg-base-200 py-1.5 drop-shadow-md;
+  @apply rounded-lg border-none bg-base-200 drop-shadow-md;
+  /* @apply py-1.5; TODO: */
 }
 
 .v-popper--theme-dropdown.v-popper--theme-dropdown-light .v-popper__arrow-inner,

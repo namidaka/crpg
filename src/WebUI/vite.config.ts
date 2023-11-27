@@ -57,10 +57,6 @@ export default defineConfig({
     },
   },
 
-  define: {
-    'process.env.ES_BUILD': process.env.ES_BUILD,
-  },
-
   plugins: [
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts(),

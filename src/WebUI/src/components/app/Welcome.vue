@@ -33,10 +33,29 @@ watch(
 <template>
   <Modal closable shown>
     <template #popper>
-      <div class="space-y-10 py-10">
-        <div class="prose prose-invert space-y-10 px-12">
-          <h2 class="text-center text-xl">Welcome!</h2>
+      <div class="w-[40rem] space-y-10">
+        <div class="relative h-[10rem]">
+          <!-- TODO: poster -->
+          <img
+            class="absolute inset-0 aspect-video h-full w-full object-cover opacity-50"
+            :src="`/images/bg/background-1.webp`"
+          />
 
+          <!-- TODO: heading cmp from clan-armory branch -->
+          <div
+            class="tem-center absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 select-none justify-center gap-8 text-center"
+          >
+            <SvgSpriteImg
+              name="logo-decor"
+              viewBox="0 0 108 10"
+              class="w-24 rotate-180 transform"
+            />
+            <h2 class="text-2xl text-white">Welcome warrior</h2>
+            <SvgSpriteImg name="logo-decor" viewBox="0 0 108 10" class="w-24" />
+          </div>
+        </div>
+
+        <div class="prose prose-invert space-y-10 px-12">
           <OTabs v-model="tabsModel" size="xl" :animated="false">
             <OTabItem :label="`Intro`" :value="PossibleValues.Steam">
               <!-- TODO: -->
