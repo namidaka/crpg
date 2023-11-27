@@ -109,7 +109,7 @@ const newItemCount = computed(
       <div>searchResult.pagination.total {{ searchResult.pagination.total }}</div>
     </div> -->
 
-    <div class="mb-2 flex items-center gap-6 overflow-x-auto pb-2">
+    <div class="mb-2 flex items-center gap-6 overflow-x-auto pb-2" data-s-d33>
       <VDropdown :triggers="['click']" placement="bottom-end">
         <OButton variant="primary" outlined size="xl" rounded>
           <FontAwesomeLayers full-width class="fa-2x">

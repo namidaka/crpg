@@ -11,9 +11,13 @@ import { useGameServerStats } from '@/composables/use-game-server-stats';
 import { usePollInterval } from '@/composables/use-poll-interval';
 import { mainHeaderHeightKey } from '@/symbols/common';
 import { scrollToTop } from '@/utils/scroll';
+import { VOnboardingWrapper, useVOnboarding } from 'v-onboarding';
+import { sleep } from '@/utils/promise';
+import { asyncPoll } from '@/utils/poll';
 
 const userStore = useUserStore();
 const route = useRoute();
+const router = useRouter();
 
 const { state: joinRestrictionRemainingDuration, execute: loadJoinRestriction } = useAsyncState(
   () => getUserActiveJoinRestriction(userStore.user!.id),
@@ -53,8 +57,72 @@ provide(mainHeaderHeightKey, mainHeaderHeight);
 const { subscribe, unsubscribe } = usePollInterval();
 const id = Symbol('fetchUser');
 
+//
+//
+//
+//
+
+const tryFindAttachToElement = async (selector: string) =>
+  Promise.resolve(Boolean(document.querySelector(selector)));
+
+const shownWelcome = ref(true);
+const wrapper = ref(null);
+const { start, goToStep, finish } = useVOnboarding(wrapper);
+
+const steps = [
+  {
+    attachTo: { element: '[data-s-d1]' },
+    content: {
+      title: 'Welcome!',
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit atque aliquam, sint dolorem amet soluta ut ipsa dolorum harum placeat.',
+    },
+  },
+  {
+    attachTo: { element: '[data-s-d22]' },
+    content: {
+      title: 'Welcome!22222222',
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit atque aliquam, sint dolorem amet soluta ut ipsa dolorum harum placeat.',
+    },
+    on: {
+      beforeStep: async options => {
+        await router.push({ name: 'Clans' });
+        await asyncPoll(
+          async () => {
+            return Promise.resolve({
+              done: await tryFindAttachToElement(options.step.attachTo.element),
+            });
+          },
+          50,
+          10
+        );
+      },
+    },
+  },
+  {
+    attachTo: { element: '[data-s-d33]' },
+    content: { title: 'Welcome!333333333' },
+    on: {
+      beforeStep: async options => {
+        await router.push({ name: 'Shop' });
+        await asyncPoll(
+          async () => {
+            return Promise.resolve({
+              done: await tryFindAttachToElement(options.step.attachTo.element),
+            });
+          },
+          50,
+          10
+        );
+      },
+    },
+  },
+];
+
 onMounted(() => {
   subscribe(id, userStore.fetchUser);
+  // start();
 });
 
 onBeforeUnmount(() => {
@@ -84,7 +152,7 @@ await Promise.all(promises);
             <SvgSpriteImg name="logo" viewBox="0 0 162 124" class="w-16" />
           </RouterLink>
 
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2" data-s-d1>
             <OnlinePlayers :gameServerStats="gameServerStats" />
           </div>
 
@@ -116,7 +184,7 @@ await Promise.all(promises);
           </template>
         </div>
 
-        <div v-if="userStore.user" class="gap flex items-center gap-5">
+        <div v-if="userStore.user" class="gap flex items-center gap-5" data-s-d2>
           <Coin
             :value="Number(animatedUserGold.toFixed(0))"
             v-tooltip.bottom="$t('user.field.gold')"
@@ -170,6 +238,31 @@ await Promise.all(promises);
                 <OIcon icon="settings" size="lg" />
                 {{ $t('setting.settings') }}
               </DropdownItem>
+
+              <VDropdown placement="left-start">
+                <DropdownItem>
+                  <OIcon icon="help-circle" size="lg" />
+                  Help
+                </DropdownItem>
+                <template #popper="{ hide }">
+                  <DropdownItem>TODO: helpful link 1</DropdownItem>
+                  <DropdownItem>TODO: helpful link 2</DropdownItem>
+                  <DropdownItem>TODO: Panos fu</DropdownItem>
+                  <DropdownItem
+                    @click="
+                      () => {
+                        hide();
+                        start();
+                      }
+                    "
+                  >
+                    <OIcon icon="reset" size="lg" />
+                    Reset onboarding
+                  </DropdownItem>
+                  <DropdownItem>TODO: helpful link 3</DropdownItem>
+                  <DropdownItem>TODO: helpful link 4</DropdownItem>
+                </template>
+              </VDropdown>
 
               <DropdownItem
                 @click="
@@ -231,5 +324,25 @@ await Promise.all(promises);
         />
       </div>
     </footer>
+
+    <Welcome
+      v-if="shownWelcome"
+      @start="
+        () => {
+          shownWelcome = false;
+          start();
+        }
+      "
+    />
+    <VOnboardingWrapper ref="wrapper" :steps="steps">
+      <template #default="{ previous, next, step, exit, isFirst, isLast, index }">
+        <OnboardingStep
+          v-bind="{ step, isFirst, isLast, index, stepsCount: steps.length }"
+          @next="next"
+          @previous="previous"
+          @exit="finish"
+        />
+      </template>
+    </VOnboardingWrapper>
   </div>
 </template>

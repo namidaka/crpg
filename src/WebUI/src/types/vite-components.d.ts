@@ -57,6 +57,7 @@ declare module 'vue' {
     MarkerSettlement: typeof import('./../components/strategus/map/markers/MarkerSettlement.vue')['default']
     Modal: typeof import('./../components/ui/Modal.vue')['default']
     NumericInput: typeof import('./../components/ui/NumericInput.vue')['default']
+    OnboardingStep: typeof import('./../components/onboarding/OnboardingStep.vue')['default']
     OnlinePlayers: typeof import('./../components/app/OnlinePlayers.vue')['default']
     PartyMovementLine: typeof import('./../components/strategus/map/PartyMovementLine.vue')['default']
     PatchNotes: typeof import('./../components/app/PatchNotes.vue')['default']
@@ -87,5 +88,6 @@ declare module 'vue' {
     UserPlatform: typeof import('./../components/user/UserPlatform.vue')['default']
     UserRestrictionGuide: typeof import('./../components/user/UserRestrictionGuide.vue')['default']
     UserRestrictionNotification: typeof import('./../components/user/UserRestrictionNotification.vue')['default']
+    Welcome: typeof import('./../components/app/Welcome.vue')['default']
   }
 }

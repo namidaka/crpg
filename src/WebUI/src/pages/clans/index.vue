@@ -60,6 +60,7 @@ await loadClans();
               rounded
               size="sm"
               data-aq-search-clan-input
+              data-s-d22
             />
           </div>
 
