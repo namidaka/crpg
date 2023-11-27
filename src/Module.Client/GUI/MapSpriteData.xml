@@ -17,7 +17,7 @@
   <SpriteCategories>
     <SpriteCategory>
       <Name>ui_mploading</Name>
-      <SpriteSheetCount>133</SpriteSheetCount>
+      <SpriteSheetCount>134</SpriteSheetCount>
       <SpriteSheetSize ID="1" Width="3840" Height="1935" />
       <SpriteSheetSize ID="2" Width="3840" Height="1935" />
       <SpriteSheetSize ID="3" Width="3383" Height="1902" />
@@ -139,6 +139,7 @@
       <SpriteSheetSize ID="131" Width="1920" Height="1080" />
       <SpriteSheetSize ID="132" Width="1920" Height="1080" />
       <SpriteSheetSize ID="133" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="134" Width="1920" Height="1080" />
       <AlwaysLoad />
     </SpriteCategory>
   </SpriteCategories>
@@ -1223,6 +1224,15 @@
       <SheetY>0</SheetY>
       <CategoryName>ui_mploading</CategoryName>
     </SpritePart>
+    <SpritePart>
+      <SheetID>134</SheetID>
+      <Name>crpg_dtv_ruinsofrahiz</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
   </SpriteParts>
   <Sprites>
     <GenericSprite>
@@ -1704,6 +1714,10 @@
     <GenericSprite>
       <Name>crpg_conquest_talmberg</Name>
       <SpritePartName>crpg_conquest_talmberg</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_dtv_ruinsofrahiz</Name>
+      <SpritePartName>crpg_dtv_ruinsofrahiz</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>
