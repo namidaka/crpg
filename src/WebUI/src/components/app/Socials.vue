@@ -18,6 +18,13 @@ const socialsLinks: SocialLink[] = [
     icon: 'patreon',
     href: 'https://www.patreon.com/crpg',
   },
+  // TODO: add afdian
+  // {
+  //   id: 'afdian',
+  //   title: 'Afdian',
+  //   icon: 'afdian',
+  //   href: 'https://afdian.net/a/c_rpg',
+  // },
   {
     id: 'discord',
     title: 'Discord',

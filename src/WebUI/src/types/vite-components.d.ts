@@ -49,6 +49,8 @@ declare module 'vue' {
     ItemFieldIcon: typeof import('./../components/item/ItemFieldIcon.vue')['default']
     ItemParam: typeof import('./../components/item/ItemParam.vue')['default']
     ItemRankIcon: typeof import('./../components/item/ItemRankIcon.vue')['default']
+    Kbd: typeof import('./../components/ui/Kbd.vue')['default']
+    KbdGroup: typeof import('./../components/ui/KbdGroup.vue')['default']
     LayerTerrain: typeof import('./../components/strategus/map/layers/LayerTerrain.vue')['default']
     Login: typeof import('./../components/app/Login.vue')['default']
     Loom: typeof import('./../components/app/Loom.vue')['default']
@@ -57,6 +59,9 @@ declare module 'vue' {
     MarkerSettlement: typeof import('./../components/strategus/map/markers/MarkerSettlement.vue')['default']
     Modal: typeof import('./../components/ui/Modal.vue')['default']
     NumericInput: typeof import('./../components/ui/NumericInput.vue')['default']
+    Onboarding: typeof import('./../components/onboarding/Onboarding.vue')['default']
+    OnboardingStep: typeof import('./../components/onboarding/OnboardingStep.vue')['default']
+    OnboardingWrapper: (typeof import('./../components/onboarding/OnboardingWrapper.vue'))['default']
     OnlinePlayers: typeof import('./../components/app/OnlinePlayers.vue')['default']
     PartyMovementLine: typeof import('./../components/strategus/map/PartyMovementLine.vue')['default']
     PatchNotes: typeof import('./../components/app/PatchNotes.vue')['default']
@@ -87,5 +92,6 @@ declare module 'vue' {
     UserPlatform: typeof import('./../components/user/UserPlatform.vue')['default']
     UserRestrictionGuide: typeof import('./../components/user/UserRestrictionGuide.vue')['default']
     UserRestrictionNotification: typeof import('./../components/user/UserRestrictionNotification.vue')['default']
+    Welcome: typeof import('./../components/app/Welcome.vue')['default']
   }
 }
