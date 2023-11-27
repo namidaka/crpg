@@ -1,4 +1,3 @@
 crpg_dtv_weepinghill
 crpg_dtv_rosethornecastle
-crpg_dtv_encampment
-crpg_dtv_qalat
+crpg_dtv_ruinsofrahiz
