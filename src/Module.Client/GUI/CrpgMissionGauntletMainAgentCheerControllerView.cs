@@ -25,29 +25,17 @@ namespace Crpg.Module.GUI;
 public class CrpgMissionGauntletMainAgentCheerControllerView : MissionView
 {
     private readonly IMissionScreen _missionScreenAsInterface;
-
     private readonly TextObject _cooldownInfoText = new("{=aogZyZlR}You need to wait {SECONDS} seconds until you can cheer/shout again.");
-
     private readonly TextObject _barkCooldownTimeInfoText = new("{=BorZeZPs}You need to wait {SECONDS} seconds until you can shout again.");
-
     private bool _holdHandled;
-
     private float _holdTime;
-
     private bool _prevCheerKeyDown;
-
     private GauntletLayer? _gauntletLayer;
-
     private MissionMainAgentCheerBarkControllerVM? _dataSource;
-
     private float _cooldownTimeRemaining;
-
     private int _barkUsesLeft;
-
     private float _barkUsesResetCooldownTime;
-
     private bool _isSelectingFromInput;
-
     private bool _isReturningToCategories;
 
     private bool IsDisplayingADialog
@@ -78,8 +66,6 @@ public class CrpgMissionGauntletMainAgentCheerControllerView : MissionView
 
     public CrpgMissionGauntletMainAgentCheerControllerView()
     {
-        _gauntletLayer = new GauntletLayer(2);
-        _dataSource = new MissionMainAgentCheerBarkControllerVM(OnCheerSelect, OnBarkSelect, Agent.TauntCheerActions, SkinVoiceManager.VoiceType.MpBarks);
         _missionScreenAsInterface = MissionScreen;
         HoldHandled = false;
     }
@@ -87,8 +73,10 @@ public class CrpgMissionGauntletMainAgentCheerControllerView : MissionView
     public override void OnMissionScreenInitialize()
     {
         base.OnMissionScreenInitialize();
-        _gauntletLayer?.LoadMovie("MainAgentCheerBarkController", _dataSource);
-        _gauntletLayer?.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("CombatHotKeyCategory"));
+        _gauntletLayer = new GauntletLayer(2);
+        _dataSource = new MissionMainAgentCheerBarkControllerVM(OnCheerSelect, OnBarkSelect, Agent.TauntCheerActions, SkinVoiceManager.VoiceType.MpBarks);
+        _gauntletLayer.LoadMovie("MainAgentCheerBarkController", _dataSource);
+        _gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("CombatHotKeyCategory"));
         MissionScreen.AddLayer(_gauntletLayer);
         Mission.OnMainAgentChanged += OnMainAgentChanged;
         ResetBarkUses();
