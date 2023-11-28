@@ -48,6 +48,12 @@ internal class DtvHudUiHandler : MissionView
         _dataSource!.OnFinalize();
         _mpMissionCategory?.Unload();
         base.OnMissionScreenFinalize();
+        if (_dtvClient != null)
+        {
+            _dtvClient.OnUpdateCurrentProgress -= OnUpdateProgress;
+            _dtvClient.OnRoundStart -= OnUpdateProgress;
+            _dtvClient.OnWaveStart -= OnUpdateProgress;
+        }
     }
 
     public override void OnMissionScreenTick(float dt)
