@@ -79,13 +79,7 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
         CurrentRound = message.Round + 1;
         CurrentWave = message.Wave + 1;
 
-        Action onUpdateCurrentProgressEvent = OnUpdateCurrentProgress;
-        if (onUpdateCurrentProgressEvent == null)
-        {
-            return;
-        }
-
-        OnUpdateCurrentProgress();
+        OnUpdateCurrentProgress?.Invoke();
     }
 
     private void HandleRoundStart(CrpgDtvRoundStartMessage message)
@@ -122,13 +116,7 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
         });
         CurrentWave = message.Wave + 1;
 
-        Action onWaveStartEvent = OnWaveStart;
-        if (onWaveStartEvent == null)
-        {
-            return;
-        }
-
-        OnWaveStart();
+        OnWaveStart?.Invoke();
     }
 
     private void HandleViscountDeath(CrpgDtvGameEnd message)
