@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
@@ -19,6 +20,7 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer;
 using TaleWorlds.MountAndBlade.View.Tableaus;
+using Crpg.Module.Common.Models;
 
 namespace Crpg.Module.DataExport;
 
@@ -252,6 +254,12 @@ internal class ItemExporter : IDataExporter
         itemsDoc.Save(Path.Combine("../../Modules/cRPG_Exporter/ModuleData/items", Path.GetFileName("../../Modules/cRPG_Exporter/ModuleData/items/weapons.xml")));
     }
 
+    public async Task ScaleWeapon(string gitRepoPath)
+    {
+        var itemsDoc = XmlScaleWeapon("../../Modules/cRPG_Exporter/ModuleData/items/weapons.xml", "../../Modules/cRPG_Exporter/ModuleData/crafting_pieces.xml", "crpg_TwoHandedPolearm");
+        itemsDoc.Save(Path.Combine("../../Modules/cRPG_Exporter/ModuleData/", Path.GetFileName("../../Modules/cRPG_Exporter/ModuleData/crafting_pieces.xml")));
+    }
+
     public async Task Export(string gitRepoPath)
     {
         Debug.Print("user clicked on export");
@@ -439,6 +447,67 @@ internal class ItemExporter : IDataExporter
         }
 
         return itemsDoc;
+    }
+    private static XmlDocument XmlScaleWeapon(string weaponsFilePath, string craftingPiecesFilePath, string weaponCraftingTeamplate)
+    {
+        XmlDocument weaponsDoc = new();
+        using (var r = XmlReader.Create(weaponsFilePath, new XmlReaderSettings { IgnoreComments = true }))
+        {
+            weaponsDoc.Load(r);
+        }
+
+        HashSet<string> piecesToScale = new();
+
+        var nodes1 = weaponsDoc.LastChild.ChildNodes.Cast<XmlNode>().ToArray();
+        for (int i = 0; i < nodes1.Length; i += 1)
+        {
+            if (nodes1[i].Attributes["crafting_template"]?.Value != weaponCraftingTeamplate)
+            {
+                continue;
+            }
+
+            var pieces = nodes1[i].SelectSingleNode("Pieces")?.ChildNodes;
+            string? pieceId = pieces?.Cast<XmlNode>()?.FirstOrDefault(n => n.Attributes["Type"].Value == "Blade")?.Attributes["id"]?.Value;
+            if (pieceId != null)
+            {
+                piecesToScale.Add(pieceId);
+            }
+        }
+
+        XmlDocument craftingPiecesDoc = new();
+        using (var r = XmlReader.Create(craftingPiecesFilePath, new XmlReaderSettings { IgnoreComments = true }))
+        {
+            craftingPiecesDoc.Load(r);
+        }
+
+        var nodes2 = craftingPiecesDoc.LastChild.ChildNodes.Cast<XmlNode>().ToArray();
+        for (int i = 0; i < nodes2.Length; i += 1)
+        {
+            if (nodes2[i].Attributes["piece_type"].Value == "Blade" && piecesToScale.Contains(nodes2[i].Attributes["id"].Value))
+            {
+                var bladeData = nodes2[i].SelectSingleNode("BladeData")?.ChildNodes.Cast<XmlNode>();
+                if (bladeData == null)
+                {
+                    continue;
+                }
+                foreach (var damageNode in bladeData)
+                {
+                    float scaler = 1 + 0.15f / (float)Math.Pow(damageNode.Attributes["damage_type"].Value switch
+                    {
+                        "Blunt" => CrpgItemValueModel.CalculateDamageTypeFactor(DamageTypes.Blunt),
+                        "Cut" => CrpgItemValueModel.CalculateDamageTypeFactor(DamageTypes.Cut),
+                        "Pierce" => CrpgItemValueModel.CalculateDamageTypeFactor(DamageTypes.Pierce),
+                    }, 1 / 2.15f);
+
+                    if (damageNode.Name == "Swing")
+                    {
+                        damageNode.Attributes["damage_factor"].Value = Math.Round(float.Parse(damageNode.Attributes["damage_factor"].Value) * scaler, 1).ToString();
+                    }
+                }
+            }
+        }
+
+        return craftingPiecesDoc;
     }
 
     private static XmlDocument XmlComputeAutoStats(string filePath)

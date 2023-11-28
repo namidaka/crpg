@@ -140,6 +140,12 @@ internal class SettlementExporter : IDataExporter
     {
         return Task.CompletedTask;
     }
+
+    public Task ScaleWeapon(string gitRepoPath)
+    {
+        return Task.CompletedTask;
+    }
+
     private static CrpgCulture ParseCulture(string mbCulture) =>
         (CrpgCulture)Enum.Parse(typeof(CrpgCulture), mbCulture.Split('.')[1], true);
 

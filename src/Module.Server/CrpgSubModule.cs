@@ -188,6 +188,10 @@ internal class CrpgSubModule : MBSubModuleBase
             new TextObject("Refund Selected"), 4578, Refund, () => (false, null)),
             new InitialStateOption("Scale",
             new TextObject("Scale"), 4578, Scale, () => (false, null)),
+            new InitialStateOption("ScaleWeapon",
+            new TextObject("ScaleWeapon"), 4578, ScaleWeapon, () => (false, null)),
+
+
         };
         foreach (var opt in mainMenuOptions)
         {
@@ -307,6 +311,23 @@ internal class CrpgSubModule : MBSubModuleBase
 
         InformationManager.DisplayMessage(new InformationMessage("Editing Class."));
         Task.WhenAll(exporters.Select(e => e.Scale("lol"))).ContinueWith(t =>
+        {
+            InformationManager.DisplayMessage(t.IsFaulted
+                ? new InformationMessage(t.Exception!.Message)
+                : new InformationMessage("Done."));
+        });
+    }
+
+    private void ScaleWeapon()
+    {
+        IDataExporter[] exporters =
+        {
+            new ItemExporter(),
+            // new SettlementExporter(),
+        };
+
+        InformationManager.DisplayMessage(new InformationMessage("Editing Class."));
+        Task.WhenAll(exporters.Select(e => e.ScaleWeapon("lol"))).ContinueWith(t =>
         {
             InformationManager.DisplayMessage(t.IsFaulted
                 ? new InformationMessage(t.Exception!.Message)
