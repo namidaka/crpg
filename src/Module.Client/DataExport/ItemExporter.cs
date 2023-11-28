@@ -167,6 +167,16 @@ internal class ItemExporter : IDataExporter
         }
     }
 
+    public async Task RefundWeapons(string gitRepoPath)
+    {
+        List<ItemObject.ItemTypeEnum> typesToRefund = new()
+        {
+            ItemObject.ItemTypeEnum.Shield,
+        };
+        var itemsDoc = XmlRefundWeapons("../../Modules/cRPG_Exporter/ModuleData/items/weapons.xml");
+        itemsDoc.Save(Path.Combine("../../Modules/cRPG_Exporter/ModuleData/items", Path.GetFileName("../../Modules/cRPG_Exporter/ModuleData/items/weapons.xml")));
+    }
+
     public async Task RefundShield(string gitRepoPath)
     {
         List<ItemObject.ItemTypeEnum> typesToRefund = new()
@@ -419,6 +429,24 @@ internal class ItemExporter : IDataExporter
             {
                 node1.Attributes!["id"].Value = ToggleRefund(node1.Attributes!["id"].Value);
             }
+        }
+
+        return itemsDoc;
+    }
+
+    private static XmlDocument XmlRefundWeapons(string filePath)
+    {
+        XmlDocument itemsDoc = new();
+        using (var r = XmlReader.Create(filePath, new XmlReaderSettings { IgnoreComments = true }))
+        {
+            itemsDoc.Load(r);
+        }
+
+        var nodes1 = itemsDoc.LastChild.ChildNodes.Cast<XmlNode>().ToArray();
+        for (int i = 0; i < nodes1.Length; i += 1)
+        {
+            var node1 = nodes1[i];
+            node1.Attributes!["id"].Value = ToggleRefund(node1.Attributes!["id"].Value);
         }
 
         return itemsDoc;

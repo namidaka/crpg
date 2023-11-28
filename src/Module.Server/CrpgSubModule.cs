@@ -191,7 +191,6 @@ internal class CrpgSubModule : MBSubModuleBase
             new InitialStateOption("ScaleWeapon",
             new TextObject("ScaleWeapon"), 4578, ScaleWeapon, () => (false, null)),
 
-
         };
         foreach (var opt in mainMenuOptions)
         {
@@ -230,6 +229,23 @@ internal class CrpgSubModule : MBSubModuleBase
             InformationManager.DisplayMessage(t.IsFaulted
                 ? new InformationMessage(t.Exception!.Message)
                 : new InformationMessage("Armors were refunded"));
+        });
+    }
+
+    private void RefundWeapons()
+    {
+        IDataExporter[] exporters =
+        {
+            new ItemExporter(),
+            // new SettlementExporter(),
+        };
+
+        InformationManager.DisplayMessage(new InformationMessage("Refunding Armors."));
+        Task.WhenAll(exporters.Select(e => e.RefundWeapons("lol"))).ContinueWith(t =>
+        {
+            InformationManager.DisplayMessage(t.IsFaulted
+                ? new InformationMessage(t.Exception!.Message)
+                : new InformationMessage("Weapons were refunded"));
         });
     }
 
@@ -407,6 +423,9 @@ internal class CrpgSubModule : MBSubModuleBase
             case 5:
                 RefundCav();
                 break;
+            case 6:
+                RefundWeapons();
+                break;
             default:
                 throw new ArgumentException("Invalid argument for 'toRefund'");
         }
@@ -414,7 +433,7 @@ internal class CrpgSubModule : MBSubModuleBase
 
     private void ChangeRefund()
     {
-        _toRefund = (_toRefund + 1) % 6;
+        _toRefund = (_toRefund + 1) % 7;
         string message = _toRefund switch
         {
             0 => "Refund Crossbows",
@@ -423,6 +442,7 @@ internal class CrpgSubModule : MBSubModuleBase
             3 => "Refund Shields",
             4 => "Refund Armors",
             5 => "Refund Cav",
+            6 => "Refund Weapons"
         }
 
         + " has been selected";

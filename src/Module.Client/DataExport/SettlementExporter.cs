@@ -111,6 +111,11 @@ internal class SettlementExporter : IDataExporter
         return Task.CompletedTask;
     }
 
+    public Task RefundWeapons(string gitRepoPath)
+    {
+        return Task.CompletedTask;
+    }
+
     public Task RefundCrossbow(string gitRepoPath)
     {
         return Task.CompletedTask;
