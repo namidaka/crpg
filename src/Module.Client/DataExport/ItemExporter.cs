@@ -1310,11 +1310,18 @@ internal class ItemExporter : IDataExporter
             {
                 continue;
             }
+
             mbItem.Type = mbItem.Type switch
             {
                 ItemObject.ItemTypeEnum.Shield => ItemObject.ItemTypeEnum.Bow,
                 ItemObject.ItemTypeEnum.HandArmor => ItemObject.ItemTypeEnum.Animal,
                 _ => mbItem.Type,
+            };
+
+            string id = mbItem.Type switch
+            {
+                ItemObject.ItemTypeEnum.Banner => mbItem.StringId.Substring(0, mbItem.StringId.Length - 3),
+                _ => mbItem.StringId,
             };
 
             TaskCompletionSource<object?> createTextureTaskSource = new();
@@ -1324,7 +1331,7 @@ internal class ItemExporter : IDataExporter
             // TODO: what is second argument "additionalArgs"?
             TableauCacheManager.Current.BeginCreateItemTexture(mbItem, null, texture =>
             {
-                texture.SaveToFile(Path.Combine(outputPath, mbItem.StringId.Substring(0, mbItem.StringId.Length - 3) + ".png"));
+                texture.SaveToFile(Path.Combine(outputPath, id + ".png"));
                 createTextureTaskSource.SetResult(null);
             });
         }
