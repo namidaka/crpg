@@ -327,7 +327,7 @@ public class CrpgMissionGauntletMainAgentCheerControllerView : MissionView
 
     private void ResetBarkUses()
     {
-        _barkUsesLeft = 3;
+        _barkUsesLeft = 5;
         _barkUsesResetCooldownTime = 60;
     }
 
