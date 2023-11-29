@@ -88,21 +88,21 @@ internal class ItemExporter : IDataExporter
     };
     private static readonly Dictionary<int, (int damageBonus, int amountBonusPercentage)> CutArrowHeirloomBonus = new()
     {
-        { 1, (0, 25) },
-        { 2, (1, 25) },
-        { 3, (2, 25) },
+        { 1, (0, 18) },
+        { 2, (1, 18) },
+        { 3, (2, 18) },
     };
     private static readonly Dictionary<int, (int damageBonus, int amountBonusPercentage)> PierceArrowHeirloomBonus = new()
+    {
+        { 1, (0, 13) },
+        { 2, (1, 4) },
+        { 3, (2, -10) },
+    };
+    private static readonly Dictionary<int, (int damageBonus, int amountBonusPercentage)> BluntArrowHeirloomBonus = new()
     {
         { 1, (0, 15) },
         { 2, (0, 30) },
         { 3, (1, 30) },
-    };
-    private static readonly Dictionary<int, (int damageBonus, int amountBonusPercentage)> BluntArrowHeirloomBonus = new()
-    {
-        { 1, (0, 20) },
-        { 2, (0, 40) },
-        { 3, (1, 40) },
     };
     private static readonly Dictionary<int, (int damageBonus, int amountBonusPercentage)> CutBoltHeirloomBonus = new()
     {
@@ -196,8 +196,6 @@ internal class ItemExporter : IDataExporter
         };
         var itemsDoc = XmlRefundItemType("../../Modules/cRPG_Exporter/ModuleData/items/weapons.xml", typesToRefund);
         itemsDoc.Save(Path.Combine("../../Modules/cRPG_Exporter/ModuleData/items", Path.GetFileName("../../Modules/cRPG_Exporter/ModuleData/items/weapons.xml")));
-        var itemsDoc2 = XmlRefundItemType("../../Modules/cRPG_Exporter/ModuleData/items/weapons.xml", typesToRefund);
-        itemsDoc2.Save(Path.Combine("../../Modules/cRPG_Exporter/ModuleData/items", Path.GetFileName("../../Modules/cRPG_Exporter/ModuleData/items/weapons.xml")));
     }
 
     public async Task RefundCrossbow(string gitRepoPath)
@@ -820,6 +818,7 @@ internal class ItemExporter : IDataExporter
 
                     case ItemObject.ItemTypeEnum.Arrows:
 
+
                         var arrowDamageType = (DamageTypes)Enum.Parse(typeof(DamageTypes), node1.SelectNodes("ItemComponent/Weapon")!.Cast<XmlNode>().Last().Attributes!["thrust_damage_type"].Value);
                         var relevantArrowDictionary = arrowDamageType switch
                         {
@@ -1010,10 +1009,17 @@ internal class ItemExporter : IDataExporter
                     ModifyNodeAttribute(node1, "weight",
                         _ => ModifyShieldWeight(nonHeirloomNode, node1, type).ToString(CultureInfo.InvariantCulture));
                 }
+
                 if (type is ItemObject.ItemTypeEnum.Bow)
                 {
                     ModifyNodeAttribute(node1, "weight",
                         _ => ModifyBowWeight(nonHeirloomNode, node1, type, heirloomLevel).ToString(CultureInfo.InvariantCulture));
+                }
+
+                if (type is ItemObject.ItemTypeEnum.Arrows)
+                {
+                    ModifyNodeAttribute(node1, "weight",
+                        _ => ModifyArrowWeight(nonHeirloomNode, node1, type, heirloomLevel).ToString(CultureInfo.InvariantCulture));
                 }
             }
         }
@@ -1068,6 +1074,26 @@ internal class ItemExporter : IDataExporter
             weaponNode.Attributes!["item_usage"].Value == "long_bow",
             heirloomLevel);
         return tier * int.Parse(weaponNode.Attributes!["thrust_damage"].Value) / 100f;
+    }
+
+    private static float ModifyArrowWeight(XmlNode nonHeirloomNode, XmlNode node, ItemObject.ItemTypeEnum type, int heirloomLevel)
+    {
+        XmlNode weaponNode = nonHeirloomNode.SelectNodes("ItemComponent/Weapon")!.Cast<XmlNode>().First();
+        int damage = int.Parse(weaponNode.Attributes!["thrust_damage"].Value);
+        DamageTypes damagetype = weaponNode.Attributes!["thrust_damage_type"].Value switch
+        {
+            "Cut" => DamageTypes.Cut,
+            "Pierce" => DamageTypes.Pierce,
+            "Blunt" => DamageTypes.Blunt,
+            _ => DamageTypes.Blunt,
+        };
+
+        float weight = MBMath.Lerp(0.1f, 0.15f, MBMath.ClampFloat(
+            int.Parse(
+                weaponNode.Attributes!["thrust_damage"].Value)
+            * CrpgItemValueModel.CalculateDamageTypeFactorForAmmo(damagetype) / 12f, 0f, 1f));
+
+        return weight;
     }
 
     private static void ModifyChildHeirloomNodesAttribute(
