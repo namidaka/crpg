@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defaultGold } from '@root/data/constants.json';
 import { characterClassToIcon } from '@/services/characters-service';
 import { CharacterClass } from '@/models/character';
 
@@ -7,31 +6,60 @@ defineEmits<{
   startOnboarding: [];
 }>();
 
+// TODO: Api
 const presets = ref([
   {
     id: 1,
-    gold: 30000,
-    class: CharacterClass.Infantry,
-    level: 30,
-    description: '',
-  },
-  {
-    id: 2,
     gold: 200000,
     class: CharacterClass.Peasant,
     level: 0,
-    description: '',
+    description: 'The most interesting start. Start with a naked ass, end with a tin ass',
+  },
+  {
+    id: 2,
+    gold: 30000,
+    class: CharacterClass.Infantry,
+    level: 30,
+    description: "That's the base. A baseline",
+  },
+  {
+    id: 3,
+    gold: 30000,
+    class: CharacterClass.ShockInfantry,
+    level: 30,
+    description: 'Kuyak enjoyer',
+  },
+  {
+    id: 4,
+    gold: 1,
+    class: CharacterClass.Archer,
+    level: 30,
+    description: 'Do not choose this start under any conditions',
+  },
+  {
+    id: 5,
+    gold: 100000,
+    class: CharacterClass.Cavalry,
+    level: 30,
+    description: 'Mount and blade',
+  },
+  {
+    id: 6,
+    gold: 100000,
+    class: CharacterClass.MountedArcher,
+    level: 30,
+    description: '( ͡° ͜ʖ ͡°)',
   },
 ]);
 
-const presetModel = ref(1);
+const presetModel = ref<number | null>(null);
 </script>
 
 <template>
   <Modal closable shown>
     <template #popper>
       <div class="flex max-h-[90vh] w-[40rem] flex-col">
-        <header class="relative h-[11rem]">
+        <header class="relative min-h-[10rem]">
           <!-- TODO: poster -->
           <img
             class="absolute inset-0 aspect-video h-full w-full object-cover opacity-50"
@@ -62,76 +90,64 @@ const presetModel = ref(1);
             </p>
           </div>
 
-          <div class="prose prose-invert">
-            <p class="text-center">Pick your start and go kick some ass.</p>
+          <div class="space-y-4">
+            <p class="text-center">Pick your start and go kick some ass:</p>
 
-            <div class="flex justify-center">
-              <VDropdown :triggers="['click']" placement="bottom-end" class="">
-                <template #default="{ shown }">
-                  <OButton variant="primary" outlined size="lg">
-                    you get
-                    <Coin :value="defaultGold" v-tooltip.bottom="$t('user.field.gold')" />
-                    and
-                    <OIcon :icon="characterClassToIcon[CharacterClass.Infantry]" size="lg" />
-                    {{ $t(`character.class.${CharacterClass.Infantry}`) }}
-                    <div
-                      class="flex items-center gap-2 font-bold"
-                      v-tooltip.bottom="'Character level'"
-                    >
-                      30
-                    </div>
-
-                    <!-- TODO: to cmp -->
-                    <div class="h-4 w-px select-none bg-border-300"></div>
-
-                    <OIcon
-                      icon="chevron-down"
-                      size="lg"
-                      :rotation="shown ? 180 : 0"
-                      class="text-content-400"
-                    />
-                  </OButton>
-                </template>
-
-                <template #popper="{ hide }">
-                  <DropdownItem class="text-primary" v-for="preset in presets">
-                    <Coin :value="preset.gold" v-tooltip.bottom="$t('user.field.gold')" />
-
+            <div class="grid grid-cols-2 gap-4">
+              <div
+                v-for="preset in presets"
+                class="relative cursor-pointer rounded-xl border border-border-200 p-3 pr-11 hover:ring hover:ring-primary"
+                @click="presetModel = preset.id"
+              >
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2">
                     <OIcon :icon="characterClassToIcon[preset.class]" size="lg" />
                     {{ $t(`character.class.${preset.class}`) }}
-                    <div
-                      class="flex items-center gap-2 font-bold"
-                      v-tooltip.bottom="'Character level'"
-                    >
-                      {{ preset.level }}
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    {{ preset.level }}
+                    lvl,
+                    <Coin :value="preset.gold" v-tooltip.bottom="$t('user.field.gold')" />
+
+                    <div class="flex items-center gap-2">
+                      <!-- <span class="text-lg font-semibold text-status-success">+</span> -->
                     </div>
-                  </DropdownItem>
-                </template>
-              </VDropdown>
+                  </div>
+
+                  <p class="text-2xs text-content-400">{{ preset.description }}</p>
+                </div>
+
+                <div class="absolute right-3 top-3">
+                  <ORadio v-model="presetModel" :native-value="preset.id" />
+                </div>
+              </div>
             </div>
           </div>
 
           <Divider />
 
-          <div class="flex justify-center">
-            <OButton
-              variant="primary"
-              outlined
-              size="xl"
-              iconLeft="tag"
-              :label="`Start onboarding`"
-              @click="$emit('startOnboarding')"
-            />
+          <div class="space-y-4">
+            <p class="text-center">Lorem ipsum dolor sit amet consectetur.</p>
+
+            <div class="flex justify-center">
+              <OButton
+                variant="primary"
+                outlined
+                size="xl"
+                iconLeft="tag"
+                :label="`Start onboarding`"
+                @click="$emit('startOnboarding')"
+              />
+            </div>
           </div>
 
           <div class="space-y-6">
             <FormGroup icon="help-circle" label="Helpful links" collapsed>
-              <!--  -->
               <div>TODO:</div>
             </FormGroup>
 
             <FormGroup icon="settings" label="Some interesting" collapsed>
-              <!--  -->
               <div>TODO:</div>
             </FormGroup>
           </div>
@@ -140,10 +156,12 @@ const presetModel = ref(1);
         <footer>
           <Divider />
 
-          <div class="prose prose-invert px-12 py-6">
-            <p class="text-content-400">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, impedit.
-            </p>
+          <div class="px-12 py-6">
+            <div class="prose prose-invert">
+              <p class="text-content-400">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, impedit.
+              </p>
+            </div>
           </div>
         </footer>
       </div>

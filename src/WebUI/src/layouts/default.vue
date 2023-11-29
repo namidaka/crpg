@@ -55,6 +55,7 @@ const id = Symbol('fetchUser');
 
 //
 const shownWelcome = ref(true);
+//
 const shownOnboarding = ref(false);
 const startOnboarding = () => {
   shownOnboarding.value = true;
@@ -91,7 +92,7 @@ await Promise.all(promises);
             <SvgSpriteImg name="logo" viewBox="0 0 162 124" class="w-16" />
           </RouterLink>
 
-          <div class="flex items-center gap-2" data-s-d1>
+          <div class="flex items-center gap-2" data-o8="common-layout-header-online-players">
             <OnlinePlayers :gameServerStats="gameServerStats" />
           </div>
 
@@ -124,17 +125,21 @@ await Promise.all(promises);
         </div>
 
         <div v-if="userStore.user" class="gap flex items-center gap-5" data-s-d2>
+          <!-- TODO: improve tooltip, share gold, bla bla bla -->
           <Coin
             :value="Number(animatedUserGold.toFixed(0))"
             v-tooltip.bottom="$t('user.field.gold')"
+            data-o8="common-layout-header-user-gold"
           />
 
           <!-- TODO: to divider -->
           <div class="h-8 w-px select-none bg-border-200" />
 
+          <!-- TODO: improve tooltip, share heirloom, bla bla bla -->
           <div
             class="flex items-center gap-2 font-bold text-primary"
             v-tooltip.bottom="$t('user.field.heirloom')"
+            data-o8="common-layout-header-user-heirloom"
           >
             <OIcon icon="blacksmith" size="lg" />
             {{ userStore.user.heirloomPoints }}
@@ -149,12 +154,18 @@ await Promise.all(promises);
             :clanRole="userStore.clanMemberRole"
             hiddenPlatform
             size="lg"
+            data-o8="common-layout-header-user-media"
           />
 
           <!-- TODO: to divider -->
           <div class="h-8 w-px select-none bg-border-200" />
 
-          <VDropdown :triggers="['click']" placement="bottom-end" class="-ml-2.5">
+          <VDropdown
+            :triggers="['click']"
+            placement="bottom-end"
+            class="-ml-2.5"
+            data-o8="common-layout-header-settings"
+          >
             <template #default="{ shown }">
               <OButton
                 :variant="shown ? 'transparent-active' : 'transparent'"
@@ -228,10 +239,14 @@ await Promise.all(promises);
       v-if="!route.meta.noFooter"
       class="relative mt-auto flex flex-wrap items-center justify-between border-t border-solid border-border-200 px-6 py-5 text-2xs text-content-300"
     >
-      <Socials patreonExpanded size="sm" />
+      <Socials patreonExpanded size="sm" data-o8="common-layout-footer-socials" />
 
       <div class="flex items-center gap-5">
-        <HHTooltip #default="{ shown }" :region="userStore.user!.region!">
+        <HHTooltip
+          #default="{ shown }"
+          :region="userStore.user!.region!"
+          data-o8="common-layout-footer-hh-timetable"
+        >
           <div
             class="group flex cursor-pointer select-none items-center gap-2 hover:text-content-100"
             :class="{ 'text-content-100': shown }"
@@ -264,7 +279,7 @@ await Promise.all(promises);
       </div>
     </footer>
 
-    <Welcome
+    <!-- <Welcome
       v-if="shownWelcome"
       @startOnboarding="
         () => {
@@ -272,8 +287,8 @@ await Promise.all(promises);
           startOnboarding();
         }
       "
-    />
+    /> -->
 
-    <Onboarding v-if="shownOnboarding" />
+    <Onboarding />
   </div>
 </template>

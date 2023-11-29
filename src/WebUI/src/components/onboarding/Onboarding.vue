@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { VOnboardingWrapper, useVOnboarding } from 'v-onboarding';
+import type { VOnboardingWrapperOptions } from 'v-onboarding/src/types/VOnboardingWrapper';
 import { asyncPoll } from '@/utils/poll';
 
 const router = useRouter();
@@ -7,68 +8,135 @@ const router = useRouter();
 const wrapper = ref(null);
 const { start, goToStep, finish } = useVOnboarding(wrapper);
 
-const tryFindAttachToElement = async (selector: string) =>
-  Promise.resolve(Boolean(document.querySelector(selector)));
+const tryFindAttachToElement = (elSelector: string) =>
+  asyncPoll(
+    async () =>
+      Promise.resolve({
+        done: await Promise.resolve(Boolean(document.querySelector(elSelector))),
+      }),
+    50,
+    10
+  );
 
-const steps = shallowRef([
-  {
-    attachTo: { element: '[data-s-d1]' },
-    content: {
-      title: 'Welcome!',
-      description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit atque aliquam, sint dolorem amet soluta ut ipsa dolorum harum placeat.',
-    },
-  },
-  {
-    attachTo: { element: '[data-s-d22]' },
-    content: {
-      title: 'Welcome!22222222',
-      description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit atque aliquam, sint dolorem amet soluta ut ipsa dolorum harum placeat.',
-    },
-    on: {
-      beforeStep: async (options: any) => {
-        await router.push({ name: 'Clans' });
-        await asyncPoll(
-          async () => {
-            return Promise.resolve({
-              done: await tryFindAttachToElement(options.step.attachTo.element),
-            });
-          },
-          50,
-          10
-        );
-      },
-    },
-  },
-  {
-    attachTo: { element: '[data-s-d33]' },
-    content: { title: 'Welcome!333333333' },
-    on: {
-      beforeStep: async (options: any) => {
-        await router.push({ name: 'Shop' });
-        await asyncPoll(
-          async () => {
-            return Promise.resolve({
-              done: await tryFindAttachToElement(options.step.attachTo.element),
-            });
-          },
-          50,
-          10
-        );
-      },
-    },
-  },
-]);
+// TODO:
 
-onMounted(async () => {
-  await nextTick();
-  start();
-});
+/*
+Default Layout
+  - header
+    - online players
+    - gold
+    - heirlooms
+    - settings
+  - footer
+    - socials, patreon
+    - HH timetable
+
+Character page
+  - header
+    - online players
+    - gold
+    - heirlooms
+    - settings
+  - footer
+    - socials, patreon
+    - HH timetable
+*/
+
+const steps = [
+  {
+    attachTo: { element: '[data-o8="common-layout-header-online-players"]' },
+    tags: ['common'],
+    content: {
+      title: 'TODO:',
+      description: 'TODO:',
+    },
+  },
+  {
+    attachTo: { element: '[data-o8="common-layout-header-user-gold"]' },
+    tags: ['common'],
+    content: {
+      title: 'TODO:',
+      description: 'TODO:',
+    },
+  },
+  {
+    attachTo: { element: '[data-o8="common-layout-header-user-heirloom"]' },
+    tags: ['common'],
+    content: {
+      title: 'TODO:',
+      description: 'TODO:',
+    },
+  },
+  {
+    attachTo: { element: '[data-o8="common-layout-header-user-media"]' },
+    tags: ['common'],
+    content: {
+      title: 'TODO:',
+      description: 'TODO:',
+    },
+  },
+  {
+    attachTo: { element: '[data-o8="common-layout-header-settings"]' },
+    tags: ['common'],
+    content: {
+      title: 'TODO:',
+      description: 'TODO:',
+    },
+  },
+  {
+    attachTo: { element: '[data-o8="common-layout-footer-socials"]' },
+    tags: ['common'],
+    content: {
+      title: 'TODO:',
+      description: 'TODO:',
+    },
+  },
+  {
+    attachTo: { element: '[data-o8="common-layout-footer-hh-timetable"]' },
+    tags: ['common'],
+    content: {
+      title: 'TODO:',
+      description: 'TODO:',
+    },
+  },
+  // {
+  //   attachTo: { element: '[data-s-d22]' },
+  //   tags: ['common'],
+  //   content: {
+  //     title: 'TODO:',
+  //     description: 'TODO:',
+  //   },
+  //   on: {
+  //     beforeStep: async (options: any) => {
+  //       await router.push({ name: 'Clans' });
+  //       await tryFindAttachToElement(options.step.attachTo.element);
+  //     },
+  //   },
+  // },
+];
+
+const wrapperOptions = {
+  popper: {
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 10],
+        },
+      },
+    ],
+  },
+} as VOnboardingWrapperOptions;
+
+onMounted(start);
 </script>
 
 <template>
-  <VOnboardingWrapper ref="wrapper" :steps="steps">
+  <div class="fixed bottom-24 right-0 z-10">
+    <OButton variant="primary" outlined size="xl" iconLeft="tag" :label="`Start onboarding`" />
+  </div>
+
+  <VOnboardingWrapper ref="wrapper" :steps="steps" :options="wrapperOptions">
     <template #default="{ previous, next, step, exit, isFirst, isLast, index }">
       <OnboardingStep
         v-if="step"

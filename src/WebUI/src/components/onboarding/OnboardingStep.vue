@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import { useMagicKeys, whenever } from '@vueuse/core';
+import type { StepEntity } from 'v-onboarding/src/types/StepEntity';
+
 import { VOnboardingStep } from 'v-onboarding';
 
-interface Step {
-  content: {
-    title: string;
-    description?: string;
-  };
+interface Step extends StepEntity {
+  tags: string[];
 }
 
-defineEmits<{
+const emit = defineEmits<{
   next: [];
   previous: [];
   exit: [];
@@ -21,11 +21,17 @@ defineProps<{
   index: number;
   stepsCount: number;
 }>();
+
+const { escape, arrowRight, arrowLeft } = useMagicKeys();
+
+whenever(escape, () => emit('exit'));
+whenever(arrowRight, () => emit('next'));
+whenever(arrowLeft, () => emit('previous'));
 </script>
 
 <template>
   <VOnboardingStep>
-    <div class="relative max-w-[30rem] rounded-lg bg-base-300 p-6">
+    <div class="relative min-w-[24rem] max-w-[30rem] rounded-lg bg-base-300">
       <OButton
         class="!absolute right-4 top-4"
         iconRight="close"
@@ -35,41 +41,47 @@ defineProps<{
         @click="$emit('exit')"
       />
 
-      <div class="space-y-4">
-        <div class="prose prose-invert">
-          <h3 v-if="step.content.title">
-            {{ step.content.title }}
-          </h3>
+      <header class="px-6 pt-4">
+        <Tag v-for="tag in step.tags" variant="info" :label="tag" />
+      </header>
 
-          <div v-if="step.content.description">
-            <p>{{ step.content.description }}</p>
-          </div>
+      <div class="prose prose-invert px-6 py-2">
+        <h3 v-if="step.content.title">
+          {{ step.content.title }}
+        </h3>
+        <div v-if="step.content.description" v-html="step.content.description" />
+      </div>
+
+      <footer class="px-6 pb-4 pt-2">
+        <div class="flex items-center justify-end gap-2">
+          <OButton
+            v-if="!isFirst"
+            variant="secondary"
+            size="sm"
+            :label="`Previous`"
+            iconLeft="arrow-left"
+            @click="$emit('previous')"
+          />
+
+          <OButton
+            variant="primary"
+            size="sm"
+            :label="isLast ? 'Finish' : 'Next'"
+            :iconRight="!isLast ? 'arrow-right' : undefined"
+            @click="$emit('next')"
+          />
         </div>
+      </footer>
 
-        <div class="relative">
-          <div class="flex items-center justify-between gap-2">
-            <div class="text-primary">
-              {{ `${index + 1}/${stepsCount}` }}
-            </div>
+      <div class="border-t border-border-300 px-4 py-2">
+        <div class="flex items-center justify-between gap-8">
+          <div class="text-primary">
+            {{ `${index + 1}/${stepsCount}` }}
+          </div>
 
-            <div class="flex items-center gap-2">
-              <OButton
-                v-if="!isFirst"
-                variant="secondary"
-                size="xl"
-                :label="`Previous`"
-                iconLeft="arrow-left"
-                @click="$emit('previous')"
-              />
-
-              <OButton
-                variant="primary"
-                size="xl"
-                :label="isLast ? 'Finish' : 'Next'"
-                :iconRight="!isLast ? 'arrow-right' : undefined"
-                @click="$emit('next')"
-              />
-            </div>
+          <div class="flex items-center gap-4">
+            <KbdGroup :keys="['→', '←']" :label="`to navigate`" />
+            <KbdGroup :keys="['ESC']" :label="`to close`" />
           </div>
         </div>
       </div>
