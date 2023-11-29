@@ -12972,7 +12972,7 @@
     </ItemComponent>
     <Flags />
   </Item>
-  <Item id="crpg_handcannon_h0" name="{=Meow}Handgoone" body_name="bo_composite_crossbows" culture="Culture.vlandia" mesh="handcannon" weight="2.2" appearance="0.7" difficulty="40" Type="Crossbow" AmmoOffset="0.0, 0.02131, 0.22975" item_holsters="cla_firearms:cla_firearms2" holster_position_shift="0.02,0,-0.4">
+  <Item id="crpg_handcannon_h0" name="{=Meow}Handgoone" body_name="bo_composite_crossbows" culture="Culture.vlandia" mesh="handcannon" weight="2.2" appearance="0.7" difficulty="40" Type="Crossbow" AmmoOffset="0.0, 0.02131, 0.22975" item_holsters="crossbow_back:bow_hip:mace_right_hip:bow_hip_2" holster_position_shift="0.02,0,-0.4">
     <ItemComponent>
       <Weapon weapon_class="Crossbow" ammo_class="Bolt" missile_speed="200" accuracy="75" thrust_damage="45" thrust_speed="90" speed_rating="80" weapon_length="95" ammo_limit="1" thrust_damage_type="Blunt" item_usage="cla_musket" reload_phase_count="1" physics_material="wood_weapon" center_of_mass="0,0,0.4" modifier_group="crossbow">
         <WeaponFlags RangedWeapon="true" HasString="false" NotUsableWithOneHand="true" TwoHandIdleOnMount="true" CanPenetrateShield="true" CanDismount="true" MultiplePenetration="true" BonusAgainstShield="true" CanKnockDown="true" FirearmAmmo="true"/>
@@ -12988,7 +12988,7 @@
       </ItemComponent>
       <Flags WoodenParry="true" DropOnWeaponChange="false" DoNotScaleBodyAccordingToWeaponLength="true" QuickFadeOut="true"/>
   </Item>
-  <Item id="crpg_handcannon_h1" name="{=Meow}Handgoone +1" body_name="bo_composite_crossbows" culture="Culture.vlandia" mesh="handcannon" weight="2.2" appearance="0.7" difficulty="40" Type="Crossbow" AmmoOffset="0.0, 0.02131, 0.22975" item_holsters="cla_firearms:cla_firearms2" holster_position_shift="0.02,0,-0.4">
+  <Item id="crpg_handcannon_h1" name="{=Meow}Handgoone +1" body_name="bo_composite_crossbows" culture="Culture.vlandia" mesh="handcannon" weight="2.2" appearance="0.7" difficulty="40" Type="Crossbow" AmmoOffset="0.0, 0.02131, 0.22975" item_holsters="crossbow_back:bow_hip:mace_right_hip:bow_hip_2" holster_position_shift="0.02,0,-0.4">
     <ItemComponent>
       <Weapon weapon_class="Crossbow" ammo_class="Bolt" missile_speed="200" accuracy="75" thrust_damage="45" thrust_speed="90" speed_rating="80" weapon_length="95" ammo_limit="1" thrust_damage_type="Blunt" item_usage="cla_musket" reload_phase_count="1" physics_material="wood_weapon" center_of_mass="0,0,0.4" modifier_group="crossbow">
         <WeaponFlags RangedWeapon="true" HasString="false" NotUsableWithOneHand="true" TwoHandIdleOnMount="true" CanPenetrateShield="true" CanDismount="true" MultiplePenetration="true" BonusAgainstShield="true" CanKnockDown="true" FirearmAmmo="true"/>
@@ -13004,7 +13004,7 @@
     </ItemComponent>
     <Flags WoodenParry="true" DropOnWeaponChange="false" DoNotScaleBodyAccordingToWeaponLength="true" QuickFadeOut="true"/>
   </Item>
-  <Item id="crpg_handcannon_h2" name="{=Meow}Handgoone +2" body_name="bo_composite_crossbows" culture="Culture.vlandia" mesh="handcannon" weight="2.2" appearance="0.7" difficulty="40" Type="Crossbow" AmmoOffset="0.0, 0.02131, 0.22975" item_holsters="cla_firearms:cla_firearms2" holster_position_shift="0.02,0,-0.4">
+  <Item id="crpg_handcannon_h2" name="{=Meow}Handgoone +2" body_name="bo_composite_crossbows" culture="Culture.vlandia" mesh="handcannon" weight="2.2" appearance="0.7" difficulty="40" Type="Crossbow" AmmoOffset="0.0, 0.02131, 0.22975" item_holsters="crossbow_back:bow_hip:mace_right_hip:bow_hip_2" holster_position_shift="0.02,0,-0.4">
     <ItemComponent>
       <Weapon weapon_class="Crossbow" ammo_class="Bolt" missile_speed="200" accuracy="75" thrust_damage="45" thrust_speed="90" speed_rating="80" weapon_length="95" ammo_limit="1" thrust_damage_type="Blunt" item_usage="cla_musket" reload_phase_count="1" physics_material="wood_weapon" center_of_mass="0,0,0.4" modifier_group="crossbow">
         <WeaponFlags RangedWeapon="true" HasString="false" NotUsableWithOneHand="true" TwoHandIdleOnMount="true" CanPenetrateShield="true" CanDismount="true" MultiplePenetration="true" BonusAgainstShield="true" CanKnockDown="true" FirearmAmmo="true"/>
@@ -13020,7 +13020,7 @@
     </ItemComponent>
     <Flags WoodenParry="true" DropOnWeaponChange="false" DoNotScaleBodyAccordingToWeaponLength="true" QuickFadeOut="true"/>
   </Item>
-  <Item id="crpg_handcannon_h2" name="{=Meow}Handgoone +3" body_name="bo_composite_crossbows" culture="Culture.vlandia" mesh="handcannon" weight="2.2" appearance="0.7" difficulty="40" Type="Crossbow" AmmoOffset="0.0, 0.02131, 0.22975" item_holsters="cla_firearms:cla_firearms2" holster_position_shift="0.02,0,-0.4">
+  <Item id="crpg_handcannon_h2" name="{=Meow}Handgoone +3" body_name="bo_composite_crossbows" culture="Culture.vlandia" mesh="handcannon" weight="2.2" appearance="0.7" difficulty="40" Type="Crossbow" AmmoOffset="0.0, 0.02131, 0.22975" item_holsters="crossbow_back:bow_hip:mace_right_hip:bow_hip_2" holster_position_shift="0.02,0,-0.4">
     <ItemComponent>
       <Weapon weapon_class="Crossbow" ammo_class="Bolt" missile_speed="200" accuracy="75" thrust_damage="45" thrust_speed="90" speed_rating="80" weapon_length="95" ammo_limit="1" thrust_damage_type="Blunt" item_usage="cla_musket" reload_phase_count="1" physics_material="wood_weapon" center_of_mass="0,0,0.4" modifier_group="crossbow">
         <WeaponFlags RangedWeapon="true" HasString="false" NotUsableWithOneHand="true" TwoHandIdleOnMount="true" CanPenetrateShield="true" CanDismount="true" MultiplePenetration="true" BonusAgainstShield="true" CanKnockDown="true" FirearmAmmo="true"/>
