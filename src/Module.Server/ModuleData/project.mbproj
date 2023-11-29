@@ -3,7 +3,6 @@
   <outputDirectory>../MBModule/MBModule/</outputDirectory>
   <XMLDirectory>../WOTS/Modules/cRPG/</XMLDirectory>
   <ModuleAssemblyDirectory>../WOTS/bin/</ModuleAssemblyDirectory>
-
   <file id="crpg_combat_system" name="ModuleData/combat_parameters.xml" type="animation_combat_parameters" />
   <file id="crpg_combat_system" name="ModuleData/native_parameters.xml" type="native_parameters" />
   <file id="soln_item_usage_sets" name="ModuleData/item_usage_sets.xml" type="item_usage_set" />
@@ -12,4 +11,6 @@
   <file id="soln_skins" name="ModuleData/skins.xml" type="skin" />
   <file id="soln_collision_infos" name="ModuleData/collision_infos.xml" type="collision_infos" />
   <file id="soln_physics_materials" name="ModuleData/physics_materials.xml" type="physics_material" />
+  <file id="soln_action_sets" name="ModuleData/action_sets.xml" type="action_set" />
+  <file id="soln_action_types" name="ModuleData/action_types.xml" type="action_type" />
 </base>
