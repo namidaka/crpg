@@ -2,5 +2,6 @@
 <base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="module_sound">
   <module_sounds>
     <module_sound name="crpg/dtv/lines/xp_is_free" sound_category="mission_voice" path="dtv_lines_xp_is_free.ogg" />
+    <module_sound name="cla_cannon_1" sound_category="mission_combat" path="cannon_fire01.wav" />
   </module_sounds>
 </base>
