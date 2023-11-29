@@ -48,7 +48,7 @@ const diffStr = computed(() => {
   }
 
   if (relativeValue !== undefined) {
-    return getItemFieldRelativeDiffStr(compareRule.value, rawBuckets.value, relativeValue);
+    return getItemFieldRelativeDiffStr(rawBuckets.value, relativeValue);
   }
 
   return null;

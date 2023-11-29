@@ -691,18 +691,10 @@ export const getItemFieldAbsoluteDiffStr = (
 };
 
 // TODO: spec
-export const getItemFieldRelativeDiffStr = (
-  compareRule: ItemFieldCompareRule,
-  value: number,
-  relativeValue: number
-) => {
+export const getItemFieldRelativeDiffStr = (value: number, relativeValue: number) => {
   if (value === relativeValue) return '';
 
-  if (compareRule === ItemFieldCompareRule.Less) {
-    if (relativeValue > value) return `-${n(roundFLoat(Math.abs(value - relativeValue)))}`;
-
-    return `+${n(roundFLoat(Math.abs(value - relativeValue)))}`;
-  }
+  if (relativeValue > value) return `-${n(roundFLoat(Math.abs(value - relativeValue)))}`;
 
   return `+${n(roundFLoat(Math.abs(value - relativeValue)))}`;
 };
