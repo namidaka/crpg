@@ -31,15 +31,15 @@ Default Layout
     - socials, patreon
     - HH timetable
 
-Character page
-  - header
-    - online players
-    - gold
-    - heirlooms
-    - settings
-  - footer
-    - socials, patreon
-    - HH timetable
+Character
+  - selector
+  - settings (edit, delete)
+  - sub-pages
+    - Overview
+    - Inventory
+    - Characteristic + Builder?
+    - Stats (exp/gold)
+
 */
 
 const steps = [
