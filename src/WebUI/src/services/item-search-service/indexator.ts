@@ -248,12 +248,15 @@ const checkWeaponIsPrimaryUsage = (
 
   if (itemType === ItemType.Polearm) {
     const hasCouch = weapons.some(w => w.itemUsage === ItemUsage.PolearmCouch);
+    // TODO: jousting lances
+    const isJoustingLanceHack = weapons.some(w => w.itemUsage === ItemUsage.Polearm);
+
     // const hasBrace = weapons.some(w => w.itemUsage === ItemUsage.PolearmBracing);
     // const hasPike = weapons.some(w => w.itemUsage === ItemUsage.PolearmPike);
 
     // console.log({itemType, 'weapon.class': weapon.class, weaponClass, hasCouch });
 
-    if (hasCouch && weapon.class !== WeaponClass.OneHandedPolearm) {
+    if (!isJoustingLanceHack && hasCouch && weapon.class !== WeaponClass.OneHandedPolearm) {
       return false;
     }
   }

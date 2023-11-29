@@ -907,13 +907,30 @@ item:
     NotStackable: 'Not stackable'
 
   usage:
-    long_bow: 'Длинный лук'
-    bow: 'Короткий лук'
-    crossbow: 'Тяжелый арбалет'
-    crossbow_light: 'Легкий арбалет'
-    polearm_couch: 'Рыцарский удар'
-    polearm_bracing: 'Стена копий'
-    polearm_pike: 'Пика'
+    long_bow:
+      title: 'Длинный лук'
+      description: ''
+    bow:
+      title: 'Короткий лук'
+      description: ''
+    crossbow:
+      title: 'Тяжелый арбалет'
+      description: ''
+    crossbow_light:
+      title: 'Легкий арбалет'
+      description: ''
+    polearm_couch:
+      title: 'Рыцарский удар'
+      description: ''
+    polearm_bracing:
+      title: 'Стена копий'
+      description: ''
+    polearm_pike:
+      title: 'Пика'
+      description: ''
+    polearm:
+      title: 'Копье для джостинга'
+      description: 'Можно использовать только в режиме рыцарского удара'
 
   weaponClass:
     Undefined: ''

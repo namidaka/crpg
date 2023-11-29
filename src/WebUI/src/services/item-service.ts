@@ -100,6 +100,7 @@ export const itemTypeByWeaponClass: Record<WeaponClass, ItemType> = {
 
 export const WeaponClassByItemUsage: Partial<Record<ItemUsage, WeaponClass>> = {
   [ItemUsage.PolearmCouch]: WeaponClass.OneHandedPolearm,
+  [ItemUsage.Polearm]: WeaponClass.OneHandedPolearm, // jousting lances
 };
 
 const WeaponClassByItemType: Partial<Record<ItemType, WeaponClass[]>> = {
@@ -298,6 +299,7 @@ export const visibleItemUsage: ItemUsage[] = [
   ItemUsage.PolearmCouch,
   ItemUsage.PolearmBracing,
   ItemUsage.PolearmPike,
+  ItemUsage.Polearm,
 ];
 
 export const itemTypeToIcon: Record<ItemType, string> = {
@@ -397,6 +399,7 @@ export const itemUsageToIcon: Partial<Record<ItemUsage, string | null>> = {
   [ItemUsage.PolearmBracing]: 'item-flag-brace',
   [ItemUsage.PolearmPike]: 'item-flag-pike',
   [ItemUsage.PolearmCouch]: 'item-flag-couch',
+  [ItemUsage.Polearm]: 'item-flag-jousting',
 };
 
 export const itemFamilyTypeToIcon: Record<ItemFamilyType, string | null> = {
@@ -571,11 +574,11 @@ export const humanizeBucket = (
 
     if (Object.values(ItemUsage).includes(bucket as ItemUsage)) {
       return createHumanBucket(
-        t(`item.usage.${bucket}`),
+        t(`item.usage.${bucket}.title`),
         createIcon(IconBucketType.Svg, itemUsageToIcon[bucket as ItemUsage]),
         {
-          title: t(`item.usage.${bucket}`),
-          description: null,
+          title: t(`item.usage.${bucket}.title`),
+          description: t(`item.usage.${bucket}.description`),
         }
       );
     }

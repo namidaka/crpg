@@ -911,13 +911,30 @@ item:
     NotStackable: 'Not stackable'
 
   usage:
-    long_bow: 'Longbow'
-    bow: 'Bow'
-    crossbow: 'Heavy crossbow'
-    crossbow_light: 'Light crossbow'
-    polearm_couch: 'Couch'
-    polearm_bracing: 'Brace'
-    polearm_pike: 'Pike'
+    long_bow:
+      title: 'Longbow'
+      description: ''
+    bow:
+      title: 'Bow'
+      description: ''
+    crossbow:
+      title: 'Heavy crossbow'
+      description: ''
+    crossbow_light:
+      title: 'Light crossbow'
+      description: ''
+    polearm_couch:
+      title: 'Couch'
+      description: ''
+    polearm_bracing:
+      title: 'Brace'
+      description: ''
+    polearm_pike:
+      title: 'Pike'
+      description: ''
+    polearm:
+      title: 'Jousting lance'
+      description: 'Can only be used in couch mode'
 
   weaponClass:
     Undefined: ''

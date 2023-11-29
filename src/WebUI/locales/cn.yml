@@ -904,13 +904,30 @@ item:
     NotStackable: '不可堆叠'
 
   usage:
-    long_bow: '长弓'
-    bow: '弓'
-    crossbow: '重弩'
-    crossbow_light: '轻弩'
-    polearm_couch: '冲锋'
-    polearm_bracing: '架刺'
-    polearm_pike: '长枪'
+    long_bow:
+      title: '长弓'
+      description: ''
+    bow:
+      title: '弓'
+      description: ''
+    crossbow:
+      title: '重弩'
+      description: ''
+    crossbow_light:
+      title: '轻弩'
+      description: ''
+    polearm_couch:
+      title: '冲锋'
+      description: ''
+    polearm_bracing:
+      title: '架刺'
+      description: ''
+    polearm_pike:
+      title: '长枪'
+      description: ''
+    polearm:
+      title: '长枪'
+      description: '只能在沙发模式下使用'
 
   weaponClass:
     Undefined: ''

@@ -179,6 +179,7 @@ export enum ItemUsage {
   PolearmCouch = 'polearm_couch',
   PolearmBracing = 'polearm_bracing',
   PolearmPike = 'polearm_pike',
+  Polearm = 'polearm', // jousting lance
 }
 
 export enum ItemFamilyType {

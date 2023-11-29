@@ -379,11 +379,11 @@ describe('humanizeBucket', () => {
       'flags',
       ItemUsage.PolearmBracing,
       {
-        label: 'item.usage.polearm_bracing',
+        label: 'item.usage.polearm_bracing.title',
         icon: { name: 'item-flag-brace', type: IconBucketType.Svg },
         tooltip: {
-          title: 'item.usage.polearm_bracing',
-          description: null,
+          title: 'item.usage.polearm_bracing.title',
+          description: 'item.usage.polearm_bracing.description',
         },
       },
     ],
