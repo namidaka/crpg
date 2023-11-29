@@ -1,121 +1,151 @@
 <script setup lang="ts">
 import { defaultGold } from '@root/data/constants.json';
-
-import { Platform } from '@/models/platform';
-import { usePlatform } from '@/composables/use-platform';
+import { characterClassToIcon } from '@/services/characters-service';
+import { CharacterClass } from '@/models/character';
 
 defineEmits<{
-  start: [];
+  startOnboarding: [];
 }>();
 
-// TODO: FIXME:
-const { platform } = usePlatform();
-
-enum PossibleValues {
-  Steam = 'Steam',
-  Other = 'Other',
-}
-
-const tabsModel = ref<PossibleValues>(PossibleValues.Steam);
-
-watch(
-  () => platform.value,
-  () => {
-    tabsModel.value =
-      platform.value === Platform.Steam ? PossibleValues.Steam : PossibleValues.Other;
+const presets = ref([
+  {
+    id: 1,
+    gold: 30000,
+    class: CharacterClass.Infantry,
+    level: 30,
+    description: '',
   },
   {
-    immediate: true,
-  }
-);
+    id: 2,
+    gold: 200000,
+    class: CharacterClass.Peasant,
+    level: 0,
+    description: '',
+  },
+]);
+
+const presetModel = ref(1);
 </script>
 
 <template>
   <Modal closable shown>
     <template #popper>
-      <div class="w-[40rem] space-y-10">
-        <div class="relative h-[10rem]">
+      <div class="flex max-h-[90vh] w-[40rem] flex-col">
+        <header class="relative h-[11rem]">
           <!-- TODO: poster -->
           <img
             class="absolute inset-0 aspect-video h-full w-full object-cover opacity-50"
             :src="`/images/bg/background-1.webp`"
           />
-
           <!-- TODO: heading cmp from clan-armory branch -->
-          <div
-            class="tem-center absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 select-none justify-center gap-8 text-center"
-          >
-            <SvgSpriteImg
-              name="logo-decor"
-              viewBox="0 0 108 10"
-              class="w-24 rotate-180 transform"
+          <div class="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 space-y-2">
+            <div class="flex justify-center">
+              <SvgSpriteImg name="logo" viewBox="0 0 162 124" class="w-16" />
+            </div>
+            <div class="flex select-none items-center justify-center gap-8 text-center">
+              <SvgSpriteImg
+                name="logo-decor"
+                viewBox="0 0 108 10"
+                class="w-24 rotate-180 transform"
+              />
+              <h2 class="text-2xl text-white">Welcome warrior</h2>
+              <SvgSpriteImg name="logo-decor" viewBox="0 0 108 10" class="w-24" />
+            </div>
+          </div>
+        </header>
+
+        <div class="h-full space-y-10 overflow-y-auto px-12 py-8">
+          <div class="prose prose-invert">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta magni, suscipit,
+              facilis sapiente minus voluptate laborum nemo placeat eius totam harum ipsam?
+            </p>
+          </div>
+
+          <div class="prose prose-invert">
+            <p class="text-center">Pick your start and go kick some ass.</p>
+
+            <div class="flex justify-center">
+              <VDropdown :triggers="['click']" placement="bottom-end" class="">
+                <template #default="{ shown }">
+                  <OButton variant="primary" outlined size="lg">
+                    you get
+                    <Coin :value="defaultGold" v-tooltip.bottom="$t('user.field.gold')" />
+                    and
+                    <OIcon :icon="characterClassToIcon[CharacterClass.Infantry]" size="lg" />
+                    {{ $t(`character.class.${CharacterClass.Infantry}`) }}
+                    <div
+                      class="flex items-center gap-2 font-bold"
+                      v-tooltip.bottom="'Character level'"
+                    >
+                      30
+                    </div>
+
+                    <!-- TODO: to cmp -->
+                    <div class="h-4 w-px select-none bg-border-300"></div>
+
+                    <OIcon
+                      icon="chevron-down"
+                      size="lg"
+                      :rotation="shown ? 180 : 0"
+                      class="text-content-400"
+                    />
+                  </OButton>
+                </template>
+
+                <template #popper="{ hide }">
+                  <DropdownItem class="text-primary" v-for="preset in presets">
+                    <Coin :value="preset.gold" v-tooltip.bottom="$t('user.field.gold')" />
+
+                    <OIcon :icon="characterClassToIcon[preset.class]" size="lg" />
+                    {{ $t(`character.class.${preset.class}`) }}
+                    <div
+                      class="flex items-center gap-2 font-bold"
+                      v-tooltip.bottom="'Character level'"
+                    >
+                      {{ preset.level }}
+                    </div>
+                  </DropdownItem>
+                </template>
+              </VDropdown>
+            </div>
+          </div>
+
+          <Divider />
+
+          <div class="flex justify-center">
+            <OButton
+              variant="primary"
+              outlined
+              size="xl"
+              iconLeft="tag"
+              :label="`Start onboarding`"
+              @click="$emit('startOnboarding')"
             />
-            <h2 class="text-2xl text-white">Welcome warrior</h2>
-            <SvgSpriteImg name="logo-decor" viewBox="0 0 108 10" class="w-24" />
+          </div>
+
+          <div class="space-y-6">
+            <FormGroup icon="help-circle" label="Helpful links" collapsed>
+              <!--  -->
+              <div>TODO:</div>
+            </FormGroup>
+
+            <FormGroup icon="settings" label="Some interesting" collapsed>
+              <!--  -->
+              <div>TODO:</div>
+            </FormGroup>
           </div>
         </div>
 
-        <div class="prose prose-invert space-y-10 px-12">
-          <OTabs v-model="tabsModel" size="xl" :animated="false">
-            <OTabItem :label="`Intro`" :value="PossibleValues.Steam">
-              <!-- TODO: -->
-              <div class="grid auto-cols-[8rem_auto] grid-flow-col">
-                <div>ddd</div>
-                <div>
-                  <p>TODO: Builder</p>
-                  <p>TODO: Rules</p>
-                  <p>TODO: tips-tricks-n-help</p>
+        <footer>
+          <Divider />
 
-                  <p>
-                    cRPG gives you the freedom to create whatever character you want. On your way to
-                    level 35 you can customize your stats and buy your own equipment. But this also
-                    means that you can end up with a terrible character for multiplayer gameplay!
-                  </p>
-
-                  <!-- TODO: -->
-                  Вы получили
-                  <Coin :value="defaultGold" />
-
-                  <!-- <div class="space-y-6">
-                <ol>
-                  <li>TODO:</li>
-                  <li>TODO:</li>
-                  <li>TODO:</li>
-                  <li>TODO:</li>
-                </ol>
-                <p class="text-content-400">TODO:</p>
-              </div> -->
-                </div>
-              </div>
-            </OTabItem>
-
-            <OTabItem :label="`TODO:`" :value="PossibleValues.Other">
-              <div>
-                <ol>
-                  <li>TODO:</li>
-                  <li>TODO:</li>
-                  <li>TODO:</li>
-                  <li>TODO:</li>
-                </ol>
-                <p class="text-content-400">TODO:</p>
-              </div>
-            </OTabItem>
-          </OTabs>
-        </div>
-
-        <OButton
-          variant="primary"
-          outlined
-          size="xl"
-          :label="`TODO: Start`"
-          @click="$emit('start')"
-        />
-
-        <Divider />
-
-        <div class="prose prose-invert px-12">
-          <p class="text-content-400">TODO:</p>
-        </div>
+          <div class="prose prose-invert px-12 py-6">
+            <p class="text-content-400">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, impedit.
+            </p>
+          </div>
+        </footer>
       </div>
     </template>
   </Modal>

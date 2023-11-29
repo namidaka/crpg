@@ -266,7 +266,7 @@ await Promise.all(promises);
 
     <Welcome
       v-if="shownWelcome"
-      @start="
+      @startOnboarding="
         () => {
           shownWelcome = false;
           startOnboarding();
