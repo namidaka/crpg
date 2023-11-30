@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+  <BannerIconData>
+    <BannerIconGroup id="7" name="{=!}Custom Banner Icons" is_pattern="false">
+      <Icon id="601" material_name="crpg_custom_banner_icons_01" texture_index="0" />
+	  <Icon id="602" material_name="crpg_custom_banner_icons_01" texture_index="1" />
+	  <Icon id="603" material_name="crpg_custom_banner_icons_01" texture_index="2" />
+	  <Icon id="604" material_name="crpg_custom_banner_icons_01" texture_index="3" />
+	  <Icon id="605" material_name="crpg_custom_banner_icons_01" texture_index="4" />
+	  <Icon id="606" material_name="crpg_custom_banner_icons_01" texture_index="5" />
+	  <Icon id="607" material_name="crpg_custom_banner_icons_01" texture_index="6" />
+	  <Icon id="608" material_name="crpg_custom_banner_icons_01" texture_index="7" />
+	  <Icon id="609" material_name="crpg_custom_banner_icons_01" texture_index="8" />
+	  <Icon id="610" material_name="crpg_custom_banner_icons_01" texture_index="9" />
+	  <Icon id="611" material_name="crpg_custom_banner_icons_01" texture_index="10" />
+	  <Icon id="612" material_name="crpg_custom_banner_icons_01" texture_index="11" />
+	  <Icon id="613" material_name="crpg_custom_banner_icons_01" texture_index="12" />
+	  <Icon id="614" material_name="crpg_custom_banner_icons_01" texture_index="13" />
+	  <Icon id="615" material_name="crpg_custom_banner_icons_01" texture_index="14" />
+	  <Icon id="616" material_name="crpg_custom_banner_icons_01" texture_index="15" />
+    </BannerIconGroup>
+  </BannerIconData>
+</base>
