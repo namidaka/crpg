@@ -32,13 +32,32 @@ Default Layout
     - HH timetable
 
 Character
-  - selector
+  - selector: select, active, create new
   - settings (edit, delete)
   - sub-pages
-    - Overview
-    - Inventory
-    - Characteristic + Builder?
-    - Stats (exp/gold)
+    - overview
+      - common area (Overview)
+      - actions
+       - respec
+       - retire
+       - tournament
+    - inventory (empty?)
+      - items grid
+        - sort/search/filters
+        - drag&drop
+        - click - detail window
+      - doll
+      - stats
+    - characteristic
+      - common tips/links
+      - convert
+    - builder?
+      - TODO
+    - stats (exp/gold)
+      - TODO
+
+Clan
+  - create, join, armory, team balance
 
 */
 
