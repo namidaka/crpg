@@ -23,6 +23,7 @@
   "minimumLevel": 1,
   "maximumLevel": 38,
   "tournamentLevel": 30,
+  "startedCharacterLevel": 30,
   "experienceForLevelCoefs": [13, 200],
   "defaultStrength": 3,
   "defaultAgility": 3,

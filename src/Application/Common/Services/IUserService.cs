@@ -1,5 +1,7 @@
-﻿using Crpg.Domain.Entities.Users;
+﻿using Crpg.Application.Common.Interfaces;
+using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Common.Services;
 
@@ -9,6 +11,8 @@ namespace Crpg.Application.Common.Services;
 internal interface IUserService
 {
     void SetDefaultValuesForUser(User user);
+
+    Task<bool> CheckIsRecentUser(ICrpgDbContext db, User user);
 }
 
 /// <inheritdoc />
@@ -31,5 +35,20 @@ internal class UserService : IUserService
         user.Role = Role.User;
         user.HeirloomPoints = _constants.DefaultHeirloomPoints;
         user.ExperienceMultiplier = _constants.DefaultExperienceMultiplier;
+    }
+
+    public async Task<bool> CheckIsRecentUser(ICrpgDbContext db, User user)
+    {
+        var characters = await db.Characters
+            .Where(c => c.UserId == user.Id)
+            .ToArrayAsync();
+
+        bool hasHighLevelCharacter = characters.Any(c => c.Level > _constants.StartedCharacterLevel);
+        double totalExperience = characters.Sum(c => c.Experience);
+        bool wasRetired = user.ExperienceMultiplier != _constants.DefaultExperienceMultiplier;
+        return
+            !wasRetired &&
+            !hasHighLevelCharacter &&
+            totalExperience < 12000000; // protection against abusers of free re-specialization mechanics
     }
 }

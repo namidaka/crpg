@@ -250,7 +250,7 @@ export const computeSpeedStats = (
     1 / (1 + applyPolynomialFunction(strength - 3, weightReductionPolynomialFactor));
   const freeWeight = 2.5 * (1 + (strength - 3) / 30);
   const perceivedWeight = Math.max(totalEncumbrance - freeWeight, 0) * weightReductionFactor;
-  const nakedSpeed = 0.60 + 0.034 * (20 * athletics + 2 * agility) / 26.0;
+  const nakedSpeed = 0.6 + (0.034 * (20 * athletics + 2 * agility)) / 26.0;
   const currentSpeed = clamp(
     nakedSpeed * Math.pow(361 / (361 + Math.pow(perceivedWeight, 5)), 0.055),
     0.1,
@@ -393,8 +393,13 @@ export interface RespecCapability {
 export const getRespecCapability = (
   character: Character,
   limitations: CharacterLimitations,
-  userGold: number
+  userGold: number,
+  isRecentUser: boolean
 ): RespecCapability => {
+  if (isRecentUser) {
+    return { price: 0, nextFreeAt: { days: 0, hours: 0, minutes: 0 }, enabled: true };
+  }
+
   const lastRespecDate = new Date(limitations.lastRespecializeAt);
 
   const nextFreeAt = new Date(limitations.lastRespecializeAt);
@@ -405,7 +410,8 @@ export const getRespecCapability = (
     return { price: 0, nextFreeAt: { days: 0, hours: 0, minutes: 0 }, enabled: true };
   }
 
-  const decayDivider = (new Date().getTime() - lastRespecDate.getTime()) / (respecializePriceHalfLife * 1000 * 3600);
+  const decayDivider =
+    (new Date().getTime() - lastRespecDate.getTime()) / (respecializePriceHalfLife * 1000 * 3600);
   const price = character.forTournament
     ? 0
     : Math.floor(
@@ -539,7 +545,7 @@ export const getOverallArmorValueBySlot = (
 
 // TODO: SPEC, more complicated logic?
 export const checkUpkeepIsHigh = (userGold: number, upkeepPerHour: number) => {
-  return userGold < upkeepPerHour;
+  return userGold < upkeepPerHour * 2.5;
 };
 
 export const validateItemNotMeetRequirement = (

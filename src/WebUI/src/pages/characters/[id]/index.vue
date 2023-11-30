@@ -63,7 +63,12 @@ const experienceTooltipFormatter = (value: number) =>
   });
 
 const respecCapability = computed(() =>
-  getRespecCapability(character.value, characterLimitations.value, userStore.user!.gold)
+  getRespecCapability(
+    character.value,
+    characterLimitations.value,
+    userStore.user!.gold,
+    userStore.isRecentUser
+  )
 );
 
 const onRespecializeCharacter = async () => {
@@ -404,7 +409,10 @@ await fetchPageData(character.value.id);
                   tag="p"
                 >
                   <template #respecializationPrice>
-                    <Coin :value="respecCapability.price" class="text-status-danger" />
+                    <Coin
+                      :value="respecCapability.price"
+                      :class="{ 'text-status-danger': respecCapability.price > 0 }"
+                    />
                   </template>
                 </i18n-t>
               </template>

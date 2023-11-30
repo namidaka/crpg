@@ -6,6 +6,7 @@ import { type Clan } from './clan';
 
 export interface User {
   id: number;
+  createdAt: string;
   platform: Platform;
   platformUserId: string;
   name: string;

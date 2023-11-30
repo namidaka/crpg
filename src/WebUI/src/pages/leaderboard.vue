@@ -67,7 +67,7 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
 <template>
   <div class="container">
     <div class="mx-auto max-w-4xl py-8 md:py-16">
-      <div class="container mb-20">
+      <div class="mb-20">
         <div class="mb-5 flex justify-center">
           <OIcon icon="trophy-cup" size="5x" class="text-more-support" />
         </div>

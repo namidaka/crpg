@@ -16,6 +16,19 @@
       "command": "cd src/WebUI && npm run dev",
       "isBackground": true,
       "problemMatcher": []
+    },
+    {
+      "type": "dotnet",
+      "task": "watch Application.UTest",
+      "file": "/workspaces/crpg/test/Application.UTest/Application.UTest.csproj",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "label": "dotnet: watch Application.UTest",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
     }
   ]
 }

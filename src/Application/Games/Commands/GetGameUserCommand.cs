@@ -37,6 +37,29 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
 
     internal class Handler : IMediatorRequestHandler<GetGameUserCommand, GameUserViewModel>
     {
+        internal static readonly CharacterCharacteristics StartingCharacterCharacteristics =
+            new()
+            {
+                Attributes = new CharacterAttributes { Strength = 19, Agility = 18 },
+                Skills = new CharacterSkills { IronFlesh = 6, PowerStrike = 6, Athletics = 6, WeaponMaster = 6, Shield = 3 },
+                WeaponProficiencies = new CharacterWeaponProficiencies { Points = 2, OneHanded = 143, Polearm = 81 },
+            };
+
+        internal static readonly (string id, ItemSlot slot)[][] StartedItemSets =
+        {
+            new[]
+            {
+                ("crpg_ba_openhelm2_h0", ItemSlot.Head),
+                ("crpg_imperial_padded_cloth_v2_h0", ItemSlot.Body),
+                ("crpg_mail_mitten_v2_h0", ItemSlot.Hand),
+                ("crpg_western_chain_shoulders_v2_h0", ItemSlot.Shoulder),
+                ("crpg_mail_chausses_v2_h0", ItemSlot.Leg),
+                ("crpg_iron_arming_sword_v1_h0", ItemSlot.Weapon0),
+                ("crpg_heavy_round_shield_v2_h0", ItemSlot.Weapon1),
+                ("crpg_knob_headed_spear_v1_h0", ItemSlot.Weapon2),
+            },
+        };
+
         internal static readonly (string id, ItemSlot slot)[][] DefaultItemSets =
         {
             // aserai
@@ -159,14 +182,16 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
 
             if (user.ActiveCharacter == null)
             {
-                if (await HasRecentlyCreatedACharacter(user.Id))
+                if (await HasRecentlyCreatedAtCharacter(user.Id))
                 {
                     Logger.LogInformation("User '{0}' tried to create two characters in a short time window", user.Id);
                     return new(CommonErrors.CharacterRecentlyCreated(user.Id));
                 }
 
-                var itemSet = await GiveUserRandomItemSet(user);
-                var newCharacter = CreateCharacter(itemSet);
+                bool isNewUser = !await HasAnyCharacter(user.Id);
+                var itemSet = await GiveUserRandomItemSet(user, isNewUser ? StartedItemSets : DefaultItemSets);
+                var newCharacter = CreateCharacter(itemSet, isStartedCharacter: isNewUser);
+
                 user.Characters.Add(newCharacter);
                 user.ActiveCharacter = newCharacter;
 
@@ -212,7 +237,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
         /// To protect against players creating many characters to sell the peasant items, we check that no other
         /// character was created in the last hour.
         /// </summary>
-        private Task<bool> HasRecentlyCreatedACharacter(int userId)
+        private Task<bool> HasRecentlyCreatedAtCharacter(int userId)
         {
             if (userId == default)
             {
@@ -225,34 +250,50 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 c.UserId == userId && _dateTime.UtcNow < c.CreatedAt + TimeSpan.FromHours(1));
         }
 
-        private Character CreateCharacter(IList<EquippedItem> equippedItems)
+        /// <summary>
+        /// Check if the user has ever had a character (we have soft delete character).
+        /// </summary>
+        private Task<bool> HasAnyCharacter(int userId)
+        {
+            if (userId == default)
+            {
+                return Task.FromResult(false);
+            }
+
+            return _db.Characters
+                .IgnoreQueryFilters()
+                .AnyAsync(c => c.UserId == userId);
+        }
+
+        private Character CreateCharacter(IList<EquippedItem> equippedItems, bool isStartedCharacter = false)
         {
             Character character = new()
             {
-                Name = "Peasant",
-                Class = CharacterClass.Peasant,
+                Name = isStartedCharacter ? "Warrior" : "Peasant",
                 EquippedItems = equippedItems,
-                Statistics = new CharacterStatistics
-                {
-                    Kills = 0,
-                    Deaths = 0,
-                    Assists = 0,
-                    PlayTime = TimeSpan.Zero,
-                },
                 Limitations = new CharacterLimitations
                 {
                     LastRespecializeAt = _dateTime.UtcNow,
                 },
             };
 
-            _characterService.SetDefaultValuesForCharacter(character);
+            if (isStartedCharacter)
+            {
+                _characterService.SetValuesForStartedCharacter(character);
+                character.Characteristics = StartingCharacterCharacteristics;
+            }
+            else
+            {
+                _characterService.SetDefaultValuesForCharacter(character);
+            }
+
             return character;
         }
 
-        private async Task<IList<EquippedItem>> GiveUserRandomItemSet(User user)
+        private async Task<IList<EquippedItem>> GiveUserRandomItemSet(User user, (string id, ItemSlot slot)[][] setList)
         {
             // Get a random set of items and check if the user already own some of them and add the others.
-            var mbIdsWithSlot = DefaultItemSets[_random.Next(0, DefaultItemSets.Length)];
+            var mbIdsWithSlot = setList[_random.Next(0, setList.Length)];
             string[] itemIds = mbIdsWithSlot.Select(i => i.id).ToArray();
             var items = await _db.Items
                 .Include(i => i.UserItems.Where(oi => oi.UserId == user.Id))

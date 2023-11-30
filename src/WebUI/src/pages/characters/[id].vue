@@ -21,6 +21,7 @@ import {
 } from '@/services/characters-service';
 import { computeOverallAverageRepairCostByHour } from '@/services/characters-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
+import { useWelcome } from '@/composables/use-welcome';
 
 definePage({
   props: true,
@@ -125,6 +126,8 @@ onBeforeRouteUpdate(async (to, from) => {
   return true;
 });
 
+const { shownWelcomeMessage, showWelcomeMessage, onCloseWelcomeMessage } = useWelcome();
+
 await fetchPageData(character.value.id);
 </script>
 
@@ -160,7 +163,16 @@ await fetchPageData(character.value.id);
         </RouterLink>
       </div>
 
-      <div class="order-3 place-self-end">
+      <div class="order-3 flex items-center gap-2 place-self-end">
+        <OButton
+          v-if="userStore.isRecentUser"
+          size="xl"
+          rounded
+          variant="transparent"
+          outlined
+          iconLeft="help-circle"
+          @click="showWelcomeMessage"
+        />
         <RouterLink :to="{ name: 'Builder' }">
           <OButton
             variant="primary"
@@ -174,5 +186,7 @@ await fetchPageData(character.value.id);
     </Teleport>
 
     <RouterView />
+
+    <Welcome v-if="shownWelcomeMessage" @close="onCloseWelcomeMessage" />
   </div>
 </template>

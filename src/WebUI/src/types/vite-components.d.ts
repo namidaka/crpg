@@ -87,5 +87,6 @@ declare module 'vue' {
     UserPlatform: typeof import('./../components/user/UserPlatform.vue')['default']
     UserRestrictionGuide: typeof import('./../components/user/UserRestrictionGuide.vue')['default']
     UserRestrictionNotification: typeof import('./../components/user/UserRestrictionNotification.vue')['default']
+    Welcome: typeof import('./../components/app/Welcome.vue')['default']
   }
 }

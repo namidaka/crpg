@@ -20,7 +20,7 @@ const {
   bordered = true,
   variant = 'primary',
 } = defineProps<{
-  variant: FormGroupVariant;
+  variant?: FormGroupVariant;
   icon?: string;
   label?: string;
   collapsed?: boolean;

@@ -6,7 +6,7 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <nav class="flex items-center gap-8">
+  <nav class="flex items-center gap-6">
     <RouterLink
       :to="{ name: 'Characters' }"
       class="text-content-300 hover:text-content-100"
@@ -58,5 +58,16 @@ const userStore = useUserStore();
     >
       {{ $t('nav.main.Moderator') }}
     </RouterLink>
+
+    <OButton
+      variant="primary"
+      size="sm"
+      outlined
+      tag="a"
+      icon-left="discord"
+      href="https://discord.gg/c-rpg"
+      target="_blank"
+      :label="$t('nav.main.Community')"
+    />
   </nav>
 </template>

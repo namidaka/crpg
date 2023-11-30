@@ -26,6 +26,7 @@ public class Constants
     public int MinimumLevel { get; set; }
     public int MaximumLevel { get; set; }
     public int TournamentLevel { get; set; }
+    public int StartedCharacterLevel { get; set; }
     public float[] ExperienceForLevelCoefs { get; set; } = Array.Empty<float>();
     public int DefaultStrength { get; set; }
     public int DefaultAgility { get; set; }

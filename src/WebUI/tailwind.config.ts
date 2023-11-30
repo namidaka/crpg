@@ -183,9 +183,11 @@ export default {
                 marginBottom: theme('spacing')['2.5'],
               },
               h5: {
+                fontSize: theme('fontSize.sm'),
                 fontWeight: theme('fontWeight.semibold'),
                 marginTop: theme('spacing')['2.5'],
                 marginBottom: theme('spacing')['2.5'],
+                color: 'var(--tw-prose-headings)',
               },
             },
           },
@@ -194,8 +196,8 @@ export default {
             css: {
               '--tw-prose-body': theme('colors.content.200'),
               '--tw-prose-bold': theme('colors.content.100'),
+              '--tw-prose-headings': theme('colors.content.100'),
               // TODO:!
-              '--tw-prose-headings': 'var(--tw-prose-invert-headings)',
               '--tw-prose-lead': 'var(--tw-prose-invert-lead)',
               '--tw-prose-links': 'var(--tw-prose-invert-links)',
               '--tw-prose-counters': 'var(--tw-prose-invert-counters)',

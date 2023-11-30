@@ -73,6 +73,7 @@ nav:
     Moderator: 管理员
     Builder: 生成器
     Leaderboard: 排行榜
+    Community: 社区
   back: 返回
 
 action:
@@ -102,6 +103,7 @@ action:
   reforge: 重铸
   enter: 进入
   copied: 复制的
+  start: 启动
 
 login:
   label: 登录
@@ -470,10 +472,10 @@ character:
       desc: 根据武器长度和力量属性点数，造成的额外移动速度惩罚
     price:
       title: 价格
-      desc: ''
+      desc: '设备总成本'
     avgRepairCost:
       title: 平均维修成本
-      desc: ''
+      desc: '装备物品每小时的平均维护费用'
 
   highUpkeepWarning:
     title: 你无法承担你目前的维护费用！你必须要有足够的资金！

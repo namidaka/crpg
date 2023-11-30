@@ -59,16 +59,14 @@ public class RespecializeCharacterCommandTest : TestBase
         Mock<IExperienceTable> experienceTableMock = new();
         experienceTableMock.Setup(et => et.GetLevelForExperience(75)).Returns(2);
         experienceTableMock.Setup(et => et.GetExperienceForLevel(30)).Returns(100000);
-
         Mock<ICharacterService> characterServiceMock = new();
-
+        Mock<IUserService> userServiceMock = new();
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
-
         Mock<IDateTime> dateTimeMock = new();
         dateTimeMock.Setup(dt => dt.UtcNow).Returns(new DateTime(2023, 3, 17));
 
         RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object,
-            experienceTableMock.Object, activityLogServiceMock.Object, dateTimeMock.Object, Constants);
+            userServiceMock.Object, experienceTableMock.Object, activityLogServiceMock.Object, dateTimeMock.Object, Constants);
         await handler.Handle(new RespecializeCharacterCommand
         {
             CharacterId = character.Id,
@@ -134,10 +132,11 @@ public class RespecializeCharacterCommandTest : TestBase
 
         Mock<IExperienceTable> experienceTableMock = new();
         Mock<ICharacterService> characterServiceMock = new();
+        Mock<IUserService> userServiceMock = new();
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
 
         RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object,
-            experienceTableMock.Object, activityLogServiceMock.Object, new MachineDateTime(), Constants);
+         userServiceMock.Object, experienceTableMock.Object, activityLogServiceMock.Object, new MachineDateTime(), Constants);
         await handler.Handle(new RespecializeCharacterCommand
         {
             CharacterId = character.Id,
@@ -180,11 +179,11 @@ public class RespecializeCharacterCommandTest : TestBase
         experienceTableMock.Setup(et => et.GetExperienceForLevel(30)).Returns(100000);
 
         Mock<ICharacterService> characterServiceMock = new();
-
+        Mock<IUserService> userServiceMock = new();
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
 
         RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object,
-            experienceTableMock.Object, activityLogServiceMock.Object, new MachineDateTime(), Constants);
+            userServiceMock.Object, experienceTableMock.Object, activityLogServiceMock.Object, new MachineDateTime(), Constants);
         var res = await handler.Handle(new RespecializeCharacterCommand
         {
             CharacterId = character.Id,
@@ -200,9 +199,10 @@ public class RespecializeCharacterCommandTest : TestBase
     {
         var experienceTable = Mock.Of<IExperienceTable>();
         var characterService = Mock.Of<ICharacterService>();
+        var userService = Mock.Of<IUserService>();
         var activityLogService = Mock.Of<IActivityLogService>();
-        RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterService, experienceTable,
-            activityLogService, new MachineDateTime(), Constants);
+        RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterService, userService,
+         experienceTable, activityLogService, new MachineDateTime(), Constants);
         var result = await handler.Handle(
             new RespecializeCharacterCommand
             {
@@ -221,9 +221,10 @@ public class RespecializeCharacterCommandTest : TestBase
 
         var experienceTable = Mock.Of<IExperienceTable>();
         var characterService = Mock.Of<ICharacterService>();
+        var userService = Mock.Of<IUserService>();
         var activityLogService = Mock.Of<IActivityLogService>();
-        RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterService, experienceTable,
-            activityLogService, new MachineDateTime(), Constants);
+        RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterService, userService,
+        experienceTable, activityLogService, new MachineDateTime(), Constants);
         var result = await handler.Handle(new RespecializeCharacterCommand
         {
             CharacterId = 1,
