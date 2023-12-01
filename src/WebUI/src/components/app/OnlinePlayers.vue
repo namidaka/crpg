@@ -2,6 +2,10 @@
 import { useTransition } from '@vueuse/core';
 import { type GameServerStats } from '@/models/game-server-stats';
 import { n } from '@/services/translate-service';
+import { gameModeToIcon } from '@/services/game-mode-service';
+import { omitEmptyGameMode } from '@/services/game-server-statistics-service';
+
+import { getEntries } from '@/utils/object';
 
 const gameStatsErrorIndicator = '?';
 
@@ -19,6 +23,17 @@ const animatedPlayingCountString = computed(() =>
     ? n(Number(animatedPlayingCount.value.toFixed(0)), 'decimal')
     : gameStatsErrorIndicator
 );
+
+const omittedEmptyGameServerStats = computed(() => {
+  if (gameServerStats === null) return {};
+  return getEntries(gameServerStats.regions).reduce(
+    (out, [region, gameModes]) => {
+      out[region] = omitEmptyGameMode(gameModes!);
+      return out;
+    },
+    {} as GameServerStats['regions']
+  );
+});
 </script>
 
 <template>
@@ -33,7 +48,6 @@ const animatedPlayingCountString = computed(() =>
           :icon="['crpg', 'online-ring']"
         />
       </FontAwesomeLayers>
-
       <div v-if="showLabel" data-aq-online-players-count>
         {{ $t('onlinePlayers.format', { count: animatedPlayingCountString }) }}
       </div>
@@ -44,13 +58,22 @@ const animatedPlayingCountString = computed(() =>
     <template #popper>
       <div class="prose prose-invert space-y-5">
         <h5 class="text-content-100">{{ $t('onlinePlayers.tooltip.title') }}</h5>
-        <div class="space-y-3" v-if="gameServerStats !== null" data-aq-region-stats>
+        <div class="space-y-6" v-if="gameServerStats !== null" data-aq-region-stats>
           <div
-            v-for="(regionServerStats, regionKey) in gameServerStats.regions"
-            class="flex w-52 items-center justify-between gap-3"
+            v-for="(regionServerStats, regionKey) in omittedEmptyGameServerStats"
+            class="flex flex-col gap-3"
           >
-            <div>{{ $t(`region.${regionKey}`, 0) }}</div>
-            <div>{{ regionServerStats!.playingCount }}</div>
+            <div class="text-white">{{ $t(`region.${regionKey}`, 0) }}</div>
+            <div
+              v-for="(regionServerMode, gameModeKey) in regionServerStats"
+              class="flex w-44 items-center justify-between gap-2"
+            >
+              <div class="flex items-center gap-2">
+                <OIcon size="xl" :icon="gameModeToIcon[gameModeKey]" />
+                <div>{{ $t(`game-mode.${gameModeKey}`) }}</div>
+              </div>
+              <div class="text-white">{{ regionServerMode!.playingCount }}</div>
+            </div>
           </div>
         </div>
       </div>
