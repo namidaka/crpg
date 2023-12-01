@@ -171,6 +171,7 @@ game-mode:
   Battle: Battle
   Conquest: Conquest
   DTV: DTV
+  Duel: Duel
 
 clanBalancingExplanation: "
   <h3>You're not in any clan</h3>
