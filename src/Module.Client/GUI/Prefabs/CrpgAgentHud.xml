@@ -51,7 +51,7 @@
   <Window>
     <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
       <Children>
-        <AgentHealthWidget Id="lol" Health="@WeaponHealth" MaxHealth="@WeaponHealthMax" HealthBar="Canvas\FillBar" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.MountHealthBar.Frame.Width" SuggestedHeight="!Mission.MainAgentHUD.MountHealthBar.Frame.Height" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="20" MarginRight="80" ShowHealthBar="true" HealthDropContainer="Canvas\HealthDropContainer" HealthDropBrush="Mission.MainAgentHUD.MountHealthBar.FillChange">
+        <AgentHealthWidget Id="lol" Health="@WeaponHealth" MaxHealth="@WeaponHealthMax" HealthBar="Canvas\FillBar" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.MountHealthBar.Frame.Width" SuggestedHeight="!Mission.MainAgentHUD.MountHealthBar.Frame.Height" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginBottom="40" MarginRight="80" ShowHealthBar="@ShowWeaponBar" HealthDropContainer="Canvas\HealthDropContainer" HealthDropBrush="Mission.MainAgentHUD.MountHealthBar.FillChange">
           <Children>
             <Widget Id="Canvas" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.MountHealthBar.Canvas.Width" SuggestedHeight="!Mission.MainAgentHUD.MountHealthBar.Canvas.Height" HorizontalAlignment="Left" VerticalAlignment="Center" Sprite="General\Mission\horse_canvas">
               <Children>
@@ -59,9 +59,9 @@
                   <Children>
                   </Children>
                 </Widget>
-                <FillBarWidget Id="FillBar" ClipContents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!Mission.MainAgentHUD.MountHealthBar.Fill.Height" VerticalAlignment="Center" PositionYOffset="-2" IsVertical="false" MarginLeft="14" MarginRight="17" MarginTop="5" FillWidget="FillVisualParent\FillVisual">
+                <FillBarWidget Id="FillBar" ClipContents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!Mission.MainAgentHUD.MountHealthBar.Fill.Height" VerticalAlignment="Center" PositionYOffset="-2" IsVertical="false" MarginLeft="3" MarginRight="0" MarginTop="5" FillWidget="FillVisualParent\FillVisual">
                   <Children>
-                    <Widget Id="FillVisualParent" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="164">
+                    <Widget Id="FillVisualParent" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="174">
                       <Children>
                         <BrushWidget Id="FillVisual" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="!Mission.MainAgentHUD.ShieldHealthBar.Canvas.Width" HorizontalAlignment="Left" Brush="Mission.MainAgentHUD.MountHealthBar.Fill">
                           <Children>
@@ -76,7 +76,7 @@
             </Widget>
 
             <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="General\Mission\horse_frame" />
-            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.MountHealthBar.Icon.Width" SuggestedHeight="!Mission.MainAgentHUD.MountHealthBar.Icon.Height" VerticalAlignment="Center" HorizontalAlignment="Left" PositionXOffset="-30" PositionYOffset="0" Sprite="General\Mission\mount_icon" />
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="30" VerticalAlignment="Center" HorizontalAlignment="Left" PositionXOffset="-30" PositionYOffset="0" Sprite="General\EquipmentIcons\equipment_type_polearm" />
           </Children>
         </AgentHealthWidget>
         <ExperienceBarWidget Id="Canvas" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.HeroHealthBar.Frame.Height"

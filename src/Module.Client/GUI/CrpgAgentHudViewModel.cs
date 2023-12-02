@@ -14,6 +14,7 @@ internal class CrpgAgentHudViewModel : ViewModel
     private int _rewardMultiplier;
     private string _rewardMultiplierStr = string.Empty;
     private bool _showExperienceBar;
+    private bool _showWeaponBar;
     private int _weaponHealth;
     private int _weaponHealthMax;
 
@@ -57,6 +58,16 @@ internal class CrpgAgentHudViewModel : ViewModel
         private set
         {
             _showExperienceBar = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
+    [DataSourceProperty]
+    public bool ShowWeaponBar
+    {
+        get => _showWeaponBar;
+        private set
+        {
+            _showWeaponBar = value;
             OnPropertyChangedWithValue(value);
         }
     }
@@ -117,12 +128,17 @@ internal class CrpgAgentHudViewModel : ViewModel
         var missionPeer = _myPeer.GetComponent<MissionPeer>();
         if (BreakableWeaponsBehaviorServer.
             breakAbleItemsHitPoints.
-            TryGetValue
-            (missionPeer.ControlledAgent?.WieldedWeapon.Item?.StringId ?? string.Empty
-            , out short healthMax))
+            TryGetValue(
+            missionPeer.ControlledAgent?.WieldedWeapon.Item?.StringId ?? string.Empty,
+            out short healthMax))
         {
             WeaponHealthMax = healthMax;
             WeaponHealth = missionPeer.ControlledAgent!.WieldedWeapon.HitPoints;
+            ShowWeaponBar = true;
+        }
+        else
+        {
+            ShowWeaponBar = false;
         }
     }
 
