@@ -137,6 +137,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     warmupComponent,
                     notificationsComponent,
                     new WelcomeMessageBehavior(warmupComponent),
+
 #if CRPG_SERVER
                     roundController,
                     new CrpgBattleServer(battleClient, _isSkirmish, rewardServer),
@@ -156,6 +157,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new RemoveIpFromFirewallBehavior(),
                     new DrowningBehavior(),
                     new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
+                    new BreakableWeaponsBehaviorServer(),
 #else
                     new MultiplayerRoundComponent(),
                     new MultiplayerAchievementComponent(),
@@ -163,6 +165,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new MissionRecentPlayersComponent(),
                     new CrpgRewardClient(),
                     new HotConstantsClient(),
+                    new BreakableWeaponsBehaviorClient(),
 #endif
                 });
     }

@@ -14,11 +14,15 @@ internal class CrpgAgentHudViewModel : ViewModel
     private int _rewardMultiplier;
     private string _rewardMultiplierStr = string.Empty;
     private bool _showExperienceBar;
+    private int _weaponHealth;
+    private int _weaponHealthMax;
 
     public CrpgAgentHudViewModel(CrpgExperienceTable experienceTable)
     {
         _experienceTable = experienceTable;
         _myPeer = GameNetwork.MyPeer;
+        _weaponHealth = 100;
+        _weaponHealthMax = 100;
     }
 
     /// <summary>
@@ -57,12 +61,34 @@ internal class CrpgAgentHudViewModel : ViewModel
         }
     }
 
+    [DataSourceProperty]
+    public int WeaponHealth
+    {
+        get => _weaponHealth;
+        private set
+        {
+            _weaponHealth = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
+
+    [DataSourceProperty]
+    public int WeaponHealthMax
+    {
+        get => _weaponHealthMax;
+        private set
+        {
+            _weaponHealthMax = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
     public void Tick(float deltaTime)
     {
         // Hide the experience bar if the user is dead.
         ShowExperienceBar = Mission.Current?.MainAgent != null;
 
         var crpgPeer = _myPeer.GetComponent<CrpgPeer>();
+
         if (crpgPeer == null)
         {
             return;
@@ -86,6 +112,17 @@ internal class CrpgAgentHudViewModel : ViewModel
         {
             RewardMultiplier = 'x' + crpgPeer.RewardMultiplier.ToString();
             _rewardMultiplier = crpgPeer.RewardMultiplier;
+        }
+
+        var missionPeer = _myPeer.GetComponent<MissionPeer>();
+        if (BreakableWeaponsBehaviorServer.
+            breakAbleItemsHitPoints.
+            TryGetValue
+            (missionPeer.ControlledAgent?.WieldedWeapon.Item?.StringId ?? string.Empty
+            , out short healthMax))
+        {
+            WeaponHealthMax = healthMax;
+            WeaponHealth = missionPeer.ControlledAgent!.WieldedWeapon.HitPoints;
         }
     }
 
