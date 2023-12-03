@@ -42,7 +42,7 @@ const goToRootPage = () => {
               <template #discordLink>
                 <a
                   class="text-content-link hover:text-content-link-hover"
-                  href="https://discord.gg/c-rpg"
+                  href="https://discord.gg/crpg-279063743839862805"
                   target="_blank"
                 >
                   Discord
