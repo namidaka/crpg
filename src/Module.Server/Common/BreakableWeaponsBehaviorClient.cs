@@ -28,7 +28,7 @@ internal class BreakableWeaponsBehaviorClient : MissionNetwork
             return;
         }
 
-        for (int i = 0; i < 5; i++)
+        for (EquipmentIndex i = EquipmentIndex.WeaponItemBeginSlot; i < EquipmentIndex.NonWeaponItemBeginSlot; i++)
         {
             MissionWeapon weapon = agent.Equipment[i];
 
@@ -38,7 +38,6 @@ internal class BreakableWeaponsBehaviorClient : MissionNetwork
             }
 
             agent.ChangeWeaponHitPoints((EquipmentIndex)i, baseHitPoints);
-            InformationManager.DisplayMessage(new InformationMessage($"set the hp of weapon {weapon.Item?.Name.ToString() ?? string.Empty}  to {baseHitPoints}"));
         }
     }
 

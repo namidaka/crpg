@@ -13,6 +13,7 @@ namespace Crpg.Module.Common;
 
 internal class BreakableWeaponsBehaviorServer : MissionBehavior
 {
+    // Todo : Move this to an Xml
     public static readonly Dictionary<string, short> BreakAbleItemsHitPoints = new()
     {
         { "crpg_joustinglance_striped_ry_v1_h0", 500 },
@@ -35,7 +36,7 @@ internal class BreakableWeaponsBehaviorServer : MissionBehavior
             return;
         }
 
-        for (int i = 0; i < 5; i++)
+        for (EquipmentIndex i = EquipmentIndex.WeaponItemBeginSlot; i < EquipmentIndex.NonWeaponItemBeginSlot; i++)
         {
             MissionWeapon weapon = agent.Equipment[i];
 
@@ -64,31 +65,33 @@ internal class BreakableWeaponsBehaviorServer : MissionBehavior
 
         int blowDone = collisionData.AbsorbedByArmor + collisionData.InflictedDamage;
 
-        if (attacker!.WieldedWeapon.HitPoints == 1)
+        if (attacker!.WieldedWeapon.HitPoints == 1) // Roll to see if Item will break
         {
             int randomNumber = MBRandom.RandomInt(0, 1000);
-            if (randomNumber >= blowDone)
+
+            if (randomNumber >= blowDone) // does not break
             {
                 GameNetwork.BeginBroadcastModuleEvent();
                 GameNetwork.WriteMessage(new UpdateWeaponHealth { Agent = attacker, EquipmentIndex = attackerWeaponIndex, WeaponHealth = 1, LastBlow = blowDone, LastRoll = randomNumber });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
-                return;
+
             }
-
-            int soundIndex = SoundEvent.GetEventIdFromString("event:/mission/combat/shield/broken");
-            attacker.RemoveEquippedWeapon(attackerWeaponIndex);
-            Mission.Current.MakeSound(soundIndex, attacker.Position, false, true, -1, -1);
-            return;
+            else // item breaks
+            {
+                int soundIndex = SoundEvent.GetEventIdFromString("event:/mission/combat/shield/broken");
+                attacker.RemoveEquippedWeapon(attackerWeaponIndex);
+                Mission.Current.MakeSound(soundIndex, attacker.Position, false, true, -1, -1);
+            }
         }
+        else // item loses hp
+        {
+            short newHealth = (short)Math.Max(1, attacker!.WieldedWeapon.HitPoints - blowDone);
 
-        short newHealth = (short)Math.Max(1, attacker!.WieldedWeapon.HitPoints - blowDone);
+            attacker!.ChangeWeaponHitPoints(attackerWeaponIndex, newHealth);
 
-        attacker!.ChangeWeaponHitPoints(attackerWeaponIndex, newHealth);
-
-        GameNetwork.BeginBroadcastModuleEvent();
-        GameNetwork.WriteMessage(new UpdateWeaponHealth { Agent = attacker, EquipmentIndex = attackerWeaponIndex, WeaponHealth = newHealth });
-        GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
-
-        InformationManager.DisplayMessage(new InformationMessage($"{attacker.WieldedWeapon.Item?.Name.ToString() ?? string.Empty} of {attacker.Name.ToString()} has  {attacker.WieldedWeapon.HitPoints} remaining hp"));
+            GameNetwork.BeginBroadcastModuleEvent();
+            GameNetwork.WriteMessage(new UpdateWeaponHealth { Agent = attacker, EquipmentIndex = attackerWeaponIndex, WeaponHealth = newHealth });
+            GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+        }
     }
 }
