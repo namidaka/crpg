@@ -22,7 +22,7 @@ const socialsLinks: SocialLink[] = [
     id: 'discord',
     title: 'Discord',
     icon: 'discord',
-    href: 'https://discord.gg/c-rpg',
+    href: 'https://discord.gg/crpg-279063743839862805',
   },
   {
     id: 'reddit',
