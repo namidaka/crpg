@@ -77,6 +77,18 @@
 
             <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="General\Mission\horse_frame" />
             <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="30" VerticalAlignment="Center" HorizontalAlignment="Left" PositionXOffset="-30" PositionYOffset="0" Sprite="General\EquipmentIcons\equipment_type_polearm" />
+            <TextWidget Text="@LastRoll" IsVisible ="@ShowRoll" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Brush="AgentAmmoCount.Text" Brush.TextVerticalAlignment="Center" Brush.FontSize="50"
+                        Brush.FontColor="#53962AFF" MarginLeft="18" PositionYOffset="40" PositionXOffset="20"/>
+            <TextWidget Text="Last Roll " IsVisible ="@ShowRoll" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Brush="AgentAmmoCount.Text" Brush.TextVerticalAlignment="Center" Brush.FontSize="20"
+                        Brush.FontColor="#53962AFF" MarginLeft="0" PositionYOffset="20" PositionXOffset="20"/>
+            <TextWidget Text="@LastBlow" IsVisible ="@ShowRoll" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Brush="AgentAmmoCount.Text" Brush.TextVerticalAlignment="Center" Brush.FontSize="50"
+                        Brush.FontColor="#53962AFF" MarginLeft="18" PositionYOffset="40" PositionXOffset="90"/>
+            <TextWidget Text="Last Blow" IsVisible ="@ShowRoll" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Brush="AgentAmmoCount.Text" Brush.TextVerticalAlignment="Center" Brush.FontSize="20"
+                        Brush.FontColor="#53962AFF" MarginLeft="0" PositionYOffset="20" PositionXOffset="100"/>
           </Children>
         </AgentHealthWidget>
         <ExperienceBarWidget Id="Canvas" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Mission.MainAgentHUD.HeroHealthBar.Frame.Height"
@@ -97,4 +109,3 @@
     </Widget>
   </Window>
 </Prefab>
-

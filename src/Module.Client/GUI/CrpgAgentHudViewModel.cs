@@ -7,6 +7,7 @@ namespace Crpg.Module.GUI;
 
 internal class CrpgAgentHudViewModel : ViewModel
 {
+    private readonly BreakableWeaponsBehaviorClient _breakClient;
     private readonly CrpgExperienceTable _experienceTable;
     private readonly NetworkCommunicator _myPeer;
     private int _experience;
@@ -17,9 +18,13 @@ internal class CrpgAgentHudViewModel : ViewModel
     private bool _showWeaponBar;
     private int _weaponHealth;
     private int _weaponHealthMax;
+    private string _lastRoll = string.Empty;
+    private string _lastBlow = string.Empty;
+    private bool _showRoll;
 
     public CrpgAgentHudViewModel(CrpgExperienceTable experienceTable)
     {
+        _breakClient = Mission.Current.GetMissionBehavior<BreakableWeaponsBehaviorClient>();
         _experienceTable = experienceTable;
         _myPeer = GameNetwork.MyPeer;
         _weaponHealth = 100;
@@ -61,6 +66,7 @@ internal class CrpgAgentHudViewModel : ViewModel
             OnPropertyChangedWithValue(value);
         }
     }
+
     [DataSourceProperty]
     public bool ShowWeaponBar
     {
@@ -93,6 +99,40 @@ internal class CrpgAgentHudViewModel : ViewModel
             OnPropertyChangedWithValue(value);
         }
     }
+
+    [DataSourceProperty]
+    public string LastRoll
+    {
+        get => _lastRoll;
+        private set
+        {
+            _lastRoll = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
+
+    [DataSourceProperty]
+    public string LastBlow
+    {
+        get => _lastBlow;
+        private set
+        {
+            _lastBlow = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
+
+    [DataSourceProperty]
+    public bool ShowRoll
+    {
+        get => _showRoll;
+        private set
+        {
+            _showRoll = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
+
     public void Tick(float deltaTime)
     {
         // Hide the experience bar if the user is dead.
@@ -127,14 +167,24 @@ internal class CrpgAgentHudViewModel : ViewModel
 
         var missionPeer = _myPeer.GetComponent<MissionPeer>();
         if (BreakableWeaponsBehaviorServer.
-            breakAbleItemsHitPoints.
+            BreakAbleItemsHitPoints.
             TryGetValue(
-            missionPeer.ControlledAgent?.WieldedWeapon.Item?.StringId ?? string.Empty,
+            missionPeer?.ControlledAgent?.WieldedWeapon.Item?.StringId ?? string.Empty,
             out short healthMax))
         {
             WeaponHealthMax = healthMax;
-            WeaponHealth = missionPeer.ControlledAgent!.WieldedWeapon.HitPoints;
+            WeaponHealth = missionPeer!.ControlledAgent!.WieldedWeapon.HitPoints;
             ShowWeaponBar = true;
+            if (WeaponHealth == 1)
+            {
+                ShowRoll = true && ManagedOptions.GetConfig(ManagedOptions.ManagedOptionsType.ReportDamage) > 0;
+                LastRoll = _breakClient.LastRoll.ToString();
+                LastBlow = _breakClient.LastBlow.ToString();
+            }
+            else
+            {
+                _showRoll = false;
+            }
         }
         else
         {
