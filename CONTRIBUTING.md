@@ -14,7 +14,7 @@ PRs or PRs with no context might get ignored.
 
 ## Add a feature / Fix a bug
 
-- Discuss first with the developers on the [cRPG Discord](https://discord.gg/c-rpg) if
+- Discuss first with the developers on the [cRPG Discord]([https://discord.gg/c-rpg](https://discord.gg/crpg-279063743839862805)) if
   you're adding a new feature
 - Open a new GitHub pull request with the patch
 - Ensure the PR description clearly describes the problem and solution. Include the relevant issue
