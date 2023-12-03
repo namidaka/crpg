@@ -15,7 +15,7 @@
             <a
               class="text-content-link hover:text-content-link-hover"
               target="_blank"
-              href="https://discord.gg/c-rpg"
+              href="https://discord.gg/crpg-279063743839862805"
             >
               Discord
             </a>
