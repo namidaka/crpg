@@ -1,5 +1,6 @@
 ﻿using Crpg.Application.Common;
 using Crpg.Application.Common.Services;
+using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
 using Moq;
@@ -7,13 +8,14 @@ using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Common.Services;
 
-public class UserServiceTest
+public class UserServiceTest : TestBase
 {
     private static readonly Constants Constants = new()
     {
         DefaultGold = 300,
         DefaultHeirloomPoints = 0,
         DefaultExperienceMultiplier = 1.0f,
+        StartedCharacterLevel = 30,
     };
 
     [Test]
@@ -64,5 +66,46 @@ public class UserServiceTest
         User user = new() { Gold = currentGold, CreatedAt = new DateTime(2000, 10, 5) };
         userService.SetDefaultValuesForUser(user);
         Assert.That(user.Gold, Is.EqualTo(expectedGold));
+    }
+
+    [TestCase(1.0f, 29, 1000, true)]
+    [TestCase(1.1f, 30, 1000, false)]
+
+    public async Task CheckIsRecentUserSingleCharacter(float experienceMultiplier, int characterLevel, int characterExperience, bool expectedResult)
+    {
+        Character character = new() { UserId = 1, Level = characterLevel, Experience = characterExperience };
+        ArrangeDb.Characters.Add(character);
+        await ArrangeDb.SaveChangesAsync();
+
+        Mock<IDateTime> dateTimeMock = new();
+        dateTimeMock.Setup(dt => dt.UtcNow).Returns(new DateTime(2000, 10, 1));
+
+        UserService userService = new(dateTimeMock.Object, Constants);
+
+        User user = new() { Id = 1, ExperienceMultiplier = experienceMultiplier };
+
+        Assert.That(await userService.CheckIsRecentUser(ActDb, user), Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public async Task CheckIsRecentUserSeveralCharacters()
+    {
+        Character[] characters =
+        {
+            new() { UserId = 1, Level = 29, Experience = 4000000 },
+            new() { UserId = 1, Level = 29, Experience = 4000000 },
+            new() { UserId = 1, Level = 29, Experience = 4000001 },
+        };
+        ArrangeDb.Characters.AddRange(characters);
+        await ArrangeDb.SaveChangesAsync();
+
+        Mock<IDateTime> dateTimeMock = new();
+        dateTimeMock.Setup(dt => dt.UtcNow).Returns(new DateTime(2000, 10, 1));
+
+        UserService userService = new(dateTimeMock.Object, Constants);
+
+        User user = new() { Id = 1, ExperienceMultiplier = 1 };
+
+        Assert.That(await userService.CheckIsRecentUser(ActDb, user), Is.False);
     }
 }
