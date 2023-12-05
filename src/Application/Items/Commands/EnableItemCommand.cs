@@ -45,10 +45,10 @@ public record EnableItemCommand : IMediatorRequest
                     .RemoveRangeAsync(ei => ei.UserItem!.ItemId == req.ItemId, cancellationToken);
 
                 await _db.ClanArmoryBorrowedItems
-                    .RemoveRangeAsync(e => e.UserItem!.ItemId == req.ItemId, cancellationToken);
+                    .RemoveRangeAsync(bi => bi.UserItem!.ItemId == req.ItemId, cancellationToken);
 
                 await _db.ClanArmoryItems
-                    .RemoveRangeAsync(e => e.UserItem!.ItemId == req.ItemId, cancellationToken);
+                    .RemoveRangeAsync(ci => ci.UserItem!.ItemId == req.ItemId, cancellationToken);
             }
 
             await _db.SaveChangesAsync(cancellationToken);

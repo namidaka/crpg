@@ -18,8 +18,8 @@ public class ReturnClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .FirstAsync(e => e.Name == "user1");
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .FirstAsync(u => u.Name == "user1");
 
         var item = user.ClanMembership!.ArmoryBorrowedItems.First();
 
@@ -34,9 +34,9 @@ public class ReturnClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Null);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .Include(e => e.Items)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .Include(u => u.Items)
+            .FirstAsync(u => u.Id == user.Id);
 
         Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
         Assert.That(AssertDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(0));
@@ -51,11 +51,11 @@ public class ReturnClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership)
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryBorrowedItem)
-            .FirstAsync(e => e.Name == "user0");
+            .Include(u => u.ClanMembership)
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryBorrowedItem)
+            .FirstAsync(u => u.Name == "user0");
 
-        var item = user.Items.First(e => e.ClanArmoryBorrowedItem != null);
+        var item = user.Items.First(ui => ui.ClanArmoryBorrowedItem != null);
 
         var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new ReturnClanArmoryCommand
@@ -68,8 +68,8 @@ public class ReturnClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .FirstAsync(e => e.Name == "user1");
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .FirstAsync(u => u.Name == "user1");
 
         Assert.That(AssertDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(1));
     }
@@ -83,14 +83,14 @@ public class ReturnClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership)
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .FirstAsync(e => e.Name == "user1");
+            .Include(u => u.ClanMembership)
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .FirstAsync(u => u.Name == "user1");
 
         var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new ReturnClanArmoryCommand
         {
-            UserItemId = user.Items.First(e => e.ClanArmoryItem == null).Id,
+            UserItemId = user.Items.First(ui => ui.ClanArmoryItem == null).Id,
             UserId = user.Id,
             ClanId = user.ClanMembership!.ClanId,
         }, CancellationToken.None);
@@ -98,8 +98,8 @@ public class ReturnClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .FirstAsync(u => u.Id == user.Id);
 
         Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(1));
         Assert.That(AssertDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(1));
@@ -115,11 +115,11 @@ public class ReturnClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership)
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .FirstAsync(e => e.Name == "user1");
+            .Include(u => u.ClanMembership)
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .FirstAsync(u => u.Name == "user1");
 
-        var item = user.Items.First(e => e.ClanArmoryItem != null);
+        var item = user.Items.First(ui => ui.ClanArmoryItem != null);
 
         var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new ReturnClanArmoryCommand
@@ -132,8 +132,8 @@ public class ReturnClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .FirstAsync(u => u.Id == user.Id);
 
         Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(1));
         Assert.That(AssertDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(1));

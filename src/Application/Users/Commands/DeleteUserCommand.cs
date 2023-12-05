@@ -55,13 +55,13 @@ public record DeleteUserCommand : IMediatorRequest
             user.DeletedAt = _dateTime.UtcNow; // Deleted users are just marked with a DeletedAt != null
 
             await _db.EquippedItems
-                .RemoveRangeAsync(e => e.UserItem!.UserId == req.UserId, cancellationToken);
+                .RemoveRangeAsync(ei => ei.UserItem!.UserId == req.UserId, cancellationToken);
 
             await _db.ClanArmoryBorrowedItems
-                .RemoveRangeAsync(e => e.BorrowerUserId == req.UserId, cancellationToken);
+                .RemoveRangeAsync(bi => bi.BorrowerUserId == req.UserId, cancellationToken);
 
             await _db.ClanArmoryItems
-                .RemoveRangeAsync(e => e.LenderUserId == req.UserId, cancellationToken);
+                .RemoveRangeAsync(ci => ci.LenderUserId == req.UserId, cancellationToken);
 
             _db.UserItems.RemoveRange(user.Items);
             _db.Characters.RemoveRange(user.Characters);

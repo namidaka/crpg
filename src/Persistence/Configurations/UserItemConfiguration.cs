@@ -10,14 +10,14 @@ public class UserItemConfiguration : IEntityTypeConfiguration<UserItem>
     {
         builder.HasIndex(ui => new { ui.UserId, ui.ItemId }).IsUnique();
 
-        builder.HasOne(e => e.User)
-            .WithMany(e => e.Items)
-            .HasForeignKey(e => e.UserId)
+        builder.HasOne(ui => ui.User)
+            .WithMany(u => u.Items)
+            .HasForeignKey(ui => ui.UserId)
             .IsRequired();
 
-        builder.HasOne(e => e.Item)
-            .WithMany(e => e.UserItems)
-            .HasForeignKey(e => e.ItemId)
+        builder.HasOne(ui => ui.Item)
+            .WithMany(i => i.UserItems)
+            .HasForeignKey(ui => ui.ItemId)
             .IsRequired();
     }
 }

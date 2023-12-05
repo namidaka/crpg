@@ -17,8 +17,8 @@ public class AddCanArmoryCommandTest : TestBase
         await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
 
         var user = await ActDb.Users
-            .Include(e => e.Items)
-            .Include(e => e.ClanMembership)
+            .Include(u => u.Items)
+            .Include(u => u.ClanMembership)
             .FirstAsync();
 
         var item = user.Items.First();
@@ -33,10 +33,10 @@ public class AddCanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Null);
 
         user = await AssertDb.Users
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .FirstAsync(u => u.Id == user.Id);
 
-        Assert.That(user.Items.Count(e => e.ClanArmoryItem != null), Is.EqualTo(1));
+        Assert.That(user.Items.Count(ui => ui.ClanArmoryItem != null), Is.EqualTo(1));
         Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(1));
 
         var view = result.Data!;
@@ -52,11 +52,11 @@ public class AddCanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Name == "user0");
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Name == "user0");
 
-        var item = user.Items.First(e => e.ClanArmoryItem != null);
+        var item = user.Items.First(ui => ui.ClanArmoryItem != null);
 
         var handler = new AddClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
         var result = await handler.Handle(new AddClanArmoryCommand
@@ -70,10 +70,10 @@ public class AddCanArmoryCommandTest : TestBase
         Assert.That(result.Errors!.First().Code, Is.Not.EqualTo(ErrorCode.InternalError));
 
         user = await AssertDb.Users
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .FirstAsync(u => u.Id == user.Id);
 
-        Assert.That(user.Items.Count(e => e.ClanArmoryItem != null), Is.EqualTo(1));
+        Assert.That(user.Items.Count(ui => ui.ClanArmoryItem != null), Is.EqualTo(1));
         Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(1));
     }
 
@@ -82,13 +82,13 @@ public class AddCanArmoryCommandTest : TestBase
     {
         await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
         var user0 = await ActDb.Users
-            .Include(e => e.Items)
+            .Include(u => u.Items)
             .FirstAsync();
 
         var user1 = await ActDb.Users
-            .Include(e => e.Items)
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Id != user0.Id);
+            .Include(u => u.Items)
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Id != user0.Id);
 
         var item = user0.Items.First();
 
@@ -103,10 +103,10 @@ public class AddCanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         var user = await AssertDb.Users
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .FirstAsync(e => e.Id == user1.Id);
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .FirstAsync(u => u.Id == user1.Id);
 
-        Assert.That(user.Items.Count(e => e.ClanArmoryItem != null), Is.EqualTo(0));
+        Assert.That(user.Items.Count(ui => ui.ClanArmoryItem != null), Is.EqualTo(0));
         Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(0));
     }
 
@@ -115,8 +115,8 @@ public class AddCanArmoryCommandTest : TestBase
     {
         await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
         var user = await ActDb.Users
-            .Include(e => e.Items)
-            .Include(e => e.ClanMembership)
+            .Include(u => u.Items)
+            .Include(u => u.ClanMembership)
             .FirstAsync();
 
         var item = user.Items.First();
@@ -132,10 +132,10 @@ public class AddCanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .FirstAsync(u => u.Id == user.Id);
 
-        Assert.That(user.Items.Count(e => e.ClanArmoryItem != null), Is.EqualTo(0));
+        Assert.That(user.Items.Count(ui => ui.ClanArmoryItem != null), Is.EqualTo(0));
         Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(0));
     }
 
@@ -144,8 +144,8 @@ public class AddCanArmoryCommandTest : TestBase
     {
         await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
         var user = await ArrangeDb.Users
-            .Include(e => e.Items)
-            .Include(e => e.Characters)
+            .Include(u => u.Items)
+            .Include(u => u.Characters)
             .FirstAsync();
 
         var item = user.Items.First();
@@ -154,9 +154,9 @@ public class AddCanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         user = await ActDb.Users
-            .Include(e => e.Items)
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Name == user.Name);
+            .Include(u => u.Items)
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Name == user.Name);
 
         var handler = new AddClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
         var result = await handler.Handle(new AddClanArmoryCommand
@@ -169,10 +169,10 @@ public class AddCanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .FirstAsync(u => u.Id == user.Id);
 
-        Assert.That(user.Items.Count(e => e.ClanArmoryItem != null), Is.EqualTo(0));
+        Assert.That(user.Items.Count(ui => ui.ClanArmoryItem != null), Is.EqualTo(0));
         Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(0));
     }
 }
