@@ -36,8 +36,8 @@ public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowedItemV
         public async Task<Result<ClanArmoryBorrowedItemViewModel>> Handle(BorrowClanArmoryCommand req, CancellationToken cancellationToken)
         {
             var user = await _db.Users
-                .Where(e => e.Id == req.UserId)
-                .Include(e => e.ClanMembership)
+                .Where(u => u.Id == req.UserId)
+                .Include(u => u.ClanMembership)
                 .FirstOrDefaultAsync(cancellationToken);
             if (user == null)
             {
@@ -45,7 +45,7 @@ public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowedItemV
             }
 
             var clan = await _db.Clans
-                .Where(e => e.Id == req.ClanId)
+                .Where(c => c.Id == req.ClanId)
                 .FirstOrDefaultAsync(cancellationToken);
             if (clan == null)
             {

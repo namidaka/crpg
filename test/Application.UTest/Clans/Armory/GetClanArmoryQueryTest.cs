@@ -18,8 +18,8 @@ public class GetClanArmoryQueryTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Name == "user1");
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Name == "user1");
 
         var handler = new GetClanArmoryQuery.Handler(ActDb, Mapper, ClanService);
         var result = await handler.Handle(new GetClanArmoryQuery

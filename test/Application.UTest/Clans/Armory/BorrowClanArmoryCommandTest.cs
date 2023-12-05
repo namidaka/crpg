@@ -18,14 +18,14 @@ public class BorrowClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Name == "user1");
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Name == "user1");
 
         var clan = await ActDb.Clans
-            .Include(e => e.Members).ThenInclude(e => e.ArmoryItems)
-            .FirstAsync(e => e.Id == user.ClanMembership!.ClanId);
+            .Include(c => c.Members).ThenInclude(cm => cm.ArmoryItems)
+            .FirstAsync(c => c.Id == user.ClanMembership!.ClanId);
 
-        var item = clan.Members.First(e => e.ArmoryItems.Count > 0).ArmoryItems.First();
+        var item = clan.Members.First(cm => cm.ArmoryItems.Count > 0).ArmoryItems.First();
 
         var handler = new BorrowClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
         var result = await handler.Handle(new BorrowClanArmoryCommand
@@ -38,8 +38,8 @@ public class BorrowClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Null);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .FirstAsync(u => u.Id == user.Id);
 
         Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(1));
     }
@@ -53,14 +53,14 @@ public class BorrowClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Name == "user2");
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Name == "user2");
 
         var clan = await ActDb.Clans
-            .Include(e => e.Members).ThenInclude(e => e.ArmoryItems)
-            .FirstAsync(e => e.Id == user.ClanMembership!.ClanId);
+            .Include(c => c.Members).ThenInclude(cm => cm.ArmoryItems)
+            .FirstAsync(c => c.Id == user.ClanMembership!.ClanId);
 
-        var item = clan.Members.First(e => e.ArmoryItems.Count > 0).ArmoryItems.First();
+        var item = clan.Members.First(cm => cm.ArmoryItems.Count > 0).ArmoryItems.First();
 
         var handler = new BorrowClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
         var result = await handler.Handle(new BorrowClanArmoryCommand
@@ -73,8 +73,8 @@ public class BorrowClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .FirstAsync(u => u.Id == user.Id);
 
         Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
     }
@@ -87,14 +87,14 @@ public class BorrowClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Name == "user1");
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Name == "user1");
 
         var clan = await ActDb.Clans
-            .Include(e => e.Members).ThenInclude(e => e.ArmoryItems)
-            .FirstAsync(e => e.Id == user.ClanMembership!.ClanId);
+            .Include(c => c.Members).ThenInclude(ci => ci.ArmoryItems)
+            .FirstAsync(c => c.Id == user.ClanMembership!.ClanId);
 
-        var item = clan.Members.First(e => e.ArmoryItems.Count > 0).ArmoryItems.First();
+        var item = clan.Members.First(cm => cm.ArmoryItems.Count > 0).ArmoryItems.First();
 
         var handler = new BorrowClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
         var result = await handler.Handle(new BorrowClanArmoryCommand
@@ -107,8 +107,8 @@ public class BorrowClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-             .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-             .FirstAsync(e => e.Id == user.Id);
+             .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+             .FirstAsync(u => u.Id == user.Id);
 
         Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
     }
@@ -121,21 +121,21 @@ public class BorrowClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ArrangeDb.Users
-            .Include(e => e.Items)
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Name == "user1");
+            .Include(u => u.Items)
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Name == "user1");
 
         var clan = await ArrangeDb.Clans
-            .Include(e => e.Members).ThenInclude(e => e.ArmoryItems).ThenInclude(e => e.UserItem)
-            .FirstAsync(e => e.Id == user.ClanMembership!.ClanId);
+            .Include(c => c.Members).ThenInclude(cm => cm.ArmoryItems).ThenInclude(ci => ci.UserItem)
+            .FirstAsync(c => c.Id == user.ClanMembership!.ClanId);
 
-        var item = clan.Members.First(e => e.ArmoryItems.Count > 0).ArmoryItems.First().UserItem!;
+        var item = clan.Members.First(cm => cm.ArmoryItems.Count > 0).ArmoryItems.First().UserItem!;
         user.Items.Add(new UserItem { ItemId = item.ItemId });
         await ArrangeDb.SaveChangesAsync();
 
         user = await ActDb.Users
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Id == user.Id);
 
         var handler = new BorrowClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
         var result = await handler.Handle(new BorrowClanArmoryCommand
@@ -148,8 +148,8 @@ public class BorrowClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
-             .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-             .FirstAsync(e => e.Id == user.Id);
+             .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+             .FirstAsync(u => u.Id == user.Id);
 
         Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
     }

@@ -16,8 +16,8 @@ public class ClanArmoryCasesTest : TestBase
         await ClanArmoryTestHelper.BorrowItems(ArrangeDb, "user1");
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership)
-            .Where(e => e.Name == "user0")
+            .Include(u => u.ClanMembership)
+            .Where(u => u.Name == "user0")
             .FirstAsync();
 
         var result = await ClanService.LeaveClan(ActDb, user.ClanMembership!, CancellationToken.None);
@@ -28,18 +28,18 @@ public class ClanArmoryCasesTest : TestBase
         Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(0));
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
-            .Where(e => e.Name == "user0")
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryItems)
+            .Where(u => u.Name == "user0")
             .FirstAsync();
 
         Assert.That(user.ClanMembership, Is.Null);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .Include(e => e.Items)
-            .Where(e => e.Name == "user1")
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryItems)
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .Include(u => u.Items)
+            .Where(u => u.Name == "user1")
             .FirstAsync();
 
         Assert.That(user.ClanMembership, Is.Not.Null);
