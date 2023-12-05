@@ -28,7 +28,14 @@ public class GetGameUserCommandTest : TestBase
             .GroupBy(i => i.id) // distinct by mbId
             .Select(p => new Item { Id = p.First().id });
 
+        var allStartedItemMbIds = GetGameUserCommand.Handler.StartedItemSets
+            .SelectMany(set => set)
+            .GroupBy(i => i.id) // distinct by mbId
+            .Select(p => new Item { Id = p.First().id });
+
         ArrangeDb.Items.AddRange(allDefaultItemMbIds);
+        ArrangeDb.Items.AddRange(allStartedItemMbIds);
+
         await ArrangeDb.SaveChangesAsync();
     }
 
@@ -54,14 +61,43 @@ public class GetGameUserCommandTest : TestBase
         Assert.That(gameUser.Platform, Is.EqualTo(Platform.EpicGames));
         Assert.That(gameUser.PlatformUserId, Is.EqualTo("1"));
         Assert.That(gameUser.Region, Is.EqualTo(Region.Na));
-        Assert.That(gameUser.Character.Name, Is.EqualTo("Peasant"));
-        Assert.That(gameUser.Character.Class, Is.EqualTo(CharacterClass.Peasant));
+        Assert.That(gameUser.Restrictions, Is.Empty);
+
+        // Check that default values were set for user.
+        userServiceMock.Verify(us => us.SetDefaultValuesForUser(It.IsAny<User>()));
+
+        // Check that user and its owned entities were created
+        var dbUser = await AssertDb.Users
+            .FirstOrDefaultAsync(u => u.Id == gameUser.Id);
+
+        Assert.That(dbUser, Is.Not.Null);
+    }
+
+    [Test]
+    public async Task ShouldCreateStartingCharacter()
+    {
+        Mock<IUserService> userServiceMock = new();
+        Mock<ICharacterService> characterServiceMock = new();
+        Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
+
+        GetGameUserCommand.Handler handler = new(ActDb, Mapper, new MachineDateTime(),
+            new ThreadSafeRandom(), userServiceMock.Object, characterServiceMock.Object, activityLogServiceMock.Object);
+
+        var result = await handler.Handle(new GetGameUserCommand
+        {
+            Platform = Platform.Steam,
+            PlatformUserId = "1",
+            Region = Region.Eu,
+        }, CancellationToken.None);
+
+        var gameUser = result.Data!;
+        Assert.That(gameUser.Character.Name, Is.EqualTo("Warrior"));
         Assert.That(gameUser.Character.EquippedItems, Is.Not.Empty);
+        Assert.That(gameUser.Character.Characteristics.Attributes.Strength, Is.EqualTo(19));
         Assert.That(gameUser.Restrictions, Is.Empty);
 
         // Check that default values were set for user and character.
-        userServiceMock.Verify(us => us.SetDefaultValuesForUser(It.IsAny<User>()));
-        characterServiceMock.Verify(cs => cs.SetDefaultValuesForCharacter(It.IsAny<Character>()));
+        characterServiceMock.Verify(cs => cs.SetValuesForStartedCharacter(It.IsAny<Character>()));
 
         // Check that user and its owned entities were created
         var dbUser = await AssertDb.Users
@@ -74,7 +110,7 @@ public class GetGameUserCommandTest : TestBase
     }
 
     [Test]
-    public async Task ShouldCreateCharacterIfDoesntExist()
+    public async Task ShouldCreateDefaultCharacterIfExistCharacter()
     {
         Mock<IUserService> userServiceMock = new();
         Mock<ICharacterService> characterServiceMock = new();
@@ -111,9 +147,9 @@ public class GetGameUserCommandTest : TestBase
         Assert.That(gameUser.PlatformUserId, Is.EqualTo(user.PlatformUserId));
         Assert.That(gameUser.Region, Is.EqualTo(Region.Eu));
         Assert.That(gameUser.Character.Name, Is.EqualTo("Peasant"));
-        Assert.That(gameUser.Character.Class, Is.EqualTo(CharacterClass.Peasant));
         Assert.That(gameUser.Character.EquippedItems, Is.Not.Empty);
         Assert.That(gameUser.Restrictions, Is.Empty);
+        Assert.That(gameUser.Character.Characteristics.Attributes.Strength, Is.EqualTo(0));
 
         // Check that default values were set for character.
         userServiceMock.Verify(us => us.SetDefaultValuesForUser(It.IsAny<User>()), Times.Never);
@@ -436,6 +472,32 @@ public class GetGameUserCommandTest : TestBase
                 }
 
                 Assert.That(price, Is.LessThan(3521));
+            }
+        });
+    }
+
+    [Test]
+    public async Task CheckStartedItemsExistAndAreMediumExpensive()
+    {
+        var items = (await new FileItemsSource().LoadItems()).ToDictionary(i => i.Id);
+        Assert.Multiple(() =>
+        {
+            foreach (var set in GetGameUserCommand.Handler.StartedItemSets)
+            {
+                int price = 0;
+                foreach ((string mbId, ItemSlot slot) in set)
+                {
+                    if (!items.TryGetValue(mbId, out var item))
+                    {
+                        string closestMbId = TestHelper.FindClosestString(mbId, items.Keys);
+                        Assert.Fail($"Item '{mbId}' doesn't exist. Did you mean {closestMbId}?");
+                        continue;
+                    }
+
+                    price += item.Price;
+                }
+
+                Assert.That(price, Is.LessThan(25000));
             }
         });
     }
