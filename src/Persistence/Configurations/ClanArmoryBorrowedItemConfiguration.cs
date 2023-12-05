@@ -8,26 +8,26 @@ public class ClanArmoryBorrowedItemConfiguration : IEntityTypeConfiguration<Clan
 {
     public void Configure(EntityTypeBuilder<ClanArmoryBorrowedItem> builder)
     {
-        builder.HasKey(e => e.UserItemId);
+        builder.HasKey(bi => bi.UserItemId);
 
-        builder.HasOne(e => e.Borrower)
-            .WithMany(e => e.ArmoryBorrowedItems)
-            .HasForeignKey(e => e.BorrowerUserId)
+        builder.HasOne(bi => bi.Borrower)
+            .WithMany(cm => cm.ArmoryBorrowedItems)
+            .HasForeignKey(bi => bi.BorrowerUserId)
             .IsRequired();
 
-        builder.HasOne(e => e.ArmoryItem)
-            .WithOne(e => e.BorrowedItem)
-            .HasForeignKey<ClanArmoryBorrowedItem>(e => e.UserItemId)
+        builder.HasOne(bi => bi.ArmoryItem)
+            .WithOne(ci => ci.BorrowedItem)
+            .HasForeignKey<ClanArmoryBorrowedItem>(bi => bi.UserItemId)
             .IsRequired();
 
-        builder.HasOne(e => e.UserItem)
-            .WithOne(e => e.ClanArmoryBorrowedItem)
-            .HasForeignKey<ClanArmoryBorrowedItem>(e => e.UserItemId)
+        builder.HasOne(bi => bi.UserItem)
+            .WithOne(ui => ui.ClanArmoryBorrowedItem)
+            .HasForeignKey<ClanArmoryBorrowedItem>(bi => bi.UserItemId)
             .IsRequired();
 
-        builder.HasOne(e => e.Clan)
-            .WithMany(e => e.ArmoryBorrowedItems)
-            .HasForeignKey(e => e.BorrowerClanId)
+        builder.HasOne(bi => bi.Clan)
+            .WithMany(c => c.ArmoryBorrowedItems)
+            .HasForeignKey(bi => bi.BorrowerClanId)
             .IsRequired();
     }
 }

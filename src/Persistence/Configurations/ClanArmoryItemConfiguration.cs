@@ -8,21 +8,21 @@ public class ClanArmoryItemConfiguration : IEntityTypeConfiguration<ClanArmoryIt
 {
     public void Configure(EntityTypeBuilder<ClanArmoryItem> builder)
     {
-        builder.HasKey(e => e.UserItemId);
+        builder.HasKey(ci => ci.UserItemId);
 
-        builder.HasOne(e => e.Lender)
-            .WithMany(e => e.ArmoryItems)
-            .HasForeignKey(e => e.LenderUserId)
+        builder.HasOne(ci => ci.Lender)
+            .WithMany(cm => cm.ArmoryItems)
+            .HasForeignKey(ci => ci.LenderUserId)
             .IsRequired();
 
-        builder.HasOne(e => e.UserItem)
-            .WithOne(e => e.ClanArmoryItem)
-            .HasForeignKey<ClanArmoryItem>(e => e.UserItemId)
+        builder.HasOne(ci => ci.UserItem)
+            .WithOne(ui => ui.ClanArmoryItem)
+            .HasForeignKey<ClanArmoryItem>(ci => ci.UserItemId)
             .IsRequired();
 
-        builder.HasOne(e => e.Clan)
-            .WithMany(e => e.ArmoryItems)
-            .HasForeignKey(e => e.LenderClanId)
+        builder.HasOne(ci => ci.Clan)
+            .WithMany(c => c.ArmoryItems)
+            .HasForeignKey(ci => ci.LenderClanId)
             .IsRequired();
     }
 }

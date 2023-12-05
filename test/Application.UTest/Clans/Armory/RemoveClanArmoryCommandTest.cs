@@ -17,14 +17,14 @@ public class RemoveClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .Include(e => e.ClanMembership).
-            FirstAsync(e => e.Name == "user0");
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .Include(u => u.ClanMembership).
+            FirstAsync(u => u.Name == "user0");
 
         var handler = new RemoveClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new RemoveClanArmoryCommand
         {
-            UserItemId = user.Items.First(e => e.ClanArmoryItem != null).Id,
+            UserItemId = user.Items.First(ui => ui.ClanArmoryItem != null).Id,
             UserId = user.Id,
             ClanId = user.ClanMembership!.ClanId,
         }, CancellationToken.None);
@@ -32,8 +32,8 @@ public class RemoveClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Null);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems)
-            .FirstAsync(e => e.Id == user.Id);
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryItems)
+            .FirstAsync(u => u.Id == user.Id);
         Assert.That(user.ClanMembership!.ArmoryItems.Count, Is.EqualTo(0));
 
         Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(0));
@@ -47,14 +47,14 @@ public class RemoveClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership!)
-            .FirstAsync(e => e.Name == "user1");
+            .Include(u => u.ClanMembership!)
+            .FirstAsync(u => u.Name == "user1");
 
         var clan = ActDb.Clans
-            .Include(e => e.Members).ThenInclude(e => e.ArmoryItems)
-            .First(e => e.Id == user.ClanMembership!.ClanId);
+            .Include(c => c.Members).ThenInclude(cm => cm.ArmoryItems)
+            .First(c => c.Id == user.ClanMembership!.ClanId);
 
-        var items = clan.Members.SelectMany(e => e.ArmoryItems);
+        var items = clan.Members.SelectMany(cm => cm.ArmoryItems);
         int expectedCount = items.Count();
 
         var handler = new RemoveClanArmoryCommand.Handler(ActDb,  ActivityService, ClanService);
@@ -77,14 +77,14 @@ public class RemoveClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.Items).ThenInclude(e => e.ClanArmoryItem)
-            .Include(e => e.ClanMembership)
-            .FirstAsync(e => e.Name == "user0");
+            .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
+            .Include(u => u.ClanMembership)
+            .FirstAsync(u => u.Name == "user0");
 
         var handler = new RemoveClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new RemoveClanArmoryCommand
         {
-            UserItemId = user.Items.First(e => e.ClanArmoryItem == null).Id,
+            UserItemId = user.Items.First(ui => ui.ClanArmoryItem == null).Id,
             UserId = user.Id,
             ClanId = user.ClanMembership!.ClanId,
         }, CancellationToken.None);
@@ -103,10 +103,10 @@ public class RemoveClanArmoryCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         var user = await ActDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryItems).ThenInclude(e => e.BorrowedItem)
-            .FirstAsync(e => e.Name == "user0");
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryItems).ThenInclude(ci => ci.BorrowedItem)
+            .FirstAsync(u => u.Name == "user0");
 
-        var item = user.ClanMembership!.ArmoryItems.First(e => e.BorrowedItem != null);
+        var item = user.ClanMembership!.ArmoryItems.First(ci => ci.BorrowedItem != null);
 
         var handler = new RemoveClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
         var result = await handler.Handle(new RemoveClanArmoryCommand
@@ -119,8 +119,8 @@ public class RemoveClanArmoryCommandTest : TestBase
         Assert.That(result.Errors, Is.Null);
 
         user = await AssertDb.Users
-            .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems)
-            .Where(e => e.Name == "user1")
+            .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
+            .Where(u => u.Name == "user1")
             .FirstAsync();
         Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
 

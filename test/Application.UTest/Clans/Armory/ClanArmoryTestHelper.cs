@@ -27,7 +27,7 @@ public static class ClanArmoryTestHelper
             Name = $"user{idx}",
             ClanMembership = new() { Clan = clan },
             Characters = Enumerable.Range(0, 2).Select(i => new Character()).ToList(),
-            Items = items.GetRange(idx * itemsPerUser, itemsPerUser).Select(e => new UserItem { Item = e }).ToList(),
+            Items = items.GetRange(idx * itemsPerUser, itemsPerUser).Select(i => new UserItem { Item = i }).ToList(),
         });
 
         db.Users.AddRange(users);
@@ -45,13 +45,13 @@ public static class ClanArmoryTestHelper
     public static async Task<IList<ClanArmoryItem>> AddItems(ICrpgDbContext db, string userName, int count = 1)
     {
         var user = await db.Users
-            .Include(e => e.Items)
-            .Include(e => e.ClanMembership)
-            .Where(e => e.Name == userName)
+            .Include(u => u.Items)
+            .Include(u => u.ClanMembership)
+            .Where(u => u.Name == userName)
             .FirstAsync();
 
         var clan = await db.Clans
-            .Where(e => e.Id == user.ClanMembership!.ClanId)
+            .Where(c => c.Id == user.ClanMembership!.ClanId)
             .FirstAsync();
 
         var list = new List<ClanArmoryItem>();
@@ -70,19 +70,19 @@ public static class ClanArmoryTestHelper
     public static async Task<IList<ClanArmoryBorrowedItem>> BorrowItems(ICrpgDbContext db, string userName, int count = 1)
     {
         var user = await db.Users
-            .Include(e => e.Items)
-            .Include(e => e.ClanMembership)
-            .Where(e => e.Name == userName)
+            .Include(u => u.Items)
+            .Include(u => u.ClanMembership)
+            .Where(u => u.Name == userName)
             .FirstAsync();
 
         var clan = await db.Clans
-            .Include(e => e.Members).ThenInclude(e => e.ArmoryItems)
-            .Where(e => e.Id == user.ClanMembership!.ClanId)
+            .Include(c => c.Members).ThenInclude(cm => cm.ArmoryItems)
+            .Where(c => c.Id == user.ClanMembership!.ClanId)
             .FirstAsync();
 
         var items = clan.Members
-            .SelectMany(e => e.ArmoryItems)
-            .Where(e => e.BorrowedItem == null)
+            .SelectMany(cm => cm.ArmoryItems)
+            .Where(ci => ci.BorrowedItem == null)
             .Take(count);
         Assert.That(items.Count, Is.GreaterThanOrEqualTo(count));
 

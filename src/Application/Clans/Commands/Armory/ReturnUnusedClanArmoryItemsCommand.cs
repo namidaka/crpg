@@ -26,13 +26,13 @@ public record ReturnUnusedClanArmoryItemsCommand : IMediatorRequest
         {
             var now = DateTime.UtcNow;
             var users = await _db.Users
-                .Include(e => e.ClanMembership!).ThenInclude(e => e.ArmoryBorrowedItems).ThenInclude(e => e.UserItem!).ThenInclude(e => e.EquippedItems)
-                .Where(e => e.ClanMembership!.ArmoryBorrowedItems.Count > 0 && (now - e.UpdatedAt) > req.Timeout)
+                .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems).ThenInclude(bi => bi.UserItem!).ThenInclude(ui => ui.EquippedItems)
+                .Where(bi => bi.ClanMembership!.ArmoryBorrowedItems.Count > 0 && (now - bi.UpdatedAt) > req.Timeout)
                 .ToArrayAsync(cancellationToken);
 
             foreach (var u in users)
             {
-                var equipped = u.ClanMembership!.ArmoryBorrowedItems.SelectMany(e => e.UserItem!.EquippedItems);
+                var equipped = u.ClanMembership!.ArmoryBorrowedItems.SelectMany(bi => bi.UserItem!.EquippedItems);
                 _db.EquippedItems.RemoveRange(equipped);
                 _db.ClanArmoryBorrowedItems.RemoveRange(u.ClanMembership!.ArmoryBorrowedItems);
             }

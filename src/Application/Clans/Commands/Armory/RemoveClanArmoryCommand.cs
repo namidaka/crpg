@@ -32,8 +32,8 @@ public record RemoveClanArmoryCommand : IMediatorRequest
         public async Task<Result> Handle(RemoveClanArmoryCommand req, CancellationToken cancellationToken)
         {
             var user = await _db.Users
-                .Where(e => e.Id == req.UserId)
-                .Include(e => e.ClanMembership)
+                .Where(u => u.Id == req.UserId)
+                .Include(u => u.ClanMembership)
                 .FirstOrDefaultAsync(cancellationToken);
             if (user == null)
             {
@@ -41,7 +41,7 @@ public record RemoveClanArmoryCommand : IMediatorRequest
             }
 
             var clan = await _db.Clans
-                .Where(e => e.Id == req.ClanId)
+                .Where(c => c.Id == req.ClanId)
                 .FirstOrDefaultAsync(cancellationToken);
             if (clan == null)
             {

@@ -29,8 +29,9 @@ public record GetClanArmoryQuery : IMediatorRequest<IList<ClanArmoryItemViewMode
         public async Task<Result<IList<ClanArmoryItemViewModel>>> Handle(GetClanArmoryQuery req, CancellationToken cancellationToken)
         {
             var user = await _db.Users.AsNoTracking()
-                .Include(e => e.ClanMembership)
-                .FirstOrDefaultAsync(e => e.Id == req.UserId, cancellationToken);
+                .Where(u => u.Id == req.UserId)
+                .Include(u => u.ClanMembership)
+                .FirstOrDefaultAsync(cancellationToken);
             if (user == null)
             {
                 return new(CommonErrors.UserNotFound(req.UserId));
@@ -43,9 +44,9 @@ public record GetClanArmoryQuery : IMediatorRequest<IList<ClanArmoryItemViewMode
             }
 
             var clan = await _db.Clans.AsNoTracking()
-                .Where(e => e.Id == req.ClanId)
-                .Include(e => e.ArmoryItems).ThenInclude(e => e.BorrowedItem)
-                .Include(e => e.ArmoryItems).ThenInclude(e => e.UserItem!).ThenInclude(e => e.Item)
+                .Where(c => c.Id == req.ClanId)
+                .Include(c => c.ArmoryItems).ThenInclude(ci => ci.BorrowedItem)
+                .Include(c => c.ArmoryItems).ThenInclude(ci => ci.UserItem!).ThenInclude(ui => ui.Item)
                 .FirstOrDefaultAsync(cancellationToken);
             if (clan == null)
             {
