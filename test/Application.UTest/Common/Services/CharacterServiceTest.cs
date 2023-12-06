@@ -16,6 +16,7 @@ public class CharacterServiceTest
         MinimumLevel = 1,
         MaximumLevel = 38,
         MinimumRetirementLevel = 31,
+        StartedCharacterLevel = 30,
         ExperienceMultiplierByGeneration = 0.03f,
         MaxExperienceMultiplierForGeneration = 1.48f,
         ExperienceForLevelCoefs = new[] { 2f, 0 },
@@ -306,5 +307,38 @@ public class CharacterServiceTest
         Assert.That(character.Level, Is.EqualTo(Constants.MinimumLevel));
         Assert.That(character.Experience, Is.EqualTo(0));
         Assert.That(character.ForTournament, Is.False);
+        Assert.That(character.Class, Is.EqualTo(CharacterClass.Peasant));
+    }
+
+    [Test]
+    public void SetValuesForStartedCharacter()
+    {
+        Mock<ICompetitiveRatingModel> competitiveRatingModelMock = new();
+        CharacterService characterService = new(ExperienceTable, competitiveRatingModelMock.Object, Constants);
+        Character character = new() { Level = 0, Experience = 0 };
+        characterService.SetValuesForStartedCharacter(character);
+
+        Assert.That(character.Level, Is.EqualTo(Constants.StartedCharacterLevel));
+        Assert.That(character.Experience, Is.EqualTo(4420824));
+        Assert.That(character.Class, Is.EqualTo(CharacterClass.Infantry));
+
+    }
+
+    [Test]
+    public void ResetCharacterStatistics()
+    {
+        Mock<ICompetitiveRatingModel> competitiveRatingModelMock = new();
+        CharacterService characterService = new(ExperienceTable, competitiveRatingModelMock.Object, Constants);
+        Character character = new()
+        {
+            Level = 5,
+            Statistics = new CharacterStatistics() { Kills = 100, Deaths = 100, Assists = 100, PlayTime = TimeSpan.FromHours(1) },
+        };
+        characterService.ResetStatistics(character);
+
+        Assert.That(character.Statistics.Kills, Is.EqualTo(0));
+        Assert.That(character.Statistics.Deaths, Is.EqualTo(0));
+        Assert.That(character.Statistics.Assists, Is.EqualTo(0));
+        Assert.That(character.Statistics.PlayTime, Is.EqualTo(TimeSpan.Zero));
     }
 }

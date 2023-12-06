@@ -55,7 +55,6 @@ internal class CharacterService : ICharacterService
         character.Generation = _constants.DefaultGeneration;
         character.Level = _constants.StartedCharacterLevel;
         character.Experience = _experienceTable.GetExperienceForLevel(character.Level);
-        character.ForTournament = false;
         character.Class = CharacterClass.Infantry;
         ResetRating(character);
         ResetStatistics(character);
