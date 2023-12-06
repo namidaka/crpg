@@ -6,6 +6,7 @@ using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Users;
+using Crpg.Persistence;
 using Crpg.Sdk;
 using Crpg.Sdk.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -156,6 +157,43 @@ public class RespecializeCharacterCommandTest : TestBase
         Assert.That(character.Statistics.Deaths, Is.EqualTo(2));
         Assert.That(character.Statistics.Assists, Is.EqualTo(3));
         Assert.That(character.Statistics.PlayTime, Is.EqualTo(TimeSpan.FromSeconds(4)));
+        characterServiceMock.Verify(cs => cs.ResetCharacterCharacteristics(It.IsAny<Character>(), true));
+    }
+
+    [Test]
+    public async Task RespecializeCharacterForRecentUserShouldNotChangeGold()
+    {
+        Character character = new()
+        {
+            ForTournament = false,
+            User = new() { Gold = 500 },
+        };
+        ArrangeDb.Add(character);
+        await ArrangeDb.SaveChangesAsync();
+
+        Mock<IExperienceTable> experienceTableMock = new();
+        Mock<ICharacterService> characterServiceMock = new();
+
+        Mock<IUserService> userServiceMock = new();
+        userServiceMock
+            .Setup(us => us.CheckIsRecentUser(It.IsAny<CrpgDbContext>(), It.IsAny<User>()))
+            .Returns(Task.FromResult(true));
+        Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
+
+        RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object,
+         userServiceMock.Object, experienceTableMock.Object, activityLogServiceMock.Object, new MachineDateTime(), Constants);
+        await handler.Handle(new RespecializeCharacterCommand
+        {
+            CharacterId = character.Id,
+            UserId = character.UserId,
+        }, CancellationToken.None);
+
+        character = await AssertDb.Characters
+            .Include(c => c.User)
+            .FirstAsync(c => c.Id == character.Id);
+
+        Assert.That(character.User!.Gold, Is.EqualTo(500));
+        userServiceMock.Verify(cs => cs.CheckIsRecentUser(It.IsAny<CrpgDbContext>(), It.IsAny<User>()));
         characterServiceMock.Verify(cs => cs.ResetCharacterCharacteristics(It.IsAny<Character>(), true));
     }
 
