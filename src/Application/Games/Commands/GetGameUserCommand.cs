@@ -189,7 +189,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 }
 
                 bool isNewUser = !await HasAnyCharacter(user.Id);
-                var itemSet = await GiveUserRandomItemSet(user, isNewUser ? DefaultItemSets : DefaultItemSets);
+                var itemSet = await GiveUserRandomItemSet(user, isNewUser ? StartedItemSets : DefaultItemSets);
                 var newCharacter = CreateCharacter(itemSet, isStartedCharacter: isNewUser);
 
                 user.Characters.Add(newCharacter);

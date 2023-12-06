@@ -221,6 +221,7 @@ public class GetGameUserCommandTest : TestBase
                 // Already owned item
                 new UserItem { ItemId = ArrangeDb.Items.First(i => i.Id == GetGameUserCommand.Handler.DefaultItemSets[1][0].id).Id },
             },
+            Characters = { new() },
         };
         ArrangeDb.Users.Add(user);
         await ArrangeDb.SaveChangesAsync();
