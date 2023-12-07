@@ -8,15 +8,15 @@ using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Clans.Commands.Armory;
 
-public record RemoveClanArmoryCommand : IMediatorRequest
+public record RemoveItemFromClanArmoryCommand : IMediatorRequest
 {
     public int UserItemId { get; init; }
     public int UserId { get; init; }
     public int ClanId { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<RemoveClanArmoryCommand>
+    internal class Handler : IMediatorRequestHandler<RemoveItemFromClanArmoryCommand>
     {
-        private static readonly ILogger Logger = LoggerFactory.CreateLogger<RemoveClanArmoryCommand>();
+        private static readonly ILogger Logger = LoggerFactory.CreateLogger<RemoveItemFromClanArmoryCommand>();
 
         private readonly ICrpgDbContext _db;
         private readonly IActivityLogService _activityLogService;
@@ -29,7 +29,7 @@ public record RemoveClanArmoryCommand : IMediatorRequest
             _clanService = clanService;
         }
 
-        public async Task<Result> Handle(RemoveClanArmoryCommand req, CancellationToken cancellationToken)
+        public async Task<Result> Handle(RemoveItemFromClanArmoryCommand req, CancellationToken cancellationToken)
         {
             var user = await _db.Users
                 .Where(u => u.Id == req.UserId)

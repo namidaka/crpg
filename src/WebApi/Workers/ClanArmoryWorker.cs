@@ -25,7 +25,7 @@ public class ClanArmoryWorker : BackgroundService
                 using var scope = _serviceScopeFactory.CreateScope();
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-                var cmd = new ReturnUnusedClanArmoryItemsCommand { Timeout = _timeout };
+                var cmd = new ReturnUnusedItemsToClanArmoryCommand { Timeout = _timeout };
                 await mediator.Send(cmd, stoppingToken);
             }
             catch (Exception e)
