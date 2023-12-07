@@ -163,7 +163,7 @@ export default {
               fontSize: theme('fontSize.xs[0]'),
               lineHeight: theme('fontSize.xs[1]'),
               li: {
-                marginTop: theme('spacing')['2.5'],
+                marginTop: theme('spacing')['0'],
                 marginBottom: theme('spacing')['2.5'],
               },
               a: {

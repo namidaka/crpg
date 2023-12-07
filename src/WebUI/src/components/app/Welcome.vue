@@ -35,11 +35,10 @@ const emit = defineEmits<{
         </header>
 
         <div class="h-full space-y-10 overflow-y-auto px-12 py-8">
-          <div class="prose prose-invert">
-            <p>
-              {{ $t('welcome.intro') }}
-            </p>
-          </div>
+          <div
+            class="prose prose-invert text-center prose-p:my-1 prose-p:text-2xs"
+            v-html="$t('welcome.intro')"
+          />
 
           <div class="relative rounded-3xl border border-border-200 px-6 py-10">
             <div class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-base-100 px-3">
@@ -107,6 +106,14 @@ const emit = defineEmits<{
                   <li>
                     <a
                       target="_blank"
+                      href="https://discord.com/channels/279063743839862805/1034894834378494002"
+                    >
+                      FAQ (en)
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      target="_blank"
                       href="https://discord.com/channels/279063743839862805/1140992563701108796"
                     >
                       Infantry Beginners Guide (en)
@@ -117,7 +124,7 @@ const emit = defineEmits<{
                       target="_blank"
                       href="https://discord.com/channels/279063743839862805/1036085650849550376"
                     >
-                      Build support
+                      Character builds
                     </a>
                   </li>
                   <li>

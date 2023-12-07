@@ -172,7 +172,10 @@ clanBalancingExplanation: "
 
 welcome:
   title: 'Welcome warrior!'
-  intro: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa dolorem odio repellendus suscipit quas nihil?'
+  intro: '
+    <p></p>
+    <p></p>
+    <p></p>'
   bonusTitle: 'Your start bonus'
   bonusHint: '* bonus is active until reaching {level} level (~1-2 weeks of play)'
   bonus:

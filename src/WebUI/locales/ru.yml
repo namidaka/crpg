@@ -170,7 +170,10 @@ clanBalancingExplanation: '
 
 welcome:
   title: 'Приветствуем воин!'
-  intro: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa dolorem odio repellendus suscipit quas nihil?'
+  intro: '
+    <p>Добро пожаловуть в одну из самых популярных модификаций в Bannerlord!</p>
+    <p>Для мягкого старта примите бонус</p>
+    <p>Помните, это всего лишь</p>'
   bonusTitle: 'Стартовый бонус'
   bonusHint: '* бонус активен до достижения {level} уровня (~1-2 недели игры)'
   bonus:
