@@ -173,7 +173,7 @@ public class ClansController : BaseController
     /// <response code="400">Bad request.</response>
     /// <response code="409">Conflict.</response>
     [HttpPost("{clanId}/armory")]
-    public Task<ActionResult<Result<ClanArmoryItemViewModel>>> Add([FromRoute] int clanId, [FromBody] AddClanArmoryCommand req)
+    public Task<ActionResult<Result<ClanArmoryItemViewModel>>> Add([FromRoute] int clanId, [FromBody] AddItemToClanArmoryCommand req)
     {
         req = req with { UserId = CurrentUser.User!.Id, ClanId = clanId };
         return ResultToActionAsync(Mediator.Send(req));
@@ -189,7 +189,7 @@ public class ClansController : BaseController
     [HttpDelete("{clanId}/armory/{userItemId}")]
     public Task<ActionResult> Remove([FromRoute] int clanId, [FromRoute] int userItemId)
     {
-        var req = new RemoveClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
+        var req = new RemoveItemFromClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
         return ResultToActionAsync(Mediator.Send(req));
     }
 
@@ -204,7 +204,7 @@ public class ClansController : BaseController
     [HttpPut("{clanId}/armory/{userItemId}/borrow")]
     public Task<ActionResult<Result<ClanArmoryBorrowedItemViewModel>>> Borrow([FromRoute] int clanId, [FromRoute] int userItemId)
     {
-        var req = new BorrowClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
+        var req = new BorrowItemFromClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
         return ResultToActionAsync(Mediator.Send(req));
     }
 
@@ -218,7 +218,7 @@ public class ClansController : BaseController
     [HttpPut("{clanId}/armory/{userItemId}/return")]
     public Task<ActionResult> Return([FromRoute] int clanId, [FromRoute] int userItemId)
     {
-        var req = new ReturnClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
+        var req = new ReturnItemToClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
         return ResultToActionAsync(Mediator.Send(req));
     }
 }

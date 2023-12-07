@@ -21,8 +21,8 @@ public class RemoveClanArmoryCommandTest : TestBase
             .Include(u => u.ClanMembership).
             FirstAsync(u => u.Name == "user0");
 
-        var handler = new RemoveClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
-        var result = await handler.Handle(new RemoveClanArmoryCommand
+        var handler = new RemoveItemFromClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
+        var result = await handler.Handle(new RemoveItemFromClanArmoryCommand
         {
             UserItemId = user.Items.First(ui => ui.ClanArmoryItem != null).Id,
             UserId = user.Id,
@@ -57,8 +57,8 @@ public class RemoveClanArmoryCommandTest : TestBase
         var items = clan.Members.SelectMany(cm => cm.ArmoryItems);
         int expectedCount = items.Count();
 
-        var handler = new RemoveClanArmoryCommand.Handler(ActDb,  ActivityService, ClanService);
-        var result = await handler.Handle(new RemoveClanArmoryCommand
+        var handler = new RemoveItemFromClanArmoryCommand.Handler(ActDb,  ActivityService, ClanService);
+        var result = await handler.Handle(new RemoveItemFromClanArmoryCommand
         {
             UserItemId = items.First().UserItemId,
             UserId = user.Id,
@@ -81,8 +81,8 @@ public class RemoveClanArmoryCommandTest : TestBase
             .Include(u => u.ClanMembership)
             .FirstAsync(u => u.Name == "user0");
 
-        var handler = new RemoveClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
-        var result = await handler.Handle(new RemoveClanArmoryCommand
+        var handler = new RemoveItemFromClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
+        var result = await handler.Handle(new RemoveItemFromClanArmoryCommand
         {
             UserItemId = user.Items.First(ui => ui.ClanArmoryItem == null).Id,
             UserId = user.Id,
@@ -108,8 +108,8 @@ public class RemoveClanArmoryCommandTest : TestBase
 
         var item = user.ClanMembership!.ArmoryItems.First(ci => ci.BorrowedItem != null);
 
-        var handler = new RemoveClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
-        var result = await handler.Handle(new RemoveClanArmoryCommand
+        var handler = new RemoveItemFromClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
+        var result = await handler.Handle(new RemoveItemFromClanArmoryCommand
         {
             UserItemId = item.UserItemId,
             UserId = user.Id,

@@ -23,8 +23,8 @@ public class ReturnClanArmoryCommandTest : TestBase
 
         var item = user.ClanMembership!.ArmoryBorrowedItems.First();
 
-        var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
-        var result = await handler.Handle(new ReturnClanArmoryCommand
+        var handler = new ReturnItemToClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
+        var result = await handler.Handle(new ReturnItemToClanArmoryCommand
         {
             UserItemId = item.UserItemId,
             UserId = user.Id,
@@ -57,8 +57,8 @@ public class ReturnClanArmoryCommandTest : TestBase
 
         var item = user.Items.First(ui => ui.ClanArmoryBorrowedItem != null);
 
-        var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
-        var result = await handler.Handle(new ReturnClanArmoryCommand
+        var handler = new ReturnItemToClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
+        var result = await handler.Handle(new ReturnItemToClanArmoryCommand
         {
             UserItemId = item.Id,
             UserId = user.Id,
@@ -87,8 +87,8 @@ public class ReturnClanArmoryCommandTest : TestBase
             .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
             .FirstAsync(u => u.Name == "user1");
 
-        var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
-        var result = await handler.Handle(new ReturnClanArmoryCommand
+        var handler = new ReturnItemToClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
+        var result = await handler.Handle(new ReturnItemToClanArmoryCommand
         {
             UserItemId = user.Items.First(ui => ui.ClanArmoryItem == null).Id,
             UserId = user.Id,
@@ -121,8 +121,8 @@ public class ReturnClanArmoryCommandTest : TestBase
 
         var item = user.Items.First(ui => ui.ClanArmoryItem != null);
 
-        var handler = new ReturnClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
-        var result = await handler.Handle(new ReturnClanArmoryCommand
+        var handler = new ReturnItemToClanArmoryCommand.Handler(ActDb, ActivityService, ClanService);
+        var result = await handler.Handle(new ReturnItemToClanArmoryCommand
         {
             UserItemId = item.Id,
             UserId = user.Id,

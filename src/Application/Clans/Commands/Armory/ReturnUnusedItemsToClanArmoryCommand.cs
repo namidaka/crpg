@@ -7,13 +7,13 @@ using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Clans.Commands.Armory;
 
-public record ReturnUnusedClanArmoryItemsCommand : IMediatorRequest
+public record ReturnUnusedItemsToClanArmoryCommand : IMediatorRequest
 {
     public TimeSpan Timeout { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<ReturnUnusedClanArmoryItemsCommand>
+    internal class Handler : IMediatorRequestHandler<ReturnUnusedItemsToClanArmoryCommand>
     {
-        private static readonly ILogger Logger = LoggerFactory.CreateLogger<ReturnUnusedClanArmoryItemsCommand>();
+        private static readonly ILogger Logger = LoggerFactory.CreateLogger<ReturnUnusedItemsToClanArmoryCommand>();
 
         private readonly ICrpgDbContext _db;
 
@@ -22,7 +22,7 @@ public record ReturnUnusedClanArmoryItemsCommand : IMediatorRequest
             _db = db;
         }
 
-        public async Task<Result> Handle(ReturnUnusedClanArmoryItemsCommand req, CancellationToken cancellationToken)
+        public async Task<Result> Handle(ReturnUnusedItemsToClanArmoryCommand req, CancellationToken cancellationToken)
         {
             var now = DateTime.UtcNow;
             var users = await _db.Users
