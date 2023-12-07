@@ -518,4 +518,11 @@ public class UsersController : BaseController
         GetUserClanQuery req = new() { UserId = CurrentUser.User!.Id };
         return ResultToActionAsync(Mediator.Send(req));
     }
+
+    [Authorize(AdminPolicy)]
+    [HttpGet("/users/reward-recent")]
+    public Task<ActionResult> RewardRecently()
+    {
+        return ResultToActionAsync(Mediator.Send(new RewardRecentUserCommand { }));
+    }
 }

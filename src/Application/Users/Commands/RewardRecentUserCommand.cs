@@ -35,10 +35,9 @@ public record RewardRecentUserCommand : IMediatorRequest
         public async Task<Result> Handle(RewardRecentUserCommand req, CancellationToken cancellationToken)
         {
             var users = await _db.Users
-                .AsSplitQuery()
                 .Include(u => u.Characters)
                 .Where(u => u.ExperienceMultiplier == _constants.DefaultExperienceMultiplier
-                            && u.Characters.Any(c => c.Level < _constants.StartedCharacterLevel)
+                            && u.Characters.All(c => c.Level != _constants.StartedCharacterLevel && c.Level < _constants.StartedCharacterLevel)
                             && u.Characters.Sum(c => c.Experience) < 12000000)
                 .ToListAsync(cancellationToken);
 
@@ -47,24 +46,14 @@ public record RewardRecentUserCommand : IMediatorRequest
                 user.Gold = Math.Max(user.Gold + 25000, 0);
                 Logger.LogInformation("Recent User '{0}' rewarded with 25000 gold", user.Id);
 
-                // foreach (var character in user.Characters)
-                // {
-                //     Logger.LogInformation("Character before '{0}', '{1}', '{2}', '{3}'", character.Id, character.Name, character.Level, character.Experience);
-                // }
-
                 var highestLevelCharacter = user.Characters.OrderByDescending(c => c.Experience).FirstOrDefault();
 
                 if (highestLevelCharacter != null)
                 {
                    int experienceToGive = _experienceTable.GetExperienceForLevel(_constants.StartedCharacterLevel) - highestLevelCharacter.Experience;
                    _characterService.GiveExperience(highestLevelCharacter, experienceToGive, useExperienceMultiplier: false);
-                   Logger.LogInformation("the character {0} has been rewarded with {1} experience and is now level 30",  highestLevelCharacter.Id, experienceToGive);
+                   Logger.LogInformation("Character {0} has been rewarded with {1} experience and is now level 30",  highestLevelCharacter.Id, experienceToGive);
                 }
-
-                // foreach (var character in user.Characters)
-                // {
-                //     Logger.LogInformation("Characters after '{0}', '{1}', '{2}', '{3}'", character.Id, character.Name, character.Level, character.Experience);
-                // }
             }
 
             await _db.SaveChangesAsync(cancellationToken);
