@@ -173,9 +173,8 @@ clanBalancingExplanation: "
 welcome:
   title: 'Welcome warrior!'
   intro: '
-    <p></p>
-    <p></p>
-    <p></p>'
+    <p>Welcome to one of the most popular modifications in Bannerlord!</p>
+    <p>We want your experience with our mod to be as positive as possible. To that end, we're giving you a starting bonus, and we also recommend joining our community, where you'll be helped to get used to it.</p>'
   bonusTitle: 'Your start bonus'
   bonusHint: '* bonus is active until reaching {level} level (~1-2 weeks of play)'
   bonus:

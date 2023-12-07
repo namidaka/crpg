@@ -36,7 +36,7 @@ const emit = defineEmits<{
 
         <div class="h-full space-y-10 overflow-y-auto px-12 py-8">
           <div
-            class="prose prose-invert text-center prose-p:my-1 prose-p:text-2xs"
+            class="prose prose-invert text-center prose-p:my-1.5 prose-p:text-2xs"
             v-html="$t('welcome.intro')"
           />
 
@@ -98,6 +98,16 @@ const emit = defineEmits<{
                   <li>
                     <a
                       target="_blank"
+                      href="https://discord.gg/c-rpg"
+                      class="!my-0 flex items-center gap-x-1"
+                    >
+                      <OIcon icon="discord" size="sm" />
+                      Community
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      target="_blank"
                       href="https://discord.com/channels/279063743839862805/1139507517462937600"
                     >
                       New players readme (en)
@@ -110,6 +120,9 @@ const emit = defineEmits<{
                     >
                       FAQ (en)
                     </a>
+                  </li>
+                  <li>
+                    <a target="_blank" href="https://c-rpg.eu/clans">Clans hall</a>
                   </li>
                   <li>
                     <a
