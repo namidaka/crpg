@@ -18,8 +18,8 @@ public class ReturnUnusedClanArmoryItemsCommandTest : TestBase
 
         Assert.That(ActDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(4));
 
-        var handler = new ReturnUnusedClanArmoryItemsCommand.Handler(ActDb);
-        var result = await handler.Handle(new ReturnUnusedClanArmoryItemsCommand
+        var handler = new ReturnUnusedItemsToClanArmoryCommand.Handler(ActDb);
+        var result = await handler.Handle(new ReturnUnusedItemsToClanArmoryCommand
         {
             Timeout = TimeSpan.FromDays(3),
         }, CancellationToken.None);

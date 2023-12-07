@@ -1,5 +1,3 @@
-using AutoMapper;
-using Crpg.Application.Clans.Models;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
@@ -10,30 +8,28 @@ using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Clans.Commands.Armory;
 
-public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowedItemViewModel>
+public record ReturnItemToClanArmoryCommand : IMediatorRequest
 {
     public int UserItemId { get; init; }
     public int UserId { get; init; }
     public int ClanId { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<BorrowClanArmoryCommand, ClanArmoryBorrowedItemViewModel>
+    internal class Handler : IMediatorRequestHandler<ReturnItemToClanArmoryCommand>
     {
-        private static readonly ILogger Logger = LoggerFactory.CreateLogger<BorrowClanArmoryCommand>();
+        private static readonly ILogger Logger = LoggerFactory.CreateLogger<ReturnItemToClanArmoryCommand>();
 
         private readonly ICrpgDbContext _db;
-        private readonly IMapper _mapper;
         private readonly IActivityLogService _activityLogService;
         private readonly IClanService _clanService;
 
-        public Handler(ICrpgDbContext db, IMapper mapper, IActivityLogService activityLogService, IClanService clanService)
+        public Handler(ICrpgDbContext db, IActivityLogService activityLogService, IClanService clanService)
         {
             _activityLogService = activityLogService;
             _db = db;
-            _mapper = mapper;
             _clanService = clanService;
         }
 
-        public async Task<Result<ClanArmoryBorrowedItemViewModel>> Handle(BorrowClanArmoryCommand req, CancellationToken cancellationToken)
+        public async Task<Result> Handle(ReturnItemToClanArmoryCommand req, CancellationToken cancellationToken)
         {
             var user = await _db.Users
                 .Where(u => u.Id == req.UserId)
@@ -52,18 +48,18 @@ public record BorrowClanArmoryCommand : IMediatorRequest<ClanArmoryBorrowedItemV
                 return new(CommonErrors.ClanNotFound(req.ClanId));
             }
 
-            var result = await _clanService.BorrowArmoryItem(_db, clan, user, req.UserItemId, cancellationToken);
+            var result = await _clanService.ReturnArmoryItem(_db, clan, user, req.UserItemId, cancellationToken);
             if (result.Errors != null)
             {
                 return new(result.Errors);
             }
 
-            _db.ActivityLogs.Add(_activityLogService.CreateBorrowClanArmoryItem(user.Id, clan.Id, req.UserItemId));
+            _db.ActivityLogs.Add(_activityLogService.CreateReturnClanArmoryItem(user.Id, clan.Id, req.UserItemId));
 
             await _db.SaveChangesAsync(cancellationToken);
-            Logger.LogInformation("User '{0}' borrowed item '{1}' from the armory '{2}'", req.UserId, req.UserItemId, req.ClanId);
+            Logger.LogInformation("User '{0}' returned item '{1}' to the armory '{2}'", req.UserId, req.UserItemId, req.ClanId);
 
-            return new(_mapper.Map<ClanArmoryBorrowedItemViewModel>(result.Data!));
+            return Result.NoErrors;
         }
     }
 }

@@ -27,8 +27,8 @@ public class BorrowClanArmoryCommandTest : TestBase
 
         var item = clan.Members.First(cm => cm.ArmoryItems.Count > 0).ArmoryItems.First();
 
-        var handler = new BorrowClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
-        var result = await handler.Handle(new BorrowClanArmoryCommand
+        var handler = new BorrowItemFromClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var result = await handler.Handle(new BorrowItemFromClanArmoryCommand
         {
             UserItemId = item.UserItemId,
             UserId = user.Id,
@@ -62,8 +62,8 @@ public class BorrowClanArmoryCommandTest : TestBase
 
         var item = clan.Members.First(cm => cm.ArmoryItems.Count > 0).ArmoryItems.First();
 
-        var handler = new BorrowClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
-        var result = await handler.Handle(new BorrowClanArmoryCommand
+        var handler = new BorrowItemFromClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var result = await handler.Handle(new BorrowItemFromClanArmoryCommand
         {
             UserItemId = item.UserItemId,
             UserId = user.Id,
@@ -96,8 +96,8 @@ public class BorrowClanArmoryCommandTest : TestBase
 
         var item = clan.Members.First(cm => cm.ArmoryItems.Count > 0).ArmoryItems.First();
 
-        var handler = new BorrowClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
-        var result = await handler.Handle(new BorrowClanArmoryCommand
+        var handler = new BorrowItemFromClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var result = await handler.Handle(new BorrowItemFromClanArmoryCommand
         {
             UserItemId = item.UserItemId,
             UserId = user.Id,
@@ -137,8 +137,8 @@ public class BorrowClanArmoryCommandTest : TestBase
             .Include(u => u.ClanMembership)
             .FirstAsync(u => u.Id == user.Id);
 
-        var handler = new BorrowClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
-        var result = await handler.Handle(new BorrowClanArmoryCommand
+        var handler = new BorrowItemFromClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var result = await handler.Handle(new BorrowItemFromClanArmoryCommand
         {
             UserItemId = item.Id,
             UserId = user.Id,
