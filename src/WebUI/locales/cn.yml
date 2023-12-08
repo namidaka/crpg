@@ -172,30 +172,31 @@ clanBalancingExplanation: '
   <p>为了与同一团队的朋友一起游戏，我们建议创建一个新的宗族或加入一个现有的宗族</p>'
 
 welcome:
-  title: 'Welcome warrior!'
+  title: '欢迎，勇士！'
   intro: "
-    <p>Welcome to one of the most popular modifications in Bannerlord!</p>
-    <p>We want your experience with our mod to be as positive as possible. To that end, we're giving you a starting bonus, and we also recommend joining our community, where you'll be helped to get used to it.</p>"
-  bonusTitle: 'Your start bonus'
-  bonusHint: '* bonus is active until reaching {level} level (~1-2 weeks of play)'
+    <p>欢迎来到 Bannerlord 最受欢迎的在线修改之一！</p>
+    <p>为了让您尽可能顺利地开始游戏，我们为您提供了一个 30 级的初始角色，并为您提供了一些额外的奖励，助您一臂之力</p>
+    <p>请记住，cRPG 有很多经验丰富的玩家，所以一开始面临挑战是完全正常的。不要被这些吓倒！如有任何问题，请加入我们的 <a href='https://discord.gg/c-rpg' target='_blank'>Discord</a></p>"
+  bonusTitle: '你的初始奖励'
+  bonusHint: '* 奖励在达到 {level} 级之前有效（大约1-2周的游戏时间）'
   bonus:
     gold: "
-     <h5>Starting gold</h5>
-     <p>Gold is needed to <strong>buy</strong>, <strong>upkeep</strong>, and <strong>reforge</strong> items, as well as to reset character skills</p>
-     <p>For gold to accumulate, keep track of the cost of upkeep your gear on your <strong>character's @:character.nav.inventory page</strong></p>
-     <p>While the starting bonus is in effect, resetting your character's skills is <strong>free</strong> for you</p>"
+     <h5>起始金币</h5>
+     <p>金币用于<strong>购买</strong>、<strong>维护</strong>和<strong>重铸</strong>物品，以及重置角色技能</p>
+     <p>为了积累金币，请查看您角色的<strong>@:character.nav.inventory 页面</strong>上装备维护的成本</p>
+     <p>在起始奖励有效期间，重置您角色技能是<strong>免费<strong>的</p>"
     startedCharacter: "
-      <h5>Starting character</h5>
-      <p>You get a starting character: a warrior with a <strong>{level} level</strong> one-handed sword and shield and <strong>medium equipment</strong><p>
-      <p>You can change a character's class using the skill reset feature on the <strong>@:character.nav.overview character</strong> page<p>"
+      <h5>起始角色</h5>
+      <p>您将获得一个起始角色：一名战士，携带一把<strong>{level}级</strong>的单手剑和盾牌，并穿着<strong>中等装备</strong><p>
+      <p>您可以使用<strong>@:character.nav.overview 页面</strong>上的技能重置功能更改角色的职业<p>"
     freeRespec: "
-      <h5>Re-specialization</h5>
-      <p>Re-specialization is the resetting of a character's skills</p>
-      <p>You have an <strong>unlimited</strong> number of <strong>free</strong> re-specializations available to you to try different builds</p>
-      <p>The bonus is valid until you reach <strong>{level} level</strong></p>
-      <p>You can change the character class on the <strong>@:character.nav.overview character page</strong><p>"
+      <h5>重置专精技能</h5>
+      <p>重置专精技能是重置角色的技能</p>
+      <p>您有<strong>无限</strong>次<strong>免费</strong>重置专精技能的机会，可以尝试不同的技能搭配</p>
+      <p>奖励在您达到<strong>{level}级</strong>之前有效</p>
+      <p>您可以在<strong>@:character.nav.overview 页面</strong>上更改角色职业<p>"
   helpfulLinks:
-    label: Helpful links
+    label: 提供帮助的链接
 
 character:
   nav:
@@ -498,10 +499,10 @@ character:
       desc: 根据武器长度和力量属性点数，造成的额外移动速度惩罚
     price:
       title: 价格
-      desc: '设备总成本'
+      desc: '已装备物品的总成本'
     avgRepairCost:
       title: 平均维修成本
-      desc: '装备物品每小时的平均维护费用'
+      desc: '已装备物品每小时的平均维护费用'
 
   highUpkeepWarning:
     title: 你无法承担你目前的维护费用！你必须要有足够的资金！

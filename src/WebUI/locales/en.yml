@@ -173,8 +173,9 @@ clanBalancingExplanation: "
 welcome:
   title: 'Welcome warrior!'
   intro: "
-    <p>Welcome to one of the most popular modifications in Bannerlord!</p>
-    <p>We want your experience with our mod to be as positive as possible. To that end, we're giving you a starting bonus, and we also recommend joining our community, where you'll be helped to get used to it.</p>"
+    <p>Welcome to one of the most popular online modifications in Bannerlord!</p>
+    <p>To start you out on the smoothest path possible, we've given you a lvl 30 Starter Character with some added bonuses to help you out</p>
+    <p>Remember, cRPG has lots of seasoned players, so it's totally normal to face challenges initially. Don't let this intimidate you! Any questions, join our <a href='https://discord.gg/c-rpg' target='_blank'>Discord</a></p>"
   bonusTitle: 'Your start bonus'
   bonusHint: '* bonus is active until reaching {level} level (~1-2 weeks of play)'
   bonus:
