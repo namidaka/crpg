@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics;
+using Crpg.Application.Characters.Queries;
 using Crpg.Application.Common.Results;
 using Crpg.Common.Helpers;
 using Crpg.Domain.Entities.Characters;
+using Crpg.Domain.Entities.Items;
+using Crpg.Domain.Entities.Users;
 
 namespace Crpg.Application.Common.Services;
 
@@ -106,16 +109,31 @@ internal class CharacterService : ICharacterService
         int heirloomPoints = (int)Math.Pow(2, character.Level - _constants.MinimumRetirementLevel); // to update if level above 31 do not follow the x2 pattern anymore
 
         character.User!.HeirloomPoints += heirloomPoints;
-        character.User.ExperienceMultiplier = Math.Min(
-            character.User.ExperienceMultiplier + _constants.ExperienceMultiplierByGeneration,
-            _constants.MaxExperienceMultiplierForGeneration);
-
         character.Generation += 1;
+        User user = new();
+        int totalGeneration = GetTotalGenerationValue(user);
+        character.User.ExperienceMultiplier = totalGeneration * 0.3f + 1f; // To update with proper equation
         character.Level = _constants.MinimumLevel;
         character.Experience = 0;
         character.EquippedItems.Clear();
         ResetCharacterCharacteristics(character, respecialization: false);
         return null;
+    }
+
+    public int GetTotalGenerationValue(User user)
+    {
+        int totalGeneration = 0;
+
+        if (user.Characters != null)
+        {
+            foreach (var character in user.Characters)
+            {
+                totalGeneration += character.Generation;
+            }
+        }
+
+        user.GenerationUser = totalGeneration;
+        return totalGeneration;
     }
 
     public void GiveExperience(Character character, int experience, bool useExperienceMultiplier)
