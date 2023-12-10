@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Crpg.Module.Common;
 using Crpg.Module.Rewards;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -308,11 +309,9 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         int defendersCount = 0;
         foreach (NetworkCommunicator networkPeer in GameNetwork.NetworkPeers)
         {
-            var missionPeer = networkPeer.GetComponent<MissionPeer>();
+            var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
             if (!networkPeer.IsSynchronized
-                || missionPeer == null
-                || missionPeer.Team == null
-                || missionPeer.Team.Side == BattleSideEnum.None)
+                || crpgPeer.LastSpawnInfo == null)
             {
                 continue;
             }
