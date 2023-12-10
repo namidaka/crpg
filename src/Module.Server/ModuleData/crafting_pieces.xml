@@ -32404,4 +32404,16 @@
       <Material id="Iron4" count="1" />
     </Materials>
   </CraftingPiece>
+  <CraftingPiece id="crpg_german_halberd_blade_blade_h0" name="{=kaikaikai}German Halberd Blade" tier="3" piece_type="Blade" mesh="german_halberd_blade" culture="Culture.vlandia" length="68.8" weight="0.53">
+    <BladeData stack_amount="3" blade_length="68.8" blade_width="100.1" physics_material="wood_weapon" body_name="bo_spear_b">
+      <Thrust damage_type="Pierce" damage_factor="2.1" />
+      <Swing damage_type="Cut" damage_factor="5.1" />
+    </BladeData>
+    <Flags>
+      <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
+    </Flags>
+    <Materials>
+      <Material id="Iron4" count="2" />
+    </Materials>
+  </CraftingPiece>
 </CraftingPieces>
