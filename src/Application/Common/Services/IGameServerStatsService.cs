@@ -52,12 +52,12 @@ public class DatadogGameServerStatsService : IGameServerStatsService
         }
 
         var to = DateTimeOffset.UtcNow;
-        var from = to - TimeSpan.FromMinutes(5);
+        var from = to - TimeSpan.FromMinutes(15); // Adjust to a 15-minute window
         FormUrlEncodedContent query = new(new[]
         {
-            KeyValuePair.Create("from", from.ToUnixTimeSeconds().ToString()),
-            KeyValuePair.Create("to", to.ToUnixTimeSeconds().ToString()),
-            KeyValuePair.Create("query", "sum:crpg.users.playing.count{*} by {region}"),
+        KeyValuePair.Create("from", from.ToUnixTimeSeconds().ToString()),
+        KeyValuePair.Create("to", to.ToUnixTimeSeconds().ToString()),
+        KeyValuePair.Create("query", "sum:crpg.users.playing.count{*} by {region}"), // The query itself does not change
         });
         string queryStr = await query.ReadAsStringAsync(cancellationToken);
 
@@ -71,15 +71,23 @@ public class DatadogGameServerStatsService : IGameServerStatsService
             };
 
             var res = await _ddHttpClient.GetFromJsonAsync<DatadogQueryResponse>("api/v1/query?" + queryStr, cancellationToken);
+            double latestTimestamp;
 
-            foreach (var series in res!.Series)
+            foreach (var serie in res!.Series)
             {
-                string regionStr = series.Scope[^2..];
-                var region = Enum.Parse<Region>(regionStr, ignoreCase: true);
+                latestTimestamp = serie.PointList.Max(point => point[0]);
+                string regionStr = serie.Scope.Split(',').Last().Split(':').Last();
+                if (Enum.TryParse(regionStr, ignoreCase: true, out Region region))
+                {
+                    var pointsInLast15Minutes = serie.PointList
+                        .Where(point => latestTimestamp - point[0] <= 600 * 1000)
+                        .Select(point => (int)point[1]);
 
-                int playingCount = series.PointList.Length > 0 ? (int)series.PointList[^1][^1] : 0;
-                serverStats.Total.PlayingCount += playingCount;
-                serverStats.Regions[region] = new GameStats { PlayingCount = playingCount };
+                    int maxPlayingCount = pointsInLast15Minutes.Any() ? pointsInLast15Minutes.Max() : 0;
+
+                    serverStats.Total.PlayingCount += maxPlayingCount;
+                    serverStats.Regions[region] = new GameStats { PlayingCount = maxPlayingCount };
+                }
             }
         }
         catch (Exception e)

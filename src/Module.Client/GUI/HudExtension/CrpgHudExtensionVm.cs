@@ -655,7 +655,7 @@ internal class CrpgHudExtensionVm : ViewModel
         }
 
         Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
-        var myMissionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
+        var myMissionPeer = GameNetwork.MyPeer?.GetComponent<MissionPeer>();
         Team myTeam = (myMissionPeer?.Team?.TeamIndex ?? 0) == 0
             ? Mission.Current.Teams.Attacker
             : GameNetwork.MyPeer.GetComponent<MissionPeer>().Team;
