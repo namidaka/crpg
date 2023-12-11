@@ -26,7 +26,11 @@ public record ReturnUnusedItemsToClanArmoryCommand : IMediatorRequest
         {
             var now = DateTime.UtcNow;
             var users = await _db.Users
-                .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems).ThenInclude(bi => bi.UserItem!).ThenInclude(ui => ui.EquippedItems)
+                .AsSplitQuery()
+                .Include(u => u.ClanMembership!)
+                    .ThenInclude(cm => cm.ArmoryBorrowedItems)
+                    .ThenInclude(bi => bi.UserItem!)
+                    .ThenInclude(ui => ui.EquippedItems)
                 .Where(bi => bi.ClanMembership!.ArmoryBorrowedItems.Count > 0 && (now - bi.UpdatedAt) > req.Timeout)
                 .ToArrayAsync(cancellationToken);
 

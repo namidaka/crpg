@@ -44,10 +44,13 @@ public record GetClanArmoryQuery : IMediatorRequest<IList<ClanArmoryItemViewMode
                 return new(error);
             }
 
-            var items = await _db.ClanArmoryItems.AsNoTracking()
+            var items = await _db.ClanArmoryItems
+                .AsNoTracking()
+                .AsSplitQuery()
                 .Where(ci => ci.LenderClanId == req.ClanId)
                 .Include(ci => ci.BorrowedItem)
-                .Include(ci => ci.UserItem!).ThenInclude(ui => ui.Item)
+                .Include(ci => ci.UserItem!)
+                    .ThenInclude(ui => ui.Item)
                 .ToListAsync(cancellationToken);
 
             return new(_mapper.Map<IList<ClanArmoryItemViewModel>>(items));

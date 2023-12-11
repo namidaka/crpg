@@ -519,17 +519,17 @@ public record SeedDataCommand : IMediatorRequest
                 }
             }
 
-            UserItem takeoItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_h3" };
-            UserItem takeoItem2 = new() { User = takeo, ItemId = "crpg_winds_fury_h2" };
-            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_lion_imprinted_saber_h1" };
-            UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_h0" };
-            UserItem orleItem3 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_h3" };
-            UserItem orleItem4 = new() { User = orle, ItemId = "crpg_decorated_short_spatha_h1" };
-            UserItem orleItem5 = new() { User = orle, ItemId = "crpg_scalpel_h0" };
-            UserItem elmarykItem1 = new() { User = elmaryk, ItemId = "crpg_longsword_h3" };
-            UserItem elmarykItem2 = new() { User = elmaryk, ItemId = "crpg_avalanche_h2" };
-            UserItem laHireItem1 = new() { User = laHire, ItemId = "crpg_iron_cavalry_sword_h1" };
-            UserItem laHirekItem2 = new() { User = laHire, ItemId = "crpg_simple_saber_h2" };
+            UserItem takeoItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
+            UserItem takeoItem2 = new() { User = takeo, ItemId = "crpg_winds_fury_v1_h2" };
+            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_lion_imprinted_saber_v1_h1" };
+            UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0" };
+            UserItem orleItem3 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
+            UserItem orleItem4 = new() { User = orle, ItemId = "crpg_decorated_short_spatha_v1_h1" };
+            UserItem orleItem5 = new() { User = orle, ItemId = "crpg_scalpel_v1_h0" };
+            UserItem elmarykItem1 = new() { User = elmaryk, ItemId = "crpg_longsword_v1_h3" };
+            UserItem elmarykItem2 = new() { User = elmaryk, ItemId = "crpg_avalanche_v1_h2" };
+            UserItem laHireItem1 = new() { User = laHire, ItemId = "crpg_iron_cavalry_sword_v1_h1" };
+            UserItem laHirekItem2 = new() { User = laHire, ItemId = "crpg_simple_saber_v1_h2" };
 
             UserItem[] newUserItems =
             {
