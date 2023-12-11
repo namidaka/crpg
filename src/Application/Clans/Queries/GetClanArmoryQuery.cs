@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
@@ -43,17 +44,13 @@ public record GetClanArmoryQuery : IMediatorRequest<IList<ClanArmoryItemViewMode
                 return new(error);
             }
 
-            var clan = await _db.Clans.AsNoTracking()
-                .Where(c => c.Id == req.ClanId)
-                .Include(c => c.ArmoryItems).ThenInclude(ci => ci.BorrowedItem)
-                .Include(c => c.ArmoryItems).ThenInclude(ci => ci.UserItem!).ThenInclude(ui => ui.Item)
-                .FirstOrDefaultAsync(cancellationToken);
-            if (clan == null)
-            {
-                return new(CommonErrors.ClanNotFound(req.ClanId));
-            }
+            var items = await _db.ClanArmoryItems.AsNoTracking()
+                .Where(ci => ci.LenderClanId == req.ClanId)
+                .Include(ci => ci.BorrowedItem)
+                .Include(ci => ci.UserItem!).ThenInclude(ui => ui.Item)
+                .ToListAsync(cancellationToken);
 
-            return new(_mapper.Map<IList<ClanArmoryItemViewModel>>(clan.ArmoryItems));
+            return new(_mapper.Map<IList<ClanArmoryItemViewModel>>(items));
         }
     }
 }
