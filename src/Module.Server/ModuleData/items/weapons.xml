@@ -13044,6 +13044,14 @@
     </ItemComponent>
     <Flags WoodenParry="true" DropOnWeaponChange="false" DoNotScaleBodyAccordingToWeaponLength="true" QuickFadeOut="true"/>
   </Item>
+  <Item id="crpg_handcannon_h3" name="{=Meow}Handgoone +3" body_name="bo_composite_crossbows" culture="Culture.vlandia" mesh="handcannon" weight="2.2" appearance="0.7" difficulty="40" Type="Crossbow" AmmoOffset="0.0, 0.02131, 0.22975" item_holsters="crossbow_back:bow_hip:mace_right_hip:bow_hip_2" holster_position_shift="0.02,0,-0.4">
+    <ItemComponent>
+      <Weapon weapon_class="Crossbow" ammo_class="Bolt" missile_speed="200" accuracy="75" thrust_damage="45" thrust_speed="90" speed_rating="80" weapon_length="95" ammo_limit="1" thrust_damage_type="Blunt" item_usage="cla_musket" reload_phase_count="1" physics_material="wood_weapon" center_of_mass="0,0,0.4" modifier_group="crossbow">
+        <WeaponFlags RangedWeapon="true" HasString="false" NotUsableWithOneHand="true" TwoHandIdleOnMount="true" CanPenetrateShield="true" CanDismount="true" MultiplePenetration="true" BonusAgainstShield="true" CanKnockDown="true" FirearmAmmo="true"/>
+      </Weapon>
+    </ItemComponent>
+    <Flags/>
+  </Item>
   <Item id="crpg_cla_musket_ammo_h0" name="{=Meow}Black-powder Ammo" body_name="bo_capsule_arrow" holster_body_name="bo_axe_short" flying_mesh="lyon_bullet" mesh="torch_flame_base" holster_mesh="stone_holster" holster_mesh_with_weapon="stone_holster" weight="0.1" appearance="1.0" Type="Bolts" item_holsters="throwing_stone:throwing_stone_2" value="100" is_merchandise="true">
     <ItemComponent>
       <Weapon weapon_class="Bolt" stack_amount="30" thrust_speed="0" speed_rating="0" missile_speed="10" thrust_damage="5" thrust_damage_type="Blunt" weapon_length="37" item_usage="" rotation="180, 0, 0" physics_material="missile" sticking_position="0,-0.37,0" sticking_rotation="90,0,0" trail_particle_name="cla_smoke_musket" passby_sound_code="event:/mission/combat/missile/passby" center_of_mass="0,0,0">
