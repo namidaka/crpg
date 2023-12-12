@@ -1093,7 +1093,7 @@ public record SeedDataCommand : IMediatorRequest
             ClanArmoryItem elmarykClanArmoryItem1 = new() { UserItem = elmarykItem1, Lender = elmarykMember };
             ClanArmoryItem elmarykClanArmoryItem2 = new() { UserItem = elmarykItem2, Lender = elmarykMember };
             ClanArmoryItem laHireClanArmoryItem1 = new() { UserItem = laHireItem1, Lender = laHireMember };
-            ClanArmoryItem laHireClanArmoryItem2 = new() { UserItem = laHirekItem2, Lender = laHireMember };
+            ClanArmoryItem laHireClanArmoryItem2 = new() { UserItem = laHirekItem2, Lender = laHireMember, };
 
             ClanArmoryItem[] newClanArmoryItems =
             {
@@ -1104,9 +1104,19 @@ public record SeedDataCommand : IMediatorRequest
                 pecores.ArmoryItems.Add(newClanArmoryItem);
             }
 
-            orleMember.ArmoryBorrowedItems.Add(new() { Borrower = elmarykMember, ArmoryItem = orleClanArmoryItem1 });
-            takeoMember.ArmoryBorrowedItems.Add(new() { Borrower = orleMember, ArmoryItem = takeoClanArmoryItem2 });
-            elmarykMember.ArmoryBorrowedItems.Add(new() { Borrower = laHireMember, ArmoryItem = elmarykClanArmoryItem1 });
+            ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHirekItem2, Borrower = orleMember, };
+            ClanArmoryBorrowedItem elmarykBorrowedItem1 = new() { UserItem = orleItem1, Borrower = elmarykMember, };
+            ClanArmoryBorrowedItem laHireBorrowedItem1 = new() { UserItem = takeoItem2, Borrower = laHireMember, };
+
+            ClanArmoryBorrowedItem[] newClanArmoryBorrowedItems =
+            {
+                orleBorrowedItem1, elmarykBorrowedItem1, laHireBorrowedItem1,
+            };
+
+            foreach (var newClanArmoryBorrowedItem in newClanArmoryBorrowedItems)
+            {
+                pecores.ArmoryBorrowedItems.Add(newClanArmoryBorrowedItem);
+            }
 
             Clan ats = new()
             {

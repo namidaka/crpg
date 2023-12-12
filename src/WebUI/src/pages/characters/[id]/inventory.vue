@@ -307,6 +307,7 @@ await Promise.all(promises);
             />
 
             <ItemGridFilter
+              v-if="'type' in searchResult.data.aggregations"
               v-model="filterByTypeModel"
               :buckets="searchResult.data.aggregations.type.buckets"
               @click="scrollToTop"

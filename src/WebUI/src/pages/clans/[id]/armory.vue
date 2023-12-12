@@ -163,6 +163,7 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
           </VDropdown>
 
           <ItemGridFilter
+            v-if="'type' in searchResult.data.aggregations"
             v-model="filterByTypeModel"
             :buckets="searchResult.data.aggregations.type.buckets"
           />
@@ -225,7 +226,7 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
     <ItemDetailGroup>
       <template #default="di">
         <ClanArmoryItemDetail
-          :clanArmoryItem="clanArmory.find(ca => ca.userItem.item.id === di.id)!"
+          :clanArmoryItem="clanArmory.find(ca => ca.userItem.id === di.userItemId)!"
           :lender="
             clanMembers.find(
               cm =>
