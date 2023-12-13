@@ -39,7 +39,7 @@
   "damageFactorForPowerThrow": 0.1,
   "handlingFactorForWeaponMaster":  [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35],
   "durabilityFactorForShieldRecursiveCoefs": [1.0, 0.4, 0.1],
-  "infantryCoverageFactorForShieldCoef": 0.15,
+  "infantryCoverageFactorForShieldCoef": 0.25,
   "cavalryCoverageFactorForShieldCoef": 0.02,
   "mountedRangedSkillInaccuracy": [0.1, 0.15, 0.228, 0.334, 0.468, 0.63, 0.82, 1.038],
   "shieldDefendStunMultiplierForSkillRecursiveCoefs": [0.625, 0.18, 0.07],
