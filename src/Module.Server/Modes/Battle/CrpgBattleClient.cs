@@ -288,7 +288,9 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
             return;
         }
 
-        CaptureFlag(capturedFlag, Mission.Teams[message.OwnerTeamIndex]);
+        MBTeam mbteamFromTeamIndex = Mission.MissionNetworkHelper.GetMBTeamFromTeamIndex(message.OwnerTeamIndex);
+        Team team = Mission.Current.Teams.Find(mbteamFromTeamIndex);
+        CaptureFlag(capturedFlag, team);
     }
 
     private void OnFlagsRemovedSkirmish(FlagDominationFlagsRemovedMessage message)
