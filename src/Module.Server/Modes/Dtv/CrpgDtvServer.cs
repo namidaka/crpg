@@ -212,7 +212,8 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         SendDataToPeers(new CrpgDtvRoundStartMessage { Round = _currentRound });
         foreach (var mount in Mission.MountsWithoutRiders) // force mounts to flee
         {
-            mount.Key.CommonAIComponent.Panic();
+            Agent mountAgent = mount.Key;
+            mountAgent.CommonAIComponent.Panic();
         }
 
         _currentRoundStartTime = MissionTime.Now;
