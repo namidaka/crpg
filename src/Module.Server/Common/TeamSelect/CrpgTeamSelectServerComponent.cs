@@ -81,12 +81,12 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
             }
             else
             {
-                ChangeTeamServer(peer, message.Team);
+                ChangeTeamServer(peer, Mission.Teams[message.TeamIndex]);
             }
         }
         else
         {
-            if (message.Team == Mission.SpectatorTeam && !message.AutoAssign)
+            if (message.TeamIndex == Mission.SpectatorTeam.TeamIndex && !message.AutoAssign)
             {
                 var missionPeer = peer.GetComponent<MissionPeer>();
                 if (missionPeer.Team != null && missionPeer.Team.Side != BattleSideEnum.None)
@@ -95,7 +95,7 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
                     _playerTeamsBeforeJoiningSpectator[peer.VirtualPlayer.Id] = missionPeer.Team;
                 }
 
-                ChangeTeamServer(peer, message.Team);
+                ChangeTeamServer(peer, Mission.Teams[message.TeamIndex]);
             }
             else if (_warmupComponent.IsInWarmup)
             {
@@ -377,9 +377,8 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
 
     private bool IsNativeBalancerEnabled()
     {
-        var autoTeamBalanceThreshold =
-            (AutoTeamBalanceLimits)MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.GetIntValue();
-        return autoTeamBalanceThreshold != AutoTeamBalanceLimits.Off;
+        int autoTeamBalanceThreshold = MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.GetIntValue();
+        return autoTeamBalanceThreshold != 0;
     }
 
     private void LogRoundResult()

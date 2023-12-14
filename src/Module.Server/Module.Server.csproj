@@ -20,6 +20,8 @@
     <ContentWithTargetPath Include="..\..\data\constants.json" Link="ModuleData\constants.json" TargetPath="..\..\ModuleData\constants.json" CopyToOutputDirectory="Always" />
     <ContentWithTargetPath Include="SubModule.xml;ModuleData\**\*;GUI\**\*.xml" TargetPath="..\..\%(Identity)" CopyToOutputDirectory="Always" />
     <ContentWithTargetPath Include="MapRotation\*.txt" TargetPath="..\..\%(Filename).txt" CopyToOutputDirectory="Always" />
+    <Compile Remove="..\Module.Server\HarmonyPatches\MissionNetworkComponentPatch.cs" />
+    <Compile Remove="..\Module.Server\HarmonyPatches\SendPeerInformationsToPeerPatch.cs"/>
   </ItemGroup>
 
   <ItemGroup>

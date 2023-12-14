@@ -1,4 +1,7 @@
-﻿using TaleWorlds.Core;
+﻿using System.ComponentModel;
+using Crpg.Module.Api.Models.Characters;
+using Crpg.Module.Api.Models.Users;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
@@ -60,6 +63,8 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             var character = peerClass.HeroCharacter;
 
             var characterEquipment = CrpgCharacterBuilder.CreateCharacterEquipment(crpgPeer.User.Character.EquippedItems);
+            //CrpgCharacterObject character = CreateCharacter(crpgPeer.User.Character, _constants, characterSkills, characterEquipment);
+
             bool hasMount = characterEquipment[EquipmentIndex.Horse].Item != null;
 
             bool firstSpawn = missionPeer.SpawnCountThisRound == 0;
@@ -114,8 +119,18 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             }
 
             missionPeer.HasSpawnedAgentVisuals = true;
-            AgentVisualSpawnComponent.RemoveAgentVisuals(missionPeer, sync: true);
+
+            // AgentVisualSpawnComponent.RemoveAgentVisuals(missionPeer, sync: true);
         }
+    }
+
+    private CrpgCharacterObject CreateCharacter(CrpgCharacter character, CrpgConstants constants, CharacterSkills skills, Equipment equipment)
+    {
+        CrpgCharacterObject characterObject = new(skills, equipment)
+        {
+            Level = character.Level,
+        };
+        return characterObject;
     }
 
     protected Agent SpawnBotAgent(string classDivisionId, Team team)

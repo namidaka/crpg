@@ -12,6 +12,8 @@ using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Diamond;
+using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection;
+using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard;
 using TaleWorlds.PlatformService;
@@ -123,7 +125,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
         _missionScoreboardComponent.OnScoreboardInitialized += OnScoreboardInitialized;
         _missionScoreboardComponent.OnMVPSelected += OnMVPSelected;
         MissionName = "";
-        IsBotsEnabled = missionBehavior.MissionType == MissionLobbyComponent.MultiplayerGameType.Captain || missionBehavior.MissionType == MissionLobbyComponent.MultiplayerGameType.Battle;
+        IsBotsEnabled = missionBehavior.MissionType == MultiplayerGameType.Captain || missionBehavior.MissionType == MultiplayerGameType.Battle;
         RefreshValues();
     }
 

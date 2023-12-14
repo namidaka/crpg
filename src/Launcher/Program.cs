@@ -7,7 +7,6 @@ using System.Web;
 using Gameloop.Vdf;
 using Gameloop.Vdf.Linq;
 using Microsoft.Win32;
-using static System.Net.WebRequestMethods;
 using File = System.IO.File;
 
 Console.WriteLine("Make sure Steam/Epic Games/Xbox is running and that Bannerlord is up-to-date");

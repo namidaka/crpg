@@ -47,9 +47,9 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     private CrpgDtvWave CurrentWaveData => _dtvData.Rounds[_currentRound].Waves[_currentWave];
     private int WavesCountForCurrentRound => CurrentRoundData.Waves.Count;
 
-    public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
+    public override MultiplayerGameType GetMissionType()
     {
-        return MissionLobbyComponent.MultiplayerGameType.Battle;
+        return MultiplayerGameType.Battle;
     }
 
     public override void AfterStart()
@@ -166,7 +166,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
         if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // Viscount under attack
         {
-            SendDataToPeers(new CrpgDtvViscountUnderAttackMessage { Attacker = affectorAgent });
+            SendDataToPeers(new CrpgDtvViscountUnderAttackMessage { AgentAttackerIndex = affectorAgent.Index });
         }
     }
 
@@ -210,9 +210,9 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _currentWave = -1;
         SpawningBehavior.RequestSpawnSessionForRoundStart(firstRound: _currentRound == 0);
         SendDataToPeers(new CrpgDtvRoundStartMessage { Round = _currentRound });
-        foreach (Agent mount in Mission.MountsWithoutRiders) // force mounts to flee
+        foreach (var mount in Mission.MountsWithoutRiders) // force mounts to flee
         {
-            mount.CommonAIComponent.Panic();
+            mount.Key.CommonAIComponent.Panic();
         }
 
         _currentRoundStartTime = MissionTime.Now;

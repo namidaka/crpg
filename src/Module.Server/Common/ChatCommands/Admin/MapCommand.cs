@@ -33,6 +33,11 @@ internal class MapCommand : AdminCommand
 
         ChatComponent.ServerSendServerMessageToEveryone(ColorInfo, $"{fromPeer.UserName} is changing map to {map}");
         mapPoolComponent.ForceNextMap(map);
-        DedicatedCustomServerSubModule.Instance.EndMission();
+        if (Mission.Current == null)
+        {
+            return;
+        }
+
+        Mission.Current.EndMission();
     }
 }

@@ -4,6 +4,7 @@ using Crpg.Module.Notifications;
 using Crpg.Module.Rewards;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.Multiplayer;
 using TaleWorlds.MountAndBlade.Source.Missions;
 
 #if CRPG_SERVER
@@ -12,6 +13,8 @@ using Crpg.Module.Common.ChatCommands;
 #else
 using Crpg.Module.GUI;
 using Crpg.Module.GUI.HudExtension;
+using TaleWorlds.MountAndBlade.Multiplayer;
+using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 #endif
@@ -40,22 +43,22 @@ internal class CrpgSiegeGameMode : MissionBasedMultiplayerGameMode
 
         return new[]
         {
-            ViewCreator.CreateMissionServerStatusUIHandler(),
-            ViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
+            MultiplayerViewCreator.CreateMissionServerStatusUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
             ViewCreator.CreateMissionAgentStatusUIHandler(mission),
             ViewCreator.CreateMissionMainAgentEquipmentController(mission), // Pick/drop items.
             ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
             ViewCreatorManager.CreateMissionView<CrpgMissionMultiplayerEscapeMenu>(isNetwork: false, null, "Siege", gameModeClient),
             ViewCreator.CreateMissionAgentLabelUIHandler(mission),
-            ViewCreator.CreateMultiplayerTeamSelectUIHandler(),
-            ViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
-            ViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
-            ViewCreator.CreatePollProgressUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerTeamSelectUIHandler(),
+            MultiplayerViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
+            MultiplayerViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
+            MultiplayerViewCreator.CreatePollProgressUIHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
-            ViewCreator.CreateMissionKillNotificationUIHandler(),
+            MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
             new CrpgHudExtensionHandler(),
-            ViewCreator.CreateMultiplayerMissionDeathCardUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerMissionDeathCardUIHandler(),
             ViewCreator.CreateOptionsUIHandler(),
             ViewCreator.CreateMissionMainAgentEquipDropView(mission),
             ViewCreator.CreateMissionBoundaryCrossingView(),
@@ -92,6 +95,7 @@ internal class CrpgSiegeGameMode : MissionBasedMultiplayerGameMode
                 lobbyComponent,
 #if CRPG_CLIENT
                 new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
+                new MultiplayerMissionAgentVisualSpawnComponent(),
 #endif
                 warmupComponent,
                 siegeClient,
@@ -111,9 +115,6 @@ internal class CrpgSiegeGameMode : MissionBasedMultiplayerGameMode
                 new EquipmentControllerLeaveLogic(),
                 new MultiplayerPreloadHelper(),
                 new WelcomeMessageBehavior(warmupComponent),
-
-                // Shit that need to stay because BL code is extremely coupled to the visual spawning.
-                new MultiplayerMissionAgentVisualSpawnComponent(),
                 new MissionLobbyEquipmentNetworkComponent(),
 
 #if CRPG_SERVER
@@ -130,7 +131,7 @@ internal class CrpgSiegeGameMode : MissionBasedMultiplayerGameMode
                 new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
 #else
                 new MultiplayerAchievementComponent(),
-                new MissionMatchHistoryComponent(),
+                MissionMatchHistoryComponent.CreateIfConditionsAreMet(),
                 new MissionRecentPlayersComponent(),
                 new CrpgRewardClient(),
 #endif

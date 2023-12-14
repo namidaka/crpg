@@ -2,7 +2,7 @@
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.MissionViews;
-using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions;
+using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.HUDExtensions;
 
 namespace Crpg.Module.GUI.Spectator;
 

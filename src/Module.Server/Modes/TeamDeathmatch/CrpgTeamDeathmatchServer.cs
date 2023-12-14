@@ -25,9 +25,9 @@ internal class CrpgTeamDeathmatchServer : MissionMultiplayerGameModeBase
         _rewardServer = rewardServer;
     }
 
-    public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
+    public override MultiplayerGameType GetMissionType()
     {
-        return MissionLobbyComponent.MultiplayerGameType.Battle; // Avoids a crash on mission end.
+        return MultiplayerGameType.Battle; // Avoids a crash on mission end.
     }
 
     public override void AfterStart()
@@ -38,7 +38,7 @@ internal class CrpgTeamDeathmatchServer : MissionMultiplayerGameModeBase
     public override void OnClearScene()
     {
         // https://forums.taleworlds.com/index.php?threads/missionbehavior-onmissionrestart-is-never-called.458204
-        _scoreboardComponent.ClearScores();
+        _scoreboardComponent.OnClearScene();
         _scoreboardComponent.ResetBotScores();
         ClearPeerCounts();
     }

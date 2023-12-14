@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Eventing.Reader;
-using Crpg.Module.Helpers;
+﻿using Crpg.Module.Helpers;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
@@ -128,7 +127,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         return finalDamage;
     }
 
-    public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman)
+    public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman,bool isMissile)
     {
         float result = 1f;
         switch (bodyPart)
@@ -188,10 +187,9 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         return result;
     }
 
-    public override void CalculateCollisionStunMultipliers(
+    public override void CalculateDefendedBlowStunMultipliers(
         Agent attackerAgent,
         Agent defenderAgent,
-        bool isAlternativeAttack,
         CombatCollisionResult collisionResult,
         WeaponComponentData attackerWeapon,
         WeaponComponentData defenderWeapon,

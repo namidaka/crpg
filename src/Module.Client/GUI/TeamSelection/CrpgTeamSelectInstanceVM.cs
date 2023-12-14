@@ -7,6 +7,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 {

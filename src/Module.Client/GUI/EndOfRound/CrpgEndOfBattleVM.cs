@@ -76,7 +76,7 @@ public class CrpgEndOfBattleVM : ViewModel
             return 0;
         }
 
-        if (_gameMode.GameType != MissionLobbyComponent.MultiplayerGameType.Duel)
+        if (_gameMode.GameType != MultiplayerGameType.Duel)
         {
             return peer.Score;
         }

@@ -8,6 +8,7 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.MissionRepresentatives;
 using TaleWorlds.MountAndBlade.Objects;
 using TaleWorlds.ObjectSystem;
+using static TaleWorlds.MountAndBlade.MissionLobbyComponent;
 
 namespace Crpg.Module.Modes.Battle;
 
@@ -39,9 +40,9 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         _rewardServer = rewardServer;
     }
 
-    public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
+    public override MultiplayerGameType GetMissionType()
     {
-        return MissionLobbyComponent.MultiplayerGameType.Battle;
+        return MultiplayerGameType.Battle;
     }
 
     public override void AfterStart()

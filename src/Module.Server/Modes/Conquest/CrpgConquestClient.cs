@@ -5,6 +5,7 @@ using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Objects;
+using static TaleWorlds.MountAndBlade.MissionLobbyComponent;
 
 namespace Crpg.Module.Modes.Conquest;
 
@@ -21,7 +22,7 @@ internal class CrpgConquestClient : MissionMultiplayerGameModeBaseClient, IComma
     public override bool IsGameModeUsingGold => false;
     public override bool IsGameModeTactical => false;
     public override bool IsGameModeUsingRoundCountdown => true;
-    public override MissionLobbyComponent.MultiplayerGameType GameType => MissionLobbyComponent.MultiplayerGameType.Siege;
+    public override MultiplayerGameType GameType => MultiplayerGameType.Siege;
     public bool AreMoralesIndependent => false;
 
 #pragma warning disable CS0067 // False positive
@@ -115,10 +116,10 @@ internal class CrpgConquestClient : MissionMultiplayerGameModeBaseClient, IComma
         _myMissionPeer = GameNetwork.MyPeer.GetComponent<MissionPeer>();
     }
 
-    private void OnCapturePointOwnerChanged(FlagCapturePoint flag, Team flagOwner)
+    private void OnCapturePointOwnerChanged(FlagCapturePoint flag, int flagOwnerTeamIndex)
     {
-        _flagOwners[flag.FlagIndex] = flagOwner;
-        OnCapturePointOwnerChangedEvent?.Invoke(flag, flagOwner);
+        _flagOwners[flag.FlagIndex] = Mission.Teams[flagOwnerTeamIndex];
+        OnCapturePointOwnerChangedEvent?.Invoke(flag, Mission.Teams[flagOwnerTeamIndex]);
 
         var myTeam = _myMissionPeer?.Team;
         if (myTeam == null)
@@ -128,7 +129,7 @@ internal class CrpgConquestClient : MissionMultiplayerGameModeBaseClient, IComma
 
         MatrixFrame cameraFrame = Mission.GetCameraFrame();
         Vec3 position = cameraFrame.origin + cameraFrame.rotation.u;
-        string sound = myTeam == flagOwner ? "event:/alerts/report/flag_captured" : "event:/alerts/report/flag_lost";
+        string sound = myTeam.TeamIndex == flagOwnerTeamIndex ? "event:/alerts/report/flag_captured" : "event:/alerts/report/flag_lost";
         MBSoundEvent.PlaySound(SoundEvent.GetEventIdFromString(sound), position);
     }
 
@@ -143,7 +144,7 @@ internal class CrpgConquestClient : MissionMultiplayerGameModeBaseClient, IComma
         {
             if (flag.FlagIndex == message.FlagIndex)
             {
-                OnCapturePointOwnerChanged(flag, message.OwnerTeam);
+                OnCapturePointOwnerChanged(flag, message.OwnerTeamIndex);
                 break;
             }
         }

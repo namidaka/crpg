@@ -5,6 +5,7 @@ using Crpg.Module.Notifications;
 using Crpg.Module.Rewards;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.Multiplayer;
 using TaleWorlds.MountAndBlade.Source.Missions;
 
 #if CRPG_SERVER
@@ -16,6 +17,8 @@ using Crpg.Module.GUI;
 using Crpg.Module.GUI.Dtv;
 using Crpg.Module.GUI.Spectator;
 using Crpg.Module.GUI.Warmup;
+using TaleWorlds.MountAndBlade.Multiplayer;
+using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 #endif
@@ -47,23 +50,23 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
 
         return new[]
         {
-            ViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
             ViewCreator.CreateMissionAgentStatusUIHandler(mission),
             ViewCreator.CreateMissionMainAgentEquipmentController(mission), // Pick/drop items.
             ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
             crpgEscapeMenu,
             ViewCreator.CreateMissionAgentLabelUIHandler(mission),
-            ViewCreator.CreateMultiplayerTeamSelectUIHandler(),
-            ViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
-            ViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
-            ViewCreator.CreatePollProgressUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerTeamSelectUIHandler(),
+            MultiplayerViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
+            MultiplayerViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
+            MultiplayerViewCreator.CreatePollProgressUIHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
-            ViewCreator.CreateMissionKillNotificationUIHandler(),
+            MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
             new SpectatorHudUiHandler(),
             new WarmupHudUiHandler(),
             new DtvHudUiHandler(),
-            ViewCreator.CreateMultiplayerMissionDeathCardUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerMissionDeathCardUIHandler(),
             ViewCreator.CreateOptionsUIHandler(),
             ViewCreator.CreateMissionMainAgentEquipDropView(mission),
             ViewCreator.CreateMissionBoundaryCrossingView(),
@@ -106,10 +109,10 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 lobbyComponent,
 #if CRPG_CLIENT
                 new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
+                new MultiplayerMissionAgentVisualSpawnComponent(), // expose method to spawn an agent
 #endif
                 dtvClient,
                 new MultiplayerTimerComponent(), // round timer
-                new MultiplayerMissionAgentVisualSpawnComponent(), // expose method to spawn an agent
                 new MissionLobbyEquipmentNetworkComponent(), // logic to change troop or perks
                 teamSelectComponent,
                 new MissionHardBorderPlacer(),
@@ -144,7 +147,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
 #else
                 new MultiplayerAchievementComponent(),
-                new MissionMatchHistoryComponent(),
+                MissionMatchHistoryComponent.CreateIfConditionsAreMet(),
                 new MissionRecentPlayersComponent(),
                 new CrpgRewardClient(),
                 new HotConstantsClient(),

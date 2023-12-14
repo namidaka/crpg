@@ -41,23 +41,18 @@ internal class CrpgStrikeMagnitudeModel : MultiplayerStrikeMagnitudeModel
     }
 
     public override float CalculateStrikeMagnitudeForSwing(
-        BasicCharacterObject attackerCharacter,
-        BasicCharacterObject attackerCaptainCharacter,
+        in AttackInformation attackInformation,
+        in AttackCollisionData collisionData,
+        in MissionWeapon weapon,
         float swingSpeed,
         float impactPoint,
-        float weaponWeight,
-        WeaponComponentData weaponUsageComponent,
-        float weaponLength,
-        float weaponInertia,
-        float weaponCoM,
-        float extraLinearSpeed,
-        bool doesAttackerHaveMount)
+        float extraLinearSpeed)
     {
         float impactPointFactor;
-        float swingSpeedPercentage = swingSpeed * 4.5454545f / weaponUsageComponent.SwingSpeed;
+        float swingSpeedPercentage = swingSpeed * 4.5454545f / weapon.CurrentUsageItem.SwingSpeed; // should be replaced by attack progress , but needs validation
         float extraLinearSpeedSign = Math.Sign(extraLinearSpeed);
         float magnitudeBonusFromExtraSpeed = extraLinearSpeedSign * (float)(Math.Pow(extraLinearSpeedSign * extraLinearSpeed / 20f, 0.7f) + Math.Pow(extraLinearSpeed / 22f, 4f));
-        switch (weaponUsageComponent.WeaponClass)
+        switch (weapon.CurrentUsageItem.WeaponClass)
         {
             case WeaponClass.OneHandedAxe:
             case WeaponClass.TwoHandedAxe:
@@ -78,21 +73,18 @@ internal class CrpgStrikeMagnitudeModel : MultiplayerStrikeMagnitudeModel
                     * (float)(Math.Pow(swingSpeedPercentage, 5f) + magnitudeBonusFromExtraSpeed);
         }
     }
-
     public override float CalculateStrikeMagnitudeForThrust(
-        BasicCharacterObject attackerCharacter,
-        BasicCharacterObject attackerCaptainCharacter,
+        in AttackInformation attackInformation,
+        in AttackCollisionData collisionData,
+        in MissionWeapon weapon,
         float thrustWeaponSpeed,
-        float weaponWeight,
-        WeaponComponentData weaponUsageComponent,
         float extraLinearSpeed,
-        bool doesAttackerHaveMount,
         bool isThrown = false)
     {
-        float thrustSpeedPercentage = thrustWeaponSpeed * 11.7647057f / weaponUsageComponent.ThrustSpeed;
+        float thrustSpeedPercentage = thrustWeaponSpeed * 11.7647057f / weapon.CurrentUsageItem.ThrustSpeed; // should be replaced by attack progress , but needs validation
         float extraLinearSpeedSign = Math.Sign(extraLinearSpeed);
         float magnitudeBonusFromExtraSpeed = extraLinearSpeedSign * (float)(Math.Pow(extraLinearSpeedSign * extraLinearSpeed / 20f, 0.7f) + Math.Pow(extraLinearSpeed / 22f, 4f));
-        switch (weaponUsageComponent.WeaponClass)
+        switch (weapon.CurrentUsageItem.WeaponClass)
         {
             case WeaponClass.OneHandedSword:
             case WeaponClass.Dagger:

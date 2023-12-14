@@ -1,7 +1,4 @@
 ﻿using Messages.FromCustomBattleServerManager.ToCustomBattleServer;
-using TaleWorlds.Library;
-using TaleWorlds.MountAndBlade.Diamond;
-using WindowsFirewallHelper.Addresses;
 
 namespace Crpg.Module.HarmonyPatches;
 
@@ -9,6 +6,7 @@ public class CustomBattleServerPatch
 {
     public static bool Prefix(ClientWantsToConnectCustomGameMessage message)
     {
+        /*
         var cachedFirewallRule = CrpgSubModule.Instance.GetCachedFirewallRule();
         if (cachedFirewallRule == null)
         {
@@ -21,7 +19,7 @@ public class CustomBattleServerPatch
             * Check if the ip address is not 0.0.0.0 (If we don't check this and add it to firewall, firewall basically allows anyone)
             * Add the ip addresses to whitelisted ips
             * Apply it to firewall rule
-            * */
+            * 
         foreach (PlayerJoinGameData playerData in message.PlayerJoinGameData)
         {
             if (playerData.IpAddress == "0.0.0.0")
@@ -34,7 +32,7 @@ public class CustomBattleServerPatch
             Debug.Print("[Firewall] " + playerData.IpAddress + " added to whitelisted ip address", 0, Debug.DebugColor.Green);
         }
 
-        cachedFirewallRule.RemoteAddresses = CrpgSubModule.Instance.WhitelistedIps.Values.ToArray();
+        cachedFirewallRule.RemoteAddresses = CrpgSubModule.Instance.WhitelistedIps.Values.ToArray();*/
         return true;
     }
 }

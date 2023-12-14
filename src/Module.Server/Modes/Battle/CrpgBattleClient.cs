@@ -6,6 +6,7 @@ using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.MissionRepresentatives;
 using TaleWorlds.MountAndBlade.Objects;
+using static TaleWorlds.MountAndBlade.MissionLobbyComponent;
 using MathF = TaleWorlds.Library.MathF;
 
 namespace Crpg.Module.Modes.Battle;
@@ -36,9 +37,9 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
     public override bool IsGameModeUsingGold => false;
     public override bool IsGameModeTactical => _flags.Length != 0;
     public override bool IsGameModeUsingRoundCountdown => true;
-    public override MissionLobbyComponent.MultiplayerGameType GameType => _isSkirmish
-        ? MissionLobbyComponent.MultiplayerGameType.Skirmish
-        : MissionLobbyComponent.MultiplayerGameType.Battle;
+    public override MultiplayerGameType GameType => _isSkirmish
+        ? MultiplayerGameType.Skirmish
+        : MultiplayerGameType.Battle;
     public override bool IsGameModeUsingCasualGold => false;
     public IEnumerable<FlagCapturePoint> AllCapturePoints => _flags;
     public bool AreMoralesIndependent => false;
@@ -287,7 +288,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
             return;
         }
 
-        CaptureFlag(capturedFlag, message.OwnerTeam);
+        CaptureFlag(capturedFlag, Mission.Teams[message.OwnerTeamIndex]);
     }
 
     private void OnFlagsRemovedSkirmish(FlagDominationFlagsRemovedMessage message)

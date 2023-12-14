@@ -48,19 +48,11 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
     }
 
     public override int GetEffectiveSkill(
-        BasicCharacterObject agentCharacter,
-        IAgentOriginBase agentOrigin,
-        Formation agentFormation,
+        Agent agent,
         SkillObject skill)
     {
-        // Current (1.8.0), only predefined characters can be spawned so we can't use the character to carry the crpg
-        // skills. To hack around that the skills are carried by a custom implementation of the IAgentOriginBase.
-        if (agentOrigin is CrpgBattleAgentOrigin crpgOrigin)
-        {
-            return crpgOrigin.Skills.GetPropertyValue(skill);
-        }
-
-        return base.GetEffectiveSkill(agentCharacter, agentOrigin, agentFormation, skill);
+        // To test, is the hack still needed
+        return agent.Character.GetSkillValue(skill);
     }
 
     public override float GetWeaponInaccuracy(
@@ -153,24 +145,23 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         return true;
     }
 
-    public override float GetWeaponDamageMultiplier(BasicCharacterObject character, IAgentOriginBase agentOrigin,
-        Formation agentFormation, WeaponComponentData weaponComponent)
+    public override float GetWeaponDamageMultiplier(Agent agent, WeaponComponentData weaponComponent)
     {
         if (WeaponClassesAffectedByPowerStrike.Contains(weaponComponent.WeaponClass))
         {
-            int powerStrike = GetEffectiveSkill(character, agentOrigin, agentFormation, CrpgSkills.PowerStrike);
+            int powerStrike = GetEffectiveSkill(agent, CrpgSkills.PowerStrike);
             return 1 + powerStrike * _constants.DamageFactorForPowerStrike;
         }
 
         if (WeaponClassesAffectedByPowerDraw.Contains(weaponComponent.WeaponClass))
         {
-            int powerDraw = GetEffectiveSkill(character, agentOrigin, agentFormation, CrpgSkills.PowerDraw);
+            int powerDraw = GetEffectiveSkill(agent, CrpgSkills.PowerDraw);
             return 1 + powerDraw * _constants.DamageFactorForPowerDraw;
         }
 
         if (WeaponClassesAffectedByPowerThrow.Contains(weaponComponent.WeaponClass))
         {
-            int powerThrow = GetEffectiveSkill(character, agentOrigin, agentFormation, CrpgSkills.PowerThrow);
+            int powerThrow = GetEffectiveSkill(agent, CrpgSkills.PowerThrow);
             return 1 + powerThrow * _constants.DamageFactorForPowerThrow;
         }
 
@@ -200,7 +191,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
     public override float GetDismountResistance(Agent agent)
     {
         // https://www.desmos.com/calculator/97pwiguths
-        int ridingSkills = GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, DefaultSkills.Riding);
+        int ridingSkills = GetEffectiveSkill(agent, DefaultSkills.Riding);
         return 0.0035f * ridingSkills;
     }
 
@@ -212,8 +203,8 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         props.ArmorLegs = equipment.GetLegArmorSum();
         props.ArmorArms = equipment.GetArmArmorSum();
 
-        int strengthAttribute = GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, CrpgSkills.Strength);
-        int ironFleshSkill = GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, CrpgSkills.IronFlesh);
+        int strengthAttribute = GetEffectiveSkill(agent, CrpgSkills.Strength);
+        int ironFleshSkill = GetEffectiveSkill(agent, CrpgSkills.IronFlesh);
         agent.BaseHealthLimit = _constants.DefaultHealthPoints
                                 + strengthAttribute * _constants.HealthPointsForStrength
                                 + ironFleshSkill * _constants.HealthPointsForIronFlesh;
@@ -239,7 +230,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         EquipmentElement mountHarness = agent.SpawnEquipment[EquipmentIndex.HorseHarness];
 
         int ridingSkill = agent.RiderAgent != null
-            ? GetEffectiveSkill(agent.RiderAgent.Character, agent.RiderAgent.Origin, agent.RiderAgent.Formation, DefaultSkills.Riding)
+            ? GetEffectiveSkill(agent.RiderAgent, DefaultSkills.Riding)
             : 100;
         props.MountManeuver = mount.GetModifiedMountManeuver(in mountHarness) * (0.5f + ridingSkill * 0.0025f);
         float harnessWeight = mountHarness.Item?.Weight ?? 0;
@@ -271,7 +262,6 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             }
         }
 
-        BasicCharacterObject character = agent.Character;
         MissionEquipment equipment = agent.Equipment;
         props.WeaponsEncumbrance = equipment.GetTotalWeightOfWeapons();
         EquipmentIndex wieldedItemIndex3 = agent.GetWieldedItemIndex(Agent.HandIndex.MainHand);
@@ -286,8 +276,8 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             ? equipment[wieldedItemIndex4].CurrentUsageItem
             : null;
 
-        int strengthSkill = GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, CrpgSkills.Strength);
-        int athleticsSkill = GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, DefaultSkills.Athletics);
+        int strengthSkill = GetEffectiveSkill(agent, CrpgSkills.Strength);
+        int athleticsSkill = GetEffectiveSkill(agent, DefaultSkills.Athletics);
         const float awfulScaler = 3231477.548f;
         float[] weightReductionPolynomialFactor = { 30f / awfulScaler, 0.00005f / awfulScaler, 0.5f / awfulScaler, 1000000f / awfulScaler, 0f };
         float weightReductionFactor = 1f / (1f + MathHelper.ApplyPolynomialFunction(strengthSkill - 3, weightReductionPolynomialFactor));
@@ -303,9 +293,9 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         float bipedalCombatSpeedMinMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalCombatSpeedMinMultiplier);
         float bipedalCombatSpeedMaxMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalCombatSpeedMaxMultiplier);
 
-        int itemSkill = GetEffectiveSkill(character, agent.Origin, agent.Formation, equippedItem?.RelevantSkill ?? DefaultSkills.Athletics);
+        int itemSkill = GetEffectiveSkill(agent, equippedItem?.RelevantSkill ?? DefaultSkills.Athletics);
         // Use weapon master here instead of wpf so the archer with no melee wpf can still fight.
-        int weaponMaster = GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, CrpgSkills.WeaponMaster);
+        int weaponMaster = GetEffectiveSkill(agent, CrpgSkills.WeaponMaster);
         props.SwingSpeedMultiplier = 0.925f + 0.00237f * (float)Math.Pow(itemSkill, 0.9f);
         props.ThrustOrRangedReadySpeedMultiplier = props.SwingSpeedMultiplier;
         props.HandlingMultiplier = 1.05f * _constants.HandlingFactorForWeaponMaster[Math.Min(weaponMaster, _constants.HandlingFactorForWeaponMaster.Length - 1)];
@@ -315,7 +305,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         props.MissileSpeedMultiplier = 1f;
         props.ReloadMovementPenaltyFactor = 1f;
         SetAllWeaponInaccuracy(agent, props, (int)wieldedItemIndex3, equippedItem);
-        int ridingSkill = GetEffectiveSkill(character, agent.Origin, agent.Formation, DefaultSkills.Riding);
+        int ridingSkill = GetEffectiveSkill(agent, DefaultSkills.Riding);
         props.BipedalRangedReadySpeedMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalRangedReadySpeedMultiplier);
         props.BipedalRangedReloadSpeedMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalRangedReloadSpeedMultiplier);
         props.CombatMaxSpeedMultiplier = bipedalCombatSpeedMaxMultiplier;
@@ -368,7 +358,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                     float amount = MBMath.ClampFloat((equippedItem.ThrustSpeed - 60.0f) / 75.0f, 0.0f, 1f);
 
                     // Hold Time
-                    int powerDraw = GetEffectiveSkill(character, agent.Origin, agent.Formation, CrpgSkills.PowerDraw);
+                    int powerDraw = GetEffectiveSkill(agent, CrpgSkills.PowerDraw);
                     props.WeaponUnsteadyBeginTime = 0.06f + weaponSkill * 0.00175f * MBMath.Lerp(1f, 2f, amount) + powerDraw * powerDraw / 10f * 0.35f;
                     props.WeaponUnsteadyEndTime = 2f + props.WeaponUnsteadyBeginTime;
 
@@ -384,7 +374,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                     float unsteadyAccuracyPenaltyScaler = MBMath.ClampFloat((equippedItem.ThrustSpeed - 89.0f) / 13.0f, 0.0f, 1f);
                     props.WeaponMaxUnsteadyAccuracyPenalty = props.WeaponInaccuracy;
                     props.WeaponMaxMovementAccuracyPenalty = props.WeaponInaccuracy * 1.3f;
-                    int powerThrow = GetEffectiveSkill(character, agent.Origin, agent.Formation, CrpgSkills.PowerThrow);
+                    int powerThrow = GetEffectiveSkill(agent, CrpgSkills.PowerThrow);
                     props.WeaponBestAccuracyWaitTime = 0.00001f;
                     props.WeaponUnsteadyBeginTime = 1.0f + weaponSkill * 0.006f + powerThrow * powerThrow / 10f * 0.4f;
                     props.WeaponUnsteadyEndTime = 10f + props.WeaponUnsteadyBeginTime;
@@ -444,7 +434,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
 
             if (agent.HasMount)
             {
-                int mountedArcherySkill = GetEffectiveSkill(character, agent.Origin, agent.Formation, CrpgSkills.MountedArchery);
+                int mountedArcherySkill = GetEffectiveSkill(agent, CrpgSkills.MountedArchery);
 
                 float weaponMaxMovementAccuracyPenalty = 0.03f / _constants.MountedRangedSkillInaccuracy[mountedArcherySkill];
                 float weaponMaxUnsteadyAccuracyPenalty = 0.15f / _constants.MountedRangedSkillInaccuracy[mountedArcherySkill];
@@ -461,7 +451,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             }
         }
 
-        int shieldSkill = GetEffectiveSkill(character, agent.Origin, agent.Formation, CrpgSkills.Shield);
+        int shieldSkill = GetEffectiveSkill(agent, CrpgSkills.Shield);
         float coverageFactorForShieldCoef = agent.HasMount
             ? _constants.CavalryCoverageFactorForShieldCoef
             : _constants.InfantryCoverageFactorForShieldCoef;
@@ -469,7 +459,8 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         float ridingAttribute = agent.MountAgent?.GetAgentDrivenPropertyValue(DrivenProperty.AttributeRiding) ?? 1f;
         props.AttributeRiding = ridingSkill * ridingAttribute;
         // TODO: AttributeHorseArchery doesn't seem to have any effect for now.
-        props.AttributeHorseArchery = Game.Current.BasicModels.StrikeMagnitudeModel.CalculateHorseArcheryFactor(character);
+        /*
+        props.AttributeHorseArchery = Game.Current.BasicModels.StrikeMagnitudeModel.CalculateHorseArcheryFactor(character);*/
 
         SetAiRelatedProperties(agent, props, equippedItem, secondaryItem);
     }
@@ -508,7 +499,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             return 0;
         }
 
-        int strengthAttribute = GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, CrpgSkills.Strength);
+        int strengthAttribute = GetEffectiveSkill(agent, CrpgSkills.Strength);
         float setRequirement = CrpgItemRequirementModel.ComputeItemRequirement(equippedItem);
         return Math.Max(setRequirement - strengthAttribute, 0);
     }

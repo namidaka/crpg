@@ -571,7 +571,7 @@ internal class CrpgRewardServer : MissionLogic
             {
                 return;
             }
-            var isDuel = Mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>().GameType == MissionLobbyComponent.MultiplayerGameType.Duel;
+            var isDuel = Mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>().GameType == MultiplayerGameType.Duel;
             crpgPeer.User = updateResult.User;
             if (crpgPeer.User.Character.ForTournament && !CrpgFeatureFlags.IsEnabled(CrpgFeatureFlags.FeatureTournament) && !isDuel)
             {

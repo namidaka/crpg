@@ -1,5 +1,4 @@
 ﻿using Crpg.Module.Helpers;
-using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
