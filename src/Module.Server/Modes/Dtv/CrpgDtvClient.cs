@@ -138,7 +138,13 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
             return;
         }
 
-        var attackerAgent = Mission.Agents[message.AgentAttackerIndex];
+        var attackerAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentAttackerIndex, true);
+
+        if (attackerAgent == null)
+        {
+            Debug.Print($"CRPGLOG : HandleViscountUnderAttack received a null agent {message.AgentAttackerIndex}");
+            return;
+        }
 
         TextObject textObject = new("{=mfD3LkeQ}The Viscount is being attacked by {AGENT}!",
         new Dictionary<string, object> { ["AGENT"] = attackerAgent?.Name ?? string.Empty });

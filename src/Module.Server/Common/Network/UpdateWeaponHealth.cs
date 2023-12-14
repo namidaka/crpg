@@ -7,7 +7,7 @@ namespace Crpg.Module.Common.Network;
 [DefineGameNetworkMessageTypeForMod(GameNetworkMessageSendType.FromServer)]
 internal sealed class UpdateWeaponHealth : GameNetworkMessage
 {
-    public Agent Agent { get; set; } = default!;
+    public int AgentIndex { get; set; } = default!;
     public int WeaponHealth { get; set; }
     public int LastRoll { get; set; }
     public int LastBlow { get; set; }
@@ -15,7 +15,7 @@ internal sealed class UpdateWeaponHealth : GameNetworkMessage
 
     protected override void OnWrite()
     {
-        WriteAgentIndexToPacket(Agent.Index);
+        WriteAgentIndexToPacket(AgentIndex);
         WriteIntToPacket(WeaponHealth, CompressionBasic.DebugIntNonCompressionInfo);
         WriteIntToPacket(LastRoll, CompressionBasic.DebugIntNonCompressionInfo);
         WriteIntToPacket(LastBlow, CompressionBasic.DebugIntNonCompressionInfo);
@@ -25,7 +25,7 @@ internal sealed class UpdateWeaponHealth : GameNetworkMessage
     protected override bool OnRead()
     {
         bool bufferReadValid = true;
-        Agent = Mission.Current.Agents[ReadAgentIndexFromPacket(ref bufferReadValid)];
+        AgentIndex = ReadAgentIndexFromPacket(ref bufferReadValid);
         WeaponHealth = ReadIntFromPacket(CompressionBasic.DebugIntNonCompressionInfo, ref bufferReadValid);
         LastRoll = ReadIntFromPacket(CompressionBasic.DebugIntNonCompressionInfo, ref bufferReadValid);
         LastBlow = ReadIntFromPacket(CompressionBasic.DebugIntNonCompressionInfo, ref bufferReadValid);

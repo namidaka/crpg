@@ -49,14 +49,15 @@ internal class BreakableWeaponsBehaviorClient : MissionNetwork
 
     private void HandleUpdateWeaponHealth(UpdateWeaponHealth message)
     {
-        if (message.Agent == null)
+        if (message.AgentIndex == null)
         {
             return;
         }
 
-        Agent agentToUpdate = Mission.Current.Agents.FirstOrDefault(a => a == message.Agent);
+        Agent agentToUpdate = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentIndex, true);
         if (agentToUpdate == null)
         {
+            Debug.Print($"CRPGLOG : HandleUpdateWeaponHealth received a null agent : {message.AgentIndex}  ");
             return;
         }
 
