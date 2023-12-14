@@ -14,6 +14,7 @@ using TaleWorlds.MountAndBlade;
 
 #if CRPG_SERVER
 using TaleWorlds.MountAndBlade.DedicatedCustomServer;
+using TaleWorlds.MountAndBlade.ListedServer;
 using TaleWorlds.PlayerServices;
 using WindowsFirewallHelper;
 #else
@@ -127,9 +128,9 @@ internal class CrpgSubModule : MBSubModuleBase
                         continue;
                     }
 
+                    ListedServerCommandManager.ServerSideIntermissionManager.AddMapToAutomatedBattlePool(map);
 
                     Debug.Print($"added {map} to map pool");
-
                 }
             }
             catch (Exception e)
