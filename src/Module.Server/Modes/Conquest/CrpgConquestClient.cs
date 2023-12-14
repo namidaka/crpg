@@ -119,8 +119,9 @@ internal class CrpgConquestClient : MissionMultiplayerGameModeBaseClient, IComma
     private void OnCapturePointOwnerChanged(FlagCapturePoint flag, int flagOwnerTeamIndex)
     {
         MBTeam mbteamFromTeamIndex = Mission.MissionNetworkHelper.GetMBTeamFromTeamIndex(flagOwnerTeamIndex);
-        _flagOwners[flag.FlagIndex] = Mission.Current.Teams.Find(mbteamFromTeamIndex);
-        OnCapturePointOwnerChangedEvent?.Invoke(flag, Mission.Teams[flagOwnerTeamIndex]);
+        Team team = Mission.Current.Teams.Find(mbteamFromTeamIndex);
+        _flagOwners[flag.FlagIndex] = team;
+        OnCapturePointOwnerChangedEvent?.Invoke(flag, team);
 
         var myTeam = _myMissionPeer?.Team;
         if (myTeam == null)
