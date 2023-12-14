@@ -81,7 +81,8 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
             }
             else
             {
-                ChangeTeamServer(peer, Mission.Teams[message.TeamIndex]);
+                MBTeam mbTeam = Mission.MissionNetworkHelper.GetMBTeamFromTeamIndex(message.TeamIndex);
+                ChangeTeamServer(peer, Mission.Current.Teams.Find(mbTeam));
             }
         }
         else
@@ -95,7 +96,8 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
                     _playerTeamsBeforeJoiningSpectator[peer.VirtualPlayer.Id] = missionPeer.Team;
                 }
 
-                ChangeTeamServer(peer, Mission.Teams[message.TeamIndex]);
+                MBTeam mbTeam = Mission.MissionNetworkHelper.GetMBTeamFromTeamIndex(message.TeamIndex);
+                ChangeTeamServer(peer, Mission.Current.Teams.Find(mbTeam));
             }
             else if (_warmupComponent.IsInWarmup)
             {
