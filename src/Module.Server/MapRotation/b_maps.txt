@@ -10,4 +10,4 @@ crpg_conquest_skalalanding
 crpg_conquest_hailescastle
 crpg_conquest_jameyyedcastle
 crpg_conquest_talmberg
-crpg_conquest_knightscrest
+
