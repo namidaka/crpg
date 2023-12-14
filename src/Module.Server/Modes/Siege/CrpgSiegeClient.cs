@@ -282,7 +282,9 @@ internal class CrpgSiegeClient : MissionMultiplayerGameModeBaseClient, ICommande
         {
             if (flag.FlagIndex == message.FlagIndex)
             {
-                OnCapturePointOwnerChanged(flag, Mission.Teams[message.OwnerTeamIndex]);
+                MBTeam mbteamFromTeamIndex = Mission.MissionNetworkHelper.GetMBTeamFromTeamIndex(message.OwnerTeamIndex);
+                Team team = Mission.Current.Teams.Find(mbteamFromTeamIndex);
+                OnCapturePointOwnerChanged(flag, team);
                 break;
             }
         }
