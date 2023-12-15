@@ -118,6 +118,7 @@
   <string id="str_multiplayer_scene_name.crpg_battle_zemouri" text="{=LLWi2bYx}Zemouri" />
   <string id="str_multiplayer_scene_name.crpg_battle_snowytown" text="{=SToiplkd}Snowy Town" />
   <string id="str_multiplayer_scene_name.crpg_battle_lighthouse" text="{=LHuikjha}Lighthouse" />
+  <string id="str_multiplayer_scene_name.crpg_battle_vritannis" text="{=B3Rsk3r6}Vritannis" />
 
   <!-- Conquest Maps -->
   <string id="str_multiplayer_scene_name.crpg_conquest_acre" text="{=9Mpawm9h}Acre" />
