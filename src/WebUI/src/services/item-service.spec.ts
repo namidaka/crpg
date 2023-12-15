@@ -394,7 +394,7 @@ describe('humanizeBucket', () => {
       'requirement',
       18,
       {
-        label: 'item.requirementFormat',
+        label: 'item.requirementFormat::value:18',
         icon: null,
         tooltip: null,
       },
@@ -427,7 +427,7 @@ describe('humanizeBucket', () => {
     };
 
     expect(humanizeBucket('swingDamage', 10, item as ItemFlat)).toEqual({
-      label: 'item.damageTypeFormat',
+      label: 'item.damageTypeFormat::value:10,type:item.damageType.Cut.short',
       icon: null,
       tooltip: {
         title: 'item.damageType.Cut.title',

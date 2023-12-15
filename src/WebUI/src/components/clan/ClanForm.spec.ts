@@ -54,15 +54,15 @@ describe('create mode', () => {
     await input.trigger('blur');
 
     expect(field.attributes('variant')).toEqual('danger');
-    expect(field.attributes('message')).toEqual('validations.required');
+    expect(field.attributes('message')).toContain('validations.required');
 
     await input.setValue('My');
 
-    expect(field.attributes('message')).toEqual('validations.minLength');
+    expect(field.attributes('message')).toContain('validations.minLength');
 
     await input.setValue('My Little Pony My Little Pony My Little Pony My Little Pony');
 
-    expect(field.attributes('message')).toEqual('validations.maxLength');
+    expect(field.attributes('message')).toContain('validations.maxLength');
 
     await input.trigger('focus');
 
@@ -88,19 +88,19 @@ describe('create mode', () => {
     await input.trigger('blur');
 
     expect(field.attributes('variant')).toEqual('danger');
-    expect(field.attributes('message')).toEqual('validations.required');
+    expect(field.attributes('message')).toContain('validations.required');
 
     await input.setValue('M');
 
-    expect(field.attributes('message')).toEqual('validations.minLength');
+    expect(field.attributes('message')).toContain('validations.minLength');
 
     await input.setValue('MLPMLPMLPMLP');
 
-    expect(field.attributes('message')).toEqual('validations.maxLength');
+    expect(field.attributes('message')).toContain('validations.maxLength');
 
     await input.setValue('!!!!');
 
-    expect(field.attributes('message')).toEqual('validations.clanTagPattern');
+    expect(field.attributes('message')).toContain('validations.clanTagPattern');
 
     await input.trigger('focus');
 
@@ -132,7 +132,7 @@ describe('create mode', () => {
       'Unicorns are one of several kinds of ponies that live in Equestria. They are characterized by their horns and their ability to perform magic. Unicorns are one of several kinds of ponies that live in Equestria. They are characterized by their horns and their ability to perform magic.'
     );
 
-    expect(field.attributes('message')).toEqual('validations.maxLength');
+    expect(field.attributes('message')).toContain('validations.maxLength');
 
     await input.trigger('focus');
 
@@ -162,7 +162,7 @@ describe('create mode', () => {
     await input.setValue('abc');
     await input.trigger('blur');
 
-    expect(field.find('[data-aq-o-field-stub-message-slot]').text()).toEqual(
+    expect(field.find('[data-aq-o-field-stub-message-slot]').text()).toContain(
       'validations.clanBannerKeyPattern'
     );
 
@@ -189,12 +189,12 @@ describe('create mode', () => {
     await input.trigger('blur');
 
     expect(field.attributes('variant')).toBeDefined();
-    expect(field.attributes('message')).toEqual('validations.url');
+    expect(field.attributes('message')).toContain('validations.url');
 
     await input.setValue('https://google.com');
 
     expect(field.attributes('variant')).toBeDefined();
-    expect(field.attributes('message')).toEqual('validations.discordLinkPattern');
+    expect(field.attributes('message')).toContain('validations.discordLinkPattern');
 
     await input.setValue('https://discord.gg/mlp');
 

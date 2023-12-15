@@ -36,7 +36,7 @@ const onDeleteUser = async () => {
         collapsed
         variant="danger"
       >
-        <div v-if="!canDeleteUser" class="text-status-warning">
+        <div v-if="!canDeleteUser" class="text-status-warning" data-aq-cant-delete-user-message>
           {{ $t('user.settings.delete.validation.hasChar') }}
         </div>
 
@@ -46,6 +46,7 @@ const onDeleteUser = async () => {
           tag="div"
           class="prose prose-invert leading-relaxed"
           :class="{ 'pointer-events-none opacity-30': !canDeleteUser }"
+          data-aq-delete-user-group
         >
           <template #link>
             <Modal :disabled="!canDeleteUser">
