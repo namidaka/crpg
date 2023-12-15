@@ -230,7 +230,8 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
           :lender="
             clanMembers.find(
               cm =>
-                cm.user.id === clanArmory.find(ca => ca.userItem.item.id === di.id)!.userItem.userId
+                cm.user.id ===
+                clanArmory.find(ca => ca.userItem.id === di.userItemId)!.userItem.userId
             )!.user
           "
           :borrower="
