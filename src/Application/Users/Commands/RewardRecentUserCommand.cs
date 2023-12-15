@@ -52,8 +52,7 @@ public record RewardRecentUserCommand : IMediatorRequest
                 {
                    int experienceToGive = _experienceTable.GetExperienceForLevel(_constants.NewUserStartingCharacterLevel) - highestLevelCharacter.Experience;
                    _characterService.GiveExperience(highestLevelCharacter, experienceToGive, useExperienceMultiplier: false);
-                   Logger.LogInformation("Beginner character {0} has been rewarded with {1} experience and is now level 30",  highestLevelCharacter.Id, experienceToGive);
-
+                   Logger.LogInformation("Beginner character {0} has been rewarded with {1} experience and is now level {2}",  highestLevelCharacter.Id, experienceToGive, highestLevelCharacter.Level);
                 }
             }
 
