@@ -1,6 +1,4 @@
-﻿using Crpg.Module.Helpers;
-
-namespace Crpg.Module.Balancing;
+﻿namespace Crpg.Module.Balancing;
 
 internal static class WeightHelpers
 {

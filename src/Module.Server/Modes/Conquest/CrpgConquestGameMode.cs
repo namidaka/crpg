@@ -7,6 +7,8 @@ using Crpg.Module.Rewards;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Source.Missions;
+using TaleWorlds.MountAndBlade.Multiplayer;
+
 
 #if CRPG_SERVER
 using Crpg.Module.Api;
@@ -16,6 +18,8 @@ using Crpg.Module.GUI;
 using Crpg.Module.GUI.Conquest;
 using Crpg.Module.GUI.Spectator;
 using Crpg.Module.GUI.Warmup;
+using TaleWorlds.MountAndBlade.Multiplayer;
+using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 #endif
@@ -44,24 +48,24 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
 
         return new[]
         {
-            ViewCreator.CreateMissionServerStatusUIHandler(),
-            ViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
+            MultiplayerViewCreator.CreateMissionServerStatusUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
             ViewCreator.CreateMissionAgentStatusUIHandler(mission),
             ViewCreator.CreateMissionMainAgentEquipmentController(mission), // Pick/drop items.
             ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
             ViewCreatorManager.CreateMissionView<CrpgMissionMultiplayerEscapeMenu>(isNetwork: false, null, "cRPGConquest", gameModeClient),
             ViewCreator.CreateMissionAgentLabelUIHandler(mission),
-            ViewCreator.CreateMultiplayerTeamSelectUIHandler(),
-            ViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
-            ViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
-            ViewCreator.CreatePollProgressUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerTeamSelectUIHandler(),
+            MultiplayerViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
+            MultiplayerViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
+            MultiplayerViewCreator.CreatePollProgressUIHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
-            ViewCreator.CreateMissionKillNotificationUIHandler(),
+            MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
             new SpectatorHudUiHandler(),
             new WarmupHudUiHandler(),
             new ConquestHudUiHandler(),
-            ViewCreator.CreateMultiplayerMissionDeathCardUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerMissionDeathCardUIHandler(),
             ViewCreator.CreateOptionsUIHandler(),
             ViewCreator.CreateMissionMainAgentEquipDropView(mission),
             ViewCreator.CreateMissionBoundaryCrossingView(),
@@ -99,6 +103,8 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
                 lobbyComponent,
 #if CRPG_CLIENT
                 new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
+                // Shit that need to stay because BL code is extremely coupled to the visual spawning.
+                new MultiplayerMissionAgentVisualSpawnComponent(),
 #endif
                 warmupComponent,
                 new CrpgConquestClient(),
@@ -118,9 +124,6 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
                 new EquipmentControllerLeaveLogic(),
                 new MultiplayerPreloadHelper(),
                 new WelcomeMessageBehavior(warmupComponent),
-
-                // Shit that need to stay because BL code is extremely coupled to the visual spawning.
-                new MultiplayerMissionAgentVisualSpawnComponent(),
                 new MissionLobbyEquipmentNetworkComponent(),
 
 #if CRPG_SERVER
@@ -133,12 +136,11 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
                 new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                 new ServerMetricsBehavior(),
                 new NotAllPlayersReadyComponent(),
-                new RemoveIpFromFirewallBehavior(),
                 new DrowningBehavior(),
                 new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
 #else
                 new MultiplayerAchievementComponent(),
-                new MissionMatchHistoryComponent(),
+                MissionMatchHistoryComponent.CreateIfConditionsAreMet(),
                 new MissionRecentPlayersComponent(),
                 new CrpgRewardClient(),
 #endif

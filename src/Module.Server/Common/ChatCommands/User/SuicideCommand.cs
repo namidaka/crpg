@@ -29,7 +29,7 @@ internal class SuicideCommand : AdminCommand
         {
             DamageType = DamageTypes.Invalid,
             BaseMagnitude = 10000f,
-            Position = agent.Position,
+            GlobalPosition = agent.Position,
             DamagedPercentage = 1f,
         };
         agent.Die(blow, Agent.KillInfo.Gravity);

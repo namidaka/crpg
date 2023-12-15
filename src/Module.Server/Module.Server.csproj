@@ -20,6 +20,8 @@
     <ContentWithTargetPath Include="..\..\data\constants.json" Link="ModuleData\constants.json" TargetPath="..\..\ModuleData\constants.json" CopyToOutputDirectory="Always" />
     <ContentWithTargetPath Include="SubModule.xml;ModuleData\**\*;GUI\**\*.xml" TargetPath="..\..\%(Identity)" CopyToOutputDirectory="Always" />
     <ContentWithTargetPath Include="MapRotation\*.txt" TargetPath="..\..\%(Filename).txt" CopyToOutputDirectory="Always" />
+    <Compile Remove="..\Module.Server\HarmonyPatches\MissionNetworkComponentPatch.cs" />
+    <Compile Remove="..\Module.Server\HarmonyPatches\SendPeerInformationsToPeerPatch.cs"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +36,8 @@
     <Reference Include="$(MB_SERVER_PATH)\bin\Win64_Shipping_Server\System.Numerics.Vectors.dll">
       <Private>False</Private>
     </Reference>
-
+    <Reference Include="TaleWorlds.MountAndBlade.Multiplayer">
+    </Reference>
     <!-- Remove native library (not .NET). -->
     <Reference Remove="$(MB_SERVER_PATH)/bin/Win64_Shipping_Server/TaleWorlds.Native.dll" />
     <!-- These libraries cause dependency conflicts. -->

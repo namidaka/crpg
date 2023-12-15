@@ -93,7 +93,7 @@ internal class CrpgSkirmishFlagSystem : AbstractFlagSystem
     {
         flag.RemovePointAsServer();
         GameNetwork.BeginBroadcastModuleEvent();
-        GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, null));
+        GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, -1)); // check if game crashes.
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
         return flag.FlagIndex;
     }

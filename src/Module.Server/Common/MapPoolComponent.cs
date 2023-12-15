@@ -1,6 +1,8 @@
 ﻿using Crpg.Module.Helpers;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.DedicatedCustomServer;
+using TaleWorlds.MountAndBlade.ListedServer;
+using TaleWorlds.MountAndBlade.Multiplayer.NetworkComponents;
 
 namespace Crpg.Module.Common;
 
@@ -20,7 +22,7 @@ internal class MapPoolComponent : MissionLogic
 
     public void ForceNextMap(string map)
     {
-        if (!DedicatedCustomServerSubModule.Instance.AutomatedMapPool.Contains(map))
+        if (ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool.Contains(map))
         {
             return;
         }
@@ -30,14 +32,6 @@ internal class MapPoolComponent : MissionLogic
 
     protected override void OnEndMission()
     {
-        // Gotha's fix to cope with the retarded 10 games limit.
-        var baseNetworkComponent = GameNetwork.GetNetworkComponent<BaseNetworkComponent>();
-        if (baseNetworkComponent != null && baseNetworkComponent.CurrentBattleIndex > 2)
-        {
-            ReflectionHelper.SetField(DedicatedCustomServerSubModule.Instance, "_currentAutomatedBattleIndex", 1);
-            baseNetworkComponent.UpdateCurrentBattleIndex(1);
-        }
-
         var votingManager = MultiplayerIntermissionVotingManager.Instance;
         if (votingManager.MapVoteItems.Count == 0) // When automated_battle_pool is not used.
         {

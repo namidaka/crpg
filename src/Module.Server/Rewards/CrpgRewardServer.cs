@@ -137,7 +137,8 @@ internal class CrpgRewardServer : MissionLogic
         int attackerMultiplierGain = 0,
         BattleSideEnum? valourTeamSide = null,
         int? constantMultiplier = null,
-        bool updateUserStats = true)
+        bool updateUserStats = true,
+        bool isDuel = false)
     {
         var networkPeers = GameNetwork.NetworkPeers.ToArray();
         if (networkPeers.Length == 0)
@@ -238,7 +239,7 @@ internal class CrpgRewardServer : MissionLogic
         {
             SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
             var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates })).Data!;
-            SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer);
+            SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
         }
         catch (Exception e)
         {
@@ -556,7 +557,7 @@ internal class CrpgRewardServer : MissionLogic
     }
 
     private void SendRewardToPeers(IList<UpdateCrpgUserResult> updateResults,
-        Dictionary<int, CrpgPeer> crpgPeerByCrpgUserId, HashSet<PlayerId> valorousPlayerIds, Dictionary<int, int> compensationByCrpgUserId, bool lowPopulation)
+        Dictionary<int, CrpgPeer> crpgPeerByCrpgUserId, HashSet<PlayerId> valorousPlayerIds, Dictionary<int, int> compensationByCrpgUserId, bool lowPopulation, bool isDuel = false)
     {
         foreach (var updateResult in updateResults)
         {
@@ -571,7 +572,7 @@ internal class CrpgRewardServer : MissionLogic
             {
                 return;
             }
-            var isDuel = Mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>().GameType == MissionLobbyComponent.MultiplayerGameType.Duel;
+
             crpgPeer.User = updateResult.User;
             if (crpgPeer.User.Character.ForTournament && !CrpgFeatureFlags.IsEnabled(CrpgFeatureFlags.FeatureTournament) && !isDuel)
             {

@@ -43,8 +43,8 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
 
     public override bool IsGameModeUsingOpposingTeams => true;
 
-    public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
-        => MissionLobbyComponent.MultiplayerGameType.FreeForAll; // Helps to avoid a few crashes.
+    public override MultiplayerGameType GetMissionType()
+        => MultiplayerGameType.FreeForAll; // Helps to avoid a few crashes.
 
     public override bool UseRoundController() => false;
 
@@ -192,8 +192,13 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
 
         foreach (var flag in AllCapturePoints)
         {
+            if (_flagOwners[flag.FlagIndex] == null)
+            {
+                continue;
+            }
+
             GameNetwork.BeginModuleEventAsServer(networkPeer);
-            GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, _flagOwners[flag.FlagIndex]));
+            GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, _flagOwners[flag.FlagIndex]!.TeamIndex));
             GameNetwork.EndModuleEventAsServer();
         }
 
@@ -377,7 +382,7 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
         flag.SetTeamColorsSynched(flagNewOwner.Color, flagNewOwner.Color2);
         _flagOwners[flag.FlagIndex] = flagNewOwner;
         GameNetwork.BeginBroadcastModuleEvent();
-        GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, flagNewOwner));
+        GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, flagNewOwner.TeamIndex));
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
 
         bool stageEnded = _flagStages[_currentStage].All(f =>

@@ -5,7 +5,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
+using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection;
 using TaleWorlds.ObjectSystem;
 
 namespace Crpg.Module.GUI.EndOfRound;

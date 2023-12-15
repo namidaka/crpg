@@ -13,6 +13,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.MountAndBlade.GauntletUI.Mission;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
@@ -76,7 +77,7 @@ public class CrpgMissionGauntletMainAgentCheerControllerView : MissionView
         base.OnMissionScreenInitialize();
         _gauntletLayer = new GauntletLayer(2);
         _missionMainAgentController = Mission.GetMissionBehavior<MissionMainAgentController>();
-        _dataSource = new MissionMainAgentCheerBarkControllerVM(OnCheerSelect, OnBarkSelect, Agent.TauntCheerActions, SkinVoiceManager.VoiceType.MpBarks);
+        _dataSource = new MissionMainAgentCheerBarkControllerVM(OnCheerSelect, OnBarkSelect);
         _gauntletLayer.LoadMovie("MainAgentCheerBarkController", _dataSource);
         _gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("CombatHotKeyCategory"));
         MissionScreen.AddLayer(_gauntletLayer);
@@ -292,17 +293,33 @@ public class CrpgMissionGauntletMainAgentCheerControllerView : MissionView
         OnCheerSelect(0);
     }
 
-    private void OnCheerSelect(int indexOfCheer)
+    private void OnCheerSelect(int tauntIndex)
     {
+        if (tauntIndex < 0)
+        {
+            return;
+        }
+
         if (GameNetwork.IsClient)
         {
+            TauntUsageManager.TauntUsage.TauntUsageFlag actionNotUsableReason = CosmeticsManagerHelper.GetActionNotUsableReason(Agent.Main, tauntIndex);
+            if (actionNotUsableReason != TauntUsageManager.TauntUsage.TauntUsageFlag.None)
+            {
+                InformationManager.DisplayMessage(new InformationMessage(TauntUsageManager.GetActionDisabledReasonText(actionNotUsableReason)));
+                return;
+            }
+
             GameNetwork.BeginModuleEventAsClient();
-            GameNetwork.WriteMessage(new CheerSelected(indexOfCheer));
+            GameNetwork.WriteMessage(new TauntSelected(tauntIndex));
             GameNetwork.EndModuleEventAsClient();
         }
         else
         {
-            Agent.Main.HandleCheer(indexOfCheer);
+            Agent main = Agent.Main;
+            if (main != null)
+            {
+                main.HandleTaunt(tauntIndex, true);
+            }
         }
 
         _cooldownTimeRemaining = 4f;
@@ -344,7 +361,7 @@ public class CrpgMissionGauntletMainAgentCheerControllerView : MissionView
             return;
         }
 
-        _gauntletLayer._gauntletUIContext.ContextAlpha = 0f;
+        _gauntletLayer.UIContext.ContextAlpha = 0f;
     }
 
     public override void OnPhotoModeDeactivated()
@@ -355,6 +372,6 @@ public class CrpgMissionGauntletMainAgentCheerControllerView : MissionView
             return;
         }
 
-        _gauntletLayer._gauntletUIContext.ContextAlpha = 1f;
+        _gauntletLayer.UIContext.ContextAlpha = 1f;
     }
 }

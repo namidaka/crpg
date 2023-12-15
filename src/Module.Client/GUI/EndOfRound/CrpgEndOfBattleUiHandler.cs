@@ -1,10 +1,6 @@
-﻿using System;
-using TaleWorlds.Engine.GauntletUI;
+﻿using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
-using TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer;
-using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
 
 namespace Crpg.Module.GUI.EndOfRound;
 

@@ -5,10 +5,10 @@ using TaleWorlds.Core;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer;
+using TaleWorlds.MountAndBlade.Multiplayer.GauntletUI.Mission;
+using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
-using TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection;
 using TaleWorlds.TwoDimension;
 

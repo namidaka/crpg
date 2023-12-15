@@ -6,6 +6,7 @@
 using Crpg.Module.Gui;
 using TaleWorlds.Core.ViewModelCollection.Generic;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 {

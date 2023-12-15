@@ -14,6 +14,7 @@ using TaleWorlds.MountAndBlade;
 
 #if CRPG_SERVER
 using TaleWorlds.MountAndBlade.DedicatedCustomServer;
+using TaleWorlds.MountAndBlade.ListedServer;
 using TaleWorlds.PlayerServices;
 using WindowsFirewallHelper;
 #else
@@ -35,16 +36,11 @@ internal class CrpgSubModule : MBSubModuleBase
     private static bool _mapPoolAdded;
     public static CrpgSubModule Instance = default!;
     public Dictionary<PlayerId, IAddress> WhitelistedIps = new();
-    private IFirewallRule? _cachedFirewallRule;
     public int Port()
     {
         return TaleWorlds.MountAndBlade.Module.CurrentModule.StartupInfo.ServerPort;
     }
 
-    public IFirewallRule? GetCachedFirewallRule()
-    {
-        return _cachedFirewallRule;
-    }
 #endif
     static CrpgSubModule()
     {
@@ -57,20 +53,6 @@ internal class CrpgSubModule : MBSubModuleBase
     protected override void OnSubModuleLoad()
     {
         base.OnSubModuleLoad();
-
-#if CRPG_SERVER
-        CrpgSubModule.Instance = this;
-        var firewallRule = Firewall.GetFirewallRule(Port(), _cachedFirewallRule);
-        if (firewallRule == null)
-        {
-            Debug.Print("[Firewall] FirewallRule " + Firewall.GetFirewallRuleName(Port()) + " not found on your server. Creating...", 0, Debug.DebugColor.Red);
-            _cachedFirewallRule = Firewall.CreateFirewallRule(Port());
-        }
-        else
-        {
-            _cachedFirewallRule = firewallRule;
-        }
-#endif
         _constants = LoadCrpgConstants();
         TaleWorlds.MountAndBlade.Module.CurrentModule.AddMultiplayerGameMode(new CrpgBattleGameMode(_constants, isSkirmish: true));
         TaleWorlds.MountAndBlade.Module.CurrentModule.AddMultiplayerGameMode(new CrpgBattleGameMode(_constants, isSkirmish: false));
@@ -146,8 +128,9 @@ internal class CrpgSubModule : MBSubModuleBase
                         continue;
                     }
 
-                    DedicatedCustomServerSubModule.Instance.AddMapToAutomatedBattlePool(map);
-                    Debug.Print($"added {map} to map pool", color: Debug.DebugColor.Cyan);
+                    ListedServerCommandManager.ServerSideIntermissionManager.AddMapToAutomatedBattlePool(map);
+
+                    Debug.Print($"added {map} to map pool");
                 }
             }
             catch (Exception e)
@@ -164,6 +147,7 @@ internal class CrpgSubModule : MBSubModuleBase
         _mapPoolAdded = true;
         return;
     }
+
 #endif
     private CrpgConstants LoadCrpgConstants()
     {

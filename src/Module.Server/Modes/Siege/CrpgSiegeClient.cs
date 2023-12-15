@@ -38,7 +38,7 @@ internal class CrpgSiegeClient : MissionMultiplayerGameModeBaseClient, ICommande
     public override bool IsGameModeUsingGold => false;
     public override bool IsGameModeTactical => true;
     public override bool IsGameModeUsingRoundCountdown => true;
-    public override MissionLobbyComponent.MultiplayerGameType GameType => MissionLobbyComponent.MultiplayerGameType.Siege;
+    public override MultiplayerGameType GameType => MultiplayerGameType.Siege;
     public bool AreMoralesIndependent => true;
 
     public event Action<BattleSideEnum, float>? OnMoraleChangedEvent;
@@ -282,7 +282,9 @@ internal class CrpgSiegeClient : MissionMultiplayerGameModeBaseClient, ICommande
         {
             if (flag.FlagIndex == message.FlagIndex)
             {
-                OnCapturePointOwnerChanged(flag, message.OwnerTeam);
+                MBTeam mbteamFromTeamIndex = Mission.MissionNetworkHelper.GetMBTeamFromTeamIndex(message.OwnerTeamIndex);
+                Team team = Mission.Current.Teams.Find(mbteamFromTeamIndex);
+                OnCapturePointOwnerChanged(flag, team);
                 break;
             }
         }

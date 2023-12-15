@@ -72,7 +72,7 @@ internal class BreakableWeaponsBehaviorServer : MissionBehavior
             if (randomNumber >= blowDone) // does not break
             {
                 GameNetwork.BeginBroadcastModuleEvent();
-                GameNetwork.WriteMessage(new UpdateWeaponHealth { Agent = attacker, EquipmentIndex = attackerWeaponIndex, WeaponHealth = 1, LastBlow = blowDone, LastRoll = randomNumber });
+                GameNetwork.WriteMessage(new UpdateWeaponHealth { AgentIndex = attacker.Index, EquipmentIndex = attackerWeaponIndex, WeaponHealth = 1, LastBlow = blowDone, LastRoll = randomNumber });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
 
             }
@@ -90,7 +90,7 @@ internal class BreakableWeaponsBehaviorServer : MissionBehavior
             attacker!.ChangeWeaponHitPoints(attackerWeaponIndex, newHealth);
 
             GameNetwork.BeginBroadcastModuleEvent();
-            GameNetwork.WriteMessage(new UpdateWeaponHealth { Agent = attacker, EquipmentIndex = attackerWeaponIndex, WeaponHealth = newHealth });
+            GameNetwork.WriteMessage(new UpdateWeaponHealth { AgentIndex = attacker.Index, EquipmentIndex = attackerWeaponIndex, WeaponHealth = newHealth });
             GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
         }
     }

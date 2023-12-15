@@ -40,8 +40,8 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
     public override bool IsGameModeUsingGold => false;
     public override bool IsGameModeTactical => false;
     public override bool IsGameModeUsingRoundCountdown => true;
-    public override MissionLobbyComponent.MultiplayerGameType GameType =>
-        MissionLobbyComponent.MultiplayerGameType.Battle;
+    public override MultiplayerGameType GameType =>
+        MultiplayerGameType.Battle;
     public override bool IsGameModeUsingCasualGold => false;
 
     public override void OnGoldAmountChangedForRepresentative(MissionRepresentativeBase representative, int goldAmount)
@@ -133,16 +133,27 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
 
     private void HandleViscountUnderAttack(CrpgDtvViscountUnderAttackMessage message)
     {
-        if (message.Attacker != null)
+        if (message.AgentAttackerIndex >= Mission.Agents.Count)
         {
-            TextObject textObject = new("{=mfD3LkeQ}The Viscount is being attacked by {AGENT}!",
-            new Dictionary<string, object> { ["AGENT"] = message.Attacker.Name });
-            InformationManager.DisplayMessage(new InformationMessage
-            {
-                Information = textObject.ToString(),
-                Color = new Color(0.90f, 0.25f, 0.25f),
-                SoundEventPath = "event:/ui/notification/alert",
-            });
+            return;
         }
+
+        var attackerAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentAttackerIndex, true);
+
+        if (attackerAgent == null)
+        {
+            Debug.Print($"CRPGLOG : HandleViscountUnderAttack received a null agent {message.AgentAttackerIndex}");
+            return;
+        }
+
+        TextObject textObject = new("{=mfD3LkeQ}The Viscount is being attacked by {AGENT}!",
+        new Dictionary<string, object> { ["AGENT"] = attackerAgent?.Name ?? string.Empty });
+        InformationManager.DisplayMessage(new InformationMessage
+        {
+            Information = textObject.ToString(),
+            Color = new Color(0.90f, 0.25f, 0.25f),
+            SoundEventPath = "event:/ui/notification/alert",
+        });
+
     }
 }

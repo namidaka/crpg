@@ -8,6 +8,9 @@ using Crpg.Module.Rewards;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Source.Missions;
+using TaleWorlds.MountAndBlade.Multiplayer;
+
+
 
 #if CRPG_SERVER
 using Crpg.Module.Api;
@@ -17,8 +20,11 @@ using Crpg.Module.GUI.Scoreboard;
 using Crpg.Module.GUI;
 using Crpg.Module.GUI.EndOfRound;
 using Crpg.Module.GUI.HudExtension;
+using TaleWorlds.MountAndBlade.Multiplayer;
+using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
+
 #endif
 
 namespace Crpg.Module.Modes.Battle;
@@ -57,22 +63,22 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
 
         return new[]
         {
-            ViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
             ViewCreator.CreateMissionAgentStatusUIHandler(mission),
             ViewCreator.CreateMissionMainAgentEquipmentController(mission), // Pick/drop items.
             new CrpgMissionGauntletMainAgentCheerControllerView(),
             crpgEscapeMenu,
             ViewCreator.CreateMissionAgentLabelUIHandler(mission),
-            ViewCreator.CreateMultiplayerTeamSelectUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerTeamSelectUIHandler(),
             new CrpgMissionScoreboardUIHandler(false),
             new CrpgEndOfRoundUiHandler(),
             new CrpgEndOfBattleUIHandler(),
-            ViewCreator.CreatePollProgressUIHandler(),
+            MultiplayerViewCreator.CreatePollProgressUIHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
-            ViewCreator.CreateMissionKillNotificationUIHandler(),
+            MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
             new CrpgHudExtensionHandler(),
-            ViewCreator.CreateMultiplayerMissionDeathCardUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerMissionDeathCardUIHandler(),
             ViewCreator.CreateOptionsUIHandler(),
             ViewCreator.CreateMissionMainAgentEquipDropView(mission),
             ViewCreator.CreateMissionBoundaryCrossingView(),
@@ -118,10 +124,10 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     lobbyComponent,
 #if CRPG_CLIENT
                     new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
+                    new MultiplayerMissionAgentVisualSpawnComponent(), // expose method to spawn an agent
 #endif
                     battleClient,
                     new MultiplayerTimerComponent(), // round timer
-                    new MultiplayerMissionAgentVisualSpawnComponent(), // expose method to spawn an agent
                     new MissionLobbyEquipmentNetworkComponent(), // logic to change troop or perks
                     teamSelectComponent,
                     new MissionHardBorderPlacer(),
@@ -154,14 +160,13 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                     new ServerMetricsBehavior(),
                     new NotAllPlayersReadyComponent(),
-                    new RemoveIpFromFirewallBehavior(),
                     new DrowningBehavior(),
                     new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
                     new BreakableWeaponsBehaviorServer(),
 #else
                     new MultiplayerRoundComponent(),
                     new MultiplayerAchievementComponent(),
-                    new MissionMatchHistoryComponent(),
+                    MissionMatchHistoryComponent.CreateIfConditionsAreMet(),
                     new MissionRecentPlayersComponent(),
                     new CrpgRewardClient(),
                     new HotConstantsClient(),

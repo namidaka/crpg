@@ -170,7 +170,7 @@ internal abstract class AbstractFlagSystem
                 flag.SetTeamColorsWithAllSynched(team.Color, team.Color2);
                 _flagOwners[flag.FlagIndex] = team;
                 GameNetwork.BeginBroadcastModuleEvent();
-                GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, team));
+                GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, team.TeamIndex));
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
                 _battleClient.CaptureFlag(flag, team);
                 _notificationsComponent.FlagXCapturedByTeamX(flag, closestAgentToFlag.Team);

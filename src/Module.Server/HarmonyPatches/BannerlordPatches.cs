@@ -15,13 +15,13 @@ internal static class BannerlordPatches
     {
         Harmony harmony = new("BannerlordServerPatches");
         harmony.PatchAll();
-
+        /*
         AddPrefix(harmony, typeof(MissionLobbyComponent), "SendPeerInformationsToPeer",
             BindingFlags.NonPublic | BindingFlags.Instance, typeof(SendPeerInformationsToPeerPatch),
             nameof(SendPeerInformationsToPeerPatch.Prefix));
         AddPrefix(harmony, typeof(MissionNetworkComponent), "SendSpawnedMissionObjectsToPeer",
             BindingFlags.NonPublic | BindingFlags.Instance, typeof(MissionNetworkComponentPatch),
-            nameof(MissionNetworkComponentPatch.Prefix));
+            nameof(MissionNetworkComponentPatch.Prefix));*/
         AddPrefix(harmony, typeof(CustomBattleServer), "OnClientWantsToConnectCustomGameMessage",
             BindingFlags.NonPublic | BindingFlags.Instance, typeof(CustomBattleServerPatch),
             nameof(CustomBattleServerPatch.Prefix));

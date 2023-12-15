@@ -5,6 +5,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard;
 using TaleWorlds.ObjectSystem;
 
@@ -128,26 +129,18 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
         if (missionScoreboardSide != null)
         {
             string objectName = (missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
-            AllySide = new MPEndOfBattleSideVM(_missionScoreboardComponent, missionScoreboardSide, MBObjectManager.Instance.GetObject<BasicCultureObject>(objectName));
+            AllySide = new MPEndOfBattleSideVM(_missionScoreboardComponent, missionScoreboardSide, MBObjectManager.Instance.GetObject<BasicCultureObject>(objectName), AllySide.Side.Side == BattleSideEnum.Defender);
         }
 
         missionScoreboardSide = _missionScoreboardComponent.Sides.FirstOrDefault((MissionScoreboardComponent.MissionScoreboardSide s) => s != null && s.Side == _enemyBattleSide);
+
         if (missionScoreboardSide != null)
         {
             string objectName2 = (missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
-            EnemySide = new MPEndOfBattleSideVM(_missionScoreboardComponent, missionScoreboardSide, MBObjectManager.Instance.GetObject<BasicCultureObject>(objectName2));
+            EnemySide = new MPEndOfBattleSideVM(_missionScoreboardComponent, missionScoreboardSide, MBObjectManager.Instance.GetObject<BasicCultureObject>(objectName2), EnemySide.Side.Side == BattleSideEnum.Defender);
         }
 
-        if (EnemySide.Side.Side == BattleSideEnum.Defender)
-        {
-            EnemySide.UseSecondary = true;
-            return;
-        }
 
-        if (AllySide.Side.Side == BattleSideEnum.Defender)
-        {
-            AllySide.UseSecondary = true;
-        }
     }
 
     [DataSourceProperty]
