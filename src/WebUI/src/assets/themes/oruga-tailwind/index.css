@@ -1,5 +1,6 @@
 @import './fonts.css';
 @import 'vue-slider-component/theme/default.css';
+@import 'v-onboarding/dist/style.css';
 
 @import './components/button.css';
 @import './components/icon.css';
@@ -27,6 +28,12 @@
 @import './components/date-time-picker.css';
 @import './components/select.css';
 @import './components/drop.css';
+
+:root {
+  --v-onboarding-step-z: 9000;
+  --v-onboarding-overlay-z: 8000;
+  --v-onboarding-step-arrow-background:#272723;
+}
 
 * {
   scrollbar-width: thin;
