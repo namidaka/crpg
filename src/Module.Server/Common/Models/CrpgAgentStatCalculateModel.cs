@@ -470,7 +470,8 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
 
         SetAiRelatedProperties(agent, props, equippedItem, secondaryItem);
         Debug.Print($"item skill {itemSkill}", color: Debug.DebugColor.Red);
-        InformationManager.DisplayMessage(new InformationMessage($"item skill {itemSkill}"));
+        InformationManager.DisplayMessage(new InformationMessage($"{agent?.Name ?? string.Empty} has item skill {itemSkill}"));
+        InformationManager.DisplayMessage(new InformationMessage($"{agent?.Name ?? string.Empty} has item skill{athleticsSkill}"));
     }
 
     private float ImpactofStrAndWeaponLengthOnCombatMaxSpeedMultiplier(int weaponLength, int strengthSkill)
