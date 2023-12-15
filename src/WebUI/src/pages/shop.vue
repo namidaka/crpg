@@ -288,6 +288,11 @@ const newItemCount = computed(
             :bestValue="compareItemsResult !== null ? compareItemsResult[field] : undefined"
             :isCompare="isCompare"
           >
+            <template v-if="field === 'upkeep'" #default="{ rawBuckets }">
+              <Coin>
+                {{ $t('item.format.upkeep', { upkeep: $n(rawBuckets as number) }) }}
+              </Coin>
+            </template>
             <template v-if="field === 'price'" #default="{ rawBuckets }">
               <ShopGridItemBuyBtn
                 :price="rawBuckets as number"

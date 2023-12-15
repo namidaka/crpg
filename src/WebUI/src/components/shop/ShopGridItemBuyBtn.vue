@@ -36,7 +36,7 @@ const tooltipTitle = computed(() => {
       <OButton
         variant="primary"
         outlined
-        size="sm"
+        size="lg"
         :disabled="inInventory || notEnoughGold"
         @click="
           () => {

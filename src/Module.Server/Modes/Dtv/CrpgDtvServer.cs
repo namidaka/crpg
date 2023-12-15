@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Crpg.Module.Common;
 using Crpg.Module.Rewards;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -78,12 +79,22 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     public override void OnPeerChangedTeam(NetworkCommunicator networkPeer, Team oldTeam, Team newTeam)
     {
         var missionPeer = networkPeer.GetComponent<MissionPeer>();
-        if (missionPeer == null || newTeam == Mission.SpectatorTeam)
+        var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
+        if (missionPeer == null)
         {
             return;
         }
 
-        missionPeer.Team = Mission.DefenderTeam;
+        if (newTeam != Mission.SpectatorTeam)
+        {
+            missionPeer.Team = Mission.DefenderTeam;
+            return;
+        }
+
+        if (crpgPeer != null)
+        {
+            crpgPeer.LastSpawnInfo = null;
+        }
     }
 
     public override void OnAgentBuild(Agent agent, Banner banner)
@@ -308,11 +319,9 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         int defendersCount = 0;
         foreach (NetworkCommunicator networkPeer in GameNetwork.NetworkPeers)
         {
-            var missionPeer = networkPeer.GetComponent<MissionPeer>();
+            var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
             if (!networkPeer.IsSynchronized
-                || missionPeer == null
-                || missionPeer.Team == null
-                || missionPeer.Team.Side == BattleSideEnum.None)
+                || crpgPeer.LastSpawnInfo == null)
             {
                 continue;
             }

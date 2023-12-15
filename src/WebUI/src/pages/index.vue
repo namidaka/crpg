@@ -71,7 +71,7 @@ Promise.all([loadPatchNotes(), loadGameServerStats()]);
 
           <iframe
             class="mx-auto block aspect-video w-full rounded-lg lg:w-3/4 xl:w-2/3"
-            src="https://www.youtube-nocookie.com/embed/MZx56LD0o4c"
+            src="https://www.youtube-nocookie.com/embed/MQnW_j6s1Jw"
             title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
