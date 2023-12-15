@@ -279,7 +279,7 @@ internal class ItemExporter : IDataExporter
             .OrderBy(i => i.StringId)
             .ToArray();
         var crpgItems = mbItems.Select(MbToCrpgItem);
-        SerializeCrpgItems(crpgItems, Path.Combine("../../  "));
+        SerializeCrpgItems(crpgItems, Path.Combine("../../Modules/cRPG_Exporter/ModuleData"));
     }
 
     public async Task ImageExport(string gitRepoPath)
