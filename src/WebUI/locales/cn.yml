@@ -185,7 +185,7 @@ welcome:
      <p>金币用于<strong>购买</strong>、<strong>维护</strong>和<strong>重铸</strong>物品，以及重置角色技能</p>
      <p>为了积累金币，请查看您角色的<strong>@:character.nav.inventory 页面</strong>上装备维护的成本</p>
      <p>在起始奖励有效期间，重置您角色技能是<strong>免费<strong>的</p>"
-    startedCharacter: "
+    newUserStartingCharacter: "
       <h5>起始角色</h5>
       <p>您将获得一个起始角色：一名战士，携带一把<strong>{level}级</strong>的单手剑和盾牌，并穿着<strong>中等装备</strong><p>
       <p>您可以使用<strong>@:character.nav.overview 页面</strong>上的技能重置功能更改角色的职业<p>"

@@ -28,7 +28,7 @@ public class GetGameUserCommandTest : TestBase
             .GroupBy(i => i.id) // distinct by mbId
             .Select(p => new Item { Id = p.First().id });
 
-        var allStartedItemMbIds = GetGameUserCommand.Handler.StartedItemSets
+        var allStartedItemMbIds = GetGameUserCommand.Handler.NewUserStartingItemSets
             .SelectMany(set => set)
             .GroupBy(i => i.id) // distinct by mbId
             .Select(p => new Item { Id = p.First().id });
@@ -99,7 +99,7 @@ public class GetGameUserCommandTest : TestBase
         Assert.That(gameUser.Restrictions, Is.Empty);
 
         // Check that default values were set for user and character.
-        characterServiceMock.Verify(cs => cs.SetValuesForStartedCharacter(It.IsAny<Character>()));
+        characterServiceMock.Verify(cs => cs.SetValuesForNewUserStartingCharacter(It.IsAny<Character>()));
 
         // Check that user and its owned entities were created
         var dbUser = await AssertDb.Users
@@ -485,7 +485,7 @@ public class GetGameUserCommandTest : TestBase
         var items = (await new FileItemsSource().LoadItems()).ToDictionary(i => i.Id);
         Assert.Multiple(() =>
         {
-            foreach (var set in GetGameUserCommand.Handler.StartedItemSets)
+            foreach (var set in GetGameUserCommand.Handler.NewUserStartingItemSets)
             {
                 int price = 0;
                 foreach ((string mbId, ItemSlot slot) in set)

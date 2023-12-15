@@ -45,7 +45,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 WeaponProficiencies = new CharacterWeaponProficiencies { Points = 2, OneHanded = 143, Polearm = 81 },
             };
 
-        internal static readonly (string id, ItemSlot slot)[][] StartedItemSets =
+        internal static readonly (string id, ItemSlot slot)[][] NewUserStartingItemSets =
         {
             new[]
             {
@@ -189,8 +189,8 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 }
 
                 bool isNewUser = !await HasAnyCharacter(user.Id);
-                var itemSet = await GiveUserRandomItemSet(user, isNewUser ? StartedItemSets : DefaultItemSets);
-                var newCharacter = CreateCharacter(itemSet, isStartedCharacter: isNewUser);
+                var itemSet = await GiveUserRandomItemSet(user, isNewUser ? NewUserStartingItemSets : DefaultItemSets);
+                var newCharacter = CreateCharacter(itemSet, isNewUserStartingCharacter: isNewUser);
 
                 user.Characters.Add(newCharacter);
                 user.ActiveCharacter = newCharacter;
@@ -265,11 +265,11 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 .AnyAsync(c => c.UserId == userId);
         }
 
-        private Character CreateCharacter(IList<EquippedItem> equippedItems, bool isStartedCharacter = false)
+        private Character CreateCharacter(IList<EquippedItem> equippedItems, bool isNewUserStartingCharacter = false)
         {
             Character character = new()
             {
-                Name = isStartedCharacter ? "Warrior" : "Peasant",
+                Name = isNewUserStartingCharacter ? "Warrior" : "Peasant",
                 EquippedItems = equippedItems,
                 Limitations = new CharacterLimitations
                 {
@@ -277,9 +277,9 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 },
             };
 
-            if (isStartedCharacter)
+            if (isNewUserStartingCharacter)
             {
-                _characterService.SetValuesForStartedCharacter(character);
+                _characterService.SetValuesForNewUserStartingCharacter(character);
                 character.Characteristics = StartingCharacterCharacteristics;
             }
             else

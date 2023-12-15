@@ -61,7 +61,7 @@ const emit = defineEmits<{
                 :label="`${newUserStartingCharacterLevel} lvl`"
                 v-tooltip="{
                   popperClass: 'prose prose-invert',
-                  content: $t('welcome.bonus.startedCharacter', {
+                  content: $t('welcome.bonus.newUserStartingCharacter', {
                     level: newUserStartingCharacterLevel,
                   }),
                   html: true,

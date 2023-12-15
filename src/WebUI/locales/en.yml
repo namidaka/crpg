@@ -184,7 +184,7 @@ welcome:
      <p>Gold is needed to <strong>buy</strong>, <strong>upkeep</strong>, and <strong>reforge</strong> items, as well as to reset character skills</p>
      <p>For gold to accumulate, keep track of the cost of upkeep your gear on your <strong>character's @:character.nav.inventory page</strong></p>
      <p>While the starting bonus is in effect, resetting your character's skills is <strong>free</strong> for you</p>"
-    startedCharacter: "
+    newUserStartingCharacter: "
       <h5>Starting character</h5>
       <p>You get a starting character: a warrior with a <strong>{level} level</strong> one-handed sword and shield and <strong>medium equipment</strong><p>
       <p>You can change a character's class using the skill reset feature on the <strong>@:character.nav.overview character</strong> page<p>"

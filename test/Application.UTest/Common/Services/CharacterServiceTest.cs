@@ -311,17 +311,16 @@ public class CharacterServiceTest
     }
 
     [Test]
-    public void SetValuesForStartedCharacter()
+    public void SetValuesForNewUserStartingCharacter()
     {
         Mock<ICompetitiveRatingModel> competitiveRatingModelMock = new();
         CharacterService characterService = new(ExperienceTable, competitiveRatingModelMock.Object, Constants);
         Character character = new() { Level = 0, Experience = 0 };
-        characterService.SetValuesForStartedCharacter(character);
+        characterService.SetValuesForNewUserStartingCharacter(character);
 
         Assert.That(character.Level, Is.EqualTo(Constants.NewUserStartingCharacterLevel));
         Assert.That(character.Experience, Is.EqualTo(4420824));
         Assert.That(character.Class, Is.EqualTo(CharacterClass.Infantry));
-
     }
 
     [Test]

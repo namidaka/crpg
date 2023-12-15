@@ -71,7 +71,7 @@ public class UserServiceTest : TestBase
     [TestCase(1.0f, 29, 1000, true)]
     [TestCase(1.1f, 30, 1000, false)]
 
-    public async Task CheckIsRecentUserSingleCharacter(float experienceMultiplier, int characterLevel, int characterExperience, bool expectedResult)
+    public async Task VeteranUserWithSingleHighLevelCharacterNotBeConsiderRecent(float experienceMultiplier, int characterLevel, int characterExperience, bool expectedResult)
     {
         Character character = new() { UserId = 1, Level = characterLevel, Experience = characterExperience };
         ArrangeDb.Characters.Add(character);
@@ -88,7 +88,7 @@ public class UserServiceTest : TestBase
     }
 
     [Test]
-    public async Task CheckIsRecentUserSeveralCharacters()
+    public async Task VeteranUserWithMultiplyHighLevelCharactersNotBeConsiderRecent()
     {
         Character[] characters =
         {

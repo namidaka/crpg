@@ -13,7 +13,7 @@ internal interface ICharacterService
 {
     void SetDefaultValuesForCharacter(Character character);
 
-    void SetValuesForStartedCharacter(Character character);
+    void SetValuesForNewUserStartingCharacter(Character character);
 
     /// <summary>
     /// Reset character characteristics.
@@ -50,7 +50,7 @@ internal class CharacterService : ICharacterService
         _constants = constants;
     }
 
-    public void SetValuesForStartedCharacter(Character character)
+    public void SetValuesForNewUserStartingCharacter(Character character)
     {
         character.Generation = _constants.DefaultGeneration;
         character.Level = _constants.NewUserStartingCharacterLevel;
