@@ -79,12 +79,22 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     public override void OnPeerChangedTeam(NetworkCommunicator networkPeer, Team oldTeam, Team newTeam)
     {
         var missionPeer = networkPeer.GetComponent<MissionPeer>();
-        if (missionPeer == null || newTeam == Mission.SpectatorTeam)
+        var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
+        if (missionPeer == null)
         {
             return;
         }
 
-        missionPeer.Team = Mission.DefenderTeam;
+        if (newTeam != Mission.SpectatorTeam)
+        {
+            missionPeer.Team = Mission.DefenderTeam;
+            return;
+        }
+
+        if (crpgPeer != null)
+        {
+            crpgPeer.LastSpawnInfo = null;
+        }
     }
 
     public override void OnAgentBuild(Agent agent, Banner banner)
