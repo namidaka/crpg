@@ -37,7 +37,7 @@ public record RewardRecentUserCommand : IMediatorRequest
             var users = await _db.Users
                 .Include(u => u.Characters)
                 .Where(u => u.ExperienceMultiplier == _constants.DefaultExperienceMultiplier
-                            && u.Characters.All(c => c.Level != _constants.StartedCharacterLevel && c.Level < _constants.StartedCharacterLevel)
+                            && u.Characters.All(c => c.Level < _constants.StartedCharacterLevel)
                             && u.Characters.Sum(c => c.Experience) < 12000000)
                 .ToListAsync(cancellationToken);
 
