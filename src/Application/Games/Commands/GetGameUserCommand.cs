@@ -40,7 +40,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
         internal static readonly CharacterCharacteristics StartingCharacterCharacteristics =
             new()
             {
-                Attributes = new CharacterAttributes { Strength = 19, Agility = 18 },
+                Attributes = new CharacterAttributes { Points = 1, Strength = 18, Agility = 18 },
                 Skills = new CharacterSkills { IronFlesh = 6, PowerStrike = 6, Athletics = 6, WeaponMaster = 6, Shield = 3 },
                 WeaponProficiencies = new CharacterWeaponProficiencies { Points = 2, OneHanded = 143, Polearm = 81 },
             };

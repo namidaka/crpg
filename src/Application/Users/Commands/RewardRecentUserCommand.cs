@@ -37,7 +37,7 @@ public record RewardRecentUserCommand : IMediatorRequest
             var users = await _db.Users
                 .Include(u => u.Characters)
                 .Where(u => u.ExperienceMultiplier == _constants.DefaultExperienceMultiplier
-                            && u.Characters.All(c => c.Level < _constants.StartedCharacterLevel)
+                            && u.Characters.All(c => c.Level < _constants.NewUserStartingCharacterLevel)
                             && u.Characters.Sum(c => c.Experience) < 12000000)
                 .ToListAsync(cancellationToken);
 
@@ -50,9 +50,10 @@ public record RewardRecentUserCommand : IMediatorRequest
 
                 if (highestLevelCharacter != null)
                 {
-                   int experienceToGive = _experienceTable.GetExperienceForLevel(_constants.StartedCharacterLevel) - highestLevelCharacter.Experience;
+                   int experienceToGive = _experienceTable.GetExperienceForLevel(_constants.NewUserStartingCharacterLevel) - highestLevelCharacter.Experience;
                    _characterService.GiveExperience(highestLevelCharacter, experienceToGive, useExperienceMultiplier: false);
-                   Logger.LogInformation("Character {0} has been rewarded with {1} experience and is now level 30",  highestLevelCharacter.Id, experienceToGive);
+                   Logger.LogInformation("Beginner character {0} has been rewarded with {1} experience and is now level 30",  highestLevelCharacter.Id, experienceToGive);
+
                 }
             }
 

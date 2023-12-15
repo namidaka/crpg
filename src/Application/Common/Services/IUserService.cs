@@ -43,7 +43,7 @@ internal class UserService : IUserService
             .Where(c => c.UserId == user.Id)
             .ToArrayAsync();
 
-        bool hasHighLevelCharacter = characters.Any(c => c.Level > _constants.StartedCharacterLevel);
+        bool hasHighLevelCharacter = characters.Any(c => c.Level > _constants.NewUserStartingCharacterLevel);
         double totalExperience = characters.Sum(c => c.Experience);
         bool wasRetired = user.ExperienceMultiplier != _constants.DefaultExperienceMultiplier;
         return

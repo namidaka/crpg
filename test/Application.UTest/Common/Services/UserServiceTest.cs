@@ -15,7 +15,7 @@ public class UserServiceTest : TestBase
         DefaultGold = 300,
         DefaultHeirloomPoints = 0,
         DefaultExperienceMultiplier = 1.0f,
-        StartedCharacterLevel = 30,
+        NewUserStartingCharacterLevel = 30,
     };
 
     [Test]

@@ -16,7 +16,7 @@ public class CharacterServiceTest
         MinimumLevel = 1,
         MaximumLevel = 38,
         MinimumRetirementLevel = 31,
-        StartedCharacterLevel = 30,
+        NewUserStartingCharacterLevel = 30,
         ExperienceMultiplierByGeneration = 0.03f,
         MaxExperienceMultiplierForGeneration = 1.48f,
         ExperienceForLevelCoefs = new[] { 2f, 0 },
@@ -318,7 +318,7 @@ public class CharacterServiceTest
         Character character = new() { Level = 0, Experience = 0 };
         characterService.SetValuesForStartedCharacter(character);
 
-        Assert.That(character.Level, Is.EqualTo(Constants.StartedCharacterLevel));
+        Assert.That(character.Level, Is.EqualTo(Constants.NewUserStartingCharacterLevel));
         Assert.That(character.Experience, Is.EqualTo(4420824));
         Assert.That(character.Class, Is.EqualTo(CharacterClass.Infantry));
 

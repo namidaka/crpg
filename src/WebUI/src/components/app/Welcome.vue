@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defaultGold, startedCharacterLevel } from '@root/data/constants.json';
+import { defaultGold, newUserStartingCharacterLevel } from '@root/data/constants.json';
 
 const emit = defineEmits<{
   close: [];
@@ -58,10 +58,12 @@ const emit = defineEmits<{
                 icon="member"
                 variant="primary"
                 size="lg"
-                :label="`${startedCharacterLevel} lvl`"
+                :label="`${newUserStartingCharacterLevel} lvl`"
                 v-tooltip="{
                   popperClass: 'prose prose-invert',
-                  content: $t('welcome.bonus.startedCharacter', { level: startedCharacterLevel }),
+                  content: $t('welcome.bonus.startedCharacter', {
+                    level: newUserStartingCharacterLevel,
+                  }),
                   html: true,
                 }"
               />
@@ -72,7 +74,9 @@ const emit = defineEmits<{
                 label="free respec *"
                 v-tooltip="{
                   popperClass: 'prose prose-invert',
-                  content: $t('welcome.bonus.freeRespec', { level: startedCharacterLevel + 1 }),
+                  content: $t('welcome.bonus.freeRespec', {
+                    level: newUserStartingCharacterLevel + 1,
+                  }),
                   html: true,
                 }"
               />
@@ -160,7 +164,7 @@ const emit = defineEmits<{
           <div class="px-12 py-6">
             <div class="prose prose-invert">
               <p class="text-2xs text-content-400">
-                {{ $t('welcome.bonusHint', { level: startedCharacterLevel + 1 }) }}
+                {{ $t('welcome.bonusHint', { level: newUserStartingCharacterLevel + 1 }) }}
               </p>
             </div>
           </div>

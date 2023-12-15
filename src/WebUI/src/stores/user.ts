@@ -4,7 +4,10 @@ import { type ClanMemberRole, type Clan } from '@/models/clan';
 
 import { getUser, getUserItems, buyUserItem, getUserClan } from '@/services/users-service';
 import { getCharacters } from '@/services/characters-service';
-import { defaultExperienceMultiplier, startedCharacterLevel } from '@root/data/constants.json';
+import {
+  defaultExperienceMultiplier,
+  newUserStartingCharacterLevel,
+} from '@root/data/constants.json';
 
 interface State {
   user: User | null;
@@ -31,7 +34,9 @@ export const useUserStore = defineStore('user', {
 
       // TODO: SPEC
       // mby to service?
-      const hasHighLevelCharacter = state.characters.some(c => c.level > startedCharacterLevel);
+      const hasHighLevelCharacter = state.characters.some(
+        c => c.level > newUserStartingCharacterLevel
+      );
       const totalExperience = state.characters.reduce((total, c) => total + c.experience, 0);
       const wasRetired = state.user.experienceMultiplier != defaultExperienceMultiplier;
 

@@ -14,7 +14,7 @@ public class RewardRecentUserCommandTest : TestBase
     private static readonly Constants Constants = new()
     {
         DefaultExperienceMultiplier = 1.0f,
-        StartedCharacterLevel = 30,
+        NewUserStartingCharacterLevel = 30,
     };
 
     [Test]
@@ -30,7 +30,7 @@ public class RewardRecentUserCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         Mock<IExperienceTable> experienceTableMock = new();
-        experienceTableMock.Setup(et => et.GetLevelForExperience(Constants.StartedCharacterLevel)).Returns(10000);
+        experienceTableMock.Setup(et => et.GetLevelForExperience(Constants.NewUserStartingCharacterLevel)).Returns(10000);
         Mock<ICharacterService> characterServiceMock = new();
 
         RewardRecentUserCommand.Handler handler = new(ActDb, Constants, characterServiceMock.Object,
@@ -58,7 +58,7 @@ public class RewardRecentUserCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         Mock<IExperienceTable> experienceTableMock = new();
-        experienceTableMock.Setup(et => et.GetLevelForExperience(Constants.StartedCharacterLevel)).Returns(10000);
+        experienceTableMock.Setup(et => et.GetLevelForExperience(Constants.NewUserStartingCharacterLevel)).Returns(10000);
         Mock<ICharacterService> characterServiceMock = new();
 
         RewardRecentUserCommand.Handler handler = new(ActDb, Constants, characterServiceMock.Object,
@@ -86,7 +86,7 @@ public class RewardRecentUserCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         Mock<IExperienceTable> experienceTableMock = new();
-        experienceTableMock.Setup(et => et.GetLevelForExperience(Constants.StartedCharacterLevel)).Returns(10000);
+        experienceTableMock.Setup(et => et.GetLevelForExperience(Constants.NewUserStartingCharacterLevel)).Returns(10000);
         Mock<ICharacterService> characterServiceMock = new();
 
         RewardRecentUserCommand.Handler handler = new(ActDb, Constants, characterServiceMock.Object,
@@ -119,7 +119,7 @@ public class RewardRecentUserCommandTest : TestBase
         await ArrangeDb.SaveChangesAsync();
 
         Mock<IExperienceTable> experienceTableMock = new();
-        experienceTableMock.Setup(et => et.GetLevelForExperience(Constants.StartedCharacterLevel)).Returns(10000);
+        experienceTableMock.Setup(et => et.GetLevelForExperience(Constants.NewUserStartingCharacterLevel)).Returns(10000);
         Mock<ICharacterService> characterServiceMock = new();
 
         RewardRecentUserCommand.Handler handler = new(ActDb, Constants, characterServiceMock.Object,

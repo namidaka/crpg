@@ -53,7 +53,7 @@ internal class CharacterService : ICharacterService
     public void SetValuesForStartedCharacter(Character character)
     {
         character.Generation = _constants.DefaultGeneration;
-        character.Level = _constants.StartedCharacterLevel;
+        character.Level = _constants.NewUserStartingCharacterLevel;
         character.Experience = _experienceTable.GetExperienceForLevel(character.Level);
         character.Class = CharacterClass.Infantry;
         ResetRating(character);
