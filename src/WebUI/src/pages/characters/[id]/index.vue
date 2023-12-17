@@ -7,10 +7,11 @@ import {
   minimumRetirementLevel,
   maximumLevel,
   freeRespecializeIntervalDays,
+  freeRespecializePostWindowHours,
 } from '@root/data/constants.json';
 import { useUserStore } from '@/stores/user';
 import { characterKey, characterCharacteristicsKey } from '@/symbols/character';
-import { msToHours } from '@/utils/date';
+import { msToHours, parseTimestamp } from '@/utils/date';
 import { percentOf } from '@/utils/math';
 import { notify } from '@/services/notification-service';
 import { t, n } from '@/services/translate-service';
@@ -313,7 +314,6 @@ await fetchPageData(character.value.id);
       :collapsable="false"
     >
       <div class="grid grid-cols-3 gap-4">
-        <!--  -->
         <Modal :disabled="!respecCapability.enabled">
           <VTooltip placement="auto">
             <div>
@@ -336,55 +336,61 @@ await fetchPageData(character.value.id);
                     size="sm"
                     label="free"
                   />
-                  <SvgSpriteImg v-else name="coin" viewBox="0 0 18 18" class="w-4" />
+
+                  <Coin v-else />
                 </div>
               </OButton>
             </div>
 
             <template #popper>
               <div class="prose prose-invert">
-                <h5 class="text-content-100">
-                  {{ $t('character.settings.respecialize.tooltip.title') }}
-                </h5>
-                <i18n-t
-                  scope="global"
-                  keypath="character.settings.respecialize.tooltip.desc"
-                  tag="p"
-                >
-                  <template #respecializationPrice>
-                    <Coin :value="respecCapability.price" />
-                  </template>
-                </i18n-t>
+                <h5>{{ $t('character.settings.respecialize.tooltip.title') }}</h5>
+                <div
+                  v-html="
+                    $t('character.settings.respecialize.tooltip.desc', {
+                      freeRespecPostWindow: $t('dateTimeFormat.hh', {
+                        hours: freeRespecializePostWindowHours,
+                      }),
+                      freeRespecInterval: $t('dateTimeFormat.dd', {
+                        days: freeRespecializeIntervalDays,
+                      }),
+                    })
+                  "
+                />
+                <Divider />
 
-                <i18n-t
-                  v-if="!character.forTournament"
-                  scope="global"
-                  keypath="character.settings.respecialize.tooltip.free"
-                  tag="p"
-                >
-                  <template #days>
-                    <span class="font-bold text-content-100">
-                      {{ freeRespecializeIntervalDays }}
-                    </span>
-                  </template>
-                </i18n-t>
+                <div
+                  v-if="respecCapability.freeRespecWindowRemain > 0"
+                  v-html="
+                    $t('character.settings.respecialize.tooltip.freeRespecPostWindowRemaining', {
+                      remainingTime: $t('dateTimeFormat.dd:hh:mm', {
+                        ...parseTimestamp(respecCapability.freeRespecWindowRemain),
+                      }),
+                    })
+                  "
+                />
 
-                <i18n-t
-                  v-if="respecCapability.price !== 0"
-                  scope="global"
-                  keypath="character.settings.respecialize.tooltip.nextFreeAt"
-                  tag="p"
-                >
-                  <template #nextFreeAt>
-                    <span class="font-bold text-content-100">
-                      {{
-                        $t('dateTimeFormat.dd:hh:mm', {
-                          ...respecCapability.nextFreeAt,
-                        })
-                      }}
-                    </span>
-                  </template>
-                </i18n-t>
+                <template v-else-if="respecCapability.price > 0">
+                  <i18n-t
+                    scope="global"
+                    keypath="character.settings.respecialize.tooltip.paidRespec"
+                    tag="p"
+                  >
+                    <template #respecPrice>
+                      <Coin :value="respecCapability.price" />
+                    </template>
+                  </i18n-t>
+
+                  <div
+                    v-html="
+                      $t('character.settings.respecialize.tooltip.freeRespecIntervalNext', {
+                        nextFreeAt: $t('dateTimeFormat.dd:hh:mm', {
+                          ...parseTimestamp(respecCapability.nextFreeAt),
+                        }),
+                      })
+                    "
+                  />
+                </template>
               </div>
             </template>
           </VTooltip>

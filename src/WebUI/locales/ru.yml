@@ -61,6 +61,7 @@ dateTimeFormat:
   countdown: '{hours}:{minutes}:{seconds}'
   'mm': '{minutes} @:dateTime.minutes.short'
   'hh': '{hours} @:dateTime.hours.short'
+  'dd': '{days} @:dateTime.days.short'
   'dd:hh:mm': '{days}@:dateTime.days.short {hours}@:dateTime.hours.short {minutes}@:dateTime.minutes.short'
 
 nav:
@@ -314,9 +315,14 @@ character:
       title: Сброс навыков
       tooltip:
         title: Сброс навыков
-        desc: 'Сбросьте характеристики персонажа за {respecializationPrice}'
-        free: Вы можете сбросить навыки бесплатно раз в {days} дней
-        nextFreeAt: 'Следующий бесплатный сброс навыков через: {nextFreeAt}'
+        desc: "
+          <p>Бесплатно сбросить навыки персонажа можно в течении <strong>{freeRespecPostWindow}</strong> после последнего сброса, а также спустя <strong>{freeRespecInterval}</strong>.</p>
+          <p>В остальное время сброс навыков платный, стоимость уменьшается со временем.</p>"
+        freeRespecPostWindowRemaining: "
+          <p>Оставшееся время бесплатного сброса навыков: <strong>{remainingTime}</strong></p>"
+        paidRespec: Сбросьте навыки персонажа за {respecPrice}
+        freeRespecIntervalNext: "
+          <p>Следующий бесплатный сброс навыков через: <strong>{nextFreeAt}</strong></p>"
       dialog:
         title: Сброс навыков
         desc: Вы уверены что хотите сбросить навыки персонажа за {respecializationPrice}? Это действие нельзя отменить
