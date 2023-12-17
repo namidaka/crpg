@@ -22,6 +22,7 @@ public class RespecializeCharacterCommandTest : TestBase
         RespecializePriceHalfLife = 12,
         RespecializePriceForLevel30 = 5000,
         FreeRespecializeIntervalDays = 7,
+        FreeRespecializePostWindowHours = 12,
     };
 
     [Theory]
@@ -198,6 +199,39 @@ public class RespecializeCharacterCommandTest : TestBase
     }
 
     [Test]
+    public async Task RespecializeCharacterInFreeRespecPostWindowShouldNotChangeGold()
+    {
+        Character character = new()
+        {
+            ForTournament = false,
+            User = new() { Gold = 500 },
+            Limitations = new CharacterLimitations { LastRespecializeAt = DateTime.UtcNow - TimeSpan.FromHours(11) },
+        };
+        ArrangeDb.Add(character);
+        await ArrangeDb.SaveChangesAsync();
+
+        Mock<IExperienceTable> experienceTableMock = new();
+        Mock<ICharacterService> characterServiceMock = new();
+        Mock<IUserService> userServiceMock = new();
+        Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
+
+        RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object,
+         userServiceMock.Object, experienceTableMock.Object, activityLogServiceMock.Object, new MachineDateTime(), Constants);
+        await handler.Handle(new RespecializeCharacterCommand
+        {
+            CharacterId = character.Id,
+            UserId = character.UserId,
+        }, CancellationToken.None);
+
+        character = await AssertDb.Characters
+            .Include(c => c.User)
+            .FirstAsync(c => c.Id == character.Id);
+
+        Assert.That(character.User!.Gold, Is.EqualTo(500));
+        characterServiceMock.Verify(cs => cs.ResetCharacterCharacteristics(It.IsAny<Character>(), true));
+    }
+
+    [Test]
     public async Task ShouldReturnErrorIfNoEnoughGold()
     {
         Character character = new()
@@ -207,7 +241,7 @@ public class RespecializeCharacterCommandTest : TestBase
             Experience = 150,
             ForTournament = false,
             User = new() { Gold = 0 },
-            Limitations = new CharacterLimitations { LastRespecializeAt = DateTime.UtcNow },
+            Limitations = new CharacterLimitations { LastRespecializeAt = new DateTime(2023, 3, 16, 0, 0, 0) },
         };
         ArrangeDb.Add(character);
         await ArrangeDb.SaveChangesAsync();
@@ -219,9 +253,11 @@ public class RespecializeCharacterCommandTest : TestBase
         Mock<ICharacterService> characterServiceMock = new();
         Mock<IUserService> userServiceMock = new();
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
+        Mock<IDateTime> dateTimeMock = new();
+        dateTimeMock.Setup(dt => dt.UtcNow).Returns(new DateTime(2023, 3, 16, 13, 0, 0));
 
         RespecializeCharacterCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object,
-            userServiceMock.Object, experienceTableMock.Object, activityLogServiceMock.Object, new MachineDateTime(), Constants);
+            userServiceMock.Object, experienceTableMock.Object, activityLogServiceMock.Object, dateTimeMock.Object, Constants);
         var res = await handler.Handle(new RespecializeCharacterCommand
         {
             CharacterId = character.Id,

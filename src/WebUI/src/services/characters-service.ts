@@ -408,7 +408,7 @@ export const getRespecCapability = (
   }
 
   const freeRespecWindow = new Date(limitations.lastRespecializeAt);
-  freeRespecWindow.setUTCHours(freeRespecWindow.getUTCHours() + freeRespecializePostWindowHours); // TODO:
+  freeRespecWindow.setUTCHours(freeRespecWindow.getUTCHours() + freeRespecializePostWindowHours);
 
   if (freeRespecWindow > new Date()) {
     return {
