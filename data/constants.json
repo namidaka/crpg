@@ -8,7 +8,7 @@
   "experienceMultiplierByGeneration": 0.03,
   "maxExperienceMultiplierForGeneration": 1.48,
   "respecializePriceForLevel30": 5000,
-  "respecializePriceHalfLife":  12,
+  "respecializePriceHalfLife":  24,
   "freeRespecializeIntervalDays": 7,
   "freeRespecializePostWindowHours": 12,
   "minimumRetirementLevel": 31,
