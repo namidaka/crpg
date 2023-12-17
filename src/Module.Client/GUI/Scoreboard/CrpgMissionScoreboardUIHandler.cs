@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Security.Cryptography;
+using JetBrains.Annotations;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
@@ -46,30 +47,63 @@ public class CrpgMissionScoreboardUIHandler : MissionView
         base.OnMissionScreenInitialize();
         InitializeLayer();
         Mission.IsFriendlyMission = false;
-        MissionScreen.SceneLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("ScoreboardHotKeyCategory"));
-        MissionScreen.OnSpectateAgentFocusIn += HandleSpectateAgentFocusIn;
-        MissionScreen.OnSpectateAgentFocusOut += HandleSpectateAgentFocusOut;
-        _missionLobbyComponent = Mission.GetMissionBehavior<MissionLobbyComponent>();
-        _missionLobbyComponent.CurrentMultiplayerStateChanged += MissionLobbyComponentOnCurrentMultiplayerStateChanged;
-        _missionLobbyComponent.OnCultureSelectionRequested += OnCultureSelectionRequested;
-        _scoreboardStayDuration = MissionLobbyComponent.PostMatchWaitDuration / 2f;
-        _teamSelectComponent = Mission.GetMissionBehavior<MultiplayerTeamSelectComponent>();
-        if (_teamSelectComponent != null)
+        GameKeyContext category = HotKeyManager.GetCategory("ScoreboardHotKeyCategory");
+        if (!MissionScreen.SceneLayer.Input.IsCategoryRegistered(category))
         {
-            _teamSelectComponent.OnSelectingTeam += OnSelectingTeam;
+            MissionScreen.SceneLayer.Input.RegisterHotKeyCategory(category);
         }
 
-        MissionPeer.OnTeamChanged += OnTeamChanged;
+        _missionLobbyComponent = Mission.GetMissionBehavior<MissionLobbyComponent>();
+        _scoreboardStayDuration = MissionLobbyComponent.PostMatchWaitDuration / 2f;
+        _teamSelectComponent = Mission.GetMissionBehavior<MultiplayerTeamSelectComponent>();
+        RegisterEvents();
         if (_dataSource != null)
         {
             _dataSource.IsActive = false;
         }
     }
 
+    public override void OnRemoveBehavior()
+    {
+        UnregisterEvents();
+        FinalizeLayer();
+        base.OnRemoveBehavior();
+    }
+
     public override void OnMissionScreenFinalize()
     {
-        MissionScreen.OnSpectateAgentFocusIn -= HandleSpectateAgentFocusIn;
-        MissionScreen.OnSpectateAgentFocusOut -= HandleSpectateAgentFocusOut;
+        base.OnMissionScreenFinalize();
+        UnregisterEvents();
+        FinalizeLayer();
+        base.OnMissionScreenFinalize();
+    }
+
+    private void RegisterEvents()
+    {
+        if (MissionScreen != null)
+        {
+            MissionScreen.OnSpectateAgentFocusIn += HandleSpectateAgentFocusIn;
+            MissionScreen.OnSpectateAgentFocusOut += HandleSpectateAgentFocusOut;
+        }
+
+        _missionLobbyComponent.CurrentMultiplayerStateChanged += MissionLobbyComponentOnCurrentMultiplayerStateChanged;
+        _missionLobbyComponent.OnCultureSelectionRequested += OnCultureSelectionRequested;
+        if (_teamSelectComponent != null)
+        {
+            _teamSelectComponent.OnSelectingTeam += OnSelectingTeam;
+        }
+
+        MissionPeer.OnTeamChanged += OnTeamChanged;
+    }
+
+    private void UnregisterEvents()
+    {
+        if (MissionScreen != null)
+        {
+            MissionScreen.OnSpectateAgentFocusIn -= HandleSpectateAgentFocusIn;
+            MissionScreen.OnSpectateAgentFocusOut -= HandleSpectateAgentFocusOut;
+        }
+
         _missionLobbyComponent.CurrentMultiplayerStateChanged -= MissionLobbyComponentOnCurrentMultiplayerStateChanged;
         _missionLobbyComponent.OnCultureSelectionRequested -= OnCultureSelectionRequested;
         if (_teamSelectComponent != null)
@@ -78,8 +112,6 @@ public class CrpgMissionScoreboardUIHandler : MissionView
         }
 
         MissionPeer.OnTeamChanged -= OnTeamChanged;
-        FinalizeLayer();
-        base.OnMissionScreenFinalize();
     }
 
     public override void OnMissionTick(float dt)
@@ -216,7 +248,11 @@ public class CrpgMissionScoreboardUIHandler : MissionView
     private void FinalizeLayer()
     {
         _dataSource?.OnFinalize();
-        MissionScreen.RemoveLayer(_gauntletLayer);
+        if (_gauntletLayer != null)
+        {
+            MissionScreen.RemoveLayer(_gauntletLayer);
+        }
+
         _gauntletLayer = null;
         _dataSource = null;
         _isActive = false;
