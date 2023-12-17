@@ -13,6 +13,7 @@ public class Constants
     public int RespecializePriceForLevel30 { get; set; }
     public float RespecializePriceHalfLife { get; set; }
     public int FreeRespecializeIntervalDays { get; set; }
+    public int FreeRespecializePostWindowHours { get; set; }
     public int MinimumRetirementLevel { get; set; }
     public float BaseExperienceGainPerSecond { get; set; }
     public float MultipliedExperienceGainPerSecond { get; set; }
