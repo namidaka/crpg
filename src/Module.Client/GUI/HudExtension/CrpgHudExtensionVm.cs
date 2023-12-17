@@ -633,12 +633,13 @@ internal class CrpgHudExtensionVm : ViewModel
         }
     }
 
-    public static void UpdateTeamBanners(out ImageIdentifierVM? allyBannerOrDefenderTeamBannerVM, out ImageIdentifierVM? enemyBannerOrAttackerTeamBannerVM, out string allyTeamOrAttackerTeamName, out string enemyTeamOrDefenderTeamName, bool byTeamSide = false)
+    public static async Task<TeamsBannerAndNameModel> UpdateTeamBanners(bool byTeamSide = false)
     {
-        var allyOrAttackerTeamBanner = ResolveTeamBannerKey(allyTeamOrAttackerTeam: true, out allyTeamOrAttackerTeamName, byTeamSide);
-        var enemyOrDefenderTeamBanner = ResolveTeamBannerKey(allyTeamOrAttackerTeam: false, out enemyTeamOrDefenderTeamName, byTeamSide);
-        var allyOrAttackerTeamBannerCode = BannerCode.CreateFrom(allyOrAttackerTeamBanner);
-        var enemyOrDefenderTeamBannerCode = BannerCode.CreateFrom(enemyOrDefenderTeamBanner);
+        Task.WhenAll()
+        var allyOrAttackerTeamBanner = ResolveTeamBannerKey(allyTeamOrAttackerTeam: true, byTeamSide);
+        var enemyOrDefenderTeamBanner = ResolveTeamBannerKey(allyTeamOrAttackerTeam: false, byTeamSide);
+        var allyOrAttackerTeamBannerCode = BannerCode.CreateFrom(allyOrAttackerTeamBanner.Result.Item1);
+        var enemyOrDefenderTeamBannerCode = BannerCode.CreateFrom(enemyOrDefenderTeamBanner.Result.Item1);
         ImageIdentifierVM allyOrDefenderImageId = new(allyOrAttackerTeamBannerCode, true);
         ImageIdentifierVM enemyOrAttackerImageId = new(enemyOrDefenderTeamBannerCode, true);
 
@@ -646,12 +647,11 @@ internal class CrpgHudExtensionVm : ViewModel
         enemyBannerOrAttackerTeamBannerVM = enemyOrAttackerImageId;
     }
 
-    public static Banner? ResolveTeamBannerKey(bool allyTeamOrAttackerTeam, out string teamName, bool byTeamSide = false)
+    public async static Task<(Banner?, string)> ResolveTeamBannerKey(bool allyTeamOrAttackerTeam,  bool byTeamSide = false)
     {
         if (Mission.Current.Teams.Count == 0)
         {
-            teamName = string.Empty;
-            return null;
+            return (null, string.Empty);
         }
 
         Dictionary<int, (int count, CrpgClan clan)> clanNumber = new();
@@ -713,13 +713,11 @@ internal class CrpgHudExtensionVm : ViewModel
             {
                 if (allyTeamOrAttackerTeam)
                 {
-                    teamName = team1Name;
-                    return Mission.Current.Teams.Attacker.Banner;
+                    return (Mission.Current.Teams.Attacker.Banner, team1Name);
                 }
                 else
                 {
-                    teamName = team2Name;
-                    return Mission.Current.Teams.Defender.Banner;
+                    return (Mission.Current.Teams.Defender.Banner, team2Name);
                 }
             }
             else
@@ -728,33 +726,30 @@ internal class CrpgHudExtensionVm : ViewModel
                 {
                     if (myTeam.IsAttacker)
                     {
-                        teamName = team1Name;
+                        return (myTeam.Banner, team1Name);
                     }
                     else
                     {
-                        teamName = team2Name;
+                        return (myTeam.Banner, team2Name);
                     }
 
-                    return myTeam.Banner;
                 }
                 else
                 {
                     if (myTeam.IsAttacker)
                     {
-                        teamName = team2Name;
+
+                        return (enemyTeam.Banner, team2Name);
                     }
                     else
                     {
-                        teamName = team1Name;
+                        return (enemyTeam.Banner, team1Name);
                     }
-
-                    return enemyTeam.Banner;
                 }
             }
         }
 
-        teamName = maxClan.Value.clan.Name;
-        return new Banner(maxClan.Value.clan.BannerKey, maxClan.Value.clan.PrimaryColor, maxClan.Value.clan.SecondaryColor);
+        return (new Banner(maxClan.Value.clan.BannerKey, maxClan.Value.clan.PrimaryColor, maxClan.Value.clan.SecondaryColor), maxClan.Value.clan.Name);
     }
 
     private void OnMissionReset(object sender, PropertyChangedEventArgs e)
