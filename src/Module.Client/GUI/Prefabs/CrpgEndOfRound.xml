@@ -12,41 +12,24 @@
         <TextWidget Text="@Title" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="50" HorizontalAlignment="Center" MarginTop="80" Brush="MPEndOfRound.Title" />
         <TextWidget Text="@Description" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="110" HorizontalAlignment="Center" MarginTop="90" Brush="MPEndOfRound.Description" />
 
-        <Widget DataSource="{AttackerSide}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" MarginTop="225" MarginLeft="!EndOfBattle.Side.Margin.Banner">
-          <Children>
-            
-            <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Right.Width" SuggestedHeight="!EndOfBattle.Banner.Right.Height" FactionCode="@CultureID" BannerWidget="BannerEndOfRound" IconWidget="Icon" CultureColor1="@CultureColor1" CultureColor2="@CultureColor2">
-              <Children>
-                <MaskedTextureWidget DataSource="{AllyBanner}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="ClanNaming.Stage.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
-                <Widget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="220" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-30" Sprite="MPTeamSelection\banner_icon_vlandia" />
+ 
+            <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Right.Width" SuggestedHeight="!EndOfBattle.Banner.Right.Height" HorizontalAlignment="Left" MarginTop="128" MarginLeft="500" FactionCode="@CultureId" BannerWidget="Banner" IconWidget="Icon" UseSecondary="@UseSecondary">
+                          <Children>
+                            <MaskedTextureWidget DataSource="{AllyBanner}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="ClanNaming.Stage.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
 
-                <Widget IsHidden="@IsWinner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPGeneral\MPScoreboard\loser_dirt" />
+                <Widget IsHidden="@IsRoundWinner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPGeneral\MPScoreboard\loser_dirt" />
               </Children>
             </MultiplayerFactionBannerWidget>
 
-            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="@CultureName" />        
-            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Bottom" PositionYOffset="50" IntText="@Score" />        
+            <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Right.Width" SuggestedHeight="!EndOfBattle.Banner.Right.Height" HorizontalAlignment="Right" MarginTop="128" MarginRight="500" FactionCode="@CultureId" BannerWidget="Banner" IconWidget="Icon" UseSecondary="@UseSecondary">
+                          <Children>
+                            <MaskedTextureWidget DataSource="{EnemyBanner}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="ClanNaming.Stage.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
 
-          </Children>
-        </Widget>
-
-        <Widget DataSource="{DefenderSide}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" MarginTop="225" MarginRight="!EndOfBattle.Side.Margin.Banner">
-          <Children>
-
-            <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!EndOfBattle.Banner.Right.Width" SuggestedHeight="!EndOfBattle.Banner.Right.Height" FactionCode="@CultureID" BannerWidget="BannerEndOfRound" IconWidget="Icon" CultureColor1="@CultureColor1" CultureColor2="@CultureColor2">
-              <Children>
-                <MaskedTextureWidget DataSource="{EnemyBanner}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="ClanNaming.Stage.Banner" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true"  />
-                <Widget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="220" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-30" Sprite="MPTeamSelection\banner_icon_vlandia" />
-
-                <Widget IsHidden="@IsWinner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPGeneral\MPScoreboard\loser_dirt" />
+                <Widget IsHidden="@IsRoundWinner" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPGeneral\MPScoreboard\loser_dirt" />
               </Children>
             </MultiplayerFactionBannerWidget>
 
-            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="@CultureName" />        
-            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Bottom" PositionYOffset="50" IntText="@Score" />             
 
-          </Children>
-        </Widget>
         
         <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" MarginTop="225" MarginLeft="!EndOfBattle.Side.Margin.MVP" IsVisible="@HasAttackerMVP">
           <Children>
