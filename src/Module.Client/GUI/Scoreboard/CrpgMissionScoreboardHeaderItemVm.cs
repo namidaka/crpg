@@ -8,79 +8,78 @@ using TaleWorlds.Core.ViewModelCollection.Generic;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
 
-namespace Crpg.Module.GUI.Scoreboard
+namespace Crpg.Module.GUI.Scoreboard;
+
+public class CrpgMissionScoreboardHeaderItemVM : BindingListStringItem
 {
-    public class CrpgMissionScoreboardHeaderItemVM : BindingListStringItem
+    private readonly CrpgScoreboardSideVM _side;
+
+    private string _headerID = string.Empty;
+
+    private bool _isIrregularStat;
+
+    private bool _isAvatarStat;
+
+    [DataSourceProperty]
+    public string HeaderID
     {
-        private readonly CrpgScoreboardSideVM _side;
-
-        private string _headerID = string.Empty;
-
-        private bool _isIrregularStat;
-
-        private bool _isAvatarStat;
-
-        [DataSourceProperty]
-        public string HeaderID
+        get
         {
-            get
+            return _headerID;
+        }
+        set
+        {
+            if (value != _headerID)
             {
-                return _headerID;
-            }
-            set
-            {
-                if (value != _headerID)
-                {
-                    _headerID = value;
-                    OnPropertyChangedWithValue(value, "HeaderID");
-                }
+                _headerID = value;
+                OnPropertyChangedWithValue(value, "HeaderID");
             }
         }
+    }
 
-        [DataSourceProperty]
-        public bool IsIrregularStat
+    [DataSourceProperty]
+    public bool IsIrregularStat
+    {
+        get
         {
-            get
+            return _isIrregularStat;
+        }
+        set
+        {
+            if (value != _isIrregularStat)
             {
-                return _isIrregularStat;
-            }
-            set
-            {
-                if (value != _isIrregularStat)
-                {
-                    _isIrregularStat = value;
-                    OnPropertyChangedWithValue(value, "IsIrregularStat");
-                }
+                _isIrregularStat = value;
+                OnPropertyChangedWithValue(value, "IsIrregularStat");
             }
         }
+    }
 
-        [DataSourceProperty]
-        public bool IsAvatarStat
+    [DataSourceProperty]
+    public bool IsAvatarStat
+    {
+        get
         {
-            get
+            return _isAvatarStat;
+        }
+        set
+        {
+            if (value != _isAvatarStat)
             {
-                return _isAvatarStat;
-            }
-            set
-            {
-                if (value != _isAvatarStat)
-                {
-                    _isAvatarStat = value;
-                    OnPropertyChangedWithValue(value, "IsAvatarStat");
-                }
+                _isAvatarStat = value;
+                OnPropertyChangedWithValue(value, "IsAvatarStat");
             }
         }
+    }
 
-        [DataSourceProperty]
-        public MissionScoreboardPlayerSortControllerVM PlayerSortController => _side.PlayerSortController;
+    [DataSourceProperty]
+    public MissionScoreboardPlayerSortControllerVM PlayerSortController => _side.PlayerSortController;
 
-        public CrpgMissionScoreboardHeaderItemVM(CrpgScoreboardSideVM side, string headerID, string value, bool isAvatarStat, bool isIrregularStat)
-            : base(value)
-        {
-            _side = side;
-            HeaderID = headerID;
-            IsAvatarStat = isAvatarStat;
-            IsIrregularStat = isIrregularStat;
-        }
+    public CrpgMissionScoreboardHeaderItemVM(CrpgScoreboardSideVM side, string headerID, string value, bool isAvatarStat, bool isIrregularStat)
+        : base(value)
+    {
+        _side = side;
+        HeaderID = headerID;
+        IsAvatarStat = isAvatarStat;
+        IsIrregularStat = isIrregularStat;
     }
 }

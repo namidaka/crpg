@@ -8,7 +8,6 @@ using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
 using TaleWorlds.ObjectSystem;
-
 namespace Crpg.Module.Gui;
 
 public class CrpgScoreboardSideVM : ViewModel
