@@ -6,7 +6,6 @@ using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
-using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard;
 using TaleWorlds.ObjectSystem;
 
 namespace Crpg.Module.Gui;
@@ -104,8 +103,8 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
         BattleResult = 2;
         ResultText = GameTexts.FindText("str_draw", null).ToString();
 
-        var attackerBanner = Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().AttackerBanner;
-        var defenderBanner = Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().DefenderBanner;
+        var attackerBanner = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().AttackerBanner;
+        var defenderBanner = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().DefenderBanner;
         AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner);
         EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Defender ? attackerBanner : defenderBanner);
     }

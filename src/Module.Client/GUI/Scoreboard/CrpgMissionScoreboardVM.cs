@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Crpg.Module.Gui;
-using Crpg.Module.GUI.EndOfRound;
-using Crpg.Module.GUI.HudExtension;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Generic;
@@ -14,8 +12,6 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
-using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
-using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard;
 using TaleWorlds.PlatformService;
 using TaleWorlds.PlayerServices;
 
@@ -127,10 +123,10 @@ internal class CrpgMissionScoreboardVM : ViewModel
         MissionName = "";
         IsBotsEnabled = missionBehavior.MissionType == MultiplayerGameType.Captain || missionBehavior.MissionType == MultiplayerGameType.Battle;
         RefreshValues();
-        Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().BannersChanged += HandleBannerChange;
+        Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().BannersChanged += HandleBannerChange;
     }
 
-    private void HandleBannerChange(Banner? attackerBanner, Banner? defenderBanner, string attackerName, string defenderName)
+    private void HandleBannerChange(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)
     {
         AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner);
         EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Defender ? attackerBanner : defenderBanner);

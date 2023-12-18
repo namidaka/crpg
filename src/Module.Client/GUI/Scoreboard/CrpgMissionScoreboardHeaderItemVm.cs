@@ -8,7 +8,7 @@ using TaleWorlds.Core.ViewModelCollection.Generic;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
 
-namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
+namespace Crpg.Module.GUI.Scoreboard
 {
     public class CrpgMissionScoreboardHeaderItemVM : BindingListStringItem
     {

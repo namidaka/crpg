@@ -79,7 +79,6 @@ internal class BreakableWeaponsBehaviorServer : MissionBehavior
                 GameNetwork.BeginBroadcastModuleEvent();
                 GameNetwork.WriteMessage(new UpdateWeaponHealth { AgentIndex = attacker.Index, EquipmentIndex = attackerWeaponIndex, WeaponHealth = 1, LastBlow = blowDone, LastRoll = randomNumber });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
-
             }
             else // item breaks
             {

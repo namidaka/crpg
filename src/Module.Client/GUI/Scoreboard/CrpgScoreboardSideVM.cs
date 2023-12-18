@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Crpg.Module.GUI.HudExtension;
+using Crpg.Module.GUI.Scoreboard;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
-using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard;
 using TaleWorlds.ObjectSystem;
 
 namespace Crpg.Module.Gui;
@@ -95,14 +95,22 @@ public class CrpgScoreboardSideVM : ViewModel
         RefreshValues();
         NetworkCommunicator.OnPeerAveragePingUpdated += OnPeerPingUpdated;
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionChanged));
-        Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().BannersChanged += HandleBannerChange;
+        var customBanner = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>();
+        AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? customBanner.AttackerBanner : customBanner.DefenderBanner);
+        EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? customBanner.DefenderBanner : customBanner.AttackerBanner);
+        AllyTeamName = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? customBanner.AttackerName : customBanner.DefenderName;
+        EnemyTeamName = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? customBanner.DefenderName : customBanner.AttackerName;
+        customBanner.BannersChanged += HandleBannerChange;
     }
 
-    private void HandleBannerChange(Banner? attackerBanner, Banner? defenderBanner, string attackerName, string defenderName)
+    private void HandleBannerChange(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)
     {
         AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner);
-        EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Defender ? attackerBanner : defenderBanner);
+        EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? defenderBanner : attackerBanner);
+        AllyTeamName = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerName : defenderName;
+        EnemyTeamName = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? defenderName : attackerName;
     }
+
     public override void RefreshValues()
     {
         base.RefreshValues();

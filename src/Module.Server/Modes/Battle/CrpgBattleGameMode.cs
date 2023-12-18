@@ -171,7 +171,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new CrpgRewardClient(),
                     new HotConstantsClient(),
                     new BreakableWeaponsBehaviorClient(),
-                    new CrpgCustomBannerBehavior(),
+                    new CrpgCustomBannerServer(),
 #endif
                 });
     }
