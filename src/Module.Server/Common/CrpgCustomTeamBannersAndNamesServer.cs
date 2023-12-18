@@ -85,8 +85,8 @@ internal class CrpgCustomTeamBannersAndNamesServer : MissionNetwork
             DefenderBanner = BannerCode.CreateFrom(defenderBanner);
         }
 
-        var attackerName = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
-        var defenderName = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
+        var attackerName = MBObjectManager.Instance?.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions))?.Name.ToString() ?? string.Empty;
+        var defenderName = MBObjectManager.Instance?.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString() ?? string.Empty;
         if (attackerName != string.Empty)
         {
             AttackerName = attackerName;
