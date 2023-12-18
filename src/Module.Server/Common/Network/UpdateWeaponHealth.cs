@@ -5,36 +5,31 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 namespace Crpg.Module.Common.Network;
 
 [DefineGameNetworkMessageTypeForMod(GameNetworkMessageSendType.FromServer)]
-internal sealed class UpdateTeamBannersAndNames : GameNetworkMessage
+internal sealed class UpdateWeaponHealth : GameNetworkMessage
 {
-    public BannerCode AttackerBanner { get; set; }
-    public BannerCode DefenderBanner { get; set; }
-    public string AttackerName { get; set; }
-    public string DefenderName{ get; set; }
-
-    internal UpdateTeamBannersAndNames(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)
-    {
-        AttackerBanner = attackerBanner;
-        DefenderBanner = defenderBanner;
-        AttackerName = attackerName;
-        DefenderName = defenderName;
-    }
+    public int AgentIndex { get; set; } = default!;
+    public int WeaponHealth { get; set; }
+    public int LastRoll { get; set; }
+    public int LastBlow { get; set; }
+    public EquipmentIndex EquipmentIndex { get; set; }
 
     protected override void OnWrite()
     {
-        WriteBannerCodeToPacket(AttackerBanner.Code);
-        WriteBannerCodeToPacket(DefenderBanner.Code);
-        WriteStringToPacket(AttackerName);
-        WriteStringToPacket(DefenderName);
+        WriteAgentIndexToPacket(AgentIndex);
+        WriteIntToPacket(WeaponHealth, CompressionBasic.DebugIntNonCompressionInfo);
+        WriteIntToPacket(LastRoll, CompressionBasic.DebugIntNonCompressionInfo);
+        WriteIntToPacket(LastBlow, CompressionBasic.DebugIntNonCompressionInfo);
+        WriteIntToPacket((int)EquipmentIndex, CompressionMission.ItemSlotCompressionInfo);
     }
 
     protected override bool OnRead()
     {
         bool bufferReadValid = true;
-        AttackerBanner = BannerCode.CreateFrom(ReadBannerCodeFromPacket(ref bufferReadValid));
-        DefenderBanner = BannerCode.CreateFrom(ReadBannerCodeFromPacket(ref bufferReadValid));
-        AttackerName = ReadStringFromPacket(ref bufferReadValid);
-        DefenderName = ReadStringFromPacket(ref bufferReadValid);
+        AgentIndex = ReadAgentIndexFromPacket(ref bufferReadValid);
+        WeaponHealth = ReadIntFromPacket(CompressionBasic.DebugIntNonCompressionInfo, ref bufferReadValid);
+        LastRoll = ReadIntFromPacket(CompressionBasic.DebugIntNonCompressionInfo, ref bufferReadValid);
+        LastBlow = ReadIntFromPacket(CompressionBasic.DebugIntNonCompressionInfo, ref bufferReadValid);
+        EquipmentIndex = (EquipmentIndex)ReadIntFromPacket(CompressionMission.ItemSlotCompressionInfo, ref bufferReadValid);
         return bufferReadValid;
     }
 
@@ -45,6 +40,6 @@ internal sealed class UpdateTeamBannersAndNames : GameNetworkMessage
 
     protected override string OnGetLogFormat()
     {
-        return "Update Team Banner And Names";
+        return "Update Weapon Health";
     }
 }
