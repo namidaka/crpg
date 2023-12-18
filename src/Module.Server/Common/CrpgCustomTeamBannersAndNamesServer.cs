@@ -69,7 +69,34 @@ internal class CrpgCustomTeamBannersAndNamesServer : MissionNetwork
         });
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
     }
+    public override void OnAddTeam(Team team)
+    {
+        base.OnAddTeam(team);
+        Banner? attackerBanner = Mission.Current?.Teams.Attacker?.Banner;
+        Banner? defenderBanner = Mission.Current?.Teams.Defender?.Banner;
 
+        if(attackerBanner != null)
+        {
+            AttackerBanner = BannerCode.CreateFrom(attackerBanner);
+        }
+
+        if (defenderBanner != null)
+        {
+            DefenderBanner = BannerCode.CreateFrom(defenderBanner);
+        }
+
+        var attackerName = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
+        var defenderName = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
+        if (attackerName != string.Empty)
+        {
+            AttackerName = attackerName;
+        }
+
+        if (defenderName != string.Empty)
+        {
+            DefenderName = defenderName;
+        }
+    }
     private void InitializeClanDictionaries()
     {
         foreach (var networkPeer in GameNetwork.NetworkPeers)

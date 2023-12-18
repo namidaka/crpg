@@ -21,8 +21,8 @@ internal class CrpgCustomTeamBannersAndNamesClient : MissionNetwork
     private int previousDefenderClanId;
     public delegate void BannerNameChangedEventHandler(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName);
     public event BannerNameChangedEventHandler? BannersChanged;
-    public BannerCode AttackerBanner { get; private set; } = BannerCode.CreateFrom(string.Empty);
-    public BannerCode DefenderBanner { get; private set; } = BannerCode.CreateFrom(string.Empty);
+    public BannerCode AttackerBannerCode { get; private set; } = BannerCode.CreateFrom(string.Empty);
+    public BannerCode DefenderBannerCode { get; private set; } = BannerCode.CreateFrom(string.Empty);
     public string AttackerName { get; private set; } = string.Empty;
     public string DefenderName { get; private set; } = string.Empty;
     private IRoundComponent? _roundComponent;
@@ -40,10 +40,11 @@ internal class CrpgCustomTeamBannersAndNamesClient : MissionNetwork
 
     private void HandleUpdateTeamBannersAndNames(UpdateTeamBannersAndNames message)
     {
-        AttackerBanner = message.AttackerBanner;
-        DefenderBanner = message.DefenderBanner;
-        AttackerName = message.AttackerName;
-        DefenderName = message.DefenderName;
-        BannersChanged?.Invoke(AttackerBanner, DefenderBanner, AttackerName, DefenderName);
+        AttackerBannerCode = message.AttackerBanner.Code != string.Empty ? message.AttackerBanner : BannerCode.CreateFrom(Mission.Current?.Teams.Attacker?.Banner)
+        ;
+        DefenderBannerCode = message.DefenderBanner.Code != string.Empty ? message.DefenderBanner : BannerCode.CreateFrom(Mission.Current?.Teams.Defender?.Banner);
+        AttackerName = message.AttackerName != string.Empty? message.AttackerName : MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
+        DefenderName = message.DefenderName != string.Empty ? message.AttackerName : MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
+        BannersChanged?.Invoke(AttackerBannerCode, DefenderBannerCode, AttackerName, DefenderName);
     }
 }
