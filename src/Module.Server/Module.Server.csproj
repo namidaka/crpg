@@ -36,8 +36,6 @@
     <Reference Include="$(MB_SERVER_PATH)\bin\Win64_Shipping_Server\System.Numerics.Vectors.dll">
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.Multiplayer">
-    </Reference>
     <!-- Remove native library (not .NET). -->
     <Reference Remove="$(MB_SERVER_PATH)/bin/Win64_Shipping_Server/TaleWorlds.Native.dll" />
     <!-- These libraries cause dependency conflicts. -->

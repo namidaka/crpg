@@ -9,6 +9,7 @@ import { getUserActiveJoinRestriction } from '@/services/users-service';
 import { useHappyHours } from '@/composables/use-hh';
 import { useGameServerStats } from '@/composables/use-game-server-stats';
 import { usePollInterval } from '@/composables/use-poll-interval';
+
 import { mainHeaderHeightKey } from '@/symbols/common';
 import { scrollToTop } from '@/utils/scroll';
 
@@ -117,6 +118,7 @@ await Promise.all(promises);
         </div>
 
         <div v-if="userStore.user" class="gap flex items-center gap-5">
+          <!-- TODO: improve tooltip, share gold, bla bla bla -->
           <Coin
             :value="Number(animatedUserGold.toFixed(0))"
             v-tooltip.bottom="$t('user.field.gold')"
@@ -125,6 +127,7 @@ await Promise.all(promises);
           <!-- TODO: to divider -->
           <div class="h-8 w-px select-none bg-border-200" />
 
+          <!-- TODO: improve tooltip, share heirloom, bla bla bla -->
           <div
             class="flex items-center gap-2 font-bold text-primary"
             v-tooltip.bottom="$t('user.field.heirloom')"
@@ -165,7 +168,6 @@ await Promise.all(promises);
                 </DropdownItem>
               </SwitchLanguageDropdown>
 
-              <!-- TODO: DropdownItem tag RouterLink -->
               <DropdownItem tag="RouterLink" :to="{ name: 'Settings' }" @click="hide">
                 <OIcon icon="settings" size="lg" />
                 {{ $t('setting.settings') }}

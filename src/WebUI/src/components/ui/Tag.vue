@@ -55,10 +55,10 @@ const computedClass = computed(() => {
 
 <template>
   <div
-    class="!inline-flex cursor-pointer items-center justify-center rounded-full"
+    class="!inline-flex cursor-pointer items-center justify-center gap-1 rounded-full"
     :class="computedClass"
   >
-    <template v-if="label !== undefined">{{ label }}</template>
     <OIcon v-if="icon !== undefined" :icon="icon" :size="size === 'sm' ? 'xs' : 'sm'" />
+    <template v-if="label !== undefined">{{ label }}</template>
   </div>
 </template>

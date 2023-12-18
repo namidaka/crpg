@@ -313,7 +313,7 @@ it.each<[Partial<CharacterStatistics>, number]>([
   expect(getCharacterKDARatio(characterStatistics as CharacterStatistics)).toEqual(expectation);
 });
 
-it.each<[Partial<Character>, CharacterLimitations, number, RespecCapability]>([
+it.each<[Partial<Character>, CharacterLimitations, number, boolean, RespecCapability]>([
   // tournament char - respec always is free
   [
     { forTournament: true, experience: 100000 },
@@ -321,6 +321,7 @@ it.each<[Partial<Character>, CharacterLimitations, number, RespecCapability]>([
       lastRespecializeAt: new Date('2023-03-23T18:00:00.0000000Z'),
     },
     10,
+    false,
     {
       price: 0,
       nextFreeAt: { days: 0, hours: 0, minutes: 5 },
@@ -334,6 +335,20 @@ it.each<[Partial<Character>, CharacterLimitations, number, RespecCapability]>([
       lastRespecializeAt: new Date('2023-03-23T17:55:00.0000000Z'),
     },
     100000,
+    false,
+    {
+      price: 0,
+      nextFreeAt: { days: 0, hours: 0, minutes: 0 },
+      enabled: true,
+    },
+  ],
+  [
+    { forTournament: false, experience: 10 },
+    {
+      lastRespecializeAt: new Date('2023-03-23T17:55:00.0000000Z'),
+    },
+    100000,
+    true,
     {
       price: 0,
       nextFreeAt: { days: 0, hours: 0, minutes: 0 },
@@ -342,10 +357,12 @@ it.each<[Partial<Character>, CharacterLimitations, number, RespecCapability]>([
   ],
 ])(
   'getRespecCapability - character: %j, limitations: %j, gold: %n',
-  (character, charLimitations, gold, expectation) => {
+  (character, charLimitations, gold, isRecentUser, expectation) => {
     vi.setSystemTime('2023-03-30T18:00:00.0000000Z');
 
-    expect(getRespecCapability(character as Character, charLimitations, gold)).toEqual(expectation);
+    expect(
+      getRespecCapability(character as Character, charLimitations, gold, isRecentUser)
+    ).toEqual(expectation);
   }
 );
 
@@ -354,17 +371,20 @@ it('getRespecCapability - Exponential Decay', () => {
 
   const exp = 100000000; // 100m
   const gold = 1000000;
+  const isRecentUser = false;
 
   const result1 = getRespecCapability(
     { forTournament: false, experience: exp } as Character,
     { lastRespecializeAt: new Date('2023-03-30T17:00:00.0000000Z') },
-    gold
+    gold,
+    isRecentUser
   );
 
   const result2 = getRespecCapability(
     { forTournament: false, experience: exp } as Character,
     { lastRespecializeAt: new Date('2023-03-30T16:00:00.0000000Z') },
-    gold
+    gold,
+    isRecentUser
   );
 
   expect(result2.price < result1.price).toBeTruthy();

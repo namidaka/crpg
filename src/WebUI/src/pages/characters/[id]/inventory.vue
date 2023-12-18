@@ -368,26 +368,38 @@ whenever(escape, () => {
       class="sticky col-span-2 grid grid-cols-1 items-start gap-2 self-start rounded-lg border border-border-200 py-2 text-2xs"
       :style="{ top: `${mainHeaderHeight + 16}px` }"
     >
-      <SimpleTableRow :label="$t('character.stats.price.title')">
+      <SimpleTableRow
+        :label="$t('character.stats.price.title')"
+        :tooltip="{
+          title: $t('character.stats.price.title'),
+          description: $t('character.stats.price.desc'),
+        }"
+      >
         <div class="inline-flex gap-1.5 align-middle">
           <SvgSpriteImg name="coin" viewBox="0 0 18 18" class="w-4" />
           <span class="text-xs font-bold text-primary">{{ $n(itemsStats.price) }}</span>
         </div>
       </SimpleTableRow>
 
-      <SimpleTableRow :label="$t('character.stats.avgRepairCost.title')">
+      <SimpleTableRow
+        :label="$t('character.stats.avgRepairCost.title')"
+        :tooltip="{
+          title: $t('character.stats.avgRepairCost.title'),
+          description: $t('character.stats.avgRepairCost.desc'),
+        }"
+      >
         <div class="inline-flex gap-1.5 align-middle">
           <SvgSpriteImg name="coin" viewBox="0 0 18 18" class="w-4" />
           <ClosableTooltip :disabled="!upkeepIsHigh" shown placement="top">
             <span
               class="text-xs font-bold"
-              :class="[upkeepIsHigh ? 'text-status-danger' : 'text-primaryr']"
+              :class="[upkeepIsHigh ? 'text-status-danger' : 'text-primary']"
             >
               {{ $n(itemsStats.averageRepairCostByHour) }} / {{ $t('dateTime.hours.short') }}
             </span>
             <template #popper>
               <div class="prose prose-invert">
-                <h4 class="text-content-100">
+                <h4 class="text-status-warning">
                   {{ $t('character.highUpkeepWarning.title') }}
                 </h4>
                 <div v-html="$t('character.highUpkeepWarning.desc')"></div>

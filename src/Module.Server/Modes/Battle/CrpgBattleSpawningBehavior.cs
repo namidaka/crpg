@@ -82,8 +82,7 @@ internal class CrpgBattleSpawningBehavior : CrpgSpawningBehaviorBase
         var missionPeer = networkPeer.GetComponent<MissionPeer>();
         if (crpgPeer?.User == null
             || crpgPeer.LastSpawnInfo != null
-            || missionPeer == null
-            || missionPeer.HasSpawnedAgentVisuals)
+            || missionPeer == null)
         {
             return false;
         }

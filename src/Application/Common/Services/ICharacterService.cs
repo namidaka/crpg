@@ -2,6 +2,7 @@
 using Crpg.Application.Common.Results;
 using Crpg.Common.Helpers;
 using Crpg.Domain.Entities.Characters;
+using Crpg.Domain.Entities.Limitations;
 
 namespace Crpg.Application.Common.Services;
 
@@ -11,6 +12,8 @@ namespace Crpg.Application.Common.Services;
 internal interface ICharacterService
 {
     void SetDefaultValuesForCharacter(Character character);
+
+    void SetValuesForNewUserStartingCharacter(Character character);
 
     /// <summary>
     /// Reset character characteristics.
@@ -22,6 +25,8 @@ internal interface ICharacterService
     void UpdateRating(Character character, float value, float deviation, float volatility);
 
     void ResetRating(Character character);
+
+    void ResetStatistics(Character character);
 
     Error? Retire(Character character);
 
@@ -45,15 +50,25 @@ internal class CharacterService : ICharacterService
         _constants = constants;
     }
 
+    public void SetValuesForNewUserStartingCharacter(Character character)
+    {
+        character.Generation = _constants.DefaultGeneration;
+        character.Level = _constants.NewUserStartingCharacterLevel;
+        character.Experience = _experienceTable.GetExperienceForLevel(character.Level);
+        character.Class = CharacterClass.Infantry;
+        ResetRating(character);
+        ResetStatistics(character);
+    }
+
     public void SetDefaultValuesForCharacter(Character character)
     {
         character.Generation = _constants.DefaultGeneration;
         character.Level = _constants.MinimumLevel;
         character.Experience = _experienceTable.GetExperienceForLevel(character.Level);
         character.ForTournament = false;
-
         ResetCharacterCharacteristics(character);
         ResetRating(character);
+        ResetStatistics(character);
     }
 
     /// <inheritdoc />
@@ -77,6 +92,17 @@ internal class CharacterService : ICharacterService
             },
         };
         character.Class = CharacterClass.Peasant;
+    }
+
+    public void ResetStatistics(Character character)
+    {
+        character.Statistics = new CharacterStatistics
+        {
+            Kills = 0,
+            Deaths = 0,
+            Assists = 0,
+            PlayTime = TimeSpan.Zero,
+        };
     }
 
     public void UpdateRating(Character character, float value, float deviation, float volatility)

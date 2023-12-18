@@ -36,8 +36,7 @@ internal class CrpgSiegeSpawningBehavior : CrpgSpawningBehaviorBase
         var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
         var missionPeer = networkPeer.GetComponent<MissionPeer>();
         if (crpgPeer?.User == null
-            || missionPeer == null
-            || missionPeer.HasSpawnedAgentVisuals)
+            || missionPeer == null)
         {
             return false;
         }

@@ -129,7 +129,7 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
         if (missionScoreboardSide != null)
         {
             string objectName = (missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
-            AllySide = new MPEndOfBattleSideVM(_missionScoreboardComponent, missionScoreboardSide, MBObjectManager.Instance.GetObject<BasicCultureObject>(objectName), AllySide.Side.Side == BattleSideEnum.Defender);
+            AllySide = new MPEndOfBattleSideVM(_missionScoreboardComponent, missionScoreboardSide, MBObjectManager.Instance.GetObject<BasicCultureObject>(objectName), (AllySide?.Side?.Side ?? BattleSideEnum.Attacker) == BattleSideEnum.Defender);
         }
 
         missionScoreboardSide = _missionScoreboardComponent.Sides.FirstOrDefault((MissionScoreboardComponent.MissionScoreboardSide s) => s != null && s.Side == _enemyBattleSide);
@@ -137,7 +137,7 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
         if (missionScoreboardSide != null)
         {
             string objectName2 = (missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
-            EnemySide = new MPEndOfBattleSideVM(_missionScoreboardComponent, missionScoreboardSide, MBObjectManager.Instance.GetObject<BasicCultureObject>(objectName2), EnemySide.Side.Side == BattleSideEnum.Defender);
+            EnemySide = new MPEndOfBattleSideVM(_missionScoreboardComponent, missionScoreboardSide, MBObjectManager.Instance.GetObject<BasicCultureObject>(objectName2), (EnemySide?.Side?.Side ?? BattleSideEnum.Attacker) == BattleSideEnum.Defender);
         }
 
 

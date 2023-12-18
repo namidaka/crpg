@@ -51,6 +51,11 @@ internal class BreakableWeaponsBehaviorServer : MissionBehavior
 
     public override void OnMeleeHit(Agent attacker, Agent victim, bool isCanceled, AttackCollisionData collisionData)
     {
+        if (collisionData.AffectorWeaponSlotOrMissileIndex == -1) //fists
+        {
+            return;
+        }
+
         if (attacker?.Equipment[collisionData.AffectorWeaponSlotOrMissileIndex].Item == null)
         {
             return;

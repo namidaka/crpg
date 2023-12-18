@@ -160,7 +160,7 @@ if (userStore.characters.length === 0) {
             v-tooltip="$t('character.settings.update.title')"
           />
           <template #popper="{ hide }">
-            <div class="min-w-[480px] space-y-14 px-12 py-11">
+            <div class="min-w-[480px] max-w-2xl space-y-14 px-12 py-11">
               <CharacterEditForm
                 :character="currentCharacter"
                 :active="currentCharacterIsActive"

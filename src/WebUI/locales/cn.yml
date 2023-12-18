@@ -73,6 +73,7 @@ nav:
     Moderator: 管理员
     Builder: 生成器
     Leaderboard: 排行榜
+    Community: 社区
   back: 返回
 
 action:
@@ -102,6 +103,7 @@ action:
   reforge: 重铸
   enter: 进入
   copied: 复制的
+  start: 启动
 
 login:
   label: 登录
@@ -168,6 +170,33 @@ region-title: 区域
 clanBalancingExplanation: '
   <h3>你不在任何宗族中</h3>
   <p>为了与同一团队的朋友一起游戏，我们建议创建一个新的宗族或加入一个现有的宗族</p>'
+
+welcome:
+  title: '欢迎，勇士！'
+  intro: "
+    <p>欢迎来到 Bannerlord 最受欢迎的在线修改之一！</p>
+    <p>为了让您尽可能顺利地开始游戏，我们为您提供了一个 30 级的初始角色，并为您提供了一些额外的奖励，助您一臂之力</p>
+    <p>请记住，cRPG 有很多经验丰富的玩家，所以一开始面临挑战是完全正常的。不要被这些吓倒！如有任何问题，请加入我们的 <a href='https://discord.gg/c-rpg' target='_blank'>Discord</a></p>"
+  bonusTitle: '你的初始奖励'
+  bonusHint: '* 奖励在达到 {level} 级之前有效（大约1-2周的游戏时间）'
+  bonus:
+    gold: "
+     <h5>起始金币</h5>
+     <p>金币用于<strong>购买</strong>、<strong>维护</strong>和<strong>重铸</strong>物品，以及重置角色技能</p>
+     <p>为了积累金币，请查看您角色的<strong>@:character.nav.inventory 页面</strong>上装备维护的成本</p>
+     <p>在起始奖励有效期间，重置您角色技能是<strong>免费<strong>的</p>"
+    newUserStartingCharacter: "
+      <h5>起始角色</h5>
+      <p>您将获得一个起始角色：一名战士，携带一把<strong>{level}级</strong>的单手剑和盾牌，并穿着<strong>中等装备</strong><p>
+      <p>您可以使用<strong>@:character.nav.overview 页面</strong>上的技能重置功能更改角色的职业<p>"
+    freeRespec: "
+      <h5>重置专精技能</h5>
+      <p>重置专精技能是重置角色的技能</p>
+      <p>您有<strong>无限</strong>次<strong>免费</strong>重置专精技能的机会，可以尝试不同的技能搭配</p>
+      <p>奖励在您达到<strong>{level}级</strong>之前有效</p>
+      <p>您可以在<strong>@:character.nav.overview 页面</strong>上更改角色职业<p>"
+  helpfulLinks:
+    label: 提供帮助的链接
 
 character:
   nav:
@@ -470,10 +499,10 @@ character:
       desc: 根据武器长度和力量属性点数，造成的额外移动速度惩罚
     price:
       title: 价格
-      desc: ''
+      desc: '已装备物品的总成本'
     avgRepairCost:
       title: 平均维修成本
-      desc: ''
+      desc: '已装备物品每小时的平均维护费用'
 
   highUpkeepWarning:
     title: 你无法承担你目前的维护费用！你必须要有足够的资金！
