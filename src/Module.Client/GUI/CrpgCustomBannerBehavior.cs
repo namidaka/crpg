@@ -5,6 +5,7 @@ using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Common;
 using Crpg.Module.GUI.HudExtension;
 using Messages.FromBattleServer.ToBattleServerManager;
+using TaleWorlds.CampaignSystem.LogEntries;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -17,30 +18,26 @@ internal class CrpgCustomBannerBehavior : MissionNetwork
     private Dictionary<int, (int count, CrpgClan clan)> defenderClanNumber = new();
     private int previousAttackerClanId;
     private int previousDefenderClanId;
-    public delegate void BannerNameChangedEventHandler(ImageIdentifierVM attackerBanner, ImageIdentifierVM defenderBanner, string attackerName, string defenderName);
+    public delegate void BannerNameChangedEventHandler(Banner? attackerBanner, Banner? defenderBanner, string attackerName, string defenderName);
     public event BannerNameChangedEventHandler? BannersChanged;
-    public ImageIdentifierVM AttackerBanner { get; private set; }
-    public ImageIdentifierVM DefenderBanner { get; private set; }
+    public Banner? AttackerBanner { get; private set; }
+    public Banner? DefenderBanner { get; private set; }
     public string AttackerName { get; private set; }
     public string DefenderName { get; private set; }
+    private IRoundComponent? _roundComponent;
     private MissionTimer? _tickTimer;
     internal CrpgCustomBannerBehavior()
     {
         AttackerName = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
         DefenderName = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
-        Banner attackerBanner = Mission.Current.Teams.Attacker.Banner;
-        Banner defenderBanner = Mission.Current.Teams.Defender.Banner;
-        AttackerBanner = new(attackerBanner);
-        DefenderBanner = new(defenderBanner);
+        AttackerBanner = Mission.Current?.Teams.Attacker?.Banner;
+        DefenderBanner = Mission.Current?.Teams.Defender?.Banner;
     }
 
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
-    public override void OnPlayerDisconnectedFromServer(NetworkCommunicator networkPeer) => base.OnPlayerDisconnectedFromServer(networkPeer);
-    public override void OnMissionTick(float dt)
+    public void UpdateBanner()
     {
-        _tickTimer ??= new MissionTimer(1);
-        if (!_tickTimer.Check(reset: true))
-        {
+
             var attackerMaxClan = attackerClanNumber.DefaultIfEmpty().MaxBy(c => c.Value.count).Value.clan;
             var defenderMaxClan = defenderClanNumber.DefaultIfEmpty().MaxBy(c => c.Value.count).Value.clan;
             int attackerMaxClanId = attackerMaxClan?.Id ?? -1;
@@ -52,8 +49,8 @@ internal class CrpgCustomBannerBehavior : MissionNetwork
 
             string attackerTeamName = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
             string defenderTeamName = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)).Name.ToString();
-            Banner attackerBanner = Mission.Current.Teams.Attacker.Banner;
-            Banner defenderBanner = Mission.Current.Teams.Defender.Banner;
+            Banner? attackerBanner = Mission.Current?.Teams.Attacker?.Banner;
+            Banner? defenderBanner = Mission.Current?.Teams.Defender?.Banner;
 
             if (attackerMaxClan != null)
             {
@@ -67,68 +64,74 @@ internal class CrpgCustomBannerBehavior : MissionNetwork
                 defenderTeamName = defenderMaxClan.Name;
             }
 
-            ImageIdentifierVM attackerBannerImageId = new(attackerBanner);
-            ImageIdentifierVM defenderBannerImageId = new(defenderBanner);
-            BannersChanged?.Invoke(attackerBannerImageId, defenderBannerImageId, attackerTeamName, defenderTeamName);
-        }
+            AttackerBanner = attackerBanner;
+            DefenderBanner = defenderBanner;
+            BannersChanged?.Invoke(AttackerBanner, DefenderBanner, attackerTeamName, defenderTeamName);
+            MissionMultiplayerGameModeBaseClient missionBehavior = base.Mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>();
+            _roundComponent = ((missionBehavior != null) ? missionBehavior.RoundComponent : null);
     }
 
-    public override void OnAgentTeamChanged(Team prevTeam, Team newTeam, Agent agent)
+    private void InitializeClanDictionaries()
     {
-        var crpgPeer = agent.MissionPeer.GetComponent<CrpgPeer>();
-        var missionPeer = agent.MissionPeer.GetComponent<MissionPeer>();
+        foreach (var networkPeer in GameNetwork.NetworkPeers)
+        {
+            var crpgPeer = networkPeer?.GetComponent<CrpgPeer>();
+            var missionPeer = networkPeer?.GetComponent<MissionPeer>();
 
-        if (missionPeer == null || crpgPeer?.User == null || crpgPeer?.Clan == null)
-        {
-            return;
-        }
-
-        Dictionary<int, (int count, CrpgClan clan)> prevTeamClanNumber;
-        Dictionary<int, (int count, CrpgClan clan)> newTeamClanNumber;
-        int peerClanId = crpgPeer!.Clan!.Id;
-        if (prevTeam.IsAttacker)
-        {
-            prevTeamClanNumber = attackerClanNumber;
-        }
-        else
-        {
-            prevTeamClanNumber = defenderClanNumber;
-        }
-
-        if (newTeam.IsAttacker)
-        {
-            newTeamClanNumber = attackerClanNumber;
-        }
-        else
-        {
-            newTeamClanNumber = defenderClanNumber;
-        }
-
-        if (prevTeam.Side != BattleSideEnum.None)
-        {
-            if (prevTeamClanNumber.TryGetValue(peerClanId, out var clan))
+            if (missionPeer == null || crpgPeer?.User == null || crpgPeer?.Clan == null || missionPeer.Team == null)
             {
-                clan.count = Math.Max(clan.count - 1, 0);
-                prevTeamClanNumber[peerClanId] = clan;
+                continue;
             }
-        }
 
-        if (newTeam.Side != BattleSideEnum.None)
-        {
-            if (newTeamClanNumber.TryGetValue(peerClanId, out var clan))
+            if (missionPeer.Team.Side == BattleSideEnum.None)
             {
-                clan.count++;
-                newTeamClanNumber[peerClanId] = clan;
+                continue;
+            }
+
+            Dictionary<int, (int count, CrpgClan clan)> ClanNumber;
+            int peerClanId = crpgPeer!.Clan!.Id;
+
+
+            if (missionPeer.Team.Side == BattleSideEnum.Attacker)
+            {
+                ClanNumber = attackerClanNumber;
             }
             else
             {
-                newTeamClanNumber.Add(peerClanId, (1, crpgPeer.Clan));
+                ClanNumber = defenderClanNumber;
+            }
+
+            if (ClanNumber.TryGetValue(peerClanId, out var clan))
+            {
+                clan.count++;
+                ClanNumber[peerClanId] = clan;
+            }
+            else
+            {
+                ClanNumber.Add(peerClanId, (1, crpgPeer.Clan));
             }
         }
     }
-
     public override void OnBehaviorInitialize()
     {
+        base.OnBehaviorInitialize();
+        var missionNetworkComponent = Mission.GetMissionBehavior<MissionNetworkComponent>();
+        missionNetworkComponent.OnMyClientSynchronized += InitializeClanDictionaries;
+        missionNetworkComponent.OnMyClientSynchronized += UpdateBanner;
+        if (_roundComponent != null)
+        {
+            _roundComponent.OnRoundStarted += InitializeClanDictionaries;
+            _roundComponent.OnRoundStarted += UpdateBanner;
+        }
     }
-
+    public override void OnRemoveBehavior()
+    {
+        base.OnRemoveBehavior();
+        var missionNetworkComponent = Mission.GetMissionBehavior<MissionNetworkComponent>();
+        if (_roundComponent != null)
+        {
+            _roundComponent.OnRoundStarted -= InitializeClanDictionaries;
+            _roundComponent.OnRoundStarted -= UpdateBanner;
+        }
+    }
 }

@@ -88,10 +88,10 @@ internal class CrpgHudExtensionVm : ViewModel
         Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().BannersChanged += HandleBannerChange;
     }
 
-    private void HandleBannerChange(ImageIdentifierVM attackerBanner, ImageIdentifierVM defenderBanner, string attackerName, string defenderName)
+    private void HandleBannerChange(Banner? attackerBanner, Banner? defenderBanner, string attackerName, string defenderName)
     {
-        AllyBanner = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner;
-        EnemyBanner = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side == BattleSideEnum.Defender ? attackerBanner : defenderBanner;
+        AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner);
+        EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? defenderBanner : attackerBanner);
     }
 
     [DataSourceProperty]

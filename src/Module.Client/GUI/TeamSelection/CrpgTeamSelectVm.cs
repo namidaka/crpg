@@ -52,11 +52,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 
             var banners = Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>();
 
-            Team1 = new CrpgTeamSelectInstanceVM(missionBehavior, team1, culture1, banners?.AttackerBanner, onChangeTeamTo, false, banners?.AttackerName ?? string.Empty);
+            Team1 = new CrpgTeamSelectInstanceVM(missionBehavior, team1, culture1, new(banners?.AttackerBanner), onChangeTeamTo, false, banners?.AttackerName ?? string.Empty);
 
             Team team2 = teams.FirstOrDefault((Team t) => t.Side == BattleSideEnum.Defender);
             BasicCultureObject culture2 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
-            Team2 = new CrpgTeamSelectInstanceVM(missionBehavior, team2, culture2, banners?.DefenderBanner, onChangeTeamTo, true, banners?.DefenderName ?? string.Empty);
+            Team2 = new CrpgTeamSelectInstanceVM(missionBehavior, team2, culture2, new(banners?.DefenderBanner), onChangeTeamTo, true, banners?.DefenderName ?? string.Empty);
 
             if (GameNetwork.IsMyPeerReady)
             {

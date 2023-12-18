@@ -106,8 +106,8 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
 
         var attackerBanner = Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().AttackerBanner;
         var defenderBanner = Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().DefenderBanner;
-        AllyBanner = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner;
-        EnemyBanner = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side == BattleSideEnum.Defender ? attackerBanner : defenderBanner;
+        AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner);
+        EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Defender ? attackerBanner : defenderBanner);
     }
 
 private void InitSides()
