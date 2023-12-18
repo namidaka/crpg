@@ -40,6 +40,13 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
         _lobbyComponent.OnPostMatchEnded += OnPostMatchEnded;
         _isSingleTeam = isSingleTeam;
         RefreshValues();
+        Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().BannersChanged += HandleBannerChange;
+    }
+
+    private void HandleBannerChange(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)
+    {
+        AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner, true);
+        EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? defenderBanner : attackerBanner, true);
     }
 
     public override void RefreshValues()
@@ -102,11 +109,6 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
 
         BattleResult = 2;
         ResultText = GameTexts.FindText("str_draw", null).ToString();
-
-        var attackerBanner = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().AttackerBannerCode;
-        var defenderBanner = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().DefenderBannerCode;
-        AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner, true);
-        EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Defender ? attackerBanner : defenderBanner, true);
     }
 
 private void InitSides()

@@ -36,6 +36,8 @@ public class CrpgEndOfRoundVm : ViewModel
     private MPPlayerVM _defenderMvp = default!;
     private string _attackerMvpTitleText = string.Empty;
     private string _defenderMvpTitleText = string.Empty;
+    private ImageIdentifierVM? _allyBanner;
+    private ImageIdentifierVM? _enemyBanner;
 
     public CrpgEndOfRoundVm(MissionScoreboardComponent scoreboardComponent,
         MissionLobbyComponent missionLobbyComponent, IRoundComponent multiplayerRoundComponent)
@@ -470,6 +472,43 @@ public class CrpgEndOfRoundVm : ViewModel
                 _defenderMvpTitleText = value;
                 OnPropertyChangedWithValue(value);
             }
+        }
+    }
+    [DataSourceProperty]
+    public ImageIdentifierVM? AllyBanner
+    {
+        get
+        {
+            return _allyBanner;
+        }
+        set
+        {
+            if (value == _allyBanner)
+            {
+                return;
+            }
+
+            _allyBanner = value;
+            OnPropertyChangedWithValue(value);
+        }
+    }
+
+    [DataSourceProperty]
+    public ImageIdentifierVM? EnemyBanner
+    {
+        get
+        {
+            return _enemyBanner;
+        }
+        set
+        {
+            if (value == _enemyBanner)
+            {
+                return;
+            }
+
+            _enemyBanner = value;
+            OnPropertyChangedWithValue(value);
         }
     }
 }
