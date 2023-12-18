@@ -104,12 +104,13 @@ public class CrpgScoreboardEndOfBattleVM : ViewModel
         BattleResult = 2;
         ResultText = GameTexts.FindText("str_draw", null).ToString();
 
-        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out _, out _);
-        AllyBanner = allyBanner;
-        EnemyBanner = enemyBanner;
+        var attackerBanner = Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().AttackerBanner;
+        var defenderBanner = Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().DefenderBanner;
+        AllyBanner = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner;
+        EnemyBanner = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side == BattleSideEnum.Defender ? attackerBanner : defenderBanner;
     }
 
-    private void InitSides()
+private void InitSides()
     {
         _allyBattleSide = BattleSideEnum.Attacker;
         _enemyBattleSide = BattleSideEnum.Defender;

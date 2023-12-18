@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TaleWorlds.Core;
 
-namespace Crpg.Module.GUI.HudExtension;
+namespace Crpg.Module;
 public class TeamsBannerAndNameModel
 {
     public ImageIdentifierVM Banner1;

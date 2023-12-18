@@ -95,25 +95,19 @@ public class CrpgScoreboardSideVM : ViewModel
         RefreshValues();
         NetworkCommunicator.OnPeerAveragePingUpdated += OnPeerPingUpdated;
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionChanged));
+        Mission.Current.GetMissionBehavior<CrpgCustomBannerBehavior>().BannersChanged += HandleBannerChange;
     }
 
+    private void HandleBannerChange(ImageIdentifierVM attackerBanner, ImageIdentifierVM defenderBanner, string attackerName, string defenderName)
+    {
+        AllyBanner = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner;
+        EnemyBanner = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side == BattleSideEnum.Defender ? attackerBanner : defenderBanner;
+    }
     public override void RefreshValues()
     {
         base.RefreshValues();
-        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out string myTeamName, out string enemyTeamName);
-        AllyBanner = allyBanner;
-        EnemyBanner = enemyBanner;
 
         BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>((_missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
-        if (IsSingleSide)
-        {
-            AllyTeamName = myTeamName;
-        }
-        else
-        {
-            AllyTeamName = myTeamName;
-            EnemyTeamName = enemyTeamName;
-        }
 
         EntryProperties = new MBBindingList<CrpgMissionScoreboardHeaderItemVM>();
         string[] headerIds = _missionScoreboardSide.GetHeaderIds();
