@@ -7,18 +7,10 @@ namespace Crpg.Module.Common.Network;
 [DefineGameNetworkMessageTypeForMod(GameNetworkMessageSendType.FromServer)]
 internal sealed class UpdateTeamBannersAndNames : GameNetworkMessage
 {
-    public BannerCode AttackerBanner { get; set; }
-    public BannerCode DefenderBanner { get; set; }
-    public string AttackerName { get; set; }
-    public string DefenderName { get; set; }
-
-    internal UpdateTeamBannersAndNames(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)
-    {
-        AttackerBanner = attackerBanner;
-        DefenderBanner = defenderBanner;
-        AttackerName = attackerName;
-        DefenderName = defenderName;
-    }
+    public BannerCode AttackerBanner { get; set; } = BannerCode.CreateFrom(string.Empty);
+    public BannerCode DefenderBanner { get; set; } = BannerCode.CreateFrom(string.Empty);
+    public string AttackerName { get; set; } = string.Empty;
+    public string DefenderName { get; set; } = string.Empty;
 
     protected override void OnWrite()
     {

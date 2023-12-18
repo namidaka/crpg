@@ -61,9 +61,12 @@ internal class CrpgCustomTeamBannersAndNamesServer : MissionNetwork
         DefenderName = defenderTeamName;
         GameNetwork.BeginBroadcastModuleEvent();
         GameNetwork.WriteMessage(new UpdateTeamBannersAndNames
-        (
-            AttackerBanner, DefenderBanner, attackerTeamName, defenderTeamName
-        ));
+        {
+            AttackerBanner = AttackerBanner,
+            DefenderBanner = DefenderBanner,
+            AttackerName = attackerTeamName,
+            DefenderName = defenderTeamName,
+        });
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
     }
 
@@ -128,9 +131,12 @@ internal class CrpgCustomTeamBannersAndNamesServer : MissionNetwork
     {
         GameNetwork.BeginModuleEventAsServer(networkPeer);
         GameNetwork.WriteMessage(new UpdateTeamBannersAndNames
-        (
-            AttackerBanner, DefenderBanner, AttackerName, DefenderName
-        ));
+        {
+            AttackerBanner = AttackerBanner,
+            DefenderBanner = DefenderBanner,
+            AttackerName = AttackerName,
+            DefenderName = DefenderName,
+        });
         GameNetwork.EndModuleEventAsServer();
     }
 }
