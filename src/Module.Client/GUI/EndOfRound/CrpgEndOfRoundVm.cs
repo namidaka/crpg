@@ -72,6 +72,13 @@ public class CrpgEndOfRoundVm : ViewModel
 
         AttackerSide = new MultiplayerEndOfRoundSideVM();
         DefenderSide = new MultiplayerEndOfRoundSideVM();
+        Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().BannersChanged += HandleBannerChange;
+    }
+
+    private void HandleBannerChange(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)
+    {
+        AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner, true);
+        EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? defenderBanner : attackerBanner, true);
     }
 
     public override void RefreshValues()
