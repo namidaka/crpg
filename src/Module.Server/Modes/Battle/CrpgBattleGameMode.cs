@@ -163,6 +163,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new DrowningBehavior(),
                     new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
                     new BreakableWeaponsBehaviorServer(),
+                    new CrpgCustomTeamBannersAndNamesServer(roundController),
 #else
                     new MultiplayerRoundComponent(),
                     new MultiplayerAchievementComponent(),
@@ -171,7 +172,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new CrpgRewardClient(),
                     new HotConstantsClient(),
                     new BreakableWeaponsBehaviorClient(),
-                    new CrpgCustomBannerServer(),
+                    new CrpgCustomTeamBannersAndNamesClient(),
 #endif
                 });
     }
