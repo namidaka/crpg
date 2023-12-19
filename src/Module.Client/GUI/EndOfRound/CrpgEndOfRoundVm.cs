@@ -72,7 +72,11 @@ public class CrpgEndOfRoundVm : ViewModel
 
         AttackerSide = new MultiplayerEndOfRoundSideVM();
         DefenderSide = new MultiplayerEndOfRoundSideVM();
-        Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().BannersChanged += HandleBannerChange;
+        var customBanners = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>();
+        if (customBanners != null)
+        {
+            customBanners.BannersChanged += HandleBannerChange;
+        }
     }
 
     private void HandleBannerChange(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)

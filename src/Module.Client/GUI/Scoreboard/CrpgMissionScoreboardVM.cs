@@ -123,7 +123,11 @@ internal class CrpgMissionScoreboardVM : ViewModel
         MissionName = "";
         IsBotsEnabled = missionBehavior.MissionType == MultiplayerGameType.Captain || missionBehavior.MissionType == MultiplayerGameType.Battle;
         RefreshValues();
-        Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().BannersChanged += HandleBannerChange;
+        var customBanners = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>();
+        if (customBanners != null)
+        {
+            customBanners.BannersChanged += HandleBannerChange;
+        }
     }
 
     private void HandleBannerChange(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)

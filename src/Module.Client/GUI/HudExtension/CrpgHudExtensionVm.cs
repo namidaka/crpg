@@ -85,7 +85,11 @@ internal class CrpgHudExtensionVm : ViewModel
         _enemyDictionary = new Dictionary<MissionPeer, MPPlayerVM>();
         ShowHud = true;
         RefreshValues();
-        Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>().BannersChanged += HandleBannerChange;
+        var customBanners = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>();
+        if (customBanners != null)
+        {
+            customBanners.BannersChanged += HandleBannerChange;
+        }
     }
 
     private void HandleBannerChange(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)
