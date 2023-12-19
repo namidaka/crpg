@@ -105,8 +105,8 @@ public class CrpgScoreboardSideVM : ViewModel
         }
         else if (Mission.Current.Teams.Count > 0)
         {
-            AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? BannerCode.CreateFrom(Mission.Current.Teams.Attacker.Banner) : BannerCode.CreateFrom(Mission.Current.Teams.Defender.Banner), true);
-            EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? BannerCode.CreateFrom(Mission.Current.Teams.Defender.Banner) : BannerCode.CreateFrom(Mission.Current.Teams.Attacker.Banner), true);
+            AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? BannerCode.CreateFrom(Mission.Current.Teams.Attacker?.Banner) : BannerCode.CreateFrom(Mission.Current.Teams.Defender?.Banner), true);
+            EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? BannerCode.CreateFrom(Mission.Current.Teams.Defender?.Banner) : BannerCode.CreateFrom(Mission.Current.Teams.Attacker?.Banner), true);
         }
     }
 
