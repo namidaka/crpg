@@ -55,7 +55,7 @@ describe('wasChangeMade', () => {
       CharacteristicSectionKey,
       CharacteristicKey,
       number,
-      boolean
+      boolean,
     ]
   >([
     [{ attributes: { points: 1, strength: 1 } }, 'attributes', 'strength', 2, true],
@@ -155,7 +155,7 @@ it.each<
     PartialDeep<CharacterCharacteristics>,
     CharacteristicSectionKey,
     CharacteristicKey,
-    { modelValue?: number; min?: number; max: number }
+    { modelValue?: number; min?: number; max: number },
   ]
 >(
   // prettier-ignore
@@ -207,7 +207,7 @@ it.each<
       ref(createCharacteristics(characteristics))
     );
 
-    expect(getInputProps(characteristicSectionKey, characteristicKey)).toContain(expectation);
+    expect(getInputProps(characteristicSectionKey, characteristicKey)).toMatchObject(expectation);
   }
 );
 
@@ -217,7 +217,7 @@ it.each<
     CharacteristicSectionKey,
     CharacteristicKey,
     number,
-    PartialDeep<CharacterCharacteristics>
+    PartialDeep<CharacterCharacteristics>,
   ]
 >(
   // prettier-ignore
