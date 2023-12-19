@@ -35,4 +35,3 @@ crpg_battle_sallyout
 crpg_battle_kingsroad
 crpg_battle_sandiboush
 crpg_battle_banditvalley
-crpg_battle_vritannis
