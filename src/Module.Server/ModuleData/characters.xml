@@ -3694,6 +3694,8 @@
         <equipment slot="Body" id="Item.crpg_brass_lamellar_over_mail_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_v1_h0" />
         <equipment slot="Item0" id="Item.crpg_meowdao_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_noble_steppe_bow_v1_h0" />
         <equipment slot="Item2" id="Item.crpg_simplesteppe_arrows_v1_h0" />
@@ -3704,6 +3706,8 @@
         <equipment slot="Body" id="Item.crpg_brass_lamellar_over_mail_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_v1_h0" />
         <equipment slot="Item0" id="Item.crpg_podao_v2_h0" />
       </EquipmentRoster>
     </Equipments>
