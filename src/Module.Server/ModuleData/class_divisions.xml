@@ -2039,9 +2039,9 @@
     </Perks>
   </MPClassDivision>
 
-  <MPClassDivision id="crpg_dtv_varangian_longbow"
-                   hero="crpg_dtv_varangian_longbow"
-                   troop="crpg_dtv_varangian_longbow"
+  <MPClassDivision id="crpg_dtv_varangian_longbowman"
+                   hero="crpg_dtv_varangian_longbowman"
+                   troop="crpg_dtv_varangian_longbowman"
                    hero_idle_anim="act_vlandia_mp_voulgier_idle"
                    troop_idle_anim="act_idle_spear_1_left_stance"
                    multiplier="0"

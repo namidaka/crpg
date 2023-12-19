@@ -2184,17 +2184,17 @@
     </skills>
     <Equipments>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_empire_lord_helmet_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_plumed_helmet_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_varangian_bra_royal_v2_h0" />
-        <equipment slot="Body" id="Item.crpg_empire_plate_vest_armor_v1_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_brass_plate_armor_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_northern_brass_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_fine_steel_menavlion_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_empire_lord_helmet_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_plumed_helmet_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_varangian_bra_royal_v2_h0" />
-        <equipment slot="Body" id="Item.crpg_empire_plate_vest_armor_v1_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_brass_plate_armor_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_northern_brass_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_thamaskene_steel_claymore_v1_h0" />
@@ -3278,7 +3278,7 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_varangian_longbow" name="{=}Varangian Longbow" race="light_bot">
+  <NPCCharacter id="crpg_dtv_varangian_longbowman" name="{=}Varangian Longbowman" race="light_bot">
     <face>
       <BodyProperties version="4" age="22.14" weight="0.625" build="0.6144"  key="0005480D9214139B9BB94674B867C6A69D599B9A625759B9E8A659A887B8C93200A996030A7734D400000000000000000000000000000000000000002D5490C5" />
     </face>
@@ -3368,7 +3368,7 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_varangian_lieutenant" name="{=}Varangian Berserk" race="light_bot">
+  <NPCCharacter id="crpg_dtv_varangian_lieutenant" name="{=}Varangian Berserker" race="light_bot">
     <face>
       <BodyProperties version="4" age="22.14" weight="0.4833" build="0.6799"  key="0010B809972C2786B5D51913A4B87897C899D3E5AA588985C722285C44E5998500AA76030A9D69AA000000000000000000000000000000000000000013543102" />
     </face>
@@ -3552,7 +3552,7 @@
       <skill id="PowerDraw" value="4" />
       <skill id="PowerThrow" value="0" />
       <skill id="Athletics" value="230" />
-      <skill id="Riding" value="0" />
+      <skill id="Riding" value="240" />
       <skill id="WeaponMaster" value="9" />
       <skill id="MountedArchery" value="0" />
       <skill id="Shield" value="0" />
@@ -3570,6 +3570,8 @@
         <equipment slot="Body" id="Item.crpg_brass_lamellar_over_mail_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_v1_h0" />
         <equipment slot="Item0" id="Item.crpg_meowdao_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_noble_steppe_bow_v1_h0" />
         <equipment slot="Item2" id="Item.crpg_simplesteppe_arrows_v1_h0" />
@@ -3580,6 +3582,8 @@
         <equipment slot="Body" id="Item.crpg_brass_lamellar_over_mail_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_v1_h0" />
         <equipment slot="Item0" id="Item.crpg_podao_v2_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -3966,7 +3970,7 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_tincan_lieutenant" name="{=}" race="light_bot">
+  <NPCCharacter id="crpg_dtv_tincan_lieutenant" name="{=}Oathsworn Tincan" race="light_bot">
     <face>
       <BodyProperties version="4" age="30.03" weight="0.5" build="0.5" key="002EB80FC0441507973D576434A667C6B769A5A468B3983C277C464A9667486304977646095726B80000000000000000000000003EFC10C4000000003B249045" />
     </face>

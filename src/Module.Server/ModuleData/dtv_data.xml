@@ -236,13 +236,13 @@
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_varangian_recruit" count="0.5" />
-      <Group classDivisionId="crpg_dtv_varangian_longbow" count="0.5" />
+      <Group classDivisionId="crpg_dtv_varangian_longbowman" count="0.5" />
       <Group classDivisionId="crpg_dtv_varangian_guard" count="1.0" />
       <Group classDivisionId="crpg_dtv_varangian_lieutenant" />
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_varangian_recruit" count="1.0" />
-      <Group classDivisionId="crpg_dtv_varangian_longbow" count="0.5" />
+      <Group classDivisionId="crpg_dtv_varangian_longbowman" count="0.5" />
       <Group classDivisionId="crpg_dtv_varangian_guard" count="1.0" />
       <Group classDivisionId="crpg_dtv_varangian_boss" />
     </Wave>
