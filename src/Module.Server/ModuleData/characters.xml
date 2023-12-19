@@ -3861,7 +3861,7 @@
         <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_sa_1ChurburghGauntlet_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sa_1ChurburghBoots_v2_h0" />
-        <equipment slot="Item0" id="items.crpg_broad_two_hander_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_broad_two_hander_v1_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_pigface_bascinet_v2_h0" />
