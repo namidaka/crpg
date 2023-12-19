@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Crpg.Module.GUI.HudExtension;
+using Crpg.Module.GUI.Scoreboard;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard;
-using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard;
 using TaleWorlds.ObjectSystem;
-
 namespace Crpg.Module.Gui;
 
 public class CrpgScoreboardSideVM : ViewModel
@@ -95,25 +94,35 @@ public class CrpgScoreboardSideVM : ViewModel
         RefreshValues();
         NetworkCommunicator.OnPeerAveragePingUpdated += OnPeerPingUpdated;
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionChanged));
+        var customBanner = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>();
+        if (customBanner != null)
+        {
+            AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? customBanner.AttackerBannerCode : customBanner.DefenderBannerCode, true);
+            EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? customBanner.DefenderBannerCode : customBanner.AttackerBannerCode, true);
+            AllyTeamName = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? customBanner.AttackerName : customBanner.DefenderName;
+            EnemyTeamName = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? customBanner.DefenderName : customBanner.AttackerName;
+            customBanner.BannersChanged += HandleBannerChange;
+        }
+        else if (Mission.Current.Teams.Count > 0)
+        {
+            AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? BannerCode.CreateFrom(Mission.Current.Teams.Attacker?.Banner) : BannerCode.CreateFrom(Mission.Current.Teams.Defender?.Banner), true);
+            EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? BannerCode.CreateFrom(Mission.Current.Teams.Defender?.Banner) : BannerCode.CreateFrom(Mission.Current.Teams.Attacker?.Banner), true);
+        }
+    }
+
+    private void HandleBannerChange(BannerCode attackerBanner, BannerCode defenderBanner, string attackerName, string defenderName)
+    {
+        AllyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerBanner : defenderBanner, true);
+        EnemyBanner = new(GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? defenderBanner : attackerBanner, true);
+        AllyTeamName = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? attackerName : defenderName;
+        EnemyTeamName = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side == BattleSideEnum.Attacker ? defenderName : attackerName;
     }
 
     public override void RefreshValues()
     {
         base.RefreshValues();
-        CrpgHudExtensionVm.UpdateTeamBanners(out ImageIdentifierVM? allyBanner, out ImageIdentifierVM? enemyBanner, out string myTeamName, out string enemyTeamName);
-        AllyBanner = allyBanner;
-        EnemyBanner = enemyBanner;
 
         BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>((_missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
-        if (IsSingleSide)
-        {
-            AllyTeamName = myTeamName;
-        }
-        else
-        {
-            AllyTeamName = myTeamName;
-            EnemyTeamName = enemyTeamName;
-        }
 
         EntryProperties = new MBBindingList<CrpgMissionScoreboardHeaderItemVM>();
         string[] headerIds = _missionScoreboardSide.GetHeaderIds();
