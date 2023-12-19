@@ -19,36 +19,39 @@
             <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPIntermission\intermission_screen_band_effect" AlphaFactor="0.9" />
           </Children>
         </Widget>
-        
+
         <!-- Top Panel -->
-        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="180" MarginLeft="30" MarginRight="30" MarginTop="30">
-          <Children>
-            
-            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Top" StackLayout.LayoutMethod="VerticalBottomToTop" IsVisible="@IsNextMapInfoEnabled">
-              <Children>
-                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPIntermission.Label.Text" Text="@NextMapName" />
-                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPIntermission.Value.Text" Text="@NextGameType" MarginTop="10" />
-              </Children>
-            </ListPanel>
-            
-            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" StackLayout.LayoutMethod="VerticalBottomToTop">
-              <Children>
-                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPIntermission.Label.Text" Text="@NextGameStateTimerLabel" />
-                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPIntermission.Value.Text" Brush.FontSize="50" Text="@NextGameStateTimerValue" />
-              </Children>
-            </ListPanel>
-            
-            <!-- Leave Button -->
-            <NavigationScopeTargeter ScopeID="LeaveButtonScope" ScopeParent="..\LeaveButtonParent" />
-            <ListPanel Id="LeaveButtonParent" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Top" StackLayout.LayoutMethod="VerticalBottomToTop">
-              <Children>
-                <ButtonWidget Command.Click="ExecuteQuitServer" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="75" SuggestedHeight="75" HorizontalAlignment="Center" Brush="MPIntermission.Leave.Button" MarginBottom="10" GamepadNavigationIndex="0" />
-                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPIntermission.Leave.Text" Text="@QuitText"/>
-              </Children>
-            </ListPanel>
-        
-          </Children>
-        </Widget>
+        <!-- 
+          <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="180" MarginLeft="30" MarginRight="30" MarginTop="30">
+            <Children>
+              
+              <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Top" StackLayout.LayoutMethod="VerticalBottomToTop" IsVisible="@IsNextMapInfoEnabled">
+                <Children>
+                  <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPIntermission.Label.Text" Text="@NextMapName" />
+                  <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPIntermission.Value.Text" Text="@NextGameType" MarginTop="10" />
+                </Children>
+              </ListPanel>
+              
+              <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" StackLayout.LayoutMethod="VerticalBottomToTop">
+                <Children>
+                  <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPIntermission.Label.Text" Text="@NextGameStateTimerLabel" />
+                  <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPIntermission.Value.Text" Brush.FontSize="50" Text="@NextGameStateTimerValue" />
+                </Children>
+              </ListPanel>-->
+
+        <!-- Leave Button -->
+        <!-- 
+              <NavigationScopeTargeter ScopeID="LeaveButtonScope" ScopeParent="..\LeaveButtonParent" />
+              <ListPanel Id="LeaveButtonParent" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Top" StackLayout.LayoutMethod="VerticalBottomToTop">
+                <Children>
+                  <ButtonWidget Command.Click="ExecuteQuitServer" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="75" SuggestedHeight="75" HorizontalAlignment="Center" Brush="MPIntermission.Leave.Button" MarginBottom="10" GamepadNavigationIndex="0" />
+                  <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPIntermission.Leave.Text" Text="@QuitText"/>
+                </Children>
+              </ListPanel>
+          
+            </Children>
+          </Widget> -->
+
         <!-- Banners -->
         <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" VerticalAlignment="Top" HorizontalAlignment="Center" PositionYOffset="210" MarginLeft="18" MarginRight="18">
           <Children>
@@ -64,7 +67,7 @@
               </Children>
             </Widget>
 
-            <!-- Defender Side -->            
+            <!-- Defender Side -->
             <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Banner.Width" SuggestedHeight="!Banner.Height" HorizontalAlignment="Right" VerticalAlignment="Center" IsVisible="@IsFactionBValid">
               <Children>
                 <MultiplayerFactionBannerWidget UpdateChildrenStates="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" FactionCode="@NextFactionBCultureID" BannerWidget="Banner" IconWidget="Icon" CultureColor1="@NextFactionBCultureColor1" CultureColor2="@NextFactionBCultureColor2">
@@ -75,18 +78,18 @@
                 </MultiplayerFactionBannerWidget>
               </Children>
             </Widget>
-            
+
           </Children>
         </Widget>
-        
+
         <!-- Map Vote List -->
-        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Center" MarginBottom="100" IsVisible="@IsMapVoteEnabled">
+        <Widget WidthSizePolicy="CoverChildren" PositionYOffset="-30" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" IsVisible="@IsMapVoteEnabled">
           <Children>
             <!-- Title Text -->
             <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="20" Brush="MPIntermission.Voting.Title.Text" Brush.FontSize="40" Text="@MapVoteText" />
 
             <NavigationScopeTargeter ScopeID="IntermissionMapSelectionScope" ScopeParent="..\AvailableMaps" ScopeMovements="Horizontal" />
-            <NavigatableGridWidget Id="AvailableMaps" DataSource="{AvailableMaps}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" ColumnCount="3" DefaultCellHeight="180" DefaultCellWidth="320" LayoutImp="GridLayout">
+            <NavigatableGridWidget Id="AvailableMaps" DataSource="{AvailableMaps}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" ColumnCount="6" DefaultCellHeight="180" DefaultCellWidth="320" LayoutImp="GridLayout">
               <ItemTemplate>
                 <!-- Single Map Item -->
                 <ListPanel WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="320" MarginLeft="15" MarginRight="15" StackLayout.LayoutMethod="VerticalBottomToTop">
@@ -94,9 +97,9 @@
 
                     <NavigationTargetSwitcher FromTarget="..\." ToTarget="..\SelectButton" />
                     <!-- Map Name -->
-                    <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginTop="10" HorizontalAlignment="Center" Brush="MPIntermission.Voting.Title.Text" Brush.FontColor="#F4E1C4FF" Brush.FontSize="28" Text="@MapName" />
+                    <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" PositionYOffset="181" MarginTop="10" HorizontalAlignment="Center" Brush="MPIntermission.Voting.Title.Text" Brush.FontColor="#F4E1C4FF" Brush.FontSize="18" Text="@MapName" />
                     <!-- Map Thumbnail Border -->
-                    <ButtonWidget Id="SelectButton" DoNotPassEventsToChildren="true" ButtonType="Radio" IsSelected="@IsSelected" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="320" SuggestedHeight="180" VerticalAlignment="Center" MarginTop="5" Brush="MPIntermission.Map.Button" Command.Click="ExecuteVote" UpdateChildrenStates="true">
+                    <ButtonWidget Id="SelectButton" DoNotPassEventsToChildren="true" ButtonType="Radio" IsSelected="@IsSelected" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="288" SuggestedHeight="162" VerticalAlignment="Center" MarginTop="5" Brush="MPIntermission.Map.Button" Command.Click="ExecuteVote" UpdateChildrenStates="true">
                       <Children>
                         <MultiplayerIntermissionNextMapImageWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="3" MarginRight="3" MarginTop="3" MarginBottom="3" MapID="@MapID"/>
                       </Children>
@@ -104,16 +107,15 @@
                     <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="10" StackLayout.LayoutMethod="HorizontalLeftToRight">
                       <Children>
                         <!-- Vote Icon -->
-                        <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="30" SuggestedHeight="34" Sprite="MPIntermission\thumb" Color="#CD7B3AFF" />
                         <!-- Vote Count -->
-                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Bottom" MarginLeft="10" Brush="MPIntermission.Voted.Count.Text" Brush.FontSize="48" IntText="@Votes" />
+                        <TextWidget WidthSizePolicy="CoverChildren" PositionXOffset="-80" PositionYOffset="-15" HeightSizePolicy="CoverChildren" VerticalAlignment="Bottom" MarginLeft="20" Brush="MPIntermission.Voted.Count.Text" Brush.FontSize="24" IntText="@Votes" />
                       </Children>
                     </ListPanel>
                   </Children>
                 </ListPanel>
               </ItemTemplate>
-            </NavigatableGridWidget>   
-        </Children>
+            </NavigatableGridWidget>
+          </Children>
         </Widget>
 
         <!-- Culture Vote List -->
@@ -126,7 +128,7 @@
                 <!-- Single Culture Item -->
                 <ListPanel WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="140" MarginLeft="50" MarginRight="50" StackLayout.LayoutMethod="VerticalBottomToTop">
                   <Children>
-        
+
                     <!-- Culture Sigil -->
                     <MultiplayerLobbyClassFilterFactionItemButtonWidget ButtonType="Radio" IsSelected="@IsSelected" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="214" SuggestedHeight="251" HorizontalAlignment="Center" Command.Click="ExecuteVote" Culture="@CultureCode" BaseBrushName="MPIntermission.CultureButton" />
                     <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="10" StackLayout.LayoutMethod="HorizontalLeftToRight">

@@ -636,6 +636,7 @@ public class CrpgIntermissionVM : ViewModel
     private void OnIntermissionStateUpdated()
     {
         _currentIntermissionState = _baseNetworkComponent.ClientIntermissionState;
+
         bool flag = true;
         if (_currentIntermissionState == MultiplayerIntermissionState.CountingForMapVote)
         {
