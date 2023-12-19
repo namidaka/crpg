@@ -903,7 +903,7 @@
     <Equipments>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3_h0" />
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard6_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
@@ -911,7 +911,7 @@
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3_h0" />
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard2_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
@@ -919,7 +919,7 @@
       </EquipmentRoster>
             <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3_h0" />
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard3_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
@@ -1777,10 +1777,10 @@
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_guards_kettle_over_laced_coif_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_steel_noble_cross_h0" />
-        <equipment slot="Body" id="Item.crpg_gambeson_b_v2_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_gambeson_b_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_padded_vambrace_v2_h0" />
-        <equipment slot="Leg" id="Item.ccrpg_fine_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_tapered_two-hander_v1_v1_h0" />
+        <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_tapered_two-hander_v1_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -1819,7 +1819,7 @@
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_segmented_skullcap_over_mail_coif_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_empire_cape_a_v2" />
+        <equipment slot="Cape" id="Item.crpg_empire_cape_a_v2_h0" />
         <equipment slot="Body" id="Item.crpg_sleeveless_studded_fur_armor_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
@@ -2495,7 +2495,7 @@
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_ba_closedsalletpainted_h0" />
         <equipment slot="Cape" id="Item.crpg_pauldron_cape_a_v2_h0" />
-        <equipment slot="Body" id="Item.=crpg_coat_of_plates7_c_h0" />
+        <equipment slot="Body" id="Item.crpg_coat_of_plates7_c_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h0" />
@@ -3569,7 +3569,7 @@
         <equipment slot="Cape" id="Item.crpg_brass_lamellar_shoulder_v2_h0" />
         <equipment slot="Body" id="Item.crpg_brass_lamellar_over_mail_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_eastern_plated_leather_vambraces_v2_h0" />
-        <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_meowdao_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_noble_steppe_bow_v1_h0" />
         <equipment slot="Item2" id="Item.crpg_simplesteppe_arrows_v1_h0" />
@@ -3861,7 +3861,7 @@
         <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_sa_1ChurburghGauntlet_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sa_1ChurburghBoots_v2_h0" />
-        <equipment slot="Item0" id="items.crpg_broad_two_hander_v1" />
+        <equipment slot="Item0" id="items.crpg_broad_two_hander_v1_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_pigface_bascinet_v2_h0" />
