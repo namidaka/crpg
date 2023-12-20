@@ -1,0 +1,9 @@
+ServerName cRPG - Test Server - c-rpg.eu
+GameType cRPGTrainingGround
+GamePassword yoyo
+Map mp_duel_mode_map_004
+MapTimeLimit 40
+MaxNumberOfPlayers 32
+MinScoreToWinDuel 3
+end_game_after_mission_is_over
+start_game_and_mission

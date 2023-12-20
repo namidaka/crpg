@@ -1,0 +1,132 @@
+﻿<Prefab>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsVisible="@IsEnabled">
+      <Children>
+
+        <Widget DataSource="{Targets}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+          <ItemTemplate>
+
+            <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+              <Children>
+
+                <!--Single Card-->
+                <CrpgTrainingGroundTargetMarkerListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop" Background="CardBackground" Border="CardBackground\CardOutline" ActionText="..\ActionText" Position="@ScreenPosition" WSign="@WSign" TroopClassBorder="CardBackground\CardOutline\CardContentList\CardContentListHorizontal\TroopClassBorder" IsAgentInScreenBoundaries="@IsAgentInScreenBoundaries" IsTracked="@IsTracked" IsAvailable="@IsEnabled" HasTargetSentDuelRequest="@HasDuelRequestForPlayer" HasPlayerSentDuelRequest="@HasSentDuelRequest" IsAgentFocused="@IsFocused">
+                  <Children>
+
+                    <BrushWidget Id="CardBackground" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="215" HorizontalAlignment="Center" Brush="MPHUD.Duel.Card.Canvas" UpdateChildrenStates="true">
+                      <Children>
+
+                        <BrushWidget Id="CardOutline" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPHUD.Duel.Card.Frame">
+                          <Children>
+
+                            <ListPanel Id="CardContentList" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop">
+                              <Children>
+
+                                <ListPanel Id="CardContentListHorizontal" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight" IsVisible="@ShouldShowInformation">
+                                  <Children>
+
+                                    <!--Class2-->
+                                    <BrushWidget Id="TroopClassBorder" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="50" PositionXOffset="-10" PositionYOffset="-10" Brush="MPHUD.Duel.Card.Class.Outline">
+                                      <Children>
+
+                                        <MultiplayerTroopTypeIconWidget DataSource="{CompassElement}" Id="IconContainer" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="100" HorizontalAlignment="Center"  VerticalAlignment="Center" ForegroundWidget="IconForeground" IconSpriteType="@IconType" AlphaFactor="0" UseOriginalSize="false">
+                                          <Children>
+                                            <Widget Id="IconForeground" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Color="#F4E1C4FF"/>
+                                          </Children>
+                                        </MultiplayerTroopTypeIconWidget>
+
+                                      </Children>
+                                    </BrushWidget>
+
+                                    <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" PositionXOffset="-7" IsVisible="@ShouldShowInformation">
+                                      <Children>
+
+                                        <!--Perks-->
+                                        <ListPanel DoNotPassEventsToChildren="true" DataSource="{SelectedPerks}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight">
+                                          <ItemTemplate>
+                                            <MultiplayerPerkItemToggleWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="50" HorizontalAlignment="Center" MarginTop="0" Brush="MPClassLoadout.Perks.Button" ContainerPanel="..\..\..\PerksPanel" IconType="@IconType" IconWidget="Icon" IsSelectable="false">
+                                              <Children>
+                                                <BrushWidget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="40" HorizontalAlignment="Center" MarginTop="10" Brush="MPClassLoadout.Perks.Icon">
+                                                  <Children>
+                                                    <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="47" SuggestedHeight="47" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="MPClassLoadout.Perks.Frame" />
+                                                  </Children>
+                                                </BrushWidget>
+                                              </Children>
+                                            </MultiplayerPerkItemToggleWidget>
+                                          </ItemTemplate>
+                                        </ListPanel>
+
+                                      </Children>
+                                    </Widget>
+
+                                    <!-- Preferred Arena Type -->
+                                    <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" MarginRight="5" MarginTop="2" IsVisible="@ShouldShowInformation">
+                                      <Children>
+                                        <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="43" Brush="MPHUD.Duel.Card.Flag.Background" ArenaType="@PreferredArenaType" />
+                                        <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="30" SuggestedHeight="30" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-3" Brush="MPHUD.Duel.Arena.Flag.Foreground" ArenaType="@PreferredArenaType" />
+                                      </Children>
+                                    </Widget>
+
+                                  </Children>
+                                </ListPanel>
+
+                                <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="10" MarginBottom="10" MarginLeft="15" MarginRight="15" StackLayout.LayoutMethod="HorizontalLeftToRight">
+                                  <Children>
+
+                                    <!--Name-->
+                                    <ScrollingRichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.NameText" Text="@Name" IsVisible="@IsTracked" />
+                                    <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.NameText" Text="@Name" IsHidden="@IsTracked" />
+
+                                    <!--Bounty-->
+                                    <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" MarginLeft="5">
+                                      <Children>
+                                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" IntText="@Bounty" Brush="MPHUD.Duel.Card.HugeBountyText"/>
+                                        <Widget WidthSizePolich="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="26" SuggestedHeight="26" Sprite="General\Icons\bounty_icon_Card" Color="#FF9C00FF" VerticalAlignment="Center" MarginLeft="3" />
+                                      </Children>
+                                    </ListPanel>
+                                  </Children>
+                                </ListPanel>
+
+                              </Children>
+                            </ListPanel>
+
+                          </Children>
+                        </BrushWidget>
+
+                      </Children>
+                    </BrushWidget>
+
+                  </Children>
+                </CrpgTrainingGroundTargetMarkerListPanel>
+
+                <!--Action-->
+                <RichTextWidget Id="ActionText" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPHUD.Duel.Card.ActionText" MarginTop="8" Text="@ActionDescriptionText" IsVisible="@IsFocused"/>
+
+
+              </Children>
+            </Widget>
+
+          </ItemTemplate>
+        </Widget>
+
+        <Widget DataSource="{Landmarks}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+          <ItemTemplate>
+            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="100" IsVisible="@IsFocused" StackLayout.LayoutMethod="VerticalBottomToTop">
+              <Children>
+                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" Brush="MPHUD.Duel.Card.NameText" Text="@ActionDescriptionText" />
+                <!-- Preferred Arena Type -->
+                <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" HorizontalAlignment="Center" MarginTop="10" >
+                  <Children>
+                    <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="48" SuggestedHeight="55" Brush="MPHUD.Duel.Card.Flag.Background" ArenaType="@TroopType" />
+                    <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="33" SuggestedHeight="33" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-3" Brush="MPHUD.Duel.Arena.Flag.Foreground" ArenaType="@TroopType" />
+                  </Children>
+                </Widget>
+              </Children>
+            </ListPanel>
+          </ItemTemplate>
+        </Widget>
+
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

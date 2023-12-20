@@ -1,0 +1,194 @@
+﻿<Prefab>
+  <Constants>
+    <Constant Name="UserProfile.Width" Value="60" />
+    <Constant Name="UserProfile.Height" Value="60" />
+
+    <Constant Name="AvatarFrame.Width" Additive="2" BrushLayer="Default" BrushName="MPEscapeMenu.AvatarFrame" BrushValueType="Width" />
+    <Constant Name="AvatarFrame.Height" Additive="2" BrushLayer="Default" BrushName="MPEscapeMenu.AvatarFrame" BrushValueType="Height" />
+
+    <Constant Name="KillNotification.Background.Width" BrushName="MPHUD.KillNotification.Background" BrushLayer="Default" BrushValueType="Width" />
+    <Constant Name="KillNotification.Background.Height" BrushName="MPHUD.KillNotification.Background" BrushLayer="Default" BrushValueType="Height" />
+  </Constants>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsVisible="@IsEnabled">
+      <Children>
+
+        <!--Kill Notifications-->
+        <TrainingGroundKillFeed DataSource="{KillNotifications}" />
+
+        <!--Markers-->
+        <TrainingGroundTargetMarkers DataSource="{Markers}" />
+
+        <!-- Ongoing Duels -->
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" IsVisible="@AreOngoingDuelsActive">
+          <Children>
+            <ListPanel DataSource="{OngoingDuels}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="20" MarginLeft="20" HorizontalAlignment="Left" StackLayout.LayoutMethod="VerticalBottomToTop">
+              <ItemTemplate>
+
+                <DuelArenaFlagVisualBrushWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPHUD.Duel.OngoingBattle.Background" MarginLeft="10" MarginTop="10" ArenaType="@ArenaType">
+                  <Children>
+
+                    <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight">
+                      <Children>
+
+                        <!-- Flag -->
+                        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" >
+                          <Children>
+                            <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="48" SuggestedHeight="55" Brush="MPHUD.Duel.Arena.Flag.Background" ArenaType="@ArenaType" />
+                            <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="33" SuggestedHeight="33" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-3" Brush="MPHUD.Duel.Arena.Flag.Foreground" ArenaType="@ArenaType" />
+                          </Children>
+                        </Widget>
+
+                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="10" MarginTop="3" StackLayout.LayoutMethod="VerticalBottomToTop">
+                          <Children>
+                            <ScrollingRichTextWidget DataSource="{FirstPlayer}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="170" SuggestedHeight="25" Brush="MPHUD.OngoingDuel.Player.Name.Text" Text="@Name" />
+                            <ScrollingRichTextWidget DataSource="{SecondPlayer}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="170" SuggestedHeight="25" Brush="MPHUD.OngoingDuel.Player.Name.Text" Text="@Name" />
+                          </Children>
+                        </ListPanel>
+
+                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" MarginLeft="10" MarginRight="30" MarginTop="3" StackLayout.LayoutMethod="VerticalBottomToTop">
+                          <Children>
+                            <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="20" SuggestedHeight="25" Brush="MPHUD.OngoingDuel.Score.Text" IntText="@FirstPlayerScore" />
+                            <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="20" SuggestedHeight="25" Brush="MPHUD.OngoingDuel.Score.Text" IntText="@SecondPlayerScore" />
+                          </Children>
+                        </ListPanel>
+
+                      </Children>
+                    </ListPanel>
+
+                  </Children>
+                </DuelArenaFlagVisualBrushWidget>
+
+              </ItemTemplate>
+            </ListPanel>
+          </Children>
+        </Widget>
+
+        <!--Server Countdown Timer-->
+        <Widget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="70" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="15" ExtendTop="2" ExtendBottom="2" Sprite="BlankWhiteSquare_9" Color="#000000FF" AlphaFactor="0.6">
+          <Children>
+            <TextWidget Id="CountdownText" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" Brush="MPHUD.CountdownText" Text="@RemainingRoundTime" />
+          </Children>
+        </Widget>
+
+        <!-- Player's Arena Preference -->
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="50" IsVisible="@AreOngoingDuelsActive">
+          <Children>
+            <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="MPHUD.Duel.Preferred.Arena.Flag.Background" ArenaType="@PlayerPrefferedArenaType" />
+            <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="40" HorizontalAlignment="Center" VerticalAlignment="Center" MarginBottom="10" Brush="MPHUD.Duel.Arena.Flag.Foreground" ArenaType="@PlayerPrefferedArenaType" />
+          </Children>
+        </Widget>
+
+        <!--Current Duel-->
+        <Widget DataSource="{PlayerDuelMatch}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsVisible="@IsEnabled">
+          <Children>
+
+            <!--Countdown-->
+            <Widget DoNotAcceptEvents="true" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="140" IsVisible="@IsPreparing">
+              <Children>
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="23" MarginRight="23" Text="@CountdownMessage" Brush="MPHUD.Duel.Countdown.Text" />
+              </Children>
+            </Widget>
+
+            <!-- Flag -->
+            <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="20" MarginLeft="20">
+              <Children>
+                <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="48" SuggestedHeight="55" Brush="MPHUD.Duel.Arena.Flag.Background" ArenaType="@ArenaType" />
+                <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="33" SuggestedHeight="33" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-3" Brush="MPHUD.Duel.Arena.Flag.Foreground" ArenaType="@ArenaType" />
+              </Children>
+            </Widget>
+
+            <!--Players and Scores-->
+            <ListPanel WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="400" HorizontalAlignment="Center" MarginTop="30" StackLayout.LayoutMethod="HorizontalSpaced">
+              <Children>
+
+                <!--First Player-->
+                <MultiplayerTeamPlayerAvatarButtonWidget DataSource="{FirstPlayer}" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="180" SuggestedHeight="140" AvatarImage="AvatarImage" IsDead="false" UpdateChildrenStates="true">
+                  <Children>
+                    <ImageIdentifierWidget Id="AvatarImage" DataSource="{Avatar}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!UserProfile.Width" SuggestedHeight="!UserProfile.Height" HorizontalAlignment="Center" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" MaterialAlphaFactor="0.7" />
+
+                    <Widget Id="NameParentWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="20" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="62">
+                      <Children>
+                        <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="85" Brush.Sprite="BlankWhiteSquare_9" Brush.AlphaFactor="0.5" Brush.Color="#000000FF" HorizontalAlignment="Center" VerticalAlignment="Top">
+                          <Children>
+                            <ScrollingRichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPHUD.UserProfile.NameText" Brush.TextHorizontalAlignment="Center" Brush.FontSize="15" Text="@Name" />
+                          </Children>
+                        </BrushWidget>
+                      </Children>
+                    </Widget>
+
+                    <!--Class-->
+                    <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="35" HorizontalAlignment="Left" MarginLeft="35" MarginTop="26" Brush="MPHUD.Duel.Card.Class.Outline">
+                      <Children>
+
+                        <MultiplayerTroopTypeIconWidget DataSource="{CompassElement}" Id="IconContainer" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="100" HorizontalAlignment="Center"  VerticalAlignment="Center" ForegroundWidget="IconForeground" IconSpriteType="@IconType" AlphaFactor="0" UseOriginalSize="false">
+                          <Children>
+                            <Widget Id="IconForeground" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="3" MarginBottom="3" MarginLeft="3" MarginRight="3" Color="#F4E1C4FF"/>
+                          </Children>
+                        </MultiplayerTroopTypeIconWidget>
+
+                      </Children>
+                    </BrushWidget>
+
+                  </Children>
+                </MultiplayerTeamPlayerAvatarButtonWidget>
+
+                <!--Score-->
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPHUD.Duel.Arena.ScoreText" MarginTop="15" Text="@Score" />
+
+                <!--Second Player-->
+                <MultiplayerTeamPlayerAvatarButtonWidget DataSource="{SecondPlayer}" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="180" SuggestedHeight="140" AvatarImage="AvatarImage" IsDead="false" UpdateChildrenStates="true">
+                  <Children>
+                    <ImageIdentifierWidget Id="AvatarImage" DataSource="{Avatar}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!UserProfile.Width" SuggestedHeight="!UserProfile.Height" HorizontalAlignment="Center" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" MaterialAlphaFactor="0.7" />
+
+                    <Widget Id="NameParentWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="20" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="62">
+                      <Children>
+                        <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="85" Brush.Sprite="BlankWhiteSquare_9" Brush.AlphaFactor="0.5" Brush.Color="#000000FF" HorizontalAlignment="Center" VerticalAlignment="Top">
+                          <Children>
+                            <ScrollingRichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MPHUD.UserProfile.NameText" Brush.TextHorizontalAlignment="Center" Brush.FontSize="15" Text="@Name" />
+                          </Children>
+                        </BrushWidget>
+                      </Children>
+                    </Widget>
+
+
+                    <!--Class-->
+                    <BrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="35" HorizontalAlignment="Right" MarginRight="35" MarginTop="26" Brush="MPHUD.Duel.Card.Class.Outline">
+                      <Children>
+
+                        <MultiplayerTroopTypeIconWidget DataSource="{CompassElement}" Id="IconContainer" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="100" HorizontalAlignment="Center"  VerticalAlignment="Center" ForegroundWidget="IconForeground" IconSpriteType="@IconType" AlphaFactor="0" UseOriginalSize="false">
+                          <Children>
+                            <Widget Id="IconForeground" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="3" MarginBottom="3" MarginLeft="3" MarginRight="3" Color="#F4E1C4FF"/>
+                          </Children>
+                        </MultiplayerTroopTypeIconWidget>
+
+                      </Children>
+                    </BrushWidget>
+
+                  </Children>
+                </MultiplayerTeamPlayerAvatarButtonWidget>
+
+
+              </Children>
+            </ListPanel>
+
+          </Children>
+        </Widget>
+
+        <!-- Bounty & Score-->
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" MarginBottom="10" MarginRight="15" Sprite="General\Mission\PersonalKillfeed\personal_killfeed_notification_9" ExtendLeft="60" ExtendRight="30" Color="#D7931CFF" AlphaFactor="0.7">
+          <Children>
+            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Center" MarginRight="45">
+              <Children>
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" MarginRight="5" Brush="MPHUD.GoldAmount.Text" ClipContents="false" IntText="@PlayerBounty" Brush.FontSize="42" />
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="35" HorizontalAlignment="Right" VerticalAlignment="Center"  Sprite="General\Icons\bounty_icon_player" />
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" MarginRight="5" MarginLeft="15" Brush="MPHUD.GoldAmount.Text" ClipContents="false" Text="@PlayerScoreText" Brush.FontSize="42" />
+              </Children>
+            </ListPanel>
+          </Children>
+        </Widget>
+
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>
