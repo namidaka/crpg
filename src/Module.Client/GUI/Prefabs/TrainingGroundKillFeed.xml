@@ -1,0 +1,51 @@
+﻿<Prefab>
+  <Constants>
+    <Constant Name="KillNotification.Background.Width" BrushName="MPHUD.KillNotification.Background" BrushLayer="Default" BrushValueType="Width" />
+    <Constant Name="KillNotification.Background.Height" BrushName="MPHUD.KillNotification.Background" BrushLayer="Default" BrushValueType="Height" />
+  </Constants>
+  <Window>
+    <!--Kill Notifications-->
+    <MultiplayerGeneralKillFeedWidget DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right" MarginTop="125" MarginRight="20" VerticalPaddingAmount="10">
+      <ItemTemplate>
+        <MultiplayerDuelKillFeedItemWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="276" SuggestedHeight="37.2" HorizontalAlignment="Right" Command.OnRemove="ExecuteRemove" IsEndOfDuel="@IsEndOfDuel" Background="NotificationParent\Background" VictimCompassBackground="NotificationParent\VictimCompassElement\Background" MurdererCompassBackground="NotificationParent\MurdererCompassElement\Background" VictimNameText="NotificationParent\VictimNameText" MurdererNameText="NotificationParent\MurdererNameText" VictimScoreText="NotificationParent\VictimScoreText" MurdererScoreText="NotificationParent\MurdererScoreText">
+          <Children>
+            <Widget Id="NotificationParent" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="187.2" HorizontalAlignment="Center">
+              <Children>
+                <!--Flag and Letter Code-->
+                <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Center" PositionXOffset="-90" PositionYOffset="3">
+                  <Children>
+                    <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="34" SuggestedHeight="38" Brush="MPHUD.Duel.Arena.Flag.Background" ArenaType="@ArenaType" />
+                    <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="28" SuggestedHeight="28" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-2" Brush="MPHUD.Duel.Arena.Flag.Foreground" ArenaType="@ArenaType" />
+                  </Children>
+                </Widget>
+
+                <BrushWidget Id="Background" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPHud\kill_feed_bg_full_duel" Brush="MPHUD.Duel.KillFeed.Background" Color="#9370DBFF" />
+
+                <!--First Player-->
+                <ScrollingRichTextWidget Id="VictimNameText" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="130" MarginLeft="20" PositionYOffset="3" Brush="MPHUD.KillFeed.Text" Text="@FirstPlayerName" DefaultTextHorizontalAlignment="Left" />
+                <TextWidget Id="VictimScoreText" IntText="@FirstPlayerScore" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" PositionYOffset="7" Brush="MPHUD.KillFeed.ScoreText" Brush.TextHorizontalAlignment="Left" />
+
+                <!--Second Player-->
+                <ScrollingRichTextWidget Id="MurdererNameText" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="130" VerticalAlignment="Bottom" PositionYOffset="-1" Brush="MPHUD.KillFeed.Text" Text="@SecondPlayerName" MarginLeft="30" DefaultTextHorizontalAlignment="Right" />
+                <TextWidget Id="MurdererScoreText" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" VerticalAlignment="Bottom" PositionXOffset="5" PositionYOffset="-1" Brush="MPHUD.KillFeed.ScoreText" IntText="@SecondPlayerScore" Brush.TextHorizontalAlignment="Right" />
+
+                <MultiplayerClassLoadoutTroopSubclassButtonWidget Id="VictimCompassElement" DataSource="{FirstPlayerCompassElement}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Center" PositionXOffset="-50" IconWidget="Icon" TroopType="@IconType">
+                  <Children>
+                    <BrushWidget Id="Background" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="45" SuggestedHeight="45" Brush="MPHUD.Duel.KillFeed.Class.Background" />
+                    <BrushWidget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="45" SuggestedHeight="45" VerticalAlignment="Center" Brush="MPClassLoadout.TroopBanner.ItemIcon" />
+                  </Children>
+                </MultiplayerClassLoadoutTroopSubclassButtonWidget>
+                <MultiplayerClassLoadoutTroopSubclassButtonWidget Id="MurdererCompassElement" DataSource="{SecondPlayerCompassElement}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Center" PositionXOffset="55" IconWidget="Icon" TroopType="@IconType">
+                  <Children>
+                    <BrushWidget Id="Background" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="45" SuggestedHeight="45" Brush="MPHUD.Duel.KillFeed.Class.Background" />
+                    <BrushWidget Id="Icon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="45" SuggestedHeight="45" VerticalAlignment="Center" Brush="MPClassLoadout.TroopBanner.ItemIcon" />
+                  </Children>
+                </MultiplayerClassLoadoutTroopSubclassButtonWidget>
+              </Children>
+            </Widget>
+          </Children>
+        </MultiplayerDuelKillFeedItemWidget>
+      </ItemTemplate>
+    </MultiplayerGeneralKillFeedWidget>
+  </Window>
+</Prefab>
