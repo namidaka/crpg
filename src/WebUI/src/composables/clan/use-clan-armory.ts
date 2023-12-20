@@ -14,6 +14,7 @@ export const useClanArmory = (clanId: number) => {
     isLoading: isLoadingClanArmory,
   } = useAsyncState(() => getClanArmory(clanId), [], {
     immediate: false,
+    resetOnExecute: false,
   });
 
   const addItem = (itemId: number) => addItemToClanArmory(clanId, itemId);

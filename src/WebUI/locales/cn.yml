@@ -772,7 +772,7 @@ clan:
     empty: 军械库是空的
     filter:
       hideOwned: 隐藏自有物品
-      hideBorrowed: 只显示可用项目
+      showOnlyAvailable: 只显示可用项目
     item:
       lender:
         tooltip:
@@ -781,6 +781,7 @@ clan:
         title: 借用 {user}
         validation:
           borrowed: 物品已被借走
+          isInInventory: 您的库存中已有相同物品
         notify:
           success: 从军械库成功借用的物品
       borrowed:

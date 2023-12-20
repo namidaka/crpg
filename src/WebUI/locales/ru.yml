@@ -773,7 +773,7 @@ clan:
     empty: Оружейная пуста
     filter:
       hideOwned: Скрывать ваши предметы
-      hideBorrowed: Показывать только доступные
+      showOnlyAvailable: Показывать только доступные
     item:
       lender:
         tooltip:
@@ -782,6 +782,7 @@ clan:
         title: Одолжить у {user}
         validation:
           borrowed: Предмет занят
+          isInInventory: Такой же предмет у вас уже есть
         notify:
           success: Предмет, успешно взят из оружейной комнаты
       borrowed:

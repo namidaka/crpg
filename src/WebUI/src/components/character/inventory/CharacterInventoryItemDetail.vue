@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { itemSellCostPenalty } from '@root/data/constants.json';
-import { type CompareItemsResult, type ItemFlat } from '@/models/item';
+import { type CompareItemsResult } from '@/models/item';
 import { type UserItem, type UserPublic } from '@/models/user';
-import {
-  getAggregationsConfig,
-  getVisibleAggregationsConfig,
-} from '@/services/item-search-service';
+
 import {
   computeSalePrice,
   computeBrokenItemRepairCost,
@@ -13,16 +10,13 @@ import {
   canAddedToClanArmory,
 } from '@/services/item-service';
 import { parseTimestamp } from '@/utils/date';
-import { omitPredicate } from '@/utils/object';
 import { useUserStore } from '@/stores/user';
 
 const {
-  item,
   userItem,
   compareResult,
   equipped = false,
 } = defineProps<{
-  item: ItemFlat;
   userItem: UserItem;
   compareResult?: CompareItemsResult;
   equipped?: boolean;
@@ -40,7 +34,7 @@ const userItemToReplaceSalePrice = computed(() => {
   };
 });
 
-const repairCost = computed(() => computeBrokenItemRepairCost(item.price));
+const repairCost = computed(() => computeBrokenItemRepairCost(userItem.item.price));
 
 const emit = defineEmits<{
   sell: [];
@@ -52,29 +46,10 @@ const emit = defineEmits<{
   returnToClanArmory: [];
 }>();
 
-const omitEmptyParam = (field: keyof ItemFlat) => {
-  if (Array.isArray(item[field]) && (item[field] as string[]).length === 0) {
-    return false;
-  }
-
-  if (item[field] === 0) {
-    return false;
-  }
-
-  return true;
-};
-
-const aggregationsConfig = computed(() =>
-  omitPredicate(
-    getVisibleAggregationsConfig(getAggregationsConfig(item.type, item.weaponClass)),
-    (key: keyof ItemFlat) => omitEmptyParam(key)
-  )
-);
-
 const isOwnArmoryItem = computed(() => userItem.isArmoryItem && userItem.userId === user.value!.id);
 const isSellable = computed(() => userItem.item.rank <= 0 && !userItem.isArmoryItem);
-const isUpgradable = computed(() => canUpgrade(item.type) && !userItem.isArmoryItem);
-const isCanAddedToClanArmory = computed(() => canAddedToClanArmory(item.type));
+const isUpgradable = computed(() => canUpgrade(userItem.item.type) && !userItem.isArmoryItem);
+const isCanAddedToClanArmory = computed(() => canAddedToClanArmory(userItem.item.type));
 </script>
 
 <template>
@@ -98,7 +73,18 @@ const isCanAddedToClanArmory = computed(() => canAddedToClanArmory(item.type));
         v-tooltip="$t('character.inventory.item.broken.tooltip.title')"
       />
 
-      <CharacterInventoryItemArmoryTag v-if="lender || userItem.isArmoryItem" :lender="lender" />
+      <template v-if="userItem.isArmoryItem">
+        <ClanArmoryItemRelationBadge v-if="lender && lender.id !== user!.id" :lender="lender" />
+        <Tag
+          v-else
+          rounded
+          size="lg"
+          variant="primary"
+          icon="armory"
+          class="cursor-default opacity-80 hover:opacity-100"
+          v-tooltip="$t('character.inventory.item.clanArmory.inArmory.title')"
+        />
+      </template>
     </template>
 
     <template #actions>
@@ -194,16 +180,13 @@ const isCanAddedToClanArmory = computed(() => canAddedToClanArmory(item.type));
         <template #popper>
           <div class="container pb-2 pt-12">
             <CharacterInventoryItemUpgrades
-              :item="item"
-              :cols="aggregationsConfig"
+              :userItem="userItem"
               @upgrade="emit('upgrade')"
               @reforge="emit('reforge')"
             />
           </div>
         </template>
       </Modal>
-
-      <!-- CLAN ARMORY -->
 
       <template v-if="clan && isCanAddedToClanArmory">
         <ConfirmActionTooltip
@@ -233,6 +216,7 @@ const isCanAddedToClanArmory = computed(() => canAddedToClanArmory(item.type));
           >
             <OButton
               variant="warning"
+              icon-left="armory"
               expanded
               rounded
               size="lg"

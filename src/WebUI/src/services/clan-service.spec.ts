@@ -450,13 +450,12 @@ it.each<[ClanArmoryItem, ClanMember[], UserPublic | null]>([
   expect(getClanArmoryItemBorrower(clanArmoryItem, clanMembers)).toEqual(expectation);
 });
 
-it.each<[UserItem, number, ClanMember[], UserPublic | null]>([
+it.each<[UserItem, ClanMember[], UserPublic | null]>([
   [
     {
       isArmoryItem: false,
       userId: 1,
     } as UserItem,
-    1,
     [],
     null,
   ],
@@ -465,7 +464,6 @@ it.each<[UserItem, number, ClanMember[], UserPublic | null]>([
       isArmoryItem: true,
       userId: 2,
     } as UserItem,
-    1,
     [],
     null,
   ],
@@ -474,7 +472,6 @@ it.each<[UserItem, number, ClanMember[], UserPublic | null]>([
       isArmoryItem: true,
       userId: 2,
     } as UserItem,
-    1,
     [
       {
         user: {
@@ -489,7 +486,6 @@ it.each<[UserItem, number, ClanMember[], UserPublic | null]>([
       isArmoryItem: true,
       userId: 2,
     } as UserItem,
-    1,
     [
       {
         user: {
@@ -499,6 +495,6 @@ it.each<[UserItem, number, ClanMember[], UserPublic | null]>([
     ],
     { id: 2 } as UserPublic,
   ],
-])('getClanArmoryItemLender', (userItem, userId, clanMembers, expectation) => {
-  expect(getClanArmoryItemLender(userItem, userId, clanMembers)).toEqual(expectation);
+])('getClanArmoryItemLender', (userItem, clanMembers, expectation) => {
+  expect(getClanArmoryItemLender(userItem, clanMembers)).toEqual(expectation);
 });

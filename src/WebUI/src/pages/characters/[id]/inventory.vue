@@ -303,7 +303,12 @@ await Promise.all(promises);
                   ? $t('character.inventory.filter.showInArmory')
                   : $t('character.inventory.filter.hideInArmory')
               "
-              @click="hideInArmoryItemsModel = !hideInArmoryItemsModel"
+              @click="
+                () => {
+                  hideInArmoryItemsModel = !hideInArmoryItemsModel;
+                  filterByTypeModel = [];
+                }
+              "
             />
 
             <ItemGridFilter
@@ -342,7 +347,7 @@ await Promise.all(promises);
                 :notMeetRequirement="
                   validateItemNotMeetRequirement(userItem.item, characterCharacteristics)
                 "
-                :lender="getClanArmoryItemLender(userItem, userStore.user!.id, clanMembers)"
+                :lender="getClanArmoryItemLender(userItem, clanMembers)"
                 draggable="true"
                 @dragstart="onDragStart(userItem)"
                 @dragend="onDragEnd"
@@ -465,13 +470,11 @@ await Promise.all(promises);
             compareItemsResult.find(cr => cr.type === flatItems.find(fi => fi.id === di.id)!.type)
               ?.compareResult
           "
-          :item="flatItems.find(fi => fi.id === di.id)!"
           :userItem="userStore.userItems.find(ui => ui.id === di.userItemId)!"
           :equipped="equippedItemsIds.includes(di.userItemId)"
           :lender="
             getClanArmoryItemLender(
               userStore.userItems.find(ui => ui.id === di.userItemId)!,
-              userStore.user!.id,
               clanMembers
             )
           "

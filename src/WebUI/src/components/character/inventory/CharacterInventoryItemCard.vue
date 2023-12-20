@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type UserItem, type UserPublic } from '@/models/user';
 import { getItemGraceTimeEnd, isGraceTimeExpired } from '@/services/item-service';
+import { useUserStore } from '@/stores/user';
 
 const {
   userItem,
@@ -12,6 +13,8 @@ const {
   notMeetRequirement: boolean;
   lender?: UserPublic | null;
 }>();
+
+const { user } = toRefs(useUserStore());
 
 const isNew = computed(() => !isGraceTimeExpired(getItemGraceTimeEnd(userItem)));
 </script>
@@ -28,7 +31,18 @@ const isNew = computed(() => !isGraceTimeExpired(getItemGraceTimeEnd(userItem)))
         class="cursor-default opacity-80 hover:opacity-100"
       />
 
-      <CharacterInventoryItemArmoryTag v-if="lender || userItem.isArmoryItem" :lender="lender" />
+      <template v-if="userItem.isArmoryItem">
+        <ClanArmoryItemRelationBadge v-if="lender && lender.id !== user!.id" :lender="lender" />
+        <Tag
+          v-else
+          rounded
+          size="lg"
+          variant="primary"
+          icon="armory"
+          class="cursor-default opacity-80 hover:opacity-100"
+          v-tooltip="$t('character.inventory.item.clanArmory.inArmory.title')"
+        />
+      </template>
     </template>
 
     <template #badges-bottom-left>

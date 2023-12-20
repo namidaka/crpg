@@ -4,7 +4,12 @@ import { ItemType } from '@/models/item';
 import { type AggregationConfig, AggregationView, type SortingConfig } from '@/models/item-search';
 import { createItemIndex } from '@/services/item-search-service/indexator';
 import { getSearchResult } from '@/services/item-search-service';
-import { getClanArmoryItemBorrower } from '@/services/clan-service';
+import {
+  getClanArmoryItemLender,
+  getClanArmoryItemBorrower,
+  isOwnClanArmoryItem,
+  isClanArmoryItemInInventory,
+} from '@/services/clan-service';
 import { notify } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
 import { useClan } from '@/composables/clan/use-clan';
@@ -13,6 +18,7 @@ import { useItemDetail } from '@/composables/character/use-item-detail';
 import { usePagination } from '@/composables/use-pagination';
 import { useClanMembers } from '@/composables/clan/use-clan-members';
 import { useUserStore } from '@/stores/user';
+import { scrollToTop } from '@/utils/scroll';
 
 definePage({
   props: true,
@@ -30,9 +36,8 @@ const props = defineProps<{
 const userStore = useUserStore();
 
 const { clanId, loadClan } = useClan(props.id);
-const { clanArmory, loadClanArmory, isLoadingClanArmory, borrowItem, removeItem } = useClanArmory(
-  clanId.value
-);
+const { clanArmory, loadClanArmory, isLoadingClanArmory, borrowItem, removeItem, returnItem } =
+  useClanArmory(clanId.value);
 const { clanMembers, loadClanMembers } = useClanMembers(clanId.value);
 
 const onBorrowFromClanArmory = async (userItemId: number) => {
@@ -45,6 +50,12 @@ const onRemoveFromClanArmory = async (userItemId: number) => {
   await removeItem(userItemId);
   await Promise.all([userStore.fetchUser(), userStore.fetchUserItems(), loadClanArmory()]);
   notify(t('clan.armory.item.remove.notify.success'));
+};
+
+const onReturnFromClanArmory = async (userItemId: number) => {
+  await returnItem(userItemId);
+  await Promise.all([userStore.fetchUser(), userStore.fetchUserItems(), loadClanArmory()]);
+  notify(t('clan.armory.item.return.notify.success'));
 };
 
 const sortingConfig: SortingConfig = {
@@ -71,19 +82,26 @@ const aggregationConfig = {
 
 const sortingModel = ref<string>('rank_desc');
 const filterByTypeModel = ref<ItemType[]>([]);
+watch(filterByTypeModel, () => {
+  pageModel.value = 1;
+});
 const filterByNameModel = ref<string>('');
 const { pageModel } = usePagination();
-const perPage = 16;
+const perPage = 24;
 const hideOwnedItemsModel = useStorage<boolean>('clan-armory-hide-owned-items', true);
-const hideBorrowedItemsModel = useStorage<boolean>('clan-armory-hide-borrowed-items', true);
+const showOnlyAvailableItems = useStorage<boolean>('clan-armory-hide-borrowed-items', true);
 
 const flatItems = computed(() =>
   createItemIndex(
     clanArmory.value
       .filter(
         item =>
-          (hideOwnedItemsModel.value ? item.userItem.userId !== userStore.user!.id : true) &&
-          (hideBorrowedItemsModel.value ? item.borrowedItem === null : true)
+          (hideOwnedItemsModel.value ? !isOwnClanArmoryItem(item, userStore.user!.id) : true) &&
+          (showOnlyAvailableItems.value
+            ? item.borrowedItem === null &&
+              !isOwnClanArmoryItem(item, userStore.user!.id) &&
+              !isClanArmoryItemInInventory(item, userStore.userItems)
+            : true)
       )
       .map(ca => ca.userItem.item)
   )
@@ -120,9 +138,18 @@ const filteredClanArmoryItems = computed(() => {
     });
 });
 
+const getClanArmoryItem = (userItemId: number) => {
+  return clanArmory.value.find(ca => ca.userItem.id === userItemId);
+};
+
 const { toggleItemDetail, closeItemDetail } = useItemDetail();
 
-await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClanMembers()]);
+await Promise.all([
+  userStore.fetchUserItems(),
+  loadClan(0, { id: clanId.value }),
+  loadClanArmory(),
+  loadClanMembers(),
+]);
 </script>
 
 <template>
@@ -145,18 +172,36 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
       <div v-if="clanArmory.length !== 0" class="itemGrid relative grid h-full gap-x-3 gap-y-4">
         <div style="grid-area: filter" class="space-y-2">
           <VDropdown :triggers="['click']" placement="bottom-end">
-            <MoreOptionsDropdownButton :active="hideOwnedItemsModel || hideBorrowedItemsModel" />
+            <MoreOptionsDropdownButton :active="hideOwnedItemsModel || showOnlyAvailableItems" />
 
             <template #popper="{ hide }">
               <DropdownItem>
-                <OCheckbox v-model="hideOwnedItemsModel" :nativeValue="true" @change="hide">
+                <OCheckbox
+                  v-model="hideOwnedItemsModel"
+                  :nativeValue="true"
+                  @change="
+                    () => {
+                      hide();
+                      filterByTypeModel = [];
+                    }
+                  "
+                >
                   {{ $t('clan.armory.filter.hideOwned') }}
                 </OCheckbox>
               </DropdownItem>
 
               <DropdownItem>
-                <OCheckbox v-model="hideBorrowedItemsModel" :nativeValue="true" @change="hide">
-                  {{ $t('clan.armory.filter.hideBorrowed') }}
+                <OCheckbox
+                  v-model="showOnlyAvailableItems"
+                  :nativeValue="true"
+                  @change="
+                    () => {
+                      hide();
+                      filterByTypeModel = [];
+                    }
+                  "
+                >
+                  {{ $t('clan.armory.filter.showOnlyAvailable') }}
                 </OCheckbox>
               </DropdownItem>
             </template>
@@ -166,6 +211,7 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
             v-if="'type' in searchResult.data.aggregations"
             v-model="filterByTypeModel"
             :buckets="searchResult.data.aggregations.type.buckets"
+            @click="scrollToTop"
           />
         </div>
 
@@ -206,14 +252,15 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
           </div>
         </div>
 
-        <Pagination
-          v-if="perPage < searchResult.pagination.total"
-          style="grid-area: footer"
-          class="justify-center"
-          v-model="pageModel"
-          :total="searchResult.pagination.total"
-          :perPage="perPage"
-        />
+        <div style="grid-area: footer" class="sticky bottom-4 z-10">
+          <Pagination
+            v-if="perPage < searchResult.pagination.total"
+            class="justify-center"
+            v-model="pageModel"
+            :total="searchResult.pagination.total"
+            :perPage="perPage"
+          />
+        </div>
       </div>
 
       <ResultNotFound
@@ -226,20 +273,11 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
     <ItemDetailGroup>
       <template #default="di">
         <ClanArmoryItemDetail
-          :clanArmoryItem="clanArmory.find(ca => ca.userItem.id === di.userItemId)!"
+          :clanArmoryItem="getClanArmoryItem(di.userItemId)!"
           :lender="
-            clanMembers.find(
-              cm =>
-                cm.user.id ===
-                clanArmory.find(ca => ca.userItem.id === di.userItemId)!.userItem.userId
-            )!.user
+            getClanArmoryItemLender(getClanArmoryItem(di.userItemId)!.userItem, clanMembers)!
           "
-          :borrower="
-            getClanArmoryItemBorrower(
-              clanArmory.find(ca => ca.userItem.item.id === di.id)!,
-              clanMembers
-            )
-          "
+          :borrower="getClanArmoryItemBorrower(getClanArmoryItem(di.userItemId)!, clanMembers)"
           @borrow="
             id => {
               closeItemDetail(di.id);
@@ -250,6 +288,12 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanArmory(), loadClan
             id => {
               closeItemDetail(di.id);
               onRemoveFromClanArmory(id);
+            }
+          "
+          @return="
+            id => {
+              closeItemDetail(di.id);
+              onReturnFromClanArmory(id);
             }
           "
         />

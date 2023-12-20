@@ -4,7 +4,6 @@ import { type Item } from '@/models/item';
 import { notify } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
 import { useItem } from '@/composables/item/use-item';
-
 import { createItemIndex } from '@/services/item-search-service/indexator';
 import { ItemCompareMode, type CompareItemsResult, type ItemFlat } from '@/models/item';
 import {

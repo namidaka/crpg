@@ -1,22 +1,48 @@
 <script setup lang="ts">
 import { ItemCompareMode, ItemRank, type ItemFlat } from '@/models/item';
-import { type AggregationConfig } from '@/models/item-search';
+import { type UserItem,  } from '@/models/user';
 import { useItemUpgrades } from '@/composables/item/use-item-upgrades';
 import { useItemReforge } from '@/composables/item/use-item-reforge';
 import { useUserStore } from '@/stores/user';
 import { getRankColor } from '@/services/item-service';
+import {
+  getAggregationsConfig,
+  getVisibleAggregationsConfig,
+} from '@/services/item-search-service';
+import { createItemIndex } from '@/services/item-search-service/indexator';
+import { omitPredicate } from '@/utils/object';
 
 const userStore = useUserStore();
 
-const { item, cols } = defineProps<{
-  item: ItemFlat;
-  cols: AggregationConfig;
+const { userItem } = defineProps<{
+  userItem: UserItem;
 }>();
 
 const emit = defineEmits<{
   upgrade: [];
   reforge: [];
 }>();
+
+const item = computed(() => createItemIndex([userItem.item])[0]);
+
+const omitEmptyParam = (field: keyof ItemFlat) => {
+  if (Array.isArray(item.value[field]) && (item.value[field] as string[]).length === 0) {
+    return false;
+  }
+
+  if (item.value[field] === 0) {
+    return false;
+  }
+
+  return true;
+};
+
+const aggregationsConfig = computed(() =>
+  omitPredicate(
+    getVisibleAggregationsConfig(getAggregationsConfig(item.value.type, item.value.weaponClass)),
+    (key: keyof ItemFlat) => omitEmptyParam(key)
+  )
+);
 
 const {
   itemUpgrades,
@@ -26,14 +52,14 @@ const {
   nextItem,
   validation: upgradeValidation,
   canUpgrade,
-} = useItemUpgrades(item, cols);
+} = useItemUpgrades(item.value, aggregationsConfig.value);
 
 const {
   reforgeCost,
   reforgeCostTable,
   validation: reforgeValidation,
   canReforge,
-} = useItemReforge(item);
+} = useItemReforge(item.value);
 </script>
 
 <template>
@@ -270,7 +296,7 @@ const {
       </OTableColumn>
 
       <OTableColumn
-        v-for="field in Object.keys(cols) as Array<keyof ItemFlat>"
+        v-for="field in Object.keys(aggregationsConfig) as Array<keyof ItemFlat>"
         #default="{ row: rowItem }: { row: ItemFlat }"
         :field="field"
         :label="$t(`item.aggregations.${field}.title`)"
