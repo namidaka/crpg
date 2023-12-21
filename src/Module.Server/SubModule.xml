@@ -65,7 +65,13 @@
       <XmlName id="MPClassDivisions" path="class_divisions"/>
     </XmlNode>
     <XmlNode>
-      <XmlName id="DtvData" path="dtv_data"/>
+      <XmlName id="MPCharacters" path="dtv/dtv_characters"/>
+    </XmlNode>
+    <XmlNode>
+      <XmlName id="MPClassDivisions" path="dtv/dtv_class_divisions"/>
+    </XmlNode>
+    <XmlNode>
+      <XmlName id="DtvData" path="dtv/dtv_data"/>
     </XmlNode>
     <XmlNode>
       <XmlName id="Monsters" path="monsters"/>
