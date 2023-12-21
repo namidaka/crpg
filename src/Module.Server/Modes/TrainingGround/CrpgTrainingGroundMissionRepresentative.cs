@@ -58,7 +58,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
     {
         if (GameNetwork.IsClient)
         {
-            GameNetwork.NetworkMessageHandlerRegisterer networkMessageHandlerRegisterer = new GameNetwork.NetworkMessageHandlerRegisterer(mode);
+            GameNetwork.NetworkMessageHandlerRegisterer networkMessageHandlerRegisterer = new(mode);
             networkMessageHandlerRegisterer.Register<NetworkMessages.FromServer.DuelRequest>(HandleServerEventDuelRequest);
             networkMessageHandlerRegisterer.Register<DuelSessionStarted>(HandleServerEventDuelSessionStarted);
             networkMessageHandlerRegisterer.Register<DuelPreparationStartedForTheFirstTime>(HandleServerEventDuelStarted);

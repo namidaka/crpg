@@ -1,5 +1,4 @@
-﻿using Crpg.Module.Common;
-using Crpg.Module.Rewards;
+﻿using Crpg.Module.Rewards;
 using NetworkMessages.FromClient;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
@@ -7,7 +6,6 @@ using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.MissionRepresentatives;
 using TaleWorlds.MountAndBlade.Network.Messages;
 using TaleWorlds.ObjectSystem;
 
