@@ -972,10 +972,10 @@
         <equipment slot="Item0" id="Item.crpg_pitchfork_v1_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_nordic_leather_cap_v2" />
+        <equipment slot="Head" id="Item.crpg_nordic_leather_cap_v2_h0" />
         <equipment slot="Body" id="Item.crpg_burlap_waistcoat_v2_h0" />
-        <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2" />
-        <equipment slot="Item0" id="Item.crpg_hatchet_v1" />
+        <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_hatchet_v1_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
