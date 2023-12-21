@@ -135,6 +135,7 @@
   <string id="str_multiplayer_scene_name.crpg_conquest_jameyyedcastle" text="{=TtprOazr}Jameyyed Castle" />
   <string id="str_multiplayer_scene_name.crpg_conquest_knightscrest" text="{=Kgiopaqf}Knights Crest" />
   <string id="str_multiplayer_scene_name.crpg_conquest_talmberg" text="{=TBergyuj}Talmberg" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_volskulkeep" text="{=V0lSkuLK}Volskul Keep" />
 
   <!-- DTV Maps -->
   <string id="str_multiplayer_scene_name.crpg_dtv_encampment" text="{=ArnxGr8j1j}Encampment" />
