@@ -16,14 +16,6 @@ namespace Crpg.Module.Modes.TrainingGround;
 
 internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
 {
-    private readonly CrpgRewardServer _rewardServer;
-    private MissionTimer? _rewardTickTimer;
-
-    public CrpgTrainingGroundServer(CrpgRewardServer rewardServer)
-    {
-        _rewardServer = rewardServer;
-    }
-
     private class DuelInfo
     {
         private enum ChallengerType
@@ -136,7 +128,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
                 }
                 else
                 {
-                    _winnerChallengerType = ((!isConnectionActive) ? ChallengerType.Requestee : ChallengerType.Requester);
+                    _winnerChallengerType = (!isConnectionActive) ? ChallengerType.Requestee : ChallengerType.Requester;
                 }
             }
             else
@@ -284,48 +276,36 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     public delegate void OnDuelEndedDelegate(MissionPeer winnerPeer, TroopType troopType);
 
     public const float DuelRequestTimeOutInSeconds = 10f;
-
-    private const int MinBountyGain = 100;
-
-    private const string AreaBoxTagPrefix = "area_box";
-
-    private const string AreaFlagTagPrefix = "area_flag";
-
     public const int NumberOfDuelAreas = 16;
-
     public const float DuelEndInSeconds = 2f;
-
+    private const int MinBountyGain = 100;
+    private const string AreaBoxTagPrefix = "area_box";
+    private const string AreaFlagTagPrefix = "area_flag";
     private const float DuelRequestTimeOutServerToleranceInSeconds = 0.5f;
-
     private const float CorpseFadeOutTimeInSeconds = 1f;
 
-    private List<GameEntity> _duelAreaFlags = new List<GameEntity>();
+    private readonly CrpgRewardServer _rewardServer;
+    private readonly Queue<Team> _deactiveDuelTeams = new();
 
-    private List<VolumeBox> _areaBoxes = new List<VolumeBox>();
-
-    private List<DuelInfo> _duelRequests = new List<DuelInfo>();
-
-    private List<DuelInfo> _activeDuels = new List<DuelInfo>();
-
-    private List<DuelInfo> _endingDuels = new List<DuelInfo>();
-
-    private List<DuelInfo> _restartingDuels = new List<DuelInfo>();
-
-    private List<DuelInfo> _restartPreparationDuels = new List<DuelInfo>();
-
-    private readonly Queue<Team> _deactiveDuelTeams = new Queue<Team>();
-
-    private List<KeyValuePair<MissionPeer, TroopType>> _peersAndSelections = new List<KeyValuePair<MissionPeer, TroopType>>();
-
+    private MissionTimer? _rewardTickTimer;
+    private List<GameEntity> _duelAreaFlags = new();
+    private List<VolumeBox> _areaBoxes = new();
+    private List<DuelInfo> _duelRequests = new();
+    private List<DuelInfo> _activeDuels = new();
+    private List<DuelInfo> _endingDuels = new();
+    private List<DuelInfo> _restartingDuels = new();
+    private List<DuelInfo> _restartPreparationDuels = new();
+    private List<KeyValuePair<MissionPeer, TroopType>> _peersAndSelections = new();
     private VolumeBox[] _cachedSelectedVolumeBoxes = default!;
-
     private KeyValuePair<int, TroopType>[] _cachedSelectedAreaFlags = default!;
-
     public override bool IsGameModeHidingAllAgentVisuals => true;
-
     public override bool IsGameModeUsingOpposingTeams => false;
-
     public event OnDuelEndedDelegate OnDuelEnded = default!;
+
+    public CrpgTrainingGroundServer(CrpgRewardServer rewardServer)
+    {
+        _rewardServer = rewardServer;
+    }
 
     public override MultiplayerGameType GetMissionType()
     {
@@ -337,7 +317,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         base.AfterStart();
         Mission.Current.SetMissionCorpseFadeOutTimeInSeconds(1f);
         BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue());
-        Banner banner = new Banner(@object.BannerKey, @object.BackgroundColor1, @object.ForegroundColor1);
+        Banner banner = new(@object.BannerKey, @object.BackgroundColor1, @object.ForegroundColor1);
         Mission.Teams.Add(BattleSideEnum.Attacker, @object.BackgroundColor1, @object.ForegroundColor1, banner, isPlayerGeneral: false);
         _rewardTickTimer = new(60);
     }
@@ -346,7 +326,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     {
         base.OnBehaviorInitialize();
         _duelAreaFlags.AddRange(Mission.Current.Scene.FindEntitiesWithTagExpression("area_flag(_\\d+)*"));
-        List<GameEntity> list = new List<GameEntity>();
+        List<GameEntity> list = new();
         list.AddRange(Mission.Current.Scene.FindEntitiesWithTagExpression("area_box(_\\d+)*"));
         _cachedSelectedAreaFlags = new KeyValuePair<int, TroopType>[_duelAreaFlags.Count];
         for (int i = 0; i < list.Count; i++)
@@ -373,7 +353,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     protected override void HandleNewClientAfterSynchronized(NetworkCommunicator networkPeer)
     {
         MissionPeer component = networkPeer.GetComponent<MissionPeer>();
-        component.Team = base.Mission.AttackerTeam;
+        component.Team = Mission.AttackerTeam;
         _peersAndSelections.Add(new KeyValuePair<MissionPeer, TroopType>(component, TroopType.Invalid));
     }
 
@@ -433,7 +413,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     {
         if (!IsThereARequestBetweenPeers(requesterPeer, requesteePeer) && !IsHavingDuel(requesterPeer) && !IsHavingDuel(requesteePeer))
         {
-            DuelInfo duelInfo = new DuelInfo(requesterPeer, requesteePeer, GetNextAvailableDuelAreaIndex(requesterPeer.ControlledAgent));
+            DuelInfo duelInfo = new(requesterPeer, requesteePeer, GetNextAvailableDuelAreaIndex(requesterPeer.ControlledAgent));
             _duelRequests.Add(duelInfo);
             ((CrpgTrainingGroundMissionRepresentative)requesteePeer.Representative).DuelRequested(requesterPeer.ControlledAgent, duelInfo.DuelAreaTroopType);
         }
@@ -461,11 +441,11 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         for (int j = 0; j < _duelAreaFlags.Count; j++)
         {
             GameEntity gameEntity = _duelAreaFlags[j];
-            int num2 = int.Parse(gameEntity.Tags.Single((string ft) => ft.StartsWith("area_flag_")).Replace("area_flag_", ""));
+            int num2 = int.Parse(gameEntity.Tags.Single((string ft) => ft.StartsWith("area_flag_")).Replace("area_flag_", string.Empty));
             int flagIndex = num2 - 1;
             if (_activeDuels.All((DuelInfo ad) => ad.DuelAreaIndex != flagIndex) && _restartingDuels.All((DuelInfo ad) => ad.DuelAreaIndex != flagIndex) && _restartPreparationDuels.All((DuelInfo ad) => ad.DuelAreaIndex != flagIndex))
             {
-                TroopType troopType2 = ((!gameEntity.HasTag("flag_infantry")) ? (gameEntity.HasTag("flag_archery") ? TroopType.Ranged : TroopType.Cavalry) : TroopType.Infantry);
+                TroopType troopType2 = (!gameEntity.HasTag("flag_infantry")) ? (gameEntity.HasTag("flag_archery") ? TroopType.Ranged : TroopType.Cavalry) : TroopType.Infantry;
                 if (!flag && troopType2 == troopType)
                 {
                     flag = true;
@@ -543,7 +523,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     {
         if (_deactiveDuelTeams.Count <= 0)
         {
-            return base.Mission.Teams.Add(BattleSideEnum.Defender, uint.MaxValue, uint.MaxValue, null, isPlayerGeneral: true, isPlayerSergeant: false, isSettingRelations: false);
+            return Mission.Teams.Add(BattleSideEnum.Defender, uint.MaxValue, uint.MaxValue, null, isPlayerGeneral: true, isPlayerSergeant: false, isSettingRelations: false);
         }
 
         return _deactiveDuelTeams.Dequeue();
@@ -649,7 +629,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         if (!IsHavingDuel(duel.RequesteePeer) && !IsHavingDuel(duel.RequesterPeer))
         {
             _activeDuels.Add(duel);
-            Team duelTeam = (duel.Started ? duel.DuelingTeam : ActivateAndGetDuelTeam());
+            Team duelTeam = duel.Started ? duel.DuelingTeam : ActivateAndGetDuelTeam();
             duel.OnDuelPreparation(duelTeam);
             for (int i = 0; i < _duelRequests.Count; i++)
             {

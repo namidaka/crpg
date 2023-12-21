@@ -21,41 +21,23 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
     }
 
     private const string ZoneLandmarkTag = "duel_zone_landmark";
-
     private const float FocusScreenDistanceThreshold = 350f;
-
     private const float LandmarkFocusDistanceThrehsold = 500f;
-
     private bool _hasEnteredLobby;
-
     private Camera _missionCamera;
-
     private CrpgTrainingGroundPeerMarkerVm? _previousFocusTarget;
-
     private CrpgTrainingGroundPeerMarkerVm? _currentFocusTarget;
-
     private CrpgTrainingGroundLandmarkMarkerVm? _previousLandmarkTarget;
-
     private CrpgTrainingGroundLandmarkMarkerVm? _currentLandmarkTarget;
-
     private PeerMarkerDistanceComparer _distanceComparer;
-
     private readonly Dictionary<MissionPeer, CrpgTrainingGroundPeerMarkerVm> _targetPeersToMarkersDictionary;
-
     private readonly CrpgTrainingGroundMissionMultiplayerClient _client;
-
     private Vec2 _screenCenter;
-
     private Dictionary<MissionPeer, bool> _targetPeersInDuelDictionary;
-
     private int _playerPreferredArenaType;
-
     private bool _isPlayerFocused;
-
     private bool _isEnabled;
-
     private MBBindingList<CrpgTrainingGroundPeerMarkerVm> _targets = default!;
-
     private MBBindingList<CrpgTrainingGroundLandmarkMarkerVm> _landmarks = default!;
 
     [DataSourceProperty]

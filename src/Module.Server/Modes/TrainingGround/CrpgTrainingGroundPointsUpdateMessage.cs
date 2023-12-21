@@ -7,13 +7,9 @@ namespace Crpg.Module.Modes.TrainingGround;
 public sealed class CrpgTrainingGroundPointsUpdateMessage : GameNetworkMessage
 {
     public int Bounty { get; private set; }
-
     public int Score { get; private set; }
-
     public int NumberOfWins { get; private set; }
-
     public NetworkCommunicator NetworkCommunicator { get; private set; } = default!;
-
     public CrpgTrainingGroundPointsUpdateMessage()
     {
     }
@@ -28,19 +24,19 @@ public sealed class CrpgTrainingGroundPointsUpdateMessage : GameNetworkMessage
 
     protected override void OnWrite()
     {
-        GameNetworkMessage.WriteIntToPacket(Bounty, CompressionMatchmaker.ScoreCompressionInfo);
-        GameNetworkMessage.WriteIntToPacket(Score, CompressionMatchmaker.ScoreCompressionInfo);
-        GameNetworkMessage.WriteIntToPacket(NumberOfWins, CompressionMatchmaker.KillDeathAssistCountCompressionInfo);
-        GameNetworkMessage.WriteNetworkPeerReferenceToPacket(NetworkCommunicator);
+        WriteIntToPacket(Bounty, CompressionMatchmaker.ScoreCompressionInfo);
+        WriteIntToPacket(Score, CompressionMatchmaker.ScoreCompressionInfo);
+        WriteIntToPacket(NumberOfWins, CompressionMatchmaker.KillDeathAssistCountCompressionInfo);
+        WriteNetworkPeerReferenceToPacket(NetworkCommunicator);
     }
 
     protected override bool OnRead()
     {
         bool bufferReadValid = true;
-        Bounty = GameNetworkMessage.ReadIntFromPacket(CompressionMatchmaker.ScoreCompressionInfo, ref bufferReadValid);
-        Score = GameNetworkMessage.ReadIntFromPacket(CompressionMatchmaker.ScoreCompressionInfo, ref bufferReadValid);
-        NumberOfWins = GameNetworkMessage.ReadIntFromPacket(CompressionMatchmaker.KillDeathAssistCountCompressionInfo, ref bufferReadValid);
-        NetworkCommunicator = GameNetworkMessage.ReadNetworkPeerReferenceFromPacket(ref bufferReadValid);
+        Bounty = ReadIntFromPacket(CompressionMatchmaker.ScoreCompressionInfo, ref bufferReadValid);
+        Score = ReadIntFromPacket(CompressionMatchmaker.ScoreCompressionInfo, ref bufferReadValid);
+        NumberOfWins = ReadIntFromPacket(CompressionMatchmaker.KillDeathAssistCountCompressionInfo, ref bufferReadValid);
+        NetworkCommunicator = ReadNetworkPeerReferenceFromPacket(ref bufferReadValid);
         return bufferReadValid;
     }
 

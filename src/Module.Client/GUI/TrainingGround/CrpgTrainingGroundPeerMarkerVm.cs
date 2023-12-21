@@ -35,9 +35,7 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     private MPTeammateCompassTargetVM _compassElement = default!;
     private MBBindingList<MPPerkVM> _selectedPerks = default!;
     public MissionPeer TargetPeer { get; private set; }
-
     public float Distance { get; private set; }
-
     public bool IsInDuel { get; private set; }
 
     [DataSourceProperty]
