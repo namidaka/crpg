@@ -26,7 +26,7 @@ const onNameCopy = () => {
   notify(t('action.copied'));
 };
 
-const flatItem = computed(() => createItemIndex([item])[0]);
+const flatItem = computed(() => createItemIndex([JSON.parse(JSON.stringify(item))])[0]); // TODO: leak, delete JSON
 
 // TODO: to service/utils
 const omitEmptyParam = (field: keyof ItemFlat) => {

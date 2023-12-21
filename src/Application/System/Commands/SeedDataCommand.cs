@@ -530,6 +530,7 @@ public record SeedDataCommand : IMediatorRequest
             UserItem elmarykItem2 = new() { User = elmaryk, ItemId = "crpg_avalanche_v1_h2" };
             UserItem laHireItem1 = new() { User = laHire, ItemId = "crpg_iron_cavalry_sword_v1_h1" };
             UserItem laHirekItem2 = new() { User = laHire, ItemId = "crpg_simple_saber_v1_h2" };
+            UserItem laHirekItem3 = new() { User = laHire, ItemId = "crpg_steel_round_shield_v2_h0" };
 
             UserItem[] newUserItems =
             {
@@ -544,6 +545,7 @@ public record SeedDataCommand : IMediatorRequest
                 elmarykItem2,
                 laHireItem1,
                 laHirekItem2,
+                laHirekItem3,
             };
 
             foreach (var newUserItem in newUserItems)
@@ -1094,10 +1096,11 @@ public record SeedDataCommand : IMediatorRequest
             ClanArmoryItem elmarykClanArmoryItem2 = new() { UserItem = elmarykItem2, Lender = elmarykMember };
             ClanArmoryItem laHireClanArmoryItem1 = new() { UserItem = laHireItem1, Lender = laHireMember };
             ClanArmoryItem laHireClanArmoryItem2 = new() { UserItem = laHirekItem2, Lender = laHireMember, };
+            ClanArmoryItem laHireClanArmoryItem3 = new() { UserItem = laHirekItem3, Lender = laHireMember, };
 
             ClanArmoryItem[] newClanArmoryItems =
             {
-                takeoClanArmoryItem1, takeoClanArmoryItem2, orleClanArmoryItem1, orleClanArmoryItem2, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2,
+                takeoClanArmoryItem1, takeoClanArmoryItem2, orleClanArmoryItem1, orleClanArmoryItem2, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
             };
             foreach (var newClanArmoryItem in newClanArmoryItems)
             {
@@ -1105,12 +1108,13 @@ public record SeedDataCommand : IMediatorRequest
             }
 
             ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHirekItem2, Borrower = orleMember, };
+            ClanArmoryBorrowedItem orleBorrowedItem2 = new() { UserItem = laHirekItem3, Borrower = orleMember, };
             ClanArmoryBorrowedItem elmarykBorrowedItem1 = new() { UserItem = orleItem1, Borrower = elmarykMember, };
             ClanArmoryBorrowedItem laHireBorrowedItem1 = new() { UserItem = takeoItem2, Borrower = laHireMember, };
 
             ClanArmoryBorrowedItem[] newClanArmoryBorrowedItems =
             {
-                orleBorrowedItem1, elmarykBorrowedItem1, laHireBorrowedItem1,
+                orleBorrowedItem1, orleBorrowedItem2, elmarykBorrowedItem1, laHireBorrowedItem1,
             };
 
             foreach (var newClanArmoryBorrowedItem in newClanArmoryBorrowedItems)

@@ -646,7 +646,7 @@ shop:
         success: 物品已成功购买
       tooltip:
         buy: 购买物品
-        inInventory: 物品已购买
+        inInventory: 物品已在您的库存中
         notEnoughGold: 金币不足
     weaponUsage:
       title: 不是主要的使用模式

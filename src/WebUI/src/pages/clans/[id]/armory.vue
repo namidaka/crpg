@@ -89,7 +89,7 @@ const filterByNameModel = ref<string>('');
 const { pageModel } = usePagination();
 const perPage = 24;
 const hideOwnedItemsModel = useStorage<boolean>('clan-armory-hide-owned-items', true);
-const showOnlyAvailableItems = useStorage<boolean>('clan-armory-hide-borrowed-items', true);
+const showOnlyAvailableItems = useStorage<boolean>('clan-armory-show-only-available-items', true);
 
 const flatItems = computed(() =>
   createItemIndex(

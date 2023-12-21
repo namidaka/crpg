@@ -647,7 +647,7 @@ shop:
         success: Предмет успешно куплен
       tooltip:
         buy: Купить предмет
-        inInventory: Предмет уже куплен
+        inInventory: Предмет уже в инвентаре
         notEnoughGold: Не хватает золота
     weaponUsage:
       title: Не является основным режимом использования

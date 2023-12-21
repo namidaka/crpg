@@ -19,7 +19,6 @@ const emit = defineEmits<{
 const { user, userItems } = toRefs(useUserStore());
 
 const isOwnArmoryItem = computed(() => isOwnClanArmoryItem(clanArmoryItem, user.value!.id));
-
 const isInInventory = computed(() => isClanArmoryItemInInventory(clanArmoryItem, userItems.value));
 </script>
 
@@ -54,6 +53,11 @@ const isInInventory = computed(() => isClanArmoryItemInInventory(clanArmoryItem,
           rounded
           :disabled="isInInventory"
           size="lg"
+          v-tooltip="{
+            disabled: !isInInventory,
+            content: $t('clan.armory.item.borrow.validation.isInInventory'),
+            popperClass: 'v-popper--theme-tooltip-danger',
+          }"
           @click="$emit('borrow', clanArmoryItem.userItem.id)"
         >
           <i18n-t
@@ -67,10 +71,6 @@ const isInInventory = computed(() => isClanArmoryItemInInventory(clanArmoryItem,
             </template>
           </i18n-t>
         </OButton>
-
-        <div v-if="isInInventory" class="text-center text-2xs text-status-warning">
-          {{ $t('clan.armory.item.borrow.validation.isInInventory') }}
-        </div>
       </div>
 
       <template v-else>
