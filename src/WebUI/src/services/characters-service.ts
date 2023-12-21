@@ -22,6 +22,7 @@ import {
   respecializePriceForLevel30,
   respecializePriceHalfLife,
   freeRespecializeIntervalDays,
+  freeRespecializePostWindowHours,
   damageFactorForPowerStrike,
   damageFactorForPowerDraw,
   damageFactorForPowerThrow,
@@ -385,9 +386,10 @@ export const getExperienceMultiplierBonus = (multiplier: number) => {
 };
 
 export interface RespecCapability {
-  price: number;
-  nextFreeAt: HumanDuration;
   enabled: boolean;
+  price: number;
+  nextFreeAt: number;
+  freeRespecWindowRemain: number;
 }
 
 export const getRespecCapability = (
@@ -397,17 +399,33 @@ export const getRespecCapability = (
   isRecentUser: boolean
 ): RespecCapability => {
   if (isRecentUser) {
-    return { price: 0, nextFreeAt: { days: 0, hours: 0, minutes: 0 }, enabled: true };
+    return {
+      enabled: true,
+      price: 0,
+      freeRespecWindowRemain: 0,
+      nextFreeAt: 0,
+    };
+  }
+
+  const freeRespecWindow = new Date(limitations.lastRespecializeAt);
+  freeRespecWindow.setUTCHours(freeRespecWindow.getUTCHours() + freeRespecializePostWindowHours);
+
+  if (freeRespecWindow > new Date()) {
+    return {
+      enabled: true,
+      price: 0,
+      freeRespecWindowRemain: computeLeftMs(freeRespecWindow, 0),
+      nextFreeAt: 0,
+    };
   }
 
   const lastRespecDate = new Date(limitations.lastRespecializeAt);
-
   const nextFreeAt = new Date(limitations.lastRespecializeAt);
   nextFreeAt.setUTCDate(nextFreeAt.getUTCDate() + freeRespecializeIntervalDays);
   nextFreeAt.setUTCMinutes(nextFreeAt.getUTCMinutes() + 5); // 5 minute margin just in case
 
   if (nextFreeAt < new Date()) {
-    return { price: 0, nextFreeAt: { days: 0, hours: 0, minutes: 0 }, enabled: true };
+    return { enabled: true, price: 0, freeRespecWindowRemain: 0, nextFreeAt: 0 };
   }
 
   const decayDivider =
@@ -421,9 +439,10 @@ export const getRespecCapability = (
       );
 
   return {
-    price,
-    nextFreeAt: parseTimestamp(computeLeftMs(nextFreeAt, 0)),
     enabled: price <= userGold,
+    price,
+    nextFreeAt: computeLeftMs(nextFreeAt, 0),
+    freeRespecWindowRemain: 0,
   };
 };
 

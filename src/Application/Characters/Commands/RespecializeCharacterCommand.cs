@@ -59,7 +59,7 @@ public record RespecializeCharacterCommand : IMediatorRequest<CharacterViewModel
             bool isRecentUser = await _userService.CheckIsRecentUser(_db, character.User!);
 
             int price = 0;
-            if (!character.ForTournament && !isRecentUser)
+            if (!character.ForTournament && !isRecentUser && !IsFreeRespecializationPostWindow(character))
             {
                 price = ResolveRespecializationPrice(character);
                 if (character.User!.Gold < price)
@@ -94,6 +94,11 @@ public record RespecializeCharacterCommand : IMediatorRequest<CharacterViewModel
             double decayDivider = Math.Pow(2, timePassed.TotalHours / _constants.RespecializePriceHalfLife);
 
             return (int)((float)character.Experience / _experienceTable.GetExperienceForLevel(30) * _constants.RespecializePriceForLevel30 / decayDivider);
+        }
+
+        private bool IsFreeRespecializationPostWindow(Character character)
+        {
+            return character.Limitations!.LastRespecializeAt + TimeSpan.FromHours(_constants.FreeRespecializePostWindowHours) > _dateTime.UtcNow;
         }
     }
 }

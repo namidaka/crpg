@@ -2,7 +2,7 @@ crpg_battle_skolderby
 mp_battle_map_002
 crpg_battle_tolstabeach
 crpg_battle_drakenburg
-crpg_battle_waterwaytojelkala
+crpg_battle_frosthaven
 crpg_battle_thearena
 crpg_battle_snowytown
 crpg_battle_hadiiqa
@@ -13,13 +13,6 @@ crpg_battle_sandpit
 crpg_battle_lighthouse
 crpg_battle_orionarena
 crpg_battle_sanctuary
-crpg_battle_pompeii
-crpg_battle_ugor
-crpg_battle_vatnborg
-crpg_battle_khamsin
-crpg_battle_quarry
-crpg_battle_talmberg
-crpg_battle_abandoned
 crpg_battle_verloren
 crpg_battle_hexenbrennen
 crpg_battle_icelake
@@ -30,8 +23,8 @@ crpg_battle_fieldbytheriver
 crpg_battle_dragonsroost
 crpg_battle_zemouri
 crpg_battle_monastery
-crpg_battle_islandvillage
 crpg_battle_sallyout
 crpg_battle_kingsroad
 crpg_battle_sandiboush
 crpg_battle_banditvalley
+crpg_battle_vritannis

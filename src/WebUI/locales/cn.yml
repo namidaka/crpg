@@ -320,9 +320,14 @@ character:
       title: 重新分配
       tooltip:
         title: 重新分配角色
-        desc: '花费{respecializationPrice}重新分配你的属性点'
-        free: 每{days}天你可以免费重新分配属性点一次
-        nextFreeAt: '下次免费重新分配属性点将在：{nextFreeAt}后'
+        desc: "
+          <p>您可以在上次重置后的 <strong>{freeRespecPostWindow}</strong> 和 <strong>{freeRespecInterval}</strong> 之后免费重置角色的技能。</p>
+          <p>其余时间重置技能的费用会随着时间的推移而降低。</p>"
+        freeRespecPostWindowRemaining: "
+          <p>剩余免费技能重置时间: <strong>{remainingTime}</strong></p>"
+        paidRespec: '花费{respecPrice}重新分配你的属性点'
+        freeRespecIntervalNext: "
+          <p>下次免费重新分配属性点将在：: <strong>{nextFreeAt}</strong></p>"
       dialog:
         title: 重新分配角色
         desc: 你确定要花费{respecializationPrice}重新分配你的属性点吗? 此操作无法撤销。

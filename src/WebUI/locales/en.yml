@@ -62,6 +62,7 @@ dateTimeFormat:
   countdown: '{hours}:{minutes}:{seconds}'
   'mm': '{minutes} @:dateTime.minutes.short'
   'hh': '{hours} @:dateTime.hours.short'
+  'dd': '{days} @:dateTime.days.short'
   'dd:hh:mm': '{days}@:dateTime.days.short {hours}@:dateTime.hours.short {minutes}@:dateTime.minutes.short'
 
 nav:
@@ -319,9 +320,14 @@ character:
       title: Respecialize
       tooltip:
         title: Respecialize character
-        desc: 'Reset your characteristics for {respecializationPrice}'
-        free: You can respecialize for free once every {days} days
-        nextFreeAt: 'Next free respecialization in: {nextFreeAt}'
+        desc: "
+          <p>You can reset a character's skills for free within <strong>{freeRespecPostWindow}</strong> of the last reset, and after <strong>{freeRespecInterval}</strong>.</p>
+          <p>The rest of the time resetting skills is paid, the cost decreases over time.</p>"
+        freeRespecPostWindowRemaining: "
+          <p>Remaining free skill reset time: <strong>{remainingTime}</strong></p>"
+        paidRespec: Reset the character's skills for {respecPrice}
+        freeRespecIntervalNext: "
+          <p>The next free skill reset via: <strong>{nextFreeAt}</strong></p>"
       dialog:
         title: Respecialize character
         desc: Are you sure you want to respecialize your character for {respecializationPrice}? This action cannot be undone

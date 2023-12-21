@@ -106,6 +106,7 @@ public record SeedDataCommand : IMediatorRequest
                 Platform = Platform.Steam,
                 Name = "orle",
                 Role = Role.Moderator,
+                ActiveCharacterId = 5,
                 Gold = 1000000,
                 HeirloomPoints = 12,
                 ExperienceMultiplier = 1.09f,
@@ -977,7 +978,7 @@ public record SeedDataCommand : IMediatorRequest
             };
             CharacterLimitations[] newCharactersLimitations =
             {
-                takeoCharacter0Limitations, takeoCharacter1Limitations, takeoCharacter2Limitations,
+                takeoCharacter0Limitations, takeoCharacter1Limitations, takeoCharacter2Limitations, orleCharacter0Limitations,
                 orleCharacter2Limitations, kadseCharacter0Limitations,
             };
 

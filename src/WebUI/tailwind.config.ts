@@ -183,7 +183,7 @@ export default {
                 marginBottom: theme('spacing')['2.5'],
               },
               h5: {
-                fontSize: theme('fontSize.sm'),
+                fontSize: theme('fontSize.sm[0]'),
                 fontWeight: theme('fontWeight.semibold'),
                 marginTop: theme('spacing')['2.5'],
                 marginBottom: theme('spacing')['2.5'],
