@@ -1,4 +1,5 @@
 ﻿using Crpg.Application.Clans.Commands.Armory;
+using Crpg.Sdk;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
@@ -18,7 +19,7 @@ public class ReturnUnusedClanArmoryItemsCommandTest : TestBase
 
         Assert.That(ActDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(4));
 
-        var handler = new ReturnUnusedItemsToClanArmoryCommand.Handler(ActDb);
+        var handler = new ReturnUnusedItemsToClanArmoryCommand.Handler(ActDb, new MachineDateTime());
         var result = await handler.Handle(new ReturnUnusedItemsToClanArmoryCommand
         {
             Timeout = TimeSpan.FromDays(3),

@@ -1,6 +1,7 @@
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
+using Crpg.Sdk.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using LoggerFactory = Crpg.Logging.LoggerFactory;
@@ -16,15 +17,17 @@ public record ReturnUnusedItemsToClanArmoryCommand : IMediatorRequest
         private static readonly ILogger Logger = LoggerFactory.CreateLogger<ReturnUnusedItemsToClanArmoryCommand>();
 
         private readonly ICrpgDbContext _db;
+        private readonly IDateTime _dateTime;
 
-        public Handler(ICrpgDbContext db)
+        public Handler(ICrpgDbContext db, IDateTime dateTime)
         {
             _db = db;
+            _dateTime = dateTime;
         }
 
         public async Task<Result> Handle(ReturnUnusedItemsToClanArmoryCommand req, CancellationToken cancellationToken)
         {
-            var now = DateTime.UtcNow;
+            var now = _dateTime.UtcNow;
             var users = await _db.Users
                 .AsSplitQuery()
                 .Include(u => u.ClanMembership!)
