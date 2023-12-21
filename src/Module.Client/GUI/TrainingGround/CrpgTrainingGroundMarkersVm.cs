@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Crpg.Module.Modes.Duel;
 using Crpg.Module.Modes.TrainingGround;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;

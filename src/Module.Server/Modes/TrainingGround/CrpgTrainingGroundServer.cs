@@ -1,5 +1,4 @@
 ﻿using Crpg.Module.Common;
-using Crpg.Module.Modes.Duel;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromClient;
 using NetworkMessages.FromServer;
@@ -814,7 +813,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             }
         }
 
-        if (SpawnComponent?.SpawningBehavior is CrpgDuelSpawningBehavior duelSpawningBehavior)
+        if (SpawnComponent?.SpawningBehavior is CrpgTrainingGroundSpawningBehavior duelSpawningBehavior)
         {
             MissionPeer missionPeer = networkPeer.GetComponent<MissionPeer>();
             duelSpawningBehavior.UpdatedPlayerPreferredArenaOnce.Remove(networkPeer.VirtualPlayer.Id);
