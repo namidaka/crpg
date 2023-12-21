@@ -1110,11 +1110,12 @@ public record SeedDataCommand : IMediatorRequest
             ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHirekItem2, Borrower = orleMember, };
             ClanArmoryBorrowedItem orleBorrowedItem2 = new() { UserItem = laHirekItem3, Borrower = orleMember, };
             ClanArmoryBorrowedItem elmarykBorrowedItem1 = new() { UserItem = orleItem1, Borrower = elmarykMember, };
+            ClanArmoryBorrowedItem elmarykBorrowedItem2 = new() { UserItem = takeoItem1, Borrower = elmarykMember, };
             ClanArmoryBorrowedItem laHireBorrowedItem1 = new() { UserItem = takeoItem2, Borrower = laHireMember, };
 
             ClanArmoryBorrowedItem[] newClanArmoryBorrowedItems =
             {
-                orleBorrowedItem1, orleBorrowedItem2, elmarykBorrowedItem1, laHireBorrowedItem1,
+                orleBorrowedItem1, orleBorrowedItem2, elmarykBorrowedItem1, elmarykBorrowedItem2, laHireBorrowedItem1,
             };
 
             foreach (var newClanArmoryBorrowedItem in newClanArmoryBorrowedItems)

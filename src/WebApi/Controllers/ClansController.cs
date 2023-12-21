@@ -158,7 +158,7 @@ public class ClansController : BaseController
     /// <response code="200">Ok.</response>
     /// <response code="404">Clan was not found.</response>
     [HttpGet("{clanId}/armory")]
-    public Task<ActionResult<Result<IList<ClanArmoryItemViewModel>>>> GetList([FromRoute] int clanId)
+    public Task<ActionResult<Result<IList<ClanArmoryItemViewModel>>>> GetClanArmory([FromRoute] int clanId)
     {
         return ResultToActionAsync(Mediator.Send(new GetClanArmoryQuery { UserId = CurrentUser.User!.Id, ClanId = clanId }));
     }
@@ -173,7 +173,7 @@ public class ClansController : BaseController
     /// <response code="400">Bad request.</response>
     /// <response code="409">Conflict.</response>
     [HttpPost("{clanId}/armory")]
-    public Task<ActionResult<Result<ClanArmoryItemViewModel>>> Add([FromRoute] int clanId, [FromBody] AddItemToClanArmoryCommand req)
+    public Task<ActionResult<Result<ClanArmoryItemViewModel>>> AddClanArmoryItem([FromRoute] int clanId, [FromBody] AddItemToClanArmoryCommand req)
     {
         req = req with { UserId = CurrentUser.User!.Id, ClanId = clanId };
         return ResultToActionAsync(Mediator.Send(req));
@@ -187,7 +187,7 @@ public class ClansController : BaseController
     /// <response code="204">Item removed from clan armory.</response>
     /// <response code="400">Bad request.</response>
     [HttpDelete("{clanId}/armory/{userItemId}")]
-    public Task<ActionResult> Remove([FromRoute] int clanId, [FromRoute] int userItemId)
+    public Task<ActionResult> RemoveClanArmoryItem([FromRoute] int clanId, [FromRoute] int userItemId)
     {
         var req = new RemoveItemFromClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
         return ResultToActionAsync(Mediator.Send(req));
@@ -202,7 +202,7 @@ public class ClansController : BaseController
     /// <response code="200">Ok.</response>
     /// <response code="400">Bad request.</response>
     [HttpPut("{clanId}/armory/{userItemId}/borrow")]
-    public Task<ActionResult<Result<ClanArmoryBorrowedItemViewModel>>> Borrow([FromRoute] int clanId, [FromRoute] int userItemId)
+    public Task<ActionResult<Result<ClanArmoryBorrowedItemViewModel>>> BorrowClanArmoryItem([FromRoute] int clanId, [FromRoute] int userItemId)
     {
         var req = new BorrowItemFromClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
         return ResultToActionAsync(Mediator.Send(req));
@@ -216,7 +216,7 @@ public class ClansController : BaseController
     /// <response code="200">Ok.</response>
     /// <response code="400">Bad request.</response>
     [HttpPut("{clanId}/armory/{userItemId}/return")]
-    public Task<ActionResult> Return([FromRoute] int clanId, [FromRoute] int userItemId)
+    public Task<ActionResult> ReturnClanArmoryItem([FromRoute] int clanId, [FromRoute] int userItemId)
     {
         var req = new ReturnItemToClanArmoryCommand { UserItemId = userItemId, UserId = CurrentUser.User!.Id, ClanId = clanId };
         return ResultToActionAsync(Mediator.Send(req));
