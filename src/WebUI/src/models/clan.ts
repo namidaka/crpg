@@ -11,6 +11,7 @@ export interface Clan {
   region: Region;
   discord: string | null;
   description: string;
+  armoryTimeout: number;
 }
 
 // TODO: rename

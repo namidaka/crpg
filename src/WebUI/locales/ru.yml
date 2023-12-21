@@ -124,8 +124,10 @@ validations:
   required: Значение обязательно
   url: Значение не является действительным адресом URL
   sameAs: Значение должно быть равно значению {equalTo}.
+  integer: Число должно быть целым
   minLength: Значение должно быть длиной не менее {min} символов
   maxLength: Максимальная допустимая длина {max}
+  minValue: Значение должно быть не менее {min}
   clanTagPattern: Значение должно содержать только целые числа и латинские символы
   clanBannerKeyPattern: Значение должно содержать только целые числа и точки
   discordLinkPattern: Значение должно быть валидной Дискорд ссылкой
@@ -715,6 +717,13 @@ clan:
         secondaryColor: Второстепенный
         bannerKey: Герб
         discord: Discord сервер
+      group:
+        armory:
+          label: Оружейная
+          field:
+            armoryTimeout:
+              label: Тайм-аут оружейной (дней)
+              hint: Автоматический возврат предмета, если взявший предмет не проявляет активности в течение N дней
     bannerKeyGeneratorTools: Создайте с помощью {link}
     update:
       notify:

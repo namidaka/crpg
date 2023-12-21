@@ -20,6 +20,7 @@ const CLAN = {
   secondaryColor: '#ee3f96',
   bannerKey: '123456',
   discord: null,
+  armoryTimeout: 259200000,
 } as Omit<Clan, 'id'>;
 
 describe('create mode', () => {
@@ -202,6 +203,34 @@ describe('create mode', () => {
     expect(field.attributes('message')).not.toBeDefined();
   });
 
+  it('validation - armoryTimeout', async () => {
+    const wrapper = mount(ClanForm);
+
+    const field = wrapper.findComponent('[data-aq-clan-form-field="armoryTimeout"]');
+    const input = wrapper.findComponent('[data-aq-clan-form-input="armoryTimeout"]');
+
+    expect(field.attributes('variant')).not.toBeDefined();
+
+    await input.trigger('blur');
+
+    expect(field.attributes('variant')).not.toBeDefined();
+
+    await input.setValue('0');
+    await input.trigger('blur');
+
+    expect(field.attributes('variant')).toBeDefined();
+    expect(field.attributes('message')).toContain('validations.minValue');
+
+    await input.setValue('1.1');
+
+    expect(field.attributes('variant')).toBeDefined();
+    expect(field.attributes('message')).toContain('validations.integer');
+
+    await input.setValue('2');
+
+    expect(field.attributes('variant')).not.toBeDefined();
+  });
+
   it('submit', async () => {
     const wrapper = mount(ClanForm);
 
@@ -214,13 +243,14 @@ describe('create mode', () => {
       wrapper.find('[data-aq-clan-form-input="secondaryColor"]').setValue(CLAN.secondaryColor),
       wrapper.find('[data-aq-clan-form-input="bannerKey"]').setValue(CLAN.bannerKey),
       wrapper.find('[data-aq-clan-form-input="discord"]').setValue(CLAN.discord),
+      wrapper.find('[data-aq-clan-form-input="armoryTimeout"]').setValue(1),
     ]);
 
     await wrapper.find('[data-aq-clan-form]').trigger('submit.prevent');
     await flushPromises();
 
     expect(mockedNotify).not.toBeCalled();
-    expect(wrapper.emitted('submit')![0][0]).toEqual(CLAN);
+    expect(wrapper.emitted('submit')![0][0]).toEqual({ ...CLAN, armoryTimeout: 86400000 });
   });
 });
 

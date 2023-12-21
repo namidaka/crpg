@@ -28,6 +28,7 @@ public record UpdateClanCommand : IMediatorRequest<ClanViewModel>
     public string BannerKey { get; init; } = string.Empty;
     public Region Region { get; init; }
     public Uri? Discord { get; init; }
+    public TimeSpan ArmoryTimeout { get; init; }
 
     public class Validator : AbstractValidator<UpdateClanCommand>
     {
@@ -120,6 +121,7 @@ public record UpdateClanCommand : IMediatorRequest<ClanViewModel>
             clan.BannerKey = req.BannerKey;
             clan.Region = req.Region;
             clan.Discord = req.Discord;
+            clan.ArmoryTimeout = req.ArmoryTimeout;
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' updated clan '{1}'", req.UserId, req.ClanId);

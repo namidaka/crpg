@@ -10,8 +10,6 @@ namespace Crpg.Application.Clans.Commands.Armory;
 
 public record ReturnUnusedItemsToClanArmoryCommand : IMediatorRequest
 {
-    public TimeSpan Timeout { get; init; }
-
     internal class Handler : IMediatorRequestHandler<ReturnUnusedItemsToClanArmoryCommand>
     {
         private static readonly ILogger Logger = LoggerFactory.CreateLogger<ReturnUnusedItemsToClanArmoryCommand>();
@@ -34,7 +32,7 @@ public record ReturnUnusedItemsToClanArmoryCommand : IMediatorRequest
                     .ThenInclude(cm => cm.ArmoryBorrowedItems)
                     .ThenInclude(bi => bi.UserItem!)
                     .ThenInclude(ui => ui.EquippedItems)
-                .Where(bi => bi.ClanMembership!.ArmoryBorrowedItems.Count > 0 && (now - bi.UpdatedAt) > req.Timeout)
+                .Where(u => u.ClanMembership != null && u.ClanMembership.ArmoryBorrowedItems.Count > 0 && (now - u.UpdatedAt) > u.ClanMembership.Clan!.ArmoryTimeout)
                 .ToArrayAsync(cancellationToken);
 
             foreach (var u in users)

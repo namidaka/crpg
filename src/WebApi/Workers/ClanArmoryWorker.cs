@@ -7,8 +7,6 @@ public class ClanArmoryWorker : BackgroundService
 {
     private static readonly ILogger Logger = Logging.LoggerFactory.CreateLogger<ClanArmoryWorker>();
 
-    private readonly TimeSpan _timeout = TimeSpan.FromDays(3);
-
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     public ClanArmoryWorker(IServiceScopeFactory serviceScopeFactory)
@@ -25,8 +23,7 @@ public class ClanArmoryWorker : BackgroundService
                 using var scope = _serviceScopeFactory.CreateScope();
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-                var cmd = new ReturnUnusedItemsToClanArmoryCommand { Timeout = _timeout };
-                await mediator.Send(cmd, stoppingToken);
+                await mediator.Send(new ReturnUnusedItemsToClanArmoryCommand(), stoppingToken);
             }
             catch (Exception e)
             {

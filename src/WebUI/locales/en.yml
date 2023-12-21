@@ -126,8 +126,10 @@ validations:
   required: Value is required
   url: The value is not a valid URL address
   sameAs: Value should be equal to the {value} value
+  integer: "The number must be an integer"
   minLength: Value should be at least {min} characters long
   maxLength: The maximum length allowed is {max}
+  minValue: "The minimum value allowed is {min}"
   clanTagPattern: Value should contain only integer and alphabetical
   clanBannerKeyPattern: Value should contain only integer and dots
   discordLinkPattern: Value must be a valid Discord link
@@ -719,6 +721,13 @@ clan:
         secondaryColor: Secondary
         bannerKey: Banner key
         discord: Discord server
+      group:
+        armory:
+          label: Armory
+          field:
+            armoryTimeout:
+              label: Armory timeout (in days)
+              hint: Auto-return an item if a borrower is not active for N days
     bannerKeyGeneratorTools: Generate one on {link}
     notify:
       success: Clan settings updated

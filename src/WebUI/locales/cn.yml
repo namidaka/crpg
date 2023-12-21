@@ -127,8 +127,10 @@ validations:
   required: 值不能为空
   url: 该值不是有效的URL地址
   sameAs: 值应该等于{value}的值
+  integer: 数字必须是整数
   minLength: 值长度应至少为{min}个字符
   maxLength: 最大允许长度为{max}
+  minValue: 允许的最小值为{min}
   clanTagPattern: 值应该只包含数字和字母
   clanBannerKeyPattern: 值应该只包含数字和小数点
   discordLinkPattern: 值必须是有效的Discord链接
@@ -715,6 +717,13 @@ clan:
         secondaryColor: 次要颜色
         bannerKey: 横幅关键字
         discord: Discord 服务器
+      group:
+        armory:
+          label: 部族军械库
+          field:
+            armoryTimeout:
+              label: 军械库超时（天数）
+              hint: 如果借阅者在 N 天内没有活动，则自动归还物品
     bannerKeyGeneratorTools: 在{link}上生成一个
     notify:
       success: 氏族设置已更新

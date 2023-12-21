@@ -12,17 +12,17 @@ public static class ClanArmoryTestHelper
 {
     private static IClanService ClanService { get; } = new ClanService();
 
-    public static async Task CommonSetUp(ICrpgDbContext db, int nusers = 4, int itemsPerUser = 4)
+    public static async Task CommonSetUp(ICrpgDbContext db, int usersCount = 4, int itemsPerUser = 4, int armoryTimeout = 3)
     {
-        var items = Enumerable.Range(0, nusers * itemsPerUser).Select(idx => new Item
+        var items = Enumerable.Range(0, usersCount * itemsPerUser).Select(idx => new Item
         {
             Id = $"{idx}",
             Name = $"item{idx}",
             Enabled = true,
         }).ToList();
-        var clan = new Clan { };
+        var clan = new Clan { ArmoryTimeout = TimeSpan.FromDays(armoryTimeout) };
 
-        var users = Enumerable.Range(0, nusers).Select(idx => new User
+        var users = Enumerable.Range(0, usersCount).Select(idx => new User
         {
             Name = $"user{idx}",
             ClanMembership = new() { Clan = clan },

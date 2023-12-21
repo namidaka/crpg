@@ -24,7 +24,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 const { clanId, clan, loadClan } = useClan(props.id);
-const { loadClanMembers, isLastMember } = useClanMembers();
+const { loadClanMembers, isLastMember } = useClanMembers(clanId.value);
 
 const onSubmit = async (form: Omit<Clan, 'id'>) => {
   const clan = await updateClan(clanId.value, { ...form, id: clanId.value });
@@ -40,7 +40,7 @@ const deleteClan = async () => {
   return router.replace({ name: 'Clans' });
 };
 
-await Promise.all([loadClan(0, { id: clanId.value }), loadClanMembers(0, { id: clanId.value })]);
+await Promise.all([loadClan(0, { id: clanId.value }), loadClanMembers()]);
 </script>
 
 <template>
