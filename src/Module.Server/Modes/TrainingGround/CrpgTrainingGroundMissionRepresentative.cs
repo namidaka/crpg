@@ -33,9 +33,9 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
     {
         get
         {
-            if (base.MissionPeer != null && base.MissionPeer.Team != null)
+            if (MissionPeer != null && MissionPeer.Team != null)
             {
-                return base.MissionPeer.Team.IsDefender;
+                return MissionPeer.Team.IsDefender;
             }
 
             return false;
@@ -87,14 +87,14 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
             {
                 for (int i = 0; i < _requesters.Count; i++)
                 {
-                    if (_requesters[i].Item1 == base.MissionPeer)
+                    if (_requesters[i].Item1 == MissionPeer)
                     {
                         _requesters.Remove(_requesters[i]);
                         break;
                     }
                 }
 
-                switch (base.PlayerType)
+                switch (PlayerType)
                 {
                     case PlayerTypes.Client:
                         GameNetwork.BeginModuleEventAsClient();
@@ -103,14 +103,14 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
                         break;
 #if CRPG_SERVER
                     case PlayerTypes.Server:
-                        _mission.DuelRequestAccepted(focusedAgent, base.ControlledAgent);
+                        _mission.DuelRequestAccepted(focusedAgent, ControlledAgent);
                         break;
 #endif
                 }
             }
             else
             {
-                switch (base.PlayerType)
+                switch (PlayerType)
                 {
                     case PlayerTypes.Client:
                         OnDuelRequestSentEvent?.Invoke(focusedAgent.MissionPeer);
@@ -120,7 +120,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
                         break;
 #if CRPG_SERVER
                     case PlayerTypes.Server:
-                        _mission.DuelRequestReceived(base.MissionPeer, focusedAgent.MissionPeer);
+                        _mission.DuelRequestReceived(MissionPeer, focusedAgent.MissionPeer);
                         break;
 #endif
                 }
@@ -181,25 +181,25 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
     public void DuelRequested(Agent requesterAgent, TroopType selectedAreaTroopType)
     {
         _requesters.Add(new Tuple<MissionPeer, MissionTime>(requesterAgent.MissionPeer, MissionTime.Now + MissionTime.Seconds(10f)));
-        switch (base.PlayerType)
+        switch (PlayerType)
         {
 #if CRPG_SERVER
             case PlayerTypes.Bot:
-                _mission.DuelRequestAccepted(requesterAgent, base.ControlledAgent);
+                _mission.DuelRequestAccepted(requesterAgent, ControlledAgent);
                 break;
             case PlayerTypes.Server:
                 OnDuelRequestedEvent?.Invoke(requesterAgent.MissionPeer, selectedAreaTroopType);
                 break;
 #endif
             case PlayerTypes.Client:
-                if (base.IsMine)
+                if (IsMine)
                 {
                     OnDuelRequestedEvent?.Invoke(requesterAgent.MissionPeer, selectedAreaTroopType);
                     break;
                 }
 
-                GameNetwork.BeginModuleEventAsServer(base.Peer);
-                GameNetwork.WriteMessage(new NetworkMessages.FromServer.DuelRequest(requesterAgent.Index, base.ControlledAgent.Index, selectedAreaTroopType));
+                GameNetwork.BeginModuleEventAsServer(Peer);
+                GameNetwork.WriteMessage(new NetworkMessages.FromServer.DuelRequest(requesterAgent.Index, ControlledAgent.Index, selectedAreaTroopType));
                 GameNetwork.EndModuleEventAsServer();
                 break;
             default:
@@ -238,21 +238,21 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
 
     public void OnDuelPreparation(MissionPeer requesterPeer, MissionPeer requesteePeer)
     {
-        switch (base.PlayerType)
+        switch (PlayerType)
         {
             case PlayerTypes.Client:
-                if (base.IsMine)
+                if (IsMine)
                 {
-                    OnDuelPrepStartedEvent?.Invoke((base.MissionPeer == requesterPeer) ? requesteePeer : requesterPeer, 3);
+                    OnDuelPrepStartedEvent?.Invoke((MissionPeer == requesterPeer) ? requesteePeer : requesterPeer, 3);
                     break;
                 }
 
-                GameNetwork.BeginModuleEventAsServer(base.Peer);
+                GameNetwork.BeginModuleEventAsServer(Peer);
                 GameNetwork.WriteMessage(new DuelSessionStarted(requesterPeer.GetNetworkPeer(), requesteePeer.GetNetworkPeer()));
                 GameNetwork.EndModuleEventAsServer();
                 break;
             case PlayerTypes.Server:
-                OnDuelPrepStartedEvent?.Invoke((base.MissionPeer == requesterPeer) ? requesteePeer : requesterPeer, 3);
+                OnDuelPrepStartedEvent?.Invoke((MissionPeer == requesterPeer) ? requesteePeer : requesterPeer, 3);
                 break;
         }
 
@@ -275,7 +275,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
 
     public override void OnAgentSpawned()
     {
-        if (base.ControlledAgent.Team != null && base.ControlledAgent.Team.Side == BattleSideEnum.Attacker)
+        if (ControlledAgent.Team != null && ControlledAgent.Team.Side == BattleSideEnum.Attacker)
         {
             OnAgentSpawnedWithoutDuelEvent?.Invoke();
         }

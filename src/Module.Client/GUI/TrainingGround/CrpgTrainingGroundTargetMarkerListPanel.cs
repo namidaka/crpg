@@ -2,10 +2,7 @@
 using TaleWorlds.GauntletUI;
 using TaleWorlds.GauntletUI.BaseTypes;
 using TaleWorlds.Library;
-using TaleWorlds.GauntletUI.Layout;
 using TaleWorlds.TwoDimension;
-
-using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker;
 
 namespace Crpg.Module.GUI.TrainingGround;
 internal class CrpgTrainingGroundTargetMarkerListPanel : ListPanel
@@ -241,24 +238,24 @@ internal class CrpgTrainingGroundTargetMarkerListPanel : ListPanel
     {
         if (!IsAvailable)
         {
-            base.IsVisible = false;
+            IsVisible = false;
             return;
         }
 
         float x = Context.EventManager.PageSize.X;
         float y = Context.EventManager.PageSize.Y;
         Vec2 position = Position;
-        if (WSign > 0 && position.x - base.Size.X / 2f > 0f && position.x + base.Size.X / 2f < base.Context.EventManager.PageSize.X && position.y > 0f && position.y + base.Size.Y < base.Context.EventManager.PageSize.Y)
+        if (WSign > 0 && position.x - Size.X / 2f > 0f && position.x + Size.X / 2f < Context.EventManager.PageSize.X && position.y > 0f && position.y + Size.Y < Context.EventManager.PageSize.Y)
         {
-            base.ScaledPositionXOffset = position.x - base.Size.X / 2f;
-            base.ScaledPositionYOffset = position.y - base.Size.Y - 20f;
-            _actionText.ScaledPositionXOffset = base.ScaledPositionXOffset;
-            _actionText.ScaledPositionYOffset = base.ScaledPositionYOffset + base.Size.Y;
-            base.IsVisible = true;
+            ScaledPositionXOffset = position.x - Size.X / 2f;
+            ScaledPositionYOffset = position.y - Size.Y - 20f;
+            _actionText.ScaledPositionXOffset = ScaledPositionXOffset;
+            _actionText.ScaledPositionYOffset = ScaledPositionYOffset + Size.Y;
+            IsVisible = true;
         }
         else if (IsTracked)
         {
-            Vec2 vec = new Vec2(base.Context.EventManager.PageSize.X / 2f, base.Context.EventManager.PageSize.Y / 2f);
+            Vec2 vec = new Vec2(Context.EventManager.PageSize.X / 2f, Context.EventManager.PageSize.Y / 2f);
             position -= vec;
             if (WSign < 0)
             {
@@ -271,7 +268,7 @@ internal class CrpgTrainingGroundTargetMarkerListPanel : ListPanel
             position = vec + new Vec2(num2 * 150f, num * 150f);
             float num3 = num / num2;
             Vec2 vec2 = vec * 1f;
-            position = ((num > 0f) ? new Vec2((0f - vec2.y) / num3, vec.y) : new Vec2(vec2.y / num3, 0f - vec.y));
+            position = (num > 0f) ? new Vec2((0f - vec2.y) / num3, vec.y) : new Vec2(vec2.y / num3, 0f - vec.y);
             if (position.x > vec2.x)
             {
                 position = new Vec2(vec2.x, (0f - vec2.x) * num3);
@@ -282,19 +279,19 @@ internal class CrpgTrainingGroundTargetMarkerListPanel : ListPanel
             }
 
             position += vec;
-            base.ScaledPositionXOffset = Mathf.Clamp(position.x - base.Size.X / 2f, 0f, x - base.Size.X);
-            base.ScaledPositionYOffset = Mathf.Clamp(position.y - base.Size.Y, 0f, y - base.Size.Y);
-            base.IsVisible = true;
+            ScaledPositionXOffset = Mathf.Clamp(position.x - Size.X / 2f, 0f, x - Size.X);
+            ScaledPositionYOffset = Mathf.Clamp(position.y - Size.Y, 0f, y - Size.Y);
+            IsVisible = true;
         }
         else
         {
-            base.IsVisible = false;
+            IsVisible = false;
         }
     }
 
     private void UpdateChildrenFocusStates()
     {
-        string state = (HasTargetSentDuelRequest ? "Tracked" : ((HasPlayerSentDuelRequest || IsAgentFocused) ? "Focused" : "Default"));
+        string state = HasTargetSentDuelRequest ? "Tracked" : ((HasPlayerSentDuelRequest || IsAgentFocused) ? "Focused" : "Default");
         Background.SetState(state);
         Border.SetState(state);
         TroopClassBorder?.SetState(state);

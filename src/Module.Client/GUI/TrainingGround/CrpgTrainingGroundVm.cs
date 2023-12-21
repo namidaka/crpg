@@ -18,11 +18,8 @@ internal class CrpgTrainingGroundVm : ViewModel
     public struct DuelArenaProperties
     {
         public GameEntity FlagEntity;
-
         public int Index;
-
         public TroopType ArenaTroopType;
-
         public DuelArenaProperties(GameEntity flagEntity, int index, TroopType arenaTroopType)
         {
             FlagEntity = flagEntity;

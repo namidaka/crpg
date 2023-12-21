@@ -32,11 +32,11 @@ public class CrpgTrainingGroundUiHandler : MissionView
         ResourceDepot uIResourceDepot = UIResourceManager.UIResourceDepot;
         _mpMissionCategory = spriteData.SpriteCategories["ui_mpmission"];
         _mpMissionCategory.Load(resourceContext, uIResourceDepot);
-        base.MissionScreen.AddLayer(_gauntletLayer);
-        _equipmentController = base.Mission.GetMissionBehavior<MissionLobbyEquipmentNetworkComponent>();
+        MissionScreen.AddLayer(_gauntletLayer);
+        _equipmentController = Mission.GetMissionBehavior<MissionLobbyEquipmentNetworkComponent>();
         _equipmentController.OnEquipmentRefreshed += OnEquipmentRefreshed;
         MissionPeer.OnEquipmentIndexRefreshed += OnPeerEquipmentIndexRefreshed;
-        _lobbyComponent = base.Mission.GetMissionBehavior<MissionLobbyComponent>();
+        _lobbyComponent = Mission.GetMissionBehavior<MissionLobbyComponent>();
         _lobbyComponent.OnPostMatchEnded += OnPostMatchEnded;
         NativeOptions.OnNativeOptionChanged = (NativeOptions.OnNativeOptionChangedDelegate)Delegate.Combine(NativeOptions.OnNativeOptionChanged, new NativeOptions.OnNativeOptionChangedDelegate(OnNativeOptionChanged));
         _dataSource.IsEnabled = true;
@@ -46,7 +46,7 @@ public class CrpgTrainingGroundUiHandler : MissionView
     public override void OnMissionScreenFinalize()
     {
         base.OnMissionScreenFinalize();
-        base.MissionScreen.RemoveLayer(_gauntletLayer);
+        MissionScreen.RemoveLayer(_gauntletLayer);
         _mpMissionCategory?.Unload();
         _dataSource!.OnFinalize();
         _dataSource = null;
@@ -61,7 +61,7 @@ public class CrpgTrainingGroundUiHandler : MissionView
     {
         base.OnMissionScreenTick(dt);
         _dataSource!.Tick(dt);
-        if (_client?.MyRepresentative?.ControlledAgent != null && base.Input.IsGameKeyReleased(13))
+        if (_client?.MyRepresentative?.ControlledAgent != null && Input.IsGameKeyReleased(13))
         {
             _client.MyRepresentative.OnInteraction();
         }
