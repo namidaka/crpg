@@ -119,7 +119,7 @@
   <string id="str_multiplayer_scene_name.crpg_battle_snowytown" text="{=SToiplkd}Snowy Town" />
   <string id="str_multiplayer_scene_name.crpg_battle_lighthouse" text="{=LHuikjha}Lighthouse" />
   <string id="str_multiplayer_scene_name.crpg_battle_vritannis" text="{=B3Rsk3r6}Vritannis" />
-  <string id="str_multiplayer_scene_name.crpg_battle_frosthaven" text="{=FrStHv3N}Fosthaven" />
+  <string id="str_multiplayer_scene_name.crpg_battle_frosthaven" text="{=FrStHv3N}Frosthaven" />
 
   <!-- Conquest Maps -->
   <string id="str_multiplayer_scene_name.crpg_conquest_acre" text="{=9Mpawm9h}Acre" />
