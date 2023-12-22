@@ -2,7 +2,6 @@ using Crpg.Module.Helpers;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
-using static HarmonyLib.Code;
 using MathF = TaleWorlds.Library.MathF;
 
 namespace Crpg.Module.Common.Models;
