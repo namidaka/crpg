@@ -168,10 +168,10 @@ region:
 region-title: 区域
 
 game-mode:
-  Battle: 战斗
-  Conquest: 征服
-  DTV: DTV
-  Duel: 决斗
+  CRPGBattle: 战斗
+  CRPGConquest: 征服
+  CRPGDTV: DTV
+  CRPGDuel: 决斗
 
 clanBalancingExplanation: '
   <h3>你不在任何宗族中</h3>

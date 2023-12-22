@@ -1,6 +1,6 @@
 export enum GameMode {
-  Battle = 'Battle',
-  Conquest = 'Conquest',
-  DTV = 'DTV',
-  Duel = 'Duel',
+  Battle = 'CRPGBattle',
+  Conquest = 'CRPGConquest',
+  DTV = 'CRPGDTV',
+  Duel = 'CRPGDuel',
 }

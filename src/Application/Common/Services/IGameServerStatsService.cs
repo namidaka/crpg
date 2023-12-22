@@ -2,6 +2,7 @@ using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using Crpg.Application.Games.Models;
 using Crpg.Domain.Entities;
+using Crpg.Domain.Entities.Servers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using LoggerFactory = Crpg.Logging.LoggerFactory;
@@ -18,24 +19,28 @@ public class DatadogGameServerStatsService : IGameServerStatsService
     private static readonly ILogger Logger = LoggerFactory.CreateLogger<DatadogGameServerStatsService>();
     private readonly HttpClient? _ddHttpClient;
 
+    private readonly Dictionary<GameModeAlias, GameMode> gameModeByInstanceAlias = new()
+    {
+        { GameModeAlias.A, GameMode.CRPGBattle },
+        { GameModeAlias.B, GameMode.CRPGConquest },
+        { GameModeAlias.C, GameMode.CRPGDuel },
+        { GameModeAlias.E, GameMode.CRPGDTV },
+        { GameModeAlias.D, GameMode.CRPGSkirmish },
+    };
+
     private DateTime _lastUpdate = DateTime.MinValue;
     private GameServerStats? _serverStats;
 
-    public DatadogGameServerStatsService(IConfiguration configuration)
+    public DatadogGameServerStatsService(IConfiguration configuration, HttpClient httpClient)
     {
         string? ddApiKey = configuration["Datadog:ApiKey"];
         string? ddApplicationKey = configuration["Datadog:ApplicationKey"];
         if (ddApiKey != null && ddApplicationKey != null)
         {
-            _ddHttpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://api.datadoghq.com/"),
-                DefaultRequestHeaders =
-                {
-                    { "DD-API-KEY", ddApiKey },
-                    { "DD-APPLICATION-KEY", ddApplicationKey },
-                },
-            };
+            _ddHttpClient = httpClient;
+            _ddHttpClient.BaseAddress = new Uri("https://api.datadoghq.com/");
+            _ddHttpClient.DefaultRequestHeaders.Add("DD-API-KEY", ddApiKey);
+            _ddHttpClient.DefaultRequestHeaders.Add("DD-APPLICATION-KEY", ddApplicationKey);
         }
     }
 
@@ -46,7 +51,7 @@ public class DatadogGameServerStatsService : IGameServerStatsService
             return null;
         }
 
-        if (DateTime.UtcNow < _lastUpdate + TimeSpan.FromMinutes(2))
+        if (DateTime.UtcNow < _lastUpdate + TimeSpan.FromMinutes(1))
         {
             return _serverStats;
         }
@@ -55,9 +60,9 @@ public class DatadogGameServerStatsService : IGameServerStatsService
         var from = to - TimeSpan.FromMinutes(15); // Adjust to a 15-minute window
         FormUrlEncodedContent query = new(new[]
         {
-        KeyValuePair.Create("from", from.ToUnixTimeSeconds().ToString()),
-        KeyValuePair.Create("to", to.ToUnixTimeSeconds().ToString()),
-        KeyValuePair.Create("query", "sum:crpg.users.playing.count{*} by {region}"), // The query itself does not change
+            KeyValuePair.Create("from", from.ToUnixTimeSeconds().ToString()),
+            KeyValuePair.Create("to", to.ToUnixTimeSeconds().ToString()),
+            KeyValuePair.Create("query", "sum:crpg.users.playing.count{*} by {region, instance}"), // The query itself does not change
         });
         string queryStr = await query.ReadAsStringAsync(cancellationToken);
 
@@ -67,26 +72,39 @@ public class DatadogGameServerStatsService : IGameServerStatsService
             serverStats = new()
             {
                 Total = new GameStats { PlayingCount = 0 },
-                Regions = new Dictionary<Region, GameStats>(),
+                Regions = new Dictionary<Region, Dictionary<GameMode, GameStats>>(),
             };
 
             var res = await _ddHttpClient.GetFromJsonAsync<DatadogQueryResponse>("api/v1/query?" + queryStr, cancellationToken);
+
             double latestTimestamp;
 
             foreach (var serie in res!.Series)
             {
-                latestTimestamp = serie.PointList.Max(point => point[0]);
+                latestTimestamp = serie.PointList.Max(point => (int)point[0]!);
                 string regionStr = serie.Scope.Split(',').Last().Split(':').Last();
+                string instanceAliasStr = serie.Scope.Split(',').First().Split(':').Last();
+                instanceAliasStr = instanceAliasStr[^1..];
+
                 if (Enum.TryParse(regionStr, ignoreCase: true, out Region region))
                 {
-                    var pointsInLast15Minutes = serie.PointList
-                        .Where(point => latestTimestamp - point[0] <= 600 * 1000)
-                        .Select(point => (int)point[1]);
+                    if (Enum.TryParse(instanceAliasStr, ignoreCase: true, out GameModeAlias instanceAlias))
+                    {
+                        var pointsInLast15Minutes = serie.PointList
+                            .Where(point => point[1] != null && latestTimestamp - point[0] <= 600 * 1000)
+                            .Select(point => (int)point[1]!);
 
-                    int maxPlayingCount = pointsInLast15Minutes.Any() ? pointsInLast15Minutes.Max() : 0;
+                        int maxPlayingCount = pointsInLast15Minutes.Any() ? pointsInLast15Minutes.Max() : 0;
 
-                    serverStats.Total.PlayingCount += maxPlayingCount;
-                    serverStats.Regions[region] = new GameStats { PlayingCount = maxPlayingCount };
+                        serverStats.Total.PlayingCount += maxPlayingCount;
+
+                        if (!serverStats.Regions.ContainsKey(region))
+                        {
+                            serverStats.Regions[region] = new Dictionary<GameMode, GameStats>();
+                        }
+
+                        serverStats.Regions[region][gameModeByInstanceAlias[instanceAlias]] = new GameStats { PlayingCount = maxPlayingCount };
+                    }
                 }
             }
         }
@@ -137,7 +155,7 @@ public class DatadogGameServerStatsService : IGameServerStatsService
         public int Length { get; set; }
         public long Start { get; set; }
         public long End { get; set; }
-        public double[][] PointList { get; set; } = Array.Empty<double[]>();
+        public double?[][] PointList { get; set; } = Array.Empty<double?[]>();
         [JsonPropertyName("display_name")]
         public string DisplayName { get; set; } = string.Empty;
         public Dictionary<string, object> Attributes { get; set; } = new();

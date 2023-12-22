@@ -168,10 +168,10 @@ region:
 region-title: Region
 
 game-mode:
-  Battle: Battle
-  Conquest: Conquest
-  DTV: DTV
-  Duel: Duel
+  CRPGBattle: Battle
+  CRPGConquest: Conquest
+  CRPGDTV: DTV
+  CRPGDuel: Duel
 
 clanBalancingExplanation: "
   <h3>You're not in any clan</h3>

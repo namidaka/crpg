@@ -166,10 +166,10 @@ region:
 region-title: Регион
 
 game-mode:
-  Battle: Битва
-  Conquest: Завоевание
-  DTV: DTV
-  Duel: Дуэль
+  CRPGBattle: Битва
+  CRPGConquest: Завоевание
+  CRPGDTV: DTV
+  CRPGDuel: Дуэль
 
 clanBalancingExplanation: '
   <h3>Вы не в клане</h3>
