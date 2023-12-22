@@ -14,6 +14,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 {
     private const int RewardMultiplier = 2;
     private const int MapDuration = 60 * 120;
+    private const int CavalryDelayTimer = 120;
 
     private readonly CrpgRewardServer _rewardServer;
     private readonly CrpgDtvData _dtvData;
@@ -24,8 +25,10 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     private bool _gameStarted;
     private bool _waveStarted;
     private bool _timerExpired;
+    private bool _botsDismounted;
     private MissionTimer? _waveStartTimer;
     private MissionTimer? _endGameTimer;
+    private MissionTime _currentWaveStartTime;
     private MissionTime _currentRoundStartTime;
 
     public CrpgDtvServer(CrpgRewardServer rewardServer)
@@ -135,6 +138,11 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         }
         else if (_waveStarted)
         {
+            if (!_botsDismounted && CheckForDelayingCavalry())
+            {
+                DismountCavalryBots();
+            }
+
             CheckForWaveEnd();
         }
         else if (_waveStartTimer != null && _waveStartTimer.Check())
@@ -239,6 +247,8 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _currentRoundDefendersCount = _currentWave == 0 ? GetDefendersCount() : _currentRoundDefendersCount;
         SpawningBehavior.RequestSpawnSessionForWaveStart(CurrentWaveData, _currentRoundDefendersCount);
         SendDataToPeers(new CrpgDtvWaveStartMessage { Wave = _currentWave });
+        _currentWaveStartTime = MissionTime.Now;
+        _botsDismounted = false;
         _waveStarted = true;
     }
 
@@ -312,6 +322,34 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
                 }
             }
         }
+    }
+
+    private bool CheckForDelayingCavalry()
+    {
+        if (_currentWaveStartTime.ElapsedSeconds < CavalryDelayTimer)
+        {
+            return false;
+        }
+
+        if (SpawningBehavior.SpawnedAttackers * 0.25f < Mission.AttackerTeam.ActiveAgents.Count)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void DismountCavalryBots()
+    {
+        foreach (Agent agent in Mission.AttackerTeam.ActiveAgents)
+        {
+            if (agent.HasMount)
+            {
+                DamageHelper.DamageAgent(agent.MountAgent, 500);
+            }
+        }
+
+        _botsDismounted = true;
     }
 
     private int GetDefendersCount()
