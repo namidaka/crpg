@@ -330,13 +330,9 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
                     stonePile.Activate();
                 }
 
-                bool isServer = GameNetwork.IsServer;
-                if (isServer)
-                {
-                    GameNetwork.BeginBroadcastModuleEvent();
-                    GameNetwork.WriteMessage(new SetStonePileAmmo(stonePile.Id, newAmmoCount));
-                    GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord);
-                }
+                GameNetwork.BeginBroadcastModuleEvent();
+                GameNetwork.WriteMessage(new SetStonePileAmmo(stonePile.Id, newAmmoCount));
+                GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord);
             }
         }
     }
