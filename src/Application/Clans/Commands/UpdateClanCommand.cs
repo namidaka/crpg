@@ -62,6 +62,9 @@ public record UpdateClanCommand : IMediatorRequest<ClanViewModel>
 
             RuleFor(c => c.Discord)
                 .Must(u => u == null || u.Host == "discord.gg");
+
+            RuleFor(c => c.ArmoryTimeout)
+                .GreaterThanOrEqualTo(TimeSpan.FromDays(1));
         }
     }
 

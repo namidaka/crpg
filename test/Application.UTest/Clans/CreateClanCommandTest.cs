@@ -27,6 +27,7 @@ public class CreateClanCommandTest : TestBase
             BannerKey = "abc",
             Region = Region.Na,
             Discord = new Uri("https://discord.gg/abc"),
+            ArmoryTimeout = TimeSpan.FromDays(12),
         }, CancellationToken.None);
 
         var clan = result.Data!;
@@ -38,6 +39,7 @@ public class CreateClanCommandTest : TestBase
         Assert.That(clan.BannerKey, Is.EqualTo("abc"));
         Assert.That(clan.Region, Is.EqualTo(Region.Na));
         Assert.That(clan.Discord, Is.EqualTo(new Uri("https://discord.gg/abc")));
+        Assert.That(clan.ArmoryTimeout, Is.EqualTo(TimeSpan.FromDays(12)));
 
         Assert.That(AssertDb.Clans, Has.Exactly(1).Matches<Clan>(c => c.Id == clan.Id));
         Assert.That(AssertDb.ClanMembers, Has.Exactly(1)
