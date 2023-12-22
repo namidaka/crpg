@@ -479,8 +479,8 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         int meleeSkill = GetMeleeSkill(agent, equippedItem, secondaryItem);
         SkillObject skill = (equippedItem == null) ? DefaultSkills.Athletics : equippedItem.RelevantSkill;
         int effectiveSkill = GetEffectiveSkill(agent, skill);
-        float num = MBMath.ClampFloat(CalculateAILevel(agent, meleeSkill * (350 / 300)) * GetDifficultyModifier(), 0f, 1f);
-        float num2 = MBMath.ClampFloat(CalculateAILevel(agent, effectiveSkill * (350 / 300)) * GetDifficultyModifier(), 0f, 1f);
+        float num = MBMath.ClampFloat(CalculateAILevel(agent, meleeSkill) * GetDifficultyModifier() * (300 / 350), 0f, 1f);
+        float num2 = MBMath.ClampFloat(CalculateAILevel(agent, effectiveSkill) * GetDifficultyModifier() * (300 / 350), 0f, 1f);
         float num3 = num + agent.Defensiveness;
         agentDrivenProperties.AiRangedHorsebackMissileRange = 0.3f + 0.4f * num2;
         agentDrivenProperties.AiFacingMissileWatch = -0.96f + num * 0.06f;
