@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { type ClanArmoryItem } from '@/models/clan';
+import { ClanMemberRole, type ClanArmoryItem } from '@/models/clan';
 import { type UserPublic } from '@/models/user';
 import { useUserStore } from '@/stores/user';
 import { isOwnClanArmoryItem, isClanArmoryItemInInventory } from '@/services/clan-service';
 
-const { clanArmoryItem } = defineProps<{
+const { clanArmoryItem,borrower,lender } = defineProps<{
   clanArmoryItem: ClanArmoryItem;
   lender: UserPublic;
   borrower: UserPublic | null;
@@ -16,10 +16,13 @@ const emit = defineEmits<{
   return: [id: number];
 }>();
 
-const { user, userItems } = toRefs(useUserStore());
+const { user, userItems, clanMemberRole } = toRefs(useUserStore());
 
 const isOwnArmoryItem = computed(() => isOwnClanArmoryItem(clanArmoryItem, user.value!.id));
 const isInInventory = computed(() => isClanArmoryItemInInventory(clanArmoryItem, userItems.value));
+const canReturn = computed(
+  () => borrower?.id === user.value!.id || clanMemberRole.value === ClanMemberRole.Leader
+);
 </script>
 
 <template>
@@ -75,7 +78,7 @@ const isInInventory = computed(() => isClanArmoryItemInInventory(clanArmoryItem,
 
       <template v-else>
         <OButton
-          v-if="borrower.id === user!.id"
+          v-if="canReturn"
           variant="secondary"
           icon-left="armory"
           expanded

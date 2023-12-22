@@ -153,12 +153,8 @@ export const getClanArmoryItemLender = (userItem: UserItem, clanMembers: ClanMem
   return clanMembers.find(cm => cm.user.id === userItem.userId)?.user || null;
 };
 
-// TODO: spec
-export const isOwnClanArmoryItem = (item: ClanArmoryItem, userId: number) => {
-  return item.userItem.userId === userId;
-};
+export const isOwnClanArmoryItem = (item: ClanArmoryItem, userId: number) =>
+  item.userItem.userId === userId;
 
-// TODO: spec
-export const isClanArmoryItemInInventory = (item: ClanArmoryItem, userItems: UserItem[]) => {
-  return userItems.some(ui => ui.item.id === item.userItem.item.id);
-};
+export const isClanArmoryItemInInventory = (item: ClanArmoryItem, userItems: UserItem[]) =>
+  userItems.some(ui => ui.item.id === item.userItem.item.id);

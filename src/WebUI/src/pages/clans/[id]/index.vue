@@ -73,7 +73,7 @@ const canUpdateMember = computed(() =>
 
 const updateMember = async (userId: number, selectedRole: ClanMemberRole) => {
   await updateClanMember(clanId.value, userId, selectedRole);
-  await loadClanMembers();
+  await Promise.all([loadClanMembers(), userStore.getUserClanAndRole()]);
   notify(t('clan.member.update.notify.success'));
 };
 

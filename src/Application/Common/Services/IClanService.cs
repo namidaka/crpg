@@ -134,8 +134,11 @@ internal class ClanService : IClanService
         }
 
         var userItem = await db.UserItems
-                .Where(ui => ui.UserId == user.Id && ui.Id == userItemId)
-                .Where(ui => ui.Item!.Enabled && ui.Item.Type != ItemType.Banner)
+                .Where(ui =>
+                    ui.UserId == user.Id
+                    && ui.Id == userItemId
+                    && ui.Item!.Enabled
+                    && ui.Item.Type != ItemType.Banner)
                 .Include(ui => ui.Item)
                 .Include(ui => ui.ClanArmoryItem)
                 .Include(ui => ui.EquippedItems)
@@ -250,7 +253,10 @@ internal class ClanService : IClanService
         }
 
         var borrowedItem = await db.ClanArmoryBorrowedItems
-            .Where(bi => bi.UserItemId == userItemId && bi.BorrowerUserId == user.Id && bi.BorrowerClanId == clan.Id)
+            .Where(bi =>
+                bi.UserItemId == userItemId
+                && (bi.BorrowerUserId == user.Id || user.ClanMembership!.Role == ClanMemberRole.Leader) // force return by clan leader
+                && bi.BorrowerClanId == clan.Id)
             .Include(bi => bi.UserItem!).ThenInclude(ui => ui.EquippedItems)
             .FirstOrDefaultAsync(cancellationToken);
         if (borrowedItem == null)

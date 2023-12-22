@@ -8,7 +8,7 @@ public class ReturnUnusedClanArmoryItemsCommandTest : TestBase
 {
     [TestCase(3, 0)]
     [TestCase(11, 4)]
-    public async Task ShouldReturn(int clanArmoryTimeoutDays, int clanArmoryBorrowedItemsCount)
+    public async Task Basic(int clanArmoryTimeoutDays, int clanArmoryBorrowedItemsCount)
     {
         await ClanArmoryTestHelper.CommonSetUp(ArrangeDb, armoryTimeout: clanArmoryTimeoutDays);
         await ClanArmoryTestHelper.AddItems(ArrangeDb, "user0", 2);
