@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
 using Crpg.Module.Common;
 using Crpg.Module.Rewards;
+using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
@@ -309,6 +310,32 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
                 if (!weapon.IsEmpty && (weapon.IsAnyConsumable() || weapon.CurrentUsageItem.IsShield))
                 {
                     agent.SetWeaponAmountInSlot(i, weapon.ModifiedMaxAmount, false);
+                }
+            }
+        }
+    }
+
+    private void RegenerateStonePiles()
+    {
+        foreach (StonePile stonePile in Mission.MissionObjects.FindAllWithType<StonePile>())
+        {
+            int ammoCount = stonePile.AmmoCount;
+            if (!(ammoCount == stonePile.StartingAmmoCount))
+            {
+                int newAmmoCount = stonePile.AmmoCount + 1;
+                newAmmoCount = Math.Min(newAmmoCount, stonePile.StartingAmmoCount);
+                stonePile.SetAmmo(newAmmoCount);
+                if (newAmmoCount > 0)
+                {
+                    stonePile.Activate();
+                }
+
+                bool isServer = GameNetwork.IsServer;
+                if (isServer)
+                {
+                    GameNetwork.BeginBroadcastModuleEvent();
+                    GameNetwork.WriteMessage(new SetStonePileAmmo(stonePile.Id, newAmmoCount));
+                    GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord);
                 }
             }
         }
