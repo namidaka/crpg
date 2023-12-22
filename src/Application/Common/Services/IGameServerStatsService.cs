@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Crpg.Application.Games.Models;
 using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.Servers;
+using Crpg.Sdk.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using LoggerFactory = Crpg.Logging.LoggerFactory;
@@ -28,11 +29,12 @@ public class DatadogGameServerStatsService : IGameServerStatsService
         { GameModeAlias.D, GameMode.CRPGSkirmish },
     };
 
+    private readonly IDateTime _dateTime;
     private DateTime _lastUpdate = DateTime.MinValue;
     private GameServerStats? _serverStats;
-
-    public DatadogGameServerStatsService(IConfiguration configuration, HttpClient httpClient)
+    public DatadogGameServerStatsService(IConfiguration configuration, HttpClient httpClient, IDateTime dateTime)
     {
+        _dateTime = dateTime;
         string? ddApiKey = configuration["Datadog:ApiKey"];
         string? ddApplicationKey = configuration["Datadog:ApplicationKey"];
         if (ddApiKey != null && ddApplicationKey != null)
@@ -51,17 +53,17 @@ public class DatadogGameServerStatsService : IGameServerStatsService
             return null;
         }
 
-        if (DateTime.UtcNow < _lastUpdate + TimeSpan.FromMinutes(1))
+        if (_dateTime.UtcNow < _lastUpdate + TimeSpan.FromMinutes(1))
         {
             return _serverStats;
         }
 
-        var to = DateTimeOffset.UtcNow;
+        var to = _dateTime.UtcNow.Subtract(DateTime.UnixEpoch);
         var from = to - TimeSpan.FromMinutes(15); // Adjust to a 15-minute window
         FormUrlEncodedContent query = new(new[]
         {
-            KeyValuePair.Create("from", from.ToUnixTimeSeconds().ToString()),
-            KeyValuePair.Create("to", to.ToUnixTimeSeconds().ToString()),
+            KeyValuePair.Create("from", from.TotalSeconds.ToString()),
+            KeyValuePair.Create("to", to.TotalSeconds.ToString()),
             KeyValuePair.Create("query", "sum:crpg.users.playing.count{*} by {region, instance}"), // The query itself does not change
         });
         string queryStr = await query.ReadAsStringAsync(cancellationToken);
@@ -115,7 +117,7 @@ public class DatadogGameServerStatsService : IGameServerStatsService
         }
 
         // Both fields can be updated by several threads but the results is the same.
-        _lastUpdate = DateTime.UtcNow;
+        _lastUpdate = _dateTime.UtcNow;
         _serverStats = serverStats;
         return _serverStats;
     }
