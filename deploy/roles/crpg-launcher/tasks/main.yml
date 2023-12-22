@@ -1,0 +1,33 @@
+---
+- name: Assert LauncherV3.exe exists
+  assert:
+    that:
+      - "'{{ launcher_path }}' is file"
+    fail_msg: "LauncherV3.exe does not exist at the expected location."
+    success_msg: "LauncherV3.exe exists."
+  delegate_to: localhost
+  vars:
+    launcher_path: "../src/LauncherV3/bin/Release/net8.0-windows/publish/LauncherV3.exe"
+- name: Assert LauncherVersion exists
+  assert:
+    that:
+      - "'{{ launcher_version_path }}' is file"
+    fail_msg: "LauncherV3.exe does not exist at the expected location."
+    success_msg: "LauncherV3.exe exists."
+  delegate_to: localhost
+  vars:
+    launcher_version_path: "../src/LauncherV3/LauncherVersion.txt"
+
+- name: Copy Launcher to destination
+  ansible.builtin.copy:
+    src: ../src/LauncherV3/bin/Release/net8.0-windows/publish/LauncherV3.exe
+    dest: "{{ crpg_ui_path }}"
+    owner: nginx
+    group: nginx
+
+- name: Copy LauncherVersion to destination
+  ansible.builtin.copy:
+    src: ../src/LauncherV3/LauncherVersion.txt
+    dest: "{{ crpg_ui_path }}"
+    owner: nginx
+    group: nginx

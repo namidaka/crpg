@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LauncherV2.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "/hash \"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Mount & Blade II Bannerlord\\Modules\\cRPG\" /output a:/hash.xml"
+    }
+  }
+}
