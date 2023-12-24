@@ -1309,6 +1309,9 @@ item:
     type_asc: По типу
     rank_desc: По рангу
 
+  filter:
+    all: Все
+
 leaderboard:
   title: Таблица лидеров
   table:

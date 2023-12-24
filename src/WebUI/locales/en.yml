@@ -1307,6 +1307,9 @@ item:
     type_asc: By type
     rank_desc: By rank
 
+  filter:
+    all: All
+
 activityLog:
   form:
     from: From

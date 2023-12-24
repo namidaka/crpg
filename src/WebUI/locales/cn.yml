@@ -1299,6 +1299,9 @@ item:
     type_asc: 按类型排序
     rank_desc: 按等级划分
 
+  filter:
+    all: 一应俱全
+
 leaderboard:
   title: 排行榜
   table:
