@@ -5,6 +5,7 @@ using TaleWorlds.MountAndBlade;
 
 #if CRPG_SERVER
 using Crpg.Module.Common.ChatCommands.Admin;
+using Crpg.Module.Common.ChatCommands.Commander;
 using Crpg.Module.Common.ChatCommands.User;
 #endif
 
@@ -36,6 +37,7 @@ internal class ChatCommandsComponent : MissionLogic
             new BanCommand(this, crpgClient),
             new MapCommand(this),
             new HotConstantUpdateCommand(this),
+            new OrderCommand(this),
         };
 #else
         _commands = Array.Empty<ChatCommand>();
