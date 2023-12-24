@@ -4,7 +4,7 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 namespace Crpg.Module.Common.Commander;
 
 [DefineGameNetworkMessageTypeForMod(GameNetworkMessageSendType.FromServer)]
-internal class CommanderPollOpened : GameNetworkMessage
+internal sealed class CommanderPollOpened : GameNetworkMessage
 {
     public NetworkCommunicator InitiatorPeer { get; set; } = default!;
     public NetworkCommunicator PlayerPeer { get; set; } = default!;
@@ -29,15 +29,11 @@ internal class CommanderPollOpened : GameNetworkMessage
 
     protected override string OnGetLogFormat()
     {
-        string?[] array = new string[5];
-        int num = 0;
-        NetworkCommunicator initiatorPeer = InitiatorPeer;
-        array[num] = initiatorPeer?.UserName;
+        string?[] array = new string[4];
+        array[0] = InitiatorPeer.UserName;
         array[1] = " wants to start poll to promote";
-        array[3] = " player: ";
-        int num2 = 4;
-        NetworkCommunicator playerPeer = PlayerPeer;
-        array[num2] = playerPeer?.UserName;
+        array[2] = " player: ";
+        array[3] = PlayerPeer.UserName;
         return string.Concat(array);
     }
 }

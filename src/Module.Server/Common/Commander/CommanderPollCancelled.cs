@@ -3,7 +3,7 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace Crpg.Module.Common.Commander;
 [DefineGameNetworkMessageTypeForMod(GameNetworkMessageSendType.FromServer)]
-public sealed class CommanderPollCancelled : GameNetworkMessage
+internal sealed class CommanderPollCancelled : GameNetworkMessage
 {
     public int TeamIndex { get; set; }
     protected override bool OnRead()
