@@ -7,7 +7,6 @@ using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Network.Messages;
-using TaleWorlds.MountAndBlade.Objects.Siege;
 using TaleWorlds.ObjectSystem;
 
 namespace Crpg.Module.Modes.Dtv;

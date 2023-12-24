@@ -1,6 +1,5 @@
 ﻿using NetworkMessages.FromServer;
 using TaleWorlds.Core;
-using TaleWorlds.Diamond;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
