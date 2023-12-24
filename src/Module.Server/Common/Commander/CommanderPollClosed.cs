@@ -31,8 +31,7 @@ public sealed class CommanderPollClosed : GameNetworkMessage
     {
         string?[] array = new string[5];
         array[0] = "Poll is closed. ";
-        NetworkCommunicator? playerPeer = PlayerPeer;
-        array[1] = playerPeer.UserName ?? string.Empty;
+        array[1] = PlayerPeer.UserName;
         array[2] = " is ";
         array[3] = Accepted ? string.Empty : "not ";
         array[4] = "promoted to commander.";

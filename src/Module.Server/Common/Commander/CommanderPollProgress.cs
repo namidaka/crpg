@@ -3,7 +3,7 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace Crpg.Module.Common.Commander;
 [DefineGameNetworkMessageTypeForMod(GameNetworkMessageSendType.FromServer)]
-internal class CommanderPollProgress : GameNetworkMessage
+internal sealed class CommanderPollProgress : GameNetworkMessage
 {
     public int VotesAccepted { get; set; }
     public int VotesRejected { get; set; }
@@ -13,16 +13,16 @@ internal class CommanderPollProgress : GameNetworkMessage
     {
         bool result = true;
         TeamIndex = ReadTeamIndexFromPacket(ref result);
-        VotesAccepted = ReadIntFromPacket(CompressionBasic.PlayerCompressionInfo, ref result);
-        VotesRejected = ReadIntFromPacket(CompressionBasic.PlayerCompressionInfo, ref result);
+        VotesAccepted = ReadIntFromPacket(CompressionBasic.DebugIntNonCompressionInfo, ref result);
+        VotesRejected = ReadIntFromPacket(CompressionBasic.DebugIntNonCompressionInfo, ref result);
         return result;
     }
 
     protected override void OnWrite()
     {
         WriteTeamIndexToPacket(TeamIndex);
-        WriteIntToPacket(VotesAccepted, CompressionBasic.PlayerCompressionInfo);
-        WriteIntToPacket(VotesRejected, CompressionBasic.PlayerCompressionInfo);
+        WriteIntToPacket(VotesAccepted, CompressionBasic.DebugIntNonCompressionInfo);
+        WriteIntToPacket(VotesRejected, CompressionBasic.DebugIntNonCompressionInfo);
     }
 
     protected override MultiplayerMessageFilter OnGetLogFilter()

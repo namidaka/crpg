@@ -37,9 +37,9 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
         if (GameNetwork.IsClient)
         {
             registerer.Register<PollRequestRejected>(HandleServerEventPollRequestRejected);
-            //registerer.Register<CommanderPollProgress>(HandleServerEventUpdatePollProgress); TODO: fix client crash
+            registerer.Register<CommanderPollProgress>(HandleServerEventUpdatePollProgress);
             registerer.Register<CommanderPollCancelled>(HandleServerEventPollCancelled);
-            //registerer.Register<CommanderPollOpened>(HandleServerEventCommanderPollOpened); // TODO: fix client crash
+            registerer.Register<CommanderPollOpened>(HandleServerEventCommanderPollOpened);
             registerer.Register<CommanderPollClosed>(HandleServerEventCommanderPollClosed);
             return;
         }
@@ -130,12 +130,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
         }
 
         Action<MultiplayerPollRejectReason> onPollRejected = OnPollRejected;
-        if (onPollRejected == null)
-        {
-            return;
-        }
-
-        onPollRejected(rejectReason);
+        onPollRejected?.Invoke(rejectReason);
     }
 
     private void UpdatePollProgress(int votesAccepted, int votesRejected)
@@ -306,6 +301,11 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
                 Color = new Color(0.48f, 0f, 1f),
                 SoundEventPath = "event:/ui/notification/war_declared",
             });
+        }
+
+        if (GameNetwork.IsServer)
+        {
+            _commanderBehaviorServer.CreateCommand(poll.Target);
         }
     }
 
