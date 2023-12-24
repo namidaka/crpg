@@ -1320,8 +1320,8 @@ internal class ItemExporter : IDataExporter
 
             string id = mbItem.Type switch
             {
-                ItemObject.ItemTypeEnum.Banner => mbItem.StringId.Substring(0, mbItem.StringId.Length - 3),
-                _ => mbItem.StringId,
+                ItemObject.ItemTypeEnum.Banner => mbItem.StringId,
+                _ => mbItem.StringId.Substring(0, mbItem.StringId.Length - 3),
             };
 
             TaskCompletionSource<object?> createTextureTaskSource = new();
@@ -1334,7 +1334,7 @@ internal class ItemExporter : IDataExporter
                 texture.SaveToFile(Path.Combine(outputPath, id + ".png"));
                 createTextureTaskSource.SetResult(null);
             });
-        }
+        }   
 
         return Task.WhenAll(createTextureTasks);
     }
