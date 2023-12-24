@@ -282,7 +282,8 @@ const getPrimaryWeaponClass = (item: Item) => {
 
 // TODO: FIXME: SPEC cloneMultipleUsageWeapon param
 export const createItemIndex = (items: Item[], cloneMultipleUsageWeapon = false): ItemFlat[] => {
-  const result = items.reduce((out, item) => {
+  const result = JSON.parse(JSON.stringify(items)).reduce((out, item) => {
+    // TODO: leak, delete JSON
     if (item.weapons.length > 1) {
       item.weapons.forEach((w, idx) => {
         let weaponClass = normalizeWeaponClass(item.type, w);

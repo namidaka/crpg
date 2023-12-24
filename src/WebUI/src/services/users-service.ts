@@ -36,8 +36,7 @@ interface UserSearchQuery {
 export const searchUser = async (payload: UserSearchQuery) =>
   get<UserPublic[]>(`/users/search/?${qs.stringify(payload)}`);
 
-export const extractItemFromUserItem = (items: UserItem[]): Item[] =>
-  items.map(ui => JSON.parse(JSON.stringify(ui.item))); // TODO:
+export const extractItemFromUserItem = (items: UserItem[]): Item[] => items.map(ui => ui.item);
 
 export const getUserItems = () => get<UserItem[]>('/users/self/items');
 
