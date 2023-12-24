@@ -7,6 +7,8 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Multiplayer;
 using TaleWorlds.MountAndBlade.Source.Missions;
+using Crpg.Module.Common.Commander;
+
 
 #if CRPG_SERVER
 using Crpg.Module.Api;
@@ -110,6 +112,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
 #if CRPG_CLIENT
                 new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
                 new MultiplayerMissionAgentVisualSpawnComponent(), // expose method to spawn an agent
+                new CrpgCommanderBehaviorClient(),
 #endif
                 dtvClient,
                 new MultiplayerTimerComponent(), // round timer
@@ -120,6 +123,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new AgentVictoryLogic(), // AI cheering when winning round
                 new MissionBoundaryCrossingHandler(), // kills agent out of mission boundaries
                 new MultiplayerPollComponent(), // poll logic to kick player, ban player, change game
+                new CrpgCommanderPollComponent(),
                 new MissionOptionsComponent(),
                 new CrpgScoreboardComponent(new CrpgBattleScoreboardData()),
                 new MissionAgentPanicHandler(),
@@ -144,6 +148,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new NotAllPlayersReadyComponent(),
                 new DrowningBehavior(),
                 new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
+                new CrpgCommanderBehaviorServer(),
 #else
                 new MultiplayerAchievementComponent(),
                 MissionMatchHistoryComponent.CreateIfConditionsAreMet(),
