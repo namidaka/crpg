@@ -25,7 +25,9 @@
   <ItemGroup>
     <Content Include="..\..\src\Module.Server\ModuleData\characters.xml" Link="ModuleData\characters.xml" Visible="false" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\..\src\Module.Server\ModuleData\class_divisions.xml" Link="ModuleData\class_divisions.xml" Visible="false" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="..\..\src\Module.Server\ModuleData\dtv_data.xml" Link="ModuleData\dtv_data.xml" Visible="false" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Module.Server\ModuleData\dtv\dtv_characters.xml" Link="ModuleData\dtv\dtv_characters.xml" Visible="false" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Module.Server\ModuleData\dtv\dtv_class_divisions.xml" Link="ModuleData\dtv\dtv_class_divisions.xml" Visible="false" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Module.Server\ModuleData\dtv\dtv_data.xml" Link="ModuleData\dtv\dtv_data.xml" Visible="false" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
