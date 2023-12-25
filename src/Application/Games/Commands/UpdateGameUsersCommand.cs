@@ -6,6 +6,7 @@ using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Application.Games.Models;
 using Crpg.Domain.Entities.Characters;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -28,13 +29,15 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
         private readonly IMapper _mapper;
         private readonly ICharacterService _characterService;
         private readonly IActivityLogService _activityLogService;
+        private readonly IGameModeService _gameModeService;
 
-        public Handler(ICrpgDbContext db, IMapper mapper, ICharacterService characterService, IActivityLogService activityLogService)
+        public Handler(ICrpgDbContext db, IMapper mapper, ICharacterService characterService, IActivityLogService activityLogService, IGameModeService gameModeService)
         {
             _db = db;
             _mapper = mapper;
             _characterService = characterService;
             _activityLogService = activityLogService;
+            _gameModeService = gameModeService;
         }
 
         public async Task<Result<UpdateGameUsersResult>> Handle(UpdateGameUsersCommand req,
@@ -51,7 +54,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                 }
 
                 _characterService.UpdateRating(character, update.Rating.Value, update.Rating.Deviation, update.Rating.Volatility, isGameUserUpdate: true);
-                var reward = GiveReward(character, update.Reward);
+                var reward = GiveReward(character, update.Reward, update.Instance);
                 UpdateStatistics(character, update.Statistics);
                 var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
                 results.Add((character.User!, reward, brokenItems));
@@ -87,14 +90,18 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             return charactersById;
         }
 
-        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward)
+        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward, string instance)
         {
             int level = character.Level;
             int experience = character.Experience;
 
             character.User!.Gold += reward.Gold;
             _characterService.GiveExperience(character, reward.Experience, useExperienceMultiplier: true);
-            _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, "Battle", reward.Experience, reward.Gold)); // TODO: instance
+
+            if (Enum.TryParse(instance, ignoreCase: true, out GameModeAlias instanceAlias))
+            {
+                _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, _gameModeService.GameModeByInstanceAlias(instanceAlias).ToString(), reward.Experience, reward.Gold));
+            }
 
             return new GameUserEffectiveReward
             {

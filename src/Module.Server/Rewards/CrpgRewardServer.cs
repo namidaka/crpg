@@ -188,6 +188,7 @@ internal class CrpgRewardServer : MissionLogic
                 Statistics = new CrpgCharacterStatistics { Kills = 0, Deaths = 0, Assists = 0, PlayTime = TimeSpan.Zero },
                 Rating = crpgPeer.User.Character.Rating,
                 BrokenItems = Array.Empty<CrpgUserDamagedItem>(),
+                Instance = CrpgServerConfiguration.Instance,
             };
 
             if (CrpgFeatureFlags.IsEnabled(CrpgFeatureFlags.FeatureTournament))
