@@ -92,24 +92,45 @@ enum Zoom {
   '14d' = '14d',
 }
 
+const durationByZoom = {
+  [Zoom['1h']]: {
+    hours: 1,
+  },
+  [Zoom['3h']]: {
+    hours: 3,
+  },
+  [Zoom['12h']]: {
+    hours: 12,
+  },
+  [Zoom['2d']]: {
+    days: 2,
+  },
+  [Zoom['7d']]: {
+    days: 7,
+  },
+  [Zoom['14d']]: {
+    days: 14,
+  },
+};
+
 const chart = shallowRef<InstanceType<typeof VChart> | null>(null);
 const zoomModel = ref<Zoom>(Zoom['1h']);
 
 const getStart = (zoom: Zoom) => {
   switch (zoom) {
-    default:
     case Zoom['1h']:
-      return DateTime.local().minus({ hours: 1 }).toJSDate();
+    default:
+      return DateTime.local().minus(durationByZoom[Zoom['1h']]).toJSDate();
     case Zoom['3h']:
-      return DateTime.local().minus({ hours: 3 }).toJSDate();
+      return DateTime.local().minus(durationByZoom[Zoom['3h']]).toJSDate();
     case Zoom['12h']:
-      return DateTime.local().minus({ hours: 12 }).toJSDate();
+      return DateTime.local().minus(durationByZoom[Zoom['12h']]).toJSDate();
     case Zoom['2d']:
-      return DateTime.local().minus({ days: 2 }).toJSDate();
+      return DateTime.local().minus(durationByZoom[Zoom['2d']]).toJSDate();
     case Zoom['7d']:
-      return DateTime.local().minus({ days: 7 }).toJSDate();
+      return DateTime.local().minus(durationByZoom[Zoom['7d']]).toJSDate();
     case Zoom['14d']:
-      return DateTime.local().minus({ days: 14 }).toJSDate();
+      return DateTime.local().minus(durationByZoom[Zoom['14d']]).toJSDate();
   }
 };
 
@@ -161,7 +182,7 @@ const option = shallowRef<EChartsOption>({
 });
 
 const setZoom = () => {
-  end.value = new Date().getTime();
+  end.value = new Date();
   option.value = {
     ...option.value,
     xAxis: {
@@ -184,39 +205,58 @@ const onLegendSelectChanged = (e: LegendSelectEvent) => {
     .map(([legend, _status]) => legend);
 };
 
-watch(
-  zoomModel,
-  () => {
-    setZoom();
-  },
-  { immediate: true }
-);
+watch(zoomModel, setZoom, { immediate: true });
 </script>
 
 <template>
-  <div>
+  <div class="flex justify-center">
     <div class="mx-auto">
-      <div class="flex items-center justify-center gap-8">
+      <div class="flex items-center gap-8">
         <OTabs v-model="statTypeModel" type="fill-rounded" contentClass="hidden">
-          <OTabItem :value="StatType['Exp']" :label="`Exp.`" />
+          <OTabItem :value="StatType['Exp']" :label="`Exp`" />
           <OTabItem :value="StatType['Gold']" :label="`Gold`" />
         </OTabs>
         <OTabs v-model="zoomModel" type="fill-rounded" contentClass="hidden">
-          <OTabItem :value="Zoom['1h']" :label="$t('dateTimeFormat.hh', { hours: 1 })" />
-          <OTabItem :value="Zoom['3h']" :label="$t('dateTimeFormat.hh', { hours: 3 })" />
-          <OTabItem :value="Zoom['12h']" :label="$t('dateTimeFormat.hh', { hours: 12 })" />
-          <OTabItem :value="Zoom['2d']" :label="$t('dateTimeFormat.dd', { days: 2 })" />
-          <OTabItem :value="Zoom['7d']" :label="$t('dateTimeFormat.dd', { days: 7 })" />
-          <OTabItem :value="Zoom['14d']" :label="$t('dateTimeFormat.dd', { days: 14 })" />
+          <OTabItem
+            :value="Zoom['1h']"
+            :label="$t('dateTimeFormat.hh', durationByZoom[Zoom['1h']])"
+          />
+          <OTabItem
+            :value="Zoom['3h']"
+            :label="$t('dateTimeFormat.hh', durationByZoom[Zoom['3h']])"
+          />
+          <OTabItem
+            :value="Zoom['12h']"
+            :label="$t('dateTimeFormat.hh', durationByZoom[Zoom['12h']])"
+          />
+          <OTabItem
+            :value="Zoom['2d']"
+            :label="$t('dateTimeFormat.dd', durationByZoom[Zoom['2d']])"
+          />
+          <OTabItem
+            :value="Zoom['7d']"
+            :label="$t('dateTimeFormat.dd', durationByZoom[Zoom['7d']])"
+          />
+          <OTabItem
+            :value="Zoom['14d']"
+            :label="$t('dateTimeFormat.dd', durationByZoom[Zoom['14d']])"
+          />
         </OTabs>
-        <div>
-          <div class="text-lg font-semibold text-primary">
-            {{ $n(total) }} {{ statTypeModel === StatType.Exp ? 'exp.' : 'gold' }}
+        <div class="flex-1 text-lg font-semibold">
+          <Coin
+            v-if="statTypeModel === StatType.Gold"
+            :value="total"
+            :class="total < 0 ? 'text-status-danger' : 'text-status-success'"
+          />
+          <div v-else class="flex items-center gap-1.5 align-text-bottom font-bold text-primary">
+            <OIcon icon="experience" size="2xl" />
+            <span class="leading-none">{{ $n(total) }}</span>
           </div>
         </div>
       </div>
+
       <VChart
-        class="h-[40rem]"
+        class="h-[30rem] w-[48rem]"
         ref="chart"
         theme="crpg"
         :option="option"
