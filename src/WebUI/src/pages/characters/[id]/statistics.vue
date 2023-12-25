@@ -13,13 +13,13 @@ import {
 } from 'echarts/components';
 import { SVGRenderer } from 'echarts/renderers';
 import VChart from 'vue-echarts';
-import theme from '@/theme.json';
+import theme from '@/assets/themes/oruga-tailwind/echart-theme.json';
 import { d } from '@/services/translate-service';
 import { getCharacterStatisticsCharts } from '@/services/characters-service';
 import { characterKey } from '@/symbols/character';
 
 use([ToolboxComponent, BarChart, TooltipComponent, LegendComponent, GridComponent, SVGRenderer]);
-registerTheme('ovilia-green', theme);
+registerTheme('crpg', theme);
 type EChartsOption = ComposeOption<
   | LegendComponentOption
   | ToolboxComponentOption
@@ -27,7 +27,7 @@ type EChartsOption = ComposeOption<
   | GridComponentOption
   | BarSeriesOption
 >;
-import { subMinutes, subHours, subDays, eachMinuteOfInterval } from 'date-fns';
+import { DateTime } from 'luxon';
 
 definePage({
   props: true,
@@ -39,10 +39,10 @@ definePage({
 
 const character = injectStrict(characterKey);
 
-const loading = shallowRef(false);
+const loading = ref(false);
 const loadingOptions = {
   text: 'Loading…',
-  color: '#4ea397', // TODO:
+  color: '#4ea397',
   maskColor: 'rgba(255, 255, 255, 0.4)',
 };
 
@@ -51,6 +51,7 @@ interface TimeSeries {
   data: [Date, number][];
 }
 
+// TODO:
 enum StatType {
   'Exp' = 'Exp',
   'Gold' = 'Gold',
@@ -64,45 +65,12 @@ const { state: characterStatistics, execute: loadCharacterStatistics } = await u
   resetOnExecute: false,
 });
 watch(statTypeModel, async () => {
-  console.log('ddd');
   await loadCharacterStatistics();
   option.value = {
     ...option.value,
     series: characterStatistics.value.map(ts => ({ ...ts, type: 'bar' })),
   };
 });
-
-// console.log('ddd', characterStatistics.value);
-
-// @ts-ignore
-// const timeSeries = shallowRef<TimeSeries[]>([
-//   {
-//     name: 'Battle',
-//     data: [
-//       ...eachMinuteOfInterval({
-//         start: subMinutes(Date.now(), 130),
-//         end: subMinutes(Date.now(), 120),
-//       }).map(d => [d, getRandom(70000, 120000)]),
-//       ...eachMinuteOfInterval({
-//         start: subMinutes(Date.now(), 20),
-//         end: subMinutes(Date.now(), 10),
-//       }).map(d => [d, getRandom(50000, 100000)]),
-//     ],
-//   },
-//   {
-//     name: 'DTV',
-//     data: [
-//       ...eachMinuteOfInterval({
-//         start: subMinutes(Date.now(), 180),
-//         end: subMinutes(Date.now(), 170),
-//       }).map(d => [d, getRandom(30000, 40000)]),
-//       ...eachMinuteOfInterval({
-//         start: subMinutes(Date.now(), 40),
-//         end: subMinutes(Date.now(), 30),
-//       }).map(d => [d, getRandom(80000, 90000)]),
-//     ],
-//   },
-// ]);
 
 const legend = ref<string[]>(characterStatistics.value.map(ts => ts.name));
 const activeSeries = ref<string[]>(characterStatistics.value.map(ts => ts.name));
@@ -111,17 +79,9 @@ const total = computed(() =>
   characterStatistics.value
     .filter(ts => activeSeries.value.includes(ts.name))
     .flatMap(ts => ts.data)
-    .filter(([date]) => date.getTime() > start.value && date.getTime() < end.value)
+    .filter(([date]) => date > start.value && date < end.value)
     .reduce((total, [_date, value]) => total + value, 0)
 );
-
-function getRandom(min: number, max: number) {
-  const floatRandom = Math.random();
-  const difference = max - min;
-  const random = Math.round(difference * floatRandom);
-  const randomWithinRange = random + min;
-  return randomWithinRange;
-}
 
 enum Zoom {
   '1h' = '1h',
@@ -137,23 +97,24 @@ const zoomModel = ref<Zoom>(Zoom['1h']);
 
 const getStart = (zoom: Zoom) => {
   switch (zoom) {
+    default:
     case Zoom['1h']:
-      return subHours(Date.now(), 1).getTime();
+      return DateTime.local().minus({ hours: 1 }).toJSDate();
     case Zoom['3h']:
-      return subHours(Date.now(), 3).getTime();
+      return DateTime.local().minus({ hours: 3 }).toJSDate();
     case Zoom['12h']:
-      return subHours(Date.now(), 12).getTime();
+      return DateTime.local().minus({ hours: 12 }).toJSDate();
     case Zoom['2d']:
-      return subDays(Date.now(), 2).getTime();
+      return DateTime.local().minus({ days: 2 }).toJSDate();
     case Zoom['7d']:
-      return subDays(Date.now(), 7).getTime();
+      return DateTime.local().minus({ days: 7 }).toJSDate();
     case Zoom['14d']:
-      return subDays(Date.now(), 14).getTime();
+      return DateTime.local().minus({ days: 14 }).toJSDate();
   }
 };
 
 const start = computed(() => getStart(zoomModel.value));
-const end = ref<number>(new Date().getTime());
+const end = ref<Date>(new Date());
 
 const option = shallowRef<EChartsOption>({
   xAxis: {
@@ -235,7 +196,6 @@ watch(
 <template>
   <div>
     <div class="mx-auto">
-      <!-- <div>{{ characterStatistics }}</div> -->
       <div class="flex items-center justify-center gap-8">
         <OTabs v-model="statTypeModel" type="fill-rounded" contentClass="hidden">
           <OTabItem :value="StatType['Exp']" :label="`Exp.`" />
@@ -255,11 +215,10 @@ watch(
           </div>
         </div>
       </div>
-
       <VChart
         class="h-[40rem]"
         ref="chart"
-        theme="ovilia-green"
+        theme="crpg"
         :option="option"
         autoresize
         :loading="loading"

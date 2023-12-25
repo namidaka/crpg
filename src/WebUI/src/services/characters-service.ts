@@ -51,6 +51,8 @@ import { type ActivityLog } from '@/models/activity-logs';
 
 import { get, put, del } from '@/services/crpg-client';
 import { armorTypes, computeAverageRepairCostPerHour } from '@/services/item-service';
+import { t } from '@/services/translate-service';
+
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
 import { computeLeftMs, parseTimestamp } from '@/utils/date';
 import { range, groupBy } from '@/utils/array';
@@ -97,7 +99,7 @@ export const getCharacterStatisticsCharts = async (characterId: number, type: st
   const res = await get<ActivityLog[]>(`/users/self/characters/${characterId}/statistics/charts`);
 
   return res.reduce((out, l) => {
-    const currentEl = out.find(el => el.name === l.metadata.instance);
+    const currentEl = out.find(el => el.name === t(`game-mode.${l.metadata.gameMode}`));
 
     if (currentEl) {
       currentEl.data.push([
@@ -106,7 +108,7 @@ export const getCharacterStatisticsCharts = async (characterId: number, type: st
       ]);
     } else {
       out.push({
-        name: l.metadata.instance,
+        name: t(`game-mode.${l.metadata.gameMode}`),
         data: [
           [
             new Date(l.createdAt),
