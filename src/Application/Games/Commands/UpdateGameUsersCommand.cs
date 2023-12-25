@@ -100,7 +100,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 
             if (Enum.TryParse(instance, ignoreCase: true, out GameModeAlias instanceAlias))
             {
-                _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, _gameModeService.GameModeByInstanceAlias(instanceAlias).ToString(), reward.Experience, reward.Gold));
+                _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, _gameModeService.GameModeByInstanceAlias(instanceAlias), reward.Experience, reward.Gold));
             }
 
             return new GameUserEffectiveReward
