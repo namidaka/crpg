@@ -380,7 +380,7 @@ public class UsersController : BaseController
     }
 
     /// <summary>
-    /// TODO:
+    /// Get character exp/gold stats for the current user.
     /// </summary>
     /// <param name="id">Character id.</param>
     /// <returns>The character statistics charts.</returns>
