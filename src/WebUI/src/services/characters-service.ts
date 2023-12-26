@@ -96,14 +96,20 @@ export const deleteCharacter = (characterId: number) =>
 export const getCharacterStatistics = (characterId: number) =>
   get<CharacterStatistics>(`/users/self/characters/${characterId}/statistics`);
 
-export const getCharacterStatisticsCharts = async (
+export enum CharacterEarningType {
+  'Exp' = 'Exp',
+  'Gold' = 'Gold',
+}
+
+// TODO: spec
+export const getCharacterEarningStatistics = async (
   characterId: number,
-  type: string,
+  type: CharacterEarningType,
   from: Date
 ) => {
   return (
     await get<ActivityLog<CharacterEarnedMetadata>[]>(
-      `/users/self/characters/${characterId}/statistics/charts?${qs.stringify({ from })}`
+      `/users/self/characters/${characterId}/earning-statistics?${qs.stringify({ from })}`
     )
   ).reduce((out, l) => {
     const currentEl = out.find(el => el.name === t(`game-mode.${l.metadata.gameMode}`));
@@ -111,13 +117,19 @@ export const getCharacterStatisticsCharts = async (
     if (currentEl) {
       currentEl.data.push([
         l.createdAt,
-        parseInt(type === 'Exp' ? l.metadata.experience : l.metadata.gold, 10),
+        parseInt(type === CharacterEarningType.Exp ? l.metadata.experience : l.metadata.gold, 10),
       ]);
     } else {
       out.push({
         name: t(`game-mode.${l.metadata.gameMode}`),
         data: [
-          [l.createdAt, parseInt(type === 'Exp' ? l.metadata.experience : l.metadata.gold, 10)],
+          [
+            l.createdAt,
+            parseInt(
+              type === CharacterEarningType.Exp ? l.metadata.experience : l.metadata.gold,
+              10
+            ),
+          ],
         ],
       });
     }

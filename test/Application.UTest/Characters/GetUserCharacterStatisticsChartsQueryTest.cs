@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Characters;
 
-public class GetUserCharacterStatisticsChartsQueryTest : TestBase
+public class GetUserCharacterEarningStatisticsQueryTest : TestBase
 {
     [Test]
     public async Task ShouldReturnErrorIfCharacterDoesntExist()
@@ -29,8 +29,8 @@ public class GetUserCharacterStatisticsChartsQueryTest : TestBase
         });
         await ArrangeDb.SaveChangesAsync();
 
-        GetUserCharacterStatisticsChartsQuery.Handler handler = new(ActDb, Mapper,  new MachineDateTime());
-        var res = await handler.Handle(new GetUserCharacterStatisticsChartsQuery
+        GetUserCharacterEarningStatisticsQuery.Handler handler = new(ActDb, Mapper,  new MachineDateTime());
+        var res = await handler.Handle(new GetUserCharacterEarningStatisticsQuery
         {
             From = DateTime.UtcNow.AddMinutes(-20),
             CharacterId = character1.Id,

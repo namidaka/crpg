@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Characters.Queries;
 
-public record GetUserCharacterStatisticsChartsQuery : IMediatorRequest<IList<ActivityLogViewModel>>
+public record GetUserCharacterEarningStatisticsQuery : IMediatorRequest<IList<ActivityLogViewModel>>
 {
     public DateTime From { get; init; }
     public int CharacterId { get; init; }
     public int UserId { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<GetUserCharacterStatisticsChartsQuery, IList<ActivityLogViewModel>>
+    internal class Handler : IMediatorRequestHandler<GetUserCharacterEarningStatisticsQuery, IList<ActivityLogViewModel>>
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ public record GetUserCharacterStatisticsChartsQuery : IMediatorRequest<IList<Act
             _dateTime = dateTime;
         }
 
-        public async Task<Result<IList<ActivityLogViewModel>>> Handle(GetUserCharacterStatisticsChartsQuery req,
+        public async Task<Result<IList<ActivityLogViewModel>>> Handle(GetUserCharacterEarningStatisticsQuery req,
             CancellationToken cancellationToken)
         {
             var activityLogs = await _db.ActivityLogs

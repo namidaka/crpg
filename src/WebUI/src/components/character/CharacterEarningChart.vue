@@ -17,7 +17,7 @@ import VChart from 'vue-echarts';
 import { type TimeSeries } from '@/models/timeseries';
 import theme from '@/assets/themes/oruga-tailwind/echart-theme.json';
 import { d } from '@/services/translate-service';
-import { getCharacterStatisticsCharts } from '@/services/characters-service';
+import { getCharacterEarningStatistics, CharacterEarningType } from '@/services/characters-service';
 import { characterKey } from '@/symbols/character';
 
 use([ToolboxComponent, BarChart, TooltipComponent, LegendComponent, GridComponent, SVGRenderer]);
@@ -37,11 +37,6 @@ enum Zoom {
   '2d' = '2d',
   '7d' = '7d',
   '14d' = '14d',
-}
-
-enum StatType {
-  'Exp' = 'Exp',
-  'Gold' = 'Gold',
 }
 
 interface LegendSelectEvent {
@@ -101,27 +96,30 @@ const getStart = (zoom: Zoom) => {
 const zoomModel = ref<Zoom>(Zoom['1h']);
 const start = computed(() => getStart(zoomModel.value));
 
-const statTypeModel = ref<StatType>(StatType['Exp']);
-const { state: characterStatistics, execute: loadCharacterStatistics } = await useAsyncState<
-  TimeSeries[]
->(() => getCharacterStatisticsCharts(character.value.id, statTypeModel.value, start.value), [], {
-  resetOnExecute: false,
-});
+const statTypeModel = ref<CharacterEarningType>(CharacterEarningType.Exp);
+const { state: characterEarningStatistics, execute: loadCharacterEarningStatistics } =
+  await useAsyncState<TimeSeries[]>(
+    () => getCharacterEarningStatistics(character.value.id, statTypeModel.value, start.value),
+    [],
+    {
+      resetOnExecute: false,
+    }
+  );
 
-const legend = ref<string[]>(characterStatistics.value.map(ts => ts.name));
-const activeSeries = ref<string[]>(characterStatistics.value.map(ts => ts.name));
+const legend = ref<string[]>(characterEarningStatistics.value.map(ts => ts.name));
+const activeSeries = ref<string[]>(characterEarningStatistics.value.map(ts => ts.name));
 
 const onUpdate = async () => {
-  await loadCharacterStatistics();
+  await loadCharacterEarningStatistics();
   option.value = {
     ...option.value,
-    series: characterStatistics.value.map(ts => ({ ...ts, type: 'bar' })),
+    series: characterEarningStatistics.value.map(ts => ({ ...ts, type: 'bar' })),
     legend: {
       ...option.value.legend,
-      data: characterStatistics.value.map(ts => ts.name),
+      data: characterEarningStatistics.value.map(ts => ts.name),
     },
   };
-  activeSeries.value = characterStatistics.value.map(ts => ts.name);
+  activeSeries.value = characterEarningStatistics.value.map(ts => ts.name);
 };
 watch(statTypeModel, async () => {
   await onUpdate();
@@ -132,7 +130,7 @@ watch(zoomModel, async () => {
 });
 
 const total = computed(() =>
-  characterStatistics.value
+  characterEarningStatistics.value
     .filter(ts => activeSeries.value.includes(ts.name))
     .flatMap(ts => ts.data)
     .reduce((total, [_date, value]) => total + value, 0)
@@ -183,7 +181,7 @@ const option = shallowRef<EChartsOption>({
       },
     },
   },
-  series: characterStatistics.value.map(ts => ({ ...ts, type: 'bar' })),
+  series: characterEarningStatistics.value.map(ts => ({ ...ts, type: 'bar' })),
 });
 
 const setZoom = () => {
@@ -209,8 +207,14 @@ const onLegendSelectChanged = (e: LegendSelectEvent) => {
   <div class="flex max-h-[90vh] min-w-[48rem] flex-col pl-5 pr-10 pt-8">
     <div class="flex items-center gap-4">
       <OTabs v-model="statTypeModel" type="fill-rounded" contentClass="hidden">
-        <OTabItem :value="StatType['Exp']" :label="$t('character.earningChart.type.experience')" />
-        <OTabItem :value="StatType['Gold']" :label="$t('character.earningChart.type.gold')" />
+        <OTabItem
+          :value="CharacterEarningType.Exp"
+          :label="$t('character.earningChart.type.experience')"
+        />
+        <OTabItem
+          :value="CharacterEarningType.Gold"
+          :label="$t('character.earningChart.type.gold')"
+        />
       </OTabs>
       <OTabs v-model="zoomModel" type="fill-rounded" contentClass="hidden">
         <OTabItem
@@ -226,7 +230,7 @@ const onLegendSelectChanged = (e: LegendSelectEvent) => {
       </OTabs>
       <div class="flex-1 text-lg font-semibold">
         <Coin
-          v-if="statTypeModel === StatType.Gold"
+          v-if="statTypeModel === CharacterEarningType.Gold"
           :value="total"
           :class="total < 0 ? 'text-status-danger' : 'text-status-success'"
         />
