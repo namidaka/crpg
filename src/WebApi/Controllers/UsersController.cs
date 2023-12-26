@@ -382,16 +382,20 @@ public class UsersController : BaseController
     /// <summary>
     /// Get character exp/gold stats for the current user.
     /// </summary>
+    /// <param name="from">Start of the queried time period.</param>
     /// <param name="id">Character id.</param>
     /// <returns>The character statistics charts.</returns>
     /// <response code="200">Ok.</response>
     [HttpGet("self/characters/{id}/statistics/charts")]
-    public async Task<ActionResult<Result<IList<ActivityLogViewModel>>>> GetCharacterStatisticsCharts([FromRoute] int id)
+    public async Task<ActionResult<Result<IList<ActivityLogViewModel>>>> GetCharacterStatisticsCharts(
+        [FromQuery] DateTime from,
+        [FromRoute] int id)
     {
         return ResultToAction(await Mediator.Send(new GetUserCharacterStatisticsChartsQuery
         {
             UserId = CurrentUser.User!.Id,
             CharacterId = id,
+            From = from,
         }, CancellationToken.None));
     }
 

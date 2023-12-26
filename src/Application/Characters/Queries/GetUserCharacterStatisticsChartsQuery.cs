@@ -4,14 +4,14 @@ using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
 using Crpg.Domain.Entities.ActivityLogs;
+using Crpg.Sdk.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Characters.Queries;
 
 public record GetUserCharacterStatisticsChartsQuery : IMediatorRequest<IList<ActivityLogViewModel>>
 {
+    public DateTime From { get; init; }
     public int CharacterId { get; init; }
     public int UserId { get; init; }
 
@@ -19,12 +19,13 @@ public record GetUserCharacterStatisticsChartsQuery : IMediatorRequest<IList<Act
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
-        private static readonly ILogger Logger = LoggerFactory.CreateLogger<GetUserCharacterStatisticsChartsQuery>();
+        private readonly IDateTime _dateTime;
 
-        public Handler(ICrpgDbContext db, IMapper mapper)
+        public Handler(ICrpgDbContext db, IMapper mapper, IDateTime dateTime)
         {
             _db = db;
             _mapper = mapper;
+            _dateTime = dateTime;
         }
 
         public async Task<Result<IList<ActivityLogViewModel>>> Handle(GetUserCharacterStatisticsChartsQuery req,
@@ -34,13 +35,12 @@ public record GetUserCharacterStatisticsChartsQuery : IMediatorRequest<IList<Act
                 .Include(l => l.Metadata)
                 .Where(l =>
                     l.UserId == req.UserId
-                    && int.Parse(l.Metadata.First(m => m.Key == "characterId").Value) == req.CharacterId
-                    && l.CreatedAt >= DateTime.UtcNow.AddDays(-14)
-                    && l.CreatedAt <= DateTime.UtcNow
-                    && l.Type == ActivityLogType.CharacterEarned)
+                    && l.Type == ActivityLogType.CharacterEarned
+                    && l.CreatedAt >= req.From
+                    && l.CreatedAt <= _dateTime.UtcNow
+                    && int.Parse(l.Metadata.First(m => m.Key == "characterId").Value) == req.CharacterId)
                 .ToArrayAsync(cancellationToken);
 
-            // Logger.LogInformation("dDDDDDDDDDDDDDDdDDDDDDDDDDDDDDdDDDDDDDDDDDDDDdDDDDDDDDDDDDDDdDDDDDDDDDDDDDDdDDDDDDDDDDDDDDdDDDDDDDDDDDDDD '{0}' dDDDDDDDDDDDDDD", int.Parse(activityLogs[0].Metadata.First(m => m.Key == "characterId").Value));
             return new(_mapper.Map<IList<ActivityLogViewModel>>(activityLogs));
         }
     }
