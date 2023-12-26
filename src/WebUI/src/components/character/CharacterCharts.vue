@@ -19,6 +19,7 @@ import theme from '@/assets/themes/oruga-tailwind/echart-theme.json';
 import { d } from '@/services/translate-service';
 import { getCharacterStatisticsCharts } from '@/services/characters-service';
 import { characterKey } from '@/symbols/character';
+import { sleep } from '@/utils/promise';
 
 use([ToolboxComponent, BarChart, TooltipComponent, LegendComponent, GridComponent, SVGRenderer]);
 registerTheme('crpg', theme);
@@ -106,7 +107,6 @@ const statTypeModel = ref<StatType>(StatType['Exp']);
 const { state: characterStatistics, execute: loadCharacterStatistics } = await useAsyncState<
   TimeSeries[]
 >(() => getCharacterStatisticsCharts(character.value.id, statTypeModel.value, start.value), [], {
-  immediate: true,
   resetOnExecute: false,
 });
 
