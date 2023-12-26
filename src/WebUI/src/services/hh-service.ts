@@ -13,27 +13,29 @@ interface HHScheduleConfig {
 }
 
 export const getHHScheduleConfig = () => {
-  return import.meta.env.VITE_HH.split(',').reduce((out, cur) => {
-    // TODO: try/catch
-    const [region, start, end, tz] = cur.split('|') as [Region, string, string, string];
+  return import.meta.env.VITE_HH.split(',').reduce(
+    (out, cur) => {
+      const [region, start, end, tz] = cur.split('|') as [Region, string, string, string];
 
-    const [startHours, startMinutes] = start.split(':');
-    const [endHours, endMinutes] = end.split(':');
+      const [startHours, startMinutes] = start.split(':');
+      const [endHours, endMinutes] = end.split(':');
 
-    out[region] = {
-      start: {
-        hours: Number(startHours),
-        minutes: Number(startMinutes),
-      },
-      end: {
-        hours: Number(endHours),
-        minutes: Number(endMinutes),
-      },
-      tz,
-    };
+      out[region] = {
+        start: {
+          hours: Number(startHours),
+          minutes: Number(startMinutes),
+        },
+        end: {
+          hours: Number(endHours),
+          minutes: Number(endMinutes),
+        },
+        tz,
+      };
 
-    return out;
-  }, {} as Record<Region, HHScheduleConfig>);
+      return out;
+    },
+    {} as Record<Region, HHScheduleConfig>
+  );
 };
 
 interface HHEvent {
@@ -55,8 +57,8 @@ export const getHHEventByRegion = (region: Region): HHEvent => {
   );
 
   return {
-    start: startDt.setZone(DateTime.local().zoneName).toJSDate(),
-    end: endDt.setZone(DateTime.local().zoneName).toJSDate(),
+    start: startDt.setZone(DateTime.local().zoneName!).toJSDate(),
+    end: endDt.setZone(DateTime.local().zoneName!).toJSDate(),
   };
 };
 

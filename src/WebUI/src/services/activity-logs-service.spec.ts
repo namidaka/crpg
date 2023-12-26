@@ -5,9 +5,7 @@ import { ActivityLogType, type ActivityLog } from '@/models/activity-logs';
 const { mockedGetUsersByIds } = vi.hoisted(() => ({
   mockedGetUsersByIds: vi.fn().mockResolvedValue([]),
 }));
-vi.mock('@/services/users-service', () => {
-  return { getUsersByIds: mockedGetUsersByIds };
-});
+vi.mock('@/services/users-service', () => ({ getUsersByIds: mockedGetUsersByIds }));
 
 import { getActivityLogs, getActivityLogsWithUsers } from './activity-logs-service';
 
@@ -74,7 +72,9 @@ describe('getActivityLogs', () => {
   };
 
   it('base', async () => {
-    expect((await getActivityLogs(payload))[0]).toContain({ type: ActivityLogType.UserRenamed });
+    expect((await getActivityLogs(payload))[0]).toMatchObject({
+      type: ActivityLogType.UserRenamed,
+    });
 
     expect(mock).toHaveFetched();
     expect(mock).toHaveFetchedWithQuery(
@@ -85,7 +85,7 @@ describe('getActivityLogs', () => {
   it('types', async () => {
     expect(
       (await getActivityLogs({ ...payload, type: [ActivityLogType.UserCreated] }))[0]
-    ).toContain({ type: ActivityLogType.UserCreated });
+    ).toMatchObject({ type: ActivityLogType.UserCreated });
 
     expect(mock).toHaveFetched();
     expect(mock).toHaveFetchedWithQuery(
@@ -94,7 +94,7 @@ describe('getActivityLogs', () => {
   });
 
   it('userIds', async () => {
-    expect((await getActivityLogs({ ...payload, userId: [123, 124] }))[0]).toContain({
+    expect((await getActivityLogs({ ...payload, userId: [123, 124] }))[0]).toMatchObject({
       type: ActivityLogType.UserDeleted,
     });
 

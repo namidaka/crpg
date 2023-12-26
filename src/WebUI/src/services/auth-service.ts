@@ -37,7 +37,4 @@ export const login = (platform: Platform) =>
 
 export const logout = () => userManager.signoutRedirect();
 
-export const getToken = async () => {
-  const user = await userManager.getUser();
-  return extractToken(user);
-};
+export const getToken = async () => extractToken(await userManager.getUser());

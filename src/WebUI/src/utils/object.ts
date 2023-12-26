@@ -33,7 +33,7 @@ export const omit = <T extends {}, K extends keyof T>(obj: T, keys: Array<K>): P
 
 export const omitPredicate = <T extends {}, K extends keyof T>(
   obj: T,
-  predicate: (...args: any[]) => boolean
+  predicate: (args: K) => boolean
 ): Pick<T, K> => pickFunc(obj, predicate);
 
 export const getEntries = <T extends object>(obj: T) => Object.entries(obj) as Entries<T>;

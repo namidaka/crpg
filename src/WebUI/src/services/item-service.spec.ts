@@ -84,6 +84,9 @@ import {
   computeSalePrice,
   computeBrokenItemRepairCost,
   computeAverageRepairCostPerHour,
+  getItemUpgrades,
+  canUpgrade,
+  canAddedToClanArmory,
 } from './item-service';
 
 beforeEach(() => {
@@ -103,7 +106,7 @@ it('getItems', async () => {
 
 it('getItemImage', () => {
   expect(getItemImage('crpg_aserai_noble_sword_2_t5')).toEqual(
-    '/items/crpg_aserai_noble_sword_2_t5.png'
+    '/items/crpg_aserai_noble_sword_2_t5.webp'
   );
 });
 
@@ -391,7 +394,7 @@ describe('humanizeBucket', () => {
       'requirement',
       18,
       {
-        label: 'item.requirementFormat',
+        label: 'item.requirementFormat::value:18',
         icon: null,
         tooltip: null,
       },
@@ -424,7 +427,7 @@ describe('humanizeBucket', () => {
     };
 
     expect(humanizeBucket('swingDamage', 10, item as ItemFlat)).toEqual({
-      label: 'item.damageTypeFormat',
+      label: 'item.damageTypeFormat::value:10,type:item.damageType.Cut.short',
       icon: null,
       tooltip: {
         title: 'item.damageType.Cut.title',
@@ -686,4 +689,22 @@ it.each<[number, number]>([
   [100000, 11519],
 ])('computeAverageRepairCostPerHour - price: %s,', (price, expectation) => {
   expect(computeAverageRepairCostPerHour(price)).toEqual(expectation);
+});
+
+it.each<[ItemType, boolean]>([
+  [ItemType.OneHandedWeapon, true],
+  [ItemType.Banner, false],
+])('canUpgrade - type: %s', (itemType, expectation) => {
+  expect(canUpgrade(itemType)).toEqual(expectation);
+});
+
+it.todo('TODO', () => {
+  // getItemUpgrades();
+});
+
+it.each<[ItemType, boolean]>([
+  [ItemType.OneHandedWeapon, true],
+  [ItemType.Banner, false],
+])('canAddedToClanArmory - type: %s', (itemType, expectation) => {
+  expect(canAddedToClanArmory(itemType)).toEqual(expectation);
 });

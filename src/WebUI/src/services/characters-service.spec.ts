@@ -48,6 +48,7 @@ import {
   getRespecCapability,
   validateItemNotMeetRequirement,
   computeOverallWeight,
+  getCharacterLimitations,
 } from './characters-service';
 
 beforeEach(() => {
@@ -82,7 +83,11 @@ it('respecializeCharacter', async () => {
   expect(await respecializeCharacter(123)).toEqual(mockCharacters[0]);
 });
 
-it.todo('TODO: getCharacterLimitations', () => {});
+it('getCharacterLimitations', async () => {
+  mockGet('/users/self/characters/123/limitations').willResolve(response({ test: 'ok' }));
+
+  expect(await getCharacterLimitations(123)).toEqual({ test: 'ok' });
+});
 
 it.each<[Partial<Character>, boolean]>([
   [{ forTournament: false, generation: 0, level: 19 }, true],
@@ -428,6 +433,6 @@ it.each<[PartialDeep<Item[]>, number]>([
     ],
     3.8,
   ],
-])('computeOverallWeight - items: %j, expectedWeight: %j, ', (items, expectation) => {
+])('computeOverallWeight - items: %j, expectedWeight: %j', (items, expectation) => {
   expect(computeOverallWeight(items as Item[])).toEqual(expectation);
 });

@@ -6,7 +6,7 @@ const { patchNotes = [] } = defineProps<{ patchNotes: PatchNote[] }>();
 
 const latestPatch = computed(() => patchNotes[0]);
 
-const timeAgo = useLocaleTimeAgo(new Date(latestPatch.value.createdAt));
+const timeAgo = useLocaleTimeAgo(latestPatch.value.createdAt);
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const timeAgo = useLocaleTimeAgo(new Date(latestPatch.value.createdAt));
         <div
           class="max-w-[18rem] overflow-hidden overflow-ellipsis whitespace-nowrap font-bold text-content-100 group-hover:text-content-200"
         >
-          {{ latestPatch.title }}
+          {{ latestPatch.title || $t('patchNotes.latestPatch') }}
         </div>
         <Tag variant="primary" :label="latestPatch.tagName" />
       </div>

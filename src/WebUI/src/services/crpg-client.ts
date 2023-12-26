@@ -3,11 +3,16 @@ import { ErrorType, type Result } from '@/models/crpg-client-result';
 import { getToken, login } from '@/services/auth-service';
 import { NotificationType, notify } from '@/services/notification-service';
 import { sleep } from '@/utils/promise';
+
 import { Platform } from '@/models/platform';
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-async function trySend<T = any>(method: string, path: string, body?: any): Promise<Result<T>> {
+async function trySend<T = any>(
+  method: string,
+  path: string,
+  body?: any
+): Promise<Result<T> | null> {
   const token = await getToken();
 
   const response = await fetch(API_BASE_URL + path, {
@@ -26,7 +31,9 @@ async function trySend<T = any>(method: string, path: string, body?: any): Promi
     return null!;
   }
 
-  return response.status !== StatusCodes.NO_CONTENT ? await response.json() : null;
+  return response.status !== StatusCodes.NO_CONTENT
+    ? (JSONDateToJs(await response.json()) as Result<T>)
+    : null;
 }
 
 async function send(method: string, path: string, body?: any): Promise<any> {
@@ -51,7 +58,7 @@ async function send(method: string, path: string, body?: any): Promise<any> {
   }
 }
 
-export function tryGet<T = any>(path: string): Promise<Result<T>> {
+export function tryGet<T = any>(path: string): Promise<Result<T> | null> {
   return trySend<T>('GET', path);
 }
 
@@ -70,3 +77,18 @@ export function put<T = any>(path: string, body?: any): Promise<T> {
 export function del(path: string): Promise<any> {
   return send('DELETE', path);
 }
+
+// https://medium.com/@vladkens/automatic-parsing-of-date-strings-in-rest-protocol-with-typescript-cf43554bd157
+export const JSONDateToJs = (data: unknown) => {
+  if (isIsoDateString(data)) return new Date(data);
+  if (data === null || data === undefined || typeof data !== 'object') return data;
+  for (const [key, val] of Object.entries(data)) {
+    // @ts-expect-error this is a hack to make the type checker happy
+    if (isIsoDateString(val)) data[key] = new Date(val);
+    else if (typeof val === 'object') JSONDateToJs(val);
+  }
+  return data;
+};
+const ISODateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
+const isIsoDateString = (value: unknown): value is string =>
+  typeof value === 'string' && ISODateFormat.test(value);

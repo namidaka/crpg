@@ -111,24 +111,16 @@ const newItemCount = computed(
 
     <div class="mb-2 flex items-center gap-6 overflow-x-auto pb-2">
       <VDropdown :triggers="['click']" placement="bottom-end">
-        <OButton variant="primary" outlined size="xl" rounded>
-          <FontAwesomeLayers full-width class="fa-2x">
-            <FontAwesomeIcon :icon="['crpg', 'dots']" />
-            <FontAwesomeLayersText
-              v-if="
-                hideOwnedItemsModel ||
-                ('weaponUsage' in filterModel && filterModel['weaponUsage']!.length > 1) ||
-                ('new' in filterModel && filterModel['new']!.length)
-              "
-              counter
-              value="●"
-              position="top-right"
-              :style="{ '--fa-counter-background-color': 'rgba(83, 188, 150, 1)' }"
-            />
-          </FontAwesomeLayers>
-        </OButton>
+        <MoreOptionsDropdownButton
+          :active="
+            hideOwnedItemsModel ||
+            Boolean('weaponUsage' in filterModel && filterModel['weaponUsage']!.length > 1) ||
+            Boolean('new' in filterModel && filterModel['new']!.length)
+          "
+        />
 
         <template #popper="{ hide }">
+          <!-- TODO: to cmp -->
           <DropdownItem>
             <Tooltip
               :title="$t('item.aggregations.new.title')"
@@ -295,7 +287,7 @@ const newItemCount = computed(
             </template>
             <template v-if="field === 'price'" #default="{ rawBuckets }">
               <ShopGridItemBuyBtn
-                :price="rawBuckets as number"
+                :price="rawBuckets"
                 :upkeep="item.upkeep"
                 :inInventory="userItemsIds.includes(item.id)"
                 :notEnoughGold="userStore.user!.gold < item.price"
@@ -317,30 +309,13 @@ const newItemCount = computed(
       <template #footer>
         <div class="space-y-4 bg-base-100 py-4 pr-2 backdrop-blur-sm">
           <div class="grid h-14 grid-cols-3 items-center gap-6">
-            <div class="flex items-center gap-4">
-              <OPagination
-                v-model:current="pageModel"
-                :total="searchResult.pagination.total"
-                :rangeBefore="2"
-                :rangeAfter="2"
-                :perPage="searchResult.pagination.per_page"
-                order="left"
-                aria-next-label="Next page"
-                aria-previous-label="Previous page"
-                aria-page-label="Page"
-                aria-current-label="Current page"
-              >
-                <!-- hidden prev/next -->
-                <template #next>
-                  <span></span>
-                </template>
-                <template #previous>
-                  <span></span>
-                </template>
-              </OPagination>
-
-              <OInput v-model="pageModel" size="sm" rounded class="w-20" clearable />
-            </div>
+            <Pagination
+              v-model="pageModel"
+              :total="searchResult.pagination.total"
+              :perPage="searchResult.pagination.per_page"
+              order="left"
+              withInput
+            />
 
             <div class="flex justify-center">
               <OButton

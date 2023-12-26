@@ -49,7 +49,6 @@ import { ItemSlot, ItemType, type Item, type ItemArmorComponent } from '@/models
 import { type HumanDuration } from '@/models/datetime';
 
 import { get, put, del } from '@/services/crpg-client';
-import { mapUserItem } from '@/services/users-service';
 import { armorTypes, computeAverageRepairCostPerHour } from '@/services/item-service';
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
 import { computeLeftMs, parseTimestamp } from '@/utils/date';
@@ -92,14 +91,8 @@ export const getCharacterStatistics = (characterId: number) =>
 export const getCharacterRating = (characterId: number) =>
   get<CharacterRating>(`/users/self/characters/${characterId}/rating`);
 
-// TODO: spec
-export const getCharacterLimitations = async (characterId: number) => {
-  const res = await get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`);
-  return {
-    ...res,
-    lastRespecializeAt: new Date(res.lastRespecializeAt),
-  };
-};
+export const getCharacterLimitations = (characterId: number) =>
+  get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`);
 
 export const getCharacterCharacteristics = (characterId: number) =>
   get<CharacterCharacteristics>(`/users/self/characters/${characterId}/characteristics`);
@@ -117,7 +110,6 @@ export const updateCharacterCharacteristics = (
   req: CharacterCharacteristics
 ) => put<CharacterCharacteristics>(`/users/self/characters/${characterId}/characteristics`, req);
 
-//
 const computeExperienceDistribution = (level: number): number => {
   const [a, b] = experienceForLevelCoefs;
   return Math.pow(level - 1, a) + Math.pow(b, a / 2.0) * (level - 1);
@@ -287,13 +279,8 @@ export const computeSpeedStats = (
   };
 };
 
-export const mapEquippedItem = (equippedItem: EquippedItem) => ({
-  ...equippedItem,
-  userItem: mapUserItem(equippedItem.userItem),
-});
-
 export const getCharacterItems = async (characterId: number) =>
-  (await get<EquippedItem[]>(`/users/self/characters/${characterId}/items`)).map(mapEquippedItem);
+  get<EquippedItem[]>(`/users/self/characters/${characterId}/items`);
 
 export const updateCharacterItems = (characterId: number, items: EquippedItemId[]) =>
   put<EquippedItem[]>(`/users/self/characters/${characterId}/items`, { items });
@@ -355,6 +342,7 @@ export const computeLongestWeaponLength = (items: Item[]) => {
 };
 
 // TODO: handle upgrade items.
+// TODO: SPEC
 export const computeOverallAverageRepairCostByHour = (items: Item[]) =>
   Math.floor(items.reduce((total, item) => total + computeAverageRepairCostPerHour(item.price), 0));
 

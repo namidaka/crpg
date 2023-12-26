@@ -31,7 +31,7 @@ namespace Crpg.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "activity_log_type", new[] { "user_created", "user_deleted", "user_renamed", "user_rewarded", "item_bought", "item_sold", "item_broke", "item_reforged", "item_repaired", "item_upgraded", "character_created", "character_deleted", "character_rating_reset", "character_respecialized", "character_retired", "character_rewarded", "server_joined", "chat_message_sent", "team_hit" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "activity_log_type", new[] { "user_created", "user_deleted", "user_renamed", "user_rewarded", "item_bought", "item_sold", "item_broke", "item_reforged", "item_repaired", "item_upgraded", "character_created", "character_deleted", "character_rating_reset", "character_respecialized", "character_retired", "character_rewarded", "server_joined", "chat_message_sent", "team_hit", "clan_armory_add_item", "clan_armory_remove_item", "clan_armory_return_item", "clan_armory_borrow_item" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "battle_fighter_application_status", new[] { "pending", "declined", "accepted" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "battle_mercenary_application_status", new[] { "pending", "declined", "accepted" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "battle_phase", new[] { "preparation", "hiring", "scheduled", "live", "end" });
@@ -420,6 +420,10 @@ namespace Crpg.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<TimeSpan>("ArmoryTimeout")
+                        .HasColumnType("interval")
+                        .HasColumnName("armory_timeout");
+
                     b.Property<string>("BannerKey")
                         .IsRequired()
                         .HasColumnType("text")
@@ -476,6 +480,40 @@ namespace Crpg.Persistence.Migrations
                         .HasDatabaseName("ix_clans_tag");
 
                     b.ToTable("clans", (string)null);
+                });
+
+            modelBuilder.Entity("Crpg.Domain.Entities.Clans.ClanArmoryBorrowedItem", b =>
+                {
+                    b.Property<int>("UserItemId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_item_id");
+
+                    b.Property<int>("BorrowerClanId")
+                        .HasColumnType("integer")
+                        .HasColumnName("borrower_clan_id");
+
+                    b.Property<int>("BorrowerUserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("borrower_user_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("UserItemId")
+                        .HasName("pk_clan_armory_borrowed_items");
+
+                    b.HasIndex("BorrowerClanId")
+                        .HasDatabaseName("ix_clan_armory_borrowed_items_borrower_clan_id");
+
+                    b.HasIndex("BorrowerUserId")
+                        .HasDatabaseName("ix_clan_armory_borrowed_items_borrower_user_id");
+
+                    b.ToTable("clan_armory_borrowed_items", (string)null);
                 });
 
             modelBuilder.Entity("Crpg.Domain.Entities.Clans.ClanInvitation", b =>
@@ -559,6 +597,40 @@ namespace Crpg.Persistence.Migrations
                         .HasDatabaseName("ix_clan_members_clan_id");
 
                     b.ToTable("clan_members", (string)null);
+                });
+
+            modelBuilder.Entity("Crpg.Domain.Entities.Items.ClanArmoryItem", b =>
+                {
+                    b.Property<int>("UserItemId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_item_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("LenderClanId")
+                        .HasColumnType("integer")
+                        .HasColumnName("lender_clan_id");
+
+                    b.Property<int>("LenderUserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("lender_user_id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("UserItemId")
+                        .HasName("pk_clan_armory_items");
+
+                    b.HasIndex("LenderClanId")
+                        .HasDatabaseName("ix_clan_armory_items_lender_clan_id");
+
+                    b.HasIndex("LenderUserId")
+                        .HasDatabaseName("ix_clan_armory_items_lender_user_id");
+
+                    b.ToTable("clan_armory_items", (string)null);
                 });
 
             modelBuilder.Entity("Crpg.Domain.Entities.Items.EquippedItem", b =>
@@ -1398,6 +1470,45 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Clans.ClanArmoryBorrowedItem", b =>
+                {
+                    b.HasOne("Crpg.Domain.Entities.Clans.Clan", "Clan")
+                        .WithMany("ArmoryBorrowedItems")
+                        .HasForeignKey("BorrowerClanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_clan_armory_borrowed_items_clans_clan_id");
+
+                    b.HasOne("Crpg.Domain.Entities.Clans.ClanMember", "Borrower")
+                        .WithMany("ArmoryBorrowedItems")
+                        .HasForeignKey("BorrowerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_clan_armory_borrowed_items_clan_members_borrower_temp_id");
+
+                    b.HasOne("Crpg.Domain.Entities.Items.UserItem", "UserItem")
+                        .WithOne("ClanArmoryBorrowedItem")
+                        .HasForeignKey("Crpg.Domain.Entities.Clans.ClanArmoryBorrowedItem", "UserItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_clan_armory_borrowed_items_user_items_user_item_id");
+
+                    b.HasOne("Crpg.Domain.Entities.Items.ClanArmoryItem", "ArmoryItem")
+                        .WithOne("BorrowedItem")
+                        .HasForeignKey("Crpg.Domain.Entities.Clans.ClanArmoryBorrowedItem", "UserItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_clan_armory_borrowed_items_clan_armory_items_armory_item_te");
+
+                    b.Navigation("ArmoryItem");
+
+                    b.Navigation("Borrower");
+
+                    b.Navigation("Clan");
+
+                    b.Navigation("UserItem");
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Clans.ClanInvitation", b =>
                 {
                     b.HasOne("Crpg.Domain.Entities.Clans.Clan", "Clan")
@@ -1447,6 +1558,36 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("Clan");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Crpg.Domain.Entities.Items.ClanArmoryItem", b =>
+                {
+                    b.HasOne("Crpg.Domain.Entities.Clans.Clan", "Clan")
+                        .WithMany("ArmoryItems")
+                        .HasForeignKey("LenderClanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_clan_armory_items_clans_clan_id");
+
+                    b.HasOne("Crpg.Domain.Entities.Clans.ClanMember", "Lender")
+                        .WithMany("ArmoryItems")
+                        .HasForeignKey("LenderUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_clan_armory_items_clan_members_lender_temp_id1");
+
+                    b.HasOne("Crpg.Domain.Entities.Items.UserItem", "UserItem")
+                        .WithOne("ClanArmoryItem")
+                        .HasForeignKey("Crpg.Domain.Entities.Items.ClanArmoryItem", "UserItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_clan_armory_items_user_items_user_item_id");
+
+                    b.Navigation("Clan");
+
+                    b.Navigation("Lender");
+
+                    b.Navigation("UserItem");
                 });
 
             modelBuilder.Entity("Crpg.Domain.Entities.Items.EquippedItem", b =>
@@ -1968,9 +2109,25 @@ namespace Crpg.Persistence.Migrations
 
             modelBuilder.Entity("Crpg.Domain.Entities.Clans.Clan", b =>
                 {
+                    b.Navigation("ArmoryBorrowedItems");
+
+                    b.Navigation("ArmoryItems");
+
                     b.Navigation("Invitations");
 
                     b.Navigation("Members");
+                });
+
+            modelBuilder.Entity("Crpg.Domain.Entities.Clans.ClanMember", b =>
+                {
+                    b.Navigation("ArmoryBorrowedItems");
+
+                    b.Navigation("ArmoryItems");
+                });
+
+            modelBuilder.Entity("Crpg.Domain.Entities.Items.ClanArmoryItem", b =>
+                {
+                    b.Navigation("BorrowedItem");
                 });
 
             modelBuilder.Entity("Crpg.Domain.Entities.Items.Item", b =>
@@ -1980,6 +2137,10 @@ namespace Crpg.Persistence.Migrations
 
             modelBuilder.Entity("Crpg.Domain.Entities.Items.UserItem", b =>
                 {
+                    b.Navigation("ClanArmoryBorrowedItem");
+
+                    b.Navigation("ClanArmoryItem");
+
                     b.Navigation("EquippedItems");
                 });
 

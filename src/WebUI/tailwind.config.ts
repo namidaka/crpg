@@ -109,6 +109,7 @@ export default {
         sm: ['18px', '23px'],
         xs: ['15px', '21px'],
         '2xs': ['12px', '18px'],
+        '3xs': ['10px', '14px'],
       },
 
       minWidth: {

@@ -25,6 +25,7 @@ public record CreateClanCommand : IMediatorRequest<ClanViewModel>
     public string BannerKey { get; init; } = string.Empty;
     public Region Region { get; init; }
     public Uri? Discord { get; init; }
+    public TimeSpan ArmoryTimeout { get; init; }
 
     public class Validator : AbstractValidator<CreateClanCommand>
     {
@@ -58,6 +59,9 @@ public record CreateClanCommand : IMediatorRequest<ClanViewModel>
 
             RuleFor(c => c.Discord)
                 .Must(u => u == null || u.Host == "discord.gg");
+
+            RuleFor(c => c.ArmoryTimeout)
+                .GreaterThanOrEqualTo(TimeSpan.FromDays(1));
         }
     }
 
@@ -108,6 +112,7 @@ public record CreateClanCommand : IMediatorRequest<ClanViewModel>
                 BannerKey = req.BannerKey,
                 Region = req.Region,
                 Discord = req.Discord,
+                ArmoryTimeout = req.ArmoryTimeout,
                 Members =
                 {
                     new ClanMember

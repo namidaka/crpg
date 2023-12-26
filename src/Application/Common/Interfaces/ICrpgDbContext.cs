@@ -24,6 +24,8 @@ public interface ICrpgDbContext
     DbSet<Restriction> Restrictions { get; }
     DbSet<Clan> Clans { get; }
     DbSet<ClanMember> ClanMembers { get; }
+    DbSet<ClanArmoryItem> ClanArmoryItems { get; }
+    DbSet<ClanArmoryBorrowedItem> ClanArmoryBorrowedItems { get; }
     DbSet<ClanInvitation> ClanInvitations { get; }
     DbSet<Party> Parties { get; }
     DbSet<Settlement> Settlements { get; }

@@ -25,11 +25,14 @@ export interface UserPublic
   clan: Clan | null;
 }
 
+// TODO: to /models/item.ts
 export interface UserItem {
   id: number;
+  userId: number;
+  createdAt: Date;
   item: Item;
   isBroken: boolean;
-  createdAt: Date;
+  isArmoryItem: boolean;
 }
 
 export interface UserItemsByType {

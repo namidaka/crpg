@@ -1,5 +1,8 @@
-const mockedPush = vi.fn();
-const mockedUseRoute = vi.fn();
+const { mockedPush, mockedUseRoute, mockedGetSortingConfig } = vi.hoisted(() => ({
+  mockedPush: vi.fn(),
+  mockedUseRoute: vi.fn(),
+  mockedGetSortingConfig: vi.fn(),
+}));
 vi.mock('vue-router', () => ({
   useRoute: mockedUseRoute,
   useRouter: vi.fn().mockImplementation(() => ({
@@ -7,7 +10,6 @@ vi.mock('vue-router', () => ({
   })),
 }));
 
-const mockedGetSortingConfig = vi.fn();
 vi.mock('@/services/item-search-service', () => ({
   getSortingConfig: mockedGetSortingConfig,
 }));

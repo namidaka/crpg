@@ -17,10 +17,13 @@ import {
   clanTagPattern,
   clanBannerKeyPattern,
   discordLinkPattern,
+  minValue,
+  integer,
 } from '@/services/validators-service';
 import { notify, NotificationType } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
 import { Region } from '@/models/region';
+import { daysToMs, parseTimestamp } from '@/utils/date';
 
 const props = withDefaults(
   defineProps<{
@@ -37,6 +40,7 @@ const props = withDefaults(
       bannerKey: '',
       discord: null,
       description: '',
+      armoryTimeout: daysToMs(3),
     }),
   }
 );
@@ -45,7 +49,7 @@ const emit = defineEmits<{
   (e: 'submit', form: Omit<Clan, 'id'>): void;
 }>();
 
-const clanFormModel = ref<Omit<Clan, 'id'>>({ ...props.clan });
+const clanFormModel = ref<Omit<Clan, 'id'>>(props.clan);
 
 const $v = useVuelidate(
   {
@@ -71,6 +75,10 @@ const $v = useVuelidate(
     discord: {
       url,
       discordLinkPattern,
+    },
+    armoryTimeout: {
+      minValue: minValue(1),
+      integer,
     },
   },
   clanFormModel
@@ -268,6 +276,35 @@ const onSubmit = async () => {
             @focus="$v.discord.$reset"
           />
         </OField>
+      </FormGroup>
+
+      <FormGroup icon="armory" :label="$t('clan.update.form.group.armory.label')">
+        <div class="grid grid-cols-2 gap-4">
+          <OField
+            data-aq-clan-form-field="armoryTimeout"
+            :label="$t('clan.update.form.group.armory.field.armoryTimeout.label')"
+            :message="$t('clan.update.form.group.armory.field.armoryTimeout.hint')"
+            v-bind="{
+              ...($v.armoryTimeout.$error && {
+                variant: 'danger',
+                message: $v.armoryTimeout.$errors[0].$message,
+              }),
+            }"
+          >
+            <OInput
+              :modelValue="parseTimestamp(clanFormModel.armoryTimeout).days"
+              @update:modelValue="
+                (days: string) => (clanFormModel.armoryTimeout = daysToMs(Number(days)))
+              "
+              type="number"
+              size="sm"
+              expanded
+              data-aq-clan-form-input="armoryTimeout"
+              @blur="$v.armoryTimeout.$touch"
+              @focus="$v.armoryTimeout.$reset"
+            />
+          </OField>
+        </div>
       </FormGroup>
     </div>
 

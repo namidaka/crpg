@@ -1,3 +1,4 @@
+using Crpg.Application.Common;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
@@ -52,6 +53,15 @@ public record DeleteUserCommand : IMediatorRequest
             user.Name = string.Empty;
             user.Avatar = new Uri("https://via.placeholder.com/184x184");
             user.DeletedAt = _dateTime.UtcNow; // Deleted users are just marked with a DeletedAt != null
+
+            await _db.EquippedItems
+                .RemoveRangeAsync(ei => ei.UserItem!.UserId == req.UserId, cancellationToken);
+
+            await _db.ClanArmoryBorrowedItems
+                .RemoveRangeAsync(bi => bi.BorrowerUserId == req.UserId, cancellationToken);
+
+            await _db.ClanArmoryItems
+                .RemoveRangeAsync(ci => ci.LenderUserId == req.UserId, cancellationToken);
 
             _db.UserItems.RemoveRange(user.Items);
             _db.Characters.RemoveRange(user.Characters);

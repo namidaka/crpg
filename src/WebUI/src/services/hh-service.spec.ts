@@ -23,7 +23,7 @@ it.each<
     {
       start: Date;
       end: Date;
-    }
+    },
   ]
 >([
   [

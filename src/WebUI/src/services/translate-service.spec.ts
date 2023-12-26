@@ -1,4 +1,12 @@
-const mockSetAttribute = vi.fn();
+const { mockedSetter, mockedSetLocaleMessage, mockSetAttribute, mockLocale } = vi.hoisted(() => ({
+  mockedSetter: vi.fn(),
+  mockedSetLocaleMessage: vi.fn(),
+  mockSetAttribute: vi.fn(),
+  mockLocale: {
+    value: '',
+  },
+}));
+
 document.querySelector = vi.fn().mockReturnValue({
   setAttribute: mockSetAttribute,
 } as unknown as HTMLElement);
@@ -7,11 +15,6 @@ const spyGetItem = vi.spyOn(Storage.prototype, 'getItem');
 const spySetItem = vi.spyOn(Storage.prototype, 'setItem');
 const spyLanguageGetter = vi.spyOn(window.navigator, 'language', 'get');
 
-const mockSetLocaleMessage = vi.fn();
-const mockLocale = {
-  value: '',
-};
-const mockedSetter = vi.fn();
 Object.defineProperty(mockLocale, 'value', {
   set: mockedSetter,
 });
@@ -22,7 +25,7 @@ vi.mock(
       global: {
         locale: mockLocale,
         availableLocales: ['en'],
-        setLocaleMessage: mockSetLocaleMessage,
+        setLocaleMessage: mockedSetLocaleMessage,
       },
     },
   }))
@@ -53,7 +56,7 @@ describe('switch language', () => {
     const NEW_LANG = 'en';
     await switchLanguage(NEW_LANG);
 
-    expect(mockSetLocaleMessage).not.toBeCalled();
+    expect(mockedSetLocaleMessage).not.toBeCalled();
     expect(mockedSetter).toBeCalledWith(NEW_LANG);
     expect(mockSetAttribute).toBeCalledWith('lang', NEW_LANG);
     expect(spySetItem).toBeCalledWith('user-locale', NEW_LANG);
@@ -63,7 +66,7 @@ describe('switch language', () => {
     const NEW_LANG = 'ru';
     await switchLanguage(NEW_LANG);
 
-    expect(mockSetLocaleMessage).toBeCalledWith(NEW_LANG, expect.any(Object));
+    expect(mockedSetLocaleMessage).toBeCalledWith(NEW_LANG, expect.any(Object));
     expect(mockedSetter).toBeCalledWith(NEW_LANG);
     expect(mockSetAttribute).toBeCalledWith('lang', NEW_LANG);
     expect(spySetItem).toBeCalledWith('user-locale', NEW_LANG);

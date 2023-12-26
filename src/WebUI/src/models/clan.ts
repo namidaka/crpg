@@ -1,5 +1,5 @@
 import { Region } from '@/models/region';
-import { type UserPublic } from '@/models/user';
+import { UserItem, type UserPublic } from '@/models/user';
 
 export interface Clan {
   id: number;
@@ -11,6 +11,7 @@ export interface Clan {
   region: Region;
   discord: string | null;
   description: string;
+  armoryTimeout: number;
 }
 
 // TODO: rename
@@ -52,4 +53,16 @@ export interface ClanInvitation {
   inviter: UserPublic;
   type: ClanInvitationType;
   status: ClanInvitationStatus;
+}
+
+export interface BorrowedItem {
+  updatedAt: Date;
+  borrowerUserId: number;
+  userItemId: number;
+}
+
+export interface ClanArmoryItem {
+  userItem: UserItem;
+  borrowedItem: BorrowedItem | null;
+  updatedAt: Date;
 }

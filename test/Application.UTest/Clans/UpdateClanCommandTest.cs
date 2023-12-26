@@ -111,6 +111,7 @@ public class UpdateClanCommandTest : TestBase
             BannerKey = "789",
             Region = Region.As,
             Discord = new Uri("https://discord.gg/abc"),
+            ArmoryTimeout = TimeSpan.FromDays(3),
         };
         User user = new() { ClanMembership = new ClanMember { Clan = clan, Role = ClanMemberRole.Leader } };
         ArrangeDb.Users.AddRange(user);
@@ -128,6 +129,7 @@ public class UpdateClanCommandTest : TestBase
             BannerKey = "7890",
             Region = Region.Na,
             Discord = new Uri("https://discord.gg/def"),
+            ArmoryTimeout = TimeSpan.FromDays(12),
         }, CancellationToken.None);
 
         Assert.That(res.Errors, Is.Null);
@@ -141,5 +143,6 @@ public class UpdateClanCommandTest : TestBase
         Assert.That(clanVm.BannerKey, Is.EqualTo("7890"));
         Assert.That(clanVm.Region, Is.EqualTo(Region.Na));
         Assert.That(clanVm.Discord, Is.EqualTo(new Uri("https://discord.gg/def")));
+        Assert.That(clanVm.ArmoryTimeout, Is.EqualTo(TimeSpan.FromDays(12)));
     }
 }

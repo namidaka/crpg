@@ -1,36 +1,54 @@
 import { ItemType, WeaponClass, type Item } from '@/models/item';
 
-const mockedPush = vi.fn();
-const mockedUseRoute = vi.fn();
-vi.mock('vue-router', () => ({
-  useRoute: mockedUseRoute,
-  useRouter: vi.fn().mockImplementation(() => ({
+const { mockedPush, mockedUseRoute } = vi.hoisted(() => ({
+  mockedPush: vi.fn(),
+  mockedUseRoute: vi.fn(),
+}));
+const { mockedUseRouter } = vi.hoisted(() => ({
+  mockedUseRouter: vi.fn().mockImplementation(() => ({
     push: mockedPush,
   })),
+}));
+vi.mock('vue-router', () => ({
+  useRoute: mockedUseRoute,
+  useRouter: mockedUseRouter,
 }));
 vi.mock('@vueuse/core', () => ({
   useDebounceFn: vi.fn(fn => fn),
 }));
-
-const mockedGetWeaponClassesByItemType = vi.fn().mockReturnValue([]);
+const { mockedGetWeaponClassesByItemType } = vi.hoisted(() => ({
+  mockedGetWeaponClassesByItemType: vi.fn().mockReturnValue([]),
+}));
 vi.mock('@/services/item-service', async () => ({
   ...(await vi.importActual<typeof import('@/services/item-service')>('@/services/item-service')),
   getWeaponClassesByItemType: mockedGetWeaponClassesByItemType,
 }));
 
-const mockedGenerateEmptyFiltersModel = vi.fn(obj =>
-  Object.keys(obj).reduce((model, key) => {
-    model[key] = [];
-    return model;
-  }, {} as Record<string, any>)
-);
-
-const mockedGetAggregationsConfig = vi.fn();
-const mockedGetVisibleAggregationsConfig = vi.fn();
-const mockedFilterItemsByType = vi.fn();
-const mockedFilterItemsByWeaponClass = vi.fn();
-const mockedGetAggregationBy = vi.fn((_arr, key) => ({ [key]: {} }));
-const mockedGetScopeAggregations = vi.fn((_arr, obj) => obj);
+const {
+  mockedGenerateEmptyFiltersModel,
+  mockedGetAggregationsConfig,
+  mockedGetVisibleAggregationsConfig,
+  mockedFilterItemsByType,
+  mockedFilterItemsByWeaponClass,
+  mockedGetAggregationBy,
+  mockedGetScopeAggregations,
+} = vi.hoisted(() => ({
+  mockedGenerateEmptyFiltersModel: vi.fn(obj =>
+    Object.keys(obj).reduce(
+      (model, key) => {
+        model[key] = [];
+        return model;
+      },
+      {} as Record<string, any>
+    )
+  ),
+  mockedGetAggregationsConfig: vi.fn(),
+  mockedGetVisibleAggregationsConfig: vi.fn(),
+  mockedFilterItemsByType: vi.fn(),
+  mockedFilterItemsByWeaponClass: vi.fn(),
+  mockedGetAggregationBy: vi.fn((_arr, key) => ({ [key]: {} })),
+  mockedGetScopeAggregations: vi.fn((_arr, obj) => obj),
+}));
 
 vi.mock('@/services/item-search-service', async () => ({
   ...(await vi.importActual<typeof import('@/services/item-search-service')>(
@@ -45,7 +63,7 @@ vi.mock('@/services/item-search-service', async () => ({
   getScopeAggregations: mockedGetScopeAggregations,
 }));
 
-vi.mock('@/services/item-search-service/indexator', async () => ({
+vi.mock('@/services/item-search-service/indexator', () => ({
   createItemIndex: vi.fn(val => val),
 }));
 

@@ -7,8 +7,10 @@ import {
   type ClanInvitation,
   ClanInvitationType,
   ClanInvitationStatus,
+  type ClanArmoryItem,
 } from '@/models/clan';
 import { Region } from '@/models/region';
+import { type UserItem } from '@/models/user';
 import { get, post, put, del } from '@/services/crpg-client';
 import { rgbHexColorToArgbInt, argbIntToRgbHexColor } from '@/utils/color';
 
@@ -119,3 +121,40 @@ export const canKickMemberValidate = (
     (selfMember.role === ClanMemberRole.Officer && member.role === ClanMemberRole.Member)
   );
 };
+
+export const getClanArmory = (clanId: number) => get<ClanArmoryItem[]>(`/clans/${clanId}/armory`);
+
+export const addItemToClanArmory = (clanId: number, userItemId: number) =>
+  post(`/clans/${clanId}/armory`, {
+    userItemId,
+  });
+
+export const removeItemFromClanArmory = (clanId: number, userItemId: number) =>
+  del(`/clans/${clanId}/armory/${userItemId}`);
+
+export const borrowItemFromClanArmory = (clanId: number, userItemId: number) =>
+  put(`/clans/${clanId}/armory/${userItemId}/borrow`);
+
+export const returnItemToClanArmory = (clanId: number, userItemId: number) =>
+  put(`/clans/${clanId}/armory/${userItemId}/return`);
+
+export const getClanArmoryItemBorrower = (
+  clanArmoryItem: ClanArmoryItem,
+  clanMembers: ClanMember[]
+) => {
+  if (clanArmoryItem.borrowedItem === null) return null;
+  return (
+    clanMembers.find(cm => cm.user.id === clanArmoryItem.borrowedItem!.borrowerUserId)?.user || null
+  );
+};
+
+export const getClanArmoryItemLender = (userItem: UserItem, clanMembers: ClanMember[]) => {
+  if (!userItem.isArmoryItem) return null;
+  return clanMembers.find(cm => cm.user.id === userItem.userId)?.user || null;
+};
+
+export const isOwnClanArmoryItem = (item: ClanArmoryItem, userId: number) =>
+  item.userItem.userId === userId;
+
+export const isClanArmoryItemInInventory = (item: ClanArmoryItem, userItems: UserItem[]) =>
+  userItems.some(ui => ui.item.id === item.userItem.item.id);

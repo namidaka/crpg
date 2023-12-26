@@ -28,37 +28,19 @@ import { type EquippedItemsBySlot } from '@/models/character';
 import { Culture } from '@/models/culture';
 import { get } from '@/services/crpg-client';
 import { aggregationsConfig } from '@/services/item-search-service/aggregations';
+import { createItemIndex } from '@/services/item-search-service/indexator';
 import { n, t } from '@/services/translate-service';
 import { notify, NotificationType } from '@/services/notification-service';
 import { roundFLoat } from '@/utils/math';
-
-// TODO: delete mocks
-// import {
-//   BecDeCorbin,
-//   // Longsword,
-//   // SimpleShortSpear,
-//   // Bow,
-//   NobleCavalryLance,
-//   Pike,
-//   WoodenSword,
-// } from '@/services/item-search-service/__tests__/mocks';
-
-// export const getItems = () =>
-//   new Promise(res => {
-//     res([
-//       //
-//       BecDeCorbin,
-//       // WoodenSword,
-//       Pike,
-//       NobleCavalryLance,
-//     ]);
-//   });
 
 export const getItems = () => get<Item[]>('/items');
 
 export const getItemImage = (baseId: string) => `/items/${baseId}.webp`;
 
-export const getItemUpgrades = (baseId: string) => get<Item[]>(`/items/upgrades/${baseId}`);
+export const getItemUpgrades = async (item: ItemFlat) =>
+  createItemIndex(await get<Item[]>(`/items/upgrades/${item.baseId}`))
+    // TODO: hotfix, avoid duplicate items with multiply weaponClass
+    .filter(el => el?.weaponClass === item?.weaponClass);
 
 export const armorTypes: ItemType[] = [
   ItemType.HeadArmor,
@@ -703,14 +685,12 @@ export const getItemFieldRelativeDiffStr = (value: number, relativeValue: number
 };
 
 export const getItemGraceTimeEnd = (userItem: UserItem) => {
-  const graceTimeEnd = new Date(userItem.createdAt);
+  const graceTimeEnd = userItem.createdAt;
   graceTimeEnd.setHours(graceTimeEnd.getHours() + 1); // TODO: to constants
   return graceTimeEnd;
 };
 
-export const isGraceTimeExpired = (itemGraceTimeEnd: Date) => {
-  return itemGraceTimeEnd < new Date();
-};
+export const isGraceTimeExpired = (itemGraceTimeEnd: Date) => itemGraceTimeEnd < new Date();
 
 export const computeSalePrice = (userItem: UserItem) => {
   const graceTimeEnd = getItemGraceTimeEnd(userItem);
@@ -735,13 +715,13 @@ export const computeBrokenItemRepairCost = (price: number) =>
 export const getRankColor = (rank: ItemRank) => {
   switch (rank) {
     case 1:
-      return '#1eff00';
+      return '#4ade80';
 
     case 2:
-      return '#0070dd';
+      return '#60a5fa';
 
     case 3:
-      return '#a335ee';
+      return '#c084fc';
 
     default:
       return '#fff';
@@ -750,6 +730,8 @@ export const getRankColor = (rank: ItemRank) => {
 
 export const canUpgrade = (type: ItemType) => type !== ItemType.Banner;
 
+export const canAddedToClanArmory = (type: ItemType) => type !== ItemType.Banner;
+
 export const reforgeCostByRank: Record<ItemRank, number> = {
   0: itemReforgeCostPerRank[0],
   1: itemReforgeCostPerRank[1],
@@ -757,4 +739,4 @@ export const reforgeCostByRank: Record<ItemRank, number> = {
   3: itemReforgeCostPerRank[3],
 };
 
-export const itemIsNewDays = 30;
+export const itemIsNewDays = 1;

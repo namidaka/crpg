@@ -1,4 +1,4 @@
-import { mergeObjectWithSum } from './object';
+import { mergeObjectWithSum, pick, omit, omitPredicate } from './object';
 
 it('mergeObjectWithSum', () => {
   const obj1 = {
@@ -17,4 +17,16 @@ it('mergeObjectWithSum', () => {
   };
 
   expect(mergeObjectWithSum(obj1, obj2)).toEqual(obj3);
+});
+
+it('pick', () => {
+  expect(pick({ id: 1, name: 2 }, ['id'])).toEqual({ id: 1 });
+});
+
+it('omit', () => {
+  expect(omit({ id: 1, name: 2 }, ['id'])).toEqual({ name: 2 });
+});
+
+it('omitPredicate', () => {
+  expect(omitPredicate({ id: 1, name: 2 }, key => key !== 'name')).toEqual({ id: 1 });
 });

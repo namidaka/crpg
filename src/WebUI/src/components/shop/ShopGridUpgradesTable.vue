@@ -8,11 +8,11 @@ const { item, cols } = defineProps<{
   cols: AggregationConfig;
 }>();
 
-const { itemUpgrades, relativeEntries } = useItemUpgrades(item, cols, true);
+const { itemUpgrades, isLoading, relativeEntries } = useItemUpgrades(item, cols);
 </script>
 
 <template>
-  <OTable :data="itemUpgrades" :showHeader="false">
+  <OTable :data="itemUpgrades.slice(1)" :showHeader="false" :loading="isLoading">
     <!-- offset col -->
     <OTableColumn :width="78" #default>
       <template></template>
@@ -23,7 +23,7 @@ const { itemUpgrades, relativeEntries } = useItemUpgrades(item, cols, true);
     </OTableColumn>
 
     <OTableColumn
-      v-for="field in (Object.keys(cols) as Array<keyof ItemFlat>)"
+      v-for="field in Object.keys(cols) as Array<keyof ItemFlat>"
       #default="{ row: rowItem }: { row: ItemFlat }"
       :field="field"
       :width="cols[field]?.width ?? 140"

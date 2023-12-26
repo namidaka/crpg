@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import { WeaponUsage, type ItemFlat } from '@/models/item';
-import { getItemImage, weaponClassToIcon } from '@/services/item-service';
+import { getItemImage, getRankColor, weaponClassToIcon } from '@/services/item-service';
 
 const { item, showTier = false } = defineProps<{
   item: ItemFlat;
   showTier?: boolean;
 }>();
+
+const thumb = computed(() => getItemImage(item.baseId));
+const rankColor = computed(() => getRankColor(item.rank));
 </script>
 
 <template>
   <div class="flex items-center gap-4">
     <div class="relative h-16 w-32">
-      <VTooltip placement="auto" popperClass="expanded">
-        <img :src="getItemImage(item.baseId)" class="h-full w-full object-contain" />
+      <VTooltip placement="auto" class="-mx-2" popperClass="expanded dense">
+        <img :src="thumb" />
         <template #popper>
-          <img :src="getItemImage(item.baseId)" class="h-full w-full object-contain" />
+          <img :src="thumb" />
+          <div class="mt-2 p-4" :style="{ color: rankColor }">{{ item.name }}</div>
         </template>
       </VTooltip>
 
@@ -89,6 +93,6 @@ const { item, showTier = false } = defineProps<{
       </div>
     </div>
 
-    <div class="flex-1 text-2xs text-content-100">{{ item.name }}</div>
+    <div class="flex-1 text-2xs" :style="{ color: rankColor }">{{ item.name }}</div>
   </div>
 </template>

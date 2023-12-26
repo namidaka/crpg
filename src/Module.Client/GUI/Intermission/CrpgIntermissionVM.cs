@@ -655,6 +655,11 @@ public class CrpgIntermissionVM : ViewModel
                 IsMapVoteEnabled = true;
                 foreach (IntermissionVoteItem mapItem in mapVoteItems)
                 {
+                    if (mapItem.Id == Mission.Current.SceneName)
+                    {
+                        continue;
+                    }
+
                     if (AvailableMaps.FirstOrDefault((MPIntermissionMapItemVM m) => m.MapID == mapItem.Id) == null)
                     {
                         AvailableMaps.Add(new MPIntermissionMapItemVM(mapItem.Id, OnPlayerVotedForMap));
@@ -825,4 +830,3 @@ public class CrpgIntermissionVM : ViewModel
         _votedCultureItem.Votes++;
     }
 }
-

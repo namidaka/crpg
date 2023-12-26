@@ -25,7 +25,7 @@ it('confirm action', async () => {
   await input.trigger('blur');
 
   expect(field.attributes('variant')).toEqual('danger');
-  expect(field.attributes('message')).toEqual('validations.sameAs');
+  expect(field.attributes('message')).toContain('validations.sameAs');
 
   await input.setValue(NAME);
   await input.trigger('blur');

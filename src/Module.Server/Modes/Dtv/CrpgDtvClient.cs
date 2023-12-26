@@ -133,11 +133,6 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
 
     private void HandleViscountUnderAttack(CrpgDtvViscountUnderAttackMessage message)
     {
-        if (message.AgentAttackerIndex >= Mission.Agents.Count)
-        {
-            return;
-        }
-
         var attackerAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentAttackerIndex, true);
 
         if (attackerAgent == null)
@@ -154,6 +149,5 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
             Color = new Color(0.90f, 0.25f, 0.25f),
             SoundEventPath = "event:/ui/notification/alert",
         });
-
     }
 }

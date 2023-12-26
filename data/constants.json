@@ -20,7 +20,7 @@
   "itemBreakChance": 0.5,
   "brokenItemRepairPenaltySeconds": 300,
   "itemSellCostPenalty": 0.5,
-  "itemReforgeCostPerRank": [0.0 ,40000.0, 90000.0, 150000.0], /* start at Rank 0 so that Index = Rank */
+  "itemReforgeCostPerRank": [0.0 ,20000.0, 45000.0, 75000.0], /* start at Rank 0 so that Index = Rank */
   "minimumLevel": 1,
   "maximumLevel": 38,
   "tournamentLevel": 30,

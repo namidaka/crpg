@@ -1,0 +1,70 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Launcher" x:Class="LauncherV3.MainWindow"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Title="MainWindow" Height="430" Width="800"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="NoResize">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/background.png"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid HorizontalAlignment="Center" Width="780" Margin="0,10,0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="18*"/>
+                <RowDefinition Height="63*"/>
+                <RowDefinition Height="42*"/>
+                <RowDefinition Height="262*"/>
+                <RowDefinition Height="25*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="113*"/>
+                <ColumnDefinition Width="43*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Background="#40FFFFFF" BorderBrush="#FF606060" x:Name="locationTextBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding GameLocation.InstallationPath, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="545" Grid.Row="2" Height="25" Margin="0,5,0,0" IsReadOnly="True">
+            </TextBox>
+            <TextBox x:Name="consoleTextBox" Background="{StaticResource ComboBox.Static.Background}" BorderBrush="#FF606060" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="545" Height="232" Margin="0,10,0,0" IsReadOnly="True"/>
+
+            <Button x:Name="Detect" Command="{Binding DetectCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Detect Install" HorizontalAlignment="Center" Margin="0,10,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="195"/>
+
+            <Button x:Name="verifyButton"  Command="{Binding VerifyGameFilesActionCommand}"  Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Verify Game Files" HorizontalAlignment="Center" Margin="0,40,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="195"/>
+
+            <Button x:Name="updateButton" Command="{Binding UpdateGameFilesCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Check For Update" HorizontalAlignment="Center" Margin="0,70,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="195" Click="checkForUpdateButton_Click"/>
+
+            <Button x:Name="resetConfig" Command="{Binding ResetConfigCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Reset Config" HorizontalAlignment="Center" Margin="0,100,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="195" Click="checkForUpdateButton_Click"/>
+            
+            <Button x:Name="locationButton" Command="{Binding OpenFolderCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Change Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Height="24" Width="195" />
+
+
+
+            <Button x:Name="startButton" Command="{Binding StartCrpgCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Launch cRPG" HorizontalAlignment="Center" VerticalAlignment="Top" Height="31" Width="195" Grid.Row="1"/>
+
+            <ComboBox Style="{DynamicResource ComboBoxStyle1}" HorizontalContentAlignment="Center" ItemsSource="{Binding PlatformOptions}" SelectedItem="{Binding SelectedPlatform}"  DisplayMemberPath="."  x:Name="platformComboBox" Grid.Column="1" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Width="195" Height="24" Grid.Row="1" >
+            </ComboBox>
+            <Label Grid.Column="1" Content="X" Padding="0" Margin="206,1,2,1" MouseUp="CloseButton_Click" MouseDown="CloseButton_Click" Panel.ZIndex="1" Focusable="True"/>
+            <Label Grid.Column="1" Content="－" Padding="0" HorizontalAlignment="Left" Margin="190,0,0,0" VerticalAlignment="Center" Panel.ZIndex="1" Focusable="True" MouseUp="MinimizeButton_Click" MouseDown="MinimizeButton_Click"/>
+            <TextBlock HorizontalAlignment="Left" Margin="36,0,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center">
+                <Hyperlink NavigateUri="https://discord.gg/c-rpg" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Image Source="pack://application:,,,/discord.png"></Image>
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock  Margin="70,0,0,8" Grid.Row="4" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Width="65">           
+                <Hyperlink NavigateUri="https://c-rpg.eu" RequestNavigate="Hyperlink_RequestNavigate">
+                    c-rpg.eu
+                </Hyperlink>    
+            </TextBlock>
+            <TextBlock Text="{Binding Version}"  Margin="0,0,0,0" Grid.Row="4" Grid.Column="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Width="60" Height="20" Panel.ZIndex="10"/>
+
+
+        </Grid>
+
+
+    </Grid>
+</Window>

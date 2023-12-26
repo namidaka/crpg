@@ -60,3 +60,17 @@ export const canManageApplications: NavigationGuard = async to => {
 
   return true;
 };
+
+export const canUseClanArmory: NavigationGuard = async to => {
+  const userStore = useUserStore();
+
+  if (userStore.clan === null) {
+    await userStore.getUserClanAndRole();
+  }
+
+  if (userStore.clan?.id !== Number(to.params.id as string)) {
+    return { name: 'Clans' } as RouteLocationNormalized<'Clans'>;
+  }
+
+  return true;
+};

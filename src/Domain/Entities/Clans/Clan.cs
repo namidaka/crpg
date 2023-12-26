@@ -1,4 +1,5 @@
 ﻿using Crpg.Domain.Common;
+using Crpg.Domain.Entities.Items;
 
 namespace Crpg.Domain.Entities.Clans;
 
@@ -48,4 +49,11 @@ public class Clan : AuditableEntity
 
     public IList<ClanMember> Members { get; set; } = new List<ClanMember>();
     public IList<ClanInvitation> Invitations { get; set; } = new List<ClanInvitation>();
+    public IList<ClanArmoryItem> ArmoryItems { get; set; } = new List<ClanArmoryItem>();
+    public IList<ClanArmoryBorrowedItem> ArmoryBorrowedItems { get; set; } = new List<ClanArmoryBorrowedItem>();
+
+    /// <summary>
+    /// return an item if a borrower is not active for N days.
+    /// </summary>
+    public TimeSpan ArmoryTimeout { get; set; } = TimeSpan.FromDays(3);
 }

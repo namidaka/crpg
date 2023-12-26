@@ -3,10 +3,23 @@
 - name: get Bannerlord installation path
   set_fact:
     crpg_game_client_local_path: "{{ lookup('env', 'MB_CLIENT_PATH') }}"
+    crpg_launcher_path: "{{ lookup('env', 'CRPG_LAUNCHER_PATH') }}"
 
 - name: assert Bannerlord installation path is defined
   assert:
     that: crpg_game_client_local_path | length > 0
+
+- name: Manually remove specified files and directories with shell command
+  ansible.builtin.shell:
+    cmd: "rm -rf {{ item }}"
+  loop:
+    - /tmp/rest.tar.gz
+    - /tmp/rest.tar
+    - /tmp/AssetPackages
+    - /tmp/SceneObj
+    - /tmp/hash.xml
+  delegate_to: localhost
+  become: true
 
 - name: check game client files
   stat:
@@ -36,6 +49,46 @@
   delegate_to: localhost
   become: false
 
+- name: Convert Linux Launcher Path to Windows path
+  shell: wslpath -w "{{ crpg_launcher_path }}/LauncherV2.Console.Exe"
+  delegate_to: localhost
+  register: crpg_launcher_path_win
+
+- name: Convert Linux Module path to Windows path
+  shell: wslpath -w "{{ crpg_game_client_local_path }}/Modules/cRPG"
+  delegate_to: localhost
+  register: crpg_module_client_local_path_win
+
+- name: Convert Linux tmp path to Windows path
+  shell: wslpath -w "/tmp/hash.xml"
+  delegate_to: localhost
+  register: hash_output_path
+
+- name: Hashing Module
+  shell: "{{ crpg_launcher_path }}/LauncherV2.Console.exe /hash '{{ crpg_module_client_local_path_win.stdout }}' /output '{{ hash_output_path.stdout }}' "
+  delegate_to: localhost
+  register: converted_path
+
+- name: Get list of directories in SceneObj
+  ansible.builtin.shell:
+    cmd: 'ls -d "/mnt/c/Program Files (x86)/Steam/steamapps/common/Mount & Blade II Bannerlord/Modules/cRPG/SceneObj/"*'
+  register: sceneobj_dirs
+  delegate_to: localhost
+
+- name: Ensure /tmp/AssetPackages directory exists
+  ansible.builtin.file:
+    path: /tmp/AssetPackages
+    state: directory
+  delegate_to: localhost
+  become: false
+
+- name: Ensure /tmp/SceneObj directory exists
+  ansible.builtin.file:
+    path: /tmp/SceneObj
+    state: directory
+  delegate_to: localhost
+  become: false
+
 - name: copy game client to host
   copy:
     src: /tmp/crpg-client.zip
@@ -47,3 +100,85 @@
   file:
     path: /tmp/crpg-client.zip
     state: absent
+
+- name: Tar subfolders of SceneObj with the folder name at the first level
+  ansible.builtin.shell:
+    cmd: "tar -cf /tmp/SceneObj/{{ item.split('/')[-1] }}.tar -C '{{ item | dirname }}' '{{ item | basename }}'"
+  loop: "{{ sceneobj_dirs.stdout_lines }}"
+  delegate_to: localhost
+  become: false
+
+- name: Tar files in AssetPackages
+  ansible.builtin.command:
+    cmd: "tar -cf /tmp/AssetPackages/{{ item | basename }}.tar -C '{{ crpg_game_client_local_path }}/Modules/cRPG/AssetPackages' {{ item | basename }}"
+  loop: "{{ lookup('ansible.builtin.fileglob', crpg_game_client_local_path + '/Modules/cRPG/AssetPackages/*', wantlist=True) }}"
+  delegate_to: localhost
+  become: false
+
+- name: Tar GUI, ModuleSounds, bin, ModuleData, and SubModule.xml
+  ansible.builtin.command:
+    cmd: "tar -cf /tmp/rest.tar -C '{{ crpg_game_client_local_path }}/Modules/cRPG' GUI ModuleSounds bin ModuleData SubModule.xml"
+  delegate_to: localhost
+  become: false
+
+- name: Compress files in /tmp/AssetPackages with pigz
+  ansible.builtin.shell:
+    cmd: "pigz -f --recursive /tmp/AssetPackages/*.tar"
+  delegate_to: localhost
+
+- name: Compress files in /tmp/SceneObj with pigz
+  ansible.builtin.shell:
+    cmd: "pigz -f --recursive /tmp/SceneObj/*.tar"
+  delegate_to: localhost
+
+- name: Compress /tmp/rest.tar with pigz
+  ansible.builtin.shell:
+    cmd: "pigz -f /tmp/rest.tar"
+  delegate_to: localhost
+
+- name: Copy rest.tar.gz to destination
+  ansible.builtin.copy:
+    src: /tmp/rest.tar.gz
+    dest: "{{ crpg_ui_path }}/rest.tar.gz"
+    owner: nginx
+    group: nginx
+
+- name: Ensure SceneObj directory exists
+  ansible.builtin.file:
+    path: "{{ crpg_ui_path }}/SceneObj"
+    state: directory
+    owner: nginx
+    group: nginx
+
+- name: Copy hash to destination
+  ansible.builtin.copy:
+    src: /tmp/hash.xml
+    dest: "{{ crpg_ui_path }}"
+    owner: nginx
+    group: nginx
+
+- name: Copy contents of SceneObj to destination
+  ansible.builtin.copy:
+    src: /tmp/SceneObj
+    dest: "{{ crpg_ui_path }}"
+    owner: nginx
+    group: nginx
+
+
+- name: Copy contents of AssetPackages to destination
+  ansible.builtin.copy:
+    src: /tmp/AssetPackages
+    dest: "{{ crpg_ui_path }}"
+    owner: nginx
+    group: nginx
+
+- name: Remove specified files and directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/rest.tar.gz
+    - /tmp/rest.tar
+    - /tmp/AssetPackages
+    - /tmp/SceneObj
+    - /tmp/hash.xml

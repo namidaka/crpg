@@ -359,7 +359,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     private CrpgDtvData ReadDtvData()
     {
         XmlSerializer ser = new(typeof(CrpgDtvData));
-        using StreamReader sr = new(ModuleHelper.GetXmlPath("Crpg", "dtv_data"));
+        using StreamReader sr = new(ModuleHelper.GetXmlPath("Crpg", "dtv\\dtv_data"));
         return (CrpgDtvData)ser.Deserialize(sr);
     }
 }

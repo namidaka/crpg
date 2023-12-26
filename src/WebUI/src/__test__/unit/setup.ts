@@ -66,6 +66,12 @@ config.global.plugins = [
   createI18n({ legacy: false, fallbackWarn: false, missingWarn: false }),
 ];
 
+config.global.mocks = {
+  $t: i18nTMock,
+  $n: i18nNMock,
+  $d: i18nDMock,
+};
+
 config.global.stubs = {
   RouterLink: true,
   OButton: FakeBtn,

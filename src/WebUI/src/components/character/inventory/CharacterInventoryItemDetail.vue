@@ -1,38 +1,32 @@
 <script setup lang="ts">
-import { useClipboard } from '@vueuse/core';
 import { itemSellCostPenalty } from '@root/data/constants.json';
-import { ItemCompareMode, type CompareItemsResult, type ItemFlat } from '@/models/item';
-import { type UserItem } from '@/models/user';
+import { type CompareItemsResult } from '@/models/item';
+import { type UserItem, type UserPublic } from '@/models/user';
+
 import {
-  getAggregationsConfig,
-  getVisibleAggregationsConfig,
-} from '@/services/item-search-service';
-import {
-  getItemImage,
   computeSalePrice,
   computeBrokenItemRepairCost,
   canUpgrade,
+  canAddedToClanArmory,
 } from '@/services/item-service';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
 import { parseTimestamp } from '@/utils/date';
-import { omitPredicate } from '@/utils/object';
+import { useUserStore } from '@/stores/user';
 
 const {
-  item,
   userItem,
   compareResult,
   equipped = false,
 } = defineProps<{
-  item: ItemFlat;
   userItem: UserItem;
-  compareResult: CompareItemsResult | undefined;
+  compareResult?: CompareItemsResult;
   equipped?: boolean;
+  lender?: UserPublic | null;
 }>();
+
+const { user, clan } = toRefs(useUserStore());
 
 const userItemToReplaceSalePrice = computed(() => {
   const { price, graceTimeEnd } = computeSalePrice(userItem);
-
   return {
     price,
     graceTimeEnd:
@@ -40,135 +34,63 @@ const userItemToReplaceSalePrice = computed(() => {
   };
 });
 
-const repairCost = computed(() => computeBrokenItemRepairCost(item.price));
+const repairCost = computed(() => computeBrokenItemRepairCost(userItem.item.price));
 
 const emit = defineEmits<{
   sell: [];
   repair: [];
   upgrade: [];
   reforge: [];
+  addToClanArmory: [];
+  removeFromClanArmory: [];
+  returnToClanArmory: [];
 }>();
 
-const omitEmptyParam = (field: keyof ItemFlat) => {
-  if (Array.isArray(item[field]) && (item[field] as string[]).length === 0) {
-    return false;
-  }
-
-  if (item[field] === 0) {
-    return false;
-  }
-
-  return true;
-};
-
-const aggregationsConfig = computed(() =>
-  omitPredicate(
-    getVisibleAggregationsConfig(getAggregationsConfig(item.type, item.weaponClass)),
-    (key: keyof ItemFlat) => omitEmptyParam(key)
-  )
-);
-
-const isUpgradable = computed(() => canUpgrade(item.type));
-
-const { copy } = useClipboard();
-
-const onNameCopy = () => {
-  copy(item.name);
-  notify(t('action.copied'));
-};
+const isOwnArmoryItem = computed(() => userItem.isArmoryItem && userItem.userId === user.value!.id);
+const isSellable = computed(() => userItem.item.rank <= 0 && !userItem.isArmoryItem);
+const isUpgradable = computed(() => canUpgrade(userItem.item.type) && !userItem.isArmoryItem);
+const isCanAddedToClanArmory = computed(() => canAddedToClanArmory(userItem.item.type));
 </script>
 
 <template>
-  <article>
-    <div class="relative mb-3">
-      <img
-        :src="getItemImage(item.baseId)"
-        :alt="item.name"
-        :title="item.name"
-        class="pointer-events-none w-full select-none object-contain"
-      />
-
-      <div class="absolute -left-0.5 -top-0.5 z-10">
-        <OIcon
-          v-if="userItem.isBroken"
-          icon="error"
-          size="2xl"
-          class="cursor-default text-status-danger opacity-80 hover:opacity-100"
-          v-tooltip="$t('character.inventory.item.broken.tooltip.title')"
-        />
-
-        <ItemRankIcon
-          v-if="userItem.item.rank > 0"
-          :rank="userItem.item.rank"
-          class="cursor-default opacity-80 hover:opacity-100"
-        />
-      </div>
-
+  <ItemDetail :item="userItem.item" :compareResult="compareResult">
+    <template #badges-bottom-right>
       <Tag
         v-if="equipped"
-        class="absolute bottom-0 right-0 z-10 cursor-default text-primary opacity-75 hover:opacity-100"
+        size="lg"
         icon="check"
-        variant="primary"
+        variant="success"
         rounded
         v-tooltip="$t('character.inventory.item.equipped')"
       />
-    </div>
 
-    <h3 class="z-10 mb-6 font-semibold text-content-100">
-      {{ item.name }}
-      <Tag icon="popup" variant="primary" rounded size="sm" @click="onNameCopy" />
-    </h3>
+      <Tag
+        v-if="userItem.isBroken"
+        rounded
+        size="lg"
+        icon="error"
+        class="cursor-default text-status-danger opacity-80 hover:opacity-100"
+        v-tooltip="$t('character.inventory.item.broken.tooltip.title')"
+      />
 
-    <div class="grid grid-cols-2 gap-4">
-      <div class="space-y-1">
-        <h6 class="text-2xs text-content-300">Type/Class</h6>
-        <div class="flex flex-wrap gap-2">
-          <ItemParam :item="item" field="type" />
-          <ItemParam v-if="item.weaponClass !== null" :item="item" field="weaponClass" />
-        </div>
-      </div>
+      <template v-if="userItem.isArmoryItem">
+        <ClanArmoryItemRelationBadge v-if="lender && lender.id !== user!.id" :lender="lender" />
+        <Tag
+          v-else
+          rounded
+          size="lg"
+          variant="primary"
+          icon="armory"
+          class="cursor-default opacity-80 hover:opacity-100"
+          v-tooltip="$t('character.inventory.item.clanArmory.inArmory.title')"
+        />
+      </template>
+    </template>
 
-      <div v-for="(_agg, field) in aggregationsConfig" class="space-y-1">
-        <VTooltip :delay="{ show: 600 }">
-          <h6 class="text-2xs text-content-300">
-            {{ $t(`item.aggregations.${field}.title`) }}
-          </h6>
-
-          <template #popper>
-            <div class="prose prose-invert">
-              <h5 class="text-content-100">
-                {{ $t(`item.aggregations.${field}.title`) }}
-              </h5>
-              <p v-if="$t(`item.aggregations.${field}.description`)">
-                {{ $t(`item.aggregations.${field}.description`) }}
-              </p>
-            </div>
-          </template>
-        </VTooltip>
-
-        <ItemParam
-          :item="item"
-          :field="field"
-          :isCompare="compareResult !== undefined"
-          :compareMode="ItemCompareMode.Absolute"
-          :bestValue="compareResult !== undefined ? compareResult[field] : undefined"
-        >
-          <template v-if="field === 'price'" #default="{ rawBuckets }">
-            <Coin :value="(rawBuckets as number)" />
-          </template>
-
-          <template v-if="field === 'upkeep'" #default="{ rawBuckets }">
-            <Coin>
-              {{ $t('item.format.upkeep', { upkeep: $n(rawBuckets as number) }) }}
-            </Coin>
-          </template>
-        </ItemParam>
-      </div>
-    </div>
-
-    <div class="-mx-4 -mb-4 mt-6 flex items-center gap-2 bg-base-400 p-2">
+    <template #actions>
       <ConfirmActionTooltip
-        class="flex-1"
+        v-if="isSellable"
+        class="flex-auto"
         :confirmLabel="$t('action.sell')"
         :title="$t('character.inventory.item.sell.confirm')"
         @confirm="emit('sell')"
@@ -190,7 +112,7 @@ const onNameCopy = () => {
               v-if="userItemToReplaceSalePrice.graceTimeEnd !== null"
               size="sm"
               variant="success"
-              label="100%"
+              :label="$n(1, 'percent', { minimumFractionDigits: 0 })"
             />
             <Tag
               v-else
@@ -212,7 +134,6 @@ const onNameCopy = () => {
                   </span>
                 </template>
               </i18n-t>
-
               <i18n-t
                 v-else
                 scope="global"
@@ -232,8 +153,7 @@ const onNameCopy = () => {
 
       <ConfirmActionTooltip v-if="userItem.isBroken" @confirm="emit('repair')">
         <VTooltip>
-          <OButton iconRight="repair" variant="secondary" size="lg" rounded />
-
+          <OButton iconRight="repair" variant="danger" size="lg" rounded />
           <template #popper>
             <i18n-t
               scope="global"
@@ -260,14 +180,62 @@ const onNameCopy = () => {
         <template #popper>
           <div class="container pb-2 pt-12">
             <CharacterInventoryItemUpgrades
-              :item="item"
-              :cols="aggregationsConfig"
+              :userItem="userItem"
               @upgrade="emit('upgrade')"
               @reforge="emit('reforge')"
             />
           </div>
         </template>
       </Modal>
-    </div>
-  </article>
+
+      <template v-if="clan && isCanAddedToClanArmory">
+        <ConfirmActionTooltip
+          v-if="!userItem.isArmoryItem"
+          class="flex-auto"
+          :confirmLabel="$t('action.ok')"
+          :title="$t('clan.armory.item.add.confirm.description')"
+          @confirm="$emit('addToClanArmory')"
+        >
+          <OButton
+            variant="secondary"
+            icon-left="armory"
+            rounded
+            expanded
+            size="lg"
+            :label="$t('clan.armory.item.add.title')"
+          />
+        </ConfirmActionTooltip>
+
+        <template v-else>
+          <ConfirmActionTooltip
+            v-if="isOwnArmoryItem"
+            class="flex-auto"
+            :confirmLabel="$t('action.ok')"
+            :title="$t('clan.armory.item.remove.confirm.description')"
+            @confirm="$emit('removeFromClanArmory')"
+          >
+            <OButton
+              variant="warning"
+              icon-left="armory"
+              expanded
+              rounded
+              size="lg"
+              :label="$t('clan.armory.item.remove.title')"
+            />
+          </ConfirmActionTooltip>
+
+          <OButton
+            v-else
+            variant="secondary"
+            icon-left="armory"
+            expanded
+            rounded
+            size="lg"
+            :label="$t('clan.armory.item.return.title')"
+            @click="$emit('returnToClanArmory')"
+          />
+        </template>
+      </template>
+    </template>
+  </ItemDetail>
 </template>

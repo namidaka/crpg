@@ -22,7 +22,7 @@ import {
 } from '@/services/item-service';
 import { roundFLoat } from '@/utils/math';
 
-const emptyWeapon = {
+const createEmptyWeapon = () => ({
   weaponClass: null,
   weaponPrimaryClass: null,
   itemUsage: [],
@@ -45,9 +45,11 @@ const emptyWeapon = {
   aimSpeed: null,
   damage: null,
   damageType: null,
-};
+});
 
 const mapWeaponProps = (item: Item) => {
+  const emptyWeapon = createEmptyWeapon();
+
   if (item.weapons.length === 0) {
     return emptyWeapon;
   }
@@ -91,7 +93,7 @@ const mapWeaponProps = (item: Item) => {
   if ([ItemType.Bow, ItemType.Crossbow].includes(item.type)) {
     // add custom flag
     if (
-      [ItemType.Crossbow].includes(item.type) &&
+      item.type === ItemType.Crossbow &&
       !originalWeapon.flags.includes(WeaponFlags.CantReloadOnHorseback)
     ) {
       weapon.weaponFlags.push(WeaponFlags.CanReloadOnHorseback);
@@ -187,9 +189,9 @@ const mapMountProps = (item: Item) => {
   };
 };
 
-const newItemDateThreshold = new Date().setDate(new Date().getDate() - itemIsNewDays);
-
 const itemToFlat = (item: Item): ItemFlat => {
+  const newItemDateThreshold = new Date().setDate(new Date().getDate() - itemIsNewDays);
+
   const weaponProps = mapWeaponProps(item);
 
   const flags = [

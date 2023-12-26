@@ -7,6 +7,7 @@
     #- geoip
     #- dotnet
     #- crpg-web-ui
-    - crpg-game-client
-    - crpg-game-server
+    - crpg-launcher
+    #- crpg-game-client
+    #- crpg-game-server
     #- crpg-web-api

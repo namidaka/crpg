@@ -1,5 +1,4 @@
-import { computedWithControl } from '@vueuse/core';
-
+import { computedWithControl, useLocalStorage } from '@vueuse/core';
 import { Region } from '@/models/region';
 import { getHHEventByRegion, getHHEventRemaining } from '@/services/hh-service';
 import { useUserStore } from '@/stores/user';
@@ -8,7 +7,6 @@ import { t } from '@/services/translate-service';
 
 export const useHappyHours = () => {
   const userStore = useUserStore();
-  let interval: ReturnType<typeof setInterval>;
 
   const source = ref();
   const HHEvent = computedWithControl(
@@ -18,33 +16,32 @@ export const useHappyHours = () => {
 
   const HHEventRemaining = computed(() => getHHEventRemaining(HHEvent.value));
 
-  const isHHCountdownEnded = ref<boolean>(true);
+  const isHHCountdownEnded = ref<boolean>(false);
+  const alreadyShownHHStartedNotification = useLocalStorage('hh-start-notification-shown', false);
 
-  onMounted(() => {
-    interval = setInterval(HHEvent.trigger, 5000);
-  });
-
-  onBeforeUnmount(() => {
-    clearInterval(interval);
-  });
+  const onStartHHCountdown = () => {
+    if (!alreadyShownHHStartedNotification.value) {
+      notify(t('hh.notify.started'));
+      alreadyShownHHStartedNotification.value = true;
+    }
+  };
 
   const onEndHHCountdown = () => {
-    isHHCountdownEnded.value = false;
+    isHHCountdownEnded.value = true;
+    alreadyShownHHStartedNotification.value = false;
+
     notify(t('hh.notify.ended'));
   };
 
-  const onStartHHCountdown = () => {
-    // TODO: if on, it is annoying to be notified every time at f5
-    // notify(t('hh.notify.started'));
-  };
-
   // https://fengyuanchen.github.io/vue-countdown/
-  const transformSlotProps = (props: Record<string, number>) => {
-    return Object.entries(props).reduce((out, [key, value]) => {
-      out[key] = value < 10 ? `0${value}` : String(value);
-      return out;
-    }, {} as Record<string, string>);
-  };
+  const transformSlotProps = (props: Record<string, number>) =>
+    Object.entries(props).reduce(
+      (out, [key, value]) => {
+        out[key] = value < 10 ? `0${value}` : String(value);
+        return out;
+      },
+      {} as Record<string, string>
+    );
 
   return {
     HHEvent,

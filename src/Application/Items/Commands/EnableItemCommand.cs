@@ -1,3 +1,4 @@
+using Crpg.Application.Common;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
@@ -40,10 +41,14 @@ public record EnableItemCommand : IMediatorRequest
             else
             {
                 item.Enabled = false;
-                var equippedItems = await _db.EquippedItems
-                    .Where(ei => ei.UserItem!.ItemId == req.ItemId)
-                    .ToArrayAsync(cancellationToken);
-                _db.EquippedItems.RemoveRange(equippedItems);
+                await _db.EquippedItems
+                    .RemoveRangeAsync(ei => ei.UserItem!.ItemId == req.ItemId, cancellationToken);
+
+                await _db.ClanArmoryBorrowedItems
+                    .RemoveRangeAsync(bi => bi.UserItem!.ItemId == req.ItemId, cancellationToken);
+
+                await _db.ClanArmoryItems
+                    .RemoveRangeAsync(ci => ci.UserItem!.ItemId == req.ItemId, cancellationToken);
             }
 
             await _db.SaveChangesAsync(cancellationToken);

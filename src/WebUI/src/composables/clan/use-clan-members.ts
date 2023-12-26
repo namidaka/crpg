@@ -1,8 +1,8 @@
 import { getClanMembers } from '@/services/clan-service';
 
-export const useClanMembers = () => {
+export const useClanMembers = (clanId?: number) => {
   const { state: clanMembers, execute: loadClanMembers } = useAsyncState(
-    ({ id }: { id: number }) => getClanMembers(id),
+    () => getClanMembers(clanId!),
     [],
     {
       immediate: false,

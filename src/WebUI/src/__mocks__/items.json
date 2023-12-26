@@ -2,6 +2,7 @@
   {
     "id": "crpg_sturgia_axe_5_t5",
     "baseId": "crpg_sturgia_axe_5_t5",
+    "createdAt": "",
     "rank": 0,
     "name": "Wood Chopper Axe",
     "culture": "Sturgia",
@@ -10,7 +11,9 @@
     "tier": 3.4712532,
     "requirement": 0,
     "weight": 1.15,
-    "flags": ["CanBePickedUpFromCorpse"],
+    "flags": [
+      "CanBePickedUpFromCorpse"
+    ],
     "armor": null,
     "mount": null,
     "weapons": [
@@ -24,7 +27,10 @@
         "balance": 0.49,
         "handling": 81,
         "bodyArmor": 0,
-        "flags": ["MeleeWeapon", "BonusAgainstShield"],
+        "flags": [
+          "MeleeWeapon",
+          "BonusAgainstShield"
+        ],
         "thrustDamage": 0,
         "thrustDamageType": "Undefined",
         "thrustSpeed": 94,
@@ -37,6 +43,7 @@
   {
     "id": "crpg_peasant_sickle_1_t1",
     "baseId": "crpg_peasant_sickle_1_t1",
+    "createdAt": "",
     "rank": 0,
     "name": "Sickle",
     "culture": "Neutral",
@@ -45,7 +52,9 @@
     "tier": 3.420419,
     "requirement": 0,
     "weight": 1.18,
-    "flags": ["Civilian"],
+    "flags": [
+      "Civilian"
+    ],
     "armor": null,
     "mount": null,
     "weapons": [
@@ -59,7 +68,10 @@
         "balance": 0.9,
         "handling": 98,
         "bodyArmor": 0,
-        "flags": ["MeleeWeapon", "BonusAgainstShield"],
+        "flags": [
+          "MeleeWeapon",
+          "BonusAgainstShield"
+        ],
         "thrustDamage": 0,
         "thrustDamageType": "Undefined",
         "thrustSpeed": 94,
@@ -72,6 +84,7 @@
   {
     "id": "crpg_northern_leather_tabard",
     "baseId": "crpg_northern_leather_tabard",
+    "createdAt": "",
     "rank": 0,
     "name": "Leather Tabard",
     "culture": "Sturgia",
@@ -80,7 +93,9 @@
     "tier": 3.8802795,
     "requirement": 0,
     "weight": 4.968383,
-    "flags": ["UseTeamColor"],
+    "flags": [
+      "UseTeamColor"
+    ],
     "armor": {
       "headArmor": 0,
       "bodyArmor": 18,
@@ -94,6 +109,7 @@
   {
     "id": "crpg_leatherlame_roundkettle_over_imperial_leather",
     "baseId": "crpg_leatherlame_roundkettle_over_imperial_leather",
+    "createdAt": "",
     "rank": 0,
     "name": "Roundkettle over Leather",
     "culture": "Empire",
@@ -116,6 +132,7 @@
   {
     "id": "crpg_vlandia_lance_1_t3",
     "baseId": "crpg_vlandia_lance_1_t3",
+    "createdAt": "",
     "rank": 0,
     "name": "Light Lance",
     "culture": "Vlandia",
@@ -138,7 +155,12 @@
         "balance": 0,
         "handling": 53,
         "bodyArmor": 0,
-        "flags": ["MeleeWeapon", "NotUsableWithOneHand", "WideGrip", "TwoHandIdleOnMount"],
+        "flags": [
+          "MeleeWeapon",
+          "NotUsableWithOneHand",
+          "WideGrip",
+          "TwoHandIdleOnMount"
+        ],
         "thrustDamage": 23,
         "thrustDamageType": "Pierce",
         "thrustSpeed": 89,
@@ -156,7 +178,12 @@
         "balance": 0,
         "handling": 53,
         "bodyArmor": 0,
-        "flags": ["MeleeWeapon", "NotUsableWithOneHand", "WideGrip", "TwoHandIdleOnMount"],
+        "flags": [
+          "MeleeWeapon",
+          "NotUsableWithOneHand",
+          "WideGrip",
+          "TwoHandIdleOnMount"
+        ],
         "thrustDamage": 23,
         "thrustDamageType": "Pierce",
         "thrustSpeed": 89,
@@ -169,6 +196,7 @@
   {
     "id": "crpg_mountain_hunting_bow",
     "baseId": "crpg_mountain_hunting_bow",
+    "createdAt": "",
     "rank": 0,
     "name": "Mountain Hunting Bow",
     "culture": "Battania",
@@ -177,7 +205,9 @@
     "tier": 5.375617,
     "requirement": 0,
     "weight": 0.25,
-    "flags": ["ForceAttachOffHandPrimaryItemBone"],
+    "flags": [
+      "ForceAttachOffHandPrimaryItemBone"
+    ],
     "armor": null,
     "mount": null,
     "weapons": [
