@@ -98,10 +98,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             character.User!.Gold += reward.Gold;
             _characterService.GiveExperience(character, reward.Experience, useExperienceMultiplier: true);
 
-            if (Enum.TryParse(instance, ignoreCase: true, out GameModeAlias instanceAlias))
-            {
-                _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, _gameModeService.GameModeByInstanceAlias(instanceAlias), reward.Experience, reward.Gold));
-            }
+            _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, _gameModeService.GameModeByInstanceAlias(Enum.TryParse(instance, ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.A), reward.Experience, reward.Gold));
 
             return new GameUserEffectiveReward
             {
