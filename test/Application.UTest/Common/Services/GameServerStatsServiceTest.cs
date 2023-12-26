@@ -21,6 +21,12 @@ public class GameServerStatsServiceTest : TestBase
         Mock<IDateTime> dateTimeMock = new();
         dateTimeMock.Setup(dt => dt.UtcNow).Returns(new DateTime(2023, 12, 23, 0, 20, 0));
         Mock<IGameModeService> gameModeServiceServiceMock = new();
+        gameModeServiceServiceMock
+            .Setup(m => m.GameModeByInstanceAlias(It.Is<GameModeAlias>(a => a == GameModeAlias.A)))
+            .Returns(GameMode.CRPGBattle);
+        gameModeServiceServiceMock
+            .Setup(m => m.GameModeByInstanceAlias(It.Is<GameModeAlias>(a => a == GameModeAlias.E)))
+            .Returns(GameMode.CRPGDTV);
 
         var mockHttp = new MockHttpMessageHandler();
         var request = mockHttp.When("https://api.datadoghq.com/api/v1/query*")
