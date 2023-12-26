@@ -14,7 +14,7 @@ import { characterKey, characterCharacteristicsKey } from '@/symbols/character';
 import { msToHours, parseTimestamp } from '@/utils/date';
 import { percentOf } from '@/utils/math';
 import { notify } from '@/services/notification-service';
-import { t, n } from '@/services/translate-service';
+import { t } from '@/services/translate-service';
 import {
   getExperienceForLevel,
   getCharacterStatistics,
@@ -57,11 +57,6 @@ const experiencePercentToNextLEvel = computed(() =>
     nextLevelExperience.value - currentLevelExperience.value
   )
 );
-const experienceTooltipFormatter = (value: number) =>
-  t('character.statistics.experience.format', {
-    exp: n(value),
-    expPercent: n(experiencePercentToNextLEvel.value / 100, 'percent'),
-  });
 
 const respecCapability = computed(() =>
   getRespecCapability(
@@ -266,42 +261,63 @@ await fetchPageData(character.value.id);
           />
 
           <div class="col-span-2 mt-12 px-4 py-2.5">
-            <VTooltip placement="bottom">
-              <VueSlider
-                :key="currentLevelExperience"
-                class="!cursor-default !opacity-100"
-                :modelValue="Number(animatedCharacterExperience.toFixed(0))"
-                disabled
-                tooltip="always"
-                :min="currentLevelExperience"
-                :max="nextLevelExperience"
-                :tooltipFormatter="experienceTooltipFormatter"
-                :marks="[currentLevelExperience, nextLevelExperience]"
-              >
-                <template #mark="{ pos, value, label }">
-                  <div
-                    class="absolute top-2.5 whitespace-nowrap"
-                    :class="{
-                      '-translate-x-full transform': value === nextLevelExperience,
-                    }"
-                    :style="{ left: `${pos}%` }"
-                  >
-                    {{ $n(label) }}
-                  </div>
-                </template>
-              </VueSlider>
-
-              <template #popper>
+            <VueSlider
+              :key="currentLevelExperience"
+              class="!cursor-default !opacity-100"
+              :modelValue="Number(animatedCharacterExperience.toFixed(0))"
+              disabled
+              tooltip="always"
+              :min="currentLevelExperience"
+              :max="nextLevelExperience"
+              :marks="[currentLevelExperience, nextLevelExperience]"
+            >
+              <template #mark="{ pos, value, label }">
                 <div
-                  class="prose prose-invert"
-                  v-html="
-                    $t('character.statistics.experience.tooltip', {
-                      remainExpToUp: $n(nextLevelExperience - character.experience),
-                    })
-                  "
-                ></div>
+                  class="absolute top-2.5 whitespace-nowrap"
+                  :class="{
+                    '-translate-x-full transform': value === nextLevelExperience,
+                  }"
+                  :style="{ left: `${pos}%` }"
+                >
+                  {{ $n(label) }}
+                </div>
               </template>
-            </VTooltip>
+              <template #tooltip="{ value }">
+                <div
+                  class="vue-slider-dot-tooltip-inner vue-slider-dot-tooltip-inner-top vue-slider-dot-tooltip-inner-disabled"
+                >
+                  <div class="flex items-center">
+                    <VTooltip placement="bottom">
+                      <div class="flex items-center gap-1 font-semibold text-primary">
+                        <OIcon icon="experience" size="xl" />
+                        {{
+                          t('character.statistics.experience.format', {
+                            exp: $n(value),
+                            expPercent: $n(experiencePercentToNextLEvel / 100, 'percent'),
+                          })
+                        }}
+                      </div>
+                      <template #popper>
+                        <div
+                          class="prose prose-invert"
+                          v-html="
+                            $t('character.statistics.experience.tooltip', {
+                              remainExpToUp: $n(nextLevelExperience - character.experience),
+                            })
+                          "
+                        />
+                      </template>
+                    </VTooltip>
+                    <Modal closable v-tooltip.bottom="`Charts TODO:`">
+                      <OButton variant="primary" inverted size="xs" rounded iconLeft="chart" />
+                      <template #popper>
+                        <CharacterCharts />
+                      </template>
+                    </Modal>
+                  </div>
+                </div>
+              </template>
+            </VueSlider>
           </div>
         </template>
       </div>

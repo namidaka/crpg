@@ -42,7 +42,7 @@ onBeforeUnmount(() => {
     <template #popper="popper">
       <OButton
         v-if="closable"
-        class="!absolute right-4 top-4 z-10 shadow"
+        class="!absolute -right-4 -top-4 z-10 shadow"
         iconRight="close"
         rounded
         size="sm"

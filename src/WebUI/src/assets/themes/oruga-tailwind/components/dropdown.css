@@ -4,6 +4,10 @@
   @apply inline-block;
 }
 
+.v-popper__inner {
+  @apply overflow-y-visible;
+}
+
 .v-popper--theme-dropdown .v-popper__arrow-inner,
 .v-popper--theme-dropdown .v-popper__arrow-outer {
   @apply border-base-200;
