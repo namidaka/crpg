@@ -19,7 +19,6 @@ import theme from '@/assets/themes/oruga-tailwind/echart-theme.json';
 import { d } from '@/services/translate-service';
 import { getCharacterStatisticsCharts } from '@/services/characters-service';
 import { characterKey } from '@/symbols/character';
-import { sleep } from '@/utils/promise';
 
 use([ToolboxComponent, BarChart, TooltipComponent, LegendComponent, GridComponent, SVGRenderer]);
 registerTheme('crpg', theme);
@@ -30,7 +29,7 @@ type EChartsOption = ComposeOption<
   | GridComponentOption
   | BarSeriesOption
 >;
-// TODO:
+
 enum Zoom {
   '1h' = '1h',
   '3h' = '3h',
@@ -40,7 +39,6 @@ enum Zoom {
   '14d' = '14d',
 }
 
-// TODO:
 enum StatType {
   'Exp' = 'Exp',
   'Gold' = 'Gold',
@@ -211,8 +209,8 @@ const onLegendSelectChanged = (e: LegendSelectEvent) => {
   <div class="flex max-h-[90vh] min-w-[48rem] flex-col pl-5 pr-10 pt-8">
     <div class="flex items-center gap-4">
       <OTabs v-model="statTypeModel" type="fill-rounded" contentClass="hidden">
-        <OTabItem :value="StatType['Exp']" :label="`Exp`" />
-        <OTabItem :value="StatType['Gold']" :label="`Gold`" />
+        <OTabItem :value="StatType['Exp']" :label="$t('character.earningChart.type.experience')" />
+        <OTabItem :value="StatType['Gold']" :label="$t('character.earningChart.type.gold')" />
       </OTabs>
       <OTabs v-model="zoomModel" type="fill-rounded" contentClass="hidden">
         <OTabItem

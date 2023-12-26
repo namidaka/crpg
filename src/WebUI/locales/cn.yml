@@ -522,6 +522,12 @@ character:
       title: 平均维修成本
       desc: '已装备物品每小时的平均维护费用'
 
+  earningChart:
+    title: 收入图表
+    type:
+      experience: 经验
+      gold: 金子
+
   highUpkeepWarning:
     title: 你无法承担你目前的维护费用！你必须要有足够的资金！
     desc: <p>如果你在回合结束时不能支付维持费，你的物品将被打破</p><p>你可以在你的库存中付费修理你的物品</p>

@@ -167,8 +167,8 @@ onBeforeRouteUpdate(async to => {
   return true;
 });
 
-const LazyCharacterCharts = defineAsyncComponent({
-  loader: () => import('@/components/character/CharacterCharts.vue'),
+const LazyCharacterEarningChart = defineAsyncComponent({
+  loader: () => import('@/components/character/CharacterEarningChart.vue'),
   suspensible: true,
 });
 
@@ -314,11 +314,11 @@ await fetchPageData(character.value.id);
                         />
                       </template>
                     </VTooltip>
-                    <Modal closable v-tooltip.bottom="`Charts TODO:`">
+                    <Modal closable v-tooltip.bottom="$t('character.earningChart.title')">
                       <OButton variant="primary" inverted size="xs" rounded iconLeft="chart" />
                       <template #popper>
                         <Suspense>
-                          <LazyCharacterCharts />
+                          <LazyCharacterEarningChart />
                           <template #fallback>
                             <div class="h-[30rem] min-w-[48rem]">
                               <OLoading active iconSize="xl" />
