@@ -4,6 +4,7 @@ using Crpg.Application.Games.Commands;
 using Crpg.Application.Games.Models;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Items;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -75,6 +76,9 @@ public class UpdateGameUsersCommandTest : TestBase
 
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
         Mock<IGameModeService> gameModeServiceServiceMock = new();
+        // gameModeServiceServiceMock
+        //     .Setup(m => m.GameModeByInstanceAlias(It.Is<GameModeAlias>(a => a == GameModeAlias.A)))
+        //     .Returns(GameMode.CRPGBattle);
 
         UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object, gameModeServiceServiceMock.Object);
         var result = await handler.Handle(new UpdateGameUsersCommand
@@ -102,6 +106,7 @@ public class UpdateGameUsersCommandTest : TestBase
                         Deviation = 5,
                         Volatility = 6,
                     },
+                    Instance = "crpg01a",
                 },
             },
         }, CancellationToken.None);
@@ -127,6 +132,11 @@ public class UpdateGameUsersCommandTest : TestBase
         Assert.That(dbCharacter.Statistics.PlayTime, Is.EqualTo(TimeSpan.FromSeconds(12)));
 
         characterServiceMock.VerifyAll();
+
+        gameModeServiceServiceMock.Verify(m =>
+            m.GameModeByInstanceAlias(It.IsAny<GameModeAlias>()), Times.Once);
+        activityLogServiceMock.Verify(m =>
+            m.CreateCharacterEarnedLog(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameMode>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
     }
 
     [Test]
