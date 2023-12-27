@@ -73,6 +73,7 @@ nav:
     Builder: Калькулятор
     Leaderboard: Лидеры
     Community: Сообщество
+    Installation: Как установить
   back: Назад
 
 action:
@@ -1308,6 +1309,9 @@ item:
     price_desc: Дороже
     type_asc: По типу
     rank_desc: По рангу
+
+  filter:
+    all: Все
 
 leaderboard:
   title: Таблица лидеров

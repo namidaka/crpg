@@ -74,6 +74,7 @@ nav:
     Builder: Builder
     Leaderboard: Leaderboard
     Community: Community
+    Installation: Installation guide
   back: Back
 
 action:
@@ -1306,6 +1307,9 @@ item:
     price_desc: Price (desc)
     type_asc: By type
     rank_desc: By rank
+
+  filter:
+    all: All
 
 activityLog:
   form:

@@ -74,6 +74,7 @@ nav:
     Builder: 生成器
     Leaderboard: 排行榜
     Community: 社区
+    Installation: 安装指南
   back: 返回
 
 action:
@@ -1298,6 +1299,9 @@ item:
     price_desc: 价格（降序）
     type_asc: 按类型排序
     rank_desc: 按等级划分
+
+  filter:
+    all: 一应俱全
 
 leaderboard:
   title: 排行榜

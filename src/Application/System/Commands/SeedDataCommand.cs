@@ -527,6 +527,20 @@ public record SeedDataCommand : IMediatorRequest
             UserItem orleItem3 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
             UserItem orleItem4 = new() { User = orle, ItemId = "crpg_decorated_short_spatha_v1_h1" };
             UserItem orleItem5 = new() { User = orle, ItemId = "crpg_scalpel_v1_h0" };
+            UserItem orleItem6 = new() { User = orle, ItemId = "crpg_wolf_shoulder_v2_h3" };
+            UserItem orleItem7 = new() { User = orle, ItemId = "crpg_battania_fur_boots_v2_h3" };
+            UserItem orleItem8 = new() { User = orle, ItemId = "crpg_nordic_leather_cap_v2_h3" };
+            UserItem orleItem9 = new() { User = orle, ItemId = "crpg_eastern_wrapped_armguards_v2_h3" };
+            UserItem orleItem10 = new() { User = orle, ItemId = "crpg_blacksmith_hammer_v1_h0" };
+            UserItem orleItem11 = new() { User = orle, ItemId = "crpg_scythe_v1_h3" };
+            UserItem orleItem12 = new() { User = orle, ItemId = "crpg_rondel_v2_h3" };
+            UserItem orleItem13 = new() { User = orle, ItemId = "crpg_crossbow_j_v2_h3" };
+            UserItem orleItem14 = new() { User = orle, ItemId = "crpg_helping_hand_v3_h2" };
+            UserItem orleItem15 = new() { User = orle, ItemId = "crpg_bolt_c_v2_h2" };
+            UserItem orleItem16 = new() { User = orle, ItemId = "crpg_wooden_sword_v2_hv3" };
+            UserItem orleItem17 = new() { User = orle, ItemId = "crpg_basic_imperial_leather_armor_v2_h3" };
+            UserItem orleItem18 = new() { User = orle, ItemId = "crpg_wooden_twohander_v2_h3" };
+            UserItem orleItem19 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0" };
             UserItem elmarykItem1 = new() { User = elmaryk, ItemId = "crpg_longsword_v1_h3" };
             UserItem elmarykItem2 = new() { User = elmaryk, ItemId = "crpg_avalanche_v1_h2" };
             UserItem laHireItem1 = new() { User = laHire, ItemId = "crpg_iron_cavalry_sword_v1_h1" };
@@ -542,6 +556,20 @@ public record SeedDataCommand : IMediatorRequest
                 orleItem3,
                 orleItem4,
                 orleItem5,
+                orleItem6,
+                orleItem7,
+                orleItem8,
+                orleItem9,
+                orleItem1,
+                orleItem1,
+                orleItem1,
+                orleItem1,
+                orleItem1,
+                orleItem1,
+                orleItem1,
+                orleItem1,
+                orleItem1,
+                orleItem1,
                 elmarykItem1,
                 elmarykItem2,
                 laHireItem1,
@@ -1093,6 +1121,20 @@ public record SeedDataCommand : IMediatorRequest
             ClanArmoryItem takeoClanArmoryItem2 = new() { UserItem = takeoItem2, Lender = takeoMember };
             ClanArmoryItem orleClanArmoryItem1 = new() { UserItem = orleItem1, Lender = orleMember };
             ClanArmoryItem orleClanArmoryItem2 = new() { UserItem = orleItem2, Lender = orleMember };
+            ClanArmoryItem orleClanArmoryItem3 = new() { UserItem = orleItem3, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem4 = new() { UserItem = orleItem4, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem5 = new() { UserItem = orleItem5, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem6 = new() { UserItem = orleItem6, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem7 = new() { UserItem = orleItem7, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem8 = new() { UserItem = orleItem8, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem9 = new() { UserItem = orleItem9, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem10 = new() { UserItem = orleItem10, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem11 = new() { UserItem = orleItem11, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem12 = new() { UserItem = orleItem12, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem13 = new() { UserItem = orleItem13, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem14 = new() { UserItem = orleItem14, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem15 = new() { UserItem = orleItem15, Lender = orleMember, };
+            ClanArmoryItem orleClanArmoryItem16 = new() { UserItem = orleItem16, Lender = orleMember, };
             ClanArmoryItem elmarykClanArmoryItem1 = new() { UserItem = elmarykItem1, Lender = elmarykMember };
             ClanArmoryItem elmarykClanArmoryItem2 = new() { UserItem = elmarykItem2, Lender = elmarykMember };
             ClanArmoryItem laHireClanArmoryItem1 = new() { UserItem = laHireItem1, Lender = laHireMember };
@@ -1101,7 +1143,7 @@ public record SeedDataCommand : IMediatorRequest
 
             ClanArmoryItem[] newClanArmoryItems =
             {
-                takeoClanArmoryItem1, takeoClanArmoryItem2, orleClanArmoryItem1, orleClanArmoryItem2, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
+                takeoClanArmoryItem1, takeoClanArmoryItem2, orleClanArmoryItem1, orleClanArmoryItem2, orleClanArmoryItem3,  orleClanArmoryItem4,  orleClanArmoryItem5,  orleClanArmoryItem6,  orleClanArmoryItem7,  orleClanArmoryItem8,  orleClanArmoryItem9,  orleClanArmoryItem10, orleClanArmoryItem11, orleClanArmoryItem12, orleClanArmoryItem13, orleClanArmoryItem14, orleClanArmoryItem15, orleClanArmoryItem16, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
             };
             foreach (var newClanArmoryItem in newClanArmoryItems)
             {

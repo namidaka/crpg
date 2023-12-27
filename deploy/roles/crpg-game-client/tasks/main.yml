@@ -41,14 +41,6 @@
   delegate_to: localhost
   become: false
 
-- name: compress locally game client
-  archive:
-    path: "{{ crpg_game_client_local_path }}/Modules/cRPG/*"
-    dest: /tmp/crpg-client.zip
-    format: zip
-  delegate_to: localhost
-  become: false
-
 - name: Convert Linux Launcher Path to Windows path
   shell: wslpath -w "{{ crpg_launcher_path }}/LauncherV2.Console.Exe"
   delegate_to: localhost
@@ -89,17 +81,6 @@
   delegate_to: localhost
   become: false
 
-- name: copy game client to host
-  copy:
-    src: /tmp/crpg-client.zip
-    dest: "{{ crpg_ui_path }}/cRPG.zip"
-    owner: nginx
-    group: nginx
-
-- name: remove temporary archive
-  file:
-    path: /tmp/crpg-client.zip
-    state: absent
 
 - name: Tar subfolders of SceneObj with the folder name at the first level
   ansible.builtin.shell:

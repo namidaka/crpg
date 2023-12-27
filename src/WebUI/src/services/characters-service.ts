@@ -243,7 +243,7 @@ export const computeSpeedStats = (
     1 / (1 + applyPolynomialFunction(strength - 3, weightReductionPolynomialFactor));
   const freeWeight = 2.5 * (1 + (strength - 3) / 30);
   const perceivedWeight = Math.max(totalEncumbrance - freeWeight, 0) * weightReductionFactor;
-  const nakedSpeed = 0.6 + (0.034 * (20 * athletics + 2 * agility)) / 26.0;
+  const nakedSpeed = 0.58 + (0.034 * (20 * athletics + 2 * agility)) / 26.0;
   const currentSpeed = clamp(
     nakedSpeed * Math.pow(361 / (361 + Math.pow(perceivedWeight, 5)), 0.055),
     0.1,

@@ -24,6 +24,8 @@ using System.Collections;
 using System.Resources;
 using System.Windows.Resources;
 using System.Windows;
+using System.Windows.Threading;
+using System.Windows.Shell;
 
 namespace LauncherV3;
 
@@ -35,6 +37,9 @@ public partial class MainViewModel : ObservableObject
         Epic,
         Xbox
     }
+
+    [ObservableProperty]
+    public double _progress;
 
     [ObservableProperty]
     private bool isUpdating;
@@ -397,15 +402,16 @@ public partial class MainViewModel : ObservableObject
                 {
                     // Download the file
                     WriteToConsole($"Downloading and extracting {assetToDownload.Key + ".tar.gz"} ");
-                    var response = await client.GetAsync("https://c-rpg.eu/AssetPackages/" + assetToDownload.Key + ".tar.gz");
-                    response.EnsureSuccessStatusCode();
-                    string? contentType = response.Content!.Headers!.ContentType!.MediaType;
-                    if (contentType == "text/html")
+                    string fileToDownload = assetToDownload.Key + ".tar.gz";
+                    var chunkedRequest = CrpgChunkedRequest.Create("https://c-rpg.eu/AssetPackages/" + assetToDownload.Key + ".tar.gz");
+                    string tempPath = Path.Combine(Path.GetTempPath(), fileToDownload);
+                    IProgress<double> currentProgress = new Progress<double>(p =>
                     {
-                        throw new Exception("Expected file, but received HTML content. The file may not exist at the specified URL.");
-                    }
+                       Progress = p * 100;
+                    });
+                    await chunkedRequest.DownloadAsync(tempPath, currentProgress);
 
-                    var extractionTask1 = Task.Run(() => Extract(response, Path.Combine(GameLocation.InstallationPath, "Modules/cRPG/AssetPackages/")));
+                    var extractionTask1 = Task.Run(() => ExtractAndDeleteFile(tempPath, Path.Combine(GameLocation.InstallationPath, "Modules/cRPG/AssetPackages/")));
                     allTasks.Add(extractionTask1);
                 }
                 catch (Exception ex)
@@ -413,31 +419,69 @@ public partial class MainViewModel : ObservableObject
                     updateSuccessful = false;
                     WriteToConsole(ex.Message);
                 }
+
             }
+
+            Progress = 100;
+
+            var semaphore = new SemaphoreSlim(20); // Allows 20 concurrent tasks
+            var downloadTasks = new List<Task>();
+            var progresses = new ConcurrentDictionary<int, double>();
+            IProgress<double> overallProgress = new Progress<double>(p =>
+            {
+                // Calculate the overall progress based on the individual progresses.
+                double totalProgress = progresses.Values.Sum();
+                double averageProgress = totalProgress / progresses.Count;
+                Progress = averageProgress;
+            });
+
+            int mapIndex = 0; // To track the index of the map being downloaded
 
             foreach (var mapToDownload in mapsToDownload)
             {
-                try
-                {
-                    // Download the file
-                    WriteToConsole($"Downloading and extracting {mapToDownload.Key + ".tar.gz"} ");
-                    var response = await client.GetAsync("https://c-rpg.eu/SceneObj/" + mapToDownload.Key + ".tar.gz");
-                    response.EnsureSuccessStatusCode();
-                    string? contentType = response.Content!.Headers!.ContentType!.MediaType;
-                    if (contentType == "text/html")
-                    {
-                        throw new Exception("Expected file, but received HTML content. The file may not exist at the specified URL.");
-                    }
+                await semaphore.WaitAsync();
+                int localIndex = mapIndex; // Local copy for the closure in the lambda expression
+                mapIndex++; // Increment for the next iteration
 
-                    var extractionTask2 = Task.Run(() => Extract(response, Path.Combine(GameLocation.InstallationPath, "Modules/cRPG/SceneObj/")));
-                    allTasks.Add(extractionTask2);
-                }
-                catch (Exception ex)
+                downloadTasks.Add(Task.Run(async () =>
                 {
-                    updateSuccessful = false;
-                    WriteToConsole(ex.Message);
-                }
+                    try
+                    {
+                        WriteToConsole($"Downloading and extracting {mapToDownload.Key + ".tar.gz"} ");
+                        string fileToDownload = mapToDownload.Key + ".tar.gz";
+                        var chunkedRequest = CrpgChunkedRequest.Create("https://c-rpg.eu/SceneObj/" + fileToDownload);
+                        string tempPath = Path.Combine(Path.GetTempPath(), fileToDownload);
+
+                        progresses.TryAdd(localIndex, 0); // Initialize progress for this download
+
+                        IProgress<double> progressReporter = new Progress<double>(p =>
+                        {
+                            progresses[localIndex] = p; // Update progress safely
+                            overallProgress.Report(p); // Report individual progress
+                        });
+
+                        await chunkedRequest.DownloadAsync(tempPath, progressReporter);
+                        await Task.Run(() => ExtractAndDeleteFile(tempPath, Path.Combine(GameLocation.InstallationPath, "Modules/cRPG/SceneObj/")));
+                    }
+                    catch (Exception ex)
+                    {
+                        updateSuccessful = false; // This should be thread-safe if accessed concurrently
+                        WriteToConsole(ex.Message);
+                    }
+                    finally
+                    {
+                        progresses.TryRemove(localIndex, out _); // Remove progress when done
+                        semaphore.Release(); // Release the slot
+                    }
+                }));
             }
+
+            // Wait for all downloads to complete
+            await Task.WhenAll(downloadTasks);
+
+
+
+            Progress = 100;
 
             if (downloadRest)
             {
@@ -445,15 +489,16 @@ public partial class MainViewModel : ObservableObject
                 {
                     // Download the file
                     WriteToConsole($"Downloading and extracting the xmls files : rest.tar.gz");
-                    var response = await client.GetAsync("https://c-rpg.eu/rest.tar.gz");
-                    response.EnsureSuccessStatusCode();
-                    string? contentType = response.Content!.Headers!.ContentType!.MediaType;
-                    if (contentType == "text/html")
+                    string fileToDownload = "rest" + ".tar.gz";
+                    var chunkedRequest = CrpgChunkedRequest.Create("https://c-rpg.eu/" + fileToDownload);
+                    string tempPath = Path.Combine(Path.GetTempPath(), fileToDownload);
+                    IProgress<double> currentProgress = new Progress<double>(p =>
                     {
-                        throw new Exception("Expected file, but received HTML content. The file may not exist at the specified URL.");
-                    }
+                        Progress = p * 100;
+                    });
+                    await chunkedRequest.DownloadAsync(tempPath, currentProgress);
 
-                    var extractionTask3 = Task.Run(() => Extract(response, Path.Combine(GameLocation.InstallationPath, "Modules/cRPG/")));
+                    var extractionTask3 = Task.Run(() => ExtractAndDeleteFile(tempPath, Path.Combine(GameLocation.InstallationPath, "Modules/cRPG/")));
                     allTasks.Add(extractionTask3);
                 }
 
@@ -463,7 +508,10 @@ public partial class MainViewModel : ObservableObject
                     WriteToConsole(ex.Message);
                 }
             }
+            Progress = 100;
         }
+
+        Progress = 100;
 
         await Task.WhenAll(allTasks);
         if (updateSuccessful)
@@ -539,6 +587,39 @@ public partial class MainViewModel : ObservableObject
                 }
             }
         }
+    }
+    private async void ExtractAndDeleteFile(string inputPath, string outputPath)
+    {
+        using (var stream = new FileStream(inputPath, FileMode.Open, FileAccess.Read,FileShare.None, bufferSize: 4096, useAsync: true))
+        {
+            using (var gzipStream = new GZipStream(stream, CompressionMode.Decompress))
+            {
+                if (!Directory.Exists(outputPath))
+                {
+                    Directory.CreateDirectory(outputPath);
+                }
+
+                using (var tarArchive = TarArchive.CreateInputTarArchive(gzipStream))
+                {
+                    try
+                    {
+                        tarArchive.ExtractContents(outputPath);
+                    }
+                    catch (Exception e)
+                    {
+                        WriteToConsole("Error while trying to extract download file");
+                        WriteToConsole(e.Message);
+                    }
+
+                }
+            }
+        }
+
+        try
+        {
+            File.Delete(inputPath);
+        }
+        catch { }
     }
     partial void OnSelectedPlatformChanged(Platform value)
     {

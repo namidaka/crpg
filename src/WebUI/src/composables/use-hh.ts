@@ -6,6 +6,8 @@ import { notify } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
 
 export const useHappyHours = () => {
+  const HHPollId = Symbol('hh');
+
   const userStore = useUserStore();
 
   const source = ref();
@@ -29,7 +31,6 @@ export const useHappyHours = () => {
   const onEndHHCountdown = () => {
     isHHCountdownEnded.value = true;
     alreadyShownHHStartedNotification.value = false;
-
     notify(t('hh.notify.ended'));
   };
 
@@ -44,6 +45,7 @@ export const useHappyHours = () => {
     );
 
   return {
+    HHPollId,
     HHEvent,
     HHEventRemaining,
     isHHCountdownEnded,

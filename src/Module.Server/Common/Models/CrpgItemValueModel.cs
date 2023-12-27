@@ -138,10 +138,6 @@ internal class CrpgItemValueModel : ItemValueModel
     private float CalculateWeaponTier(WeaponComponent weaponComponent)
     {
         bool isAThrowingWeapon = weaponComponent.Weapons.Max(a => a.MaxDataValue) >= 1;
-        if (weaponComponent.PrimaryWeapon.CanHitMultipleTargets)
-        {
-            Debug.Print($"{weaponComponent.StringId} can hit multiple targets");
-        }
 
         if (weaponComponent.Item?.WeaponDesign == null)
         {

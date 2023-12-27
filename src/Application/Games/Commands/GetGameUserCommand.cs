@@ -55,7 +55,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 ("crpg_western_chain_shoulders_v2_h0", ItemSlot.Shoulder),
                 ("crpg_mail_chausses_v2_h0", ItemSlot.Leg),
                 ("crpg_iron_arming_sword_v1_h0", ItemSlot.Weapon0),
-                ("crpg_heavy_round_shield_v2_h0", ItemSlot.Weapon1),
+                ("crpg_heavy_round_shield_v3_h0", ItemSlot.Weapon1),
                 ("crpg_knob_headed_spear_v1_h0", ItemSlot.Weapon2),
             },
         };
@@ -96,7 +96,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 ("crpg_light_tunic_v2_h0", ItemSlot.Body),
                 ("crpg_leather_shoes_v2_h0", ItemSlot.Leg),
                 ("crpg_hoe_v2_h0", ItemSlot.Weapon0),
-                ("crpg_bound_adarga_v2_h0", ItemSlot.Weapon1),
+                ("crpg_bound_adarga_v3_h0", ItemSlot.Weapon1),
             },
             // khuzait
             new[]
@@ -104,7 +104,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 ("crpg_nomad_cap_v2_h0", ItemSlot.Head),
                 ("crpg_steppe_robe_v2_h0", ItemSlot.Body),
                 ("crpg_leather_boots_v2_h0", ItemSlot.Leg),
-                ("crpg_hatchet_v1_h0", ItemSlot.Weapon0),
+                ("crpg_hatchet_v2_h0", ItemSlot.Weapon0),
                 ("crpg_throwing_stone_v3_h0", ItemSlot.Weapon1),
             },
             // battania
@@ -123,7 +123,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 ("crpg_vlandia_bandit_c_v2_h0", ItemSlot.Body),
                 ("crpg_rough_tied_boots_v2_h0", ItemSlot.Leg),
                 ("crpg_spiked_club_v1_h0", ItemSlot.Weapon0),
-                ("crpg_bound_adarga_v2_h0", ItemSlot.Weapon1),
+                ("crpg_bound_adarga_v3_h0", ItemSlot.Weapon1),
             },
         };
         private static readonly ILogger Logger = LoggerFactory.CreateLogger<GetGameUserCommand>();

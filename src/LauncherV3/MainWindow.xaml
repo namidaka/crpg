@@ -39,7 +39,7 @@
             <Button x:Name="updateButton" Command="{Binding UpdateGameFilesCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Check For Update" HorizontalAlignment="Center" Margin="0,70,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="195" Click="checkForUpdateButton_Click"/>
 
             <Button x:Name="resetConfig" Command="{Binding ResetConfigCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Reset Config" HorizontalAlignment="Center" Margin="0,100,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="195" Click="checkForUpdateButton_Click"/>
-            
+
             <Button x:Name="locationButton" Command="{Binding OpenFolderCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Change Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Height="24" Width="195" />
 
 
@@ -58,9 +58,10 @@
             <TextBlock  Margin="70,0,0,8" Grid.Row="4" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Width="65">           
                 <Hyperlink NavigateUri="https://c-rpg.eu" RequestNavigate="Hyperlink_RequestNavigate">
                     c-rpg.eu
-                </Hyperlink>    
+                </Hyperlink>
             </TextBlock>
             <TextBlock Text="{Binding Version}"  Margin="0,0,0,0" Grid.Row="4" Grid.Column="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Width="60" Height="20" Panel.ZIndex="10"/>
+            <ProgressBar Value="{Binding Progress, Mode=OneWay}" HorizontalAlignment="Center" Height="23" Margin="0,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="545"/>
 
 
         </Grid>

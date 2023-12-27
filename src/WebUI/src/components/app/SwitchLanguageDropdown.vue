@@ -2,7 +2,7 @@
 import { supportedLocales, currentLocale, switchLanguage } from '@/services/translate-service';
 
 const locale = computed(() => currentLocale());
-const locales = computed(() => supportedLocales());
+const locales = supportedLocales();
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const locales = computed(() => supportedLocales());
           }
         "
       >
-        <SvgSpriteImg :name="`locale-${l}`" viewBox="0 0 18 18" class="w-5" />
+        <SvgSpriteImg :name="`locale-${l}`" viewBox="0 0 18 18" class="w-4.5" />
         {{ $t(`locale.${l}`) }}
       </DropdownItem>
     </template>

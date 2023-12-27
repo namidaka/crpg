@@ -38,7 +38,7 @@ export const getHHScheduleConfig = () => {
   );
 };
 
-interface HHEvent {
+export interface HHEvent {
   start: Date;
   end: Date;
 }

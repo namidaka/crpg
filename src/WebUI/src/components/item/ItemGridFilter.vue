@@ -37,10 +37,10 @@ const itemTypeModel = computed({
   <OTabs v-model="itemTypeModel" type="fill-rounded" vertical>
     <OTabItem :value="ItemType.Undefined">
       <template #header>
-        <OIcon icon="grid" size="xl" v-tooltip.bottom="'All'" />
+        <OIcon icon="grid" size="xl" v-tooltip.bottom="$t('item.filter.all')" />
       </template>
     </OTabItem>
-    <OTabItem v-for="bucket in buckets" :value="bucket.key">
+    <OTabItem v-for="bucket in buckets" :value="bucket.key" :key="bucket.key">
       <template #header>
         <OIcon
           :icon="humanizeBucket('type', bucket.key).icon!.name"
