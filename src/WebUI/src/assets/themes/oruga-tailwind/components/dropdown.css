@@ -10,17 +10,8 @@
 }
 
 .v-popper--theme-dropdown .v-popper__inner {
-  @apply rounded-lg border-none bg-base-200 drop-shadow-md text-content-200;
+  @apply rounded-lg border-none bg-base-200 text-content-200 drop-shadow-md;
   /* @apply py-1.5; TODO: */
-}
-
-.v-popper--theme-dropdown.v-popper--theme-dropdown-light .v-popper__arrow-inner,
-.v-popper--theme-dropdown.v-popper--theme-dropdown-light .v-popper__arrow-outer {
-  @apply border-base-400;
-}
-
-.v-popper--theme-dropdown.v-popper--theme-dropdown-light .v-popper__inner {
-  @apply bg-base-400;
 }
 
 /*  */
@@ -29,9 +20,8 @@
 }
 
 .v-popper--theme-tooltip.v-popper--theme-tooltip-danger .v-popper__inner {
-    @apply text-status-danger;
+  @apply text-status-danger;
 }
-
 
 .v-popper--theme-tooltip.expanded .v-popper__inner {
   @apply max-w-full;

@@ -6,7 +6,43 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <nav class="flex items-center gap-6">
+  <nav class="flex items-center gap-5">
+    <div
+      class="flex items-center gap-0.5 rounded-full border border-border-200 hover:border-border-300"
+    >
+      <OButton
+        variant="primary"
+        size="sm"
+        inverted
+        rounded
+        tag="a"
+        icon-left="discord"
+        href="https://discord.gg/c-rpg"
+        target="_blank"
+        v-tooltip.bottom="$t('nav.main.Community')"
+      />
+
+      <InstallationGuide>
+        <OButton
+          variant="primary"
+          inverted
+          rounded
+          size="sm"
+          icon-left="download"
+          v-tooltip.bottom="$t('nav.main.Installation')"
+        />
+      </InstallationGuide>
+
+      <OButton
+        variant="primary"
+        size="sm"
+        inverted
+        rounded
+        icon-left="help-circle"
+        v-tooltip.bottom="`Help. Soon...`"
+      />
+    </div>
+
     <RouterLink
       :to="{ name: 'Characters' }"
       class="text-content-300 hover:text-content-100"
@@ -23,7 +59,14 @@ const userStore = useUserStore();
       {{ $t('nav.main.Shop') }}
     </RouterLink>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1.5">
+      <VTooltip v-if="userStore.clan === null" data-aq-main-nav-link-tooltip="Explanation">
+        <Tag icon="tag" variant="primary" rounded size="sm" />
+        <template #popper>
+          <div class="prose prose-invert" v-html="$t('clanBalancingExplanation')" />
+        </template>
+      </VTooltip>
+
       <RouterLink
         :to="{ name: 'Clans' }"
         class="text-content-300 hover:text-content-100"
@@ -31,22 +74,15 @@ const userStore = useUserStore();
       >
         {{ $t('nav.main.Clans') }}
       </RouterLink>
-
-      <VTooltip v-if="userStore.clan === null" data-aq-main-nav-link-tooltip="Explanation">
-        <Tag icon="tag" variant="primary" rounded size="sm" />
-        <template #popper>
-          <div class="prose prose-invert" v-html="$t('clanBalancingExplanation')"></div>
-        </template>
-      </VTooltip>
     </div>
 
     <RouterLink
       :to="{ name: 'Leaderboard' }"
-      class="inline-flex items-center gap-2 text-content-300 hover:text-content-100"
+      class="inline-flex items-center gap-1.5 text-content-300 hover:text-content-100"
       activeClass="!text-content-100"
     >
-      {{ $t('nav.main.Leaderboard') }}
       <OIcon icon="trophy-cup" size="xl" class="text-more-support" />
+      {{ $t('nav.main.Leaderboard') }}
     </RouterLink>
 
     <RouterLink
@@ -58,16 +94,5 @@ const userStore = useUserStore();
     >
       {{ $t('nav.main.Moderator') }}
     </RouterLink>
-
-    <OButton
-      variant="primary"
-      size="sm"
-      outlined
-      tag="a"
-      icon-left="discord"
-      href="https://discord.gg/c-rpg"
-      target="_blank"
-      :label="$t('nav.main.Community')"
-    />
   </nav>
 </template>

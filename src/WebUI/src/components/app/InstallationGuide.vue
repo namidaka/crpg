@@ -26,13 +26,15 @@ watch(
 
 <template>
   <Modal closable>
-    <OButton
-      variant="secondary"
-      size="xl"
-      iconLeft="download"
-      target="_blank"
-      :label="$t('installation.title')"
-    />
+    <slot>
+      <OButton
+        variant="secondary"
+        size="xl"
+        iconLeft="download"
+        target="_blank"
+        :label="$t('installation.title')"
+      />
+    </slot>
 
     <template #popper>
       <div class="space-y-10 py-10">
@@ -80,7 +82,12 @@ watch(
                     tag="li"
                   >
                     <template #launcherLink>
-                      <a target="_blank" href="https://www.moddb.com/mods/crpg/downloads/crpg-launcher1">launcher</a>
+                      <a
+                        target="_blank"
+                        href="https://www.moddb.com/mods/crpg/downloads/crpg-launcher1"
+                      >
+                        launcher
+                      </a>
                     </template>
                   </i18n-t>
                   <li>{{ $t('installation.platform.other.startLauncher') }}</li>

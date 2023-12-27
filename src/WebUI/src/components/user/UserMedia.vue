@@ -27,7 +27,7 @@ const {
       :src="user.avatar"
       class="rounded-full"
       :alt="user.name"
-      :class="[size === 'xl' ? 'h-9 w-9' : 'h-6 w-6', { 'ring-2  ring-status-success': isSelf }]"
+      :class="[size === 'xl' ? 'h-8 w-8' : 'h-6 w-6', { 'ring-2  ring-status-success': isSelf }]"
     />
 
     <template v-if="!hiddenClan && user.clan">

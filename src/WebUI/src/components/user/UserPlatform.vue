@@ -1,17 +1,12 @@
 <script setup lang="ts">
 import { Platform } from '@/models/platform';
 
-const props = withDefaults(
-  defineProps<{
-    platform: Platform;
-    platformUserId: number | string;
-    userName: string;
-    size?: 'sm' | 'xl';
-  }>(),
-  {
-    size: 'sm',
-  }
-);
+const { size = 'sm' } = defineProps<{
+  platform: Platform;
+  platformUserId: number | string;
+  userName: string;
+  size?: 'sm' | 'xl';
+}>();
 </script>
 
 <template>
