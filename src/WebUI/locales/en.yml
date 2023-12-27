@@ -4,7 +4,7 @@ locale:
   cn: Chinese
 
 platform:
-  Steam: Steam
+  Steam: Steam Workshop
   EpicGames: Epic Games
   Microsoft: Xbox
 
@@ -20,11 +20,11 @@ installation:
       subscribe: Subscribe to the {steamWorkshopsLink}
       update: To update the mod, you may need to unsub/sub to the mod in Steam Workshops
     other:
-      title: Other
+      title: Launcher
       downloadLauncher: Download our {launcherLink}
       startLauncher: Open the launcher and wait for the mod to download
       update: To update the mod it is enough to restart the launcher
-  help: If you have difficulty installing the modification, please contact us on {discordLink}
+  help: Having issues getting the mod working or installing? Contact us on our {discordLink} Server!
 
 dateTime:
   days:

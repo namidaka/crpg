@@ -42,34 +42,9 @@ watch(
           <h3 class="text-center">{{ $t('installation.title') }}</h3>
 
           <OTabs v-model="tabsModel" size="xl" :animated="false">
-            <OTabItem
-              :label="$t(`platform.${Platform.Steam}`)"
-              :icon="platformToIcon[Platform.Steam]"
-              :value="PossibleValues.Steam"
-            >
-              <div class="space-y-6">
-                <ol>
-                  <i18n-t scope="global" keypath="installation.platform.steam.subscribe" tag="li">
-                    <template #steamWorkshopsLink>
-                      <a
-                        target="_blank"
-                        href="steam://openurl/https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589"
-                      >
-                        Steam Workshops
-                      </a>
-                    </template>
-                  </i18n-t>
-                  <li>{{ $t('installation.common.bannerlordLauncher') }}</li>
-                  <li>{{ $t('installation.common.multiplayerModsTab') }}</li>
-                  <li>{{ $t('installation.common.activateMod') }}</li>
-                  <li>{{ $t('installation.common.launchMultiplayerGame') }}</li>
-                </ol>
-                <p class="text-content-400">{{ $t('installation.platform.steam.update') }}</p>
-              </div>
-            </OTabItem>
-
             <OTabItem :value="PossibleValues.Other">
               <template #header>
+                <OIcon :icon="platformToIcon[Platform.Steam]" size="x1" />
                 <OIcon :icon="platformToIcon[Platform.Microsoft]" size="xl" />
                 <OIcon :icon="platformToIcon[Platform.EpicGames]" size="xl" />
                 {{ $t('installation.platform.other.title') }}
@@ -97,6 +72,32 @@ watch(
                   <li>{{ $t('installation.common.launchMultiplayerGame') }}</li>
                 </ol>
                 <p class="text-content-400">{{ $t('installation.platform.other.update') }}</p>
+              </div>
+            </OTabItem>
+            
+            <OTabItem
+              :label="$t(`platform.${Platform.Steam}`)"
+              :icon="platformToIcon[Platform.Steam]"
+              :value="PossibleValues.Steam"
+            >
+              <div class="space-y-6">
+                <ol>
+                  <i18n-t scope="global" keypath="installation.platform.steam.subscribe" tag="li">
+                    <template #steamWorkshopsLink>
+                      <a
+                        target="_blank"
+                        href="steam://openurl/https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589"
+                      >
+                        Steam Workshops
+                      </a>
+                    </template>
+                  </i18n-t>
+                  <li>{{ $t('installation.common.bannerlordLauncher') }}</li>
+                  <li>{{ $t('installation.common.multiplayerModsTab') }}</li>
+                  <li>{{ $t('installation.common.activateMod') }}</li>
+                  <li>{{ $t('installation.common.launchMultiplayerGame') }}</li>
+                </ol>
+                <p class="text-content-400">{{ $t('installation.platform.steam.update') }}</p>
               </div>
             </OTabItem>
           </OTabs>

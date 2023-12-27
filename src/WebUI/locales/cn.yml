@@ -4,7 +4,7 @@ locale:
   cn: 中文
 
 platform:
-  Steam: Steam
+  Steam: Steam Workshop
   EpicGames: Epic Games
   Microsoft: Xbox
 
@@ -20,11 +20,11 @@ installation:
       subscribe: 订阅{steamWorkshopsLink}
       update: 要更新 你可能需要在Steam Workshops中退订/订阅该MOD
     other:
-      title: 其他
+      title: 游戏启动器
       downloadLauncher: 下载我们的{launcherLink}
       startLauncher: 打开启动器 等待MOD的下载
       update: 要更新 只需重新启动启动器即可
-  help: 如果你在安装修改时遇到困难，请通过{discordLink}联系我们。
+  help: 遇到安装问题？通过 {discordLink} 服务器联系我们
 
 dateTime:
   days:

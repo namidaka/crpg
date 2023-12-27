@@ -4,7 +4,7 @@ locale:
   cn: Китайский
 
 platform:
-  Steam: Steam
+  Steam: Steam Workshop
   EpicGames: Epic Games
   Microsoft: Xbox
 
@@ -20,7 +20,7 @@ installation:
       subscribe: Подпишитесь на {steamWorkshopsLink}
       update: Чтобы обновить мод, вам может потребоваться отписаться/подписаться в Steam Workshops
     other:
-      title: Другие
+      title: Лаунчер
       downloadLauncher: Загрузите наш {launcherLink}
       startLauncher: Откройте Launcher и подождите, пока мод загрузится
       update: Для обновления мода достаточно перезапустить Launcher
