@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.Gui;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
@@ -30,6 +31,8 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private readonly MultiplayerPollComponent _missionPollComponent = default!;
 
+    private readonly CrpgCommanderPollComponent? _commanderPollComponent;
+
     private VoiceChatHandler _voiceChatHandler = default!;
 
     private MultiplayerPermissionHandler _permissionHandler = default!;
@@ -41,6 +44,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
     private bool _hasMutedAll;
 
     private bool _canStartKickPolls;
+    private bool _canStartCommanderPolls;
 
     private TextObject _muteAllText = new("{=AZSbwcG5}Mute All", null);
 
@@ -104,6 +108,17 @@ internal class CrpgMissionScoreboardVM : ViewModel
         if (_canStartKickPolls)
         {
             _missionPollComponent = mission.GetMissionBehavior<MultiplayerPollComponent>();
+        }
+
+        _commanderPollComponent = mission.GetMissionBehavior<CrpgCommanderPollComponent>();
+
+        if (_commanderPollComponent != null)
+        {
+            _canStartCommanderPolls = true;
+        }
+        else
+        {
+            _canStartCommanderPolls = false;
         }
 
         EndOfBattle = new CrpgScoreboardEndOfBattleVM(mission, _missionScoreboardComponent, isSingleTeam);
@@ -228,6 +243,11 @@ internal class CrpgMissionScoreboardVM : ViewModel
                 {
                     PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteKick), GameTexts.FindText("str_mp_scoreboard_context_kick", null).ToString(), "StartKickPoll", player));
                 }
+
+                if (_canStartCommanderPolls)
+                {
+                    PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteCommander), GameTexts.FindText("str_mp_scoreboard_context_commander", null).ToString(), "PromoteToClanOfficer", player));
+                }
             }
 
             StringPairItemWithActionVM stringPairItemWithActionVM = new(new Action<object>(ExecuteReport), GameTexts.FindText("str_mp_scoreboard_context_report", null).ToString(), "Report", player);
@@ -261,6 +281,16 @@ internal class CrpgMissionScoreboardVM : ViewModel
         }
 
         MultiplayerReportPlayerManager.RequestReportPlayer(NetworkMain.GameClient.CurrentMatchId, missionScoreboardPlayerVM.Peer.Peer.Id, missionScoreboardPlayerVM.Peer.DisplayedName, true);
+    }
+
+    private void ExecuteCommander(object playerObj)
+    {
+        if (playerObj is not MissionScoreboardPlayerVM missionScoreboardPlayerVM)
+        {
+            return;
+        }
+
+        _commanderPollComponent!.RequestCommanderPoll(missionScoreboardPlayerVM.Peer.GetNetworkPeer());
     }
 
     private void ExecuteMute(object playerObj)
