@@ -305,13 +305,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
             {
                 Information = new TextObject("{=}You have been chosen to lead as Commander! Use '!o message' to order your troops!").ToString(),
                 Color = new Color(0.48f, 0f, 1f),
-                SoundEventPath = "event:/ui/notification/war_declared",
             });
-        }
-
-        if (GameNetwork.IsServer)
-        {
-            _commanderBehaviorServer.CreateCommand(poll.Target);
         }
     }
 

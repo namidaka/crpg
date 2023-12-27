@@ -2,9 +2,13 @@
 using TaleWorlds.Library;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using Crpg.Module.Modes.Dtv;
+using System.Collections.Generic;
+using System.Collections;
+using TaleWorlds.InputSystem;
 
 namespace Crpg.Module.Common.Commander;
-internal class CrpgCommanderBehaviorServer : MissionBehavior
+internal class CrpgCommanderBehaviorServer : MissionNetwork
 {
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
 
@@ -15,7 +19,7 @@ internal class CrpgCommanderBehaviorServer : MissionBehavior
         get { return _commanders[key]; }
 
         // updates if exists, adds if doesn't exist
-        set { _commanders[key] = value; }
+        private set { _commanders[key] = value; }
     }
 
     public Dictionary<BattleSideEnum, float> LastCommanderMessage { get; private set; } = new();
@@ -32,18 +36,35 @@ internal class CrpgCommanderBehaviorServer : MissionBehavior
         LastCommanderMessage.Add(BattleSideEnum.None, 0);
     }
 
+    public override void OnBehaviorInitialize()
+    {
+        base.OnBehaviorInitialize();
+        MissionPeer.OnTeamChanged += HandlePeerTeamChanged;
+    }
+
+    public override void OnRemoveBehavior()
+    {
+        base.OnRemoveBehavior();
+        MissionPeer.OnTeamChanged -= HandlePeerTeamChanged;
+    }
+
     public void CreateCommand(NetworkCommunicator commander)
     {
         BattleSideEnum commanderSide = commander.GetComponent<MissionPeer>().Team.Side;
         Commanders[commanderSide] = commander;
-        OnCommanderUpdated();
+        OnCommanderUpdated(commanderSide);
     }
 
     public void RemoveCommand(NetworkCommunicator commander)
     {
-        var commanderSide = commander.GetComponent<MissionPeer>().Team.Side;
-        Commanders[commanderSide] = null;
-        OnCommanderUpdated();
+        foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in Commanders)
+        {
+            if (keyValuePair.Value == commander)
+            {
+                Commanders[keyValuePair.Key] = null;
+                OnCommanderUpdated(keyValuePair.Key);
+            }
+        }
     }
 
     public void SetCommanderMessageSendTime(BattleSideEnum side,  float time)
@@ -51,15 +72,11 @@ internal class CrpgCommanderBehaviorServer : MissionBehavior
         LastCommanderMessage[side] = time;
     }
 
-    public void OnCommanderUpdated()
-    {
-        Debug.Print("OnCommanderUpdated called!");
-        foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in Commanders)
-        {
-            GameNetwork.BeginBroadcastModuleEvent();
-            GameNetwork.WriteMessage(new UpdateCommander { Side = keyValuePair.Key, Commander = keyValuePair.Value });
-            GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
-        }
+    public void OnCommanderUpdated(BattleSideEnum side)
+{
+        GameNetwork.BeginBroadcastModuleEvent();
+        GameNetwork.WriteMessage(new UpdateCommander { Side = side, Commander = Commanders[side] });
+        GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
     }
 
     public bool IsPlayerACommander(NetworkCommunicator networkCommunicator)
@@ -67,4 +84,53 @@ internal class CrpgCommanderBehaviorServer : MissionBehavior
         return Commanders.ContainsValue(networkCommunicator);
     }
 
+    protected override void HandleNewClientAfterSynchronized(NetworkCommunicator networkPeer)
+    {
+        foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in Commanders)
+        {
+            GameNetwork.BeginModuleEventAsServer(networkPeer);
+            GameNetwork.WriteMessage(new UpdateCommander { Side = keyValuePair.Key, Commander = keyValuePair.Value });
+            GameNetwork.EndModuleEventAsServer();
+        }
+    }
+
+    public override void OnPlayerDisconnectedFromServer(NetworkCommunicator networkPeer)
+    {
+        if (IsPlayerACommander(networkPeer))
+        {
+            RemoveCommand(networkPeer);
+        }
+    }
+
+    public void HandlePeerTeamChanged(NetworkCommunicator peer, Team previousTeam, Team newTeam)
+    {
+        if (peer != null)
+        {
+            if (IsPlayerACommander(peer))
+            {
+                RemoveCommand(peer);
+            }
+        }
+    }
+
+    public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
+    {
+        NetworkCommunicator? networkPeer = affectedAgent.MissionPeer?.GetNetworkPeer();
+        if (networkPeer != null)
+        {
+            if (IsPlayerACommander(networkPeer))
+            {
+                if (agentState == AgentState.Deleted)
+                {
+                    return;
+                }
+                else
+                {
+                    GameNetwork.BeginBroadcastModuleEvent();
+                    GameNetwork.WriteMessage(new CommanderKilled { AgentCommanderIndex = affectedAgent.Index, AgentKillerIndex = affectorAgent.Index });
+                    GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+                }
+            }
+        }
+    }
 }

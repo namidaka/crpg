@@ -89,9 +89,7 @@ internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
                 SoundEventPath = "event:/ui/mission/horns/attack",
             });
 
-
-            BasicCharacterObject? commanderCharacterObject = _commanderClient.GetCommanderCharacterObject(side);
-
+            BasicCharacterObject? commanderCharacterObject = _commanderClient.GetCommanderCharacterObjectBySide(side);
             MBInformationManager.AddQuickInformation(new TextObject(message), 5000, commanderCharacterObject, soundEvent);
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Crpg.Module.Common.Network;
 using Crpg.Module.Helpers;
+using Crpg.Module.Modes.Dtv;
 using TaleWorlds.Core;
 using TaleWorlds.Diamond;
 using TaleWorlds.Library;
@@ -14,13 +15,19 @@ namespace Crpg.Module.Common.Commander;
 internal class CrpgCommanderBehaviorClient : MissionNetwork
 {
     private Dictionary<BattleSideEnum, NetworkCommunicator?> _commanders = new();
+    private Dictionary<BattleSideEnum, BasicCharacterObject?> _commanderCharacters = new();
 
     public CrpgCommanderBehaviorClient()
     {
         _commanders.Add(BattleSideEnum.Attacker, null);
         _commanders.Add(BattleSideEnum.Defender, null);
         _commanders.Add(BattleSideEnum.None, null);
+
+        _commanderCharacters.Add(BattleSideEnum.Attacker, null);
+        _commanderCharacters.Add(BattleSideEnum.Defender, null);
+        _commanderCharacters.Add(BattleSideEnum.None, null);
     }
+
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
@@ -38,6 +45,7 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
     {
         base.AddRemoveMessageHandlers(registerer);
         registerer.Register<UpdateCommander>(HandleUpdateCommander);
+        registerer.Register<CommanderKilled>(HandleCommanderKilled);
     }
 
     public NetworkCommunicator? GetCommanderBySide(BattleSideEnum side)
@@ -45,13 +53,52 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         return _commanders[side];
     }
 
+    public BasicCharacterObject? GetCommanderCharacterObjectBySide(BattleSideEnum side)
+    {
+        return _commanderCharacters[side];
+    }
+
     private void HandleUpdateCommander(UpdateCommander message)
     {
         _commanders[message.Side] = message.Commander;
-        Debug.Print($"Added Commander {message.Commander?.UserName ?? string.Empty} to {message.Side} side.");
+        _commanderCharacters[message.Side] = BuildCommanderCharacterObject(message.Side);
+        TextObject textObject;
+
+        if (message.Commander != null)
+        {
+            textObject = new("{=}The {SIDE}s have promoted {COMMANDER} to be their commander!",
+            new Dictionary<string, object> { ["SIDE"] = message.Side.ToString(), ["COMMANDER"] = message.Commander.UserName });
+        }
+        else
+        {
+            textObject = new("{=}The {SIDE}s' commander has resigned!",
+            new Dictionary<string, object> { ["SIDE"] = message.Side.ToString()});
+        }
+
+        InformationManager.DisplayMessage(new InformationMessage
+        {
+            Information = textObject.ToString(),
+            Color = new Color(0.1f, 1f, 0f),
+            SoundEventPath = "event:/ui/notification/war_declared",
+        });
     }
 
-    public BasicCharacterObject? GetCommanderCharacterObject(BattleSideEnum side) // save this character object when we get a new commander?
+    private void HandleCommanderKilled(CommanderKilled message)
+    {
+        var killerAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentKillerIndex, true);
+        var commanderAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentCommanderIndex, true);
+
+        TextObject textObject = new("{=}The Commander, {COMMANDER} has been slain in the heat of battle by {AGENT}!",
+        new Dictionary<string, object> { ["AGENT"] = killerAgent?.Name ?? string.Empty, ["COMMANDER"] = commanderAgent?.Name ?? string.Empty });
+        InformationManager.DisplayMessage(new InformationMessage
+        {
+            Information = textObject.ToString(),
+            Color = new Color(0.90f, 0.25f, 0.25f),
+            SoundEventPath = "event:/ui/notification/alert",
+        });
+    }
+
+    private BasicCharacterObject? BuildCommanderCharacterObject(BattleSideEnum side)
     {
         if (_commanders[side] != null)
         {
