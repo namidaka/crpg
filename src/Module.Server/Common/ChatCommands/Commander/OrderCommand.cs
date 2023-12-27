@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Crpg.Module.Notifications;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.Library;
 
 namespace Crpg.Module.Common.ChatCommands.Commander;
 internal class OrderCommand : CommanderCommand
@@ -21,21 +22,24 @@ internal class OrderCommand : CommanderCommand
     private void ExecuteAnnouncement(NetworkCommunicator fromPeer, object[] arguments)
     {
         string message = (string)arguments[0];
-        Team peerTeam = fromPeer.ControlledAgent.Team;
+        MissionPeer? missionPeer = fromPeer.GetComponent<MissionPeer>();
 
-        foreach (Agent targetAgent in peerTeam.TeamAgents)
+        foreach (NetworkCommunicator targetPeer in GameNetwork.NetworkPeers)
         {
-            NetworkCommunicator? targetPeer = targetAgent?.MissionPeer.GetNetworkPeer();
-            if (targetPeer != null && targetPeer.IsServerPeer && targetPeer.IsSynchronized)
+            if (targetPeer.GetComponent<MissionPeer>()?.Team.Side == missionPeer.Team.Side)
             {
-                GameNetwork.BeginModuleEventAsServer(targetPeer);
-                GameNetwork.WriteMessage(new CrpgNotification
+                if (true && targetPeer.IsSynchronized) // todo: from true to IsServerPeer
                 {
-                    Type = CrpgNotificationType.Announcement,
-                    Message = message,
-                });
-                GameNetwork.EndModuleEventAsServer();
+                    GameNetwork.BeginModuleEventAsServer(targetPeer);
+                    GameNetwork.WriteMessage(new CrpgNotification
+                    {
+                        Type = CrpgNotificationType.Commander,
+                        Message = message,
+                    });
+                    GameNetwork.EndModuleEventAsServer();
+                }
             }
+
         }
     }
 }

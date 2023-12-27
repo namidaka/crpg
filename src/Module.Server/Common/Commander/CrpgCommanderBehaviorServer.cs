@@ -1,48 +1,70 @@
-﻿using TaleWorlds.Core;
+﻿using Crpg.Module.Common.Network;
+using TaleWorlds.Library;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
-namespace Crpg.Module.Common;
+namespace Crpg.Module.Common.Commander;
 internal class CrpgCommanderBehaviorServer : MissionBehavior
 {
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
-    private List<Command> _commands = new();
+
+    public Dictionary<BattleSideEnum, NetworkCommunicator?> Commanders = new();
+    public NetworkCommunicator? this[BattleSideEnum key]
+    {
+        // returns value if exists
+        get { return _commanders[key]; }
+
+        // updates if exists, adds if doesn't exist
+        set { _commanders[key] = value; }
+    }
+
+    public Dictionary<BattleSideEnum, float> LastCommanderMessage { get; private set; } = new();
+    private Dictionary<BattleSideEnum, NetworkCommunicator?> _commanders = new();
+
+    public CrpgCommanderBehaviorServer()
+    {
+        _commanders[BattleSideEnum.Attacker] = null;
+        _commanders[BattleSideEnum.Defender] = null;
+        _commanders[BattleSideEnum.None] = null;
+
+        LastCommanderMessage.Add(BattleSideEnum.Attacker, 0);
+        LastCommanderMessage.Add(BattleSideEnum.Defender, 0);
+        LastCommanderMessage.Add(BattleSideEnum.None, 0);
+    }
 
     public void CreateCommand(NetworkCommunicator commander)
     {
-        Command command = new(commander.ControlledAgent.Team.Side, commander);
-        _commands.Add(command);
+        BattleSideEnum commanderSide = commander.GetComponent<MissionPeer>().Team.Side;
+        Commanders[commanderSide] = commander;
+        OnCommanderUpdated();
     }
 
-    public Command? GetCommandBySide(BattleSideEnum side)
+    public void RemoveCommand(NetworkCommunicator commander)
     {
-        return _commands.FirstOrDefault(c => c.Side == side) ?? null;
+        var commanderSide = commander.GetComponent<MissionPeer>().Team.Side;
+        Commanders[commanderSide] = null;
+        OnCommanderUpdated();
     }
 
-    public Command? GetCommandByNetworkCommunicator(NetworkCommunicator networkPeer)
+    public void SetCommanderMessageSendTime(BattleSideEnum side,  float time)
     {
-        return _commands.FirstOrDefault(c => c.Commander == networkPeer) ?? null;
+        LastCommanderMessage[side] = time;
     }
 
-    public class Command
+    public void OnCommanderUpdated()
     {
-        private NetworkCommunicator _commander;
-        public BattleSideEnum Side { get; }
-        public NetworkCommunicator Commander
+        Debug.Print("OnCommanderUpdated called!");
+        foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in Commanders)
         {
-            get => _commander;
-            set
-            {
-                if (value != _commander)
-                {
-                    _commander = value;
-                }
-            }
-        }
-
-        public Command(BattleSideEnum side, NetworkCommunicator commander)
-        {
-            Side = side;
-            _commander = commander;
+            GameNetwork.BeginBroadcastModuleEvent();
+            GameNetwork.WriteMessage(new UpdateCommander { Side = keyValuePair.Key, Commander = keyValuePair.Value });
+            GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
         }
     }
+
+    public bool IsPlayerACommander(NetworkCommunicator networkCommunicator)
+    {
+        return Commanders.ContainsValue(networkCommunicator);
+    }
+
 }

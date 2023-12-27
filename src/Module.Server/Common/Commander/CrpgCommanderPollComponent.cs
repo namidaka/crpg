@@ -36,7 +36,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
     {
         if (GameNetwork.IsClient)
         {
-            registerer.Register<PollRequestRejected>(HandleServerEventPollRequestRejected);
+            //registerer.Register<CommanderPollRequestRejected>(HandleServerEventPollRequestRejected);
             registerer.Register<CommanderPollProgress>(HandleServerEventUpdatePollProgress);
             registerer.Register<CommanderPollCancelled>(HandleServerEventPollCancelled);
             registerer.Register<CommanderPollOpened>(HandleServerEventCommanderPollOpened);
@@ -46,7 +46,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
 
         if (GameNetwork.IsServer)
         {
-            registerer.Register<PollResponse>(HandleClientEventPollResponse);
+            registerer.Register<CommanderPollResponse>(HandleClientEventPollResponse);
             registerer.Register<CommanderPollRequested>(HandleClientEventCommanderPollRequested);
         }
     }
@@ -68,9 +68,10 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
     {
         base.OnMissionTick(dt);
 
-        foreach (CommanderPoll ongoingPoll in _ongoingPolls)
+        int count = _ongoingPolls.Count;
+        for (int i = 0; i < count; i++)
         {
-            ongoingPoll.Tick();
+            _ongoingPolls[i].Tick();
         }
     }
 
@@ -87,7 +88,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
         else if (poll != null && poll.IsOpen)
         {
             GameNetwork.BeginModuleEventAsClient();
-            GameNetwork.WriteMessage(new PollResponse(accepted));
+            GameNetwork.WriteMessage(new CommanderPollResponse { Accepted = accepted });
             GameNetwork.EndModuleEventAsClient();
         }
     }
@@ -118,7 +119,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
         }
 
         GameNetwork.BeginModuleEventAsServer(pollCreatorPeer);
-        GameNetwork.WriteMessage(new PollRequestRejected((int)rejectReason));
+        GameNetwork.WriteMessage(new CommanderPollRequestRejected { Reason = (int)rejectReason });
         GameNetwork.EndModuleEventAsServer();
     }
 
@@ -186,7 +187,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
     {
         foreach (CommanderPoll poll in _ongoingPolls)
         {
-            if (poll.Side == pollCreatorPeer?.ControlledAgent.Team.Side)
+            if (poll.Side == pollCreatorPeer?.GetComponent<MissionPeer>().Team.Side)
             {
                 RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.HasOngoingPoll);
             }
@@ -194,6 +195,12 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
 
         if (pollCreatorPeer != null && pollCreatorPeer.IsConnectionActive && targetPeer != null && targetPeer.IsConnectionActive)
         {
+            if (_commanderBehaviorServer.IsPlayerACommander(targetPeer))
+            {
+                RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.HasOngoingPoll);
+                return;
+            }
+
             if (!targetPeer.IsSynchronized)
             {
                 RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.KickPollTargetNotSynced);
@@ -210,12 +217,11 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
                 }
 
                 List<NetworkCommunicator> list = new();
-                foreach (Agent agent in targetPeer.ControlledAgent.Team.TeamAgents)
+                foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
                 {
-                    NetworkCommunicator networkCommunicator = agent.MissionPeer.GetNetworkPeer();
-                    if (networkCommunicator != targetPeer && networkCommunicator.IsSynchronized)
+                    if (networkCommunicator != null && networkCommunicator != targetPeer && networkCommunicator.IsSynchronized)
                     {
-                        MissionPeer component2 = networkCommunicator.GetComponent<MissionPeer>();
+                        MissionPeer? component2 = networkCommunicator.GetComponent<MissionPeer>();
                         if (component2 != null && component2.Team == component.Team)
                         {
                             list.Add(networkCommunicator);
@@ -224,7 +230,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
                 }
 
                 int count = list.Count;
-                if (count + 1 >= 3)
+                if (count + 1 >= 2)
                 {
                     CommanderPoll poll = OpenCommanderPoll(targetPeer, pollCreatorPeer, list);
                     for (int i = 0; i < count; i++)
@@ -318,8 +324,8 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
 
     private bool HandleClientEventPollResponse(NetworkCommunicator peer, GameNetworkMessage baseMessage)
     {
-        PollResponse pollResponse = (PollResponse)baseMessage;
-        CommanderPoll? poll = GetCommanderPollBySide(peer.ControlledAgent.Team.Side);
+        CommanderPollResponse pollResponse = (CommanderPollResponse)baseMessage;
+        CommanderPoll? poll = GetCommanderPollBySide(peer.GetComponent<MissionPeer>().Team.Side);
         if (poll != null)
         {
 
@@ -364,8 +370,8 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
 
     private void HandleServerEventPollRequestRejected(GameNetworkMessage baseMessage)
     {
-        PollRequestRejected pollRequestRejected = (PollRequestRejected)baseMessage;
-        RejectPoll((MultiplayerPollRejectReason)pollRequestRejected.Reason);
+        CommanderPollRequestRejected pollRequestRejected = (CommanderPollRequestRejected)baseMessage;
+        RejectPoll((MultiplayerPollRejectReason)pollRequestRejected.Reason);// ctd
     }
 
     public class CommanderPoll
@@ -393,7 +399,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
 
             Requester = requester;
             Target = target;
-            Side = target.ControlledAgent.Team.Side;
+            Side = target.GetComponent<MissionPeer>().Team.Side;
             OpenTime = Environment.TickCount;
             CloseTime = 0;
             AcceptedCount = 0;
@@ -486,7 +492,7 @@ internal class CrpgCommanderPollComponent : MultiplayerPollComponent
 
         private bool AcceptedByMajority()
         {
-            return (float)AcceptedCount / GetPollParticipantCount() > 0.50001f;
+            return (float)AcceptedCount / GetPollParticipantCount() >= 0.5f;
         }
 
         private bool RejectedByAtLeastOneParticipant()

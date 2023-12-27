@@ -1,8 +1,13 @@
-﻿using TaleWorlds.MountAndBlade;
+﻿using Crpg.Module.Common.Commander;
+using TaleWorlds.Core;
+using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade;
 
 namespace Crpg.Module.Common.ChatCommands.Commander;
 internal class CommanderCommand : ChatCommand
 {
+    private const int MessageCooldown = 30;
+
     protected CommanderCommand(ChatCommandsComponent chatComponent)
         : base(chatComponent)
     {
@@ -10,12 +15,34 @@ internal class CommanderCommand : ChatCommand
 
     protected override bool CheckRequirements(NetworkCommunicator fromPeer)
     {
-        var command = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorServer>().GetCommandByNetworkCommunicator(fromPeer);
-        if (command?.Commander != fromPeer)
+        BattleSideEnum side = fromPeer.GetComponent<MissionPeer>().Team.Side;
+        CrpgCommanderBehaviorServer? commanderServer = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorServer>();
+        if (commanderServer != null)
         {
-            return false;
+            NetworkCommunicator? command = commanderServer.Commanders[side];
+            if (command != fromPeer)
+            {
+                return false;
+            }
+
+            if (command.ControlledAgent == null)
+            {
+                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White, "You cannot order troops when you are dead!");
+                return false;
+            }
+
+            float earliestMessageTime = commanderServer.LastCommanderMessage[side] + MessageCooldown;
+            if (earliestMessageTime > Mission.Current.CurrentTime)
+            {
+                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White, $"Please wait {earliestMessageTime - Mission.Current.CurrentTime:0.00} seconds before issuing an order!");
+                return false;
+            }
+
+            commanderServer.SetCommanderMessageSendTime(side, Mission.Current.CurrentTime);
+            return true;
+
         }
 
-        return true;
+        return false;
     }
 }
