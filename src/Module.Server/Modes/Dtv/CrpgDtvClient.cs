@@ -154,6 +154,5 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
             Color = new Color(0.90f, 0.25f, 0.25f),
             SoundEventPath = "event:/ui/notification/alert",
         });
-
     }
 }
