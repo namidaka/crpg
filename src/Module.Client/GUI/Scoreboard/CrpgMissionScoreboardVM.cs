@@ -33,6 +33,8 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private readonly CrpgCommanderPollComponent? _commanderPollComponent;
 
+    private readonly CrpgCommanderBehaviorClient? _commanderClient;
+
     private VoiceChatHandler _voiceChatHandler = default!;
 
     private MultiplayerPermissionHandler _permissionHandler = default!;
@@ -110,11 +112,20 @@ internal class CrpgMissionScoreboardVM : ViewModel
             _missionPollComponent = mission.GetMissionBehavior<MultiplayerPollComponent>();
         }
 
-        _commanderPollComponent = mission.GetMissionBehavior<CrpgCommanderPollComponent>();
+        _commanderClient = mission.GetMissionBehavior<CrpgCommanderBehaviorClient>();
 
-        if (_commanderPollComponent != null)
+        if (_commanderClient != null)
         {
-            _canStartCommanderPolls = true;
+            _commanderPollComponent = mission.GetMissionBehavior<CrpgCommanderPollComponent>();
+
+            if (_commanderPollComponent != null)
+            {
+                _canStartCommanderPolls = true;
+            }
+            else
+            {
+                _canStartCommanderPolls = false;
+            }
         }
         else
         {
@@ -246,7 +257,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
                 if (_canStartCommanderPolls)
                 {
-                    PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteCommander), GameTexts.FindText("str_mp_scoreboard_context_commander", null).ToString(), "PromoteToClanOfficer", player));
+                    PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteCommander), GameTexts.FindText("str_mp_scoreboard_context_commander", null).ToString(), "ViewProfile", player));
                 }
             }
 
