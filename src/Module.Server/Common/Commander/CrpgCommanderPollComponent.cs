@@ -21,6 +21,8 @@ internal class CrpgCommanderPollComponent : MissionNetwork
     private MultiplayerGameNotificationsComponent _notificationsComponent = default!;
     private CrpgCommanderBehaviorServer _commanderBehaviorServer = default!;
     private CrpgCommanderBehaviorClient _commanderBehaviorClient = default!;
+    private MultiplayerPollComponent _multiplayerPollComponent = default!;
+    private bool _isKickPollOngoing = false;
 
     public CommanderPoll? GetCommanderPollBySide(BattleSideEnum? side)
     {
@@ -54,6 +56,10 @@ internal class CrpgCommanderPollComponent : MissionNetwork
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
+        _multiplayerPollComponent = Mission.Current.GetMissionBehavior<MultiplayerPollComponent>();
+        _multiplayerPollComponent.OnKickPollOpened += OnKickPollStarted;
+        _multiplayerPollComponent.OnPollCancelled += OnKickPollStopped;
+        _multiplayerPollComponent.OnPollClosed += OnKickPollStopped;
         if (GameNetwork.IsServer)
         {
             _commanderBehaviorServer = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorServer>();
@@ -185,6 +191,11 @@ internal class CrpgCommanderPollComponent : MissionNetwork
 
     private void OpenCommanderPollOnServer(NetworkCommunicator pollCreatorPeer, NetworkCommunicator targetPeer)
     {
+        if (_isKickPollOngoing)
+        {
+            RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.HasOngoingPoll);
+        }
+
         foreach (CommanderPoll poll in _ongoingPolls)
         {
             if (poll.Side == pollCreatorPeer?.GetComponent<MissionPeer>().Team.Side)
@@ -210,12 +221,6 @@ internal class CrpgCommanderPollComponent : MissionNetwork
             MissionPeer component = pollCreatorPeer.GetComponent<MissionPeer>();
             if (component != null)
             {
-                if (component.RequestedKickPollCount >= 2)
-                {
-                    RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.TooManyPollRequests);
-                    return;
-                }
-
                 List<NetworkCommunicator> list = new();
                 foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
                 {
@@ -243,7 +248,6 @@ internal class CrpgCommanderPollComponent : MissionNetwork
                     GameNetwork.BeginModuleEventAsServer(targetPeer);
                     GameNetwork.WriteMessage(new CommanderPollOpened { InitiatorPeer = pollCreatorPeer, PlayerPeer = targetPeer });
                     GameNetwork.EndModuleEventAsServer();
-                    component.IncrementRequestedKickPollCount();
                     return;
                 }
 
@@ -261,10 +265,8 @@ internal class CrpgCommanderPollComponent : MissionNetwork
         _ongoingPolls.Add(poll);
         if (GameNetwork.IsServer)
         {
-            CommanderPoll ongoingPoll = poll;
-            ongoingPoll.OnClosedOnServer = (Action<CommanderPoll>)Delegate.Combine(ongoingPoll.OnClosedOnServer, new Action<CommanderPoll>(OnCommanderPollClosedOnServer));
-            CommanderPoll ongoingPoll2 = poll;
-            ongoingPoll2.OnCancelledOnServer = (Action<CommanderPoll>)Delegate.Combine(ongoingPoll2.OnCancelledOnServer, new Action<CommanderPoll>(OnPollCancelledOnServer));
+            poll.OnClosedOnServer += OnCommanderPollClosedOnServer;
+            poll.OnCancelledOnServer += OnPollCancelledOnServer;
         }
 
         Action<MissionPeer, MissionPeer> onCommanderPollOpened = OnCommanderPollOpened;
@@ -322,7 +324,6 @@ internal class CrpgCommanderPollComponent : MissionNetwork
         CommanderPoll? poll = GetCommanderPollBySide(peer.GetComponent<MissionPeer>().Team.Side);
         if (poll != null)
         {
-
             ApplyVote(peer, poll, pollResponse.Accepted);
         }
 
@@ -368,6 +369,16 @@ internal class CrpgCommanderPollComponent : MissionNetwork
         RejectPoll((MultiplayerPollRejectReason)pollRequestRejected.Reason);// ctd
     }
 
+    private void OnKickPollStarted(MissionPeer peer1, MissionPeer peer2, bool isBan)
+    {
+        _isKickPollOngoing = true;
+    }
+
+    private void OnKickPollStopped()
+    {
+        _isKickPollOngoing = false;
+    }
+
     public class CommanderPoll
     {
         public NetworkCommunicator Requester;
@@ -408,7 +419,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
 
         public virtual List<NetworkCommunicator> GetPollProgressReceivers()
         {
-            return GameNetwork.NetworkPeers.ToList<NetworkCommunicator>();
+            return GameNetwork.NetworkPeers.ToList();
         }
 
         public void Tick()

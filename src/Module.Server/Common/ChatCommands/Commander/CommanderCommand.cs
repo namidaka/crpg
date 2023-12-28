@@ -34,7 +34,7 @@ internal class CommanderCommand : ChatCommand
             float earliestMessageTime = commanderServer.LastCommanderMessage[side] + MessageCooldown;
             if (earliestMessageTime > Mission.Current.CurrentTime)
             {
-                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White, $"Please wait {earliestMessageTime - Mission.Current.CurrentTime:0.00} seconds before issuing an order!");
+                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White, $"Please wait {earliestMessageTime - Mission.Current.CurrentTime:0.00} seconds before issuing a new order!");
                 return false;
             }
 
