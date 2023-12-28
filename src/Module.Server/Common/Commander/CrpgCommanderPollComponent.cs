@@ -9,7 +9,7 @@ using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace Crpg.Module.Common.Commander;
-internal class CrpgCommanderPollComponent : MultiplayerPollComponent
+internal class CrpgCommanderPollComponent : MissionNetwork
 {
     public const int MinimumParticipantCountRequired = 3;
     public Action<MissionPeer, MissionPeer> OnCommanderPollOpened = default!;
