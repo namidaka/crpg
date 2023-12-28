@@ -14,8 +14,30 @@ using TaleWorlds.ObjectSystem;
 namespace Crpg.Module.Common.Commander;
 internal class CrpgCommanderBehaviorClient : MissionNetwork
 {
+    private static readonly string[] CommanderSuicideStrings =
+    {
+        "{=}The Commander, {COMMANDER} has died!",
+        "{=}Commander {COMMANDER} managed to kill themself... somehow.",
+        "{=}Commander {COMMANDER}, died spectacularly.",
+        "{=}Commander {COMMANDER} has fallen! ",
+        "{=}Commander {COMMANDER} didn't stand a chance!",
+    };
+
+    private static readonly string[] CommanderKilledStrings =
+    {
+        "{=}The Commander, {COMMANDER} has died!",
+        "{=}Commander {COMMANDER} has been killed by {AGENT}!",
+        "{=}{AGENT} has killed {COMMANDER}, The Commander!",
+        "{=}Commander {COMMANDER} has been vanquished by {AGENT}, a fine display!",
+        "{=}Commander {COMMANDER} didn't stand a chance! {AGENT} made sure of that.",
+        "{=}{AGENT} defeated Commander {COMMANDER} in fair combat!",
+        "{=}{AGENT} has killed Commander {COMMANDER} in the heat of battle!",
+    };
+
     private Dictionary<BattleSideEnum, NetworkCommunicator?> _commanders = new();
     private Dictionary<BattleSideEnum, BasicCharacterObject?> _commanderCharacters = new();
+
+    public event Action<BattleSideEnum> OnCommanderUpdated = default!;
 
     public CrpgCommanderBehaviorClient()
     {
@@ -81,20 +103,35 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
             Color = new Color(0.1f, 1f, 0f),
             SoundEventPath = "event:/ui/notification/war_declared",
         });
+
+        OnCommanderUpdated?.Invoke(message.Side);
     }
 
     private void HandleCommanderKilled(CommanderKilled message)
     {
         var killerAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentKillerIndex, true);
         var commanderAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentCommanderIndex, true);
+        BattleSideEnum commanderSide = commanderAgent.MissionPeer.Team.Side;
+        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side;
 
-        TextObject textObject = new("{=}The Commander, {COMMANDER} has been slain in the heat of battle by {AGENT}!",
-        new Dictionary<string, object> { ["AGENT"] = killerAgent?.Name ?? string.Empty, ["COMMANDER"] = commanderAgent?.Name ?? string.Empty });
+        TextObject textObject;
+
+        if (message.AgentKillerIndex == message.AgentCommanderIndex)
+        {
+            textObject = new(CommanderSuicideStrings.GetRandomElement(),
+            new Dictionary<string, object> { ["COMMANDER"] = commanderAgent?.Name ?? string.Empty });
+        }
+        else
+        {
+            textObject = new(CommanderKilledStrings.GetRandomElement(),
+            new Dictionary<string, object> { ["AGENT"] = killerAgent?.Name ?? string.Empty, ["COMMANDER"] = commanderAgent?.Name ?? string.Empty });
+        }
+
         InformationManager.DisplayMessage(new InformationMessage
         {
             Information = textObject.ToString(),
-            Color = new Color(0.90f, 0.25f, 0.25f),
-            SoundEventPath = "event:/ui/notification/alert",
+            Color = commanderSide == mySide ? new Color(0.90f, 0.25f, 0.25f) : new Color(0.1f, 1f, 0f),
+            SoundEventPath = commanderSide == mySide ? "event:/ui/notification/alert" : "event:/ui/mission/arena_victory",
         });
     }
 

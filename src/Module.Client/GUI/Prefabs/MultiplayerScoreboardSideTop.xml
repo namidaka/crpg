@@ -56,6 +56,7 @@
             </ListPanel>
 
             <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" HorizontalAlignment="!PlayerCountTextAlignment" Text="@PlayersText"/>
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" HorizontalAlignment="!PlayerCountTextAlignment" Text="@CommanderText" IsVisible="@ShowCommanders"/>
           </Children>
         </ListPanel>
 
@@ -63,6 +64,7 @@
           <Children>
             <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="65"  MarginTop="20" Brush="MPScoreboard.FactionText" Text="@Name" ClipContents="false" />
             <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" Text="@PlayersText"/>
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" Text="@CommanderText" IsVisible="@ShowCommanders"/>
           </Children>
         </ListPanel>
 

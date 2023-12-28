@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.GUI.HudExtension;
 using Crpg.Module.GUI.Scoreboard;
 using TaleWorlds.Core;
@@ -39,6 +40,8 @@ public class CrpgScoreboardSideVM : ViewModel
 
     private MissionScoreboardPlayerSortControllerVM _playerSortController = default!;
 
+    private readonly CrpgCommanderBehaviorClient? _commanderClient;
+
     private bool _isSingleSide;
 
     private bool _isSecondSide;
@@ -46,6 +49,7 @@ public class CrpgScoreboardSideVM : ViewModel
     private bool _useSecondary;
 
     private bool _showAttackerOrDefenderIcons;
+    private bool _showCommanders;
 
     private bool _isAttacker;
 
@@ -60,6 +64,8 @@ public class CrpgScoreboardSideVM : ViewModel
     private string _teamColor = default!;
 
     private string _playersText = default!;
+    private string _commanderText = default!;
+
     private ImageIdentifierVM? _allyBanner;
     private ImageIdentifierVM? _enemyBanner;
     public CrpgScoreboardSideVM(MissionScoreboardComponent.MissionScoreboardSide missionScoreboardSide, Action<MissionScoreboardPlayerVM> executeActivate, bool isSingleSide, bool isSecondSide)
@@ -90,6 +96,13 @@ public class CrpgScoreboardSideVM : ViewModel
         CultureId = text;
         TeamColor = "0x" + @object.Color2.ToString("X");
         ShowAttackerOrDefenderIcons = Mission.Current.HasMissionBehavior<MissionMultiplayerSiegeClient>();
+        _commanderClient = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorClient>();
+        if (_commanderClient != null)
+        {
+            ShowCommanders = true;
+            _commanderClient.OnCommanderUpdated += OnCommanderUpdated;
+        }
+
         IsAttacker = missionScoreboardSide.Side == BattleSideEnum.Attacker;
         RefreshValues();
         NetworkCommunicator.OnPeerAveragePingUpdated += OnPeerPingUpdated;
@@ -133,6 +146,7 @@ public class CrpgScoreboardSideVM : ViewModel
         }
 
         UpdatePlayersText();
+        UpdateCommanderText();
 
         MissionScoreboardPlayerSortControllerVM playerSortController = PlayerSortController;
         if (playerSortController == null)
@@ -251,6 +265,21 @@ public class CrpgScoreboardSideVM : ViewModel
                 missionScoreboardPlayerVM.RefreshAvatar();
             }
         }
+    }
+
+    private void OnCommanderUpdated(BattleSideEnum side)
+    {
+        if (side == _missionScoreboardSide.Side)
+        {
+            UpdateCommanderText();
+        }
+    }
+
+    private void UpdateCommanderText()
+    {
+        TextObject textObject = new("{=}Commander: {COMMANDER}", null);
+        textObject.SetTextVariable("COMMANDER", _commanderClient?.GetCommanderBySide(_missionScoreboardSide.Side)?.UserName ?? new TextObject("{=}Unassigned").ToString());
+        CommanderText = textObject.ToString();
     }
 
     [DataSourceProperty]
@@ -373,6 +402,23 @@ public class CrpgScoreboardSideVM : ViewModel
     }
 
     [DataSourceProperty]
+    public bool ShowCommanders
+    {
+        get
+        {
+            return _showCommanders;
+        }
+        set
+        {
+            if (value != _showCommanders)
+            {
+                _showCommanders = value;
+                OnPropertyChangedWithValue(value, "ShowCommanders");
+            }
+        }
+    }
+
+    [DataSourceProperty]
     public bool IsAttacker
     {
         get
@@ -440,6 +486,22 @@ public class CrpgScoreboardSideVM : ViewModel
         }
     }
 
+    [DataSourceProperty]
+    public string CommanderText
+    {
+        get
+        {
+            return _commanderText;
+        }
+        set
+        {
+            if (value != _commanderText)
+            {
+                _commanderText = value;
+                OnPropertyChangedWithValue(value, "CommanderText");
+            }
+        }
+    }
     [DataSourceProperty]
     public string CultureId
     {
