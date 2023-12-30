@@ -159,7 +159,8 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         if (_commanders[side] != null)
         {
             MissionPeer missionPeer = _commanders[side].GetComponent<MissionPeer>();
-            BasicCharacterObject commanderCharacterObject = MBObjectManager.Instance.GetObject<BasicCharacterObject>("mp_character");
+            string character = side == BattleSideEnum.Attacker ? "crpg_commander_attacker" : "crpg_commander_defender";
+            BasicCharacterObject commanderCharacterObject = MBObjectManager.Instance.GetObject<BasicCharacterObject>(character);
             commanderCharacterObject.UpdatePlayerCharacterBodyProperties(missionPeer.Peer.BodyProperties, missionPeer.Peer.Race, missionPeer.Peer.IsFemale);
             commanderCharacterObject.Age = missionPeer.Peer.BodyProperties.Age;
             commanderCharacterObject.GetName();

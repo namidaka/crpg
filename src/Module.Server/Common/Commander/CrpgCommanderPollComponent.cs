@@ -231,12 +231,6 @@ internal class CrpgCommanderPollComponent : MissionNetwork
 
         if (pollCreatorPeer != null && pollCreatorPeer.IsConnectionActive && targetPeer != null && targetPeer.IsConnectionActive)
         {
-            if (_commanderBehaviorServer.IsPlayerACommander(targetPeer))
-            {
-                RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.HasOngoingPoll);
-                return;
-            }
-
             if (!targetPeer.IsSynchronized)
             {
                 RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.KickPollTargetNotSynced);
@@ -349,10 +343,10 @@ internal class CrpgCommanderPollComponent : MissionNetwork
         {
             if (poll.IsDemoteRequested)
             {
-            InformationManager.DisplayMessage(new InformationMessage
-            {
-                    Information = new TextObject("{=}You have been demoted from your Command position!").ToString(),
-                    Color = new Color(0.90f, 0.25f, 0.25f),
+                InformationManager.DisplayMessage(new InformationMessage
+                {
+                        Information = new TextObject("{=}You have been demoted from your Command position!").ToString(),
+                        Color = new Color(0.90f, 0.25f, 0.25f),
                 });
             }
             else
@@ -361,9 +355,8 @@ internal class CrpgCommanderPollComponent : MissionNetwork
                 {
                 Information = new TextObject("{=}You have been chosen to lead as Commander! Use '!o message' to order your troops!").ToString(),
                 Color = new Color(0.48f, 0f, 1f),
-            });
-        }
- 
+                });
+            }
         }
     }
 
