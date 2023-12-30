@@ -28,7 +28,7 @@ internal class OrderCommand : CommanderCommand
         {
             if (targetPeer.GetComponent<MissionPeer>()?.Team.Side == missionPeer.Team.Side)
             {
-                if (true && targetPeer.IsSynchronized) // todo: from true to IsServerPeer
+                if (targetPeer.IsServerPeer && targetPeer.IsSynchronized)
                 {
                     GameNetwork.BeginModuleEventAsServer(targetPeer);
                     GameNetwork.WriteMessage(new CrpgNotification

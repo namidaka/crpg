@@ -39,7 +39,6 @@ internal class CommanderCommand : ChatCommand
 
             commanderServer.SetCommanderMessageSendTime(side, Mission.Current.CurrentTime);
             return true;
-
         }
 
         return false;
