@@ -18,6 +18,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
     private readonly CrpgRewardServer _rewardServer;
     private readonly CrpgDtvData _dtvData;
+    private readonly List<Agent> _mountsToKill = new();
 
     private int _currentRound;
     private int _currentRoundDefendersCount;
@@ -229,10 +230,19 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _currentWave = -1;
         SpawningBehavior.RequestSpawnSessionForRoundStart(firstRound: _currentRound == 0);
         SendDataToPeers(new CrpgDtvRoundStartMessage { Round = _currentRound });
-        foreach (var mount in Mission.MountsWithoutRiders) // force mounts to flee
+        foreach (var mount in Mission.MountsWithoutRiders) // force mounts to flee, kill them the following round.
         {
             Agent mountAgent = mount.Key;
-            mountAgent.CommonAIComponent.Panic();
+            if (_mountsToKill.Contains(mountAgent))
+            {
+                DamageHelper.DamageAgent(mountAgent, 500);
+                _mountsToKill.Remove(mountAgent);
+            }
+            else
+            {
+                _mountsToKill.Add(mountAgent);
+                mountAgent.CommonAIComponent.Panic();
+            }
         }
 
         _currentRoundStartTime = MissionTime.Now;

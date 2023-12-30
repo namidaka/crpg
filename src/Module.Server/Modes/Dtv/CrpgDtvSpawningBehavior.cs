@@ -138,8 +138,6 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
             SpawnBotAgent(group.ClassDivisionId, Mission.AttackerTeam);
             SpawnedAttackers++;
         }
-
-        Debug.Print($"Spawned a total of {SpawnedAttackers} attacker(s)!");
     }
 
     private float ComputeScaledGroupCount(CrpgDtvGroup group, int defendersCount)
