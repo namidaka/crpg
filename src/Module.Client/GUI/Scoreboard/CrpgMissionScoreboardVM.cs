@@ -132,6 +132,26 @@ internal class CrpgMissionScoreboardVM : ViewModel
             _canStartCommanderPolls = false;
         }
 
+        _commanderClient = mission.GetMissionBehavior<CrpgCommanderBehaviorClient>();
+
+        if (_commanderClient != null)
+        {
+            _commanderPollComponent = mission.GetMissionBehavior<CrpgCommanderPollComponent>();
+
+            if (_commanderPollComponent != null)
+            {
+                _canStartCommanderPolls = true;
+            }
+            else
+            {
+                _canStartCommanderPolls = false;
+            }
+        }
+        else
+        {
+            _canStartCommanderPolls = false;
+        }
+
         EndOfBattle = new CrpgScoreboardEndOfBattleVM(mission, _missionScoreboardComponent, isSingleTeam);
         PlayerActionList = new MBBindingList<StringPairItemWithActionVM>();
         Sides = new MBBindingList<CrpgScoreboardSideVM>();

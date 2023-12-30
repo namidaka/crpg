@@ -54,6 +54,14 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
+        //RequestCommanderUpdate();
+    }
+
+    private void RequestCommanderUpdate()
+    {
+        GameNetwork.BeginModuleEventAsClient();
+        GameNetwork.WriteMessage(new RequestCommanderUpdate());
+        GameNetwork.EndModuleEventAsClient();
     }
 
     protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
