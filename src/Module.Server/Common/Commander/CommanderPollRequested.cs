@@ -7,17 +7,20 @@ namespace Crpg.Module.Common.Commander;
 internal sealed class CommanderPollRequested : GameNetworkMessage
 {
     public NetworkCommunicator PlayerPeer { get; set; } = default!;
+    public bool IsDemoteRequested { get; set; }
 
     protected override bool OnRead()
     {
         bool result = true;
         PlayerPeer = ReadNetworkPeerReferenceFromPacket(ref result, true);
+        IsDemoteRequested = ReadBoolFromPacket(ref result);
         return result;
     }
 
     protected override void OnWrite()
     {
         WriteNetworkPeerReferenceToPacket(PlayerPeer);
+        WriteBoolToPacket(IsDemoteRequested);
     }
 
     protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -27,9 +30,10 @@ internal sealed class CommanderPollRequested : GameNetworkMessage
 
     protected override string OnGetLogFormat()
     {
-        string str = "Requested to start poll to promote";
+        string str = "Requested to start poll to";
+        string str1 = IsDemoteRequested ? " demote" : " promote";
         string str2 = " player: ";
         NetworkCommunicator playerPeer = PlayerPeer;
-        return str + str2 + playerPeer?.UserName;
+        return str + str1 + str2 + playerPeer?.UserName;
     }
 }

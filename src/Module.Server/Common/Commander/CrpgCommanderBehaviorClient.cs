@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Text;
 using Crpg.Module.Common.Network;
 using Crpg.Module.Helpers;
@@ -53,14 +54,6 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
-        //RequestCommanderUpdate();
-    }
-
-    private void RequestCommanderUpdate()
-    {
-        GameNetwork.BeginModuleEventAsClient();
-        GameNetwork.WriteMessage(new RequestCommanderUpdate());
-        GameNetwork.EndModuleEventAsClient();
     }
 
     protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
@@ -78,6 +71,24 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
     public BasicCharacterObject? GetCommanderCharacterObjectBySide(BattleSideEnum side)
     {
         return _commanderCharacters[side];
+    }
+
+    public bool IsPeerCommander(MissionPeer peer)
+    {
+        NetworkCommunicator? networkCommunicator = peer.GetNetworkPeer();
+        if (networkCommunicator != null)
+        {
+            foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in _commanders)
+            {
+                if (keyValuePair.Value == networkCommunicator)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
     }
 
     private void HandleUpdateCommander(UpdateCommander message)

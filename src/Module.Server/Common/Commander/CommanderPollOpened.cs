@@ -8,11 +8,14 @@ internal sealed class CommanderPollOpened : GameNetworkMessage
 {
     public NetworkCommunicator InitiatorPeer { get; set; } = default!;
     public NetworkCommunicator PlayerPeer { get; set; } = default!;
+    public bool IsDemoteRequested { get; set; }
     protected override bool OnRead()
     {
         bool result = true;
         InitiatorPeer = ReadNetworkPeerReferenceFromPacket(ref result, false);
         PlayerPeer = ReadNetworkPeerReferenceFromPacket(ref result, false);
+        IsDemoteRequested = ReadBoolFromPacket(ref result);
+
         return result;
     }
 
@@ -20,6 +23,7 @@ internal sealed class CommanderPollOpened : GameNetworkMessage
     {
         WriteNetworkPeerReferenceToPacket(InitiatorPeer);
         WriteNetworkPeerReferenceToPacket(PlayerPeer);
+        WriteBoolToPacket(IsDemoteRequested);
     }
 
     protected override MultiplayerMessageFilter OnGetLogFilter()

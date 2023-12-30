@@ -46,7 +46,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
     private bool _hasMutedAll;
 
     private bool _canStartKickPolls;
-    private bool _canStartCommanderPolls;
+    private bool _canStartCommanderPolls = false;
 
     private TextObject _muteAllText = new("{=AZSbwcG5}Mute All", null);
 
@@ -146,7 +146,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
         _missionScoreboardComponent.OnRoundPropertiesChanged += OnRoundPropertiesChanged;
         _missionScoreboardComponent.OnScoreboardInitialized += OnScoreboardInitialized;
         _missionScoreboardComponent.OnMVPSelected += OnMVPSelected;
-        MissionName = "";
+        MissionName = string.Empty;
         IsBotsEnabled = missionBehavior.MissionType == MultiplayerGameType.Captain || missionBehavior.MissionType == MultiplayerGameType.Battle;
         RefreshValues();
         var customBanners = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>();
@@ -257,7 +257,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
                 if (_canStartCommanderPolls)
                 {
-                    PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteCommander), GameTexts.FindText("str_mp_scoreboard_context_commander", null).ToString(), "ViewProfile", player));
+                    bool isCommander = _commanderClient!.IsPeerCommander(player.Peer);
+                    string definition3 = isCommander ? GameTexts.FindText("str_mp_scoreboard_context_demote_commander", null).ToString() : GameTexts.FindText("str_mp_scoreboard_context_promote_commander", null).ToString();
+                    PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteCommander), definition3, "ViewProfile", player));
                 }
             }
 
@@ -301,7 +303,9 @@ internal class CrpgMissionScoreboardVM : ViewModel
             return;
         }
 
-        _commanderPollComponent!.RequestCommanderPoll(missionScoreboardPlayerVM.Peer.GetNetworkPeer());
+        bool isCommander = _commanderClient!.IsPeerCommander(missionScoreboardPlayerVM.Peer);
+
+        _commanderPollComponent!.RequestCommanderPoll(missionScoreboardPlayerVM.Peer.GetNetworkPeer(), isCommander);
     }
 
     private void ExecuteMute(object playerObj)
@@ -357,6 +361,15 @@ internal class CrpgMissionScoreboardVM : ViewModel
         if (playerObj is not MissionScoreboardPlayerVM missionScoreboardPlayerVM)
         {
             return;
+        }
+
+        if (_canStartCommanderPolls)
+        {
+            if (_commanderPollComponent!.IsPollOngoing())
+            {
+                _commanderPollComponent.RejectPoll(MultiplayerPollRejectReason.HasOngoingPoll);
+                return;
+            }
         }
 
         _missionPollComponent.RequestKickPlayerPoll(missionScoreboardPlayerVM.Peer.GetNetworkPeer(), false);

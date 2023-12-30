@@ -15,6 +15,7 @@ using Crpg.Module.Common.ChatCommands;
 #else
 using Crpg.Module.Common.HotConstants;
 using Crpg.Module.GUI;
+using Crpg.Module.GUI.Commander;
 using Crpg.Module.GUI.Dtv;
 using Crpg.Module.GUI.Spectator;
 using Crpg.Module.GUI.Warmup;
@@ -60,6 +61,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
             MultiplayerViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
             MultiplayerViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
             MultiplayerViewCreator.CreatePollProgressUIHandler(),
+            new CommanderPollingProgressUiHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
             MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
