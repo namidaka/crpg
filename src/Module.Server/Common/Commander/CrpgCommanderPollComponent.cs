@@ -548,7 +548,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
 
         private bool AcceptedByMajority()
         {
-            return (float)AcceptedCount / GetPollParticipantCount() > 0.50001f;
+            return (float)AcceptedCount / GetPollParticipantCount() >= 0.5f;
         }
 
         private bool RejectedByAtLeastOneParticipant()
