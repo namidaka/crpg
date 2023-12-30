@@ -5,7 +5,6 @@ namespace Crpg.Module.Common.Commander;
 internal class CrpgCommanderBehaviorServer : MissionNetwork
 {
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
-
     public Dictionary<BattleSideEnum, NetworkCommunicator?> Commanders = new();
     public NetworkCommunicator? this[BattleSideEnum key]
     {

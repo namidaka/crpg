@@ -19,13 +19,12 @@ internal class CommanderCommand : ChatCommand
         CrpgCommanderBehaviorServer? commanderServer = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorServer>();
         if (commanderServer != null)
         {
-            NetworkCommunicator? command = commanderServer.Commanders[side];
-            if (command != fromPeer)
+            if (commanderServer.IsPlayerACommander(fromPeer))
             {
                 return false;
             }
 
-            if (command.ControlledAgent == null)
+            if (fromPeer.ControlledAgent == null)
             {
                 ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White, "You cannot order troops when you are dead!");
                 return false;
