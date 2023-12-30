@@ -14,6 +14,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 {
     private const int RewardMultiplier = 2;
     private const int MapDuration = 60 * 120;
+    private const float UpkeepMultiplier = 0.75f;
 
     private readonly CrpgRewardServer _rewardServer;
     private readonly CrpgDtvData _dtvData;
@@ -152,7 +153,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             float roundDuration = _currentRoundStartTime.ElapsedSeconds;
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: Math.Max(_currentWave, 0)),
-                durationUpkeep: roundDuration,
+                durationUpkeep: roundDuration * UpkeepMultiplier,
                 updateUserStats: false,
                 constantMultiplier: RewardMultiplier);
         }
@@ -252,7 +253,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             SendDataToPeers(new CrpgDtvGameEnd { ViscountDead = viscountDead });
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave),
-                durationUpkeep: roundDuration,
+                durationUpkeep: roundDuration * UpkeepMultiplier,
                 updateUserStats: false,
                 constantMultiplier: RewardMultiplier);
             EndGame(Mission.AttackerTeam);
@@ -273,7 +274,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
         _ = _rewardServer.UpdateCrpgUsersAsync(
             durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave + 1),
-            durationUpkeep: roundDuration,
+            durationUpkeep: roundDuration * UpkeepMultiplier,
             updateUserStats: false,
             constantMultiplier: RewardMultiplier);
 
