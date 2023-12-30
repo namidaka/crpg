@@ -19,7 +19,7 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
     {
         "{=}The Commander, {COMMANDER} has died!",
         "{=}Commander {COMMANDER} managed to kill themself... somehow.",
-        "{=}Commander {COMMANDER}, died spectacularly.",
+        "{=}Commander {COMMANDER} died, spectacularly.",
         "{=}Commander {COMMANDER} has fallen! ",
         "{=}Commander {COMMANDER} didn't stand a chance!",
     };
@@ -54,14 +54,6 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
-        //RequestCommanderUpdate();
-    }
-
-    private void RequestCommanderUpdate()
-    {
-        GameNetwork.BeginModuleEventAsClient();
-        GameNetwork.WriteMessage(new RequestCommanderUpdate());
-        GameNetwork.EndModuleEventAsClient();
     }
 
     protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
@@ -101,25 +93,29 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
 
     private void HandleUpdateCommander(UpdateCommander message)
     {
+        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side;
         _commanders[message.Side] = message.Commander;
         _commanderCharacters[message.Side] = BuildCommanderCharacterObject(message.Side);
         TextObject textObject;
+        Color color;
 
         if (message.Commander != null)
         {
-            textObject = new("{=}The {SIDE}s have promoted {COMMANDER} to be their commander!",
-            new Dictionary<string, object> { ["SIDE"] = message.Side.ToString(), ["COMMANDER"] = message.Commander.UserName });
+            textObject = new("{=}{SIDE} have promoted {COMMANDER} to be their commander!",
+            new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=}Your team").ToString() : new TextObject("{=}The enemy team"), ["COMMANDER"] = message.Commander.UserName });
+            color = message.Side == mySide ? new(0.1f, 1f, 0f) : new(0.90f, 0.25f, 0.25f);
         }
         else
         {
-            textObject = new("{=}The {SIDE}s' commander has resigned!",
-            new Dictionary<string, object> { ["SIDE"] = message.Side.ToString()});
+            textObject = new("{=}{SIDE} commander has resigned!",
+            new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=}Your").ToString() : new TextObject("{=}The enemy") });
+            color = message.Side == mySide ? new(0.90f, 0.25f, 0.25f) : new(0.1f, 1f, 0f);
         }
 
         InformationManager.DisplayMessage(new InformationMessage
         {
             Information = textObject.ToString(),
-            Color = new Color(0.1f, 1f, 0f),
+            Color = color,
             SoundEventPath = "event:/ui/notification/war_declared",
         });
 
