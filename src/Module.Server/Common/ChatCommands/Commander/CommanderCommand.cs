@@ -19,7 +19,7 @@ internal class CommanderCommand : ChatCommand
         CrpgCommanderBehaviorServer? commanderServer = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorServer>();
         if (commanderServer != null)
         {
-            if (commanderServer.IsPlayerACommander(fromPeer))
+            if (!commanderServer.IsPlayerACommander(fromPeer))
             {
                 return false;
             }
