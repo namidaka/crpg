@@ -19,7 +19,7 @@ public class CommanderPollProgressVm : ViewModel
     private string _pollInitiatorName = string.Empty;
     private string _pollDescription = string.Empty;
     private MPPlayerVM _targetPlayer = default!;
-    private MBBindingList<InputKeyItemVM> _keys;
+    private MBBindingList<InputKeyItemVM> _keys = new();
 
     [DataSourceProperty]
     public bool HasOngoingPoll
@@ -157,16 +157,11 @@ public class CommanderPollProgressVm : ViewModel
         }
     }
 
-    public CommanderPollProgressVm()
-    {
-        _keys = new MBBindingList<InputKeyItemVM>();
-    }
-
     public void OnCommanderPollOpened(MissionPeer initiatorPeer, MissionPeer targetPeer, bool isDemoteRequested)
     {
         TargetPlayer = new MPPlayerVM(targetPeer);
         PollInitiatorName = initiatorPeer.DisplayedName;
-        GameTexts.SetVariable("ACTION", isDemoteRequested ? _promoteText : _demoteText);
+        GameTexts.SetVariable("ACTION", isDemoteRequested ? _demoteText : _promoteText);
         PollDescription = new TextObject("{=qyuhC21P}wants to {ACTION}").ToString();
         VotesAccepted = 0;
         VotesRejected = 0;

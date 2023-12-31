@@ -42,13 +42,13 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
 
     public CrpgCommanderBehaviorClient()
     {
-        _commanders.Add(BattleSideEnum.Attacker, null);
-        _commanders.Add(BattleSideEnum.Defender, null);
-        _commanders.Add(BattleSideEnum.None, null);
+        _commanders[BattleSideEnum.Attacker] = null;
+        _commanders[BattleSideEnum.Defender] = null;
+        _commanders[BattleSideEnum.None] = null;
 
-        _commanderCharacters.Add(BattleSideEnum.Attacker, null);
-        _commanderCharacters.Add(BattleSideEnum.Defender, null);
-        _commanderCharacters.Add(BattleSideEnum.None, null);
+        _commanderCharacters[BattleSideEnum.Attacker] = null;
+        _commanderCharacters[BattleSideEnum.Defender] = null;
+        _commanderCharacters[BattleSideEnum.None] = null;
     }
 
     public override void OnBehaviorInitialize()
@@ -93,31 +93,34 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
 
     private void HandleUpdateCommander(UpdateCommander message)
     {
-        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side;
+        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
         _commanders[message.Side] = message.Commander;
         _commanderCharacters[message.Side] = BuildCommanderCharacterObject(message.Side);
         TextObject textObject;
         Color color;
 
-        if (message.Commander != null)
+        if (mySide != BattleSideEnum.None)
         {
-            textObject = new("{=}{SIDE} have promoted {COMMANDER} to be their commander!",
-            new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=}Your team").ToString() : new TextObject("{=}The enemy team"), ["COMMANDER"] = message.Commander.UserName });
-            color = message.Side == mySide ? new(0.1f, 1f, 0f) : new(0.90f, 0.25f, 0.25f);
-        }
-        else
-        {
-            textObject = new("{=}{SIDE} commander has resigned!",
-            new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=}Your").ToString() : new TextObject("{=}The enemy") });
-            color = message.Side == mySide ? new(0.90f, 0.25f, 0.25f) : new(0.1f, 1f, 0f);
-        }
+            if (message.Commander != null)
+            {
+                textObject = new("{=}{SIDE} have promoted {COMMANDER} to be their commander!",
+                new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=}Your team").ToString() : new TextObject("{=}The enemy team"), ["COMMANDER"] = message.Commander.UserName });
+                color = message.Side == mySide ? new(0.1f, 1f, 0f) : new(0.90f, 0.25f, 0.25f);
+            }
+            else
+            {
+                textObject = new("{=}{SIDE} commander has resigned!",
+                new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=}Your").ToString() : new TextObject("{=}The enemy") });
+                color = message.Side == mySide ? new(0.90f, 0.25f, 0.25f) : new(0.1f, 1f, 0f);
+            }
 
-        InformationManager.DisplayMessage(new InformationMessage
-        {
-            Information = textObject.ToString(),
-            Color = color,
-            SoundEventPath = "event:/ui/notification/war_declared",
-        });
+            InformationManager.DisplayMessage(new InformationMessage
+            {
+                Information = textObject.ToString(),
+                Color = color,
+                SoundEventPath = "event:/ui/notification/war_declared",
+            });
+        }
 
         OnCommanderUpdated?.Invoke(message.Side);
     }

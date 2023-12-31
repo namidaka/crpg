@@ -161,14 +161,12 @@ internal class CrpgCommanderPollComponent : MissionNetwork
             _notificationsComponent.PollRejected(rejectReason);
         }
 
-        Action<MultiplayerPollRejectReason> onPollRejected = OnPollRejected;
-        onPollRejected?.Invoke(rejectReason);
+        OnPollRejected?.Invoke(rejectReason);
     }
 
     private void UpdatePollProgress(int votesAccepted, int votesRejected)
     {
-        Action<int, int> onPollUpdated = OnPollUpdated;
-        onPollUpdated?.Invoke(votesAccepted, votesRejected);
+        OnPollUpdated?.Invoke(votesAccepted, votesRejected);
     }
 
     private void CancelPoll(CommanderPoll poll)
@@ -177,8 +175,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
         {
             poll.Cancel();
             _ongoingPolls.Remove(poll);
-            Action<CommanderPoll> onPollCancelled = OnPollCancelled;
-            onPollCancelled?.Invoke(poll);
+            OnPollCancelled?.Invoke(poll);
         }
     }
 
@@ -226,6 +223,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
             if (poll.Side == pollCreatorPeer?.GetComponent<MissionPeer>().Team.Side)
             {
                 RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.HasOngoingPoll);
+                return;
             }
         }
 
@@ -300,8 +298,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
             poll.OnCancelledOnServer += OnPollCancelledOnServer;
         }
 
-        Action<MissionPeer, MissionPeer, bool> onCommanderPollOpened = OnCommanderPollOpened;
-        onCommanderPollOpened?.Invoke(component, component2, isDemoteRequested);
+        OnCommanderPollOpened?.Invoke(component, component2, isDemoteRequested);
 
         if (GameNetwork.MyPeer == pollCreatorPeer)
         {
@@ -336,8 +333,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
         poll.Close();
         _ongoingPolls.Remove(poll);
 
-        Action<CommanderPoll> onPollClosed = OnPollClosed;
-        onPollClosed?.Invoke(poll);
+        OnPollClosed?.Invoke(poll);
 
         if (!GameNetwork.IsDedicatedServer && accepted && poll.Target.IsMine)
         {
@@ -487,14 +483,12 @@ internal class CrpgCommanderPollComponent : MissionNetwork
 
                 if (IsCancelled())
                 {
-                    Action<CommanderPoll> onCancelledOnServer = OnCancelledOnServer;
-                    onCancelledOnServer?.Invoke(this);
+                    OnCancelledOnServer?.Invoke(this);
                     return;
                 }
                 else if (OpenTime < Environment.TickCount - 30000 || ResultsFinalized())
                 {
-                    Action<CommanderPoll> onClosedOnServer = OnClosedOnServer;
-                    onClosedOnServer?.Invoke(this);
+                    OnClosedOnServer?.Invoke(this);
                 }
             }
         }
@@ -548,7 +542,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
 
         private bool AcceptedByMajority()
         {
-            return (float)AcceptedCount / GetPollParticipantCount() >= 0.5f;
+            return (float)AcceptedCount / GetPollParticipantCount() > 0.50001f;
         }
 
         private bool RejectedByAtLeastOneParticipant()

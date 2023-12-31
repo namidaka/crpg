@@ -27,14 +27,13 @@ public class CommanderPollingProgressUiHandler : MissionView
 
     public CommanderPollingProgressUiHandler()
     {
-        ViewOrderPriority = 24;
+        ViewOrderPriority = 23;
     }
 
     public override void OnMissionScreenInitialize()
     {
         base.OnMissionScreenInitialize();
         _dataSource = new();
-        _commanderPollComponent = Mission.GetMissionBehavior<CrpgCommanderPollComponent>();
         _gauntletLayer = new GauntletLayer(ViewOrderPriority, "GauntletLayer", false);
         _gauntletLayer.LoadMovie("MultiplayerPollingProgress", _dataSource);
         _input.RegisterHotKeyCategory(HotKeyManager.GetCategory("PollHotkeyCategory"));
@@ -45,6 +44,7 @@ public class CommanderPollingProgressUiHandler : MissionView
 
     public override void AfterStart()
     {
+        _commanderPollComponent = Mission.GetMissionBehavior<CrpgCommanderPollComponent>();
         if (_commanderPollComponent != null)
         {
             _commanderPollComponent.OnCommanderPollOpened += OnCommanderPollOpened;

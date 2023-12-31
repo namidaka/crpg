@@ -77,7 +77,7 @@ internal class CrpgCommanderBehaviorServer : MissionNetwork
         return Commanders.ContainsValue(networkCommunicator);
     }
 
-    protected override void HandleNewClientAfterSynchronized(NetworkCommunicator networkPeer)
+    protected override void HandleNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
     {
         foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in Commanders)
         {
