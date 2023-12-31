@@ -7,6 +7,7 @@ using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 using Crpg.Module.Common.Commander;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.Core;
 
 namespace Crpg.Module.GUI.Commander;
 public class CommanderPollingProgressUiHandler : MissionView
@@ -77,9 +78,13 @@ public class CommanderPollingProgressUiHandler : MissionView
         _dataSource!.OnCommanderPollOpened(initiatorPeer, targetPeer, isDemoteRequested);
     }
 
-    private void OnPollUpdated(int votesAccepted, int votesRejected)
+    private void OnPollUpdated(int votesAccepted, int votesRejected, BattleSideEnum side)
     {
-        _dataSource!.OnPollUpdated(votesAccepted, votesRejected);
+        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
+        if (side == mySide)
+        {
+            _dataSource!.OnPollUpdated(votesAccepted, votesRejected);
+        }
     }
 
     private void OnPollClosed(CrpgCommanderPollComponent.CommanderPoll poll)
@@ -101,6 +106,7 @@ public class CommanderPollingProgressUiHandler : MissionView
                 _dataSource!.OnPollOptionPicked();
                 return;
             }
+
             if (_input.IsGameKeyPressed(107))
             {
                 _isActive = false;

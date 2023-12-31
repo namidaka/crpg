@@ -15,7 +15,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
     private const int MaximumCommanderVotes = 3;
     public event Action<MissionPeer, MissionPeer, bool> OnCommanderPollOpened = default!;
     public event Action<MultiplayerPollRejectReason> OnPollRejected = default!;
-    public event Action<int, int> OnPollUpdated = default!;
+    public event Action<int, int, BattleSideEnum> OnPollUpdated = default!;
     public event Action<CommanderPoll> OnPollClosed = default!;
     public event Action<CommanderPoll> OnPollCancelled = default!;
     private List<CommanderPoll> _ongoingPolls = new();
@@ -133,11 +133,11 @@ internal class CrpgCommanderPollComponent : MissionNetwork
             for (int i = 0; i < count; i++)
             {
                 GameNetwork.BeginModuleEventAsServer(pollProgressReceivers[i]);
-                GameNetwork.WriteMessage(new PollProgress(poll.AcceptedCount, poll.RejectedCount));
+                GameNetwork.WriteMessage(new CommanderPollProgress { VotesAccepted = poll.AcceptedCount, VotesRejected = poll.RejectedCount, Side = poll.Side });
                 GameNetwork.EndModuleEventAsServer();
             }
 
-            UpdatePollProgress(poll.AcceptedCount, poll.RejectedCount);
+            UpdatePollProgress(poll.AcceptedCount, poll.RejectedCount, poll.Side);
         }
     }
 
@@ -164,9 +164,9 @@ internal class CrpgCommanderPollComponent : MissionNetwork
         OnPollRejected?.Invoke(rejectReason);
     }
 
-    private void UpdatePollProgress(int votesAccepted, int votesRejected)
+    private void UpdatePollProgress(int votesAccepted, int votesRejected, BattleSideEnum side)
     {
-        OnPollUpdated?.Invoke(votesAccepted, votesRejected);
+        OnPollUpdated?.Invoke(votesAccepted, votesRejected, side);
     }
 
     private void CancelPoll(CommanderPoll poll)
@@ -383,8 +383,8 @@ internal class CrpgCommanderPollComponent : MissionNetwork
 
     private void HandleServerEventUpdatePollProgress(GameNetworkMessage baseMessage)
     {
-        PollProgress pollProgress = (PollProgress)baseMessage;
-        UpdatePollProgress(pollProgress.VotesAccepted, pollProgress.VotesRejected);
+        CommanderPollProgress pollProgress = (CommanderPollProgress)baseMessage;
+        UpdatePollProgress(pollProgress.VotesAccepted, pollProgress.VotesRejected, pollProgress.Side);
     }
 
     private void HandleServerEventPollCancelled(GameNetworkMessage baseMessage)
