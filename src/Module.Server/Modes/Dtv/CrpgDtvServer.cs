@@ -346,6 +346,21 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             return false;
         }
 
+        float numberOfCavalry = 0;
+
+        foreach (Agent agent in Mission.AttackerTeam.ActiveAgents)
+        {
+            if (agent.HasMount)
+            {
+                numberOfCavalry++;
+            }
+        }
+
+        if (numberOfCavalry / SpawningBehavior.SpawnedAttackers <= 0.75f)
+        {
+            return false;
+        }
+
         return true;
     }
 
