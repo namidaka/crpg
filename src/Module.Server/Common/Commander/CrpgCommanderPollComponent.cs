@@ -99,7 +99,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
         int count = _ongoingPolls.Count;
         for (int i = 0; i < count; i++)
         {
-            _ongoingPolls[i].Tick();
+            _ongoingPolls[i]?.Tick();
         }
     }
 
