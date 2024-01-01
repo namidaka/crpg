@@ -7,6 +7,12 @@
       <SpriteSheetSize ID="1" Width="128" Height="128" />
       <AlwaysLoad />
     </SpriteCategory>
+    <SpriteCategory>
+      <Name>ui_crpg_scoreboard</Name>
+      <SpriteSheetCount>1</SpriteSheetCount>
+      <SpriteSheetSize ID="1" Width="64" Height="32" />
+      <AlwaysLoad />
+    </SpriteCategory>
   </SpriteCategories>
   <SpriteParts>
     <SpritePart>
@@ -909,6 +915,24 @@
       <SheetY>0</SheetY>
       <CategoryName>ui_crpg_experience_circle</CategoryName>
     </SpritePart>
+    <SpritePart>
+      <SheetID>1</SheetID>
+      <Name>ui_crpg_scoreboard_context_menu_demote_commander</Name>
+      <Width>14</Width>
+      <Height>15</Height>
+      <SheetX>4</SheetX>
+      <SheetY>4</SheetY>
+      <CategoryName>ui_crpg_scoreboard</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>1</SheetID>
+      <Name>ui_crpg_scoreboard_context_menu_promote_commander</Name>
+      <Width>14</Width>
+      <Height>15</Height>
+      <SheetX>26</SheetX>
+      <SheetY>4</SheetY>
+      <CategoryName>ui_crpg_scoreboard</CategoryName>
+    </SpritePart>
   </SpriteParts>
   <Sprites>
     <GenericSprite>
@@ -1310,6 +1334,14 @@
     <GenericSprite>
       <Name>crpg_experience_circle_left_49</Name>
       <SpritePartName>crpg_experience_circle_left_49</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>ui_crpg_scoreboard_context_menu_demote_commander</Name>
+      <SpritePartName>ui_crpg_scoreboard_context_menu_demote_commander</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>ui_crpg_scoreboard_context_menu_promote_commander</Name>
+      <SpritePartName>ui_crpg_scoreboard_context_menu_promote_commander</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>

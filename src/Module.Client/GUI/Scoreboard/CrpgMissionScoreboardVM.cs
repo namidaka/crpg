@@ -279,7 +279,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
                 {
                     bool isCommander = _commanderClient!.IsPeerCommander(player.Peer);
                     string definition3 = isCommander ? GameTexts.FindText("str_mp_scoreboard_context_demote_commander", null).ToString() : GameTexts.FindText("str_mp_scoreboard_context_promote_commander", null).ToString();
-                    PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteCommander), definition3, "ViewProfile", player));
+                    PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteCommander), definition3, isCommander ? "DemoteCommander" : "PromoteCommander", player));
                 }
             }
 
