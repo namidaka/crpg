@@ -53,6 +53,33 @@
     <string id="KoqNpPLa" text="Счастливые часы окончены!" />
     <string id="sXF7LsGO" text="Назначить командира" />
     <string id="JDAtTV9K" text="Отстранить командира" />
+    <string id="1qdkTUv7" text="Командир {COMMANDER} умер!" />
+    <string id="Opm24MMd" text="Командир {COMMANDER} умудрился покончить с собой... каким-то образом." />
+    <string id="s894oFCj" text="Командир {COMMANDER} погиб, причем очень эффектно." />
+    <string id="vu94iRTE" text="Командир {COMMANDER} пал!" />
+    <string id="sy9OJEOM" text="У командира {COMMANDER} не было ни единого шанса!" />
+    <string id="8a5Icfba" text="Командир, {КОМАНДИР} погиб!" />
+    <string id="wBRZQfd6" text="Командир {COMMANDER} был убит {AGENT}!" />
+    <string id="sEkwjLWt" text="{AGENT} убил командира {COMMANDER}!" />
+    <string id="ZnefgOjm" text="Командир {COMMANDER} был побежден {AGENT}, прекрасная зрелище!" />
+    <string id="cUdNADKW" text="У командира {COMMANDER} не было ни единого шанса! {AGENT} убедился в этом." />
+    <string id="X41TEG4i" text="{AGENT} победил командира {AGENT} в честном бою!" />
+    <string id="ITo28ACb" text="{AGENT} убил командира {COMMANDER} в пылу сражения!" />
+    <string id="FnpBBZ95" text="{SIDE} выбрали {COMMANDER} своим командиром!" />
+    <string id="pFNbCPS7" text="Ваша команда" />
+    <string id="uucWY8gP" text="Вражеская команда" />
+    <string id="IvlgRIsN" text="Командир {SIDE} подал в отставку!" />
+    <string id="vq5Mzgl9" text="Ваш" />
+    <string id="0BZxL0rw" text="Враг" />
+    <string id="bxmFK80y" text="голосовать за" />
+    <string id="GibKsTHA" text="голосовать против" />
+    <string id="wQOq8JIE" text="Вы не можете голосовать за командира во время разминки!" />
+    <string id="hZgASnWR" text="Командир: {COMMANDER}" />
+    <string id="EKqqPsBk" text="Нераспределенно" />
+    <string id="czWaVzc1" text="Вы больше не командир!" />
+    <string id="dryVJbMN" text="Вы были выбраны в качестве командира! Используйте '!o message', чтобы отдавать приказы!" />
+    <string id="iERprCDU" text="(Командир) {NAME}: " />
+
 
     <!-- Notifications -->
     <string id="pCIKeing" text="Вы будете удалены за бездействие через {SECONDS} секунд!" />
