@@ -41,7 +41,14 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
 
             public void OnDuelPreparation(Team duelingTeam)
             {
-                MissionPeer.ControlledAgent?.FadeOut(hideInstantly: true, hideMount: true);
+                Agent? agent = MissionPeer.ControlledAgent;
+                if (agent != null)
+                {
+                    agent.SetTeam(duelingTeam, true);
+                    agent.Health = agent.HealthLimit;
+                    SetAgents(agent);
+                }
+
                 MissionPeer.Team = duelingTeam;
                 MissionPeer.HasSpawnedAgentVisuals = true;
             }
@@ -71,8 +78,6 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         private ChallengerType _winnerChallengerType = ChallengerType.None;
         public MissionPeer RequesterPeer => _challengers[0].MissionPeer;
         public MissionPeer RequesteePeer => _challengers[1].MissionPeer;
-        public int DuelAreaIndex { get; private set; }
-        public TroopType DuelAreaTroopType { get; private set; }
         public MissionTime Timer { get; private set; }
         public Team DuelingTeam { get; private set; } = default!;
         public bool Started { get; private set; }
@@ -103,10 +108,8 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             }
         }
 
-        public DuelInfo(MissionPeer requesterPeer, MissionPeer requesteePeer, KeyValuePair<int, TroopType> duelAreaPair)
+        public DuelInfo(MissionPeer requesterPeer, MissionPeer requesteePeer)
         {
-            DuelAreaIndex = duelAreaPair.Key;
-            DuelAreaTroopType = duelAreaPair.Value;
             _challengers = new Challenger[2];
             _challengers[0] = new Challenger(requesterPeer);
             _challengers[1] = new Challenger(requesteePeer);
@@ -157,7 +160,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
                 GameNetwork.BeginBroadcastModuleEvent();
                 GameNetwork.WriteMessage(new DuelRoundEnded(_challengers[(int)_winnerChallengerType].NetworkPeer));
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
-                if (_challengers[(int)_winnerChallengerType].KillCountInDuel == MultiplayerOptions.OptionType.MinScoreToWinDuel.GetIntValue() || !isConnectionActive || !isConnectionActive2)
+                if (_challengers[(int)_winnerChallengerType].KillCountInDuel == 1 || !isConnectionActive || !isConnectionActive2)
                 {
                     ChallengeEnded = true;
                 }
@@ -169,7 +172,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             if (!Started)
             {
                 GameNetwork.BeginBroadcastModuleEvent();
-                GameNetwork.WriteMessage(new DuelPreparationStartedForTheFirstTime(_challengers[0].MissionPeer.GetNetworkPeer(), _challengers[1].MissionPeer.GetNetworkPeer(), DuelAreaIndex));
+                GameNetwork.WriteMessage(new TrainingGroundDuelPreparationStartedForTheFirstTime { RequesterPeer = _challengers[0].MissionPeer.GetNetworkPeer(), RequesteePeer = _challengers[1].MissionPeer.GetNetworkPeer() });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
             }
 
@@ -182,7 +185,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
                 _challengers[i].MissionPeer.GetComponent<CrpgTrainingGroundMissionRepresentative>().OnDuelPreparation(_challengers[0].MissionPeer, _challengers[1].MissionPeer);
             }
 
-            Timer = MissionTime.Now + MissionTime.Seconds(3f);
+            Timer = MissionTime.Now + MissionTime.Seconds(5f);
         }
 
         public void OnDuelStarted()
@@ -210,7 +213,8 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
                 Agent agent = _challengers[i].DuelingAgent ?? _challengers[i].MissionPeer.ControlledAgent;
                 if (ChallengeEnded && agent != null && agent.IsActive())
                 {
-                    agent.FadeOut(hideInstantly: true, hideMount: false);
+                    agent.SetTeam(Mission.Current.AttackerTeam, true);
+                    agent.Health = agent.HealthLimit;
                 }
 
                 _challengers[i].MissionPeer.HasSpawnedAgentVisuals = true;
@@ -262,15 +266,9 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
 
             return false;
         }
-
-        public void UpdateDuelAreaIndex(KeyValuePair<int, TroopType> duelAreaPair)
-        {
-            DuelAreaIndex = duelAreaPair.Key;
-            DuelAreaTroopType = duelAreaPair.Value;
-        }
     }
 
-    public delegate void OnDuelEndedDelegate(MissionPeer winnerPeer, TroopType troopType);
+    public delegate void OnDuelEndedDelegate(MissionPeer winnerPeer);
 
     public const float DuelRequestTimeOutInSeconds = 10f;
     public const int NumberOfDuelAreas = 16;
@@ -337,9 +335,8 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
 
     protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
     {
-        registerer.RegisterBaseHandler<NetworkMessages.FromClient.DuelRequest>(HandleClientEventDuelRequest);
+        registerer.RegisterBaseHandler<TrainingGroundClientDuelRequest>(HandleClientEventDuelRequest);
         registerer.RegisterBaseHandler<DuelResponse>(HandleClientEventDuelRequestAccepted);
-        registerer.RegisterBaseHandler<RequestChangePreferredTroopType>(HandleClientEventDuelRequestChangePreferredTroopType);
     }
 
     protected override void HandleEarlyNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
@@ -356,7 +353,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
 
     private bool HandleClientEventDuelRequest(NetworkCommunicator peer, GameNetworkMessage baseMessage)
     {
-        NetworkMessages.FromClient.DuelRequest duelRequest = (NetworkMessages.FromClient.DuelRequest)baseMessage;
+        TrainingGroundClientDuelRequest duelRequest = (TrainingGroundClientDuelRequest)baseMessage;
         MissionPeer? missionPeer = peer?.GetComponent<MissionPeer>();
         if (missionPeer != null)
         {
@@ -378,13 +375,6 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             DuelRequestAccepted(duelResponse.Peer.GetComponent<CrpgTrainingGroundMissionRepresentative>().ControlledAgent, peer.GetComponent<CrpgTrainingGroundMissionRepresentative>().ControlledAgent);
         }
 
-        return true;
-    }
-
-    private bool HandleClientEventDuelRequestChangePreferredTroopType(NetworkCommunicator peer, GameNetworkMessage baseMessage)
-    {
-        RequestChangePreferredTroopType requestChangePreferredTroopType = (RequestChangePreferredTroopType)baseMessage;
-        OnPeerSelectedPreferredTroopType(peer.GetComponent<MissionPeer>(), requestChangePreferredTroopType.TroopType);
         return true;
     }
 
@@ -410,54 +400,10 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     {
         if (!IsThereARequestBetweenPeers(requesterPeer, requesteePeer) && !IsHavingDuel(requesterPeer) && !IsHavingDuel(requesteePeer))
         {
-            DuelInfo duelInfo = new(requesterPeer, requesteePeer, GetNextAvailableDuelAreaIndex(requesterPeer.ControlledAgent));
+            DuelInfo duelInfo = new(requesterPeer, requesteePeer);
             _duelRequests.Add(duelInfo);
-            ((CrpgTrainingGroundMissionRepresentative)requesteePeer.Representative).DuelRequested(requesterPeer.ControlledAgent, duelInfo.DuelAreaTroopType);
+            ((CrpgTrainingGroundMissionRepresentative)requesteePeer.Representative).DuelRequested(requesterPeer.ControlledAgent);
         }
-    }
-
-    private KeyValuePair<int, TroopType> GetNextAvailableDuelAreaIndex(Agent requesterAgent)
-    {
-        TroopType troopType = TroopType.Invalid;
-        for (int i = 0; i < _peersAndSelections.Count; i++)
-        {
-            if (_peersAndSelections[i].Key == requesterAgent.MissionPeer)
-            {
-                troopType = _peersAndSelections[i].Value;
-                break;
-            }
-        }
-
-        if (troopType == TroopType.Invalid)
-        {
-            troopType = GetAgentTroopType(requesterAgent);
-        }
-
-        bool flag = false;
-        int num = 0;
-        for (int j = 0; j < _duelAreaFlags.Count; j++)
-        {
-            GameEntity gameEntity = _duelAreaFlags[j];
-            int num2 = int.Parse(gameEntity.Tags.Single((string ft) => ft.StartsWith("area_flag_")).Replace("area_flag_", string.Empty));
-            int flagIndex = num2 - 1;
-            if (_activeDuels.All((DuelInfo ad) => ad.DuelAreaIndex != flagIndex) && _restartingDuels.All((DuelInfo ad) => ad.DuelAreaIndex != flagIndex) && _restartPreparationDuels.All((DuelInfo ad) => ad.DuelAreaIndex != flagIndex))
-            {
-                TroopType troopType2 = (!gameEntity.HasTag("flag_infantry")) ? (gameEntity.HasTag("flag_archery") ? TroopType.Ranged : TroopType.Cavalry) : TroopType.Infantry;
-                if (!flag && troopType2 == troopType)
-                {
-                    flag = true;
-                    num = 0;
-                }
-
-                if (!flag || troopType2 == troopType)
-                {
-                    _cachedSelectedAreaFlags[num] = new KeyValuePair<int, TroopType>(flagIndex, troopType2);
-                    num++;
-                }
-            }
-        }
-
-        return _cachedSelectedAreaFlags[MBRandom.RandomInt(num)];
     }
 
     public void DuelRequestAccepted(Agent requesterAgent, Agent requesteeAgent)
@@ -487,7 +433,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             return;
         }
 
-        if (affectedAgent.MissionPeer.Team.IsDefender)
+        if (affectedAgent.Team.IsDefender)
         {
             DuelInfo? duelInfo = null;
             for (int i = 0; i < _activeDuels.Count; i++)
@@ -628,13 +574,6 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             _activeDuels.Add(duel);
             Team duelTeam = duel.Started ? duel.DuelingTeam : ActivateAndGetDuelTeam();
             duel.OnDuelPreparation(duelTeam);
-            for (int i = 0; i < _duelRequests.Count; i++)
-            {
-                if (_duelRequests[i].DuelAreaIndex == duel.DuelAreaIndex)
-                {
-                    _duelRequests[i].UpdateDuelAreaIndex(GetNextAvailableDuelAreaIndex(_duelRequests[i].RequesterPeer.ControlledAgent));
-                }
-            }
         }
         else
         {
@@ -651,15 +590,12 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     {
         _activeDuels.Remove(duel);
         duel.OnDuelEnded();
-        CleanSpawnedEntitiesInDuelArea(duel.DuelAreaIndex);
         if (duel.ChallengeEnded)
         {
-            TroopType troopType = TroopType.Invalid;
             MissionPeer? challengeWinnerPeer = duel.ChallengeWinnerPeer;
             if (challengeWinnerPeer?.ControlledAgent != null)
             {
-                troopType = GetAgentTroopType(challengeWinnerPeer.ControlledAgent);
-                OnDuelEnded?.Invoke(challengeWinnerPeer, troopType);
+                OnDuelEnded?.Invoke(challengeWinnerPeer);
             }
 
             DeactivateDuelTeam(duel.DuelingTeam);
@@ -755,16 +691,6 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
     }
 
-    public int GetDuelAreaIndexIfDuelTeam(Team team)
-    {
-        if (team.IsDefender)
-        {
-            return _activeDuels.FirstOrDefaultQ((DuelInfo ad) => ad.DuelingTeam == team).DuelAreaIndex;
-        }
-
-        return -1;
-    }
-
     public override void OnAgentBuild(Agent agent, Banner banner)
     {
         if (!agent.IsHuman || agent.Team == null || !agent.Team.IsDefender)
@@ -814,14 +740,13 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         if (SpawnComponent?.SpawningBehavior is CrpgTrainingGroundSpawningBehavior duelSpawningBehavior)
         {
             MissionPeer missionPeer = networkPeer.GetComponent<MissionPeer>();
-            duelSpawningBehavior.UpdatedPlayerPreferredArenaOnce.Remove(networkPeer.VirtualPlayer.Id);
             missionPeer?.SpawnTimer?.AdjustStartTime(-3f); // Used to reduce the initial spawn on connect.
         }
 
         for (int i = 0; i < _activeDuels.Count; i++)
         {
             GameNetwork.BeginModuleEventAsServer(networkPeer);
-            GameNetwork.WriteMessage(new DuelPreparationStartedForTheFirstTime(_activeDuels[i].RequesterPeer.GetNetworkPeer(), _activeDuels[i].RequesteePeer.GetNetworkPeer(), _activeDuels[i].DuelAreaIndex));
+            GameNetwork.WriteMessage(new TrainingGroundDuelPreparationStartedForTheFirstTime { RequesterPeer = _activeDuels[i].RequesterPeer.GetNetworkPeer(), RequesteePeer = _activeDuels[i].RequesteePeer.GetNetworkPeer() });
             GameNetwork.EndModuleEventAsServer();
         }
     }
@@ -845,18 +770,6 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         if (component != null)
         {
             component.Team = null;
-        }
-    }
-
-    private void OnPeerSelectedPreferredTroopType(MissionPeer missionPeer, TroopType troopType)
-    {
-        for (int i = 0; i < _peersAndSelections.Count; i++)
-        {
-            if (_peersAndSelections[i].Key == missionPeer)
-            {
-                _peersAndSelections[i] = new KeyValuePair<MissionPeer, TroopType>(missionPeer, troopType);
-                break;
-            }
         }
     }
 

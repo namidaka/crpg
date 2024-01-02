@@ -35,8 +35,8 @@ internal class CrpgTrainingGroundSpawnFrameBehavior : SpawnFrameBehaviorBase
 
     public override MatrixFrame GetSpawnFrame(Team team, bool hasMount, bool isInitialSpawn)
     {
-        int duelAreaIndexIfDuelTeam = Mission.Current.GetMissionBehavior<CrpgTrainingGroundServer>().GetDuelAreaIndexIfDuelTeam(team);
-        List<GameEntity> list = ((duelAreaIndexIfDuelTeam >= 0) ? _duelAreaSpawnPoints[duelAreaIndexIfDuelTeam].ToList() : SpawnPoints.ToList());
+        int duelAreaIndexIfDuelTeam = 0;
+        List<GameEntity> list = (duelAreaIndexIfDuelTeam >= 0) ? _duelAreaSpawnPoints[duelAreaIndexIfDuelTeam].ToList() : SpawnPoints.ToList();
         if (duelAreaIndexIfDuelTeam >= 0)
         {
             list.RemoveAt((!_spawnPointSelectors[duelAreaIndexIfDuelTeam]) ? 1 : 0);

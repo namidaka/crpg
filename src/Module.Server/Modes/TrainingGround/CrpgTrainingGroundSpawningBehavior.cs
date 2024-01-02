@@ -1,9 +1,5 @@
 ﻿using Crpg.Module.Common;
-using Crpg.Module.Helpers;
-using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.MissionRepresentatives;
-using TaleWorlds.PlayerServices;
 
 namespace Crpg.Module.Modes.TrainingGround;
 
@@ -14,12 +10,9 @@ internal class CrpgTrainingGroundSpawningBehavior : CrpgSpawningBehaviorBase
     public CrpgTrainingGroundSpawningBehavior(CrpgConstants constants, CrpgTrainingGroundServer server)
         : base(constants)
     {
-        UpdatedPlayerPreferredArenaOnce = new HashSet<PlayerId>();
         IsSpawningEnabled = true;
         _server = server;
     }
-
-    public HashSet<PlayerId> UpdatedPlayerPreferredArenaOnce { get; private set; }
 
     public override void OnTick(float dt)
     {
@@ -50,27 +43,10 @@ internal class CrpgTrainingGroundSpawningBehavior : CrpgSpawningBehaviorBase
         _ = agent.MissionPeer.Representative; // Get initializes the representative
 
         var networkPeer = agent.MissionPeer?.GetNetworkPeer();
-        if (networkPeer == null || !UpdatedPlayerPreferredArenaOnce.Add(networkPeer.VirtualPlayer.Id))
+        if (networkPeer == null)
         {
             return;
         }
 
-        bool hasMount = agent.SpawnEquipment[EquipmentIndex.Horse].Item != null;
-        bool isRanged = agent.SpawnEquipment.HasWeaponOfClass(WeaponClass.Bolt) || agent.SpawnEquipment.HasWeaponOfClass(WeaponClass.Arrow);
-        TroopType troopType = hasMount ? TroopType.Cavalry : (isRanged ? TroopType.Ranged : TroopType.Infantry);
-        GameNetwork.BeginModuleEventAsServer(networkPeer);
-        GameNetwork.WriteMessage(new CrpgUpdateTrainingGroundArenaType { PlayerTroopType = troopType });
-        GameNetwork.EndModuleEventAsServer();
-
-        // Sets the preferred arena server side.
-        List<KeyValuePair<MissionPeer, TroopType>> peersAndSelections = (List<KeyValuePair<MissionPeer, TroopType>>)ReflectionHelper.GetField(_server, "_peersAndSelections")!;
-        for (int i = 0; i < peersAndSelections.Count; i++)
-        {
-            if (peersAndSelections[i].Key == agent.MissionPeer)
-            {
-                peersAndSelections[i] = new KeyValuePair<MissionPeer, TroopType>(agent.MissionPeer, troopType);
-                return;
-            }
-        }
     }
 }

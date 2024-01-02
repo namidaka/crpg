@@ -102,7 +102,7 @@ public class CrpgTrainingGroundUiHandler : MissionView
     public override void OnFocusGained(Agent agent, IFocusable focusableObject, bool isInteractable)
     {
         base.OnFocusGained(agent, focusableObject, isInteractable);
-        if (!(focusableObject is DuelZoneLandmark) && !(focusableObject is Agent))
+        if (!(focusableObject is Agent))
         {
             _dataSource!.Markers.OnFocusGained();
         }
@@ -111,7 +111,7 @@ public class CrpgTrainingGroundUiHandler : MissionView
     public override void OnFocusLost(Agent agent, IFocusable focusableObject)
     {
         base.OnFocusLost(agent, focusableObject);
-        if (!(focusableObject is DuelZoneLandmark) && !(focusableObject is Agent))
+        if (!(focusableObject is Agent))
         {
             _dataSource!.Markers.OnFocusLost();
         }
