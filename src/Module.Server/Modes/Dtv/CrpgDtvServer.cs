@@ -14,7 +14,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 {
     private const int RewardMultiplier = 2;
     private const int MapDuration = 60 * 120;
-    private const int CavalryDelayTimer = 120;
 
     private readonly CrpgRewardServer _rewardServer;
     private readonly CrpgDtvData _dtvData;
@@ -26,7 +25,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     private bool _gameStarted;
     private bool _waveStarted;
     private bool _timerExpired;
-    private bool _botsDismounted;
     private MissionTimer? _waveStartTimer;
     private MissionTimer? _endGameTimer;
     private MissionTime _currentWaveStartTime;
@@ -139,11 +137,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         }
         else if (_waveStarted)
         {
-            if (!_botsDismounted && CheckForDelayingCavalry())
-            {
-                DismountCavalryBots();
-            }
-
             CheckForWaveEnd();
         }
         else if (_waveStartTimer != null && _waveStartTimer.Check())
@@ -230,19 +223,22 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _currentWave = -1;
         SpawningBehavior.RequestSpawnSessionForRoundStart(firstRound: _currentRound == 0);
         SendDataToPeers(new CrpgDtvRoundStartMessage { Round = _currentRound });
-        foreach (var mount in Mission.MountsWithoutRiders) // force mounts to flee, kill them the following round.
+
+        for (int i = _mountsToKill.Count - 1; i >= 0; i--) // kill mounts marked for death
+        {
+            if (_mountsToKill[i].RiderAgent == null)
+            {
+                DamageHelper.DamageAgent(_mountsToKill[i], 500);
+            }
+
+            _mountsToKill.Remove(_mountsToKill[i]);
+        }
+
+        foreach (var mount in Mission.MountsWithoutRiders) // force mounts to flee and mark them to die next round
         {
             Agent mountAgent = mount.Key;
-            if (_mountsToKill.Contains(mountAgent))
-            {
-                DamageHelper.DamageAgent(mountAgent, 500);
-                _mountsToKill.Remove(mountAgent);
-            }
-            else
-            {
-                _mountsToKill.Add(mountAgent);
-                mountAgent.CommonAIComponent.Panic();
-            }
+            _mountsToKill.Add(mountAgent);
+            mountAgent.CommonAIComponent.Panic();
         }
 
         _currentRoundStartTime = MissionTime.Now;
@@ -258,7 +254,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         SpawningBehavior.RequestSpawnSessionForWaveStart(CurrentWaveData, _currentRoundDefendersCount);
         SendDataToPeers(new CrpgDtvWaveStartMessage { Wave = _currentWave });
         _currentWaveStartTime = MissionTime.Now;
-        _botsDismounted = false;
         _waveStarted = true;
     }
 
@@ -332,49 +327,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
                 }
             }
         }
-    }
-
-    private bool CheckForDelayingCavalry()
-    {
-        if (_currentWaveStartTime.ElapsedSeconds < CavalryDelayTimer)
-        {
-            return false;
-        }
-
-        if (SpawningBehavior.SpawnedAttackers * 0.25f < Mission.AttackerTeam.ActiveAgents.Count)
-        {
-            return false;
-        }
-
-        float numberOfCavalry = 0;
-
-        foreach (Agent agent in Mission.AttackerTeam.ActiveAgents)
-        {
-            if (agent.HasMount)
-            {
-                numberOfCavalry++;
-            }
-        }
-
-        if (numberOfCavalry / SpawningBehavior.SpawnedAttackers <= 0.75f)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    private void DismountCavalryBots()
-    {
-        foreach (Agent agent in Mission.AttackerTeam.ActiveAgents)
-        {
-            if (agent.HasMount)
-            {
-                DamageHelper.DamageAgent(agent.MountAgent, 500);
-            }
-        }
-
-        _botsDismounted = true;
     }
 
     private int GetDefendersCount()
