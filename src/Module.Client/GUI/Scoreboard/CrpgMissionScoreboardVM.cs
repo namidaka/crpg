@@ -6,6 +6,8 @@ using Crpg.Module.Gui;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Generic;
+using TaleWorlds.Diamond;
+using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -320,6 +322,12 @@ internal class CrpgMissionScoreboardVM : ViewModel
     {
         if (playerObj is not MissionScoreboardPlayerVM missionScoreboardPlayerVM)
         {
+            return;
+        }
+
+        if (_mission.GetMissionBehavior<MissionLobbyComponent>().IsInWarmup)
+        {
+            MBInformationManager.AddQuickInformation(new TextObject("{=wQOq8JIE}You cannot vote for a Commander during warmup!"), 0, null, null);
             return;
         }
 

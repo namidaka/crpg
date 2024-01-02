@@ -83,7 +83,7 @@ internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
 
             InformationManager.DisplayMessage(new InformationMessage
             {
-                Information = new TextObject("{=}(Commander) {NAME}: ",
+                Information = new TextObject("{=iERprCDU}(Commander) {NAME}: ",
                 new Dictionary<string, object> { ["NAME"] = _commanderClient.GetCommanderBySide(side)?.UserName ?? string.Empty }).ToString() + message,
                 Color = new Color(0.1f, 1f, 0f),
                 SoundEventPath = "event:/ui/mission/horns/attack",

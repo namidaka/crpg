@@ -23,7 +23,7 @@ internal class OrderCommand : CommanderCommand
     {
         string message = (string)arguments[0];
         MissionPeer? missionPeer = fromPeer.GetComponent<MissionPeer>();
-
+        fromPeer.ControlledAgent.MakeVoice(SkinVoiceManager.VoiceType.Yell, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
         foreach (NetworkCommunicator targetPeer in GameNetwork.NetworkPeers)
         {
             if (targetPeer.GetComponent<MissionPeer>()?.Team.Side == missionPeer.Team.Side)

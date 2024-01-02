@@ -51,6 +51,8 @@
     <string id="YFfWaWqk" text="{COUNT} новых игроков присоединились к команде атакующих{newline}" />
     <string id="TWpiAeFe" text="Наступило счастливые часы! Опыт увеличен на 50%." />
     <string id="KoqNpPLa" text="Счастливые часы окончены!" />
+    <string id="sXF7LsGO" text="Назначить командира" />
+    <string id="JDAtTV9K" text="Отстранить командира" />
 
     <!-- Notifications -->
     <string id="pCIKeing" text="Вы будете удалены за бездействие через {SECONDS} секунд!" />

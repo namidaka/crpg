@@ -17,22 +17,22 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
 {
     private static readonly string[] CommanderSuicideStrings =
     {
-        "{=}The Commander, {COMMANDER} has died!",
-        "{=}Commander {COMMANDER} managed to kill themself... somehow.",
-        "{=}Commander {COMMANDER} died, spectacularly.",
-        "{=}Commander {COMMANDER} has fallen! ",
-        "{=}Commander {COMMANDER} didn't stand a chance!",
+        "{=1qdkTUv7}The Commander, {COMMANDER} has died!",
+        "{=Opm24MMd}Commander {COMMANDER} managed to kill themself... somehow.",
+        "{=s894oFCj}Commander {COMMANDER} died, spectacularly.",
+        "{=vu94iRTE}Commander {COMMANDER} has fallen! ",
+        "{=sy9OJEOM}Commander {COMMANDER} didn't stand a chance!",
     };
 
     private static readonly string[] CommanderKilledStrings =
     {
-        "{=}The Commander, {COMMANDER} has died!",
-        "{=}Commander {COMMANDER} has been killed by {AGENT}!",
-        "{=}{AGENT} has killed {COMMANDER}, The Commander!",
-        "{=}Commander {COMMANDER} has been vanquished by {AGENT}, a fine display!",
-        "{=}Commander {COMMANDER} didn't stand a chance! {AGENT} made sure of that.",
-        "{=}{AGENT} defeated Commander {COMMANDER} in fair combat!",
-        "{=}{AGENT} has killed Commander {COMMANDER} in the heat of battle!",
+        "{=8a5Icfba}The Commander, {COMMANDER} has died!",
+        "{=wBRZQfd6}Commander {COMMANDER} has been killed by {AGENT}!",
+        "{=sEkwjLWt}{AGENT} has killed {COMMANDER}, The Commander!",
+        "{=ZnefgOjm}Commander {COMMANDER} has been vanquished by {AGENT}, a fine display!",
+        "{=cUdNADKW}Commander {COMMANDER} didn't stand a chance! {AGENT} made sure of that.",
+        "{=X41TEG4i}{AGENT} defeated Commander {COMMANDER} in fair combat!",
+        "{=ITo28ACb}{AGENT} has killed Commander {COMMANDER} in the heat of battle!",
     };
 
     private Dictionary<BattleSideEnum, NetworkCommunicator?> _commanders = new();
@@ -103,14 +103,14 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         {
             if (message.Commander != null)
             {
-                textObject = new("{=}{SIDE} have promoted {COMMANDER} to be their commander!",
-                new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=}Your team").ToString() : new TextObject("{=}The enemy team"), ["COMMANDER"] = message.Commander.UserName });
+                textObject = new("{=FnpBBZ95}{SIDE} have promoted {COMMANDER} to be their commander!",
+                new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=pFNbCPS7}Your team").ToString() : new TextObject("{=uucWY8gP}The enemy team"), ["COMMANDER"] = message.Commander.UserName });
                 color = message.Side == mySide ? new(0.1f, 1f, 0f) : new(0.90f, 0.25f, 0.25f);
             }
             else
             {
-                textObject = new("{=}{SIDE} commander has resigned!",
-                new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=}Your").ToString() : new TextObject("{=}The enemy") });
+                textObject = new("{=IvlgRIsN}{SIDE} commander has resigned!",
+                new Dictionary<string, object> { ["SIDE"] = message.Side == mySide ? new TextObject("{=vq5Mzgl9}Your").ToString() : new TextObject("{=0BZxL0rw}The enemy") });
                 color = message.Side == mySide ? new(0.90f, 0.25f, 0.25f) : new(0.1f, 1f, 0f);
             }
 
@@ -149,7 +149,7 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         {
             Information = textObject.ToString(),
             Color = commanderSide == mySide ? new Color(0.90f, 0.25f, 0.25f) : new Color(0.1f, 1f, 0f),
-            SoundEventPath = commanderSide == mySide ? "event:/ui/notification/alert" : "event:/ui/mission/arena_victory",
+            SoundEventPath = commanderSide == mySide ? "event:/ui/mission/multiplayer/pointlost" : "event:/ui/mission/multiplayer/pointcapture",
         });
     }
 

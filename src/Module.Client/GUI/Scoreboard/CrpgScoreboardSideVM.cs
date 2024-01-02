@@ -277,8 +277,8 @@ public class CrpgScoreboardSideVM : ViewModel
 
     private void UpdateCommanderText()
     {
-        TextObject textObject = new("{=}Commander: {COMMANDER}", null);
-        textObject.SetTextVariable("COMMANDER", _commanderClient?.GetCommanderBySide(_missionScoreboardSide.Side)?.UserName ?? new TextObject("{=}Unassigned").ToString());
+        TextObject textObject = new("{=hZgASnWR}Commander: {COMMANDER}", null);
+        textObject.SetTextVariable("COMMANDER", _commanderClient?.GetCommanderBySide(_missionScoreboardSide.Side)?.UserName ?? new TextObject("{=EKqqPsBk}Unassigned").ToString());
         CommanderText = textObject.ToString();
     }
 

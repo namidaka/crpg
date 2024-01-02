@@ -10,8 +10,8 @@ namespace Crpg.Module.GUI.Commander;
 
 public class CommanderPollProgressVm : ViewModel
 {
-    private static readonly TextObject _promoteText = new("{=}promote");
-    private static readonly TextObject _demoteText = new("{=}demote");
+    private static readonly TextObject _promoteText = new("{=bxmFK80y}promote");
+    private static readonly TextObject _demoteText = new("{=GibKsTHA}demote");
     private bool _hasOngoingPoll;
     private bool _areKeysEnabled;
     private int _votesAccepted;

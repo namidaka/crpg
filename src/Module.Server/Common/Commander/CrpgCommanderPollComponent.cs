@@ -30,6 +30,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
     }
 
     private MultiplayerGameNotificationsComponent _notificationsComponent = default!;
+    private MissionLobbyComponent _missionLobbyComponent = default!;
     private CrpgCommanderBehaviorServer _commanderBehaviorServer = default!;
     private CrpgCommanderBehaviorClient _commanderBehaviorClient = default!;
     private MultiplayerPollComponent _multiplayerPollComponent = default!;
@@ -78,6 +79,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
     {
         base.OnBehaviorInitialize();
         _notificationsComponent = Mission.GetMissionBehavior<MultiplayerGameNotificationsComponent>();
+        _missionLobbyComponent = Mission.GetMissionBehavior<MissionLobbyComponent>();
         _multiplayerPollComponent = Mission.GetMissionBehavior<MultiplayerPollComponent>();
         _multiplayerPollComponent.OnKickPollOpened += OnKickPollStarted;
         _multiplayerPollComponent.OnPollCancelled += OnKickPollStopped;
@@ -213,9 +215,16 @@ internal class CrpgCommanderPollComponent : MissionNetwork
 
     private void OpenCommanderPollOnServer(NetworkCommunicator pollCreatorPeer, NetworkCommunicator targetPeer, bool isDemoteRequested)
     {
+        if (_missionLobbyComponent.IsInWarmup)
+        {
+            RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.KickPollTargetNotSynced);
+            return;
+        }
+
         if (_isKickPollOngoing)
         {
             RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.HasOngoingPoll);
+            return;
         }
 
         foreach (CommanderPoll poll in _ongoingPolls)
@@ -341,7 +350,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
             {
                 InformationManager.DisplayMessage(new InformationMessage
                 {
-                        Information = new TextObject("{=}You have been demoted from your Command position!").ToString(),
+                        Information = new TextObject("{=czWaVzc1}You have been demoted from your Command position!").ToString(),
                         Color = new Color(0.90f, 0.25f, 0.25f),
                 });
             }
@@ -349,7 +358,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
             {
                 InformationManager.DisplayMessage(new InformationMessage
                 {
-                Information = new TextObject("{=}You have been chosen to lead as Commander! Use '!o message' to order your troops!").ToString(),
+                Information = new TextObject("{=dryVJbMN}You have been chosen to lead as Commander! Use '!o message' to order your troops!").ToString(),
                 Color = new Color(0.48f, 0f, 1f),
                 });
             }
