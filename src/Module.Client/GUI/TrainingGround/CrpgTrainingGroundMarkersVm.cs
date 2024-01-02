@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Crpg.Module.Modes.TrainingGround;
+﻿using Crpg.Module.Modes.TrainingGround;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
@@ -18,16 +15,12 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
             return y.Distance.CompareTo(x.Distance);
         }
     }
-
-    private const string ZoneLandmarkTag = "duel_zone_landmark";
     private const float FocusScreenDistanceThreshold = 350f;
-    private const float LandmarkFocusDistanceThrehsold = 500f;
+
     private bool _hasEnteredLobby;
     private Camera _missionCamera;
     private CrpgTrainingGroundPeerMarkerVm? _previousFocusTarget;
     private CrpgTrainingGroundPeerMarkerVm? _currentFocusTarget;
-    private CrpgTrainingGroundLandmarkMarkerVm? _previousLandmarkTarget;
-    private CrpgTrainingGroundLandmarkMarkerVm? _currentLandmarkTarget;
     private PeerMarkerDistanceComparer _distanceComparer;
     private readonly Dictionary<MissionPeer, CrpgTrainingGroundPeerMarkerVm> _targetPeersToMarkersDictionary;
     private readonly CrpgTrainingGroundMissionMultiplayerClient _client;
@@ -37,7 +30,6 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
     private bool _isPlayerFocused;
     private bool _isEnabled;
     private MBBindingList<CrpgTrainingGroundPeerMarkerVm> _targets = default!;
-    private MBBindingList<CrpgTrainingGroundLandmarkMarkerVm> _landmarks = default!;
 
     [DataSourceProperty]
     public bool IsEnabled
@@ -74,34 +66,10 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
         }
     }
 
-    [DataSourceProperty]
-    public MBBindingList<CrpgTrainingGroundLandmarkMarkerVm> Landmarks
-    {
-        get
-        {
-            return _landmarks;
-        }
-        set
-        {
-            if (value != _landmarks)
-            {
-                _landmarks = value;
-                OnPropertyChangedWithValue(value, "Landmarks");
-            }
-        }
-    }
-
     public CrpgTrainingGroundMarkersVm(Camera missionCamera, CrpgTrainingGroundMissionMultiplayerClient client)
     {
         _missionCamera = missionCamera;
         _client = client;
-        List<GameEntity> list = new List<GameEntity>();
-        list.AddRange(Mission.Current.Scene.FindEntitiesWithTag("duel_zone_landmark"));
-        Landmarks = new MBBindingList<CrpgTrainingGroundLandmarkMarkerVm>();
-        foreach (GameEntity item in list)
-        {
-            Landmarks.Add(new CrpgTrainingGroundLandmarkMarkerVm(item));
-        }
 
         Targets = new MBBindingList<CrpgTrainingGroundPeerMarkerVm>();
         _targetPeersToMarkersDictionary = new Dictionary<MissionPeer, CrpgTrainingGroundPeerMarkerVm>();
@@ -117,10 +85,6 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
         Targets.ApplyActionOnAllItems(delegate (CrpgTrainingGroundPeerMarkerVm t)
         {
             t.RefreshValues();
-        });
-        Landmarks.ApplyActionOnAllItems(delegate (CrpgTrainingGroundLandmarkMarkerVm l)
-        {
-            l.RefreshValues();
         });
     }
 
@@ -143,7 +107,7 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
         CrpgTrainingGroundMissionRepresentative myRepresentative = _client.MyRepresentative;
         myRepresentative.OnDuelRequestSentEvent = (Action<MissionPeer>)Delegate.Combine(myRepresentative.OnDuelRequestSentEvent, new Action<MissionPeer>(OnDuelRequestSent));
         CrpgTrainingGroundMissionRepresentative myRepresentative2 = _client.MyRepresentative;
-        myRepresentative2.OnDuelRequestedEvent = (Action<MissionPeer, TroopType>)Delegate.Combine(myRepresentative2.OnDuelRequestedEvent, new Action<MissionPeer, TroopType>(OnDuelRequested));
+        myRepresentative2.OnDuelRequestedEvent = (Action<MissionPeer>)Delegate.Combine(myRepresentative2.OnDuelRequestedEvent, new Action<MissionPeer>(OnDuelRequested));
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionsChanged));
     }
 
@@ -152,7 +116,7 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
         CrpgTrainingGroundMissionRepresentative myRepresentative = _client.MyRepresentative;
         myRepresentative.OnDuelRequestSentEvent = (Action<MissionPeer>)Delegate.Remove(myRepresentative.OnDuelRequestSentEvent, new Action<MissionPeer>(OnDuelRequestSent));
         CrpgTrainingGroundMissionRepresentative myRepresentative2 = _client.MyRepresentative;
-        myRepresentative2.OnDuelRequestedEvent = (Action<MissionPeer, TroopType>)Delegate.Remove(myRepresentative2.OnDuelRequestedEvent, new Action<MissionPeer, TroopType>(OnDuelRequested));
+        myRepresentative2.OnDuelRequestedEvent = (Action<MissionPeer>)Delegate.Remove(myRepresentative2.OnDuelRequestedEvent, new Action<MissionPeer>(OnDuelRequested));
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionsChanged));
     }
 
@@ -176,16 +140,6 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
             if (_isPlayerFocused)
             {
                 _previousFocusTarget.IsFocused = false;
-            }
-        }
-
-        if (_currentLandmarkTarget != null)
-        {
-            _previousLandmarkTarget = _currentLandmarkTarget;
-            _currentLandmarkTarget = null;
-            if (_isPlayerFocused)
-            {
-                _previousLandmarkTarget.IsFocused = false;
             }
         }
 
@@ -231,10 +185,6 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
             }
 
             _currentFocusTarget.IsFocused = true;
-            if (_previousLandmarkTarget != null)
-            {
-                _previousLandmarkTarget.IsFocused = false;
-            }
 
             return;
         }
@@ -244,41 +194,7 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
             _previousFocusTarget.IsFocused = false;
         }
 
-        foreach (CrpgTrainingGroundLandmarkMarkerVm landmark in Landmarks)
-        {
-            if (Agent.Main == null)
-            {
-                continue;
-            }
-
-            landmark.UpdateScreenPosition(_missionCamera);
-            if (_isPlayerFocused || !landmark.IsInScreenBoundaries || !(Agent.Main.GetWorldPosition().GetGroundVec3().DistanceSquared(landmark.Entity.GlobalPosition) < 500f))
-            {
-                continue;
-            }
-
-            landmark.IsFocused = true;
-            _currentLandmarkTarget = landmark;
-            if (_previousLandmarkTarget != landmark)
-            {
-                if (_previousLandmarkTarget != null)
-                {
-                    _previousLandmarkTarget.IsFocused = false;
-                }
-
-                _currentLandmarkTarget.IsFocused = true;
-            }
-
-            _client.MyRepresentative.OnObjectFocused(landmark.FocusableComponent);
-            break;
-        }
-
-        if (_currentLandmarkTarget == null && _previousLandmarkTarget != null)
-        {
-            _previousLandmarkTarget.IsFocused = false;
-        }
-
-        if (_currentFocusTarget == null && _currentLandmarkTarget == null)
+        if (_currentFocusTarget == null)
         {
             _client.MyRepresentative.OnObjectFocusLost();
         }
@@ -350,13 +266,12 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
         }
     }
 
-    private void OnDuelRequested(MissionPeer targetPeer, TroopType troopType)
+    private void OnDuelRequested(MissionPeer targetPeer)
     {
         CrpgTrainingGroundPeerMarkerVm CrpgTrainingGroundPeerMarkerVm = Targets.FirstOrDefault((CrpgTrainingGroundPeerMarkerVm t) => t.TargetPeer == targetPeer);
         if (CrpgTrainingGroundPeerMarkerVm != null)
         {
             CrpgTrainingGroundPeerMarkerVm.HasDuelRequestForPlayer = true;
-            CrpgTrainingGroundPeerMarkerVm.PreferredArenaType = (int)troopType;
         }
     }
 

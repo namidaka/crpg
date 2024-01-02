@@ -70,8 +70,7 @@
     <Reference Include="$(MB_CLIENT_PATH)\Modules\Multiplayer\bin\Win64_Shipping_Client\TaleWorlds.*.dll">
       <Private>False</Private>
     </Reference>
-    <ContentWithTargetPath Remove="GUI\Prefabs\TrainingGroundTargetMarkers.xml" />
-    <None Remove="GUI\Prefabs\TrainingGroundTargetMarkers.xml" />
+
     <Reference Include="$(MB_CLIENT_PATH)\bin\Win64_Shipping_Client\Newtonsoft.Json.dll">
       <Private>False</Private>
     </Reference>
@@ -85,10 +84,6 @@
     <Reference Remove="$(MB_CLIENT_PATH)/bin/Win64_Shipping_Client/TaleWorlds.Native.dll" />
     <!-- This library causes dependency conflict. -->
     <Reference Remove="$(MB_CLIENT_PATH)/bin/Win64_Shipping_Client/TaleWorlds.Starter.DotNetCore.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="GUI\Prefabs\TrainingGroundTargetMarkers.xml" />
   </ItemGroup>
 
   <ItemGroup>

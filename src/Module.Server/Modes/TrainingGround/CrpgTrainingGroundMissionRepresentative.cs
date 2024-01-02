@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NetworkMessages.FromClient;
+﻿using NetworkMessages.FromClient;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
-using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 
 namespace Crpg.Module.Modes.TrainingGround;
@@ -13,14 +8,13 @@ namespace Crpg.Module.Modes.TrainingGround;
 public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
 {
     public const int DuelPrepTime = 3;
-    public Action<MissionPeer, TroopType> OnDuelRequestedEvent = default!;
+    public Action<MissionPeer> OnDuelRequestedEvent = default!;
     public Action<MissionPeer> OnDuelRequestSentEvent = default!;
     public Action<MissionPeer, int> OnDuelPrepStartedEvent = default!;
     public Action OnAgentSpawnedWithoutDuelEvent = default!;
-    public Action<MissionPeer, MissionPeer, int> OnDuelPreparationStartedForTheFirstTimeEvent = default!;
+    public Action<MissionPeer, MissionPeer> OnDuelPreparationStartedForTheFirstTimeEvent = default!;
     public Action<MissionPeer> OnDuelEndedEvent = default!;
     public Action<MissionPeer> OnDuelRoundEndedEvent = default!;
-    public Action<TroopType> OnMyPreferredZoneChanged = default!;
     private List<Tuple<MissionPeer, MissionTime>> _requesters = default!;
     private IFocusable? _focusedObject;
 #if CRPG_SERVER
@@ -59,9 +53,9 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
         if (GameNetwork.IsClient)
         {
             GameNetwork.NetworkMessageHandlerRegisterer networkMessageHandlerRegisterer = new(mode);
-            networkMessageHandlerRegisterer.Register<NetworkMessages.FromServer.DuelRequest>(HandleServerEventDuelRequest);
+            networkMessageHandlerRegisterer.Register<TrainingGroundServerDuelRequest>(HandleServerEventDuelRequest);
             networkMessageHandlerRegisterer.Register<DuelSessionStarted>(HandleServerEventDuelSessionStarted);
-            networkMessageHandlerRegisterer.Register<DuelPreparationStartedForTheFirstTime>(HandleServerEventDuelStarted);
+            networkMessageHandlerRegisterer.Register<TrainingGroundDuelPreparationStartedForTheFirstTime>(HandleServerEventDuelStarted);
             networkMessageHandlerRegisterer.Register<DuelEnded>(HandleServerEventDuelEnded);
             networkMessageHandlerRegisterer.Register<DuelRoundEnded>(HandleServerEventDuelRoundEnded);
             networkMessageHandlerRegisterer.Register<DuelPointsUpdateMessage>(HandleServerPointUpdate);
@@ -115,7 +109,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
                     case PlayerTypes.Client:
                         OnDuelRequestSentEvent?.Invoke(focusedAgent.MissionPeer);
                         GameNetwork.BeginModuleEventAsClient();
-                        GameNetwork.WriteMessage(new NetworkMessages.FromClient.DuelRequest(focusedAgent.Index));
+                        GameNetwork.WriteMessage(new TrainingGroundClientDuelRequest { RequestedAgentIndex = focusedAgent.Index });
                         GameNetwork.EndModuleEventAsClient();
                         break;
 #if CRPG_SERVER
@@ -126,26 +120,13 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
                 }
             }
         }
-        else if (_focusedObject is DuelZoneLandmark duelZoneLandmark)
-        {
-            if (_isInDuel)
-            {
-                InformationManager.DisplayMessage(new InformationMessage(new TextObject("{=v5EqMSlD}Can't change arena preference while in duel.").ToString()));
-                return;
-            }
-
-            GameNetwork.BeginModuleEventAsClient();
-            GameNetwork.WriteMessage(new RequestChangePreferredTroopType(duelZoneLandmark.ZoneTroopType));
-            GameNetwork.EndModuleEventAsClient();
-            OnMyPreferredZoneChanged?.Invoke(duelZoneLandmark.ZoneTroopType);
-        }
     }
 
-    private void HandleServerEventDuelRequest(NetworkMessages.FromServer.DuelRequest message)
+    private void HandleServerEventDuelRequest(TrainingGroundServerDuelRequest message)
     {
         Agent agentFromIndex = Mission.MissionNetworkHelper.GetAgentFromIndex(message.RequesterAgentIndex);
         Mission.MissionNetworkHelper.GetAgentFromIndex(message.RequestedAgentIndex);
-        DuelRequested(agentFromIndex, message.SelectedAreaTroopType);
+        DuelRequested(agentFromIndex);
     }
 
     private void HandleServerEventDuelSessionStarted(DuelSessionStarted message)
@@ -153,11 +134,11 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
         OnDuelPreparation(message.RequesterPeer.GetComponent<MissionPeer>(), message.RequestedPeer.GetComponent<MissionPeer>());
     }
 
-    private void HandleServerEventDuelStarted(DuelPreparationStartedForTheFirstTime message)
+    private void HandleServerEventDuelStarted(TrainingGroundDuelPreparationStartedForTheFirstTime message)
     {
         MissionPeer component = message.RequesterPeer.GetComponent<MissionPeer>();
         MissionPeer component2 = message.RequesteePeer.GetComponent<MissionPeer>();
-        OnDuelPreparationStartedForTheFirstTimeEvent?.Invoke(component, component2, message.AreaIndex);
+        OnDuelPreparationStartedForTheFirstTimeEvent?.Invoke(component, component2);
     }
 
     private void HandleServerEventDuelEnded(DuelEnded message)
@@ -178,7 +159,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
         component.NumberOfWins = message.NumberOfWins;
     }
 
-    public void DuelRequested(Agent requesterAgent, TroopType selectedAreaTroopType)
+    public void DuelRequested(Agent requesterAgent)
     {
         _requesters.Add(new Tuple<MissionPeer, MissionTime>(requesterAgent.MissionPeer, MissionTime.Now + MissionTime.Seconds(10f)));
         switch (PlayerType)
@@ -188,18 +169,18 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
                 _mission.DuelRequestAccepted(requesterAgent, ControlledAgent);
                 break;
             case PlayerTypes.Server:
-                OnDuelRequestedEvent?.Invoke(requesterAgent.MissionPeer, selectedAreaTroopType);
+                OnDuelRequestedEvent?.Invoke(requesterAgent.MissionPeer);
                 break;
 #endif
             case PlayerTypes.Client:
                 if (IsMine)
                 {
-                    OnDuelRequestedEvent?.Invoke(requesterAgent.MissionPeer, selectedAreaTroopType);
+                    OnDuelRequestedEvent?.Invoke(requesterAgent.MissionPeer);
                     break;
                 }
 
                 GameNetwork.BeginModuleEventAsServer(Peer);
-                GameNetwork.WriteMessage(new NetworkMessages.FromServer.DuelRequest(requesterAgent.Index, ControlledAgent.Index, selectedAreaTroopType));
+                GameNetwork.WriteMessage(new TrainingGroundServerDuelRequest { RequesterAgentIndex = requesterAgent.Index, RequestedAgentIndex = ControlledAgent.Index });
                 GameNetwork.EndModuleEventAsServer();
                 break;
             default:
@@ -243,7 +224,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
             case PlayerTypes.Client:
                 if (IsMine)
                 {
-                    OnDuelPrepStartedEvent?.Invoke((MissionPeer == requesterPeer) ? requesteePeer : requesterPeer, 3);
+                    OnDuelPrepStartedEvent?.Invoke((MissionPeer == requesterPeer) ? requesteePeer : requesterPeer, 5);
                     break;
                 }
 
@@ -252,7 +233,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
                 GameNetwork.EndModuleEventAsServer();
                 break;
             case PlayerTypes.Server:
-                OnDuelPrepStartedEvent?.Invoke((MissionPeer == requesterPeer) ? requesteePeer : requesterPeer, 3);
+                OnDuelPrepStartedEvent?.Invoke((MissionPeer == requesterPeer) ? requesteePeer : requesterPeer, 5);
                 break;
         }
 
