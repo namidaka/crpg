@@ -272,9 +272,10 @@ const { top: stickySidebarTop } = useStickySidebar(aside, mainHeaderHeight.value
 
 const promises: Promise<any>[] = [userStore.fetchUserItems()];
 
-const { clanMembers, loadClanMembers } = useClanMembers(userStore.clan?.id);
+const { clanMembers, loadClanMembers } = useClanMembers();
+
 if (userStore.clan?.id) {
-  promises.push(loadClanMembers());
+  promises.push(loadClanMembers(0, { id: userStore.clan?.id }));
 }
 
 await Promise.all(promises);
