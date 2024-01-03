@@ -60,7 +60,7 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_viscount_female" name="{=}The Viscountess" is_female="true">
     <face>
-      <BodyProperties version="4" age="22.01" weight="0.3765" build="0.6481"  key="0005140152FC3004467A86577841588481E9753384DA04044483648888BB1454005A6603056167B1000000000000000000000000000000000000000056B41004" />
+      <BodyProperties version="4" age="40.01" weight="0.3765" build="0.6481"  key="0005140152FC3004467A86577841588481E9753384DA04044483648888BB1454005A6603056167B1000000000000000000000000000000000000000056B41004" />
     </face>
     <skills>
       <skill id="Strength" value="30" />
@@ -88,7 +88,7 @@
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard6_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_knightly_cavalry_sword_v1_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
@@ -96,7 +96,7 @@
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard2_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_knightly_cavalry_sword_v1_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
@@ -104,7 +104,7 @@
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard3_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_knightly_cavalry_sword_v1_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
@@ -112,7 +112,7 @@
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard5_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_knightly_cavalry_sword_v1_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
