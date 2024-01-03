@@ -11,6 +11,7 @@ public record RestrictionViewModel : IMapFrom<Restriction>
     public TimeSpan Duration { get; init; }
     public RestrictionType Type { get; init; }
     public string Reason { get; init; } = string.Empty;
+    public string PublicReason { get; set; } = string.Empty;
     public UserPublicViewModel? RestrictedByUser { get; init; }
     public DateTime CreatedAt { get; init; }
 }

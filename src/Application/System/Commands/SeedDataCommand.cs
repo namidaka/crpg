@@ -862,7 +862,8 @@ public record SeedDataCommand : IMediatorRequest
                 RestrictedByUser = takeo,
                 Duration = TimeSpan.FromDays(10),
                 Type = RestrictionType.Join,
-                Reason = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.z",
+                Reason = "INTERNAL REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.",
+                PublicReason = "PUBLIC REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate",
                 CreatedAt = DateTime.UtcNow,
             };
             Restriction orleRestriction2 = new()
