@@ -1,8 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MPClassDivisions>
-  <MPClassDivision id="crpg_dtv_viscount"
-                   hero="crpg_dtv_viscount"
-                   troop="crpg_dtv_viscount"
+  <MPClassDivision id="crpg_dtv_viscount_male"
+                   hero="crpg_dtv_viscount_male"
+                   troop="crpg_dtv_viscount_male"
+                   hero_idle_anim="act_vlandia_mp_voulgier_idle"
+                   troop_idle_anim="act_idle_spear_1_left_stance"
+                   multiplier="0"
+                   cost="0"
+                   icon="Special_Swordsman"
+                   melee_ai="100"
+                   ranged_ai="0"
+                   armor="0"
+                   movement_speed="0"
+                   combat_movement_speed="0"
+                   acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  
+  <MPClassDivision id="crpg_dtv_viscount_female"
+                   hero="crpg_dtv_viscount_female"
+                   troop="crpg_dtv_viscount_female"
                    hero_idle_anim="act_vlandia_mp_voulgier_idle"
                    troop_idle_anim="act_idle_spear_1_left_stance"
                    multiplier="0"

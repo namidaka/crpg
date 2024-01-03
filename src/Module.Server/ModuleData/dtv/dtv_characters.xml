@@ -1,8 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MPCharacters>
-  <NPCCharacter id="crpg_dtv_viscount" name="{=}The Viscount">
+  <NPCCharacter id="crpg_dtv_viscount_male" name="{=}The Viscount">
     <face>
       <BodyProperties version="4" age="63.94" weight="0.5" build="0.5" key="0000C005400010CB817A88E912EA949576961CB996E8976B5A8B778977BAAAAB066776670679B58A000000000000000000000000000000000000000024CC80C4" />
+    </face>
+    <skills>
+      <skill id="Strength" value="30" />
+      <skill id="Agility" value="30" />
+      <skill id="IronFlesh" value="30" />
+      <skill id="PowerStrike" value="15" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="219" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3_h0" />
+        <equipment slot="Body" id="Item.crpg_mail_with_tabbard6_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3_h0" />
+        <equipment slot="Body" id="Item.crpg_mail_with_tabbard2_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3_h0" />
+        <equipment slot="Body" id="Item.crpg_mail_with_tabbard3_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vlandia_crown_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3_h0" />
+        <equipment slot="Body" id="Item.crpg_mail_with_tabbard5_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntlet_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_viscount_female" name="{=}The Viscountess" is_female="true">
+    <face>
+      <BodyProperties version="4" age="22.01" weight="0.3765" build="0.6481"  key="0005140152FC3004467A86577841588481E9753384DA04044483648888BB1454005A6603056167B1000000000000000000000000000000000000000056B41004" />
     </face>
     <skills>
       <skill id="Strength" value="30" />

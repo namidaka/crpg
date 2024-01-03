@@ -92,17 +92,21 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
     }
 
     private void SpawnViscount()
-    {
-        var viscountAgent = SpawnBotAgent("crpg_dtv_viscount", Mission.DefenderTeam);
-        var viscountSpawn = Mission.Scene.FindEntityWithTag("crpg_spawn_viscount");
-        if (viscountSpawn != null)
-        {
-            viscountAgent.TeleportToPosition(viscountSpawn.GetGlobalFrame().origin);
-        }
+{
+    MultiplayerClassDivisions.MPHeroClass viscountClass = MultiplayerClassDivisions
+        .GetMPHeroClasses()
+        .GetRandomElementWithPredicate(x => x.StringId.StartsWith("crpg_dtv_viscount_")); // spawn either male or female character
 
-        // Prevent the viscount from moving.
-        viscountAgent.SetTargetPosition(viscountAgent.Position.AsVec2);
+    var viscountAgent = SpawnBotAgent(viscountClass.StringId, Mission.DefenderTeam);
+    var viscountSpawn = Mission.Scene.FindEntityWithTag("crpg_spawn_viscount");
+    if (viscountSpawn != null)
+    {
+        viscountAgent.TeleportToPosition(viscountSpawn.GetGlobalFrame().origin);
     }
+
+    // Prevent the viscount from moving.
+    viscountAgent.SetTargetPosition(viscountAgent.Position.AsVec2);
+}
 
     private void SpawnAttackers(CrpgDtvWave wave, int defendersCount)
     {
