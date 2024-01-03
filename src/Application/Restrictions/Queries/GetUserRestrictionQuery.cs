@@ -32,8 +32,7 @@ public record GetUserRestrictionQuery : IMediatorRequest<RestrictionPublicViewMo
             var lastJoinOrAllRestriction = await _db.Restrictions
                 .Where(r =>
                     r.RestrictedUserId == req.UserId
-                    && r.Type == RestrictionType.Join
-                    && r.Type == RestrictionType.All
+                    && (r.Type == RestrictionType.Join || r.Type == RestrictionType.All)
                     && _dateTime.UtcNow < r.CreatedAt + r.Duration)
                 .OrderByDescending(r => r.CreatedAt)
                 .ProjectTo<RestrictionPublicViewModel>(_mapper.ConfigurationProvider)

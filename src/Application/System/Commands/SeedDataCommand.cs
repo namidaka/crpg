@@ -853,7 +853,8 @@ public record SeedDataCommand : IMediatorRequest
                 RestrictedByUser = takeo,
                 Duration = TimeSpan.Zero,
                 Type = RestrictionType.Join,
-                Reason = "Reason3",
+                Reason = "INTERNAL REASON: Reason3",
+                PublicReason = "PUBLIC REASON: Reason31",
                 CreatedAt = DateTime.UtcNow.AddDays(-1),
             };
             Restriction orleRestriction1 = new()
