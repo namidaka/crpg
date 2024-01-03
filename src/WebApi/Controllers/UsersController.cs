@@ -146,6 +146,18 @@ public class UsersController : BaseController
     }
 
     /// <summary>
+    /// Get active restriction for a user.
+    /// </summary>
+    /// <returns>The  active user restriction.</returns>
+    /// <response code="200">Ok.</response>
+    /// <response code="400">Bad Request.</response>
+    [HttpGet("self/restriction")]
+    public Task<ActionResult<Result<RestrictionPublicViewModel>>> GetUserRestriction()
+    {
+        return ResultToActionAsync(Mediator.Send(new GetUserRestrictionQuery { UserId = CurrentUser.User!.Id, }));
+    }
+
+    /// <summary>
     /// Update the current user.
     /// </summary>
     /// <param name="req">The user with the updated values.</param>
@@ -538,7 +550,7 @@ public class UsersController : BaseController
     /// <summary>
     /// Gets user clan or null.
     /// </summary>
-    [HttpGet("self/clans")]
+    [HttpGet("self/clan")]
     public Task<ActionResult<Result<UserClanViewModel>>> GetUserClan()
     {
         GetUserClanQuery req = new() { UserId = CurrentUser.User!.Id };
