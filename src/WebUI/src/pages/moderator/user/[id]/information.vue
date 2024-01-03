@@ -12,36 +12,70 @@ definePage({
 
 defineProps<{ id: string }>();
 
+const note = ref<string>(
+  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem modi quae necessitatibus excepturi voluptatum repellendus libero iure aliquam accusamus, ea quaerat recusandae architecto perspiciatis eos. Laudantium cupiditate magnam rem rerum.'
+);
 const user = injectStrict(moderationUserKey);
 
-const { state: characters } = useAsyncState(() => getCharactersByUserId(user.value!.id), []);
+const { state: characters } = await useAsyncState(() => getCharactersByUserId(user.value!.id), []);
 </script>
 
 <template>
   <div class="mx-auto max-w-3xl space-y-8 pb-8">
-    <div class="space-y-3">
-      <div>Id: {{ user!.id }}</div>
-      <div v-if="user?.clan" class="flex items-center gap-1">
-        Clan: {{ user.clan.name }}
-        <UserClan :clan="user.clan" />
+    <FormGroup v-if="user" :label="'Main'" :collapsable="false">
+      <div class="grid grid-cols-2 gap-2 text-2xs">
+        <SimpleTableRow :label="'Id'">
+          {{ user.id }}
+        </SimpleTableRow>
+        <SimpleTableRow :label="'Region'">
+          {{ $t(`region.${user.region}`, 0) }}
+        </SimpleTableRow>
+        <SimpleTableRow :label="'Platform'">
+          {{ user.platform }} {{ user.platformUserId }}
+          <UserPlatform
+            :platform="user.platform"
+            :platformUserId="user.platformUserId"
+            :userName="user.name"
+          />
+        </SimpleTableRow>
+        <SimpleTableRow v-if="user?.clan" :label="'Clan'">
+          {{ user.clan.name }}
+          <UserClan :clan="user.clan" />
+        </SimpleTableRow>
+        <SimpleTableRow :label="'Created'">
+          {{ $d(user.createdAt, 'long') }}
+        </SimpleTableRow>
+        <SimpleTableRow :label="'Last activity'">
+          {{ $d(user.updatedAt, 'long') }}
+        </SimpleTableRow>
+        <SimpleTableRow :label="'Gold'">
+          <Coin :value="user.gold" />
+        </SimpleTableRow>
       </div>
-      <div>Created: {{ $d(user!.createdAt, 'long') }}</div>
-      <div>Last activity: {{ $d(user!.updatedAt, 'long') }}</div>
-      <div class="flex items-center gap-1">
-        Platform: {{ user!.platform }} {{ user!.platformUserId }}
-        <UserPlatform
-          :platform="user!.platform"
-          :platformUserId="user!.platformUserId"
-          :userName="user!.name"
-        />
-      </div>
-    </div>
+    </FormGroup>
 
-    <div class="space-y-2">
-      <div>Characters:</div>
+    <FormGroup :label="'Characters'" :collapsable="false">
       <div class="flex gap-2">
         <CharacterMedia v-for="character in characters" :character="character" />
       </div>
-    </div>
+    </FormGroup>
+
+    <FormGroup :label="'Note'" :collapsable="false">
+      <OField>
+        <OInput
+          placeholder="User note"
+          v-model="note"
+          size="lg"
+          expanded
+          required
+          type="textarea"
+          rows="6"
+        />
+      </OField>
+
+      <div>
+        <OButton native-type="submit" variant="primary" size="lg" :label="`Update`" />
+      </div>
+    </FormGroup>
   </div>
 </template>

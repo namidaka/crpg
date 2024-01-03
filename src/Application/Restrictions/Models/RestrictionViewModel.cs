@@ -7,7 +7,7 @@ namespace Crpg.Application.Restrictions.Models;
 public record RestrictionViewModel : IMapFrom<Restriction>
 {
     public int Id { get; init; }
-    public UserPublicViewModel? RestrictedUser { get; init; }
+    public UserPrivateViewModel? RestrictedUser { get; init; }
     public TimeSpan Duration { get; init; }
     public RestrictionType Type { get; init; }
     public string Reason { get; init; } = string.Empty;

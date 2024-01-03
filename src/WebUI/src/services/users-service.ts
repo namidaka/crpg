@@ -1,6 +1,12 @@
 import qs from 'qs';
 import { type Item } from '@/models/item';
-import { type User, type UserPublic, type UserItem, type UserItemsByType } from '@/models/user';
+import {
+  type User,
+  type UserPublic,
+  type UserItem,
+  type UserItemsByType,
+  type UserPrivate,
+} from '@/models/user';
 import { Platform } from '@/models/platform';
 import { type Clan, type ClanEdition, type ClanMemberRole } from '@/models/clan';
 import { type RestrictionWithActive } from '@/models/restriction';
@@ -16,7 +22,7 @@ export const deleteUser = () => del('/users/self');
 
 // TODO: SPEC
 export const getUsersByIds = (payload: number[]) =>
-  get<UserPublic[]>(
+  get<UserPrivate[]>(
     `/users?${qs.stringify(
       { id: payload },
       {
@@ -25,7 +31,7 @@ export const getUsersByIds = (payload: number[]) =>
     )}`
   );
 
-export const getUserById = (id: number) => get<UserPublic>(`/users/${id}`);
+export const getUserById = (id: number) => get<UserPrivate>(`/users/${id}`);
 
 interface UserSearchQuery {
   platform?: Platform;
@@ -34,7 +40,7 @@ interface UserSearchQuery {
 }
 
 export const searchUser = async (payload: UserSearchQuery) =>
-  get<UserPublic[]>(`/users/search/?${qs.stringify(payload)}`);
+  get<UserPrivate[]>(`/users/search/?${qs.stringify(payload)}`);
 
 export const extractItemFromUserItem = (items: UserItem[]): Item[] => items.map(ui => ui.item);
 

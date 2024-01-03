@@ -37,7 +37,7 @@ public class UsersController : BaseController
     /// <response code="400">Bad Request.</response>
     [HttpGet("search")]
     [Authorize(Policy = ModeratorPolicy)]
-    public async Task<ActionResult<Result<UserPublicViewModel[]>>> SearchUsers(
+    public async Task<ActionResult<Result<UserPrivateViewModel[]>>> SearchUsers(
         [FromQuery] Platform platform,
         [FromQuery] string? platformUserId,
         [FromQuery] string? name)
@@ -57,7 +57,7 @@ public class UsersController : BaseController
                 return ResultToAction(res.Select(u => new[] { u }));
             }
 
-            return ResultToAction(new Result<UserPublicViewModel[]>(new Error(ErrorType.Validation, ErrorCode.InvalidField)));
+            return ResultToAction(new Result<UserPrivateViewModel[]>(new Error(ErrorType.Validation, ErrorCode.InvalidField)));
         }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class UsersController : BaseController
     /// <response code="404">User was not found.</response>
     [HttpGet("{id}")]
     [Authorize(Policy = ModeratorPolicy)]
-    public Task<ActionResult<Result<UserPublicViewModel>>> GetUserById([FromRoute] int id)
+    public Task<ActionResult<Result<UserPrivateViewModel>>> GetUserById([FromRoute] int id)
     {
         return ResultToActionAsync(Mediator.Send(new GetUserByIdQuery { UserId = id }));
     }
@@ -102,7 +102,7 @@ public class UsersController : BaseController
     /// <response code="400">Bad Request.</response>
     [HttpGet]
     [Authorize(Policy = ModeratorPolicy)]
-    public Task<ActionResult<Result<IList<UserPublicViewModel>>>> GetUsersById([FromQuery(Name = "id[]")] int[] ids)
+    public Task<ActionResult<Result<IList<UserPrivateViewModel>>>> GetUsersById([FromQuery(Name = "id[]")] int[] ids)
     {
         return ResultToActionAsync(Mediator.Send(new GetUsersByIdQuery { UserIds = ids }));
     }

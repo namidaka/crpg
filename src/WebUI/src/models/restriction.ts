@@ -1,4 +1,4 @@
-import { UserPublic } from '@/models/user';
+import { type UserPublic, type UserPrivate } from '@/models/user';
 
 export enum RestrictionType {
   Join = 'Join',
@@ -8,7 +8,7 @@ export enum RestrictionType {
 
 export interface Restriction {
   id: number;
-  restrictedUser: UserPublic;
+  restrictedUser: UserPrivate;
   duration: number;
   type: RestrictionType;
   reason: string;
