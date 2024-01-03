@@ -83,6 +83,21 @@ public class UsersController : BaseController
     }
 
     /// <summary>
+    /// Update the user note.
+    /// </summary>
+    /// <param name="id">User id.</param>
+    /// <param name="user">The user note update.</param>
+    /// <returns>The user's note updated.</returns>
+    /// <response code="200">Updated.</response>
+    /// <response code="400">Bad Request.</response>
+    [HttpPut("{id}/note")]
+    public Task<ActionResult<Result<UserPrivateViewModel>>> UpdateUserNote([FromRoute] int id, [FromBody] UpdateUserNoteCommand user)
+    {
+       user = user with { UserId = id };
+       return ResultToActionAsync(Mediator.Send(user));
+    }
+
+    /// <summary>
     /// Gets all characters by user id.
     /// </summary>
     /// <param name="id">The user id.</param>

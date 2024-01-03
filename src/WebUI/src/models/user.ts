@@ -30,6 +30,7 @@ export interface UserPrivate extends UserPublic {
   updatedAt: Date;
   gold: number;
   note: string;
+  activeCharacterId: number | null;
 }
 
 // TODO: to /models/item.ts

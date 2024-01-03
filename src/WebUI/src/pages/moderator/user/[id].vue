@@ -14,7 +14,10 @@ const props = defineProps<{ id: string }>();
 
 const { state: user, execute: loadUser } = await useAsyncState(
   () => getUserById(Number(props.id)),
-  null
+  null,
+  {
+    resetOnExecute: false,
+  }
 );
 
 provide(moderationUserKey, user);
@@ -25,7 +28,7 @@ await loadUser();
 <template>
   <div class="container">
     <div class="mb-14 flex items-center justify-center gap-8">
-      <h1 class="text-xl text-content-100">
+      <h1 class="text-lg text-content-100">
         <UserMedia :user="user!" size="xl" :clan="user?.clan" />
       </h1>
 
@@ -56,6 +59,6 @@ await loadUser();
       </div>
     </div>
 
-    <RouterView />
+    <RouterView @update="loadUser" />
   </div>
 </template>

@@ -33,6 +33,9 @@ export const getUsersByIds = (payload: number[]) =>
 
 export const getUserById = (id: number) => get<UserPrivate>(`/users/${id}`);
 
+export const updateUserNote = (id: number, user: { note: string }) =>
+  put<UserPrivate>(`/users/${id}/note`, user);
+
 interface UserSearchQuery {
   platform?: Platform;
   platformUserId?: string;

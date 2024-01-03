@@ -18,6 +18,7 @@ public record UserPrivateViewModel : IMapFrom<User>
     public DateTime UpdatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
     public string Note { get; init; } = string.Empty;
+    public int? ActiveCharacterId { get; init; }
     public ClanPublicViewModel? Clan { get; init; }
     public void Mapping(Profile profile)
     {
