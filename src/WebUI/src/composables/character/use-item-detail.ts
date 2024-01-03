@@ -7,6 +7,7 @@ interface ElementBound {
 }
 
 interface OpenedItem {
+  uniqueId?: string;
   id: string;
   userItemId: number;
   bound: ElementBound;
@@ -15,23 +16,27 @@ interface OpenedItem {
 // shared state
 const openedItems = ref<OpenedItem[]>([]);
 
+const getUniqueId = (itemId: string, userItemId: number) => `${itemId}::${userItemId}`;
+
 export const useItemDetail = (setListeners: boolean = false) => {
   const openItemDetail = (item: OpenedItem) => {
-    if (!openedItems.value.some(oi => oi.id === item.id)) {
-      openedItems.value.push(item);
+    if (!openedItems.value.some(oi => oi.uniqueId === item.uniqueId)) {
+      openedItems.value.push({ ...item, uniqueId: getUniqueId(item.id, item.userItemId) });
     }
   };
 
-  const closeItemDetail = (id: string) => {
-    if (openedItems.value.some(oi => oi.id === id)) {
-      openedItems.value = openedItems.value.filter(oi => oi.id !== id);
+  const closeItemDetail = (item: OpenedItem) => {
+    if (openedItems.value.some(oi => oi.uniqueId === item.uniqueId)) {
+      openedItems.value = openedItems.value.filter(oi => oi.uniqueId !== item.uniqueId);
     }
   };
 
   const toggleItemDetail = (target: HTMLElement, item: Omit<OpenedItem, 'bound'>) => {
-    !openedItems.value.some(oi => oi.id === item.id)
-      ? openItemDetail({ ...item, bound: getElementBounds(target) })
-      : closeItemDetail(item.id);
+    const uniqueId = getUniqueId(item.id, item.userItemId);
+    const _item = { ...item, bound: getElementBounds(target) };
+    !openedItems.value.some(oi => oi.uniqueId === uniqueId)
+      ? openItemDetail(_item)
+      : closeItemDetail(_item);
   };
 
   const closeAll = () => {
@@ -63,7 +68,7 @@ export const useItemDetail = (setListeners: boolean = false) => {
   if (setListeners) {
     whenever(escape, () => {
       openedItems.value.length !== 0 &&
-        closeItemDetail(openedItems.value[openedItems.value.length - 1].id);
+        closeItemDetail(openedItems.value[openedItems.value.length - 1]);
     });
 
     onBeforeRouteLeave(() => {
@@ -73,6 +78,7 @@ export const useItemDetail = (setListeners: boolean = false) => {
   }
 
   return {
+    getUniqueId,
     openedItems,
     openItemDetail,
     closeItemDetail,

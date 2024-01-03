@@ -37,14 +37,14 @@ const tooltipTitle = computed(() => {
         variant="primary"
         outlined
         size="lg"
-        :disabled="inInventory || notEnoughGold"
+        :disabled="notEnoughGold"
         @click="
           () => {
             emit('buy');
           }
         "
       >
-        <Coin :value="price" :class="{ 'opacity-50': inInventory || notEnoughGold }" />
+        <Coin :value="price" :class="{ 'opacity-50': notEnoughGold }" />
 
         <Tag v-if="isExpensive" icon="alert" size="sm" variant="warning" rounded />
       </OButton>

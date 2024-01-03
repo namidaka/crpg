@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ItemCompareMode, ItemRank, type ItemFlat } from '@/models/item';
-import { type UserItem,  } from '@/models/user';
+import { type UserItem } from '@/models/user';
 import { useItemUpgrades } from '@/composables/item/use-item-upgrades';
 import { useItemReforge } from '@/composables/item/use-item-reforge';
 import { useUserStore } from '@/stores/user';
@@ -107,14 +107,6 @@ const {
                   class="text-status-danger"
                   tag="p"
                 />
-
-                <i18n-t
-                  v-else-if="!upgradeValidation.exist"
-                  scope="global"
-                  keypath="character.inventory.item.upgrade.validation.exist"
-                  class="text-status-danger"
-                  tag="p"
-                />
               </div>
             </template>
           </VTooltip>
@@ -217,18 +209,6 @@ const {
                   class="text-status-danger"
                   tag="p"
                 />
-
-                <i18n-t
-                  v-else-if="!reforgeValidation.exist"
-                  scope="global"
-                  keypath="character.inventory.item.reforge.validation.exist"
-                  class="text-status-danger"
-                  tag="p"
-                >
-                  <template #existItem>
-                    <span class="font-bold">{{ baseItem.name }}</span>
-                  </template>
-                </i18n-t>
               </div>
             </template>
           </VTooltip>

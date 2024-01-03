@@ -20,14 +20,12 @@ export const useItemUpgrades = (item: ItemFlat, cols: AggregationConfig) => {
   const validation = computed(() => ({
     points: userStore.user!.heirloomPoints > 0,
     maxRank: item.rank !== 3,
-    exist: !userStore.userItems.some(
-      ui => ui.item.baseId === nextItem.value?.baseId && ui.item.rank === nextItem.value?.rank
-    ),
+    // exist: !userStore.userItems.some(
+    //   ui => ui.item.baseId === nextItem.value?.baseId && ui.item.rank === nextItem.value?.rank
+    // ),
   }));
 
-  const canUpgrade = computed(
-    () => validation.value.points && validation.value.maxRank && validation.value.exist
-  );
+  const canUpgrade = computed(() => validation.value.points && validation.value.maxRank);
 
   return {
     itemUpgrades,

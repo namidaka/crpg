@@ -8,7 +8,6 @@ import {
   getClanArmoryItemLender,
   getClanArmoryItemBorrower,
   isOwnClanArmoryItem,
-  isClanArmoryItemInInventory,
 } from '@/services/clan-service';
 import { notify } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
@@ -98,9 +97,7 @@ const flatItems = computed(() =>
         item =>
           (hideOwnedItemsModel.value ? !isOwnClanArmoryItem(item, userStore.user!.id) : true) &&
           (showOnlyAvailableItems.value
-            ? item.borrowedItem === null &&
-              !isOwnClanArmoryItem(item, userStore.user!.id) &&
-              !isClanArmoryItemInInventory(item, userStore.userItems)
+            ? item.borrowedItem === null && !isOwnClanArmoryItem(item, userStore.user!.id)
             : true)
       )
       .map(ca => ca.userItem.item)
@@ -280,19 +277,19 @@ await Promise.all([
           :borrower="getClanArmoryItemBorrower(getClanArmoryItem(di.userItemId)!, clanMembers)"
           @borrow="
             id => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onBorrowFromClanArmory(id);
             }
           "
           @remove="
             id => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onRemoveFromClanArmory(id);
             }
           "
           @return="
             id => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onReturnFromClanArmory(id);
             }
           "

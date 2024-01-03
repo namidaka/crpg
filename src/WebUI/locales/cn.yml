@@ -568,7 +568,6 @@ character:
         validation:
           maxRank: '该物品已经升级到最高阶'
           loomPoints: '你没有足够的转生点'
-          exist: '你已经拥有该物品的改进版本'
         confirm:
           description: '你确定要使用{loomPoints}转生点来升级此物品吗？你的物品{oldItem}将会变成{newItem}。'
         currentItem: 当前物品
@@ -581,7 +580,6 @@ character:
         validation:
           rank: '该物品必须拥有大于{minimumRank}的阶级'
           gold: '你没有足够的金币来执行此操作'
-          exist: '你的物品栏中已经有了{existItem}。请先出售它'
         confirm:
           description: '你确定要用{gold}的金币来重铸该物品吗？你将会获得{loomPoints}转生点作为回报，同时物品{oldItem}将变成{newItem}'
         notify:

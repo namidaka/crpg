@@ -250,11 +250,18 @@ provide(equippedItemsBySlotKey, equippedItemsBySlot);
 
 const { onDragStart, onDragEnd } = useInventoryDnD(equippedItemsBySlot);
 
-const { openedItems, toggleItemDetail, closeItemDetail } = useItemDetail();
+const { openedItems, toggleItemDetail, closeItemDetail, getUniqueId } = useItemDetail();
 
 const compareItemsResult = computed(() => {
+  // find the open items TODO: spec
   return groupItemsByTypeAndWeaponClass(
-    flatItems.value.filter(item => openedItems.value.some(oi => oi.id === item.id))
+    createItemIndex(
+      extractItemFromUserItem(
+        userStore.userItems.filter(ui =>
+          openedItems.value.some(oi => oi.uniqueId === getUniqueId(ui.item.id, ui.id))
+        )
+      )
+    )
   )
     .filter(group => group.items.length >= 2) // there is no point in comparing 1 item;
     .map(group => ({
@@ -481,43 +488,43 @@ await Promise.all(promises);
           "
           @sell="
             () => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onSellUserItem(di.userItemId);
             }
           "
           @repair="
             () => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onRepairUserItem(di.userItemId);
             }
           "
           @upgrade="
             () => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onUpgradeUserItem(di.userItemId);
             }
           "
           @reforge="
             () => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onReforgeUserItem(di.userItemId);
             }
           "
           @returnToClanArmory="
             () => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onReturnToClanArmory(di.userItemId);
             }
           "
           @removeFromClanArmory="
             () => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onRemoveFromClanArmory(di.userItemId);
             }
           "
           @addToClanArmory="
             () => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onAddItemToClanArmory(di.userItemId);
             }
           "

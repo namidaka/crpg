@@ -49,7 +49,6 @@ describe('validation', () => {
 
     expect(validation.value.rank).toBeTruthy();
     expect(validation.value.gold).toBeFalsy();
-    expect(validation.value.exist).toBeTruthy();
   });
 
   it('lots of gold', () => {
@@ -60,25 +59,7 @@ describe('validation', () => {
     expect(validation.value.gold).toBeTruthy();
   });
 
-  it('rank 0 basic item in the inventory', () => {
-    userStore.$patch({
-      user: { gold: 500000 },
-      userItems: [
-        {
-          item: {
-            baseId: item.baseId,
-            rank: 0,
-          },
-        },
-      ],
-    });
-
-    const { validation } = useItemReforge(item);
-
-    expect(validation.value.exist).toBeFalsy();
-  });
-
-  it('you cannot reforge an ungraded item', () => {
+  it('you cannot reforge an base item', () => {
     userStore.$patch({ user: { gold: 500000 } });
 
     const { validation } = useItemReforge({

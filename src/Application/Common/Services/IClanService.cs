@@ -1,12 +1,9 @@
-﻿using System.Security.Claims;
-using Crpg.Application.Characters.Commands;
-using Crpg.Application.Common.Interfaces;
+﻿using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Results;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Crpg.Application.Common.Services;
 
@@ -229,11 +226,6 @@ internal class ClanService : IClanService
         if (armoryItem.BorrowedItem != null)
         {
             return new(CommonErrors.UserItemInUse(userItemId));
-        }
-
-        if (user.Items.Any(i => i.ItemId == armoryItem.UserItem!.ItemId))
-        {
-            return new(CommonErrors.ItemAlreadyOwned(armoryItem.UserItem!.ItemId));
         }
 
         var borrowedItem = new ClanArmoryBorrowedItem { BorrowerClanId = clan.Id, UserItemId = armoryItem.UserItemId, BorrowerUserId = user.Id };

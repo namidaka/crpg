@@ -2,9 +2,9 @@
 import { ClanMemberRole, type ClanArmoryItem } from '@/models/clan';
 import { type UserPublic } from '@/models/user';
 import { useUserStore } from '@/stores/user';
-import { isOwnClanArmoryItem, isClanArmoryItemInInventory } from '@/services/clan-service';
+import { isOwnClanArmoryItem } from '@/services/clan-service';
 
-const { clanArmoryItem,borrower,lender } = defineProps<{
+const { clanArmoryItem, borrower, lender } = defineProps<{
   clanArmoryItem: ClanArmoryItem;
   lender: UserPublic;
   borrower: UserPublic | null;
@@ -19,7 +19,6 @@ const emit = defineEmits<{
 const { user, userItems, clanMemberRole } = toRefs(useUserStore());
 
 const isOwnArmoryItem = computed(() => isOwnClanArmoryItem(clanArmoryItem, user.value!.id));
-const isInInventory = computed(() => isClanArmoryItemInInventory(clanArmoryItem, userItems.value));
 const canReturn = computed(
   () => borrower?.id === user.value!.id || clanMemberRole.value === ClanMemberRole.Leader
 );
@@ -54,13 +53,7 @@ const canReturn = computed(
           variant="secondary"
           expanded
           rounded
-          :disabled="isInInventory"
           size="lg"
-          v-tooltip="{
-            disabled: !isInInventory,
-            content: $t('clan.armory.item.borrow.validation.isInInventory'),
-            popperClass: 'v-popper--theme-tooltip-danger',
-          }"
           @click="$emit('borrow', clanArmoryItem.userItem.id)"
         >
           <i18n-t

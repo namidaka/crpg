@@ -1,9 +1,7 @@
 import { createTestingPinia } from '@pinia/testing';
 import { flushPromises } from '@vue/test-utils';
-
 import { useUserStore } from '@/stores/user';
 import { type ItemFlat } from '@/models/item';
-import { UserItem } from '@/models/user';
 import { type AggregationConfig } from '@/models/item-search';
 
 const { mockedGetItemUpgrades, mockedGetRelativeEntries } = vi.hoisted(() => ({
@@ -100,7 +98,6 @@ describe('useItemUpgrades', () => {
 
       expect(validation.value.points).toEqual(true);
       expect(validation.value.maxRank).toEqual(true);
-      expect(validation.value.exist).toEqual(true);
       expect(canUpgrade.value).toEqual(true);
     });
 
@@ -113,26 +110,6 @@ describe('useItemUpgrades', () => {
 
       expect(validation.value.points).toEqual(false);
       expect(validation.value.maxRank).toEqual(true);
-      expect(validation.value.exist).toEqual(true);
-      expect(canUpgrade.value).toEqual(false);
-    });
-
-    it('exist', async () => {
-      // @ts-ignore
-      userStore.$patch({
-        user: { heirloomPoints: 1 },
-        userItems: [
-          {
-            item: mockItemUpgrades[1],
-          },
-        ],
-      });
-
-      const { validation, canUpgrade } = useItemUpgrades(item, cols);
-
-      await flushPromises();
-
-      expect(validation.value.exist).toEqual(false);
       expect(canUpgrade.value).toEqual(false);
     });
 

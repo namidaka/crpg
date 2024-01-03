@@ -569,7 +569,6 @@ character:
         validation:
           maxRank: 'Предмет уже имеет максимальный ранг'
           loomPoints: 'У вас недостаточно очков улучшения'
-          exist: 'У вас уже есть улучшенная версия этого предмета'
         confirm:
           description: 'Вы уверены, что хотите улучшить этот предмет за {loomPoints}? {oldItem} будет заменен на {newItem}'
         currentItem: Текущий предмет
@@ -582,7 +581,6 @@ character:
         validation:
           rank: 'Предмет должен иметь ранг больше, чем {minimumRank}'
           gold: 'У вас недостаточно золота'
-          exist: 'У вас уже есть {existItem} в инвентаре. Сначала продайте его'
         confirm:
           description: 'Вы уверены, что хотите рассплавить этот предмет за {gold}? Вы получите {loomPoints}, также предмет {oldItem} будет заменен на {newItem}.'
         notify:
