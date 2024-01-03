@@ -83,6 +83,17 @@ public class UsersController : BaseController
     }
 
     /// <summary>
+    /// Gets all characters by user id.
+    /// </summary>
+    /// <param name="id">The user id.</param>
+    /// <returns>Characters list.</returns>
+    /// <response code="200">Ok.</response>
+    [HttpGet("{id}/characters")]
+    [Authorize(Policy = ModeratorPolicy)]
+    public Task<ActionResult<Result<IList<CharacterViewModel>>>> GetUserCharactersListByUserId([FromRoute] int id) =>
+        ResultToActionAsync(Mediator.Send(new GetUserCharactersQuery { UserId = id }));
+
+    /// <summary>
     /// Get user by id.
     /// </summary>
     /// <param name="ids">The user ids.</param>
