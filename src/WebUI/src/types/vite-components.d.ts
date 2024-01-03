@@ -28,6 +28,7 @@ declare module 'vue' {
     ClanTagIcon: typeof import('./../components/clan/ClanTagIcon.vue')['default']
     ClosableTooltip: typeof import('./../components/ui/ClosableTooltip.vue')['default']
     Coin: typeof import('./../components/app/Coin.vue')['default']
+    CollapsibleText: typeof import('./../components/ui/CollapsibleText.vue')['default']
     ConfirmActionForm: typeof import('./../components/app/ConfirmActionForm.vue')['default']
     ConfirmActionTooltip: typeof import('./../components/app/ConfirmActionTooltip.vue')['default']
     ControlLocateParty: typeof import('./../components/strategus/map/controls/ControlLocateParty.vue')['default']
@@ -98,7 +99,6 @@ declare module 'vue' {
     UserHeaderToolbar: typeof import('./../components/user/UserHeaderToolbar.vue')['default']
     UserMedia: typeof import('./../components/user/UserMedia.vue')['default']
     UserPlatform: typeof import('./../components/user/UserPlatform.vue')['default']
-    UserRestrictionGuide: typeof import('./../components/user/UserRestrictionGuide.vue')['default']
     UserRestrictionNotification: typeof import('./../components/user/UserRestrictionNotification.vue')['default']
     Welcome: typeof import('./../components/app/Welcome.vue')['default']
   }

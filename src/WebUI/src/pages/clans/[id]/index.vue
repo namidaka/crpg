@@ -71,7 +71,7 @@ const canUpdateMember = computed(() =>
 
 const updateMember = async (userId: number, selectedRole: ClanMemberRole) => {
   await updateClanMember(clanId.value, userId, selectedRole);
-  await Promise.all([loadClanMembers(0, { id: clanId.value }), userStore.getUserClanAndRole()]);
+  await Promise.all([loadClanMembers(0, { id: clanId.value }), userStore.fetchUserClanAndRole()]);
   notify(t('clan.member.update.notify.success'));
 };
 
@@ -86,7 +86,7 @@ const kickMember = async (member: ClanMember) => {
   await kickClanMember(clanId.value, member.user.id);
   await loadClanMembers(0, { id: clanId.value });
   if (isSelfMember) {
-    await userStore.getUserClanAndRole();
+    await userStore.fetchUserClanAndRole();
   }
   notify(
     isSelfMember ? t('clan.member.leave.notify.success') : t('clan.member.kick.notify.success')

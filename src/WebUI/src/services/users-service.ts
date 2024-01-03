@@ -9,10 +9,9 @@ import {
 } from '@/models/user';
 import { Platform } from '@/models/platform';
 import { type Clan, type ClanEdition, type ClanMemberRole } from '@/models/clan';
-import { type RestrictionWithActive } from '@/models/restriction';
-
+import { type RestrictionWithActive, type PublicRestriction } from '@/models/restriction';
 import { get, post, put, del } from '@/services/crpg-client';
-import { getActiveJoinRestriction, mapRestrictions } from '@/services/restriction-service';
+import { mapRestrictions } from '@/services/restriction-service';
 import { mapClanResponse } from '@/services/clan-service';
 import { pick } from '@/utils/object';
 
@@ -42,23 +41,22 @@ interface UserSearchQuery {
   name?: string;
 }
 
-export const searchUser = async (payload: UserSearchQuery) =>
-  get<UserPrivate[]>(`/users/search/?${qs.stringify(payload)}`);
+export const searchUser = (payload: UserSearchQuery) =>
+  get<UserPublic[]>(`/users/search/?${qs.stringify(payload)}`);
 
 export const extractItemFromUserItem = (items: UserItem[]): Item[] => items.map(ui => ui.item);
 
 export const getUserItems = () => get<UserItem[]>('/users/self/items');
 
-export const buyUserItem = async (itemId: string) =>
-  post<UserItem>('/users/self/items', { itemId });
+export const buyUserItem = (itemId: string) => post<UserItem>('/users/self/items', { itemId });
 
-export const repairUserItem = async (userItemId: number) =>
+export const repairUserItem = (userItemId: number) =>
   put<UserItem>(`/users/self/items/${userItemId}/repair`);
 
-export const upgradeUserItem = async (userItemId: number) =>
+export const upgradeUserItem = (userItemId: number) =>
   put<UserItem>(`/users/self/items/${userItemId}/upgrade`);
 
-export const reforgeUserItem = async (userItemId: number) =>
+export const reforgeUserItem = (userItemId: number) =>
   put<UserItem>(`/users/self/items/${userItemId}/reforge`);
 
 export const sellUserItem = (userItemId: number) => del(`/users/self/items/${userItemId}`);
@@ -88,17 +86,16 @@ interface UserClan {
 }
 
 export const getUserClan = async () => {
-  const userClan = await get<UserClan | null>('/users/self/clans');
+  const userClan = await get<UserClan | null>('/users/self/clan');
   if (userClan === null || userClan.clan === null) return null;
   // do conversion since argb values are stored as numbers in db and we need strings
   return { clan: mapClanResponse(userClan.clan), role: userClan.role };
 };
 
+export const getUserRestriction = () => get<PublicRestriction>('/users/self/restriction');
+
 export const getUserRestrictions = async (id: number) =>
   mapRestrictions(await get<RestrictionWithActive[]>(`/users/${id}/restrictions`));
-
-export const getUserActiveJoinRestriction = async (id: number) =>
-  getActiveJoinRestriction(await getUserRestrictions(id));
 
 export const mapUserToUserPublic = (user: User, userClan: Clan | null): UserPublic => ({
   ...pick(user, ['id', 'platform', 'platformUserId', 'name', 'region', 'avatar']),

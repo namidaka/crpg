@@ -917,7 +917,8 @@ restriction:
       createdAt: Created At
       duration: Duration
       type: Type
-      reason: Reason
+      reason: Internal Reason
+      publicReason: Public reason
       restrictedBy: By
   user:
     title: User Restriction
@@ -935,7 +936,9 @@ restriction:
         minutes:
           label: Minutes
         reason:
-          label: Reason
+          label: Internal Reason
+        publicReason:
+          label: Public reason
       action:
         submit: Add restriction
     notify:

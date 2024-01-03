@@ -28,14 +28,14 @@ const { loadClanMembers, isLastMember } = useClanMembers();
 
 const onSubmit = async (form: Omit<Clan, 'id'>) => {
   const clan = await updateClan(clanId.value, { ...form, id: clanId.value });
-  await userStore.getUserClanAndRole();
+  await userStore.fetchUserClanAndRole();
   notify(t('clan.update.notify.success'));
   router.replace({ name: 'ClansId', params: { id: clan.id } });
 };
 
 const deleteClan = async () => {
   await kickClanMember(clanId.value, userStore.user!.id); // delete yourself from the clan as the only member === delete the clan
-  userStore.getUserClanAndRole();
+  userStore.fetchUserClanAndRole();
   notify(t('clan.delete.notify.success'));
   return router.replace({ name: 'Clans' });
 };

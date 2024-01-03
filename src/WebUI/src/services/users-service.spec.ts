@@ -10,12 +10,10 @@ vi.mock('@/services/auth-service', () => ({
   getToken: vi.fn().mockResolvedValue('mockedToken'),
 }));
 
-const { mockedMapRestrictions, mockedGetActiveJoinRestriction } = vi.hoisted(() => ({
+const { mockedMapRestrictions } = vi.hoisted(() => ({
   mockedMapRestrictions: vi.fn(),
-  mockedGetActiveJoinRestriction: vi.fn(),
 }));
 vi.mock('@/services/restriction-service', () => ({
-  getActiveJoinRestriction: mockedGetActiveJoinRestriction,
   mapRestrictions: mockedMapRestrictions,
 }));
 
@@ -35,7 +33,6 @@ import {
   sellUserItem,
   getUserClan,
   getUserRestrictions,
-  getUserActiveJoinRestriction,
   groupUserItemsByType,
   searchUser,
   mapUserToUserPublic,
@@ -192,16 +189,6 @@ it('getUserRestrictions', async () => {
   await getUserRestrictions(USER_ID);
 
   expect(mockedMapRestrictions).toBeCalledWith(USER_RESTRICTIONS);
-});
-
-it('getUserActiveJoinRestriction', async () => {
-  const USER_ID = 123;
-  const USER_RESTRICTIONS = [{ id: 1 }];
-  mockGet(`/users/${USER_ID}/restrictions`).willResolve(response(USER_RESTRICTIONS));
-
-  await getUserActiveJoinRestriction(USER_ID);
-
-  expect(mockedGetActiveJoinRestriction).toBeCalled();
 });
 
 it('searchUser', async () => {

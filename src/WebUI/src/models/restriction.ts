@@ -12,8 +12,16 @@ export interface Restriction {
   duration: number;
   type: RestrictionType;
   reason: string;
+  publicReason: string;
   restrictedByUser: UserPublic;
   createdAt: Date;
+}
+
+export interface PublicRestriction {
+  id: number;
+  createdAt: Date;
+  duration: number;
+  reason: string;
 }
 
 export interface RestrictionWithActive extends Restriction {
@@ -24,5 +32,6 @@ export interface RestrictionCreation {
   restrictedUserId: number;
   type: RestrictionType;
   reason: string;
+  publicReason: string;
   duration: number;
 }
