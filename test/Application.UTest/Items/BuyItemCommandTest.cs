@@ -141,6 +141,7 @@ public class BuyItemCommandTest : TestBase
     [Test]
     public async Task AlreadyOwningItem()
     {
+        Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
         Item item = new() { Rank = 0, Price = 100, Enabled = true };
         User user = new()
         {
@@ -151,13 +152,23 @@ public class BuyItemCommandTest : TestBase
         ArrangeDb.Users.Add(user);
         await ArrangeDb.SaveChangesAsync();
 
-        BuyItemCommand.Handler handler = new(ActDb, Mapper, Mock.Of<IActivityLogService>());
+        BuyItemCommand.Handler handler = new(ActDb, Mapper, activityLogServiceMock.Object);
         var result = await handler.Handle(new BuyItemCommand
         {
             ItemId = item.Id,
             UserId = user.Id,
         }, CancellationToken.None);
-        Assert.That(result.Errors![0].Code, Is.EqualTo(ErrorCode.ItemAlreadyOwned));
+        Assert.That(result.Errors, Is.Null);
+        var userDb = await AssertDb.Users
+            .Include(u => u.Items)
+            .FirstAsync(u => u.Id == user.Id);
+
+        var boughtUserItem = result.Data!;
+        Assert.That(boughtUserItem.Item.Rank, Is.EqualTo(0));
+        Assert.That(boughtUserItem.IsBroken, Is.False);
+        Assert.That(boughtUserItem.Item.Id, Is.EqualTo(item.Id));
+        Assert.That(userDb.Gold, Is.EqualTo(0));
+        Assert.That(userDb.Items, Has.Some.Matches<UserItem>(ui => ui.Id == boughtUserItem.Id));
     }
 
     [Test]

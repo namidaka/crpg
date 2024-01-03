@@ -181,8 +181,9 @@ public class ReforgeUpgradedItemCommandTest : TestBase
             UserId = user.Id,
         }, CancellationToken.None);
 
-        var errorCode = result.Errors![0].Code;
-        Assert.That(errorCode, Is.EqualTo(ErrorCode.ItemAlreadyOwned));
+        Assert.That(result.Errors, Is.Null);
+        Assert.That(result.Data?.Item.Id, Is.EqualTo("a_h0"));
+        Assert.That(result.Data?.Item.Rank, Is.EqualTo(0));
     }
 
     [Test]
