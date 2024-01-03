@@ -159,14 +159,14 @@ describe('userItems: filterBy, sortBy, groupBy', () => {
 
 describe('getUserClan', () => {
   it('user does`t have a clan', async () => {
-    mockGet('/users/self/clans').willResolve(response(null));
+    mockGet('/users/self/clan').willResolve(response(null));
 
     expect(await getUserClan()).toEqual(null);
     expect(mockedMapClanResponse).not.toBeCalled();
   });
 
   it('user has a clan', async () => {
-    mockGet('/users/self/clans').willResolve(
+    mockGet('/users/self/clan').willResolve(
       response({
         clan: {
           id: 1,
