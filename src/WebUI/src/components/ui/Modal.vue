@@ -27,6 +27,10 @@ const onHide = () => {
 
   emit('hide');
 };
+
+onBeforeUnmount(() => {
+  onHide();
+});
 </script>
 
 <template>
