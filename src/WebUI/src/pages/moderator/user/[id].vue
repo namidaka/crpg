@@ -12,12 +12,9 @@ definePage({
 
 const props = defineProps<{ id: string }>();
 
-const { state: user, execute: loadUser } = useAsyncState(
+const { state: user, execute: loadUser } = await useAsyncState(
   () => getUserById(Number(props.id)),
-  null,
-  {
-    immediate: false,
-  }
+  null
 );
 
 provide(moderationUserKey, user);
@@ -33,6 +30,14 @@ await loadUser();
       </h1>
 
       <div class="flex items-center justify-center gap-2">
+        <RouterLink :to="{ name: 'ModeratorUserIdInformation' }" v-slot="{ isExactActive }">
+          <OButton
+            :variant="isExactActive ? 'transparent-active' : 'transparent'"
+            size="lg"
+            :label="'Information'"
+          />
+        </RouterLink>
+
         <RouterLink :to="{ name: 'ModeratorUserIdRestrictions' }" v-slot="{ isExactActive }">
           <OButton
             :variant="isExactActive ? 'transparent-active' : 'transparent'"

@@ -61,6 +61,7 @@ declare module 'vue-router/auto/routes' {
     'ModeratorFindUser': RouteRecordInfo<'ModeratorFindUser', '/moderator/find-user', Record<never, never>, Record<never, never>>,
     'ModeratorUserId': RouteRecordInfo<'ModeratorUserId', '/moderator/user/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'ModeratorUserIdActivityLogs': RouteRecordInfo<'ModeratorUserIdActivityLogs', '/moderator/user/:id/activity-logs', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    'ModeratorUserIdInformation': RouteRecordInfo<'ModeratorUserIdInformation', '/moderator/user/:id/information', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'ModeratorUserIdRestrictions': RouteRecordInfo<'ModeratorUserIdRestrictions', '/moderator/user/:id/restrictions', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'PrivacyPolicy': RouteRecordInfo<'PrivacyPolicy', '/privacy-policy', Record<never, never>, Record<never, never>>,
     'Settings': RouteRecordInfo<'Settings', '/settings', Record<never, never>, Record<never, never>>,

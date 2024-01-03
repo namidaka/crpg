@@ -23,6 +23,8 @@ export interface UserPublic
   extends Pick<User, 'id' | 'platform' | 'platformUserId' | 'name' | 'region'> {
   avatar: string;
   clan: Clan | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // TODO: to /models/item.ts

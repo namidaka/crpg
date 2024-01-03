@@ -93,6 +93,7 @@ declare module 'vue' {
     Tag: typeof import('./../components/ui/Tag.vue')['default']
     THDropdown: typeof import('./../components/ui/THDropdown.vue')['default']
     Tooltip: typeof import('./../components/ui/Tooltip.vue')['default']
+    UserClan: typeof import('./../components/user/UserClan.vue')['default']
     UserFinder: typeof import('./../components/moderator/UserFinder.vue')['default']
     UserHeaderToolbar: typeof import('./../components/user/UserHeaderToolbar.vue')['default']
     UserMedia: typeof import('./../components/user/UserMedia.vue')['default']
