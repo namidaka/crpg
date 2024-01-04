@@ -43,6 +43,11 @@ public class Clan : AuditableEntity
     public Region Region { get; set; }
 
     /// <summary>
+    /// Primary Languages of the clan.
+    /// </summary>
+    public IList<Languages> Languages { get; set; } = new List<Languages>();
+
+    /// <summary>
     /// Discord url of the clan.
     /// </summary>
     public Uri? Discord { get; set; }

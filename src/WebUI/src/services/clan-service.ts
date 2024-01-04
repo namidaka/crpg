@@ -8,6 +8,7 @@ import {
   ClanInvitationType,
   ClanInvitationStatus,
   type ClanArmoryItem,
+  ClanLanguage,
 } from '@/models/clan';
 import { Region } from '@/models/region';
 import { type UserItem } from '@/models/user';
@@ -42,12 +43,17 @@ export const getClans = async () => {
 export const getFilteredClans = (
   clans: ClanWithMemberCount<Clan>[],
   region: Region,
+  languages: ClanLanguage[],
   search: string
 ) => {
   const searchQuery = search.toLowerCase();
+
   return clans.filter(
     c =>
       c.clan.region === region &&
+      //
+      (languages.length ? languages.some(l => c.clan.languages.includes(l)) : true) &&
+      //
       (c.clan.tag.toLowerCase().includes(searchQuery) ||
         c.clan.name.toLowerCase().includes(searchQuery))
   );

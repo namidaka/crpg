@@ -27,6 +27,7 @@ public record UpdateClanCommand : IMediatorRequest<ClanViewModel>
     public uint SecondaryColor { get; init; }
     public string BannerKey { get; init; } = string.Empty;
     public Region Region { get; init; }
+    public IList<Languages> Languages { get; init; } = new List<Languages>();
     public Uri? Discord { get; init; }
     public TimeSpan ArmoryTimeout { get; init; }
 
@@ -65,6 +66,8 @@ public record UpdateClanCommand : IMediatorRequest<ClanViewModel>
 
             RuleFor(c => c.ArmoryTimeout)
                 .GreaterThanOrEqualTo(TimeSpan.FromDays(1));
+
+            // TODO: Languages
         }
     }
 
@@ -125,6 +128,7 @@ public record UpdateClanCommand : IMediatorRequest<ClanViewModel>
             clan.Region = req.Region;
             clan.Discord = req.Discord;
             clan.ArmoryTimeout = req.ArmoryTimeout;
+            clan.Languages = req.Languages;
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' updated clan '{1}'", req.UserId, req.ClanId);

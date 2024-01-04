@@ -1110,6 +1110,7 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "Pecores",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
+                Languages = { Languages.Fr, Languages.En, },
             };
 
             ClanMember takeoMember = new() { User = takeo, Clan = pecores, Role = ClanMemberRole.Officer, };

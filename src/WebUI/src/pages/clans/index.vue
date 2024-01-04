@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Clan, type ClanWithMemberCount } from '@/models/clan';
+import { ClanLanguage, type Clan, type ClanWithMemberCount } from '@/models/clan';
 import { getClans, getFilteredClans } from '@/services/clan-service';
 import { usePagination } from '@/composables/use-pagination';
 import { useSearchDebounced } from '@/composables/use-search-debounce';
@@ -26,9 +26,10 @@ const { state: clans, execute: loadClans } = useAsyncState(() => getClans(), [],
 });
 
 const { regionModel, regions } = useRegion();
+const languagesModel = ref<ClanLanguage[]>([]);
 
 const filteredClans = computed(() =>
-  getFilteredClans(clans.value, regionModel.value, searchModel.value)
+  getFilteredClans(clans.value, regionModel.value, languagesModel.value, searchModel.value)
 );
 
 const rowClass = (clan: ClanWithMemberCount<Clan>) =>
@@ -42,7 +43,7 @@ await loadClans();
 
 <template>
   <div class="container">
-    <div class="mx-auto max-w-3xl py-8 md:py-16">
+    <div class="mx-auto max-w-4xl py-8 md:py-16">
       <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
         <OTabs v-model="regionModel" contentClass="hidden">
           <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
@@ -134,6 +135,46 @@ await loadClans();
           <span :class="userStore.clan?.id === clan.clan.id ? 'text-primary' : 'text-content-300'">
             {{ $t(`region.${clan.clan.region}`, 0) }}
           </span>
+        </OTableColumn>
+
+        <OTableColumn field="clan.languages" :width="220">
+          <template #header>
+            <div class="relative mr-2 flex items-center gap-1">
+              <OIcon
+                v-if="languagesModel?.length"
+                class="absolute -left-5 top-1/2 -translate-y-1/2 transform cursor-pointer hover:text-status-danger"
+                v-tooltip.bottom="$t('action.reset')"
+                icon="close"
+                size="xs"
+                @click="languagesModel = []"
+              />
+              <VDropdown :triggers="['click']">
+                <div
+                  class="max-w-[90px] cursor-pointer overflow-x-hidden text-ellipsis whitespace-nowrap border-b-2 border-dashed border-border-300 pb-0.5 text-2xs hover:text-content-100 2xl:max-w-[110px]"
+                >
+                  Languages
+                </div>
+
+                <template #popper="{ hide }">
+                  <div class="max-h-64 max-w-md overflow-y-auto">
+                    <DropdownItem v-for="cl in Object.keys(ClanLanguage)">
+                      <OCheckbox
+                        v-model="languagesModel"
+                        :nativeValue="cl"
+                        class="items-center"
+                        :label="cl"
+                        @update:modelValue="hide"
+                      />
+                    </DropdownItem>
+                  </div>
+                </template>
+              </VDropdown>
+            </div>
+          </template>
+
+          <template #default="{ row: clan }: { row: ClanWithMemberCount<Clan> }">
+            {{ clan.clan.languages.join(', ') }}
+          </template>
         </OTableColumn>
 
         <OTableColumn

@@ -14,6 +14,7 @@ public record ClanViewModel : IMapFrom<Clan>
     public string Description { get; init; } = string.Empty;
     public string BannerKey { get; init; } = string.Empty;
     public Region Region { get; init; }
+    public IList<Languages> Languages { get; init; } = new List<Languages>();
     public Uri? Discord { get; init; }
     public TimeSpan ArmoryTimeout { get; init; }
 }

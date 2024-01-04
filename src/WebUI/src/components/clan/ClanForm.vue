@@ -8,7 +8,8 @@ import {
   clanBannerKeyMaxLength,
   clanDescriptionMaxLength,
 } from '@root/data/constants.json';
-import { type Clan } from '@/models/clan';
+import { ClanLanguage, type Clan } from '@/models/clan';
+
 import {
   required,
   url,
@@ -33,6 +34,7 @@ const props = withDefaults(
   {
     clan: () => ({
       region: Region.Eu,
+      languages: [],
       primaryColor: '#000000',
       secondaryColor: '#000000',
       name: '',
@@ -180,14 +182,42 @@ const onSubmit = async () => {
       </FormGroup>
 
       <FormGroup icon="region" :label="$t('region-title')">
-        <ORadio
-          v-for="region in Object.keys(Region)"
-          v-model="clanFormModel.region"
-          :native-value="region"
-          data-aq-clan-form-input="region"
-        >
-          {{ $t(`region.${region}`, 0) }}
-        </ORadio>
+        <div class="space-y-8">
+          <div class="flex flex-col gap-4">
+            <ORadio
+              v-for="region in Object.keys(Region)"
+              v-model="clanFormModel.region"
+              :native-value="region"
+              data-aq-clan-form-input="region"
+            >
+              {{ $t(`region.${region}`, 0) }}
+            </ORadio>
+          </div>
+
+          <OField>
+            <VDropdown :triggers="['click']">
+              <OButton
+                variant="secondary"
+                size="lg"
+                :label="`Languages: ${clanFormModel.languages.join(', ')}`"
+              />
+
+              <template #popper="{ hide }">
+                <div class="max-h-64 max-w-md overflow-y-auto">
+                  <DropdownItem v-for="cl in Object.keys(ClanLanguage)">
+                    <OCheckbox
+                      v-model="clanFormModel.languages"
+                      :nativeValue="cl"
+                      class="items-center"
+                      :label="cl"
+                      @update:modelValue="hide"
+                    />
+                  </DropdownItem>
+                </div>
+              </template>
+            </VDropdown>
+          </OField>
+        </div>
       </FormGroup>
 
       <FormGroup>
