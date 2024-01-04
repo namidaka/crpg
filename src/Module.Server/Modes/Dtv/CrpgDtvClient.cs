@@ -121,10 +121,13 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
 
     private void HandleViscountDeath(CrpgDtvGameEnd message)
     {
+        var viscountAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.ViscountAgentIndex, true);
+
         InformationManager.DisplayMessage(new InformationMessage
         {
             Information = message.ViscountDead
-                ? new TextObject("{=4HrC30kl}The Viscount has been slaughtered!").ToString()
+                ? new TextObject("{=4HrC30kl}{VISCOUNT} has been slaughtered!",
+                new Dictionary<string, object> { ["VISCOUNT"] = viscountAgent.Name ?? "{=}The Viscount" }).ToString()
                 : new TextObject("{=tdfOMWmf}The defenders have been slaughtered!").ToString(),
             Color = new Color(0.90f, 0.25f, 0.25f),
             SoundEventPath = "event:/ui/notification/death",
@@ -134,6 +137,7 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
     private void HandleViscountUnderAttack(CrpgDtvViscountUnderAttackMessage message)
     {
         var attackerAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentAttackerIndex, true);
+        var viscountAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentVictimIndex, true);
 
         if (attackerAgent == null)
         {
@@ -141,8 +145,8 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
             return;
         }
 
-        TextObject textObject = new("{=mfD3LkeQ}The Viscount is being attacked by {AGENT}!",
-        new Dictionary<string, object> { ["AGENT"] = attackerAgent?.Name ?? string.Empty });
+        TextObject textObject = new("{=mfD3LkeQ}{VISCOUNT} is being attacked by {AGENT}!",
+        new Dictionary<string, object> { ["VISCOUNT"] = viscountAgent?.Name ?? "{=}The Viscount", ["AGENT"] = attackerAgent?.Name ?? string.Empty });
         InformationManager.DisplayMessage(new InformationMessage
         {
             Information = textObject.ToString(),

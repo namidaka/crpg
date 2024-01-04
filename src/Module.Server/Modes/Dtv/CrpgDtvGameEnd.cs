@@ -7,16 +7,19 @@ namespace Crpg.Module.Modes.Dtv;
 internal sealed class CrpgDtvGameEnd : GameNetworkMessage
 {
     public bool ViscountDead { get; set; }
+    public int ViscountAgentIndex { get; set; }
 
     protected override void OnWrite()
     {
         WriteBoolToPacket(ViscountDead);
+        WriteAgentIndexToPacket(ViscountAgentIndex);
     }
 
     protected override bool OnRead()
     {
         bool bufferReadValid = true;
         ViscountDead = ReadBoolFromPacket(ref bufferReadValid);
+        ViscountAgentIndex = ReadAgentIndexFromPacket(ref bufferReadValid);
         return bufferReadValid;
     }
 

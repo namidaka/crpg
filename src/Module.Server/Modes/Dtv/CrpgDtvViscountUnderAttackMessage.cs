@@ -8,15 +8,18 @@ namespace Crpg.Module.Modes.Dtv;
 internal sealed class CrpgDtvViscountUnderAttackMessage : GameNetworkMessage
 {
     public int AgentAttackerIndex { get; set; }
+    public int AgentVictimIndex { get; set; }
     protected override void OnWrite()
     {
         WriteAgentIndexToPacket(AgentAttackerIndex);
+        WriteAgentIndexToPacket(AgentVictimIndex);
     }
 
     protected override bool OnRead()
     {
         bool bufferReadValid = true;
         AgentAttackerIndex = ReadAgentIndexFromPacket(ref bufferReadValid);
+        AgentVictimIndex = ReadAgentIndexFromPacket(ref bufferReadValid);
         return bufferReadValid;
     }
 

@@ -158,6 +158,19 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         }
     }
 
+    public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
+    {
+        if (!_gameStarted)
+        {
+            return;
+        }
+
+        if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // Viscount under attack
+        {
+            SendDataToPeers(new CrpgDtvGameEnd { ViscountDead = true, ViscountAgentIndex = affectedAgent.Index });
+        }
+    }
+
     public override void OnScoreHit(
         Agent affectedAgent,
         Agent affectorAgent,
@@ -177,7 +190,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
         if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // Viscount under attack
         {
-            SendDataToPeers(new CrpgDtvViscountUnderAttackMessage { AgentAttackerIndex = affectorAgent.Index });
+            SendDataToPeers(new CrpgDtvViscountUnderAttackMessage { AgentAttackerIndex = affectorAgent.Index, AgentVictimIndex = affectedAgent.Index });
         }
     }
 
@@ -247,9 +260,14 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         bool viscountDead = !Mission.DefenderTeam.HasBots;
         bool defendersDepleted = Mission.DefenderTeam.ActiveAgents.Count == (viscountDead ? 0 : 1);
         float roundDuration = _currentRoundStartTime.ElapsedSeconds;
+
+        if (defendersDepleted)
+        {
+            SendDataToPeers(new CrpgDtvGameEnd { ViscountDead = false });
+        }
+
         if (viscountDead || defendersDepleted)
         {
-            SendDataToPeers(new CrpgDtvGameEnd { ViscountDead = viscountDead });
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave),
                 durationUpkeep: roundDuration,
