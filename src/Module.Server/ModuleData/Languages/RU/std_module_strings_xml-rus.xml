@@ -77,7 +77,7 @@
     <string id="hZgASnWR" text="Командир: {COMMANDER}" />
     <string id="EKqqPsBk" text="Нераспределенно" />
     <string id="czWaVzc1" text="Вы больше не командир!" />
-    <string id="dryVJbMN" text="Вы были выбраны в качестве командира! Используйте '!o message', чтобы отдавать приказы!" />
+    <string id="dryVJbMN" text="Вы были выбраны в качестве командира! Используйте '!o сообщение', чтобы отдавать приказы!" />
     <string id="iERprCDU" text="(Командир) {NAME}: " />
 
 
