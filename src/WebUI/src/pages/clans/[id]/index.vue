@@ -157,10 +157,15 @@ await fetchPageData(clanId.value);
 
           <div class="flex items-center gap-1.5">
             <OIcon icon="region" size="lg" class="text-content-100" />
-            <span class="text-content-200" data-aq-clan-info="region">
+            <div class="text-content-200" data-aq-clan-info="region">
               {{ $t(`region.${clan.region}`, 0) }}
-              <template v-if="clan.languages.length">({{ clan.languages.join(', ') }})</template>
-            </span>
+            </div>
+            <Tag
+              v-for="l in clan.languages"
+              :label="l"
+              v-tooltip="$t(`language.${l}`)"
+              variant="primary"
+            />
           </div>
 
           <div class="h-8 w-px select-none bg-border-200" />

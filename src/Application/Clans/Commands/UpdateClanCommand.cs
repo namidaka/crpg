@@ -67,7 +67,9 @@ public record UpdateClanCommand : IMediatorRequest<ClanViewModel>
             RuleFor(c => c.ArmoryTimeout)
                 .GreaterThanOrEqualTo(TimeSpan.FromDays(1));
 
-            // TODO: Languages
+            RuleFor(cmd => cmd.Region).IsInEnum();
+
+            RuleFor(cmd => cmd.Languages).IsInEnum();
         }
     }
 

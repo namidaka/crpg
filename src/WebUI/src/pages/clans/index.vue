@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ClanLanguage, type Clan, type ClanWithMemberCount } from '@/models/clan';
+import { type Clan, type ClanWithMemberCount } from '@/models/clan';
+import { Language } from '@/models/language';
 import { getClans, getFilteredClans } from '@/services/clan-service';
 import { usePagination } from '@/composables/use-pagination';
 import { useSearchDebounced } from '@/composables/use-search-debounce';
@@ -26,7 +27,7 @@ const { state: clans, execute: loadClans } = useAsyncState(() => getClans(), [],
 });
 
 const { regionModel, regions } = useRegion();
-const languagesModel = ref<ClanLanguage[]>([]);
+const languagesModel = ref<Language[]>([]);
 
 const filteredClans = computed(() =>
   getFilteredClans(clans.value, regionModel.value, languagesModel.value, searchModel.value)
@@ -157,12 +158,12 @@ await loadClans();
 
                 <template #popper="{ hide }">
                   <div class="max-h-64 max-w-md overflow-y-auto">
-                    <DropdownItem v-for="cl in Object.keys(ClanLanguage)">
+                    <DropdownItem v-for="l in Object.keys(Language)">
                       <OCheckbox
                         v-model="languagesModel"
-                        :nativeValue="cl"
+                        :nativeValue="l"
                         class="items-center"
-                        :label="cl"
+                        :label="$t(`language.${l}`) + ` - ${l}`"
                         @update:modelValue="hide"
                       />
                     </DropdownItem>
@@ -173,7 +174,14 @@ await loadClans();
           </template>
 
           <template #default="{ row: clan }: { row: ClanWithMemberCount<Clan> }">
-            {{ clan.clan.languages.join(', ') }}
+            <div class="flex items-center gap-1.5">
+              <Tag
+                v-for="l in clan.clan.languages"
+                :label="l"
+                v-tooltip="$t(`language.${l}`)"
+                variant="primary"
+              />
+            </div>
           </template>
         </OTableColumn>
 

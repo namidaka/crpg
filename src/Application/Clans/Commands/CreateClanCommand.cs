@@ -24,6 +24,7 @@ public record CreateClanCommand : IMediatorRequest<ClanViewModel>
     public uint SecondaryColor { get; init; }
     public string BannerKey { get; init; } = string.Empty;
     public Region Region { get; init; }
+    public IList<Languages> Languages { get; init; } = new List<Languages>();
     public Uri? Discord { get; init; }
     public TimeSpan ArmoryTimeout { get; init; }
 
@@ -62,6 +63,8 @@ public record CreateClanCommand : IMediatorRequest<ClanViewModel>
 
             RuleFor(c => c.ArmoryTimeout)
                 .GreaterThanOrEqualTo(TimeSpan.FromDays(1));
+
+            RuleFor(cmd => cmd.Languages).IsInEnum();
         }
     }
 
@@ -111,6 +114,7 @@ public record CreateClanCommand : IMediatorRequest<ClanViewModel>
                 Description = req.Description,
                 BannerKey = req.BannerKey,
                 Region = req.Region,
+                Languages = req.Languages,
                 Discord = req.Discord,
                 ArmoryTimeout = req.ArmoryTimeout,
                 Members =

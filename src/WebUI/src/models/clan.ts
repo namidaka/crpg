@@ -1,5 +1,6 @@
 import { Region } from '@/models/region';
 import { UserItem, type UserPublic } from '@/models/user';
+import { Language } from '@/models/language';
 
 export interface Clan {
   id: number;
@@ -9,7 +10,7 @@ export interface Clan {
   name: string;
   bannerKey: string;
   region: Region;
-  languages: ClanLanguage[];
+  languages: Language[];
   discord: string | null;
   description: string;
   armoryTimeout: number;
@@ -66,32 +67,4 @@ export interface ClanArmoryItem {
   userItem: UserItem;
   borrowedItem: BorrowedItem | null;
   updatedAt: Date;
-}
-
-export enum ClanLanguage {
-  En = 'En', // English
-  Zh = 'Zh', // Chinese
-  Ru = 'Ru', // Russian
-  De = 'De', // German
-  Fr = 'Fr', // French
-  It = 'It', // Italian
-  Es = 'Es', // Spanish
-  Pl = 'Pl', // Polish
-  Uk = 'Uk', // Ukrainian
-  Ro = 'Ro', // Romanian
-  Nl = 'Nl', // Dutch
-  Tr = 'Tr', // Turkish
-  El = 'El', // Greek
-  Hu = 'Hu', // Hungarian
-  Sv = 'Sv', // Swedish
-  Cs = 'Cs', // Czech
-  Pt = 'Pt', // Portuguese
-  Sr = 'Sr', // Serbian
-  Bg = 'Bg', // Bulgarian
-  Hr = 'Hr', // Croatian
-  Da = 'Da', // Danish
-  Fi = 'Fi', // Finnish
-  No = 'No', // Norwegian
-  Be = 'Be', // Belarusian
-  Lv = 'Lv', // Latvian
 }

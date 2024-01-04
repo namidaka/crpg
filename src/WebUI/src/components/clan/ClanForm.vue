@@ -8,7 +8,8 @@ import {
   clanBannerKeyMaxLength,
   clanDescriptionMaxLength,
 } from '@root/data/constants.json';
-import { ClanLanguage, type Clan } from '@/models/clan';
+import { type Clan } from '@/models/clan';
+import { Language } from '@/models/language';
 
 import {
   required,
@@ -196,21 +197,35 @@ const onSubmit = async () => {
 
           <OField>
             <VDropdown :triggers="['click']">
-              <OButton
-                variant="secondary"
-                size="lg"
-                :label="`Languages: ${clanFormModel.languages.join(', ')}`"
-              />
+              <template #default="{ shown }">
+                <OButton variant="secondary" outlined size="lg">
+                  Languages
+                  <div class="flex items-center gap-1.5">
+                    <Tag
+                      v-for="l in clanFormModel.languages"
+                      :label="l"
+                      v-tooltip="$t(`language.${l}`)"
+                      variant="primary"
+                    />
+                  </div>
+                  <Divider inline />
+                  <OIcon
+                    icon="chevron-down"
+                    size="lg"
+                    :rotation="shown ? 180 : 0"
+                    class="text-content-400"
+                  />
+                </OButton>
+              </template>
 
               <template #popper="{ hide }">
                 <div class="max-h-64 max-w-md overflow-y-auto">
-                  <DropdownItem v-for="cl in Object.keys(ClanLanguage)">
+                  <DropdownItem v-for="l in Object.keys(Language)">
                     <OCheckbox
                       v-model="clanFormModel.languages"
-                      :nativeValue="cl"
+                      :nativeValue="l"
                       class="items-center"
-                      :label="cl"
-                      @update:modelValue="hide"
+                      :label="$t(`language.${l}`) + ` - ${l}`"
                     />
                   </DropdownItem>
                 </div>
