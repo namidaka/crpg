@@ -34,9 +34,8 @@ internal class CrpgTrainingGroundScoreboardData : IScoreboardData
                 },
                 _ => string.Empty),
             new("name", missionPeer => missionPeer.DisplayedName, _ => new TextObject("{=hvQSOi79}Bot").ToString()),
-            new("kill", missionPeer => missionPeer.KillCount.ToString(), bot => bot.KillCount.ToString()),
-            new("death", missionPeer => missionPeer.DeathCount.ToString(), bot => bot.DeathCount.ToString()),
-            new("rating", (MissionPeer missionPeer) => 1000.ToString(), (BotData bot) => string.Empty),
+            new("win", missionPeer => missionPeer.GetComponent<CrpgTrainingGroundMissionRepresentative>().NumberOfWins.ToString(), bot => bot.KillCount.ToString()),
+            new("loss", missionPeer => missionPeer.GetComponent<CrpgTrainingGroundMissionRepresentative>().NumberOfLosses.ToString(), bot => bot.DeathCount.ToString()),
         };
     }
 }

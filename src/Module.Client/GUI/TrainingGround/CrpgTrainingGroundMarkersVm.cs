@@ -15,8 +15,9 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
             return y.Distance.CompareTo(x.Distance);
         }
     }
-    private const float FocusScreenDistanceThreshold = 350f;
 
+    private const float FocusScreenDistanceThreshold = 250f;
+    private const float FocusAgentDistanceThreshold = 6f;
     private bool _hasEnteredLobby;
     private Camera _missionCamera;
     private CrpgTrainingGroundPeerMarkerVm? _previousFocusTarget;
@@ -26,7 +27,6 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
     private readonly CrpgTrainingGroundMissionMultiplayerClient _client;
     private Vec2 _screenCenter;
     private Dictionary<MissionPeer, bool> _targetPeersInDuelDictionary;
-    private int _playerPreferredArenaType;
     private bool _isPlayerFocused;
     private bool _isEnabled;
     private MBBindingList<CrpgTrainingGroundPeerMarkerVm> _targets = default!;
@@ -154,15 +154,11 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
             target.OnTick(dt);
             if (target.IsEnabled)
             {
-                if (!target.HasSentDuelRequest && !target.HasDuelRequestForPlayer && target.TargetPeer.ControlledAgent != null)
-                {
-                    target.PreferredArenaType = _playerPreferredArenaType;
-                }
-
                 target.UpdateScreenPosition(_missionCamera);
                 target.HasDuelRequestForPlayer = _client.MyRepresentative.CheckHasRequestFromAndRemoveRequestIfNeeded(target.TargetPeer);
                 float num2 = target.ScreenPosition.Distance(_screenCenter);
-                if (!_isPlayerFocused && target.WSign >= 0 && num2 < 350f && num2 < num)
+                float num3 = target.GroundVec.Distance(_client.MyRepresentative.MissionPeer.ControlledAgent.Position);
+                if (!_isPlayerFocused && target.WSign >= 0 && num2 < FocusScreenDistanceThreshold && num2 < num && num3 < FocusAgentDistanceThreshold)
                 {
                     num = num2;
                     _currentFocusTarget = target;
@@ -281,11 +277,6 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
         IsEnabled = true;
     }
 
-    public void OnAgentBuiltForTheFirstTime()
-    {
-        _playerPreferredArenaType = (int)CrpgTrainingGroundVm.GetAgentDefaultPreferredArenaType(Agent.Main);
-    }
-
     public void OnDuelStarted(MissionPeer firstPeer, MissionPeer secondPeer)
     {
         if (_client.MyRepresentative.MissionPeer == firstPeer || _client.MyRepresentative.MissionPeer == secondPeer)
@@ -312,7 +303,7 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
             if (_targetPeersToMarkersDictionary.ContainsKey(peer))
             {
                 _targetPeersToMarkersDictionary[peer].UpdateCurentDuelStatus(!isEnabled);
-                _targetPeersToMarkersDictionary[peer].UpdateBounty();
+                //_targetPeersToMarkersDictionary[peer].UpdateBounty();
             }
 
             if (_targetPeersInDuelDictionary.ContainsKey(peer))
@@ -320,11 +311,6 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
                 _targetPeersInDuelDictionary[peer] = !isEnabled;
             }
         }
-    }
-
-    public void OnPlayerPreferredZoneChanged(int playerPrefferedArenaType)
-    {
-        _playerPreferredArenaType = playerPrefferedArenaType;
     }
 
     public void OnFocusGained()
@@ -341,7 +327,6 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
     {
         if (_targetPeersToMarkersDictionary.TryGetValue(peer, out var value))
         {
-            value.RefreshPerkSelection();
         }
     }
 }

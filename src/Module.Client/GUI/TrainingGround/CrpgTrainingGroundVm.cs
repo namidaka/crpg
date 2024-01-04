@@ -44,7 +44,7 @@ internal class CrpgTrainingGroundVm : ViewModel
     private string _playerScoreText = string.Empty;
     private string _remainingRoundTime = string.Empty;
     private CrpgTrainingGroundMarkersVm _markers = default!;
-    private DuelMatchVM _playerDuelMatch = default!;
+    private CrpgDuelMatchVm _playerDuelMatch = default!;
     private MBBindingList<CrpgDuelMatchVm> _ongoingDuels = default!;
     private MBBindingList<MPDuelKillNotificationItemVM> _killNotifications = default!;
     [DataSourceProperty]
@@ -116,23 +116,6 @@ internal class CrpgTrainingGroundVm : ViewModel
     }
 
     [DataSourceProperty]
-    public int PlayerPrefferedArenaType
-    {
-        get
-        {
-            return _playerPreferredArenaType;
-        }
-        set
-        {
-            if (value != _playerPreferredArenaType)
-            {
-                _playerPreferredArenaType = value;
-                OnPropertyChangedWithValue(value, "PlayerPrefferedArenaType");
-            }
-        }
-    }
-
-    [DataSourceProperty]
     public string PlayerScoreText
     {
         get
@@ -184,7 +167,7 @@ internal class CrpgTrainingGroundVm : ViewModel
     }
 
     [DataSourceProperty]
-    public DuelMatchVM PlayerDuelMatch
+    public CrpgDuelMatchVm PlayerDuelMatch
     {
         get
         {
@@ -241,9 +224,8 @@ internal class CrpgTrainingGroundVm : ViewModel
         CrpgTrainingGroundMissionMultiplayerClient client2 = _client;
         client2.OnMyRepresentativeAssigned = (Action)Delegate.Combine(client2.OnMyRepresentativeAssigned, new Action(OnMyRepresentativeAssigned));
         _gameMode = Mission.Current.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>();
-        PlayerDuelMatch = new DuelMatchVM();
+        PlayerDuelMatch = new CrpgDuelMatchVm();
         OngoingDuels = new MBBindingList<CrpgDuelMatchVm>();
-
         Markers = new CrpgTrainingGroundMarkersVm(missionCamera, _client);
         KillNotifications = new MBBindingList<MPDuelKillNotificationItemVM>();
         _scoreWithSeparatorText = new TextObject("{=J5rb5YVV}/ {SCORE}");
@@ -272,7 +254,6 @@ internal class CrpgTrainingGroundVm : ViewModel
         CrpgTrainingGroundMissionRepresentative myRepresentative6 = _client.MyRepresentative;
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionChanged));
         Markers.RegisterEvents();
-        UpdatePlayerScore();
         _isMyRepresentativeAssigned = true;
     }
 
@@ -398,11 +379,11 @@ internal class CrpgTrainingGroundVm : ViewModel
         {
             AreOngoingDuelsActive = false;
             IsPlayerInDuel = true;
-            PlayerDuelMatch.OnDuelStarted(firstPeer, secondPeer , 0);
+            PlayerDuelMatch.OnDuelStarted(firstPeer, secondPeer);
         }
         else
         {
-            CrpgDuelMatchVm duelMatchVM = new CrpgDuelMatchVm();
+            CrpgDuelMatchVm duelMatchVM = new();
             duelMatchVM.OnDuelStarted(firstPeer, secondPeer);
             OngoingDuels.Add(duelMatchVM);
         }
@@ -415,11 +396,10 @@ internal class CrpgTrainingGroundVm : ViewModel
             AreOngoingDuelsActive = true;
             IsPlayerInDuel = false;
             Markers.IsEnabled = true;
-            Markers.SetMarkerOfPeerEnabled(PlayerDuelMatch.FirstPlayerPeer, isEnabled: true);
-            Markers.SetMarkerOfPeerEnabled(PlayerDuelMatch.SecondPlayerPeer, isEnabled: true);
+            Markers.SetMarkerOfPeerEnabled(PlayerDuelMatch.FirstPlayerPeer!, isEnabled: true);
+            Markers.SetMarkerOfPeerEnabled(PlayerDuelMatch.SecondPlayerPeer!, isEnabled: true);
             PlayerDuelMatch.OnDuelEnded();
-            PlayerBounty = _client.MyRepresentative.Bounty;
-            UpdatePlayerScore();
+            //PlayerBounty = _client.MyRepresentative.Bounty;
         }
 
         CrpgDuelMatchVm duelMatchVM = OngoingDuels.FirstOrDefault((CrpgDuelMatchVm d) => d.FirstPlayerPeer == winnerPeer || d.SecondPlayerPeer == winnerPeer);
@@ -436,7 +416,7 @@ internal class CrpgTrainingGroundVm : ViewModel
         if (PlayerDuelMatch.FirstPlayerPeer == winnerPeer || PlayerDuelMatch.SecondPlayerPeer == winnerPeer)
         {
             PlayerDuelMatch.OnPeerScored(winnerPeer);
-            KillNotifications.Add(new MPDuelKillNotificationItemVM(PlayerDuelMatch.FirstPlayerPeer, PlayerDuelMatch.SecondPlayerPeer, PlayerDuelMatch.FirstPlayerScore, PlayerDuelMatch.SecondPlayerScore, (TroopType)PlayerDuelMatch.ArenaType, RemoveKillNotification));
+            KillNotifications.Add(new MPDuelKillNotificationItemVM(PlayerDuelMatch.FirstPlayerPeer, PlayerDuelMatch.SecondPlayerPeer, PlayerDuelMatch.FirstPlayerScore, PlayerDuelMatch.SecondPlayerScore, TroopType.Infantry, RemoveKillNotification));
             return;
         }
 
@@ -444,14 +424,8 @@ internal class CrpgTrainingGroundVm : ViewModel
         if (duelMatchVM != null)
         {
             duelMatchVM.OnPeerScored(winnerPeer);
-            KillNotifications.Add(new MPDuelKillNotificationItemVM(duelMatchVM.FirstPlayerPeer, duelMatchVM.SecondPlayerPeer, duelMatchVM.FirstPlayerScore, duelMatchVM.SecondPlayerScore, (TroopType)duelMatchVM.ArenaType, RemoveKillNotification));
+            KillNotifications.Add(new MPDuelKillNotificationItemVM(duelMatchVM.FirstPlayerPeer, duelMatchVM.SecondPlayerPeer, duelMatchVM.FirstPlayerScore, duelMatchVM.SecondPlayerScore, TroopType.Infantry, RemoveKillNotification));
         }
-    }
-
-    private void UpdatePlayerScore()
-    {
-        GameTexts.SetVariable("SCORE", _client.MyRepresentative.Score);
-        PlayerScoreText = _scoreWithSeparatorText.ToString();
     }
 
     private void RemoveKillNotification(MPDuelKillNotificationItemVM item)
@@ -484,68 +458,9 @@ internal class CrpgTrainingGroundVm : ViewModel
         string stringId = MultiplayerClassDivisions.GetMPHeroClassForPeer(_client.MyRepresentative.MissionPeer).StringId;
         if (_isAgentBuiltForTheFirstTime || (stringId != _cachedPlayerClassID))
         {
-            Markers.OnAgentBuiltForTheFirstTime();
             _isAgentBuiltForTheFirstTime = false;
             _cachedPlayerClassID = stringId;
         }
     }
 
-    private string GetArenaTypeName(TroopType duelArenaType)
-    {
-        switch (duelArenaType)
-        {
-            case TroopType.Infantry:
-                return "infantry";
-            case TroopType.Ranged:
-                return "archery";
-            case TroopType.Cavalry:
-                return "cavalry";
-            default:
-                TaleWorlds.Library.Debug.FailedAssert("Invalid duel arena type!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\MultiplayerDuelVM.cs", "GetArenaTypeName", 363);
-                return "";
-        }
-    }
-
-    private TextObject GetArenaTypeLocalizedName(TroopType duelArenaType)
-    {
-        switch (duelArenaType)
-        {
-            case TroopType.Infantry:
-                return new TextObject("{=1Bm1Wk1v}Infantry");
-            case TroopType.Ranged:
-                return new TextObject("{=OJbpmlXu}Ranged");
-            case TroopType.Cavalry:
-                return new TextObject("{=YVGtcLHF}Cavalry");
-            default:
-                TaleWorlds.Library.Debug.FailedAssert("Invalid duel arena type!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\MultiplayerDuelVM.cs", "GetArenaTypeLocalizedName", 379);
-                return TextObject.Empty;
-        }
-    }
-
-    private DuelArenaProperties GetArenaPropertiesOfFlagEntity(GameEntity flagEntity)
-    {
-        DuelArenaProperties result = default(DuelArenaProperties);
-        result.FlagEntity = flagEntity;
-        string text = flagEntity.Tags.FirstOrDefault((string t) => t.StartsWith("area_flag"));
-        if (!text.IsEmpty())
-        {
-            result.Index = int.Parse(text.Substring(text.LastIndexOf('_') + 1)) - 1;
-        }
-        else
-        {
-            result.Index = 0;
-            TaleWorlds.Library.Debug.FailedAssert("Flag has duel_area Tag Missing!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\MultiplayerDuelVM.cs", "GetArenaPropertiesOfFlagEntity", 397);
-        }
-
-        result.ArenaTroopType = TroopType.Infantry;
-        for (TroopType troopType = TroopType.Infantry; troopType < TroopType.NumberOfTroopTypes; troopType++)
-        {
-            if (flagEntity.HasTag("flag_" + GetArenaTypeName(troopType)))
-            {
-                result.ArenaTroopType = troopType;
-            }
-        }
-
-        return result;
-    }
 }

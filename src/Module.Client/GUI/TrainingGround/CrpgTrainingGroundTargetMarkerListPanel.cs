@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using TaleWorlds.GauntletUI;
+﻿using TaleWorlds.GauntletUI;
 using TaleWorlds.GauntletUI.BaseTypes;
 using TaleWorlds.Library;
 using TaleWorlds.TwoDimension;
@@ -291,7 +290,7 @@ internal class CrpgTrainingGroundTargetMarkerListPanel : ListPanel
 
     private void UpdateChildrenFocusStates()
     {
-        string state = HasTargetSentDuelRequest ? "Tracked" : ((HasPlayerSentDuelRequest || IsAgentFocused) ? "Focused" : "Default");
+        string state = HasTargetSentDuelRequest ? TrackedState : ((HasPlayerSentDuelRequest || IsAgentFocused) ? FocusedState : DefaultState);
         Background.SetState(state);
         Border.SetState(state);
         TroopClassBorder?.SetState(state);
