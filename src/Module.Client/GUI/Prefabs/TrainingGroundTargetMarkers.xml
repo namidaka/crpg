@@ -41,7 +41,7 @@
                                     <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" PositionXOffset="10">
                                       <Children>
                                         <!--Name-->
-                                        <ScrollingRichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginTop="8" Brush="MPHUD.Duel.Card.NameText" Text="@Name" IsVisible="@IsTracked" />
+                                        <ScrollingRichTextWidget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" MarginTop="8" Brush="MPHUD.Duel.Card.NameText" Text="@Name" IsVisible="@IsTracked" />
                                         <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="8" Brush="MPHUD.Duel.Card.NameText" Text="@Name" IsHidden="@IsTracked" />
 
                                       </Children>
@@ -69,9 +69,9 @@
                                 <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="10" MarginBottom="10" MarginLeft="10" MarginRight="10" StackLayout.LayoutMethod="VerticalBottomToTop">
                                   <Children>
                                     <!--Level-->
-                                    <ScrollingRichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.ActionText" Text="Level: 32" IsVisible="@ShouldShowInformation" />
+                                    <ScrollingRichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.ActionText" Text="@Level" IsVisible="@ShouldShowInformation" />
                                     <!--Clan-->
-                                    <ScrollingRichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.ActionText" Text="Clan: The Fancy Lads" IsVisible="@ShouldShowInformation" />
+                                    <ScrollingRichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.ActionText" Text="@Clan" IsVisible="@ShouldShowInformation" />
                                   </Children>
                                 </ListPanel>
 
