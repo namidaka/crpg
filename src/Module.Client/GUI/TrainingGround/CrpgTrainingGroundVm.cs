@@ -1,14 +1,11 @@
-﻿using Crpg.Module.Modes.TrainingGround;
-using System.Diagnostics;
-using System.Text;
+﻿using System.Diagnostics;
+using Crpg.Module.Modes.TrainingGround;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-using TaleWorlds.MountAndBlade.MissionRepresentatives;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.HUDExtensions;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.KillFeed;
 
@@ -94,23 +91,6 @@ internal class CrpgTrainingGroundVm : ViewModel
             {
                 _isPlayerInDuel = value;
                 OnPropertyChangedWithValue(value, "IsPlayerInDuel");
-            }
-        }
-    }
-
-    [DataSourceProperty]
-    public int PlayerBounty
-    {
-        get
-        {
-            return _playerBounty;
-        }
-        set
-        {
-            if (value != _playerBounty)
-            {
-                _playerBounty = value;
-                OnPropertyChangedWithValue(value, "PlayerBounty");
             }
         }
     }
@@ -399,7 +379,6 @@ internal class CrpgTrainingGroundVm : ViewModel
             Markers.SetMarkerOfPeerEnabled(PlayerDuelMatch.FirstPlayerPeer!, isEnabled: true);
             Markers.SetMarkerOfPeerEnabled(PlayerDuelMatch.SecondPlayerPeer!, isEnabled: true);
             PlayerDuelMatch.OnDuelEnded();
-            //PlayerBounty = _client.MyRepresentative.Bounty;
         }
 
         CrpgDuelMatchVm duelMatchVM = OngoingDuels.FirstOrDefault((CrpgDuelMatchVm d) => d.FirstPlayerPeer == winnerPeer || d.SecondPlayerPeer == winnerPeer);

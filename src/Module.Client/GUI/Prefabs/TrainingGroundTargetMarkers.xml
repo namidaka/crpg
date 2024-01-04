@@ -22,11 +22,11 @@
                             <ListPanel Id="CardContentList" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop">
                               <Children>
 
-                                <ListPanel Id="CardContentListHorizontal" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight" IsVisible="@ShouldShowInformation">
+                                <ListPanel Id="CardContentListHorizontal" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight" >
                                   <Children>
 
                                     <!--Class2-->
-                                    <BrushWidget Id="TroopClassBorder" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="50" PositionXOffset="-10" PositionYOffset="-10" Brush="MPHUD.Duel.Card.Class.Outline">
+                                    <BrushWidget Id="TroopClassBorder" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="50" PositionXOffset="-10" PositionYOffset="-10" Brush="MPHUD.Duel.Card.Class.Outline" IsVisible="@ShouldShowInformation">
                                       <Children>
 
                                         <MultiplayerTroopTypeIconWidget DataSource="{CompassElement}" Id="IconContainer" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="100" HorizontalAlignment="Center"  VerticalAlignment="Center" ForegroundWidget="IconForeground" IconSpriteType="@IconType" AlphaFactor="0" UseOriginalSize="false">
@@ -38,8 +38,11 @@
                                       </Children>
                                     </BrushWidget>
 
-                                    <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" PositionXOffset="-7" IsVisible="@ShouldShowInformation">
+                                    <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" PositionXOffset="10">
                                       <Children>
+                                        <!--Name-->
+                                        <ScrollingRichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginTop="8" Brush="MPHUD.Duel.Card.NameText" Text="@Name" IsVisible="@IsTracked" />
+                                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="8" Brush="MPHUD.Duel.Card.NameText" Text="@Name" IsHidden="@IsTracked" />
 
                                       </Children>
                                     </Widget>
@@ -47,19 +50,28 @@
                                   </Children>
                                 </ListPanel>
 
-                                <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="10" MarginBottom="10" MarginLeft="15" MarginRight="15" StackLayout.LayoutMethod="HorizontalLeftToRight">
+                                <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight" PositionXOffset="10" IsVisible="@ShouldShowInformation">
                                   <Children>
-
-                                    <!--Name-->
-                                    <ScrollingRichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.NameText" Text="@Name" IsVisible="@IsTracked" />
-                                    <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.NameText" Text="@Name" IsHidden="@IsTracked" />
-
-                                    <!--Rating -->
-                                    <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" MarginLeft="10">
+                                    <!--Record-->
+                                    <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight">
                                       <Children>
-                                        <!-- <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" IntText="1000" Brush="MPHUD.Duel.Card.HugeBountyText"/> -->
+                                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPHUD.Duel.Card.ActionText" IntText="@DuelsWon" />
+                                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPHUD.Duel.Card.ActionText" Text="-" />
+                                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPHUD.Duel.Card.ActionText" IntText="@DuelsLost" />
                                       </Children>
                                     </ListPanel>
+                                    <!--Rating-->
+                                    <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" IntText="@Rating" PositionYOffset="-5" Brush="MPHUD.Duel.Card.HugeBountyText"/>
+
+                                  </Children>
+                                </ListPanel>
+
+                                <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="10" MarginBottom="10" MarginLeft="10" MarginRight="10" StackLayout.LayoutMethod="VerticalBottomToTop">
+                                  <Children>
+                                    <!--Level-->
+                                    <ScrollingRichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.ActionText" Text="Level: 32" IsVisible="@ShouldShowInformation" />
+                                    <!--Clan-->
+                                    <ScrollingRichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="MPHUD.Duel.Card.ActionText" Text="Clan: The Fancy Lads" IsVisible="@ShouldShowInformation" />
                                   </Children>
                                 </ListPanel>
 
