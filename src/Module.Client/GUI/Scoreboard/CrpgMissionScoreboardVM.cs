@@ -6,8 +6,6 @@ using Crpg.Module.Gui;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Generic;
-using TaleWorlds.Diamond;
-using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -115,7 +113,6 @@ internal class CrpgMissionScoreboardVM : ViewModel
         }
 
         _commanderClient = mission.GetMissionBehavior<CrpgCommanderBehaviorClient>();
-
         if (_commanderClient != null)
         {
             _commanderPollComponent = mission.GetMissionBehavior<CrpgCommanderPollComponent>();
@@ -168,7 +165,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
         _missionScoreboardComponent.OnRoundPropertiesChanged += OnRoundPropertiesChanged;
         _missionScoreboardComponent.OnScoreboardInitialized += OnScoreboardInitialized;
         _missionScoreboardComponent.OnMVPSelected += OnMVPSelected;
-        MissionName = string.Empty;
+        MissionName = "";
         IsBotsEnabled = missionBehavior.MissionType == MultiplayerGameType.Captain || missionBehavior.MissionType == MultiplayerGameType.Battle;
         RefreshValues();
         var customBanners = Mission.Current.GetMissionBehavior<CrpgCustomTeamBannersAndNamesClient>();
@@ -332,7 +329,6 @@ internal class CrpgMissionScoreboardVM : ViewModel
         }
 
         bool isCommander = _commanderClient!.IsPeerCommander(missionScoreboardPlayerVM.Peer);
-
         _commanderPollComponent!.RequestCommanderPoll(missionScoreboardPlayerVM.Peer.GetNetworkPeer(), isCommander);
     }
 

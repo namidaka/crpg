@@ -5,18 +5,9 @@ namespace Crpg.Module.Common.Commander;
 internal class CrpgCommanderBehaviorServer : MissionNetwork
 {
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
-    public Dictionary<BattleSideEnum, NetworkCommunicator?> Commanders = new();
-    public NetworkCommunicator? this[BattleSideEnum key]
-    {
-        // returns value if exists
-        get { return _commanders[key]; }
-
-        // updates if exists, adds if doesn't exist
-        private set { _commanders[key] = value; }
-    }
 
     public Dictionary<BattleSideEnum, float> LastCommanderMessage { get; private set; } = new();
-    private Dictionary<BattleSideEnum, NetworkCommunicator?> _commanders = new();
+    private readonly Dictionary<BattleSideEnum, NetworkCommunicator?> _commanders = new();
 
     public CrpgCommanderBehaviorServer()
     {
@@ -44,17 +35,17 @@ internal class CrpgCommanderBehaviorServer : MissionNetwork
     public void CreateCommand(NetworkCommunicator commander)
     {
         BattleSideEnum commanderSide = commander.GetComponent<MissionPeer>().Team.Side;
-        Commanders[commanderSide] = commander;
+        _commanders[commanderSide] = commander;
         OnCommanderUpdated(commanderSide);
     }
 
     public void RemoveCommand(NetworkCommunicator commander)
     {
-        foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in Commanders)
+        foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in _commanders)
         {
             if (keyValuePair.Value == commander)
             {
-                Commanders[keyValuePair.Key] = null;
+                _commanders[keyValuePair.Key] = null;
                 OnCommanderUpdated(keyValuePair.Key);
             }
         }
@@ -68,23 +59,13 @@ internal class CrpgCommanderBehaviorServer : MissionNetwork
     public void OnCommanderUpdated(BattleSideEnum side)
 {
         GameNetwork.BeginBroadcastModuleEvent();
-        GameNetwork.WriteMessage(new UpdateCommander { Side = side, Commander = Commanders[side] });
+        GameNetwork.WriteMessage(new UpdateCommander { Side = side, Commander = _commanders[side] });
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
     }
 
     public bool IsPlayerACommander(NetworkCommunicator networkCommunicator)
     {
-        return Commanders.ContainsValue(networkCommunicator);
-    }
-
-    protected override void HandleNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
-    {
-        foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in Commanders)
-        {
-            GameNetwork.BeginModuleEventAsServer(networkPeer);
-            GameNetwork.WriteMessage(new UpdateCommander { Side = keyValuePair.Key, Commander = keyValuePair.Value });
-            GameNetwork.EndModuleEventAsServer();
-        }
+        return _commanders.ContainsValue(networkCommunicator);
     }
 
     public override void OnPlayerDisconnectedFromServer(NetworkCommunicator networkPeer)
@@ -124,6 +105,16 @@ internal class CrpgCommanderBehaviorServer : MissionNetwork
                     GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
                 }
             }
+        }
+    }
+
+    protected override void HandleNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
+    {
+        foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in _commanders)
+        {
+            GameNetwork.BeginModuleEventAsServer(networkPeer);
+            GameNetwork.WriteMessage(new UpdateCommander { Side = keyValuePair.Key, Commander = keyValuePair.Value });
+            GameNetwork.EndModuleEventAsServer();
         }
     }
 }

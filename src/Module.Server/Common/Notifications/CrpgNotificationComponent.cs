@@ -17,7 +17,7 @@ namespace Crpg.Module.Notifications;
 /// </summary>
 internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
 {
-    CrpgCommanderBehaviorClient? _commanderClient;
+    private CrpgCommanderBehaviorClient? _commanderClient;
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();

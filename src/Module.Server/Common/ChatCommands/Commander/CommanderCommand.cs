@@ -1,6 +1,7 @@
 ﻿using Crpg.Module.Common.Commander;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 
 namespace Crpg.Module.Common.ChatCommands.Commander;
@@ -26,14 +27,16 @@ internal class CommanderCommand : ChatCommand
 
             if (fromPeer.ControlledAgent == null)
             {
-                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White, "You cannot order troops when you are dead!");
+                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White, new TextObject("{=C7TYZ8s0}You cannot order troops when you are dead!").ToString());
                 return false;
             }
 
             float earliestMessageTime = commanderServer.LastCommanderMessage[side] + MessageCooldown;
             if (earliestMessageTime > Mission.Current.CurrentTime)
             {
-                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White, $"Please wait {earliestMessageTime - Mission.Current.CurrentTime:0.00} seconds before issuing a new order!");
+                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White,
+                    new TextObject("{=uRmpZM0q}Please wait {COOLDOWN} seconds before issuing a new order!",
+                    new Dictionary<string, object> { ["COOLDOWN"] = (earliestMessageTime - Mission.Current.CurrentTime).ToString("0.0") }).ToString());
                 return false;
             }
 

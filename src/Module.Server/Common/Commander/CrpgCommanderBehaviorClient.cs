@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Text;
-using Crpg.Module.Common.Network;
-using Crpg.Module.Helpers;
-using Crpg.Module.Modes.Dtv;
+﻿using Crpg.Module.Helpers;
 using TaleWorlds.Core;
-using TaleWorlds.Diamond;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
@@ -51,18 +44,6 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         _commanderCharacters[BattleSideEnum.None] = null;
     }
 
-    public override void OnBehaviorInitialize()
-    {
-        base.OnBehaviorInitialize();
-    }
-
-    protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
-    {
-        base.AddRemoveMessageHandlers(registerer);
-        registerer.Register<UpdateCommander>(HandleUpdateCommander);
-        registerer.Register<CommanderKilled>(HandleCommanderKilled);
-    }
-
     public NetworkCommunicator? GetCommanderBySide(BattleSideEnum side)
     {
         return _commanders[side];
@@ -88,7 +69,18 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         }
 
         return false;
+    }
 
+    public override void OnBehaviorInitialize()
+    {
+        base.OnBehaviorInitialize();
+    }
+
+    protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
+    {
+        base.AddRemoveMessageHandlers(registerer);
+        registerer.Register<UpdateCommander>(HandleUpdateCommander);
+        registerer.Register<CommanderKilled>(HandleCommanderKilled);
     }
 
     private void HandleUpdateCommander(UpdateCommander message)

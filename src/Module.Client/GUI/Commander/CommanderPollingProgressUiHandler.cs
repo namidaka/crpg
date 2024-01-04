@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Crpg.Module.Common.Commander;
+using TaleWorlds.Core;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
-using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
-using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection;
-using TaleWorlds.MountAndBlade.View;
-using TaleWorlds.MountAndBlade.View.MissionViews;
-using Crpg.Module.Common.Commander;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace Crpg.Module.GUI.Commander;
 public class CommanderPollingProgressUiHandler : MissionView
@@ -70,6 +66,28 @@ public class CommanderPollingProgressUiHandler : MissionView
         }
     }
 
+    public override void OnMissionScreenTick(float dt)
+    {
+        base.OnMissionScreenTick(dt);
+        if (_isActive && !_isVoteOpenForMyPeer)
+        {
+            if (_input.IsGameKeyPressed(106))
+            {
+                _isActive = false;
+                _commanderPollComponent!.Vote(_commanderPollComponent.GetCommanderPollBySide(_targetPeer!.Team.Side), true);
+                _dataSource!.OnPollOptionPicked();
+                return;
+            }
+
+            if (_input.IsGameKeyPressed(107))
+            {
+                _isActive = false;
+                _commanderPollComponent!.Vote(_commanderPollComponent.GetCommanderPollBySide(_targetPeer!.Team.Side), false);
+                _dataSource!.OnPollOptionPicked();
+            }
+        }
+    }
+
     private void OnCommanderPollOpened(MissionPeer initiatorPeer, MissionPeer targetPeer, bool isDemoteRequested)
     {
         _isActive = true;
@@ -93,27 +111,4 @@ public class CommanderPollingProgressUiHandler : MissionView
         _targetPeer = null;
         _dataSource!.OnPollClosed();
     }
-
-    public override void OnMissionScreenTick(float dt)
-    {
-        base.OnMissionScreenTick(dt);
-        if (_isActive && !_isVoteOpenForMyPeer)
-        {
-            if (_input.IsGameKeyPressed(106))
-            {
-                _isActive = false;
-                _commanderPollComponent!.Vote(_commanderPollComponent.GetCommanderPollBySide(_targetPeer!.Team.Side), true);
-                _dataSource!.OnPollOptionPicked();
-                return;
-            }
-
-            if (_input.IsGameKeyPressed(107))
-            {
-                _isActive = false;
-                _commanderPollComponent!.Vote(_commanderPollComponent.GetCommanderPollBySide(_targetPeer!.Team.Side), false);
-                _dataSource!.OnPollOptionPicked();
-            }
-        }
-    }
-
 }

@@ -79,7 +79,8 @@
     <string id="czWaVzc1" text="Вы больше не командир!" />
     <string id="dryVJbMN" text="Вы были выбраны в качестве командира! Используйте '!o сообщение', чтобы отдавать приказы!" />
     <string id="iERprCDU" text="(Командир) {NAME}: " />
-
+    <string id="C7TYZ8s0" text="Вы не можете отдавать приказы когда мертвы!" />
+    <string id="uRmpZM0q" text="Подождите {COOLDOWN} секунд для отдачи нового приказа!" />
 
     <!-- Notifications -->
     <string id="pCIKeing" text="Вы будете удалены за бездействие через {SECONDS} секунд!" />

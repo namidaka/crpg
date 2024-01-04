@@ -29,6 +29,8 @@
     <Compile Remove="..\Module.Server\$(BaseIntermediateOutputPath)\**;..\Module.Server\$(BaseOutputPath)\**" />
     <Compile Remove="..\Module.Server\Rating\**" />
     <Compile Remove="..\Module.Server\Api\*Client.cs" />
+    <Compile Remove="..\Module.Server\Common\Commander\CommanderBehaviorServer.cs" />
+    <Compile Remove="..\Module.Server\Common\Commander\CommanderUpdateRequest.cs" />
     <Compile Remove="..\Module.Server\Modes\Battle\CrpgBattleServer.cs" />
     <Compile Remove="..\Module.Server\Modes\Conquest\CrpgConquestServer.cs" />
     <Compile Remove="..\Module.Server\Modes\Duel\CrpgDuelServer.cs" />
