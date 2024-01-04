@@ -79,6 +79,8 @@
     <string id="czWaVzc1" text="你已被降职，不再担任指挥职务" />
     <string id="dryVJbMN" text="你被选中担任指挥官！使用'!o 输入消息'来命令你的部队！" />
     <string id="iERprCDU" text="(指挥官) {NAME}:" />
+    <string id="C7TYZ8s0" text="你无法在死亡状态下下达命令！" />
+    <string id="uRmpZM0q" text="请等待 {COOLDOWN} 秒再发出新的命令！" />
 
     <!-- Notifications -->
     <string id="pCIKeing" text="你将在 {SECONDS} 秒后因长时间不活动而被移除！" />
