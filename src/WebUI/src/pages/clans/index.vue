@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { type Clan, type ClanWithMemberCount } from '@/models/clan';
-import { Language } from '@/models/language';
 import { getClans, getFilteredClans } from '@/services/clan-service';
 import { usePagination } from '@/composables/use-pagination';
 import { useSearchDebounced } from '@/composables/use-search-debounce';
 import { useUserStore } from '@/stores/user';
 import { useRegion } from '@/composables/use-region';
+import { useLanguages } from '@/composables/use-language';
 
 definePage({
   meta: {
@@ -27,7 +27,13 @@ const { state: clans, execute: loadClans } = useAsyncState(() => getClans(), [],
 });
 
 const { regionModel, regions } = useRegion();
-const languagesModel = ref<Language[]>([]);
+const { languagesModel, languages } = useLanguages();
+const aggregatedLanguages = computed(() =>
+  languages.filter(l => clans.value.some(c => c.clan.languages.includes(l)))
+);
+watch(regionModel, () => {
+  languagesModel.value = [];
+});
 
 const filteredClans = computed(() =>
   getFilteredClans(clans.value, regionModel.value, languagesModel.value, searchModel.value)
@@ -127,17 +133,6 @@ await loadClans();
           </span>
         </OTableColumn>
 
-        <OTableColumn
-          #default="{ row: clan }: { row: ClanWithMemberCount<Clan> }"
-          field="clan.region"
-          :label="$t('clan.table.column.region')"
-          :width="220"
-        >
-          <span :class="userStore.clan?.id === clan.clan.id ? 'text-primary' : 'text-content-300'">
-            {{ $t(`region.${clan.clan.region}`, 0) }}
-          </span>
-        </OTableColumn>
-
         <OTableColumn field="clan.languages" :width="220">
           <template #header>
             <div class="relative mr-2 flex items-center gap-1">
@@ -153,18 +148,17 @@ await loadClans();
                 <div
                   class="max-w-[90px] cursor-pointer overflow-x-hidden text-ellipsis whitespace-nowrap border-b-2 border-dashed border-border-300 pb-0.5 text-2xs hover:text-content-100 2xl:max-w-[110px]"
                 >
-                  Languages
+                  {{ $t('clan.table.column.languages') }}
                 </div>
 
-                <template #popper="{ hide }">
+                <template #popper>
                   <div class="max-h-64 max-w-md overflow-y-auto">
-                    <DropdownItem v-for="l in Object.keys(Language)">
+                    <DropdownItem v-for="l in aggregatedLanguages">
                       <OCheckbox
                         v-model="languagesModel"
                         :nativeValue="l"
                         class="items-center"
                         :label="$t(`language.${l}`) + ` - ${l}`"
-                        @update:modelValue="hide"
                       />
                     </DropdownItem>
                   </div>

@@ -1184,6 +1184,7 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "Legio",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
+                Languages = { Languages.Es, Languages.En, },
             };
             Clan theGrey = new()
             {
@@ -1193,6 +1194,7 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "The Grey",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
+                Languages = { Languages.Pl, Languages.En, },
             };
             Clan ode = new()
             {

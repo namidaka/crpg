@@ -8,9 +8,9 @@ import {
   ClanInvitationType,
   ClanInvitationStatus,
   type ClanArmoryItem,
-  ClanLanguage,
 } from '@/models/clan';
 import { Region } from '@/models/region';
+import { Language } from '@/models/language';
 import { type UserItem } from '@/models/user';
 import { get, post, put, del } from '@/services/crpg-client';
 import { rgbHexColorToArgbInt, argbIntToRgbHexColor } from '@/utils/color';
@@ -43,7 +43,7 @@ export const getClans = async () => {
 export const getFilteredClans = (
   clans: ClanWithMemberCount<Clan>[],
   region: Region,
-  languages: ClanLanguage[],
+  languages: Language[],
   search: string
 ) => {
   const searchQuery = search.toLowerCase();
@@ -51,9 +51,7 @@ export const getFilteredClans = (
   return clans.filter(
     c =>
       c.clan.region === region &&
-      //
       (languages.length ? languages.some(l => c.clan.languages.includes(l)) : true) &&
-      //
       (c.clan.tag.toLowerCase().includes(searchQuery) ||
         c.clan.name.toLowerCase().includes(searchQuery))
   );

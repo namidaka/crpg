@@ -737,6 +737,7 @@ clan:
     column:
       tag: Tag
       region: Region
+      languages: Language
       members: Members
       name: Name
       memberName: Name
@@ -760,6 +761,7 @@ clan:
         secondaryColor: Secondary
         bannerKey: Banner key
         discord: Discord server
+        languages: Language
       group:
         armory:
           label: Armory

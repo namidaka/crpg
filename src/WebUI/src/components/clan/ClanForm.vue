@@ -184,22 +184,24 @@ const onSubmit = async () => {
 
       <FormGroup icon="region" :label="$t('region-title')">
         <div class="space-y-8">
-          <div class="flex flex-col gap-4">
-            <ORadio
-              v-for="region in Object.keys(Region)"
-              v-model="clanFormModel.region"
-              :native-value="region"
-              data-aq-clan-form-input="region"
-            >
-              {{ $t(`region.${region}`, 0) }}
-            </ORadio>
-          </div>
+          <OField :addons="false">
+            <div class="flex flex-col gap-4">
+              <ORadio
+                v-for="region in Object.keys(Region)"
+                v-model="clanFormModel.region"
+                :native-value="region"
+                data-aq-clan-form-input="region"
+              >
+                {{ $t(`region.${region}`, 0) }}
+              </ORadio>
+            </div>
+          </OField>
 
           <OField>
             <VDropdown :triggers="['click']">
               <template #default="{ shown }">
                 <OButton variant="secondary" outlined size="lg">
-                  Languages
+                  {{ $t('clan.update.form.field.languages') }}
                   <div class="flex items-center gap-1.5">
                     <Tag
                       v-for="l in clanFormModel.languages"
@@ -218,7 +220,7 @@ const onSubmit = async () => {
                 </OButton>
               </template>
 
-              <template #popper="{ hide }">
+              <template #popper>
                 <div class="max-h-64 max-w-md overflow-y-auto">
                   <DropdownItem v-for="l in Object.keys(Language)">
                     <OCheckbox
