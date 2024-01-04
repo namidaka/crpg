@@ -81,6 +81,33 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         base.AddRemoveMessageHandlers(registerer);
         registerer.Register<UpdateCommander>(HandleUpdateCommander);
         registerer.Register<CommanderKilled>(HandleCommanderKilled);
+        registerer.Register<CommanderChatCommand>(HandleCommanderChatCommand);
+    }
+
+    private void HandleCommanderChatCommand(CommanderChatCommand message)
+    {
+        TextObject textObject;
+
+        if (message.RejectReason == CommanderChatCommandRejectReason.NotCommander)
+        {
+            textObject = new("{=7WDWLbpV}You are not the Commander!");
+        }
+        else if (message.RejectReason == CommanderChatCommandRejectReason.Dead)
+        {
+            textObject = new("{=C7TYZ8s0}You cannot order troops when you are dead!");
+        }
+        else
+        {
+            textObject = new("{=uRmpZM0q}Please wait {COOLDOWN} seconds before issuing a new order!",
+            new Dictionary<string, object> { ["COOLDOWN"] = message.Cooldown.ToString("0.0") });
+        }
+
+        InformationManager.DisplayMessage(new InformationMessage
+        {
+            Information = textObject.ToString(),
+            Color = Color.White,
+            SoundEventPath = "event:/ui/item_close",
+        });
     }
 
     private void HandleUpdateCommander(UpdateCommander message)

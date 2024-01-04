@@ -1,5 +1,8 @@
-﻿using Crpg.Module.Common.Commander;
+﻿using System.Drawing;
+using Crpg.Module.Common.Commander;
+using Crpg.Module.Common.Network;
 using TaleWorlds.Core;
+using TaleWorlds.Diamond;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
@@ -22,21 +25,27 @@ internal class CommanderCommand : ChatCommand
         {
             if (!commanderServer.IsPlayerACommander(fromPeer))
             {
+                GameNetwork.BeginModuleEventAsServer(fromPeer);
+                GameNetwork.WriteMessage(new CommanderChatCommand { RejectReason = CommanderChatCommandRejectReason.NotCommander });
+                GameNetwork.EndModuleEventAsServer();
                 return false;
             }
 
             if (fromPeer.ControlledAgent == null)
             {
-                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White, new TextObject("{=C7TYZ8s0}You cannot order troops when you are dead!").ToString());
+                GameNetwork.BeginModuleEventAsServer(fromPeer);
+                GameNetwork.WriteMessage(new CommanderChatCommand { RejectReason = CommanderChatCommandRejectReason.Dead });
+                GameNetwork.EndModuleEventAsServer();
                 return false;
             }
 
             float earliestMessageTime = commanderServer.LastCommanderMessage[side] + MessageCooldown;
             if (earliestMessageTime > Mission.Current.CurrentTime)
             {
-                ChatComponent.ServerSendMessageToPlayer(fromPeer, Color.White,
-                    new TextObject("{=uRmpZM0q}Please wait {COOLDOWN} seconds before issuing a new order!",
-                    new Dictionary<string, object> { ["COOLDOWN"] = (earliestMessageTime - Mission.Current.CurrentTime).ToString("0.0") }).ToString());
+                GameNetwork.BeginModuleEventAsServer(fromPeer);
+                GameNetwork.WriteMessage(new CommanderChatCommand { RejectReason = CommanderChatCommandRejectReason.Cooldown, Cooldown = earliestMessageTime - Mission.Current.CurrentTime });
+                GameNetwork.EndModuleEventAsServer();
+                    
                 return false;
             }
 
