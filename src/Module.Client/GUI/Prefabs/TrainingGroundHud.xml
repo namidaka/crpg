@@ -103,7 +103,7 @@
                 </MultiplayerTeamPlayerAvatarButtonWidget>
 
                 <!--Score-->
-                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPHUD.Duel.Arena.ScoreText" MarginTop="15" Text="@Score" />
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPHUD.Duel.Countdown.Text" MarginTop="15" Text="@Score" />
 
                 <!--Second Player-->
                 <MultiplayerTeamPlayerAvatarButtonWidget DataSource="{SecondPlayer}" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="180" SuggestedHeight="140" AvatarImage="AvatarImage" IsDead="false" UpdateChildrenStates="true">

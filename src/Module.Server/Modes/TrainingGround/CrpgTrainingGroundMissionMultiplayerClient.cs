@@ -9,8 +9,8 @@ public class CrpgTrainingGroundMissionMultiplayerClient : MissionMultiplayerGame
     public override bool IsGameModeUsingGold => false;
     public override bool IsGameModeTactical => false;
     public override bool IsGameModeUsingRoundCountdown => false;
-    public override bool IsGameModeUsingAllowCultureChange => true;
-    public override bool IsGameModeUsingAllowTroopChange => true;
+    public override bool IsGameModeUsingAllowCultureChange => false;
+    public override bool IsGameModeUsingAllowTroopChange => false;
     public override MultiplayerGameType GameType => MultiplayerGameType.Duel;
     public bool IsInDuel => (GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.IsDefender).GetValueOrDefault();
     public CrpgTrainingGroundMissionRepresentative MyRepresentative { get; private set; } = default!;
@@ -52,14 +52,4 @@ public class CrpgTrainingGroundMissionMultiplayerClient : MissionMultiplayerGame
         MyRepresentative?.CheckHasRequestFromAndRemoveRequestIfNeeded(affectedAgent.MissionPeer);
     }
 
-    public override bool CanRequestCultureChange()
-    {
-        MissionPeer? missionPeer = GameNetwork.MyPeer?.GetComponent<MissionPeer>();
-        if (missionPeer?.Team != null)
-        {
-            return missionPeer.Team.IsAttacker;
-        }
-
-        return false;
-    }
 }

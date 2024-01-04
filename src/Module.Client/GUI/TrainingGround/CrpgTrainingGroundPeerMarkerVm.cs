@@ -1,4 +1,5 @@
 ﻿using Crpg.Module.Modes.TrainingGround;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
@@ -18,6 +19,7 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     private float _wPosAfterPositionCalculation;
     private TextObject _acceptDuelRequestText = TextObject.Empty;
     private TextObject _sendDuelRequestText = TextObject.Empty;
+    private TextObject _sendRankedDuelRequestText = TextObject.Empty;
     private TextObject _waitingForDuelResponseText = TextObject.Empty;
     private bool _isEnabled;
     private bool _isTracked;
@@ -29,11 +31,10 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     private string _name = string.Empty;
     private string _actionDescriptionText = string.Empty;
     private int _bounty;
-    private int _preferredArenaType;
     private int _wSign;
     private Vec2 _screenPosition;
+    private Vec3 _groundVec;
     private MPTeammateCompassTargetVM _compassElement = default!;
-    private MBBindingList<MPPerkVM> _selectedPerks = default!;
     public MissionPeer TargetPeer { get; private set; }
     public float Distance { get; private set; }
     public bool IsInDuel { get; private set; }
@@ -216,23 +217,6 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     }
 
     [DataSourceProperty]
-    public int PreferredArenaType
-    {
-        get
-        {
-            return _preferredArenaType;
-        }
-        set
-        {
-            if (value != _preferredArenaType)
-            {
-                _preferredArenaType = value;
-                OnPropertyChangedWithValue(value, "PreferredArenaType");
-            }
-        }
-    }
-
-    [DataSourceProperty]
     public int WSign
     {
         get
@@ -267,6 +251,22 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     }
 
     [DataSourceProperty]
+    public Vec3 GroundVec
+    {
+        get
+        {
+            return _groundVec;
+        }
+        set
+        {
+            if (value.x != _groundVec.x || value.y != _groundVec.y || value.z != _groundVec.z)
+            {
+                _groundVec = value;
+            }
+        }
+    }
+
+    [DataSourceProperty]
     public MPTeammateCompassTargetVM CompassElement
     {
         get
@@ -283,32 +283,12 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
         }
     }
 
-    [DataSourceProperty]
-    public MBBindingList<MPPerkVM> SelectedPerks
-    {
-        get
-        {
-            return _selectedPerks;
-        }
-        set
-        {
-            if (value != _selectedPerks)
-            {
-                _selectedPerks = value;
-                OnPropertyChangedWithValue(value, "SelectedPerks");
-            }
-        }
-    }
-
     public CrpgTrainingGroundPeerMarkerVm(MissionPeer peer)
     {
         TargetPeer = peer;
-        Bounty = ((CrpgTrainingGroundMissionRepresentative)peer.Representative).Bounty;
         IsEnabled = true;
         TargetIconType iconType = MultiplayerClassDivisions.GetMPHeroClassForPeer(TargetPeer).IconType;
         CompassElement = new MPTeammateCompassTargetVM(iconType, Color.White.ToUnsignedInteger(), Color.White.ToUnsignedInteger(), BannerCode.CreateFrom(new Banner()), isAlly: true);
-        SelectedPerks = new MBBindingList<MPPerkVM>();
-        RefreshPerkSelection();
         RefreshValues();
     }
 
@@ -345,12 +325,13 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     {
         if (TargetPeer.ControlledAgent != null)
         {
-            Vec3 groundVec = TargetPeer.ControlledAgent.GetWorldPosition().GetGroundVec3();
-            groundVec += new Vec3(0f, 0f, TargetPeer.ControlledAgent.GetEyeGlobalHeight());
+            _groundVec = TargetPeer.ControlledAgent.GetWorldPosition().GetGroundVec3();
+            _groundVec += new Vec3(0f, 0f, TargetPeer.ControlledAgent.GetEyeGlobalHeight());
             _latestX = 0f;
             _latestY = 0f;
             _latestW = 0f;
-            MBWindowManager.WorldToScreen(missionCamera, groundVec, ref _latestX, ref _latestY, ref _latestW);
+            MBWindowManager.WorldToScreen(missionCamera, _groundVec, ref _latestX, ref _latestY, ref _latestW);
+            GroundVec = _groundVec;
             ScreenPosition = new Vec2(_latestX, _latestY);
             IsAgentInScreenBoundaries = !(_latestX > Screen.RealScreenResolutionWidth) && !(_latestY > Screen.RealScreenResolutionHeight) && !(_latestX + 200f < 0f) && !(_latestY + 100f < 0f);
             _wPosAfterPositionCalculation = ((_latestW < 0f) ? (-1f) : 1.1f);
@@ -360,7 +341,7 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
 
     private void OnInteractionChanged()
     {
-        ActionDescriptionText = "";
+        ActionDescriptionText = string.Empty;
         if (HasDuelRequestForPlayer)
         {
             string keyHyperlinkText = HyperlinkTexts.GetKeyHyperlinkText(HotKeyManager.GetHotKeyId("CombatHotKeyCategory", 13));
@@ -390,11 +371,6 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
                 ActionDescriptionText = string.Empty;
             }
         }
-    }
-
-    public void UpdateBounty()
-    {
-        Bounty = ((CrpgTrainingGroundMissionRepresentative)TargetPeer.Representative).Bounty;
     }
 
     private void UpdateTracked()
@@ -433,13 +409,4 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
         IsEnabled = !IsInDuel;
     }
 
-    public void RefreshPerkSelection()
-    {
-        SelectedPerks.Clear();
-        TargetPeer.RefreshSelectedPerks();
-        foreach (MPPerkObject selectedPerk in TargetPeer.SelectedPerks)
-        {
-            SelectedPerks.Add(new MPPerkVM(null, selectedPerk, isSelectable: true, 0));
-        }
-    }
 }

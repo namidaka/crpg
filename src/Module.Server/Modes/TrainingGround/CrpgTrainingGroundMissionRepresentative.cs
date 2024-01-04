@@ -20,9 +20,8 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
 #if CRPG_SERVER
     private CrpgTrainingGroundServer _mission = default!;
 #endif
-    public int Bounty { get; private set; }
-    public int Score { get; private set; }
     public int NumberOfWins { get; private set; }
+    public int NumberOfLosses { get; private set; }
     private bool _isInDuel
     {
         get
@@ -58,11 +57,11 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
             networkMessageHandlerRegisterer.Register<TrainingGroundDuelPreparationStartedForTheFirstTime>(HandleServerEventDuelStarted);
             networkMessageHandlerRegisterer.Register<DuelEnded>(HandleServerEventDuelEnded);
             networkMessageHandlerRegisterer.Register<DuelRoundEnded>(HandleServerEventDuelRoundEnded);
-            networkMessageHandlerRegisterer.Register<DuelPointsUpdateMessage>(HandleServerPointUpdate);
+            networkMessageHandlerRegisterer.Register<TrainingGroundDuelPointsUpdateMessage>(HandleServerPointUpdate);
         }
     }
 
-    public void OnInteraction()
+    public void OnInteraction(bool isModifiedInteraction = false)
     {
         if (_focusedObject == null)
         {
@@ -151,11 +150,10 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
         OnDuelRoundEndedEvent?.Invoke(message.WinnerPeer.GetComponent<MissionPeer>());
     }
 
-    private void HandleServerPointUpdate(DuelPointsUpdateMessage message)
+    private void HandleServerPointUpdate(TrainingGroundDuelPointsUpdateMessage message)
     {
         CrpgTrainingGroundMissionRepresentative component = message.NetworkCommunicator.GetComponent<CrpgTrainingGroundMissionRepresentative>();
-        component.Bounty = message.Bounty;
-        component.Score = message.Score;
+        component.NumberOfLosses = message.NumberOfLosses;
         component.NumberOfWins = message.NumberOfWins;
     }
 
@@ -262,16 +260,13 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
         }
     }
 
-    public void ResetBountyAndNumberOfWins()
+    public void OnDuelWon()
     {
-        Bounty = 0;
-        NumberOfWins = 0;
+        NumberOfWins++;
     }
 
-    public void OnDuelWon(float gainedScore)
+    public void OnDuelLost()
     {
-        Bounty += (int)(gainedScore / 5f);
-        Score += (int)gainedScore;
-        NumberOfWins++;
+        NumberOfLosses++;
     }
 }

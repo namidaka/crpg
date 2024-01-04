@@ -42,7 +42,8 @@
 
   <!-- Scoreboard -->
   <string id="str_scoreboard_header.life" text="{=fBDiQBrC}Life" />
-  <string id="str_scoreboard_header.rating" text="{=}Rating" />
+  <string id="str_scoreboard_header.win" text="{=}Wins" />
+  <string id="str_scoreboard_header.loss" text="{=}Losses" />
 
   <!-- Kick reasons -->
   <string id="str_kick_reason.bad_player_height" text="{=gaC79g3U}Your character has a weird height. Fix it in the Bannerlord Armory to join a cRPG server." />

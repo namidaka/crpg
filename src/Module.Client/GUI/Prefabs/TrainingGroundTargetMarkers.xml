@@ -57,7 +57,7 @@
                                     <!--Rating -->
                                     <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" MarginLeft="10">
                                       <Children>
-                                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" IntText="1000" Brush="MPHUD.Duel.Card.HugeBountyText"/>
+                                        <!-- <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" IntText="1000" Brush="MPHUD.Duel.Card.HugeBountyText"/> -->
                                       </Children>
                                     </ListPanel>
                                   </Children>

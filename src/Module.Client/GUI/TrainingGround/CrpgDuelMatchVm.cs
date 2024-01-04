@@ -12,7 +12,6 @@ public class CrpgDuelMatchVm : ViewModel
     private bool _isPreparing;
     private string _countdownMessage = string.Empty;
     private string _score = string.Empty;
-    private int _arenaType;
     private int _firstPlayerScore;
     private int _secondPlayerScore;
     private MPPlayerVM _firstPlayer = default!;
@@ -84,23 +83,6 @@ public class CrpgDuelMatchVm : ViewModel
             {
                 _score = value;
                 OnPropertyChangedWithValue(value, "Score");
-            }
-        }
-    }
-
-    [DataSourceProperty]
-    public int ArenaType
-    {
-        get
-        {
-            return _arenaType;
-        }
-        set
-        {
-            if (value != _arenaType)
-            {
-                _arenaType = value;
-                OnPropertyChangedWithValue(value, "ArenaType");
             }
         }
     }
@@ -211,7 +193,6 @@ public class CrpgDuelMatchVm : ViewModel
         SecondPlayer = new MPPlayerVM(secondPeer);
         FirstPlayer.RefreshDivision(useCultureColors: true);
         SecondPlayer.RefreshDivision(useCultureColors: true);
-        UpdateScore();
         IsEnabled = true;
     }
 
@@ -232,8 +213,6 @@ public class CrpgDuelMatchVm : ViewModel
         {
             SecondPlayerScore++;
         }
-
-        UpdateScore();
     }
 
     public void RefreshNames(bool changeGenericNames = false)
@@ -245,10 +224,8 @@ public class CrpgDuelMatchVm : ViewModel
         }
     }
 
-    private void UpdateScore()
+    public override void RefreshValues()
     {
-        GameTexts.SetVariable("LEFT", FirstPlayerScore);
-        GameTexts.SetVariable("RIGHT", SecondPlayerScore);
-        Score = GameTexts.FindText("str_LEFT_dash_RIGHT").ToString();
+        Score = new TextObject("{=}vs.").ToString();
     }
 }
