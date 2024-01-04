@@ -1,58 +1,35 @@
 <script setup lang="ts">
-import { t } from '@/services/translate-service';
 import { useUserStore } from '@/stores/user';
 
-const props = defineProps<{
+const { price, upkeep, inInventory, notEnoughGold } = defineProps<{
   price: number;
   upkeep: number;
   inInventory: boolean;
   notEnoughGold: boolean;
 }>();
 
-const userStore = useUserStore();
+const { user } = toRefs(useUserStore());
 
-const emit = defineEmits<{
-  (e: 'buy'): void;
+defineEmits<{
+  buy: [];
 }>();
 
-const isExpensive = computed(() => userStore.user!.gold - props.price < props.upkeep);
-
-const tooltipTitle = computed(() => {
-  if (props.inInventory) {
-    return t('shop.item.buy.tooltip.inInventory');
-  }
-
-  if (props.notEnoughGold) {
-    return t('shop.item.buy.tooltip.notEnoughGold');
-  }
-
-  return t('shop.item.buy.tooltip.buy');
-});
+const isExpensive = computed(() => user.value!.gold - price < upkeep);
 </script>
 
 <template>
   <VTooltip>
     <div>
-      <OButton
-        variant="primary"
-        outlined
-        size="lg"
-        :disabled="notEnoughGold"
-        @click="
-          () => {
-            emit('buy');
-          }
-        "
-      >
+      <OButton variant="primary" outlined size="lg" :disabled="notEnoughGold" @click="$emit('buy')">
         <Coin :value="price" :class="{ 'opacity-50': notEnoughGold }" />
-
+        <Tag v-if="inInventory" icon="check" size="sm" variant="success" rounded />
         <Tag v-if="isExpensive" icon="alert" size="sm" variant="warning" rounded />
       </OButton>
     </div>
 
     <template #popper>
-      <div class="space-y-4">
-        <div>{{ tooltipTitle }}</div>
+      <div class="prose prose-invert space-y-4">
+        <h5>{{ $t('shop.item.buy.tooltip.buy') }}</h5>
 
         <div class="item-center flex gap-2">
           {{ $t('item.aggregations.upkeep.title') }}:
@@ -61,10 +38,15 @@ const tooltipTitle = computed(() => {
           </Coin>
         </div>
 
-        <div v-if="isExpensive" class="flex items-start gap-2">
-          <Tag icon="alert" size="sm" variant="warning" rounded />
+        <p v-if="inInventory" class="text-status-success">
+          {{ $t('shop.item.buy.tooltip.inInventory') }}
+        </p>
+        <p v-if="notEnoughGold" class="text-status-danger">
+          {{ $t('shop.item.buy.tooltip.notEnoughGold') }}
+        </p>
+        <p v-if="isExpensive" class="text-status-warning">
           {{ $t('shop.item.expensive') }}
-        </div>
+        </p>
       </div>
     </template>
   </VTooltip>
