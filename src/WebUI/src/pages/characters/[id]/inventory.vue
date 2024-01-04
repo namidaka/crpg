@@ -56,6 +56,7 @@ definePage({
 });
 
 const userStore = useUserStore();
+const { user, clan, userItems } = toRefs(userStore);
 
 const character = injectStrict(characterKey);
 const { characterCharacteristics } = injectStrict(characterCharacteristicsKey);
@@ -65,7 +66,7 @@ const itemsStats = injectStrict(characterItemsStatsKey);
 const mainHeaderHeight = injectStrict(mainHeaderHeightKey);
 
 const upkeepIsHigh = computed(() =>
-  checkUpkeepIsHigh(userStore.user!.gold, itemsStats.value.averageRepairCostByHour)
+  checkUpkeepIsHigh(user.value!.gold, itemsStats.value.averageRepairCostByHour)
 );
 const equippedItemsIds = computed(() => characterItems.value.map(ei => ei.userItem.id));
 
@@ -126,7 +127,10 @@ const onReforgeUserItem = async (itemId: number) => {
 };
 
 const onAddItemToClanArmory = async (userItemId: number) => {
-  await addItemToClanArmory(userStore.clan!.id, userItemId);
+  if (filteredUserItems.value.length === 1) {
+    filterByTypeModel.value = [];
+  }
+  await addItemToClanArmory(clan.value!.id, userItemId);
   await Promise.all([
     userStore.fetchUser(),
     userStore.fetchUserItems(),
@@ -136,7 +140,7 @@ const onAddItemToClanArmory = async (userItemId: number) => {
 };
 
 const onReturnToClanArmory = async (userItemId: number) => {
-  await returnItemToClanArmory(userStore.clan!.id, userItemId);
+  await returnItemToClanArmory(clan.value!.id, userItemId);
   if (filteredUserItems.value.length === 1) {
     filterByTypeModel.value = [];
   }
@@ -149,7 +153,7 @@ const onReturnToClanArmory = async (userItemId: number) => {
 };
 
 const onRemoveFromClanArmory = async (userItemId: number) => {
-  await removeItemFromClanArmory(userStore.clan!.id, userItemId);
+  await removeItemFromClanArmory(clan.value!.id, userItemId);
   await Promise.all([
     userStore.fetchUser(),
     userStore.fetchUserItems(),
@@ -159,15 +163,13 @@ const onRemoveFromClanArmory = async (userItemId: number) => {
 };
 
 const hideInArmoryItemsModel = useStorage<boolean>('character-inventory-in-armory-items', true);
-const hasArmoryItems = computed(() => userStore.userItems.some(ui => ui.isArmoryItem));
+const hasArmoryItems = computed(() => userItems.value.some(ui => ui.isArmoryItem));
 
 const flatItems = computed(() =>
   createItemIndex(
     extractItemFromUserItem(
-      userStore.userItems.filter(item =>
-        item.isArmoryItem && hideInArmoryItemsModel.value
-          ? item.userId !== userStore.user!.id
-          : true
+      userItems.value.filter(item =>
+        hideInArmoryItemsModel.value && item.isArmoryItem ? item.userId !== user.value!.id : true
       )
     )
   )
@@ -225,8 +227,12 @@ const searchResult = computed(() =>
 
 const filteredUserItems = computed(() => {
   const foundedItemIds = searchResult.value.data.items.map(item => item.id);
-  return userStore.userItems
-    .filter(item => foundedItemIds.includes(item.item.id))
+  return userItems.value
+    .filter(
+      item =>
+        foundedItemIds.includes(item.item.id) &&
+        (hideInArmoryItemsModel.value && item.isArmoryItem ? item.userId !== user.value!.id : true)
+    )
     .sort((a, b) => {
       if (sortingModel.value === 'type_asc') {
         const itemTypes = Object.values(ItemType);
@@ -257,7 +263,7 @@ const compareItemsResult = computed(() => {
   return groupItemsByTypeAndWeaponClass(
     createItemIndex(
       extractItemFromUserItem(
-        userStore.userItems.filter(ui =>
+        userItems.value.filter(ui =>
           openedItems.value.some(oi => oi.uniqueId === getUniqueId(ui.item.id, ui.id))
         )
       )
@@ -281,8 +287,8 @@ const promises: Promise<any>[] = [userStore.fetchUserItems()];
 
 const { clanMembers, loadClanMembers } = useClanMembers();
 
-if (userStore.clan?.id) {
-  promises.push(loadClanMembers(0, { id: userStore.clan?.id }));
+if (clan.value) {
+  promises.push(loadClanMembers(0, { id: clan.value.id }));
 }
 
 await Promise.all(promises);
@@ -291,7 +297,7 @@ await Promise.all(promises);
 <template>
   <div class="relative grid grid-cols-12 gap-5">
     <div class="col-span-5">
-      <template v-if="userStore.userItems.length !== 0">
+      <template v-if="userItems.length !== 0">
         <div class="inventoryGrid relative grid h-full gap-x-3 gap-y-4">
           <div
             style="grid-area: filter"
@@ -478,13 +484,10 @@ await Promise.all(promises);
             compareItemsResult.find(cr => cr.type === flatItems.find(fi => fi.id === di.id)!.type)
               ?.compareResult
           "
-          :userItem="userStore.userItems.find(ui => ui.id === di.userItemId)!"
+          :userItem="userItems.find(ui => ui.id === di.userItemId)!"
           :equipped="equippedItemsIds.includes(di.userItemId)"
           :lender="
-            getClanArmoryItemLender(
-              userStore.userItems.find(ui => ui.id === di.userItemId)!,
-              clanMembers
-            )
+            getClanArmoryItemLender(userItems.find(ui => ui.id === di.userItemId)!, clanMembers)
           "
           @sell="
             () => {
