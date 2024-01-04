@@ -2287,7 +2287,7 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_highland_lieutenant" name="{=}Highland Chosen" race="light_bot">
+  <NPCCharacter id="crpg_dtv_highland_lieutenant" name="{=}Chosen Highlander" race="light_bot">
     <face>
       <BodyProperties version="4" age="30.03" weight="0.3333" build="0" key="0013300540E4370C6BB37B698926473335528AAB9AD7B3AA39E9A69E24B7728D017776130799AA74000000000000000000000000000000000000000016E49144" />
     </face>
