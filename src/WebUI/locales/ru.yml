@@ -578,6 +578,14 @@ character:
         tooltip:
           title: 'Рассплавить предмет'
           description: 'Вы можете перековать свои предметы за золото'
+          costTable:
+            cols:
+              rank:
+                label: Ранг предмета
+              cost:
+                label: Стоимость
+              looms:
+                label: Награда
         validation:
           rank: 'Предмет должен иметь ранг больше, чем {minimumRank}'
           gold: 'У вас недостаточно золота'

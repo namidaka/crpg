@@ -577,6 +577,14 @@ character:
         tooltip:
           title: '重铸物品'
           description: '你可以使用金币来重铸你的物品'
+          costTable:
+            cols:
+              rank:
+                label: 项目等级
+              cost:
+                label: 价格
+              looms:
+                label: 获得奖励
         validation:
           rank: '该物品必须拥有大于{minimumRank}的阶级'
           gold: '你没有足够的金币来执行此操作'
