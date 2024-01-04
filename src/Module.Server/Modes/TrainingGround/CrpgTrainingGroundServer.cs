@@ -1,4 +1,6 @@
-﻿using Crpg.Module.Rewards;
+﻿using System.ComponentModel;
+using Crpg.Module.Common;
+using Crpg.Module.Rewards;
 using NetworkMessages.FromClient;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
@@ -603,29 +605,6 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         }
     }
 
-    private TroopType GetAgentTroopType(Agent requesterAgent)
-    {
-        TroopType result = TroopType.Invalid;
-        switch (requesterAgent.Character.DefaultFormationClass)
-        {
-            case FormationClass.Infantry:
-            case FormationClass.HeavyInfantry:
-                result = TroopType.Infantry;
-                break;
-            case FormationClass.Ranged:
-                result = TroopType.Ranged;
-                break;
-            case FormationClass.Cavalry:
-            case FormationClass.HorseArcher:
-            case FormationClass.LightCavalry:
-            case FormationClass.HeavyCavalry:
-                result = TroopType.Cavalry;
-                break;
-        }
-
-        return result;
-    }
-
     private void CleanSpawnedEntitiesInDuelArea(int duelAreaIndex)
     {
         int num = duelAreaIndex + 1;
@@ -670,7 +649,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             if (challengeWinnerPeer.Peer.Communicator.IsConnectionActive)
             {
                 GameNetwork.BeginBroadcastModuleEvent();
-                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses });
+                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses, Rating = component.Rating });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
             }
 
@@ -678,7 +657,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             if (challengeLoserPeer != null && challengeLoserPeer.Peer.Communicator.IsConnectionActive)
             {
                 GameNetwork.BeginBroadcastModuleEvent();
-                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component2.GetNetworkPeer(), NumberOfWins = component2!.NumberOfWins, NumberOfLosses = component2.NumberOfLosses });
+                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component2.GetNetworkPeer(), NumberOfWins = component2!.NumberOfWins, NumberOfLosses = component2.NumberOfLosses, Rating = component2.Rating });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
             }
         }
@@ -691,7 +670,28 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
 
     public override void OnAgentBuild(Agent agent, Banner banner)
     {
-        if (!agent.IsHuman || agent.Team == null || !agent.Team.IsDefender)
+        if (!agent.IsHuman || agent.Team == null)
+        {
+            return;
+        }
+
+        var networkPeer = agent.MissionPeer.GetNetworkPeer();
+
+        if (networkPeer != null)
+        {
+            var component = networkPeer.GetComponent<CrpgTrainingGroundMissionRepresentative>();
+            var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
+
+            if (crpgPeer.User != null)
+            {
+                component.Rating = (int)crpgPeer.User.Character.Rating.Value;
+                GameNetwork.BeginBroadcastModuleEvent();
+                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses, Rating = component.Rating });
+                GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+            }
+        }
+
+        if (!agent.Team.IsDefender)
         {
             return;
         }
@@ -719,7 +719,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             if (component != null)
             {
                 GameNetwork.BeginModuleEventAsServer(networkPeer);
-                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses });
+                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses, Rating = component.Rating });
                 GameNetwork.EndModuleEventAsServer();
             }
 

@@ -22,6 +22,8 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
 #endif
     public int NumberOfWins { get; private set; }
     public int NumberOfLosses { get; private set; }
+    public int Rating { get; set; }
+
     private bool _isInDuel
     {
         get
@@ -155,6 +157,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
         CrpgTrainingGroundMissionRepresentative component = message.NetworkCommunicator.GetComponent<CrpgTrainingGroundMissionRepresentative>();
         component.NumberOfLosses = message.NumberOfLosses;
         component.NumberOfWins = message.NumberOfWins;
+        component.Rating = message.Rating;
     }
 
     public void DuelRequested(Agent requesterAgent)

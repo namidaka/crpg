@@ -6,6 +6,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.MissionRepresentatives;
 using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.ClassLoadout;
 
 namespace Crpg.Module.GUI.TrainingGround;
@@ -30,7 +31,9 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     private bool _hasSentDuelRequest;
     private string _name = string.Empty;
     private string _actionDescriptionText = string.Empty;
-    private int _bounty;
+    private int _duelsWon;
+    private int _duelsLost;
+    private int _rating;
     private int _wSign;
     private Vec2 _screenPosition;
     private Vec3 _groundVec;
@@ -200,18 +203,52 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     }
 
     [DataSourceProperty]
-    public int Bounty
+    public int DuelsWon
     {
         get
         {
-            return _bounty;
+            return _duelsWon;
         }
         set
         {
-            if (value != _bounty)
+            if (value != _duelsWon)
             {
-                _bounty = value;
-                OnPropertyChangedWithValue(value, "Bounty");
+                _duelsWon = value;
+                OnPropertyChangedWithValue(value, "DuelsWon");
+            }
+        }
+    }
+
+    [DataSourceProperty]
+    public int DuelsLost
+    {
+        get
+        {
+            return _duelsLost;
+        }
+        set
+        {
+            if (value != _duelsLost)
+            {
+                _duelsLost = value;
+                OnPropertyChangedWithValue(value, "DuelsLost");
+            }
+        }
+    }
+
+    [DataSourceProperty]
+    public int Rating
+    {
+        get
+        {
+            return _rating;
+        }
+        set
+        {
+            if (value != _rating)
+            {
+                _rating = value;
+                OnPropertyChangedWithValue(value, "Rating");
             }
         }
     }
@@ -286,6 +323,9 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     public CrpgTrainingGroundPeerMarkerVm(MissionPeer peer)
     {
         TargetPeer = peer;
+        Rating = ((CrpgTrainingGroundMissionRepresentative)peer.Representative).Rating;
+        DuelsWon = ((CrpgTrainingGroundMissionRepresentative)peer.Representative).NumberOfWins;
+        DuelsLost = ((CrpgTrainingGroundMissionRepresentative)peer.Representative).NumberOfLosses;
         IsEnabled = true;
         TargetIconType iconType = MultiplayerClassDivisions.GetMPHeroClassForPeer(TargetPeer).IconType;
         CompassElement = new MPTeammateCompassTargetVM(iconType, Color.White.ToUnsignedInteger(), Color.White.ToUnsignedInteger(), BannerCode.CreateFrom(new Banner()), isAlly: true);
@@ -337,6 +377,17 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
             _wPosAfterPositionCalculation = ((_latestW < 0f) ? (-1f) : 1.1f);
             WSign = (int)_wPosAfterPositionCalculation;
         }
+    }
+
+    public void UpdateRecord()
+    {
+        DuelsWon = ((CrpgTrainingGroundMissionRepresentative)TargetPeer.Representative).NumberOfWins;
+        DuelsLost = ((CrpgTrainingGroundMissionRepresentative)TargetPeer.Representative).NumberOfLosses;
+    }
+
+    public void UpdateRating()
+    {
+        Rating = ((CrpgTrainingGroundMissionRepresentative)TargetPeer.Representative).Rating;
     }
 
     private void OnInteractionChanged()

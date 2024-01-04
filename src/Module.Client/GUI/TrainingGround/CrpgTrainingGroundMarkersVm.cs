@@ -216,13 +216,13 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
 
             if (!_targetPeersToMarkersDictionary.ContainsKey(item))
             {
-                CrpgTrainingGroundPeerMarkerVm CrpgTrainingGroundPeerMarkerVm = new(item);
-                Targets.Add(CrpgTrainingGroundPeerMarkerVm);
-                _targetPeersToMarkersDictionary.Add(item, CrpgTrainingGroundPeerMarkerVm);
+                CrpgTrainingGroundPeerMarkerVm crpgTrainingGroundPeerMarkerVm = new(item);
+                Targets.Add(crpgTrainingGroundPeerMarkerVm);
+                _targetPeersToMarkersDictionary.Add(item, crpgTrainingGroundPeerMarkerVm);
                 OnPeerEquipmentRefreshed(item);
                 if (_targetPeersInDuelDictionary.ContainsKey(item))
                 {
-                    CrpgTrainingGroundPeerMarkerVm.UpdateCurentDuelStatus(_targetPeersInDuelDictionary[item]);
+                    crpgTrainingGroundPeerMarkerVm.UpdateCurentDuelStatus(_targetPeersInDuelDictionary[item]);
                 }
             }
             else
@@ -303,7 +303,8 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
             if (_targetPeersToMarkersDictionary.ContainsKey(peer))
             {
                 _targetPeersToMarkersDictionary[peer].UpdateCurentDuelStatus(!isEnabled);
-                //_targetPeersToMarkersDictionary[peer].UpdateBounty();
+                _targetPeersToMarkersDictionary[peer].UpdateRecord();
+                _targetPeersToMarkersDictionary[peer].UpdateRating();
             }
 
             if (_targetPeersInDuelDictionary.ContainsKey(peer))
