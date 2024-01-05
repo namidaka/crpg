@@ -60,7 +60,7 @@ namespace Crpg.Persistence.Migrations
                 table: "clans",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
         }
 
         /// <inheritdoc />
