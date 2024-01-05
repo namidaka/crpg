@@ -357,7 +357,6 @@ await fetchPageData(character.value.id);
                     })
                   "
                 />
-                <Divider />
 
                 <div
                   v-if="respecCapability.freeRespecWindowRemain > 0"
