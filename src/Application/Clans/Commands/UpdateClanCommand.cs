@@ -66,8 +66,6 @@ public record UpdateClanCommand : IMediatorRequest<ClanViewModel>
 
             RuleFor(c => c.ArmoryTimeout)
                 .GreaterThanOrEqualTo(TimeSpan.FromDays(1));
-
-            RuleFor(cmd => cmd.Region).IsInEnum();
         }
     }
 
