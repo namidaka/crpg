@@ -135,36 +135,20 @@ await loadClans();
 
         <OTableColumn field="clan.languages" :width="220">
           <template #header>
-            <div class="relative mr-2 flex items-center gap-1">
-              <OIcon
-                v-if="languagesModel?.length"
-                class="absolute -left-5 top-1/2 -translate-y-1/2 transform cursor-pointer hover:text-status-danger"
-                v-tooltip.bottom="$t('action.reset')"
-                icon="close"
-                size="xs"
-                @click="languagesModel = []"
-              />
-              <VDropdown :triggers="['click']">
-                <div
-                  class="max-w-[90px] cursor-pointer overflow-x-hidden text-ellipsis whitespace-nowrap border-b-2 border-dashed border-border-300 pb-0.5 text-2xs hover:text-content-100 2xl:max-w-[110px]"
-                >
-                  {{ $t('clan.table.column.languages') }}
-                </div>
-
-                <template #popper>
-                  <div class="max-h-64 max-w-md overflow-y-auto">
-                    <DropdownItem v-for="l in aggregatedLanguages">
-                      <OCheckbox
-                        v-model="languagesModel"
-                        :nativeValue="l"
-                        class="items-center"
-                        :label="$t(`language.${l}`) + ` - ${l}`"
-                      />
-                    </DropdownItem>
-                  </div>
-                </template>
-              </VDropdown>
-            </div>
+            <THDropdown
+              :label="$t('clan.table.column.languages')"
+              :shownReset="Boolean(languagesModel.length)"
+              @reset="languagesModel = []"
+            >
+              <DropdownItem v-for="l in aggregatedLanguages">
+                <OCheckbox
+                  v-model="languagesModel"
+                  :nativeValue="l"
+                  class="items-center"
+                  :label="$t(`language.${l}`) + ` - ${l}`"
+                />
+              </DropdownItem>
+            </THDropdown>
           </template>
 
           <template #default="{ row: clan }: { row: ClanWithMemberCount<Clan> }">
