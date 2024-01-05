@@ -75,7 +75,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             }
         }
 
-        private const float DuelStartCountdown = 3f;
+        private const float DuelStartCountdown = 5f;
         private readonly Challenger[] _challengers;
         private ChallengerType _winnerChallengerType = ChallengerType.None;
         public MissionPeer RequesterPeer => _challengers[0].MissionPeer;
@@ -187,7 +187,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
                 _challengers[i].MissionPeer.GetComponent<CrpgTrainingGroundMissionRepresentative>().OnDuelPreparation(_challengers[0].MissionPeer, _challengers[1].MissionPeer);
             }
 
-            Timer = MissionTime.Now + MissionTime.Seconds(5f);
+            Timer = MissionTime.Now + MissionTime.Seconds(DuelStartCountdown);
         }
 
         public void OnDuelStarted()
