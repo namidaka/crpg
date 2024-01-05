@@ -33,7 +33,9 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     private string _name = string.Empty;
     private string _actionDescriptionText = string.Empty;
     private string _clan = string.Empty;
-    private string _level = string.Empty;
+    private string _clanText = string.Empty;
+    private string _levelText = string.Empty;
+    private int _level;
     private int _duelsWon;
     private int _duelsLost;
     private int _rating;
@@ -223,6 +225,23 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     }
 
     [DataSourceProperty]
+    public string ClanText
+    {
+        get
+        {
+            return _clanText;
+        }
+        set
+        {
+            if (value != _clanText)
+            {
+                _clanText = value;
+                OnPropertyChangedWithValue(value, "ClanText");
+            }
+        }
+    }
+
+    [DataSourceProperty]
     public int DuelsWon
     {
         get
@@ -274,7 +293,7 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
     }
 
     [DataSourceProperty]
-    public string Level
+    public int Level
     {
         get
         {
@@ -286,6 +305,23 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
             {
                 _level = value;
                 OnPropertyChangedWithValue(value, "Level");
+            }
+        }
+    }
+
+    [DataSourceProperty]
+    public string LevelText
+    {
+        get
+        {
+            return _levelText;
+        }
+        set
+        {
+            if (value != _levelText)
+            {
+                _levelText = value;
+                OnPropertyChangedWithValue(value, "LevelText");
             }
         }
     }
@@ -363,14 +399,10 @@ public class CrpgTrainingGroundPeerMarkerVm : ViewModel
         var crpgPeer = peer.GetComponent<CrpgPeer>();
         int crpgLevel = crpgPeer.User?.Character.Level ?? 0;
         string? crpgClan = crpgPeer.Clan?.Name;
-        if (crpgClan != null)
-        {
-            crpgClan = crpgClan.Length > 15 ? crpgPeer.Clan?.Name : crpgPeer.Clan?.Tag;
-        }
-
-        Level = new TextObject("{=}Level: {LEVEL}", new Dictionary<string, object> { ["LEVEL"] = crpgLevel }).ToString();
-        Clan = new TextObject("{=}Clan: {CLAN}", new Dictionary<string, object> { ["CLAN"] = crpgClan ?? new TextObject("{=koX9okuG}None").ToString() }).ToString();
-
+        Level = crpgLevel;
+        Clan = crpgClan ?? new TextObject("{=koX9okuG}None").ToString();
+        ClanText = new TextObject("{=}Clan: ").ToString();
+        LevelText = new TextObject("{=}Level: ").ToString();
         Rating = ((CrpgTrainingGroundMissionRepresentative)peer.Representative).Rating;
         DuelsWon = ((CrpgTrainingGroundMissionRepresentative)peer.Representative).NumberOfWins;
         DuelsLost = ((CrpgTrainingGroundMissionRepresentative)peer.Representative).NumberOfLosses;
