@@ -1,7 +1,9 @@
 ﻿using Crpg.Application.Characters.Queries;
+using Crpg.Application.Common.Results;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Users;
+using Microsoft.Extensions.Caching.Memory;
 using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Characters;
@@ -102,7 +104,7 @@ public class GetLeaderboardQueryTest : TestBase
         ArrangeDb.Characters.Add(lemonCharacter);
         await ArrangeDb.SaveChangesAsync();
 
-        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper);
+        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper, new MemoryCache(new MemoryCacheOptions()));
         var result = await handler.Handle(new GetLeaderboardQuery(), CancellationToken.None);
 
         Assert.That(result.Errors, Is.Null);
@@ -205,7 +207,7 @@ public class GetLeaderboardQueryTest : TestBase
         ArrangeDb.Characters.Add(lemonCharacter);
         await ArrangeDb.SaveChangesAsync();
 
-        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper);
+        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper, new MemoryCache(new MemoryCacheOptions()));
         var result = await handler.Handle(new GetLeaderboardQuery
         {
             Region = Domain.Entities.Region.Eu,
@@ -255,7 +257,7 @@ public class GetLeaderboardQueryTest : TestBase
         ArrangeDb.Characters.Add(orleCharacter);
         await ArrangeDb.SaveChangesAsync();
 
-        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper);
+        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper, new MemoryCache(new MemoryCacheOptions()));
         var result = await handler.Handle(new GetLeaderboardQuery
         {
             Region = Domain.Entities.Region.Eu,
@@ -315,7 +317,7 @@ public class GetLeaderboardQueryTest : TestBase
         ArrangeDb.Characters.AddRange(takeoCharacter, orleCharacter);
         await ArrangeDb.SaveChangesAsync();
 
-        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper);
+        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper, new MemoryCache(new MemoryCacheOptions()));
         var result = await handler.Handle(new GetLeaderboardQuery
         {
             CharacterClass = CharacterClass.ShockInfantry,
@@ -367,12 +369,53 @@ public class GetLeaderboardQueryTest : TestBase
         ArrangeDb.Characters.AddRange(orleCharacter1, orleCharacter2);
         await ArrangeDb.SaveChangesAsync();
 
-        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper);
+        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper, new MemoryCache(new MemoryCacheOptions()));
         var result = await handler.Handle(new GetLeaderboardQuery { }, CancellationToken.None);
 
         Assert.That(result.Errors, Is.Null);
         Assert.That(result.Data, Is.Not.Null);
         Assert.That(result.Data!.Count, Is.EqualTo(1));
         Assert.That(result.Data!.First().Id, Is.EqualTo(orleCharacter1.Id));
+    }
+
+    [Test]
+    public async Task InMemoryCache()
+    {
+        User orle = new()
+        {
+            Name = "Orle",
+            Region = Domain.Entities.Region.Eu,
+        };
+
+        Character orleCharacter1 = new()
+        {
+            Name = "shielder",
+            User = orle,
+            Class = CharacterClass.Infantry,
+            Rating = new()
+            {
+                Value = 50,
+                Deviation = 100,
+                Volatility = 100,
+                CompetitiveValue = 1800,
+            },
+        };
+
+        ArrangeDb.Users.Add(orle);
+        ArrangeDb.Characters.Add(orleCharacter1);
+        await ArrangeDb.SaveChangesAsync();
+
+        var cache = new MemoryCache(new MemoryCacheOptions());
+        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper, cache);
+        var result = await handler.Handle(new GetLeaderboardQuery { }, CancellationToken.None);
+
+        Assert.That(result.Errors, Is.Null);
+        Assert.That(result.Data, Is.Not.Null);
+
+        Assert.That(result.Data!.First().Id, Is.EqualTo(orleCharacter1.Id));
+
+        cache.TryGetValue("leaderboard", out IList<Application.Characters.Models.CharacterPublicViewModel>? resultFromCache);
+
+        Assert.That(resultFromCache?.First().Id, Is.EqualTo(orleCharacter1.Id));
     }
 }

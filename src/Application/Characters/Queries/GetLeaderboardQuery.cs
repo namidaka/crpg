@@ -72,7 +72,19 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
 
         private string GetCacheKey(GetLeaderboardQuery req)
         {
-            return $"leaderboard::{req.Region}::{req.CharacterClass}";
+            List<string> keys = new() { "leaderboard" };
+
+            if (req.Region != null)
+            {
+                keys.Add(req.Region.ToString()!);
+            }
+
+            if (req.CharacterClass != null)
+            {
+                keys.Add(req.CharacterClass.ToString()!);
+            }
+
+            return string.Join("::", keys);
         }
     }
 }
