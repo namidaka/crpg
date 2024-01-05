@@ -55,7 +55,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             // Increase fist damage with strength and glove armor.
             int strengthSkill = GetSkillValue(attackInformation.AttackerAgentOrigin, CrpgSkills.Strength);
             int glovearmor = GetGloveArmor(attackInformation.AttackerAgentOrigin);
-            if (collisionData.IsAlternativeAttack) //Kick
+            if (collisionData.IsAlternativeAttack) // Kick
             {
                 return finalDamage * 0.75f * (1 + 0.02f * strengthSkill);
             }
