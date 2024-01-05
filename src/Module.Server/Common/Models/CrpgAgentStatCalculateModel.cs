@@ -378,7 +378,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                 else if (equippedItem.WeaponClass is WeaponClass.Javelin or WeaponClass.ThrowingAxe or WeaponClass.ThrowingKnife or WeaponClass.Stone)
                 {
                     float unsteadyAccuracyPenaltyScaler = MBMath.ClampFloat((equippedItem.ThrustSpeed - 89.0f) / 13.0f, 0.0f, 1f);
-                    props.WeaponMaxUnsteadyAccuracyPenalty = 0f; // props.WeaponInaccuracy; = old value,
+                    props.WeaponMaxUnsteadyAccuracyPenalty = 0f;
                     props.WeaponMaxMovementAccuracyPenalty = props.WeaponInaccuracy * 1.3f;
                     int powerThrow = GetEffectiveSkill(agent, CrpgSkills.PowerThrow);
                     props.WeaponBestAccuracyWaitTime = 0.00001f;
