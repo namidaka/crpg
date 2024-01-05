@@ -31,7 +31,7 @@ public class GetLeaderboardQueryTest : TestBase
 
         User lemon = new()
         {
-            Name = "Namidaka",
+            Name = "Lemon",
             Region = Domain.Entities.Region.Na,
         };
         Character orleCharacter = new()
@@ -311,21 +311,68 @@ public class GetLeaderboardQueryTest : TestBase
             },
         };
 
-        ArrangeDb.Users.Add(orle);
-        ArrangeDb.Users.Add(takeo);
-        ArrangeDb.Characters.Add(takeoCharacter);
-        ArrangeDb.Characters.Add(orleCharacter);
+        ArrangeDb.Users.AddRange(takeo, orle);
+        ArrangeDb.Characters.AddRange(takeoCharacter, orleCharacter);
         await ArrangeDb.SaveChangesAsync();
 
         GetLeaderboardQuery.Handler handler = new(ActDb, Mapper);
         var result = await handler.Handle(new GetLeaderboardQuery
         {
-            CharacterClass = Domain.Entities.Characters.CharacterClass.ShockInfantry,
+            CharacterClass = CharacterClass.ShockInfantry,
         }, CancellationToken.None);
 
         Assert.That(result.Errors, Is.Null);
         Assert.That(result.Data, Is.Not.Null);
         Assert.That(result.Data!.Count, Is.EqualTo(1));
         Assert.That(result.Data!.First().Class, Is.EqualTo(CharacterClass.ShockInfantry));
+    }
+
+    [Test]
+    public async Task DistinctByUser()
+    {
+        User orle = new()
+        {
+            Name = "Orle",
+            Region = Domain.Entities.Region.Eu,
+        };
+
+        Character orleCharacter1 = new()
+        {
+            Name = "shielder",
+            User = orle,
+            Class = CharacterClass.Infantry,
+            Rating = new()
+            {
+                Value = 50,
+                Deviation = 100,
+                Volatility = 100,
+                CompetitiveValue = 1800,
+            },
+        };
+        Character orleCharacter2 = new()
+        {
+            Name = "2h",
+            User = orle,
+            Class = CharacterClass.ShockInfantry,
+            Rating = new()
+            {
+                Value = 50,
+                Deviation = 100,
+                Volatility = 100,
+                CompetitiveValue = 1500,
+            },
+        };
+
+        ArrangeDb.Users.Add(orle);
+        ArrangeDb.Characters.AddRange(orleCharacter1, orleCharacter2);
+        await ArrangeDb.SaveChangesAsync();
+
+        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper);
+        var result = await handler.Handle(new GetLeaderboardQuery { }, CancellationToken.None);
+
+        Assert.That(result.Errors, Is.Null);
+        Assert.That(result.Data, Is.Not.Null);
+        Assert.That(result.Data!.Count, Is.EqualTo(1));
+        Assert.That(result.Data!.First().Id, Is.EqualTo(orleCharacter1.Id));
     }
 }

@@ -33,12 +33,28 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
                 .OrderByDescending(c => c.Rating.CompetitiveValue)
                 .Where(c => (req.Region == null || req.Region == c.User!.Region)
                             && (req.CharacterClass == null || req.CharacterClass == c.Class))
-                .Take(50)
                 .ProjectTo<CharacterPublicViewModel>(_mapper.ConfigurationProvider)
-                .AsSplitQuery()
-                .ToArrayAsync();
+                .ToArrayAsync(cancellationToken);
 
-            return new(topRatedCharactersByRegion);
+            var results = new List<CharacterPublicViewModel>();
+
+            // DistinctBy don't work https://github.com/dotnet/efcore/issues/27470, let's do it manually.
+            foreach (var result in topRatedCharactersByRegion)
+            {
+                if (results.Count >= 50)
+                {
+                    break;
+                }
+
+                if (results.Count(c => c.User.Id == result.User.Id) > 0)
+                {
+                    continue;
+                }
+
+                results.Add(result);
+            }
+
+            return new(results);
         }
     }
 }
