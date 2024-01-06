@@ -2,20 +2,17 @@
   @apply relative inline-flex gap-2;
 }
 
-.o-chk--checked {
-}
-
-.o-chk__check {
+.o-chk__input {
   @apply h-4.5 w-4.5;
   @apply rounded-sm border-2 border-content-500 hover:border-content-100;
   @apply cursor-pointer;
 }
 
-.o-chk__check--checked {
+.o-chk__input--checked {
   @apply border-content-100 bg-content-100 hover:border-content-300 hover:bg-content-300;
 }
 
-.o-chk__check--indeterminate {
+.o-chk__input--indeterminate {
 }
 
 .o-chk__label {

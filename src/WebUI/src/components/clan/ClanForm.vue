@@ -106,7 +106,7 @@ const onSubmit = async () => {
             v-bind="{
               ...($v.name.$error && {
                 variant: 'danger',
-                message: $v.name.$errors[0].$message,
+                message: $v.name.$errors[0].$message as string,
               }),
             }"
             data-aq-clan-form-field="name"
@@ -114,7 +114,7 @@ const onSubmit = async () => {
             <OInput
               v-model="clanFormModel.name"
               type="text"
-              hasCounter
+              counter
               size="sm"
               expanded
               :placeholder="$t('clan.update.form.field.name')"
@@ -130,7 +130,7 @@ const onSubmit = async () => {
             v-bind="{
               ...($v.tag.$error && {
                 variant: 'danger',
-                message: $v.tag.$errors[0].$message,
+                message: $v.tag.$errors[0].$message as string,
               }),
             }"
             data-aq-clan-form-field="tag"
@@ -138,7 +138,7 @@ const onSubmit = async () => {
             <OInput
               v-model="clanFormModel.tag"
               type="text"
-              hasCounter
+              counter
               size="sm"
               expanded
               :placeholder="$t('clan.update.form.field.tag')"
@@ -155,7 +155,7 @@ const onSubmit = async () => {
             v-bind="{
               ...($v.description.$error && {
                 variant: 'danger',
-                message: $v.description.$errors[0].$message,
+                message: $v.description.$errors[0].$message as string,
               }),
             }"
             data-aq-clan-form-field="description"
@@ -167,7 +167,7 @@ const onSubmit = async () => {
               )})`"
               type="textarea"
               rows="5"
-              hasCounter
+              counter
               size="sm"
               expanded
               :maxlength="clanDescriptionMaxLength"
@@ -195,7 +195,9 @@ const onSubmit = async () => {
           <ClanTagIcon :color="clanFormModel.primaryColor" size="lg" />
           {{ $t('clan.update.form.field.colors') }}
         </template>
+
         <div class="grid grid-cols-2 gap-4">
+          <!-- TODO: https://github.com/oruga-ui/oruga/issues/823 -->
           <OField :label="`${$t('clan.update.form.field.primaryColor')}:`" horizontal>
             <div class="text-content-100">{{ clanFormModel.primaryColor }}</div>
             <OInput
@@ -205,6 +207,7 @@ const onSubmit = async () => {
             />
           </OField>
 
+          <!-- TODO: https://github.com/oruga-ui/oruga/issues/823 -->
           <OField :label="`${$t('clan.update.form.field.secondaryColor')}:`" horizontal>
             <div class="text-content-100">{{ clanFormModel.secondaryColor }}</div>
             <OInput
@@ -244,7 +247,7 @@ const onSubmit = async () => {
 
           <OInput
             v-model="clanFormModel.bannerKey"
-            hasCounter
+            counter
             expanded
             size="sm"
             :maxlength="clanBannerKeyMaxLength"
@@ -260,7 +263,7 @@ const onSubmit = async () => {
           v-bind="{
             ...($v.discord.$error && {
               variant: 'danger',
-              message: $v.discord.$errors[0].$message,
+              message: $v.discord.$errors[0].$message as string,
             }),
           }"
           data-aq-clan-form-field="discord"
@@ -283,19 +286,18 @@ const onSubmit = async () => {
           <OField
             data-aq-clan-form-field="armoryTimeout"
             :label="$t('clan.update.form.group.armory.field.armoryTimeout.label')"
-            :message="$t('clan.update.form.group.armory.field.armoryTimeout.hint')"
             v-bind="{
-              ...($v.armoryTimeout.$error && {
-                variant: 'danger',
-                message: $v.armoryTimeout.$errors[0].$message,
-              }),
+              ...($v.armoryTimeout.$error
+                ? {
+                    variant: 'danger',
+                    message: $v.armoryTimeout.$errors[0].$message as string,
+                  }
+                : { message: $t('clan.update.form.group.armory.field.armoryTimeout.hint') }),
             }"
           >
             <OInput
               :modelValue="parseTimestamp(clanFormModel.armoryTimeout).days"
-              @update:modelValue="
-                (days: string) => (clanFormModel.armoryTimeout = daysToMs(Number(days)))
-              "
+              @update:modelValue="days => (clanFormModel.armoryTimeout = daysToMs(Number(days)))"
               type="number"
               size="sm"
               expanded

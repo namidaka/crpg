@@ -39,7 +39,6 @@ import { Suspense } from 'vue';
 
 definePage({
   meta: {
-    layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
 });

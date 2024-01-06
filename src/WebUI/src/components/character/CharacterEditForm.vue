@@ -57,7 +57,7 @@ const wasChange = computed(() => nameModel.value !== props.character.name);
           size="lg"
           class="w-full"
           :maxlength="32"
-          hasCounter
+          counter
           @blur="$v.$touch"
           @focus="$v.$reset"
         />

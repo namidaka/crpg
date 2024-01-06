@@ -3,7 +3,6 @@ import { getRestrictions } from '@/services/restriction-service';
 
 definePage({
   meta: {
-    layout: 'default',
     roles: ['Moderator', 'Admin'],
   },
 });

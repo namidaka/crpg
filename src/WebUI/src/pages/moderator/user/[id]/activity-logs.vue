@@ -7,7 +7,6 @@ import { Sort, useSort } from '@/composables/use-sort';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     roles: ['Moderator', 'Admin'],
   },
 });

@@ -11,8 +11,9 @@ const modelValue = defineModel<boolean>();
 <template>
   <div class="flex flex-1 items-center gap-2">
     <VTooltip placement="auto">
-      <OSwitch v-model="modelValue" @click.stop />
-
+      <div @click.stop>
+        <OSwitch v-model="modelValue" />
+      </div>
       <template #popper>
         <div class="prose prose-invert">
           <h5 class="text-content-100">

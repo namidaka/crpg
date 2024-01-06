@@ -26,7 +26,6 @@ import { useWelcome } from '@/composables/use-welcome';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     middleware: 'characterValidate',
     roles: ['User', 'Moderator', 'Admin'],
   },
