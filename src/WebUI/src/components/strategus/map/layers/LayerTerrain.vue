@@ -9,7 +9,7 @@ const { data } = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  edit: [e: L.PM.EditEventHandler];
+  update: [e: L.PM.UpdateEventHandler];
 }>();
 
 const terrainGeoJSONStyle = (feature: TerrainFeature) => ({
@@ -23,7 +23,7 @@ const onEachFeatureFunction = (feature: TerrainFeature, layer: L.Polygon) => {
   layer.properties = feature.properties;
 
   // @ts-ignore TODO:
-  layer.on('pm:edit', e => emit('edit', e));
+  layer.on('pm:update', e => emit('update', e));
 };
 
 const terrainGeoJSONOptions = {
