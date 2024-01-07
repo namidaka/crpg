@@ -17,10 +17,11 @@ internal class CrpgTrainingGroundTargetMarkerListPanel : ListPanel
     private bool _hasTargetSentDuelRequest;
     private bool _hasPlayerSentDuelRequest;
     private int _wSign;
+    private int _rating;
     private RichTextWidget _actionText = default!;
     private BrushWidget _background = default!;
     private BrushWidget _border = default!;
-    private BrushWidget _troopClassBorder = default!;
+    private TextWidget _ratingTextWidget = default!;
     [Editor(false)]
     public Vec2 Position
     {
@@ -161,6 +162,24 @@ internal class CrpgTrainingGroundTargetMarkerListPanel : ListPanel
     }
 
     [Editor(false)]
+    public int Rating
+    {
+        get
+        {
+            return _rating;
+        }
+        set
+        {
+            if (_rating != value)
+            {
+                _rating = value;
+                OnPropertyChanged(value, "Rating");
+                UpdateRatingState();
+            }
+        }
+    }
+
+    [Editor(false)]
     public RichTextWidget ActionText
     {
         get
@@ -212,18 +231,18 @@ internal class CrpgTrainingGroundTargetMarkerListPanel : ListPanel
     }
 
     [Editor(false)]
-    public BrushWidget TroopClassBorder
+    public TextWidget RatingTextWidget
     {
         get
         {
-            return _troopClassBorder;
+            return _ratingTextWidget;
         }
         set
         {
-            if (value != _troopClassBorder)
+            if (value != _ratingTextWidget)
             {
-                _troopClassBorder = value;
-                OnPropertyChanged(value, "TroopClassBorder");
+                _ratingTextWidget = value;
+                OnPropertyChanged(value, "RatingTextWidget");
             }
         }
     }
@@ -293,6 +312,44 @@ internal class CrpgTrainingGroundTargetMarkerListPanel : ListPanel
         string state = HasTargetSentDuelRequest ? TrackedState : ((HasPlayerSentDuelRequest || IsAgentFocused) ? FocusedState : DefaultState);
         Background.SetState(state);
         Border.SetState(state);
-        TroopClassBorder?.SetState(state);
+    }
+
+    private void UpdateRatingState()
+    {
+        string state;
+        if (Rating > 1750)
+        {
+            state = "Champion";
+        }
+        else if (Rating > 1500)
+        {
+            state = "Diamond";
+        }
+        else if (Rating > 1250)
+        {
+            state = "Platinum";
+        }
+        else if (Rating > 1000)
+        {
+            state = "Gold";
+        }
+        else if (Rating > 750)
+        {
+            state = "Silver";
+        }
+        else if (Rating > 500)
+        {
+            state = "Bronze";
+        }
+        else if (Rating > 250)
+        {
+            state = "Copper";
+        }
+        else
+        {
+            state = "Iron";
+        }
+
+        RatingTextWidget.SetState(state);
     }
 }

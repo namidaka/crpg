@@ -10,7 +10,7 @@
               <Children>
 
                 <!--Single Card-->
-                <CrpgTrainingGroundTargetMarkerListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop" Background="CardBackground" Border="CardBackground\CardOutline" ActionText="..\ActionText" Position="@ScreenPosition" WSign="@WSign" TroopClassBorder="CardBackground\CardOutline\CardContentList\CardContentListHorizontal\TroopClassBorder" IsAgentInScreenBoundaries="@IsAgentInScreenBoundaries" IsTracked="@IsTracked" IsAvailable="@IsEnabled" HasTargetSentDuelRequest="@HasDuelRequestForPlayer" HasPlayerSentDuelRequest="@HasSentDuelRequest" IsAgentFocused="@IsFocused">
+                <CrpgTrainingGroundTargetMarkerListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop" Background="CardBackground" Border="CardBackground\CardOutline" ActionText="..\ActionText" Position="@ScreenPosition" WSign="@WSign" RatingTextWidget="CardBackground\CardOutline\CardContentList\CardContentListVertical\RatingTextWidget" IsAgentInScreenBoundaries="@IsAgentInScreenBoundaries" IsTracked="@IsTracked" IsAvailable="@IsEnabled" HasTargetSentDuelRequest="@HasDuelRequestForPlayer" HasPlayerSentDuelRequest="@HasSentDuelRequest" IsAgentFocused="@IsFocused" Rating="@Rating">
                   <Children>
 
                     <BrushWidget Id="CardBackground" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="180" HorizontalAlignment="Center" Brush="CrpgHUD.Duel.Card.Canvas" UpdateChildrenStates="true">
@@ -37,7 +37,7 @@
                                   </Children>
                                 </ListPanel>
 
-                                <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalTopToBottom" MarginLeft="10" MarginRight="10" IsVisible="@ShouldShowInformation">
+                                <ListPanel Id="CardContentListVertical" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalTopToBottom" MarginLeft="10" MarginRight="10" IsVisible="@ShouldShowInformation">
                                   <Children>
                                     <!--Record-->
                                     <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight">
@@ -48,7 +48,7 @@
                                       </Children>
                                     </ListPanel>
                                     <!--Rating-->
-                                    <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" IntText="@Rating" Brush="CrpgHUD.Duel.Card.RatingText"/>
+                                    <TextWidget Id="RatingTextWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" IntText="@Rating" Brush="CrpgHUD.Duel.Card.RatingText"/>
 
                                   </Children>
                                 </ListPanel>

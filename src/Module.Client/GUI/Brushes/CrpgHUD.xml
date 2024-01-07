@@ -73,7 +73,14 @@
 
   <Brush Name="CrpgHUD.Duel.Card.RatingText" Font="FiraSansExtraCondensed-Medium" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" >
     <Styles>
-      <Style Name="Default" FontColor="#40a7b9FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Champion" FontColor="#B73E6CFF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Diamond" FontColor="#C289F5FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Platinum" FontColor="#40A7B9FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Gold" FontColor="#EABC40FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Silver" FontColor="#C7CCCAFF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Bronze" FontColor="#CC6633FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Copper" FontColor="#B87333FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Iron" FontColor="#A19D94FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
     </Styles>
   </Brush>
 
