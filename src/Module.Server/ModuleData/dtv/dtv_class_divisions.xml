@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MPClassDivisions>
-  <MPClassDivision id="crpg_dtv_viscount_male"
-                   hero="crpg_dtv_viscount_male"
-                   troop="crpg_dtv_viscount_male"
+  <MPClassDivision id="crpg_dtv_vip_viscount_male"
+                   hero="crpg_dtv_vip_viscount_male"
+                   troop="crpg_dtv_vip_viscount_male"
                    hero_idle_anim="act_vlandia_mp_voulgier_idle"
                    troop_idle_anim="act_idle_spear_1_left_stance"
                    multiplier="0"
@@ -24,9 +24,9 @@
     </Perks>
   </MPClassDivision>
   
-  <MPClassDivision id="crpg_dtv_viscount_female"
-                   hero="crpg_dtv_viscount_female"
-                   troop="crpg_dtv_viscount_female"
+  <MPClassDivision id="crpg_dtv_vip_viscount_female"
+                   hero="crpg_dtv_vip_viscount_female"
+                   troop="crpg_dtv_vip_viscount_female"
                    hero_idle_anim="act_vlandia_mp_voulgier_idle"
                    troop_idle_anim="act_idle_spear_1_left_stance"
                    multiplier="0"

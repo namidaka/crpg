@@ -95,7 +95,7 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
 {
     MultiplayerClassDivisions.MPHeroClass vipClass = MultiplayerClassDivisions
         .GetMPHeroClasses()
-        .GetRandomElementWithPredicate(x => x.StringId.StartsWith("crpg_dtv_viscount_"));
+        .GetRandomElementWithPredicate(x => x.StringId.StartsWith("crpg_dtv_vip_"));
 
     var vipAgent = SpawnBotAgent(vipClass.StringId, Mission.DefenderTeam);
     var vipSpawn = Mission.Scene.FindEntityWithTag("crpg_spawn_viscount");
