@@ -17,7 +17,7 @@ import { useMap } from '@/composables/strategus/use-map';
 import { useParty } from '@/composables/strategus/use-party';
 import { useSettlements } from '@/composables/strategus/use-settlements';
 import { useMove } from '@/composables/strategus/use-move';
-import { useTerrain } from '@/composables/strategus/use-terrain';
+import { useTerrains } from '@/composables/strategus/use-terrains';
 
 definePage({
   meta: {
@@ -42,12 +42,13 @@ const {
 } = useMap();
 
 const {
-  terrain,
+  terrainsFeatureCollection,
+  loadTerrains,
   terrainVisibility,
   toggleTerrainVisibilityLayer,
   toggleEditMode,
   onTerrainUpdated,
-} = useTerrain(map);
+} = useTerrains(map);
 
 // prettier-ignore
 const {
@@ -133,7 +134,7 @@ const onMoveDialogConfirm = (mt: MovementType) => {
 const mapIsLoading = ref<boolean>(true);
 const onMapReady = async (map: Map) => {
   mapBounds.value = map.getBounds();
-  await Promise.all([loadSettlements(), partySpawn()]);
+  await Promise.all([loadSettlements(), loadTerrains(), partySpawn()]);
 
   if (party.value !== null) {
     map.flyTo(positionToLatLng(party.value.position.coordinates), 5, {
@@ -177,7 +178,11 @@ const onMapReady = async (map: Map) => {
       <ControlMousePosition />
       <ControlLocateParty v-if="party !== null" :party="party" position="bottomleft" />
 
-      <LayerTerrain v-if="terrainVisibility" :data="terrain" @edit="onTerrainUpdated" />
+      <LayerTerrain
+        v-if="terrainVisibility"
+        :data="terrainsFeatureCollection"
+        @update="onTerrainUpdated"
+      />
 
       <MarkerParty v-if="party !== null" :party="party" isSelf @click="onStartMove" />
       <PartyMovementLine v-if="party !== null && !isMoveMode" :party="party" />
