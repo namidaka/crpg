@@ -115,7 +115,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             _challengers = new Challenger[2];
             _challengers[0] = new Challenger(requesterPeer);
             _challengers[1] = new Challenger(requesteePeer);
-            Timer = MissionTime.Now + MissionTime.Seconds(10.5f);
+            Timer = MissionTime.Now + MissionTime.Seconds(DuelRequestTimeOutInSeconds + DuelRequestTimeOutServerToleranceInSeconds);
         }
 
         private void DecideRoundWinner()
@@ -198,7 +198,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
 
         public void OnDuelEnding()
         {
-            Timer = MissionTime.Now + MissionTime.Seconds(2f);
+            Timer = MissionTime.Now + MissionTime.Seconds(DuelEndInSeconds);
         }
 
         public void OnDuelEnded()
@@ -273,11 +273,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     public delegate void OnDuelEndedDelegate(MissionPeer winnerPeer);
 
     public const float DuelRequestTimeOutInSeconds = 10f;
-    public const int NumberOfDuelAreas = 16;
     public const float DuelEndInSeconds = 2f;
-    private const int MinBountyGain = 100;
-    private const string AreaBoxTagPrefix = "area_box";
-    private const string AreaFlagTagPrefix = "area_flag";
     private const float DuelRequestTimeOutServerToleranceInSeconds = 0.5f;
     private const float CorpseFadeOutTimeInSeconds = 1f;
 
@@ -285,16 +281,12 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     private readonly Queue<Team> _deactiveDuelTeams = new();
 
     private MissionTimer? _rewardTickTimer;
-    private List<GameEntity> _duelAreaFlags = new();
-    private List<VolumeBox> _areaBoxes = new();
     private List<DuelInfo> _duelRequests = new();
     private List<DuelInfo> _activeDuels = new();
     private List<DuelInfo> _endingDuels = new();
     private List<DuelInfo> _restartingDuels = new();
     private List<DuelInfo> _restartPreparationDuels = new();
     private List<KeyValuePair<MissionPeer, TroopType>> _peersAndSelections = new();
-    private VolumeBox[] _cachedSelectedVolumeBoxes = default!;
-    private KeyValuePair<int, TroopType>[] _cachedSelectedAreaFlags = default!;
     public override bool IsGameModeHidingAllAgentVisuals => true;
     public override bool IsGameModeUsingOpposingTeams => false;
     public event OnDuelEndedDelegate OnDuelEnded = default!;
@@ -312,7 +304,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     public override void AfterStart()
     {
         base.AfterStart();
-        Mission.Current.SetMissionCorpseFadeOutTimeInSeconds(1f);
+        Mission.Current.SetMissionCorpseFadeOutTimeInSeconds(CorpseFadeOutTimeInSeconds);
         BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue());
         Banner banner = new(@object.BannerKey, @object.BackgroundColor1, @object.ForegroundColor1);
         Mission.Teams.Add(BattleSideEnum.Attacker, @object.BackgroundColor1, @object.ForegroundColor1, banner, isPlayerGeneral: false);
@@ -322,17 +314,6 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
-        _duelAreaFlags.AddRange(Mission.Current.Scene.FindEntitiesWithTagExpression("area_flag(_\\d+)*"));
-        List<GameEntity> list = new();
-        list.AddRange(Mission.Current.Scene.FindEntitiesWithTagExpression("area_box(_\\d+)*"));
-        _cachedSelectedAreaFlags = new KeyValuePair<int, TroopType>[_duelAreaFlags.Count];
-        for (int i = 0; i < list.Count; i++)
-        {
-            VolumeBox firstScriptOfType = list[i].GetFirstScriptOfType<VolumeBox>();
-            _areaBoxes.Add(firstScriptOfType);
-        }
-
-        _cachedSelectedVolumeBoxes = new VolumeBox[_areaBoxes.Count];
     }
 
     protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
@@ -577,10 +558,6 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             Team duelTeam = duel.Started ? duel.DuelingTeam : ActivateAndGetDuelTeam();
             duel.OnDuelPreparation(duelTeam);
         }
-        else
-        {
-            Debug.FailedAssert("IsHavingDuel(duel.RequesteePeer) || IsHavingDuel(duel.RequesterPeer)", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerGameModeLogics\\ServerGameModeLogics\\MissionMultiplayerDuel.cs", "PrepareDuel", 707);
-        }
     }
 
     private void StartDuel(DuelInfo duel)
@@ -602,37 +579,6 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
 
             DeactivateDuelTeam(duel.DuelingTeam);
             HandleEndedChallenge(duel);
-        }
-    }
-
-    private void CleanSpawnedEntitiesInDuelArea(int duelAreaIndex)
-    {
-        int num = duelAreaIndex + 1;
-        int num2 = 0;
-        for (int i = 0; i < _areaBoxes.Count; i++)
-        {
-            if (_areaBoxes[i].GameEntity.HasTag(string.Format("{0}_{1}", "area_box", num)))
-            {
-                _cachedSelectedVolumeBoxes[num2] = _areaBoxes[i];
-                num2++;
-            }
-        }
-
-        for (int j = 0; j < Mission.Current.ActiveMissionObjects.Count; j++)
-        {
-            if (!(Mission.Current.ActiveMissionObjects[j] is SpawnedItemEntity spawnedItemEntity) || spawnedItemEntity.IsDeactivated)
-            {
-                continue;
-            }
-
-            for (int k = 0; k < num2; k++)
-            {
-                if (_cachedSelectedVolumeBoxes[k].IsPointIn(spawnedItemEntity.GameEntity.GlobalPosition))
-                {
-                    spawnedItemEntity.RequestDeletionOnNextTick();
-                    break;
-                }
-            }
         }
     }
 
