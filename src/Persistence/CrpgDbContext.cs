@@ -11,6 +11,7 @@ using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
 using Crpg.Domain.Entities.Settlements;
+using Crpg.Domain.Entities.Terrains;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         NpgsqlConnection.GlobalTypeMapper.MapEnum<ClanInvitationStatus>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<PartyStatus>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<SettlementType>();
+        NpgsqlConnection.GlobalTypeMapper.MapEnum<TerrainType>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<BattlePhase>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<BattleSide>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<BattleFighterApplicationStatus>();
@@ -75,6 +77,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<ClanInvitation> ClanInvitations { get; set; } = default!;
     public DbSet<Party> Parties { get; set; } = default!;
     public DbSet<Settlement> Settlements { get; set; } = default!;
+    public DbSet<Terrain> Terrains { get; set; } = default!;
     public DbSet<SettlementItem> SettlementItems { get; set; } = default!;
     public DbSet<PartyItem> PartyItems { get; set; } = default!;
     public DbSet<Battle> Battles { get; set; } = default!;
@@ -139,6 +142,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         modelBuilder.HasPostgresEnum<ClanInvitationStatus>();
         modelBuilder.HasPostgresEnum<PartyStatus>();
         modelBuilder.HasPostgresEnum<SettlementType>();
+        modelBuilder.HasPostgresEnum<TerrainType>();
         modelBuilder.HasPostgresEnum<BattlePhase>();
         modelBuilder.HasPostgresEnum<BattleSide>();
         modelBuilder.HasPostgresEnum<BattleFighterApplicationStatus>();
