@@ -98,7 +98,7 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
         .GetRandomElementWithPredicate(x => x.StringId.StartsWith("crpg_dtv_vip_"));
 
     var vipAgent = SpawnBotAgent(vipClass.StringId, Mission.DefenderTeam);
-    var vipSpawn = Mission.Scene.FindEntityWithTag("crpg_spawn_viscount");
+    var vipSpawn = Mission.Scene.FindEntityWithTag("crpg_spawn_vip");
     if (vipSpawn != null)
     {
         vipAgent.TeleportToPosition(vipSpawn.GetGlobalFrame().origin);
