@@ -45,7 +45,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         };
         float finalDamage = base.CalculateDamage(attackInformation, collisionData, weapon, baseDamage);
 
-        if (IsPlayerCharacterAttackingViscountBot(attackInformation))
+        if (IsPlayerCharacterAttackingVipBot(attackInformation))
         {
             return 0f;
         }
@@ -262,15 +262,15 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         return 0;
     }
 
-    private bool IsPlayerCharacterAttackingViscountBot(AttackInformation attackInformation)
+    private bool IsPlayerCharacterAttackingVipBot(AttackInformation attackInformation)
     {
         if (attackInformation.AttackerAgentOrigin is CrpgBattleAgentOrigin)
         {
-            bool isVictimTheViscountBot = attackInformation.VictimAgentCharacter != null
+            bool isVictimTheVipBot = attackInformation.VictimAgentCharacter != null
                 ? attackInformation.VictimAgentCharacter.StringId.StartsWith("crpg_dtv_viscount_")
                 : false;
 
-            return isVictimTheViscountBot;
+            return isVictimTheVipBot;
         }
 
         return false;

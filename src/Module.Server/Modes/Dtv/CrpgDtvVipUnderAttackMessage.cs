@@ -5,7 +5,7 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 namespace Crpg.Module.Modes.Dtv;
 
 [DefineGameNetworkMessageTypeForMod(GameNetworkMessageSendType.FromServer)]
-internal sealed class CrpgDtvViscountUnderAttackMessage : GameNetworkMessage
+internal sealed class CrpgDtvVipUnderAttackMessage : GameNetworkMessage
 {
     public int AgentAttackerIndex { get; set; }
     public int AgentVictimIndex { get; set; }
@@ -30,6 +30,6 @@ internal sealed class CrpgDtvViscountUnderAttackMessage : GameNetworkMessage
 
     protected override string OnGetLogFormat()
     {
-        return "cRPG DTV Viscount Under Attack";
+        return "cRPG DTV VIP Under Attack";
     }
 }

@@ -165,9 +165,9 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             return;
         }
 
-        if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // Viscount under attack
+        if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // VIP under attack
         {
-            SendDataToPeers(new CrpgDtvGameEnd { ViscountDead = true, ViscountAgentIndex = affectedAgent.Index });
+            SendDataToPeers(new CrpgDtvGameEnd { VipDead = true, VipAgentIndex = affectedAgent.Index });
         }
     }
 
@@ -188,9 +188,9 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             return;
         }
 
-        if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // Viscount under attack
+        if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // VIP under attack
         {
-            SendDataToPeers(new CrpgDtvViscountUnderAttackMessage { AgentAttackerIndex = affectorAgent.Index, AgentVictimIndex = affectedAgent.Index });
+            SendDataToPeers(new CrpgDtvVipUnderAttackMessage { AgentAttackerIndex = affectorAgent.Index, AgentVictimIndex = affectedAgent.Index });
         }
     }
 
@@ -257,16 +257,16 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
     private void CheckForWaveEnd()
     {
-        bool viscountDead = !Mission.DefenderTeam.HasBots;
-        bool defendersDepleted = Mission.DefenderTeam.ActiveAgents.Count == (viscountDead ? 0 : 1);
+        bool vipDead = !Mission.DefenderTeam.HasBots;
+        bool defendersDepleted = Mission.DefenderTeam.ActiveAgents.Count == (vipDead ? 0 : 1);
         float roundDuration = _currentRoundStartTime.ElapsedSeconds;
 
         if (defendersDepleted)
         {
-            SendDataToPeers(new CrpgDtvGameEnd { ViscountDead = false });
+            SendDataToPeers(new CrpgDtvGameEnd { VipDead = false });
         }
 
-        if (viscountDead || defendersDepleted)
+        if (vipDead || defendersDepleted)
         {
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave),

@@ -64,8 +64,8 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
         registerer.Register<CrpgDtvSetTimerMessage>(HandleSetTimer);
         registerer.Register<CrpgDtvRoundStartMessage>(HandleRoundStart);
         registerer.Register<CrpgDtvWaveStartMessage>(HandleWaveStart);
-        registerer.Register<CrpgDtvViscountUnderAttackMessage>(HandleViscountUnderAttack);
-        registerer.Register<CrpgDtvGameEnd>(HandleViscountDeath);
+        registerer.Register<CrpgDtvVipUnderAttackMessage>(HandleVipUnderAttack);
+        registerer.Register<CrpgDtvGameEnd>(HandleVipDeath);
         registerer.Register<CrpgDtvCurrentProgressMessage>(HandleCurrentProgress);
     }
 
@@ -119,34 +119,34 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
         OnWaveStart?.Invoke();
     }
 
-    private void HandleViscountDeath(CrpgDtvGameEnd message)
+    private void HandleVipDeath(CrpgDtvGameEnd message)
     {
-        var viscountAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.ViscountAgentIndex, true);
+        var agentToDefend = Mission.MissionNetworkHelper.GetAgentFromIndex(message.VipAgentIndex, true);
 
         InformationManager.DisplayMessage(new InformationMessage
         {
-            Information = message.ViscountDead
-                ? new TextObject("{=4HrC30kl}{VISCOUNT} has been slaughtered!",
-                new Dictionary<string, object> { ["VISCOUNT"] = viscountAgent.Name ?? "{=}The Viscount" }).ToString()
+            Information = message.VipDead
+                ? new TextObject("{=4HrC30kl}{VIP} has been slaughtered!",
+                new Dictionary<string, object> { ["VIP"] = agentToDefend.Name ?? "{=}The Viscount" }).ToString()
                 : new TextObject("{=tdfOMWmf}The defenders have been slaughtered!").ToString(),
             Color = new Color(0.90f, 0.25f, 0.25f),
             SoundEventPath = "event:/ui/notification/death",
         });
     }
 
-    private void HandleViscountUnderAttack(CrpgDtvViscountUnderAttackMessage message)
+    private void HandleVipUnderAttack(CrpgDtvVipUnderAttackMessage message)
     {
         var attackerAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentAttackerIndex, true);
-        var viscountAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentVictimIndex, true);
+        var agentToDefend = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentVictimIndex, true);
 
         if (attackerAgent == null)
         {
-            Debug.Print($"CRPGLOG : HandleViscountUnderAttack received a null agent {message.AgentAttackerIndex}");
+            Debug.Print($"CRPGLOG : HandleVipUnderAttack received a null agent {message.AgentAttackerIndex}");
             return;
         }
 
-        TextObject textObject = new("{=mfD3LkeQ}{VISCOUNT} is being attacked by {AGENT}!",
-        new Dictionary<string, object> { ["VISCOUNT"] = viscountAgent?.Name ?? "{=}The Viscount", ["AGENT"] = attackerAgent?.Name ?? string.Empty });
+        TextObject textObject = new("{=mfD3LkeQ}{VIP} is being attacked by {AGENT}!",
+        new Dictionary<string, object> { ["VIP"] = agentToDefend?.Name ?? "{=}The Viscount", ["AGENT"] = attackerAgent?.Name ?? string.Empty });
         InformationManager.DisplayMessage(new InformationMessage
         {
             Information = textObject.ToString(),
