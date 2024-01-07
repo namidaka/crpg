@@ -14,6 +14,7 @@ using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
 using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Settlements;
+using Crpg.Domain.Entities.Terrains;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -1977,6 +1978,22 @@ public record SeedDataCommand : IMediatorRequest
                 {
                     _db.Parties.Add(newParty);
                 }
+            }
+
+            Terrain terrain1 = new()
+            {
+                Type = TerrainType.Forest,
+                Boundary = new Polygon(new LinearRing(new Coordinate[] { new Coordinate(99.210197, -101.434375), new Coordinate(100.263933, -100.115272), new Coordinate(100.749973, -99.783815), new Coordinate(101.136596, -99.253485), new Coordinate(101.445895, -98.734204), new Coordinate(101.920889, -98.557427), new Coordinate(101.920889, -98.557427), new Coordinate(102.561578, -98.634767), new Coordinate(103.467381, -98.446942), new Coordinate(104.085977, -98.38065), new Coordinate(104.174348, -97.761932), new Coordinate(104.59411, -97.342087), new Coordinate(105.168522, -97.264747), new Coordinate(105.787118, -97.640398), new Coordinate(105.865278, -98.253125), new Coordinate(105.732492, -98.95625), new Coordinate(105.451157, -99.7625), new Coordinate(104.810658, -100.004687), new Coordinate(104.162348, -100.48125), new Coordinate(102.95946, -100.410937), new Coordinate(102.365826, -101.090625), new Coordinate(101.944034, -101.309375), new Coordinate(101.483188, -101.715625), new Coordinate(101.194182, -101.965625), new Coordinate(100.616171, -102.160937), new Coordinate(100.584927, -102.746875), new Coordinate(100.131891, -102.934375), new Coordinate(99.460148, -102.403125), new Coordinate(99.210197, -101.434375), })),
+            };
+
+            Terrain[] newTerrains =
+            {
+                terrain1,
+            };
+
+            foreach (var newTerrain in newTerrains)
+            {
+                _db.Terrains.Add(newTerrain);
             }
 
             Battle nideonBattle = new()
