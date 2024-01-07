@@ -7,6 +7,7 @@ using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
 using Crpg.Domain.Entities.Settlements;
+using Crpg.Domain.Entities.Terrains;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -28,9 +29,10 @@ public interface ICrpgDbContext
     DbSet<ClanArmoryBorrowedItem> ClanArmoryBorrowedItems { get; }
     DbSet<ClanInvitation> ClanInvitations { get; }
     DbSet<Party> Parties { get; }
+    DbSet<PartyItem> PartyItems { get; }
     DbSet<Settlement> Settlements { get; }
     DbSet<SettlementItem> SettlementItems { get; }
-    DbSet<PartyItem> PartyItems { get; }
+    DbSet<Terrain> Terrains { get; }
     DbSet<Battle> Battles { get; }
     DbSet<BattleFighter> BattleFighters { get; }
     DbSet<BattleFighterApplication> BattleFighterApplications { get; }
@@ -38,6 +40,7 @@ public interface ICrpgDbContext
     DbSet<BattleMercenaryApplication> BattleMercenaryApplications { get; }
     DbSet<ActivityLog> ActivityLogs { get; set; }
     DbSet<ActivityLogMetadata> ActivityLogMetadata { get; set; }
+
     EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
