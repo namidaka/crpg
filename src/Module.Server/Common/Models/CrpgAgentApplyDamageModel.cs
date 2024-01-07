@@ -267,7 +267,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         if (attackInformation.AttackerAgentOrigin is CrpgBattleAgentOrigin)
         {
             bool isVictimTheVipBot = attackInformation.VictimAgentCharacter != null
-                ? attackInformation.VictimAgentCharacter.StringId.StartsWith("crpg_dtv_viscount_")
+                ? attackInformation.VictimAgentCharacter.StringId.StartsWith("crpg_dtv_vip_")
                 : false;
 
             return isVictimTheVipBot;
