@@ -100,27 +100,46 @@ export const useTerrains = (map: Ref<typeof LMap | null>) => {
     });
 
     (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: TerrainType.River,
+      name: TerrainType.Barrier,
       block: 'draw',
-      title: 'River',
-      className: 'icon-river',
-      onClick: () => setEditType(TerrainType.River),
-    });
-    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: TerrainType.Forest,
-      block: 'draw',
-      title: 'Forest',
-      className: 'icon-forest',
-      onClick: () => setEditType(TerrainType.Forest),
-    });
-    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: TerrainType.Mountain,
-      block: 'draw',
-      title: 'Mountains',
-      className: 'icon-mountains',
-      onClick: () => setEditType(TerrainType.Mountain),
+      title: 'Barrier',
+      className: 'icon-terrain-barrier',
+      onClick: () => setEditType(TerrainType.Barrier),
     });
 
+    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
+      name: TerrainType.ShallowWater,
+      block: 'draw',
+      title: 'ShallowWater',
+      className: 'icon-river', // TODO: ICON
+      onClick: () => setEditType(TerrainType.ShallowWater),
+    });
+    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
+      name: TerrainType.DeepWater,
+      block: 'draw',
+      title: 'Deep water',
+      className: 'icon-river', // TODO: ICON
+      onClick: () => setEditType(TerrainType.ShallowWater),
+    });
+
+    //
+
+    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
+      name: TerrainType.SparseForest,
+      block: 'draw',
+      title: 'Sparse forest',
+      className: 'icon-forest', // TODO: wtf
+      onClick: () => setEditType(TerrainType.SparseForest),
+    });
+    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
+      name: TerrainType.ThickForest,
+      block: 'draw',
+      title: 'Thick forest',
+      className: 'icon-terrain-thick-forest',
+      onClick: () => setEditType(TerrainType.ThickForest),
+    });
+
+    //
     (map.value!.leafletObject as Map).on('pm:create', onTerrainUpdated);
     (map.value!.leafletObject as Map).on('pm:remove', onTerrainUpdated);
 

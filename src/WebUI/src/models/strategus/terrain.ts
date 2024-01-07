@@ -1,15 +1,11 @@
 import { type FeatureCollection, type Feature, type Polygon } from 'geojson';
 
 export enum TerrainType {
-  'Forest' = 'Forest',
-  'River' = 'River',
-  'Mountain' = 'Mountain', // to Mountain
-
-  // TODO:
-  // Roads?
-  // Road top tier
-  // Road low tier ?)))
-  // No
+  'Barrier' = 'Barrier',
+  'ThickForest' = 'ThickForest',
+  'SparseForest' = 'SparseForest',
+  'ShallowWater' = 'ShallowWater',
+  'DeepWater' = 'DeepWater',
 }
 
 export interface Terrain {

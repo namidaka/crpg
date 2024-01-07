@@ -7,9 +7,13 @@ import {
 import { get, post, put, del } from '@/services/crpg-client';
 
 export const TerrainColorByType: Record<TerrainType, string> = {
-  [TerrainType.Forest]: '#047857',
-  [TerrainType.River]: '#0284c7',
-  [TerrainType.Mountain]: '#d1d5db ',
+  [TerrainType.Barrier]: '#d03c3c ', // TODO: color
+
+  [TerrainType.SparseForest]: '#22c55e',
+  [TerrainType.ThickForest]: '#166534',
+
+  [TerrainType.ShallowWater]: '#60a5fa',
+  [TerrainType.DeepWater]: '#1e40af',
 };
 
 export const getTerrains = () => get<Terrain[]>('/terrains');
