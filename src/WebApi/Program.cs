@@ -46,7 +46,7 @@ builder.Services
     .AddSdk(builder.Configuration, appEnv)
     .AddPersistence(builder.Configuration, appEnv)
     .AddApplication(builder.Configuration, appEnv)
-    // .AddHostedService<StrategusWorker>() Disable strategus for now.
+    .AddHostedService<StrategusWorker>() // Disable strategus for now.
     .AddHostedService<DonorSynchronizerWorker>()
     .AddHostedService<ActivityLogsCleanerWorker>()
     .AddHostedService<ClanArmoryWorker>()

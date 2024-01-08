@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Crpg.WebApi.Controllers;
 
-[Authorize(Policy = UserPolicy)]
+// [Authorize(Policy = UserPolicy)]
+[AllowAnonymous]
 public class SettlementsController : BaseController
 {
     /// <summary>
@@ -35,6 +36,8 @@ public class SettlementsController : BaseController
     /// <summary>
     /// Give (position count) or take (negative count) garrison items from a settlement.
     /// </summary>
+    ///
+    // TODO: Post + Put?
     [HttpPost("{settlementId}/items")]
     public Task<ActionResult<Result<ItemStack>>> UpdateSettlementItems([FromRoute] int settlementId,
         [FromBody] AddSettlementItemCommand req)

@@ -1,10 +1,27 @@
 <script setup lang="ts">
-import { PartyStatus } from '@/models/strategus/party';
-import { useParty } from '@/composables/strategus/use-party';
+import { type Party, PartyStatus } from '@/models/strategus/party';
+import { getSettlementGarrisonItems } from '@/services/strategus-service/settlement';
 
-const { party, toggleRecruitTroops, isTogglingRecruitTroops } = useParty();
+const { party } = defineProps<{ party: Party; isTogglingRecruitTroops: boolean }>();
 
-const settlement = computed(() => party.value!.targetedSettlement!);
+// TODO: to composable
+
+defineEmits<{
+  toggleRecruitTroops: [];
+}>();
+
+const settlement = computed(() => party.targetedSettlement!); // TODO: from props
+
+const { state: garrisonItems, execute: loadGarrisonItems } = useAsyncState(
+  () => getSettlementGarrisonItems(settlement.value.id),
+  [],
+  {
+    immediate: false,
+    resetOnExecute: false,
+  }
+);
+
+await loadGarrisonItems();
 </script>
 
 <template>
@@ -13,7 +30,27 @@ const settlement = computed(() => party.value!.targetedSettlement!);
       <div class="prose prose-invert">
         <h2>{{ settlement.name }}</h2>
         <p>Culture: {{ settlement.culture }}</p>
-        <p>Garrison: TODO: 2515</p>
+        <p>Garrison: {{ settlement.troops }}</p>
+        <p>Owner: {{ settlement.troops }}</p>
+
+        <br />
+        <br />
+
+        <p>Settlement owner</p>
+
+        <div>
+          {{ garrisonItems }}
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <div>Settlement shop (with loomed items??? TODO:)</div>
+        <div>Party inventory</div>
+        <div>TODO: add item from party inventory</div>
       </div>
 
       <div class="flex gap-4">
@@ -26,7 +63,8 @@ const settlement = computed(() => party.value!.targetedSettlement!);
               : 'Stop recruiting troops'
           "
           :loading="isTogglingRecruitTroops"
-          @click="toggleRecruitTroops"
+          :disabled="isTogglingRecruitTroops"
+          @click="$emit('toggleRecruitTroops')"
         />
 
         <OButton variant="primary" size="lg" label="TODO: Shop" />

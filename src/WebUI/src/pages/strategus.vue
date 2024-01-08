@@ -58,6 +58,10 @@ const {
   partySpawn,
   moveParty,
   visibleParties,
+
+  //
+  toggleRecruitTroops,
+  isTogglingRecruitTroops
 } = useParty();
 
 const {
@@ -225,6 +229,9 @@ const onMapReady = async (map: Map) => {
           party.targetedSettlement !== null &&
           inSettlementStatuses.has(party.status)
         "
+        :party="party"
+        :isTogglingRecruitTroops="isTogglingRecruitTroops"
+        @toggleRecruitTroops="toggleRecruitTroops"
       />
     </div>
   </div>
