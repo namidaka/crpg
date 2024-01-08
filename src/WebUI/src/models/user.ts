@@ -1,8 +1,8 @@
-import { Platform } from './platform';
-import Role from './role';
-import { Region } from './region';
-import { ItemSlot, ItemType, type Item } from './item';
-import { type Clan } from './clan';
+import { Platform } from '@/models/platform';
+import Role from '@/models/role';
+import { Region } from '@/models/region';
+import { ItemSlot, ItemType, type Item } from '@/models/item';
+import { type Clan, ClanMemberRole } from '@/models/clan';
 
 export interface User {
   id: number;
@@ -22,7 +22,7 @@ export interface User {
 export interface UserPublic
   extends Pick<User, 'id' | 'platform' | 'platformUserId' | 'name' | 'region'> {
   avatar: string;
-  clan: Clan | null;
+  clan: UserClan | null;
 }
 
 export interface UserPrivate extends UserPublic {
@@ -48,6 +48,11 @@ export interface UserItem {
 export interface UserItemsByType {
   type: ItemType;
   items: UserItem[];
+}
+
+export interface UserClan {
+  clan: Clan;
+  role: ClanMemberRole;
 }
 
 export type UserItemsBySlot = Record<ItemSlot, UserItem>;

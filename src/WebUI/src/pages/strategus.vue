@@ -27,6 +27,8 @@ definePage({
   },
 });
 
+const router = useRouter();
+
 const mainHeaderHeight = useMainHeaderHeight();
 
 // prettier-ignore
@@ -57,7 +59,34 @@ const {
   partySpawn,
   moveParty,
   visibleParties,
+
+  //
+  toggleRecruitTroops,
+  isTogglingRecruitTroops
 } = useParty();
+
+// TODO: need refactoring
+// TODO: tweak routes nesting
+// enter/leave settlement
+
+// TODO: to route middleware? no
+watchEffect(() => {
+  if (party.value === null) return;
+
+  // if (party.value.targetedSettlement !== null && inSettlementStatuses.has(party.value.status)) {
+  //   router.push({
+  //     name: 'StrategusSettlementId', // TODO: tweak routes nesting
+  //     params: { id: party.value.targetedSettlement.id },
+  //   });
+  // }
+  // else {
+  //   //
+  //   // await moveParty
+  //   router.push({
+  //     name: 'StrategusParent',
+  //   });
+  // }
+});
 
 const {
   settlements,
@@ -135,19 +164,23 @@ const onMapReady = async (map: Map) => {
   mapBounds.value = map.getBounds();
   await Promise.all([loadSettlements(), partySpawn()]);
 
-  if (party.value !== null) {
-    map.flyTo(positionToLatLng(party.value.position.coordinates), 5, {
-      animate: false,
-    });
-  }
-
   applyMoveEvents();
   mapIsLoading.value = false;
+
+  if (party.value !== null) {
+    locateToSelfParty();
+  }
+};
+
+const locateToSelfParty = () => {
+  map.value!.leafletObject.flyTo(positionToLatLng(party.value!.position.coordinates), 5, {
+    animate: false,
+  });
 };
 </script>
 
 <template>
-  <div :style="{ height: `calc(100vh - ${mainHeaderHeight}px)` }">
+  <div class="relative overflow-hidden" :style="{ height: `calc(100vh - ${mainHeaderHeight}px)` }">
     <OLoading v-if="mapIsLoading" fullPage active iconSize="xl" />
 
     <LMap
@@ -174,7 +207,7 @@ const onMapReady = async (map: Map) => {
       <!-- TODO: policy -->
       <ControlTerrainEditToggle position="topleft" @click="toggleEditMode" />
 
-      <ControlMousePosition />
+      <ControlMousePosition position="bottomright" />
       <ControlLocateParty v-if="party !== null" :party="party" position="bottomleft" />
 
       <LayerTerrain v-if="terrainVisibility" :data="terrain" @edit="onTerrainUpdated" />
@@ -213,15 +246,25 @@ const onMapReady = async (map: Map) => {
       <SettlementSearch v-if="shownSearch" :settlements="settlements" @select="flyToSettlement" />
 
       <DialogRegistration v-if="!isRegistered" @registered="onRegistered" />
-
-      <DialogSettlement
-        v-if="
-          party !== null &&
-          party.targetedSettlement !== null &&
-          inSettlementStatuses.has(party.status)
-        "
-      />
     </div>
+
+    <PartyProfile
+      v-if="party"
+      class="absolute right-10 top-12 z-[1000]"
+      :party="party"
+      @locate="locateToSelfParty"
+    />
+
+    <RouterView v-slot="{ Component }" class="absolute left-16 top-6 z-[1000]">
+      <Suspense>
+        <div>
+          <component :is="Component" />
+        </div>
+        <template #fallback>
+          <OLoading fullPage active iconSize="xl" />
+        </template>
+      </Suspense>
+    </RouterView>
   </div>
 </template>
 
@@ -277,5 +320,48 @@ const onMapReady = async (map: Map) => {
 
 .marker-cluster-large div {
   @apply bg-primary-hover text-content-100;
+}
+
+/* Popup */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  @apply border-transparent !bg-base-100/80 !text-content-100 !shadow-none;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  @apply !text-content-200;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover,
+.leaflet-container a.leaflet-popup-close-button:focus {
+  @apply !text-content-100;
+}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+  @apply !border-base-100/80;
+}
+
+/* Tooltip */
+.leaflet-tooltip {
+  @apply !rounded-xl border-transparent !bg-base-100/80 !text-content-100 !shadow-none;
+}
+
+.leaflet-tooltip-top:before {
+  @apply !border-t-base-100/80;
+}
+
+.leaflet-tooltip-bottom:before {
+  @apply !border-b-base-100/80;
+}
+
+.leaflet-tooltip-left:before {
+  @apply !border-l-base-100/80;
+}
+
+.leaflet-tooltip-right:before {
+  @apply !border-r-base-100/80;
 }
 </style>

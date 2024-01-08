@@ -58,26 +58,28 @@ public record AddSettlementItemCommand : IMediatorRequest<ItemStack>
                 .FirstOrDefaultAsync(hi => hi.PartyId == req.PartyId && hi.ItemId == req.ItemId, cancellationToken);
             var settlementItem = await _db.SettlementItems
                 .FirstOrDefaultAsync(si => si.SettlementId == req.SettlementId && si.ItemId == req.ItemId, cancellationToken);
-            if (req.Count >= 0) // party -> settlement
-            {
-                if (partyItem == null || partyItem.Count < req.Count)
-                {
-                    return new(CommonErrors.ItemNotOwned(req.ItemId));
-                }
-            }
-            else // settlement -> party
-            {
-                // Only owner can take items from their settlements.
-                if (party.TargetedSettlement!.OwnerId != party.Id)
-                {
-                    return new(CommonErrors.PartyNotSettlementOwner(party.Id, party.TargetedSettlementId.Value));
-                }
 
-                if (settlementItem == null || settlementItem.Count < -req.Count)
-                {
-                    return new(CommonErrors.ItemNotOwned(req.ItemId));
-                }
-            }
+            // TODO:
+            // if (req.Count >= 0) // party -> settlement
+            // {
+            //     if (partyItem == null || partyItem.Count < req.Count)
+            //     {
+            //         return new(CommonErrors.ItemNotOwned(req.ItemId));
+            //     }
+            // }
+            // else // settlement -> party
+            // {
+            //     // Only owner can take items from their settlements.
+            //     if (party.TargetedSettlement!.OwnerId != party.Id)
+            //     {
+            //         return new(CommonErrors.PartyNotSettlementOwner(party.Id, party.TargetedSettlementId.Value));
+            //     }
+
+            //     if (settlementItem == null || settlementItem.Count < -req.Count)
+            //     {
+            //         return new(CommonErrors.ItemNotOwned(req.ItemId));
+            //     }
+            // }
 
             if (partyItem == null) // If party did not have this item before.
             {

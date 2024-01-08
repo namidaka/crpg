@@ -398,7 +398,7 @@ export const damageTypeToIcon: Record<DamageType, string | null> = {
   [DamageType.Pierce]: 'damage-type-pierce',
 };
 
-export const itemCultureToIcon: Record<Culture, string | null> = {
+export const itemCultureToIcon: Record<Culture, string> = {
   [Culture.Neutral]: 'culture-neutrals',
   [Culture.Aserai]: 'culture-aserai',
   [Culture.Battania]: 'culture-battania',

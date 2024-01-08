@@ -23,6 +23,10 @@ const promises: Array<Promise<any>> = [
   userStore.fetchUserClanAndRole(),
 ];
 
+if (userStore.clan === null) {
+  promises.push(userStore.getUserClanAndRole());
+}
+
 const mainHeader = ref<HTMLDivElement | null>(null);
 const { height: mainHeaderHeight } = useElementSize(
   mainHeader,
@@ -45,10 +49,13 @@ await Promise.all(promises);
 </script>
 
 <template>
-  <div class="relative flex min-h-[calc(100vh+1px)] flex-col">
+  <div
+    class="relative flex flex-col"
+    :class="route.meta.fullPage ? 'min-h-screen' : 'min-h-[calc(100vh+1px)]'"
+  >
     <Bg v-if="route.meta?.bg" :bg="route.meta.bg" />
 
-    <header
+    <!-- <header
       ref="mainHeader"
       class="z-20 border-b border-solid border-border-200 bg-bg-main"
       :class="{ 'sticky top-0 bg-opacity-10 backdrop-blur-sm': !route.meta?.noStickyHeader }"
@@ -75,7 +82,7 @@ await Promise.all(promises);
 
         <UserHeaderToolbar />
       </div>
-    </header>
+    </header> -->
 
     <main class="relative flex-1">
       <RouterView />
