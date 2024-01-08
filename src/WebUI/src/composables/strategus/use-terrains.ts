@@ -3,12 +3,42 @@ import L, { type Map } from 'leaflet';
 
 import { type TerrainFeatureCollection, TerrainType } from '@/models/strategus/terrain';
 import {
-  TerrainColorByType,
   getTerrains,
   updateTerrain,
   addTerrain,
   deleteTerrain,
+  terrainColorByType,
+  terrainIconByType,
+  terrainToFeatureCollection,
 } from '@/services/strategus-service/terrain';
+
+const terrainDrawControls = [
+  {
+    type: TerrainType.Barrier,
+    title: 'Barrier',
+    className: `icon-${terrainIconByType[TerrainType.Barrier]}`,
+  },
+  {
+    type: TerrainType.ShallowWater,
+    title: 'Shallow water',
+    className: `icon-${terrainIconByType[TerrainType.ShallowWater]}`,
+  },
+  {
+    type: TerrainType.DeepWater,
+    title: 'Deep water',
+    className: `icon-${terrainIconByType[TerrainType.DeepWater]}`,
+  },
+  {
+    type: TerrainType.SparseForest,
+    title: 'Sparse forest',
+    className: `icon-${terrainIconByType[TerrainType.SparseForest]}`,
+  },
+  {
+    type: TerrainType.ThickForest,
+    title: 'Thick forest',
+    className: `icon-${terrainIconByType[TerrainType.ThickForest]}`,
+  },
+];
 
 export const useTerrains = (map: Ref<typeof LMap | null>) => {
   const { state: terrains, execute: loadTerrains } = useAsyncState(() => getTerrains(), [], {
@@ -16,17 +46,9 @@ export const useTerrains = (map: Ref<typeof LMap | null>) => {
     resetOnExecute: false,
   });
 
-  const terrainsFeatureCollection = computed<TerrainFeatureCollection>(() => ({
-    type: 'FeatureCollection',
-    features: terrains.value.map(t => ({
-      type: 'Feature',
-      id: t.id,
-      geometry: t.boundary,
-      properties: {
-        type: t.type,
-      },
-    })),
-  }));
+  const terrainsFeatureCollection = computed<TerrainFeatureCollection>(() =>
+    terrainToFeatureCollection(terrains.value)
+  );
 
   const terrainVisibility = ref<boolean>(true); // TODO:
   const toggleTerrainVisibilityLayer = () => {
@@ -52,7 +74,7 @@ export const useTerrains = (map: Ref<typeof LMap | null>) => {
 
     if (map.value === null) return;
 
-    const color = TerrainColorByType[editType.value];
+    const color = terrainColorByType[editType.value];
 
     (map.value.leafletObject as Map).pm.setPathOptions({
       color: color,
@@ -99,47 +121,16 @@ export const useTerrains = (map: Ref<typeof LMap | null>) => {
       cutPolygon: false,
     });
 
-    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: TerrainType.Barrier,
-      block: 'draw',
-      title: 'Barrier',
-      className: 'icon-terrain-barrier',
-      onClick: () => setEditType(TerrainType.Barrier),
+    terrainDrawControls.forEach(dc => {
+      (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
+        name: dc.type,
+        block: 'draw',
+        title: dc.title,
+        className: dc.className,
+        onClick: () => setEditType(dc.type),
+      });
     });
 
-    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: TerrainType.ShallowWater,
-      block: 'draw',
-      title: 'ShallowWater',
-      className: 'icon-river', // TODO: ICON
-      onClick: () => setEditType(TerrainType.ShallowWater),
-    });
-    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: TerrainType.DeepWater,
-      block: 'draw',
-      title: 'Deep water',
-      className: 'icon-river', // TODO: ICON
-      onClick: () => setEditType(TerrainType.ShallowWater),
-    });
-
-    //
-
-    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: TerrainType.SparseForest,
-      block: 'draw',
-      title: 'Sparse forest',
-      className: 'icon-forest', // TODO: wtf
-      onClick: () => setEditType(TerrainType.SparseForest),
-    });
-    (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: TerrainType.ThickForest,
-      block: 'draw',
-      title: 'Thick forest',
-      className: 'icon-terrain-thick-forest',
-      onClick: () => setEditType(TerrainType.ThickForest),
-    });
-
-    //
     (map.value!.leafletObject as Map).on('pm:create', onTerrainUpdated);
     (map.value!.leafletObject as Map).on('pm:remove', onTerrainUpdated);
 
@@ -149,7 +140,7 @@ export const useTerrains = (map: Ref<typeof LMap | null>) => {
   };
 
   return {
-    // terrains,
+    terrains,
     terrainsFeatureCollection,
     loadTerrains,
     terrainVisibility,
