@@ -28,6 +28,7 @@ public record SeedDataCommand : IMediatorRequest
     {
         private static readonly Dictionary<SettlementType, int> StrategusSettlementDefaultTroops = new()
         {
+            // TODO: to const
             [SettlementType.Village] = 1000,
             [SettlementType.Castle] = 4000,
             [SettlementType.Town] = 8000,
@@ -1524,9 +1525,11 @@ public record SeedDataCommand : IMediatorRequest
             Party orleParty = new()
             {
                 User = orle,
-                Troops = 1,
-                Position = new Point(114.21076699552688, -109.37351870100285),
-                Status = PartyStatus.Idle,
+                Troops = 1000,
+                // Position = new Point(114.21076699552688, -109.37351870100285),
+                Position = rhotae.Position,
+                Status = PartyStatus.IdleInSettlement,
+                TargetedSettlement = rhotae,
             };
             Party brainfartParty = new()
             {
@@ -2336,7 +2339,7 @@ public record SeedDataCommand : IMediatorRequest
                 foreach (var region in GetRegions())
                 {
                     // TODO: if AS and OC share the same map the settlements should be shared equally.
-                    if (region == Region.Oc)
+                    if (region == Region.Oc) // TODO: NA? AS?
                     {
                         continue;
                     }
@@ -2352,6 +2355,18 @@ public record SeedDataCommand : IMediatorRequest
                         Troops = StrategusSettlementDefaultTroops[settlementCreation.Type],
                         OwnerId = null,
                     };
+
+                    // TODO: hack
+                    if (settlement.Name == "Rhotae")
+                    {
+                        SettlementItem testitem1 = new() { ItemId = "crpg_14_decor_paltedboots_noble1_v1_h0", Count = 10 };
+                        var rhotaeItems = new List<SettlementItem>
+                        {
+                            testitem1,
+                        };
+                        settlement.OwnerId = 2;
+                        settlement.Items = rhotaeItems;
+                    }
 
                     if (dbSettlementsByNameRegion.TryGetValue((settlement.Name, settlement.Region), out Settlement? dbSettlement))
                     {

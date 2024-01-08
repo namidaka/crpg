@@ -1,4 +1,5 @@
-import { SettlementType } from '@/models/strategus/settlement';
+import { SettlementType, type SettlementItem } from '@/models/strategus/settlement';
+import { get, tryGet, post, put } from '@/services/crpg-client';
 
 export const settlementIconByType: Record<
   SettlementType,
@@ -20,3 +21,22 @@ export const settlementIconByType: Record<
     iconSize: 'sm',
   },
 };
+
+//
+//
+//
+//
+//
+//
+//
+// TODO: Spec
+export const getSettlementGarrisonItems = (id: number) =>
+  get<SettlementItem[]>(`/settlements/${id}/items`);
+
+export interface SettlementGarrisonItemsUpdate {
+  itemId: string;
+  count: number;
+}
+
+export const updateSettlementGarrisonItems = (id: number, payload: SettlementGarrisonItemsUpdate) =>
+  post<SettlementItem>(`/settlements/${id}/items`, payload);
