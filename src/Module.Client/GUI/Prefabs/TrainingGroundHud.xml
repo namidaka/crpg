@@ -25,7 +25,7 @@
             <ListPanel DataSource="{OngoingDuels}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="20" MarginLeft="20" HorizontalAlignment="Left" StackLayout.LayoutMethod="VerticalBottomToTop">
               <ItemTemplate>
                 <Children>
-
+                  
                     <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight">
                       <Children>
 
@@ -40,7 +40,6 @@
                     </ListPanel>
 
                   </Children>
-                </DuelArenaFlagVisualBrushWidget>
 
               </ItemTemplate>
             </ListPanel>
