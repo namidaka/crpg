@@ -18,6 +18,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
     private readonly CrpgRewardServer _rewardServer;
     private readonly CrpgDtvData _dtvData;
+    private readonly List<Agent> _mountsToKill = new();
 
     private int _currentRound;
     private int _currentRoundDefendersCount;
@@ -159,6 +160,19 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         }
     }
 
+    public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
+    {
+        if (!_gameStarted)
+        {
+            return;
+        }
+
+        if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // VIP under attack
+        {
+            SendDataToPeers(new CrpgDtvGameEnd { VipDead = true, VipAgentIndex = affectedAgent.Index });
+        }
+    }
+
     public override void OnScoreHit(
         Agent affectedAgent,
         Agent affectorAgent,
@@ -176,9 +190,9 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             return;
         }
 
-        if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // Viscount under attack
+        if (affectedAgent.IsAIControlled && affectedAgent.Team == Mission.DefenderTeam) // VIP under attack
         {
-            SendDataToPeers(new CrpgDtvViscountUnderAttackMessage { AgentAttackerIndex = affectorAgent.Index });
+            SendDataToPeers(new CrpgDtvVipUnderAttackMessage { AgentAttackerIndex = affectorAgent.Index, AgentVictimIndex = affectedAgent.Index });
         }
     }
 
@@ -222,9 +236,21 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _currentWave = -1;
         SpawningBehavior.RequestSpawnSessionForRoundStart(firstRound: _currentRound == 0);
         SendDataToPeers(new CrpgDtvRoundStartMessage { Round = _currentRound });
-        foreach (var mount in Mission.MountsWithoutRiders) // force mounts to flee
+
+        for (int i = _mountsToKill.Count - 1; i >= 0; i--) // kill mounts marked for death
+        {
+            if (_mountsToKill[i].RiderAgent == null)
+            {
+                DamageHelper.DamageAgent(_mountsToKill[i], 500);
+            }
+
+            _mountsToKill.Remove(_mountsToKill[i]);
+        }
+
+        foreach (var mount in Mission.MountsWithoutRiders) // force mounts to flee and mark them to die next round
         {
             Agent mountAgent = mount.Key;
+            _mountsToKill.Add(mountAgent);
             mountAgent.CommonAIComponent.Panic();
         }
 
@@ -245,12 +271,17 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
     private void CheckForWaveEnd()
     {
-        bool viscountDead = !Mission.DefenderTeam.HasBots;
-        bool defendersDepleted = Mission.DefenderTeam.ActiveAgents.Count == (viscountDead ? 0 : 1);
+        bool vipDead = !Mission.DefenderTeam.HasBots;
+        bool defendersDepleted = Mission.DefenderTeam.ActiveAgents.Count == (vipDead ? 0 : 1);
         float roundDuration = _currentRoundStartTime.ElapsedSeconds;
-        if (viscountDead || defendersDepleted)
+
+        if (defendersDepleted)
         {
-            SendDataToPeers(new CrpgDtvGameEnd { ViscountDead = viscountDead });
+            SendDataToPeers(new CrpgDtvGameEnd { VipDead = false });
+        }
+
+        if (vipDead || defendersDepleted)
+        {
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave),
                 durationUpkeep: roundDuration * UpkeepMultiplier,

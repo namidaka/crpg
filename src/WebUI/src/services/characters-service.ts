@@ -386,7 +386,7 @@ export const getRespecCapability = (
   userGold: number,
   isRecentUser: boolean
 ): RespecCapability => {
-  if (isRecentUser) {
+  if (isRecentUser || character.forTournament) {
     return {
       enabled: true,
       price: 0,
@@ -418,13 +418,11 @@ export const getRespecCapability = (
 
   const decayDivider =
     (new Date().getTime() - lastRespecDate.getTime()) / (respecializePriceHalfLife * 1000 * 3600);
-  const price = character.forTournament
-    ? 0
-    : Math.floor(
-        Math.floor(
-          (character.experience / getExperienceForLevel(30)) * respecializePriceForLevel30
-        ) / Math.pow(2, decayDivider)
-      );
+
+  const price = Math.floor(
+    Math.floor((character.experience / getExperienceForLevel(30)) * respecializePriceForLevel30) /
+      Math.pow(2, decayDivider)
+  );
 
   return {
     enabled: price <= userGold,
