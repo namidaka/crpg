@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Crpg.Module.Modes.TrainingGround;
+﻿using Crpg.Module.Modes.TrainingGround;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
@@ -12,32 +11,15 @@ using TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.KillFeed;
 namespace Crpg.Module.GUI.TrainingGround;
 internal class CrpgTrainingGroundVm : ViewModel
 {
-    public struct DuelArenaProperties
-    {
-        public GameEntity FlagEntity;
-        public int Index;
-        public TroopType ArenaTroopType;
-        public DuelArenaProperties(GameEntity flagEntity, int index, TroopType arenaTroopType)
-        {
-            FlagEntity = flagEntity;
-            Index = index;
-            ArenaTroopType = arenaTroopType;
-        }
-    }
-
     private readonly CrpgTrainingGroundMissionMultiplayerClient _client;
     private readonly MissionMultiplayerGameModeBaseClient _gameMode;
     private bool _isMyRepresentativeAssigned;
-    private TextObject _scoreWithSeparatorText;
     private bool _isAgentBuiltForTheFirstTime = true;
     private string _cachedPlayerClassID = string.Empty;
-    private bool _showSpawnPoints;
     private Camera _missionCamera;
     private bool _isEnabled;
     private bool _areOngoingDuelsActive;
     private bool _isPlayerInDuel;
-    private int _playerBounty;
-    private int _playerPreferredArenaType;
     private string _playerScoreText = string.Empty;
     private string _remainingRoundTime = string.Empty;
     private CrpgTrainingGroundMarkersVm _markers = default!;
@@ -208,7 +190,6 @@ internal class CrpgTrainingGroundVm : ViewModel
         OngoingDuels = new MBBindingList<CrpgDuelMatchVm>();
         Markers = new CrpgTrainingGroundMarkersVm(missionCamera, _client);
         KillNotifications = new MBBindingList<MPDuelKillNotificationItemVM>();
-        _scoreWithSeparatorText = new TextObject("{=J5rb5YVV}/ {SCORE}");
         RefreshValues();
     }
 
@@ -222,16 +203,11 @@ internal class CrpgTrainingGroundVm : ViewModel
     private void OnMyRepresentativeAssigned()
     {
         CrpgTrainingGroundMissionRepresentative myRepresentative = _client.MyRepresentative;
-        myRepresentative.OnDuelPrepStartedEvent = (Action<MissionPeer, int>)Delegate.Combine(myRepresentative.OnDuelPrepStartedEvent, new Action<MissionPeer, int>(OnDuelPrepStarted));
-        CrpgTrainingGroundMissionRepresentative myRepresentative2 = _client.MyRepresentative;
-        myRepresentative2.OnAgentSpawnedWithoutDuelEvent = (Action)Delegate.Combine(myRepresentative2.OnAgentSpawnedWithoutDuelEvent, new Action(OnAgentSpawnedWithoutDuel));
-        CrpgTrainingGroundMissionRepresentative myRepresentative3 = _client.MyRepresentative;
-        myRepresentative3.OnDuelPreparationStartedForTheFirstTimeEvent = (Action<MissionPeer, MissionPeer>)Delegate.Combine(myRepresentative3.OnDuelPreparationStartedForTheFirstTimeEvent, new Action<MissionPeer, MissionPeer>(OnDuelStarted));
-        CrpgTrainingGroundMissionRepresentative myRepresentative4 = _client.MyRepresentative;
-        myRepresentative4.OnDuelEndedEvent = (Action<MissionPeer>)Delegate.Combine(myRepresentative4.OnDuelEndedEvent, new Action<MissionPeer>(OnDuelEnded));
-        CrpgTrainingGroundMissionRepresentative myRepresentative5 = _client.MyRepresentative;
-        myRepresentative5.OnDuelRoundEndedEvent = (Action<MissionPeer>)Delegate.Combine(myRepresentative5.OnDuelRoundEndedEvent, new Action<MissionPeer>(OnDuelRoundEnded));
-        CrpgTrainingGroundMissionRepresentative myRepresentative6 = _client.MyRepresentative;
+        myRepresentative.OnDuelPrepStartedEvent += OnDuelPrepStarted;
+        myRepresentative.OnAgentSpawnedWithoutDuelEvent += OnAgentSpawnedWithoutDuel;
+        myRepresentative.OnDuelPreparationStartedForTheFirstTimeEvent += OnDuelStarted;
+        myRepresentative.OnDuelEndedEvent += OnDuelEnded;
+        myRepresentative.OnDuelRoundEndedEvent += OnDuelRoundEnded;
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionChanged));
         Markers.RegisterEvents();
         _isMyRepresentativeAssigned = true;
@@ -239,7 +215,7 @@ internal class CrpgTrainingGroundVm : ViewModel
 
     public void Tick(float dt)
     {
-        if (_gameMode.CheckTimer(out var remainingTime, out var _))
+        if (_gameMode.CheckTimer(out int remainingTime, out int _))
         {
             RemainingRoundTime = TimeSpan.FromSeconds(remainingTime).ToString("mm':'ss");
         }
@@ -251,60 +227,6 @@ internal class CrpgTrainingGroundVm : ViewModel
         }
     }
 
-    [Conditional("DEBUG")]
-    private void DebugTick()
-    {
-        if (Input.IsKeyReleased(InputKey.Numpad3))
-        {
-            _showSpawnPoints = !_showSpawnPoints;
-        }
-
-        if (!_showSpawnPoints)
-        {
-            return;
-        }
-
-        string expression = "spawnpoint_area(_\\d+)*";
-        foreach (GameEntity item in Mission.Current.Scene.FindEntitiesWithTagExpression(expression))
-        {
-            Vec3 worldPoint = new Vec3(item.GlobalPosition.x, item.GlobalPosition.y, item.GlobalPosition.z);
-            Vec3 vec = _missionCamera.WorldPointToViewPortPoint(ref worldPoint);
-            vec.y = 1f - vec.y;
-            if (vec.z < 0f)
-            {
-                vec.x = 1f - vec.x;
-                vec.y = 1f - vec.y;
-                vec.z = 0f;
-                float num = 0f;
-                num = ((vec.x > num) ? vec.x : num);
-                num = ((vec.y > num) ? vec.y : num);
-                num = ((vec.z > num) ? vec.z : num);
-                vec /= num;
-            }
-
-            if (float.IsPositiveInfinity(vec.x))
-            {
-                vec.x = 1f;
-            }
-            else if (float.IsNegativeInfinity(vec.x))
-            {
-                vec.x = 0f;
-            }
-
-            if (float.IsPositiveInfinity(vec.y))
-            {
-                vec.y = 1f;
-            }
-            else if (float.IsNegativeInfinity(vec.y))
-            {
-                vec.y = 0f;
-            }
-
-            vec.x = MathF.Clamp(vec.x, 0f, 1f) * Screen.RealScreenResolutionWidth;
-            vec.y = MathF.Clamp(vec.y, 0f, 1f) * Screen.RealScreenResolutionHeight;
-        }
-    }
-
     public override void OnFinalize()
     {
         base.OnFinalize();
@@ -313,16 +235,11 @@ internal class CrpgTrainingGroundVm : ViewModel
         if (_isMyRepresentativeAssigned)
         {
             CrpgTrainingGroundMissionRepresentative myRepresentative = _client.MyRepresentative;
-            myRepresentative.OnDuelPrepStartedEvent = (Action<MissionPeer, int>)Delegate.Remove(myRepresentative.OnDuelPrepStartedEvent, new Action<MissionPeer, int>(OnDuelPrepStarted));
-            CrpgTrainingGroundMissionRepresentative myRepresentative2 = _client.MyRepresentative;
-            myRepresentative2.OnAgentSpawnedWithoutDuelEvent = (Action)Delegate.Remove(myRepresentative2.OnAgentSpawnedWithoutDuelEvent, new Action(OnAgentSpawnedWithoutDuel));
-            CrpgTrainingGroundMissionRepresentative myRepresentative3 = _client.MyRepresentative;
-            myRepresentative3.OnDuelPreparationStartedForTheFirstTimeEvent = (Action<MissionPeer, MissionPeer>)Delegate.Remove(myRepresentative3.OnDuelPreparationStartedForTheFirstTimeEvent, new Action<MissionPeer, MissionPeer>(OnDuelStarted));
-            CrpgTrainingGroundMissionRepresentative myRepresentative4 = _client.MyRepresentative;
-            myRepresentative4.OnDuelEndedEvent = (Action<MissionPeer>)Delegate.Remove(myRepresentative4.OnDuelEndedEvent, new Action<MissionPeer>(OnDuelEnded));
-            CrpgTrainingGroundMissionRepresentative myRepresentative5 = _client.MyRepresentative;
-            myRepresentative5.OnDuelRoundEndedEvent = (Action<MissionPeer>)Delegate.Remove(myRepresentative5.OnDuelRoundEndedEvent, new Action<MissionPeer>(OnDuelRoundEnded));
-            CrpgTrainingGroundMissionRepresentative myRepresentative6 = _client.MyRepresentative;
+            myRepresentative.OnDuelPrepStartedEvent -= OnDuelPrepStarted;
+            myRepresentative.OnAgentSpawnedWithoutDuelEvent -= OnAgentSpawnedWithoutDuel;
+            myRepresentative.OnDuelPreparationStartedForTheFirstTimeEvent -= OnDuelStarted;
+            myRepresentative.OnDuelEndedEvent -= OnDuelEnded;
+            myRepresentative.OnDuelRoundEndedEvent -= OnDuelRoundEnded;
             ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionChanged));
             Markers.UnregisterEvents();
         }
@@ -332,7 +249,7 @@ internal class CrpgTrainingGroundVm : ViewModel
     {
         if (changedManagedOptionsType == ManagedOptions.ManagedOptionsType.EnableGenericNames)
         {
-            _ongoingDuels.ApplyActionOnAllItems(delegate (CrpgDuelMatchVm d)
+            _ongoingDuels.ApplyActionOnAllItems(delegate(CrpgDuelMatchVm d)
             {
                 d.RefreshNames(changeGenericNames: true);
             });

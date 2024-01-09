@@ -681,7 +681,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             }
         }
 
-        if (SpawnComponent?.SpawningBehavior is CrpgTrainingGroundSpawningBehavior duelSpawningBehavior)
+        if (SpawnComponent?.SpawningBehavior is CrpgTrainingGroundSpawningBehavior)
         {
             MissionPeer missionPeer = networkPeer.GetComponent<MissionPeer>();
             missionPeer?.SpawnTimer?.AdjustStartTime(-3f); // Used to reduce the initial spawn on connect.

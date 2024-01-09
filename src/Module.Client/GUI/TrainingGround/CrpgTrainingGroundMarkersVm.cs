@@ -105,18 +105,16 @@ public class CrpgTrainingGroundMarkersVm : ViewModel
     public void RegisterEvents()
     {
         CrpgTrainingGroundMissionRepresentative myRepresentative = _client.MyRepresentative;
-        myRepresentative.OnDuelRequestSentEvent = (Action<MissionPeer>)Delegate.Combine(myRepresentative.OnDuelRequestSentEvent, new Action<MissionPeer>(OnDuelRequestSent));
-        CrpgTrainingGroundMissionRepresentative myRepresentative2 = _client.MyRepresentative;
-        myRepresentative2.OnDuelRequestedEvent = (Action<MissionPeer>)Delegate.Combine(myRepresentative2.OnDuelRequestedEvent, new Action<MissionPeer>(OnDuelRequested));
+        myRepresentative.OnDuelRequestSentEvent += OnDuelRequestSent;
+        myRepresentative.OnDuelRequestedEvent += OnDuelRequested;
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionsChanged));
     }
 
     public void UnregisterEvents()
     {
         CrpgTrainingGroundMissionRepresentative myRepresentative = _client.MyRepresentative;
-        myRepresentative.OnDuelRequestSentEvent = (Action<MissionPeer>)Delegate.Remove(myRepresentative.OnDuelRequestSentEvent, new Action<MissionPeer>(OnDuelRequestSent));
-        CrpgTrainingGroundMissionRepresentative myRepresentative2 = _client.MyRepresentative;
-        myRepresentative2.OnDuelRequestedEvent = (Action<MissionPeer>)Delegate.Remove(myRepresentative2.OnDuelRequestedEvent, new Action<MissionPeer>(OnDuelRequested));
+        myRepresentative.OnDuelRequestSentEvent -= OnDuelRequestSent;
+        myRepresentative.OnDuelRequestedEvent -= OnDuelRequested;
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionsChanged));
     }
 

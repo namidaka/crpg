@@ -11,13 +11,6 @@
           <Children>
             <Widget Id="NotificationParent" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="187.2" HorizontalAlignment="Center">
               <Children>
-                <!--Flag and Letter Code-->
-                <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Center" PositionXOffset="-90" PositionYOffset="3">
-                  <Children>
-                    <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="34" SuggestedHeight="38" Brush="MPHUD.Duel.Arena.Flag.Background" ArenaType="@ArenaType" />
-                    <DuelArenaFlagVisualBrushWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="28" SuggestedHeight="28" HorizontalAlignment="Center" VerticalAlignment="Center" PositionYOffset="-2" Brush="MPHUD.Duel.Arena.Flag.Foreground" ArenaType="@ArenaType" />
-                  </Children>
-                </Widget>
 
                 <BrushWidget Id="Background" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="MPHud\kill_feed_bg_full_duel" Brush="MPHUD.Duel.KillFeed.Background" Color="#9370DBFF" />
 

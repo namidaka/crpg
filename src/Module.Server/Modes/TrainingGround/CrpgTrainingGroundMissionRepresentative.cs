@@ -8,13 +8,13 @@ namespace Crpg.Module.Modes.TrainingGround;
 public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
 {
     public const int DuelPrepTime = 3;
-    public Action<MissionPeer> OnDuelRequestedEvent = default!;
-    public Action<MissionPeer> OnDuelRequestSentEvent = default!;
-    public Action<MissionPeer, int> OnDuelPrepStartedEvent = default!;
-    public Action OnAgentSpawnedWithoutDuelEvent = default!;
-    public Action<MissionPeer, MissionPeer> OnDuelPreparationStartedForTheFirstTimeEvent = default!;
-    public Action<MissionPeer> OnDuelEndedEvent = default!;
-    public Action<MissionPeer> OnDuelRoundEndedEvent = default!;
+    public event Action<MissionPeer> OnDuelRequestedEvent = default!;
+    public event Action<MissionPeer> OnDuelRequestSentEvent = default!;
+    public event Action<MissionPeer, int> OnDuelPrepStartedEvent = default!;
+    public event Action OnAgentSpawnedWithoutDuelEvent = default!;
+    public event Action<MissionPeer, MissionPeer> OnDuelPreparationStartedForTheFirstTimeEvent = default!;
+    public event Action<MissionPeer> OnDuelEndedEvent = default!;
+    public event Action<MissionPeer> OnDuelRoundEndedEvent = default!;
     private List<Tuple<MissionPeer, MissionTime>> _requesters = default!;
     private IFocusable? _focusedObject;
 #if CRPG_SERVER

@@ -111,7 +111,7 @@ public class CrpgTrainingGroundUiHandler : MissionView
     public override void OnFocusLost(Agent agent, IFocusable focusableObject)
     {
         base.OnFocusLost(agent, focusableObject);
-        if (!(focusableObject is Agent))
+        if (focusableObject is not Agent)
         {
             _dataSource!.Markers.OnFocusLost();
         }

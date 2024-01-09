@@ -24,9 +24,7 @@
           <Children>
             <ListPanel DataSource="{OngoingDuels}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="20" MarginLeft="20" HorizontalAlignment="Left" StackLayout.LayoutMethod="VerticalBottomToTop">
               <ItemTemplate>
-
-                <DuelArenaFlagVisualBrushWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPHUD.Duel.OngoingBattle.Background" MarginLeft="10" MarginTop="10" ArenaType="@ArenaType">
-                  <Children>
+                <Children>
 
                     <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight">
                       <Children>
