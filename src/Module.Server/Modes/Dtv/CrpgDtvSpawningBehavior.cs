@@ -15,8 +15,6 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
 
     private MissionTimer? _defendersSpawnWindowTimer;
 
-    public int SpawnedAttackers { get; private set; } = 0;
-
     public CrpgDtvSpawningBehavior(CrpgConstants constants)
         : base(constants)
     {
@@ -108,7 +106,6 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
 
     private void SpawnAttackers(CrpgDtvWave wave, int defendersCount)
     {
-        SpawnedAttackers = 0;
         float expectedWaveBotsCount = wave.Groups.Sum(g => ComputeScaledGroupCount(g, defendersCount));
         // Round up number if it's like 3.999
         expectedWaveBotsCount = expectedWaveBotsCount - Math.Truncate(expectedWaveBotsCount) > 0.99
@@ -124,7 +121,6 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
             for (int i = 0; i < groupBotCount; i++)
             {
                 SpawnBotAgent(group.ClassDivisionId, Mission.AttackerTeam);
-                SpawnedAttackers++;
             }
         }
 
@@ -136,7 +132,6 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
         {
             var group = groupsWithoutBoss[i % groupsWithoutBoss.Length];
             SpawnBotAgent(group.ClassDivisionId, Mission.AttackerTeam);
-            SpawnedAttackers++;
         }
     }
 

@@ -27,7 +27,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
     private bool _timerExpired;
     private MissionTimer? _waveStartTimer;
     private MissionTimer? _endGameTimer;
-    private MissionTime _currentWaveStartTime;
     private MissionTime _currentRoundStartTime;
 
     public CrpgDtvServer(CrpgRewardServer rewardServer)
@@ -253,7 +252,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _currentRoundDefendersCount = _currentWave == 0 ? GetDefendersCount() : _currentRoundDefendersCount;
         SpawningBehavior.RequestSpawnSessionForWaveStart(CurrentWaveData, _currentRoundDefendersCount);
         SendDataToPeers(new CrpgDtvWaveStartMessage { Wave = _currentWave });
-        _currentWaveStartTime = MissionTime.Now;
         _waveStarted = true;
     }
 
