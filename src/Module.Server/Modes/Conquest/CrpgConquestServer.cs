@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Common;
+﻿using Crpg.Module.Api.Models;
+using Crpg.Module.Common;
 using Crpg.Module.Notifications;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
@@ -404,6 +405,7 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
         _currentStage += 1;
 
         _ = _rewardServer.UpdateCrpgUsersAsync(
+            gameMode: GameMode.CRPGConquest,
             durationRewarded: _rewardTickTimer!.GetRemainingTimeInSeconds(),
             defenderMultiplierGain: -CrpgRewardServer.ExperienceMultiplierMax,
             attackerMultiplierGain: CrpgRewardServer.ExperienceMultiplierMax);
@@ -489,6 +491,7 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
             }
 
             _ = _rewardServer.UpdateCrpgUsersAsync(
+                gameMode: GameMode.CRPGConquest,
                 durationRewarded: _rewardTickTimer.GetTimerDuration(),
                 defenderMultiplierGain: defenderMultiplierGain,
                 attackerMultiplierGain: attackerMultiplierGain);

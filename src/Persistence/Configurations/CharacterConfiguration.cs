@@ -12,7 +12,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         builder.Property(c => c.Version).IsRowVersion();
         builder.OwnsOne(c => c.Characteristics, ConfigureCharacterCharacteristics);
         builder.OwnsOne(c => c.Statistics, ConfigureCharacterStatistics);
-        builder.OwnsOne(c => c.Rating, ConfigureCharacterRating);
+        builder.OwnsMany(c => c.Rating, ConfigureCharacterRating);
     }
 
     private static void ConfigureCharacterCharacteristics(OwnedNavigationBuilder<Character, CharacterCharacteristics> builder)

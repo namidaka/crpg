@@ -30,7 +30,7 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
         public async Task<Result<IList<CharacterPublicViewModel>>> Handle(GetLeaderboardQuery req, CancellationToken cancellationToken)
         {
             var topRatedCharactersByRegion = await _db.Characters
-                .OrderByDescending(c => c.Rating.CompetitiveValue)
+                // .OrderByDescending(c => c.Rating.CompetitiveValue)
                 .Where(c => (req.Region == null || req.Region == c.User!.Region)
                             && (req.CharacterClass == null || req.CharacterClass == c.Class))
                 .Take(50)

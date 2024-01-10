@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Crpg.Module.Api.Models;
 using Crpg.Module.Common;
 using Crpg.Module.Rewards;
 using TaleWorlds.Core;
@@ -152,6 +153,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             _timerExpired = true;
             float roundDuration = _currentRoundStartTime.ElapsedSeconds;
             _ = _rewardServer.UpdateCrpgUsersAsync(
+                gameMode: GameMode.CRPGDTV,
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: Math.Max(_currentWave, 0)),
                 durationUpkeep: roundDuration,
                 updateUserStats: false,
@@ -282,6 +284,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         if (vipDead || defendersDepleted)
         {
             _ = _rewardServer.UpdateCrpgUsersAsync(
+                gameMode: GameMode.CRPGDTV,
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave),
                 durationUpkeep: roundDuration,
                 updateUserStats: false,
@@ -303,6 +306,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         }
 
         _ = _rewardServer.UpdateCrpgUsersAsync(
+            gameMode: GameMode.CRPGDTV,
             durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave + 1),
             durationUpkeep: roundDuration,
             updateUserStats: false,

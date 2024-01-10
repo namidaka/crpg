@@ -7,6 +7,7 @@ internal class CrpgUserUpdate
 {
     public int UserId { get; set; }
     public int CharacterId { get; set; }
+    public GameMode GameMode { get; set; }
     public CrpgUserReward? Reward { get; set; }
     public CrpgCharacterStatistics Statistics { get; set; } = default!;
     public CrpgCharacterRating Rating { get; set; } = default!;

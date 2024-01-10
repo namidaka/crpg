@@ -1,21 +1,18 @@
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Crpg.Application.Battles.Models;
 using Crpg.Application.Characters.Models;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
-using Crpg.Application.Common.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Characters.Queries;
 
-public record GetUserCharacterRatingQuery : IMediatorRequest<CharacterRatingViewModel>
+public record GetUserCharacterRatingQuery : IMediatorRequest<IList<CharacterRatingViewModel>>
 {
     public int CharacterId { get; init; }
     public int UserId { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<GetUserCharacterRatingQuery, CharacterRatingViewModel>
+    internal class Handler : IMediatorRequestHandler<GetUserCharacterRatingQuery, IList<CharacterRatingViewModel>>
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -26,17 +23,17 @@ public record GetUserCharacterRatingQuery : IMediatorRequest<CharacterRatingView
             _mapper = mapper;
         }
 
-        public async Task<Result<CharacterRatingViewModel>> Handle(GetUserCharacterRatingQuery req, CancellationToken cancellationToken)
+        public async Task<Result<IList<CharacterRatingViewModel>>> Handle(GetUserCharacterRatingQuery req, CancellationToken cancellationToken)
         {
-            var characterRatingViewModel = await _db.Characters
+            var characterRating = await _db.Characters
+                .AsNoTracking()
                 .Where(c => c.Id == req.CharacterId && c.UserId == req.UserId)
                 .Select(c => c.Rating)
-                .ProjectTo<CharacterRatingViewModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return characterRatingViewModel == null
+            return characterRating == null
                 ? new(CommonErrors.CharacterNotFound(req.CharacterId, req.UserId))
-                : new(characterRatingViewModel);
+                : new(_mapper.Map<IList<CharacterRatingViewModel>>(characterRating));
         }
     }
 }

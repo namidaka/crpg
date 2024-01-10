@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Modes.Battle.FlagSystems;
+﻿using Crpg.Module.Api.Models;
+using Crpg.Module.Modes.Battle.FlagSystems;
 using Crpg.Module.Modes.Skirmish;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
@@ -355,6 +356,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         float roundDuration = MultiplayerOptions.OptionType.RoundTimeLimit.GetIntValue() - RoundController.RemainingRoundTime;
         var roundWinner = RoundController.RoundWinner;
         _ = _rewardServer.UpdateCrpgUsersAsync(
+            gameMode: GameMode.CRPGBattle,
             durationRewarded: roundDuration,
             defenderMultiplierGain: roundWinner == BattleSideEnum.Defender ? 1 : -CrpgRewardServer.ExperienceMultiplierMax,
             attackerMultiplierGain: roundWinner == BattleSideEnum.Attacker ? 1 : -CrpgRewardServer.ExperienceMultiplierMax,

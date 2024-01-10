@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Common;
+﻿using Crpg.Module.Api.Models;
+using Crpg.Module.Common;
 using Crpg.Module.Rewards;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -120,6 +121,7 @@ internal class CrpgTeamDeathmatchServer : MissionMultiplayerGameModeBase
         if (_rewardTickTimer.Check(reset: true))
         {
             _ = _rewardServer.UpdateCrpgUsersAsync(
+                gameMode: GameMode.CRPGTeamDeathmatch,
                 durationRewarded: _rewardTickTimer.GetTimerDuration(),
                 constantMultiplier: 2);
         }

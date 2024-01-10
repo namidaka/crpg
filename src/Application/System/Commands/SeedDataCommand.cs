@@ -12,6 +12,7 @@ using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
@@ -935,6 +936,7 @@ public record SeedDataCommand : IMediatorRequest
                 Level = 10,
                 Experience = 146457,
             };
+
             Character orleCharacter0 = new()
             {
                 User = orle,
@@ -954,13 +956,7 @@ public record SeedDataCommand : IMediatorRequest
                     Attributes = new CharacterAttributes { Points = 100 },
                     Skills = new CharacterSkills { Points = 100 },
                 },
-                Rating = new()
-                {
-                    Value = 50,
-                    Deviation = 100,
-                    Volatility = 100,
-                    CompetitiveValue = 1900,
-                },
+                Rating = new List<CharacterRating>() { new() { GameMode = GameMode.CRPGBattle, Value = 50, Deviation = 100, Volatility = 100, CompetitiveValue = 1900, }, new() { GameMode = GameMode.CRPGDuel, Value = 510, Deviation = 1010, Volatility = 1200, CompetitiveValue = 11900, } },
             };
             Character orleCharacter1 = new()
             {

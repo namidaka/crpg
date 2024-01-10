@@ -1,7 +1,10 @@
-﻿namespace Crpg.Domain.Entities.Characters;
+﻿using Crpg.Domain.Entities.Servers;
+
+namespace Crpg.Domain.Entities.Characters;
 
 public class CharacterRating
 {
+    public GameMode GameMode { get; set; }
     public float Value { get; set; }
     public float Deviation { get; set; }
 

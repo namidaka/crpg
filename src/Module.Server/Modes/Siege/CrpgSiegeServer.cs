@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Common;
+﻿using Crpg.Module.Api.Models;
+using Crpg.Module.Common;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
@@ -218,6 +219,7 @@ internal class CrpgSiegeServer : MissionMultiplayerGameModeBase, IAnalyticsFlagI
         if (_rewardTickTimer.Check(reset: true))
         {
             _ = _rewardServer.UpdateCrpgUsersAsync(
+                gameMode: GameMode.CRPGSiege,
                 durationRewarded: _rewardTickTimer.GetTimerDuration(),
                 constantMultiplier: 2);
         }

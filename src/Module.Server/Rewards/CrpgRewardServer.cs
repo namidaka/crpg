@@ -131,6 +131,7 @@ internal class CrpgRewardServer : MissionLogic
     /// <param name="constantMultiplier">Multiplier that should be given to everyone disregarding any other parameters.</param>
     /// <param name="updateUserStats">True if score and rating should be saved.</param>
     public async Task UpdateCrpgUsersAsync(
+        GameMode gameMode,
         float durationRewarded,
         float? durationUpkeep = null,
         int defenderMultiplierGain = 0,
@@ -184,6 +185,7 @@ internal class CrpgRewardServer : MissionLogic
             {
                 UserId = crpgPeer.User.Id,
                 CharacterId = crpgPeer.User.Character.Id,
+                GameMode = gameMode,
                 Reward = new CrpgUserReward { Experience = 0, Gold = 0 },
                 Statistics = new CrpgCharacterStatistics { Kills = 0, Deaths = 0, Assists = 0, PlayTime = TimeSpan.Zero },
                 Rating = crpgPeer.User.Character.Rating,

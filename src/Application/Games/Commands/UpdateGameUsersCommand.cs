@@ -52,7 +52,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 
                 var reward = GiveReward(character, update.Reward);
                 UpdateStatistics(character, update.Statistics);
-                _characterService.UpdateRating(character, update.Rating.Value, update.Rating.Deviation, update.Rating.Volatility);
+                _characterService.UpdateRatingByGameMode(update.GameMode, character, update.Rating.Value, update.Rating.Deviation, update.Rating.Volatility);
                 var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
                 results.Add((character.User!, reward, brokenItems));
             }
