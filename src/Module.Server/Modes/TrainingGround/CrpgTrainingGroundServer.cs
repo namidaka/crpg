@@ -29,16 +29,18 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         {
             public readonly MissionPeer MissionPeer = default!;
             public readonly NetworkCommunicator? NetworkPeer;
+            private readonly CrpgTrainingGroundServer _crpgTrainingGroundServer;
             public Agent? DuelingAgent { get; private set; }
             public Agent? MountAgent { get; private set; }
             public int KillCountInDuel { get; private set; }
-            public Challenger(MissionPeer missionPeer)
+            public Challenger(MissionPeer missionPeer, CrpgTrainingGroundServer crpgTrainingGroundServer)
             {
                 MissionPeer = missionPeer;
                 NetworkPeer = MissionPeer?.GetNetworkPeer();
                 DuelingAgent = null;
                 MountAgent = null;
                 KillCountInDuel = 0;
+                _crpgTrainingGroundServer = crpgTrainingGroundServer;
             }
 
             public void OnDuelPreparation(Team duelingTeam)
@@ -47,7 +49,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
                 if (agent != null)
                 {
                     agent.SetTeam(duelingTeam, true);
-                    agent.Health = agent.HealthLimit;
+                    _crpgTrainingGroundServer.RefillAgentHealthAndAmmo(agent);
                     SetAgents(agent);
                 }
 
@@ -116,8 +118,8 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         public DuelInfo(MissionPeer requesterPeer, MissionPeer requesteePeer, CrpgTrainingGroundServer crpgTrainingGroundServer)
         {
             _challengers = new Challenger[2];
-            _challengers[0] = new Challenger(requesterPeer);
-            _challengers[1] = new Challenger(requesteePeer);
+            _challengers[0] = new Challenger(requesterPeer, crpgTrainingGroundServer);
+            _challengers[1] = new Challenger(requesteePeer, crpgTrainingGroundServer);
             Timer = MissionTime.Now + MissionTime.Seconds(DuelRequestTimeOutInSeconds + DuelRequestTimeOutServerToleranceInSeconds);
             _crpgTrainingGroundServer = crpgTrainingGroundServer;
         }
@@ -219,7 +221,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
                 Agent agent = _challengers[i].DuelingAgent ?? _challengers[i].MissionPeer.ControlledAgent;
                 if (ChallengeEnded && agent != null && agent.IsActive())
                 {
-                    _crpgTrainingGroundServer.RefreshPlayer(agent.MissionPeer.GetNetworkPeer());
+                    _crpgTrainingGroundServer.RefillAgentHealthAndAmmo(agent);
                 }
 
                 _challengers[i].MissionPeer.HasSpawnedAgentVisuals = true;
@@ -629,6 +631,24 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         GameNetwork.BeginBroadcastModuleEvent();
         GameNetwork.WriteMessage(new DuelEnded(peerComponent.GetNetworkPeer()));
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+    }
+
+    private void RefillAgentHealthAndAmmo(Agent agent)
+    {
+        agent.Health = agent.HealthLimit;
+        if (agent.HasMount)
+        {
+            agent.MountAgent.Health = agent.MountAgent.HealthLimit;
+        }
+
+        for (EquipmentIndex i = EquipmentIndex.WeaponItemBeginSlot; i < EquipmentIndex.NumAllWeaponSlots; i += 1)
+        {
+            var weapon = agent.Equipment[i];
+            if (!weapon.IsEmpty && (weapon.IsAnyConsumable() || weapon.CurrentUsageItem.IsShield))
+            {
+                agent.SetWeaponAmountInSlot(i, weapon.ModifiedMaxAmount, false);
+            }
+        }
     }
 
     public override void OnAgentBuild(Agent agent, Banner banner)
