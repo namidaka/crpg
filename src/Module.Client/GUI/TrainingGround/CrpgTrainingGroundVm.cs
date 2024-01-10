@@ -25,7 +25,6 @@ internal class CrpgTrainingGroundVm : ViewModel
     private CrpgTrainingGroundMarkersVm _markers = default!;
     private CrpgDuelMatchVm _playerDuelMatch = default!;
     private MBBindingList<CrpgDuelMatchVm> _ongoingDuels = default!;
-    private MBBindingList<MPDuelKillNotificationItemVM> _killNotifications = default!;
     [DataSourceProperty]
     public bool IsEnabled
     {
@@ -162,23 +161,6 @@ internal class CrpgTrainingGroundVm : ViewModel
         }
     }
 
-    [DataSourceProperty]
-    public MBBindingList<MPDuelKillNotificationItemVM> KillNotifications
-    {
-        get
-        {
-            return _killNotifications;
-        }
-        set
-        {
-            if (value != _killNotifications)
-            {
-                _killNotifications = value;
-                OnPropertyChangedWithValue(value, "KillNotifications");
-            }
-        }
-    }
-
     public CrpgTrainingGroundVm(Camera missionCamera, CrpgTrainingGroundMissionMultiplayerClient client)
     {
         _missionCamera = missionCamera;
@@ -189,7 +171,6 @@ internal class CrpgTrainingGroundVm : ViewModel
         PlayerDuelMatch = new CrpgDuelMatchVm();
         OngoingDuels = new MBBindingList<CrpgDuelMatchVm>();
         Markers = new CrpgTrainingGroundMarkersVm(missionCamera, _client);
-        KillNotifications = new MBBindingList<MPDuelKillNotificationItemVM>();
         RefreshValues();
     }
 
@@ -312,7 +293,6 @@ internal class CrpgTrainingGroundVm : ViewModel
         if (PlayerDuelMatch.FirstPlayerPeer == winnerPeer || PlayerDuelMatch.SecondPlayerPeer == winnerPeer)
         {
             PlayerDuelMatch.OnPeerScored(winnerPeer);
-            KillNotifications.Add(new MPDuelKillNotificationItemVM(PlayerDuelMatch.FirstPlayerPeer, PlayerDuelMatch.SecondPlayerPeer, PlayerDuelMatch.FirstPlayerScore, PlayerDuelMatch.SecondPlayerScore, TroopType.Infantry, RemoveKillNotification));
             return;
         }
 
@@ -320,13 +300,7 @@ internal class CrpgTrainingGroundVm : ViewModel
         if (duelMatchVM != null)
         {
             duelMatchVM.OnPeerScored(winnerPeer);
-            KillNotifications.Add(new MPDuelKillNotificationItemVM(duelMatchVM.FirstPlayerPeer, duelMatchVM.SecondPlayerPeer, duelMatchVM.FirstPlayerScore, duelMatchVM.SecondPlayerScore, TroopType.Infantry, RemoveKillNotification));
-        }
-    }
-
-    private void RemoveKillNotification(MPDuelKillNotificationItemVM item)
-    {
-        KillNotifications.Remove(item);
+            }
     }
 
     public void OnScreenResolutionChanged()

@@ -29,7 +29,7 @@
                                       <Children>
                                         <!--Name-->
                                         <ScrollingRichTextWidget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="160" MarginTop="8" MarginLeft="10" MarginRight="10" MarginBottom="5" Brush="CrpgHUD.Duel.Card.NameText" Text="@Name" IsVisible="@IsTracked" />
-                                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="CrpgHUD.Duel.Card.NameText" Text="@Name" IsHidden="@IsTracked" />
+                                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" Brush="CrpgHUD.Duel.Card.NameText" Text="@Name" IsHidden="@IsTracked" />
 
                                       </Children>
                                     </Widget>

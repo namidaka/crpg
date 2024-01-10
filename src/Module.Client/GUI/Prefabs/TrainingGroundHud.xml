@@ -5,16 +5,10 @@
 
     <Constant Name="AvatarFrame.Width" Additive="2" BrushLayer="Default" BrushName="MPEscapeMenu.AvatarFrame" BrushValueType="Width" />
     <Constant Name="AvatarFrame.Height" Additive="2" BrushLayer="Default" BrushName="MPEscapeMenu.AvatarFrame" BrushValueType="Height" />
-
-    <Constant Name="KillNotification.Background.Width" BrushName="MPHUD.KillNotification.Background" BrushLayer="Default" BrushValueType="Width" />
-    <Constant Name="KillNotification.Background.Height" BrushName="MPHUD.KillNotification.Background" BrushLayer="Default" BrushValueType="Height" />
   </Constants>
   <Window>
     <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsVisible="@IsEnabled">
       <Children>
-
-        <!--Kill Notifications-->
-        <TrainingGroundKillFeed DataSource="{KillNotifications}" />
 
         <!--Markers-->
         <TrainingGroundTargetMarkers DataSource="{Markers}" />
