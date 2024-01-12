@@ -127,7 +127,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         return finalDamage;
     }
 
-    public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman,bool isMissile)
+    public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman, bool isMissile)
     {
         float result = 1f;
         switch (bodyPart)
@@ -175,9 +175,11 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             case BoneBodyPartType.Abdomen:
             case BoneBodyPartType.ShoulderLeft:
             case BoneBodyPartType.ShoulderRight:
+                result = !isHuman ? 0.8f : 1f;
+                break;
             case BoneBodyPartType.ArmLeft:
             case BoneBodyPartType.ArmRight:
-                result = !isHuman ? 0.8f : 1f;
+                result = !isHuman ? 0.8f : 0.85f;
                 break;
             case BoneBodyPartType.Legs:
                 result = 0.8f;
