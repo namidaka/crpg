@@ -175,14 +175,12 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             case BoneBodyPartType.Abdomen:
             case BoneBodyPartType.ShoulderLeft:
             case BoneBodyPartType.ShoulderRight:
-                result = !isHuman ? 0.8f : 1f;
-                break;
             case BoneBodyPartType.ArmLeft:
             case BoneBodyPartType.ArmRight:
-                result = !isHuman ? 0.8f : 0.85f;
+                result = !isHuman ? 0.8f : 1f;
                 break;
             case BoneBodyPartType.Legs:
-                result = 0.8f;
+                result = !isMissile ? 0.8f : 1f;
                 break;
         }
 
