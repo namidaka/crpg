@@ -63,6 +63,7 @@ internal class CrpgConstants
     public int ClanDescriptionMaxLength { get; set; }
     public uint ClanColorMinValue { get; set; }
     public int ClanBannerKeyMaxLength { get; set; }
+    public int ClanBannerKeyMaxIcons { get; set; }
     public string ClanBannerKeyRegex { get; set; } = string.Empty;
     public double StrategusMapWidth { get; set; }
     public double StrategusMapHeight { get; set; }
