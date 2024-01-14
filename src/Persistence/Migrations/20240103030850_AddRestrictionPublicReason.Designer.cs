@@ -18,8 +18,6 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-#nullable disable
-
 namespace Crpg.Persistence.Migrations
 {
     [DbContext(typeof(CrpgDbContext))]
