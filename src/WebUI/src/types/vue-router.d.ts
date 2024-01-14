@@ -30,5 +30,6 @@ declare module 'vue-router' {
     bg?: string;
     noStickyHeader?: boolean;
     noFooter?: boolean;
+    fullPage?: boolean;
   }
 }

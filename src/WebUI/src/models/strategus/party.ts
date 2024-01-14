@@ -1,5 +1,5 @@
 import { type MultiPoint, type Point } from 'geojson';
-import { type UserPublic } from '@/models/user';
+import { type UserPublic, type UserClan } from '@/models/user';
 import { type SettlementPublic } from '@/models/strategus/settlement';
 
 export enum PartyStatus {
@@ -20,6 +20,7 @@ export interface PartyCommon {
   troops: number;
   position: Point;
   user: UserPublic;
+  clan: UserClan | null;
 }
 
 export interface Party extends PartyCommon {

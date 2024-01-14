@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ClanMemberRole } from '@/models/clan';
-import { type UserPublic } from '@/models/user';
+import { ClanMemberRole, type Clan } from '@/models/clan';
+import { type UserPublic, type UserClan } from '@/models/user';
 
 const {
   user,
   clanRole = null,
+  clan = null,
   isSelf = false,
   hiddenPlatform = false,
   hiddenTitle = false,
@@ -13,6 +14,7 @@ const {
 } = defineProps<{
   user: UserPublic;
   clanRole?: ClanMemberRole | null;
+  clan?: Clan | null;
   isSelf?: boolean;
   hiddenPlatform?: boolean;
   hiddenTitle?: boolean;
@@ -30,10 +32,10 @@ const {
       :class="[size === 'xl' ? 'h-8 w-8' : 'h-6 w-6', { 'ring-2  ring-status-success': isSelf }]"
     />
 
-    <template v-if="!hiddenClan && user.clan">
+    <template v-if="!hiddenClan && clan">
       <RouterLink
         class="group flex items-center gap-1 hover:opacity-75"
-        :to="{ name: 'ClansId', params: { id: user.clan.id } }"
+        :to="{ name: 'ClansId', params: { id: clan.id } }"
       >
         <ClanRoleIcon
           v-if="
@@ -41,19 +43,20 @@ const {
           "
           :role="clanRole"
         />
-        <ClanTagIcon :color="user.clan.primaryColor" />
-        [{{ user.clan.tag }}]
+        <ClanTagIcon :color="clan.primaryColor" />
+        [{{ clan.tag }}]
       </RouterLink>
     </template>
 
     <div
       v-if="!hiddenTitle"
-      class="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap"
       :title="user.name"
+      class="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap"
     >
       {{ user.name }}
-      <template v-if="isSelf">({{ $t('you') }})</template>
     </div>
+
+    <div v-if="isSelf" class="text-3xs text-content-300">({{ $t('you') }})</div>
 
     <UserPlatform
       v-if="!hiddenPlatform"
