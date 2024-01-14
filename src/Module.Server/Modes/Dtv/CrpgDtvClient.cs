@@ -1,4 +1,5 @@
-﻿using TaleWorlds.Core;
+﻿using NetworkMessages.FromServer;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
@@ -67,6 +68,8 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
         registerer.Register<CrpgDtvVipUnderAttackMessage>(HandleVipUnderAttack);
         registerer.Register<CrpgDtvGameEnd>(HandleVipDeath);
         registerer.Register<CrpgDtvCurrentProgressMessage>(HandleCurrentProgress);
+        registerer.Register<SetStonePileAmmo>(HandleServerEventSetStonePileAmmo);
+        registerer.Register<SetRangedSiegeWeaponAmmo>(HandleServerSetRangedSiegeWeaponAmmo);
     }
 
     private void HandleSetTimer(CrpgDtvSetTimerMessage message)
@@ -153,5 +156,23 @@ internal class CrpgDtvClient : MissionMultiplayerGameModeBaseClient
             Color = new Color(0.90f, 0.25f, 0.25f),
             SoundEventPath = "event:/ui/notification/alert",
         });
+    }
+
+    private void HandleServerEventSetStonePileAmmo(SetStonePileAmmo message)
+    {
+        if (message.AmmoCount > 0)
+        {
+            StonePile? stonePile = Mission.MissionNetworkHelper.GetMissionObjectFromMissionObjectId(message.StonePileId) as StonePile;
+            stonePile?.Activate();
+        }
+    }
+
+    private void HandleServerSetRangedSiegeWeaponAmmo(SetRangedSiegeWeaponAmmo message)
+    {
+        if (message.AmmoCount > 0)
+        {
+            RangedSiegeWeapon? rangedSiegeWeapon = Mission.MissionNetworkHelper.GetMissionObjectFromMissionObjectId(message.RangedSiegeWeaponId) as RangedSiegeWeapon;
+            rangedSiegeWeapon?.Activate();
+        }
     }
 }
