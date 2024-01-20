@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
 namespace Crpg.Persistence.Migrations;
 
 /// <inheritdoc />
