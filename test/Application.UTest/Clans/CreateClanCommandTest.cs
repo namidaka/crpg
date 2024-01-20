@@ -26,6 +26,7 @@ public class CreateClanCommandTest : TestBase
             Description = "a description",
             BannerKey = "abc",
             Region = Region.Na,
+            Languages = { Languages.En, Languages.De, },
             Discord = new Uri("https://discord.gg/abc"),
             ArmoryTimeout = TimeSpan.FromDays(12),
         }, CancellationToken.None);
@@ -38,6 +39,7 @@ public class CreateClanCommandTest : TestBase
         Assert.That(clan.Description, Is.EqualTo("a description"));
         Assert.That(clan.BannerKey, Is.EqualTo("abc"));
         Assert.That(clan.Region, Is.EqualTo(Region.Na));
+        Assert.That(clan.Languages, Is.EquivalentTo(new[] { Languages.En, Languages.De }));
         Assert.That(clan.Discord, Is.EqualTo(new Uri("https://discord.gg/abc")));
         Assert.That(clan.ArmoryTimeout, Is.EqualTo(TimeSpan.FromDays(12)));
 
