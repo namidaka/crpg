@@ -35,30 +35,16 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
 
             if (_cache.TryGetValue(cacheKey, out IList<CharacterPublicViewModel>? results) == false)
             {
+                // Todo: use DistinctBy here when EfCore implements it (does not work for now: https://github.com/dotnet/efcore/issues/27470 )
                 var topRatedCharactersByRegion = await _db.Characters
                 .OrderByDescending(c => c.Rating.CompetitiveValue)
                 .Where(c => (req.Region == null || req.Region == c.User!.Region)
                             && (req.CharacterClass == null || req.CharacterClass == c.Class))
+                .Take(500)
                 .ProjectTo<CharacterPublicViewModel>(_mapper.ConfigurationProvider)
                 .ToArrayAsync(cancellationToken);
 
-                IList<CharacterPublicViewModel> data = new List<CharacterPublicViewModel>();
-
-                // DistinctBy don't work https://github.com/dotnet/efcore/issues/27470, let's do it manually.
-                foreach (var result in topRatedCharactersByRegion)
-                {
-                    if (data.Count >= 50)
-                    {
-                        break;
-                    }
-
-                    if (data.Count(c => c.User.Id == result.User.Id) > 0)
-                    {
-                        continue;
-                    }
-
-                    data.Add(result);
-                }
+                IList<CharacterPublicViewModel> data = topRatedCharactersByRegion.DistinctBy(c => c.User).Take(50).ToList();
 
                 var cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
