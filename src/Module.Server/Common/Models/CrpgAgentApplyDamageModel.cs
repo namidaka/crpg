@@ -2,6 +2,7 @@
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using static TaleWorlds.MountAndBlade.Mission;
 
 namespace Crpg.Module.Common.Models;
 
@@ -129,119 +130,127 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
 
     public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman, bool isMissile)
     {
-        float result = 1f;
-
         if (isMissile)
         {
-            switch (bodyPart)
-            {
-                case BoneBodyPartType.None:
-                    result = 1f;
-                    break;
-                case BoneBodyPartType.Head:
-                    switch (type)
-                    {
-                        case DamageTypes.Invalid:
-                            result = 2f;
-                            break;
-                        case DamageTypes.Cut:
-                            result = 1.2f;
-                            break;
-                        case DamageTypes.Pierce:
-                            result = !isHuman ? 1.2f : 1.6f;
-                            break;
-                        case DamageTypes.Blunt:
-                            result = 1.2f;
-                            break;
-                    }
-
-                    break;
-                case BoneBodyPartType.Neck:
-                    switch (type)
-                    {
-                        case DamageTypes.Invalid:
-                            result = 2f;
-                            break;
-                        case DamageTypes.Cut:
-                            result = 1.2f;
-                            break;
-                        case DamageTypes.Pierce:
-                            result = !isHuman ? 1.2f : 1.6f;
-                            break;
-                        case DamageTypes.Blunt:
-                            result = 1.2f;
-                            break;
-                    }
-
-                    break;
-                case BoneBodyPartType.Chest:
-                case BoneBodyPartType.Abdomen:
-                case BoneBodyPartType.ShoulderLeft:
-                case BoneBodyPartType.ShoulderRight:
-                case BoneBodyPartType.ArmLeft:
-                case BoneBodyPartType.ArmRight:
-                    result = !isHuman ? 0.8f : 1f;
-                    break;
-                case BoneBodyPartType.Legs:
-                    result = 0.8f;
-                    break;
-            }
+            return isHuman ? CalculateRangedDamageMultiplierForHumanBodyPart(bodyPart, type) : CalculateRangedDamageMultiplierForNonHumanBodyPart(ArgumentsGoHere);
         }
         else
         {
-            switch (bodyPart)
-            {
-                case BoneBodyPartType.None:
-                    result = 1f;
-                    break;
-                case BoneBodyPartType.Head:
-                    switch (type)
-                    {
-                        case DamageTypes.Invalid:
-                            result = 2f;
-                            break;
-                        case DamageTypes.Cut:
-                            result = 1.2f;
-                            break;
-                        case DamageTypes.Pierce:
-                            result = !isHuman ? 1.2f : 1.6f;
-                            break;
-                        case DamageTypes.Blunt:
-                            result = 1.2f;
-                            break;
-                    }
+            return isHuman ? CalculateMeleeDamageMultiplierForHumanBodyPart(ArgumentsGoHere) : CalculateMeleeDamageMultiplierForNonHumanBodyPart(ArgumentsGoHere);
+        }
 
-                    break;
-                case BoneBodyPartType.Neck:
-                    switch (type)
-                    {
-                        case DamageTypes.Invalid:
-                            result = 2f;
-                            break;
-                        case DamageTypes.Cut:
-                            result = 1.2f;
-                            break;
-                        case DamageTypes.Pierce:
-                            result = !isHuman ? 1.2f : 1.6f;
-                            break;
-                        case DamageTypes.Blunt:
-                            result = 1.2f;
-                            break;
-                    }
+        // switch (bodyPart)
+        //     {
+        //         case BoneBodyPartType.None:
+        //             result = 1f;
+        //             break;
+        //         case BoneBodyPartType.Head:
+        //             switch (type)
+        //             {
+        //                 case DamageTypes.Invalid:
+        //                     result = 2f;
+        //                     break;
+        //                 case DamageTypes.Cut:
+        //                     result = 1.2f;
+        //                     break;
+        //                 case DamageTypes.Pierce:
+        //                     result = !isHuman ? 1.2f : 1.6f;
+        //                     break;
+        //                 case DamageTypes.Blunt:
+        //                     result = 1.2f;
+        //                     break;
+        //             }
+        // 
+        //             break;
+        //         case BoneBodyPartType.Neck:
+        //             switch (type)
+        //             {
+        //                 case DamageTypes.Invalid:
+        //                     result = 2f;
+        //                     break;
+        //                 case DamageTypes.Cut:
+        //                     result = 1.2f;
+        //                     break;
+        //                 case DamageTypes.Pierce:
+        //                     result = !isHuman ? 1.2f : 1.6f;
+        //                     break;
+        //                 case DamageTypes.Blunt:
+        //                     result = 1.2f;
+        //                     break;
+        //             }
+        // 
+        //             break;
+        //         case BoneBodyPartType.Chest:
+        //         case BoneBodyPartType.Abdomen:
+        //         case BoneBodyPartType.ShoulderLeft:
+        //         case BoneBodyPartType.ShoulderRight:
+        //         case BoneBodyPartType.ArmLeft:
+        //         case BoneBodyPartType.ArmRight:
+        //             result = !isHuman ? 0.8f : 1f;
+        //             break;
+        //         case BoneBodyPartType.Legs:
+        //             result = 0.8f;
+        //             break;
+        //     }
+        // 
+        // return result;
+    }
 
-                    break;
-                case BoneBodyPartType.Chest:
-                case BoneBodyPartType.Abdomen:
-                case BoneBodyPartType.ShoulderLeft:
-                case BoneBodyPartType.ShoulderRight:
-                case BoneBodyPartType.ArmLeft:
-                case BoneBodyPartType.ArmRight:
-                    result = !isHuman ? 0.8f : 1f;
-                    break;
-                case BoneBodyPartType.Legs:
-                    result = 0.8f;
-                    break;
-            }
+    public float CalculateRangedDamageMultiplierForHumanBodyPart(BoneBodyPartType bodyPart, DamageTypes type)
+    {
+        float result = 1f;
+        switch (bodyPart)
+        {
+            case BoneBodyPartType.None:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Head:
+                switch (type)
+                {
+                    case DamageTypes.Invalid:
+                        result = 2f;
+                        break;
+                    case DamageTypes.Cut:
+                        result = 1.2f;
+                        break;
+                    case DamageTypes.Pierce:
+                        result = 1.6f;
+                        break;
+                    case DamageTypes.Blunt:
+                        result = 1.2f;
+                        break;
+                }
+
+                break;
+            case BoneBodyPartType.Neck:
+                switch (type)
+                {
+                    case DamageTypes.Invalid:
+                        result = 2f;
+                        break;
+                    case DamageTypes.Cut:
+                        result = 1.2f;
+                        break;
+                    case DamageTypes.Pierce:
+                        result = 1.6f;
+                        break;
+                    case DamageTypes.Blunt:
+                        result = 1.2f;
+                        break;
+                }
+
+                break;
+            case BoneBodyPartType.Chest:
+            case BoneBodyPartType.Abdomen:
+            case BoneBodyPartType.ShoulderLeft:
+            case BoneBodyPartType.ShoulderRight:
+            case BoneBodyPartType.ArmLeft:
+            case BoneBodyPartType.ArmRight:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Legs:
+                result = 0.8f;
+                break;
         }
 
         return result;
