@@ -43,6 +43,7 @@ if (appEnv.Environment == HostingEnvironment.Development)
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    .AddMemoryCache()
     .AddSdk(builder.Configuration, appEnv)
     .AddPersistence(builder.Configuration, appEnv)
     .AddApplication(builder.Configuration, appEnv)

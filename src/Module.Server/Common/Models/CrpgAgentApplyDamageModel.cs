@@ -45,7 +45,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         };
         float finalDamage = base.CalculateDamage(attackInformation, collisionData, weapon, baseDamage);
 
-        if (IsPlayerCharacterAttackingViscountBot(attackInformation))
+        if (IsPlayerCharacterAttackingVipBot(attackInformation))
         {
             return 0f;
         }
@@ -55,7 +55,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             // Increase fist damage with strength and glove armor.
             int strengthSkill = GetSkillValue(attackInformation.AttackerAgentOrigin, CrpgSkills.Strength);
             int glovearmor = GetGloveArmor(attackInformation.AttackerAgentOrigin);
-            if (collisionData.IsAlternativeAttack) //Kick
+            if (collisionData.IsAlternativeAttack) // Kick
             {
                 return finalDamage * 0.75f * (1 + 0.02f * strengthSkill);
             }
@@ -262,15 +262,15 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         return 0;
     }
 
-    private bool IsPlayerCharacterAttackingViscountBot(AttackInformation attackInformation)
+    private bool IsPlayerCharacterAttackingVipBot(AttackInformation attackInformation)
     {
         if (attackInformation.AttackerAgentOrigin is CrpgBattleAgentOrigin)
         {
-            bool isVictimTheViscountBot = attackInformation.VictimAgentCharacter != null
-                ? attackInformation.VictimAgentCharacter.StringId.Equals("crpg_dtv_viscount")
+            bool isVictimTheVipBot = attackInformation.VictimAgentCharacter != null
+                ? attackInformation.VictimAgentCharacter.StringId.StartsWith("crpg_dtv_vip_")
                 : false;
 
-            return isVictimTheViscountBot;
+            return isVictimTheVipBot;
         }
 
         return false;

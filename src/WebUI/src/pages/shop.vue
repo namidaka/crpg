@@ -255,22 +255,16 @@ const newItemCount = computed(
         "
       >
         <template #header>
-          <div class="relative mr-2 flex items-center gap-1">
-            <ShopGridFilter
-              v-if="field in searchResult.data.aggregations"
-              :scopeAggregation="scopeAggregations[field]"
-              :aggregation="searchResult.data.aggregations[field]"
-              :aggregationConfig="aggregationsConfig[field]!"
-              :modelValue="filterModel[field]!"
-              @update:modelValue="val => updateFilter(field, val)"
-            />
-            <ShopGridSort
-              v-if="Object.keys(getSortingConfigByField(field)).length !== 0"
-              class="w-5"
-              v-model:modelValue="sortingModel"
-              :sortingConfig="getSortingConfigByField(field)"
-            />
-          </div>
+          <ShopGridFilter
+            v-if="field in searchResult.data.aggregations"
+            :scopeAggregation="scopeAggregations[field]"
+            :aggregation="searchResult.data.aggregations[field]"
+            :aggregationConfig="aggregationsConfig[field]!"
+            :filter="filterModel[field]!"
+            v-model:sorting="sortingModel"
+            :sortingConfig="getSortingConfigByField(field)"
+            @update:filter="val => updateFilter(field, val)"
+          />
         </template>
 
         <template #default="{ row: item }: { row: ItemFlat }">

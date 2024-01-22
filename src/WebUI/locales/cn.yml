@@ -1,6 +1,6 @@
 locale:
-  en: 英语
-  ru: 俄语
+  en: English
+  ru: Русский
   cn: 中文
 
 platform:
@@ -706,6 +706,7 @@ clan:
     column:
       tag: 标签
       region: 地区
+      languages: 语言
       members: 成员
       name: 名称
       memberName: 名称
@@ -729,6 +730,7 @@ clan:
         secondaryColor: 次要颜色
         bannerKey: 横幅关键字
         discord: Discord 服务器
+        languages: 语言
       group:
         armory:
           label: 部族军械库

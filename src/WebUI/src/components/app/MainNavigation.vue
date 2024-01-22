@@ -1,15 +1,30 @@
 <script setup lang="ts">
+import { type PatchNote } from '@/models/patch-note';
 import { useUserStore } from '@/stores/user';
 import Role from '@/models/role';
+
+defineProps<{ latestPatch: PatchNote }>();
 
 const userStore = useUserStore();
 </script>
 
 <template>
   <nav class="flex items-center gap-5">
-    <div
-      class="flex items-center gap-0.5 rounded-full border border-border-200 hover:border-border-300"
-    >
+    <div class="flex items-center rounded-full border border-border-200 hover:border-border-300">
+      <OButton
+        variant="primary"
+        class="cursor-pointer"
+        size="sm"
+        inverted
+        tag="a"
+        icon-left="trumpet"
+        :href="latestPatch.url"
+        target="_blank"
+        v-tooltip.bottom="$t('patchNotes.latestPatch')"
+      >
+        <Tag variant="primary" :label="latestPatch.tagName" />
+      </OButton>
+
       <OButton
         variant="primary"
         size="sm"

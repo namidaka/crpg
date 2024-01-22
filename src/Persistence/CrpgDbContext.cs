@@ -44,6 +44,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         NpgsqlConnection.GlobalTypeMapper.MapEnum<BattleFighterApplicationStatus>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<BattleMercenaryApplicationStatus>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<Region>();
+        NpgsqlConnection.GlobalTypeMapper.MapEnum<Languages>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<ActivityLogType>();
 #pragma warning restore CS0618
     }
@@ -144,6 +145,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         modelBuilder.HasPostgresEnum<BattleFighterApplicationStatus>();
         modelBuilder.HasPostgresEnum<BattleMercenaryApplicationStatus>();
         modelBuilder.HasPostgresEnum<Region>();
+        modelBuilder.HasPostgresEnum<Languages>();
         modelBuilder.HasPostgresEnum<ActivityLogType>();
 
         // Ensure that the PostGIS extension is installed.

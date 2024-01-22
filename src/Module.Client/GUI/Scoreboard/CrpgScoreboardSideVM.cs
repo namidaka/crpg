@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Crpg.Module.GUI.HudExtension;
 using Crpg.Module.GUI.Scoreboard;
+using Crpg.Module.Modes.Conquest;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -89,7 +90,7 @@ public class CrpgScoreboardSideVM : ViewModel
         IsSecondSide = isSecondSide;
         CultureId = text;
         TeamColor = "0x" + @object.Color2.ToString("X");
-        ShowAttackerOrDefenderIcons = Mission.Current.HasMissionBehavior<MissionMultiplayerSiegeClient>();
+        ShowAttackerOrDefenderIcons = Mission.Current.HasMissionBehavior<CrpgConquestClient>();
         IsAttacker = missionScoreboardSide.Side == BattleSideEnum.Attacker;
         RefreshValues();
         NetworkCommunicator.OnPeerAveragePingUpdated += OnPeerPingUpdated;

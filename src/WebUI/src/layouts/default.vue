@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/user';
 import { getUserActiveJoinRestriction } from '@/services/users-service';
 import { useHappyHours } from '@/composables/use-hh';
 import { useGameServerStats } from '@/composables/use-game-server-stats';
+import { usePatchNotes } from '@/composables/use-patch-notes';
 import { usePollInterval } from '@/composables/use-poll-interval';
 import { mainHeaderHeightKey } from '@/symbols/common';
 
@@ -20,11 +21,15 @@ const { state: joinRestrictionRemainingDuration, execute: loadJoinRestriction } 
   }
 );
 
+const { patchNotes, loadPatchNotes } = usePatchNotes();
 const { HHPollId, HHEvent, HHEventRemaining, isHHCountdownEnded } = useHappyHours();
-
 const { gameServerStats, loadGameServerStats } = useGameServerStats();
 
-const promises: Array<Promise<any>> = [loadGameServerStats(), loadJoinRestriction()];
+const promises: Array<Promise<any>> = [
+  loadPatchNotes(),
+  loadGameServerStats(),
+  loadJoinRestriction(),
+];
 
 if (userStore.clan === null) {
   promises.push(userStore.getUserClanAndRole());
@@ -77,7 +82,7 @@ await Promise.all(promises);
 
           <Divider inline />
 
-          <MainNavigation />
+          <MainNavigation :latestPatch="patchNotes[0]" />
         </div>
 
         <UserHeaderToolbar />

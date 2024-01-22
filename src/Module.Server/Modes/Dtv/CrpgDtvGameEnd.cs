@@ -6,17 +6,20 @@ namespace Crpg.Module.Modes.Dtv;
 [DefineGameNetworkMessageTypeForMod(GameNetworkMessageSendType.FromServer)]
 internal sealed class CrpgDtvGameEnd : GameNetworkMessage
 {
-    public bool ViscountDead { get; set; }
+    public bool VipDead { get; set; }
+    public int VipAgentIndex { get; set; }
 
     protected override void OnWrite()
     {
-        WriteBoolToPacket(ViscountDead);
+        WriteBoolToPacket(VipDead);
+        WriteAgentIndexToPacket(VipAgentIndex);
     }
 
     protected override bool OnRead()
     {
         bool bufferReadValid = true;
-        ViscountDead = ReadBoolFromPacket(ref bufferReadValid);
+        VipDead = ReadBoolFromPacket(ref bufferReadValid);
+        VipAgentIndex = ReadAgentIndexFromPacket(ref bufferReadValid);
         return bufferReadValid;
     }
 
@@ -27,6 +30,6 @@ internal sealed class CrpgDtvGameEnd : GameNetworkMessage
 
     protected override string OnGetLogFormat()
     {
-        return "cRPG DTV Viscount Death Data";
+        return "cRPG DTV VIP Death Data";
     }
 }

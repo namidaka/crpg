@@ -133,6 +133,7 @@
     <string id="TtprOazr" text= "Замок Джамейед" />
     <string id="Kgiopaqf" text= "Rytsarskiy gerb" />
     <string id="TBergyuj" text= "Тальмберг" />
+    <string id="V0lSkuLK" text= "Крепость Вольскуль" />
 
     <!-- DTV Maps -->
     <string id="ArnxGr8j1j" text="Лагерь" />
@@ -141,5 +142,7 @@
     <string id="AkdJDF58" text= "Замерзший берег" />
     <string id="UcsEXc5J" text= "Замок Розторн" />
     <string id="BreAK661" text= "Руины Рахиза" />
+    <string id="MUSA3oiT" text= "Муса Пойнт" />
+    <string id="T3MpL3OP" text= "храм Посейдона" />
   </strings>
 </base>

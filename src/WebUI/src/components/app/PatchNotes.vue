@@ -10,7 +10,7 @@ const timeAgo = useLocaleTimeAgo(latestPatch.value.createdAt);
 </script>
 
 <template>
-  <div class="absolute left-6 top-6 gap-6 space-y-1.5">
+  <div class="gap-6 space-y-1.5">
     <a
       :href="latestPatch.url"
       target="_blank"

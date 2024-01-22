@@ -1,7 +1,7 @@
 locale:
-  en: Английский
+  en: English
   ru: Русский
-  cn: Китайский
+  cn: 中文
 
 platform:
   Steam: Steam
@@ -709,6 +709,7 @@ clan:
       role: Роль
       tag: Тег
       region: Регион
+      languages: Язык
       members: Участники
       memberName: Имя
   create:
@@ -730,6 +731,7 @@ clan:
         secondaryColor: Второстепенный
         bannerKey: Герб
         discord: Discord сервер
+        languages: Язык
       group:
         armory:
           label: Оружейная
@@ -738,9 +740,8 @@ clan:
               label: Тайм-аут оружейной (дней)
               hint: Автоматический возврат предмета, если взявший предмет не проявляет активности в течение N дней
     bannerKeyGeneratorTools: Создайте с помощью {link}
-    update:
-      notify:
-        success: Настройки клана обновлены
+    notify:
+      success: Настройки клана обновлены
   delete:
     title: Вы можете {link}. Действие нельзя будет отменить
     link: удалить ваш клан

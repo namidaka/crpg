@@ -67,6 +67,7 @@ public class UpdateClanCommandTest : TestBase
             Name = "TaleWorlds",
             BannerKey = string.Empty,
             Region = Region.Na,
+            Languages = { Languages.En, Languages.De, },
         }, CancellationToken.None);
 
         Assert.That(result.Errors, Is.Not.Null);
