@@ -132,68 +132,12 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
     {
         if (isMissile)
         {
-            return isHuman ? CalculateRangedDamageMultiplierForHumanBodyPart(bodyPart, type) : CalculateRangedDamageMultiplierForNonHumanBodyPart(ArgumentsGoHere);
+            return isHuman ? CalculateRangedDamageMultiplierForHumanBodyPart(bodyPart, type) : CalculateRangedDamageMultiplierForNonHumanBodyPart(bodyPart, type);
         }
         else
         {
-            return isHuman ? CalculateMeleeDamageMultiplierForHumanBodyPart(ArgumentsGoHere) : CalculateMeleeDamageMultiplierForNonHumanBodyPart(ArgumentsGoHere);
+            return isHuman ? CalculateMeleeDamageMultiplierForHumanBodyPart(bodyPart, type) : CalculateMeleeDamageMultiplierForNonHumanBodyPart(bodyPart, type);
         }
-
-        // switch (bodyPart)
-        //     {
-        //         case BoneBodyPartType.None:
-        //             result = 1f;
-        //             break;
-        //         case BoneBodyPartType.Head:
-        //             switch (type)
-        //             {
-        //                 case DamageTypes.Invalid:
-        //                     result = 2f;
-        //                     break;
-        //                 case DamageTypes.Cut:
-        //                     result = 1.2f;
-        //                     break;
-        //                 case DamageTypes.Pierce:
-        //                     result = !isHuman ? 1.2f : 1.6f;
-        //                     break;
-        //                 case DamageTypes.Blunt:
-        //                     result = 1.2f;
-        //                     break;
-        //             }
-        // 
-        //             break;
-        //         case BoneBodyPartType.Neck:
-        //             switch (type)
-        //             {
-        //                 case DamageTypes.Invalid:
-        //                     result = 2f;
-        //                     break;
-        //                 case DamageTypes.Cut:
-        //                     result = 1.2f;
-        //                     break;
-        //                 case DamageTypes.Pierce:
-        //                     result = !isHuman ? 1.2f : 1.6f;
-        //                     break;
-        //                 case DamageTypes.Blunt:
-        //                     result = 1.2f;
-        //                     break;
-        //             }
-        // 
-        //             break;
-        //         case BoneBodyPartType.Chest:
-        //         case BoneBodyPartType.Abdomen:
-        //         case BoneBodyPartType.ShoulderLeft:
-        //         case BoneBodyPartType.ShoulderRight:
-        //         case BoneBodyPartType.ArmLeft:
-        //         case BoneBodyPartType.ArmRight:
-        //             result = !isHuman ? 0.8f : 1f;
-        //             break;
-        //         case BoneBodyPartType.Legs:
-        //             result = 0.8f;
-        //             break;
-        //     }
-        // 
-        // return result;
     }
 
     public float CalculateRangedDamageMultiplierForHumanBodyPart(BoneBodyPartType bodyPart, DamageTypes type)
@@ -205,23 +149,6 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                 result = 1f;
                 break;
             case BoneBodyPartType.Head:
-                switch (type)
-                {
-                    case DamageTypes.Invalid:
-                        result = 2f;
-                        break;
-                    case DamageTypes.Cut:
-                        result = 1.2f;
-                        break;
-                    case DamageTypes.Pierce:
-                        result = 1.6f;
-                        break;
-                    case DamageTypes.Blunt:
-                        result = 1.2f;
-                        break;
-                }
-
-                break;
             case BoneBodyPartType.Neck:
                 switch (type)
                 {
@@ -247,6 +174,135 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             case BoneBodyPartType.ArmLeft:
             case BoneBodyPartType.ArmRight:
                 result = 1f;
+                break;
+            case BoneBodyPartType.Legs:
+                result = 0.8f;
+                break;
+        }
+
+        return result;
+    }
+
+    public float CalculateRangedDamageMultiplierForNonHumanBodyPart(BoneBodyPartType bodyPart, DamageTypes type)
+    {
+        float result = 1f;
+        switch (bodyPart)
+        {
+            case BoneBodyPartType.None:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Head:
+            case BoneBodyPartType.Neck:
+                switch (type)
+                {
+                    case DamageTypes.Invalid:
+                        result = 2f;
+                        break;
+                    case DamageTypes.Cut:
+                        result = 1.2f;
+                        break;
+                    case DamageTypes.Pierce:
+                        result = 1.2f;
+                        break;
+                    case DamageTypes.Blunt:
+                        result = 1.2f;
+                        break;
+                }
+
+                break;
+            case BoneBodyPartType.Chest:
+            case BoneBodyPartType.Abdomen:
+            case BoneBodyPartType.ShoulderLeft:
+            case BoneBodyPartType.ShoulderRight:
+            case BoneBodyPartType.ArmLeft:
+            case BoneBodyPartType.ArmRight:
+                result = 0.8f;
+                break;
+            case BoneBodyPartType.Legs:
+                result = 0.8f;
+                break;
+        }
+
+        return result;
+    }
+
+    public float CalculateMeleeDamageMultiplierForHumanBodyPart(BoneBodyPartType bodyPart, DamageTypes type)
+    {
+        float result = 1f;
+        switch (bodyPart)
+        {
+            case BoneBodyPartType.None:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Head:
+            case BoneBodyPartType.Neck:
+                switch (type)
+                {
+                    case DamageTypes.Invalid:
+                        result = 2f;
+                        break;
+                    case DamageTypes.Cut:
+                        result = 1.2f;
+                        break;
+                    case DamageTypes.Pierce:
+                        result = 1.6f;
+                        break;
+                    case DamageTypes.Blunt:
+                        result = 1.2f;
+                        break;
+                }
+
+                break;
+            case BoneBodyPartType.Chest:
+            case BoneBodyPartType.Abdomen:
+            case BoneBodyPartType.ShoulderLeft:
+            case BoneBodyPartType.ShoulderRight:
+            case BoneBodyPartType.ArmLeft:
+            case BoneBodyPartType.ArmRight:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Legs:
+                result = 0.8f;
+                break;
+        }
+
+        return result;
+    }
+
+    public float CalculateMeleeDamageMultiplierForNonHumanBodyPart(BoneBodyPartType bodyPart, DamageTypes type)
+    {
+        float result = 1f;
+        switch (bodyPart)
+        {
+            case BoneBodyPartType.None:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Head:
+            case BoneBodyPartType.Neck:
+                switch (type)
+                {
+                    case DamageTypes.Invalid:
+                        result = 2f;
+                        break;
+                    case DamageTypes.Cut:
+                        result = 1.2f;
+                        break;
+                    case DamageTypes.Pierce:
+                        result = 1.2f;
+                        break;
+                    case DamageTypes.Blunt:
+                        result = 1.2f;
+                        break;
+                }
+
+                break;
+            case BoneBodyPartType.Chest:
+            case BoneBodyPartType.Abdomen:
+            case BoneBodyPartType.ShoulderLeft:
+            case BoneBodyPartType.ShoulderRight:
+            case BoneBodyPartType.ArmLeft:
+            case BoneBodyPartType.ArmRight:
+                result = 0.8f;
                 break;
             case BoneBodyPartType.Legs:
                 result = 0.8f;
