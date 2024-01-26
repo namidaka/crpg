@@ -114,7 +114,7 @@ public class BorrowClanArmoryCommandTest : TestBase
     }
 
     [Test]
-    public async Task ShouldBorrowExistingItem()
+    public async Task ShouldNotBorrowExistingItem()
     {
         await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
         await ClanArmoryTestHelper.AddItems(ArrangeDb, "user0");
@@ -145,12 +145,12 @@ public class BorrowClanArmoryCommandTest : TestBase
             ClanId = clan.Id,
         }, CancellationToken.None);
 
-        Assert.That(result.Errors, Is.Null);
+        Assert.That(result.Errors, Is.Not.Empty);
 
         user = await AssertDb.Users
              .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
              .FirstAsync(u => u.Id == user.Id);
 
-        Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(1));
+        Assert.That(user.ClanMembership!.ArmoryBorrowedItems.Count, Is.EqualTo(0));
     }
 }
