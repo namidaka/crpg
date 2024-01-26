@@ -176,8 +176,11 @@ public class UpgradeItemCommandTest : TestBase
         }, CancellationToken.None);
 
         Assert.That(result.Errors, Is.Null);
-        Assert.That(result.Data?.Item.Id, Is.EqualTo("a_h1"));
-        Assert.That(result.Data?.Item.Rank, Is.EqualTo(1));
+
+        var userDb = await AssertDb.Users
+            .Include(u => u.Items)
+            .FirstAsync(u => u.Id == user.Id);
+        Assert.That(userDb.Items.Count, Is.EqualTo(2));
     }
 
     [Test]

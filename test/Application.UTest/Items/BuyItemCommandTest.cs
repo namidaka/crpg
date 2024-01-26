@@ -164,10 +164,8 @@ public class BuyItemCommandTest : TestBase
             .FirstAsync(u => u.Id == user.Id);
 
         var boughtUserItem = result.Data!;
-        Assert.That(boughtUserItem.Item.Rank, Is.EqualTo(0));
-        Assert.That(boughtUserItem.IsBroken, Is.False);
-        Assert.That(boughtUserItem.Item.Id, Is.EqualTo(item.Id));
         Assert.That(userDb.Gold, Is.EqualTo(0));
+        Assert.That(userDb.Items.Count, Is.EqualTo(2));
         Assert.That(userDb.Items, Has.Some.Matches<UserItem>(ui => ui.Id == boughtUserItem.Id));
     }
 

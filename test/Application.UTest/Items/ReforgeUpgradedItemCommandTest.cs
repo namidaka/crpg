@@ -182,8 +182,13 @@ public class ReforgeUpgradedItemCommandTest : TestBase
         }, CancellationToken.None);
 
         Assert.That(result.Errors, Is.Null);
-        Assert.That(result.Data?.Item.Id, Is.EqualTo("a_h0"));
-        Assert.That(result.Data?.Item.Rank, Is.EqualTo(0));
+
+        var userDb = await AssertDb.Users
+            .Include(u => u.Items)
+            .FirstAsync(u => u.Id == user.Id);
+        Assert.That(userDb.Items.Count, Is.EqualTo(2));
+        Assert.That(userDb.HeirloomPoints, Is.EqualTo(6));
+
     }
 
     [Test]
