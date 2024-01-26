@@ -28,6 +28,7 @@ public enum ErrorCode
     FighterNotACommander,
     InternalError,
     InvalidField,
+    ItemAlreadyOwned,
     ItemBadSlot,
     ItemBroken,
     ItemDisabled,

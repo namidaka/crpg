@@ -228,6 +228,11 @@ internal class ClanService : IClanService
             return new(CommonErrors.UserItemInUse(userItemId));
         }
 
+        if (user.Items.Any(i => i.ItemId == armoryItem.UserItem!.ItemId))
+        {
+            return new(CommonErrors.ItemAlreadyOwned(armoryItem.UserItem!.ItemId));
+        }
+
         var borrowedItem = new ClanArmoryBorrowedItem { BorrowerClanId = clan.Id, UserItemId = armoryItem.UserItemId, BorrowerUserId = user.Id };
         db.ClanArmoryBorrowedItems.Add(borrowedItem);
 

@@ -183,6 +183,12 @@ internal static class CommonErrors
             Detail = $"Parties with ids '{partyId1}' and '{partyId2}' are not in the side in the battle with id '{battleId}'",
         };
 
+    public static Error ItemAlreadyOwned(string itemId) => new(ErrorType.Validation, ErrorCode.ItemAlreadyOwned)
+    {
+        Title = "Item is already owned",
+        Detail = $"Item with id '{itemId}' is already owned by the user",
+    };
+
     public static Error ItemBadSlot(string itemId, ItemSlot slot) => new(ErrorType.Validation, ErrorCode.ItemBadSlot)
     {
         Title = "Item cannot be put in that slot",
