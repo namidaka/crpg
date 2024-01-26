@@ -155,3 +155,6 @@ export const getClanArmoryItemLender = (userItem: UserItem, clanMembers: ClanMem
 
 export const isOwnClanArmoryItem = (item: ClanArmoryItem, userId: number) =>
   item.userItem.userId === userId;
+
+export const isClanArmoryItemInInventory = (item: ClanArmoryItem, userItems: UserItem[]) =>
+  userItems.some(ui => ui.item.id === item.userItem.item.id);

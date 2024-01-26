@@ -8,6 +8,7 @@ import {
   getClanArmoryItemLender,
   getClanArmoryItemBorrower,
   isOwnClanArmoryItem,
+  isClanArmoryItemInInventory,
 } from '@/services/clan-service';
 import { notify } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
@@ -97,7 +98,9 @@ const flatItems = computed(() =>
         item =>
           (hideOwnedItemsModel.value ? !isOwnClanArmoryItem(item, userStore.user!.id) : true) &&
           (showOnlyAvailableItems.value
-            ? item.borrowedItem === null && !isOwnClanArmoryItem(item, userStore.user!.id)
+            ? item.borrowedItem === null &&
+              !isOwnClanArmoryItem(item, userStore.user!.id) &&
+              !isClanArmoryItemInInventory(item, userStore.userItems)
             : true)
       )
       .map(ca => ca.userItem.item)

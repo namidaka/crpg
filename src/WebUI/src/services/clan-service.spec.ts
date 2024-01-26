@@ -58,6 +58,7 @@ import {
   getClanArmoryItemBorrower,
   getClanArmoryItemLender,
   isOwnClanArmoryItem,
+  isClanArmoryItemInInventory,
 } from './clan-service';
 
 it('mapClanResponse', () => {
@@ -505,4 +506,32 @@ it.each<[ClanArmoryItem, number, boolean]>([
   [{ userItem: { userId: 1 } } as ClanArmoryItem, 2, false],
 ])('isOwnClanArmoryItem', (clanArmoryItem, userId, expectation) => {
   expect(isOwnClanArmoryItem(clanArmoryItem, userId)).toEqual(expectation);
+});
+
+it.each<[ClanArmoryItem, UserItem[], boolean]>([
+  [{ userItem: { item: { id: 'item1' } } } as ClanArmoryItem, [], false],
+  [
+    { userItem: { item: { id: 'item1' } } } as ClanArmoryItem,
+    [
+      {
+        item: {
+          id: 'item1',
+        },
+      } as UserItem,
+    ],
+    true,
+  ],
+  [
+    { userItem: { item: { id: 'item1' } } } as ClanArmoryItem,
+    [
+      {
+        item: {
+          id: 'item2',
+        },
+      } as UserItem,
+    ],
+    false,
+  ],
+])('isClanArmoryItemInInventory', (clanArmoryItem, userItems, expectation) => {
+  expect(isClanArmoryItemInInventory(clanArmoryItem, userItems)).toEqual(expectation);
 });
