@@ -11,7 +11,7 @@
   <SubModules>
     <SubModule>
       <Name value="cRPG_Exporter"/>
-      <DLLName value="Crpg.Module.dll"/>
+      <DLLName value="CrpgExporter.Module.dll"/>
       <SubModuleClassType value="Crpg.Module.CrpgSubModule"/>
       <Tags />
     </SubModule>

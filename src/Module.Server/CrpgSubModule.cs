@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Common;
+﻿using System.Diagnostics;
+using Crpg.Module.Common;
 using Crpg.Module.Common.Models;
 using Crpg.Module.Modes.Battle;
 using Crpg.Module.Modes.Conquest;
@@ -11,6 +12,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
+using Debug = TaleWorlds.Library.Debug;
 
 #if CRPG_SERVER
 using TaleWorlds.MountAndBlade.DedicatedCustomServer;
@@ -155,7 +157,7 @@ internal class CrpgSubModule : MBSubModuleBase
 #endif
     private CrpgConstants LoadCrpgConstants()
     {
-        string path = ModuleHelper.GetModuleFullPath("cRPG") + "ModuleData/constants.json";
+        string path = ModuleHelper.GetModuleFullPath("cRPG_Exporter") + "ModuleData/constants.json";
         return JsonConvert.DeserializeObject<CrpgConstants>(File.ReadAllText(path))!;
     }
 

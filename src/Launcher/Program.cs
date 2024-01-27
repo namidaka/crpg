@@ -54,7 +54,7 @@ catch (Exception e)
     Console.WriteLine(e);
     Console.Read();
 }
-
+Console.WriteLine($"starting with launch option : {bannerlordInstallation.ProgramArguments}");
 Process.Start(new ProcessStartInfo
 {
     WorkingDirectory = bannerlordInstallation.ProgramWorkingDirectory,
@@ -124,7 +124,7 @@ static GameInstallationInfo? ResolveBannerlordSteamInstallation()
             return new GameInstallationInfo(
                 bannerlordPath,
                 bannerlordExePath,
-                "_MODULES_*Native*cRPG*_MODULES_ /multiplayer",
+                "_MODULES_*Bannerlord.Harmony*Native*Multiplayer*cRPG_Exporter*_MODULES_ /singleplayer /no_watchdog",
                 Path.GetDirectoryName(bannerlordExePath));
         }
     }
@@ -187,9 +187,9 @@ static GameInstallationInfo? ResolveBannerlordXboxInstallation()
     return null;
 }
 
-static async Task UpdateCrpgAsync(string bannerlordPath, bool isBeta = false,bool isServer = false)
+static async Task UpdateCrpgAsync(string bannerlordPath, bool isBeta = false, bool isServer = false)
 {
-    string crpgPath = Path.Combine(bannerlordPath, "Modules/cRPG");
+    string crpgPath = Path.Combine(bannerlordPath, "Modules/cRPG_Exporter");
     string tagPath = Path.Combine(crpgPath, "Tag.txt");
     string moduleDataPath = Path.Combine(crpgPath, "ModuleData");
     string? tag = File.Exists(tagPath) ? File.ReadAllText(tagPath) : null;
@@ -298,7 +298,6 @@ static async Task UpdateCrpgAsync(string bannerlordPath, bool isBeta = false,boo
         await UpdateGitRepositoryAsync(moduleDataPath);
     }
 }
-
 
 static async Task UpdateGitRepositoryAsync(string repositoryPath)
 {
