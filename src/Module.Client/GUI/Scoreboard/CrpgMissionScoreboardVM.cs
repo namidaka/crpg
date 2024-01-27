@@ -113,42 +113,11 @@ internal class CrpgMissionScoreboardVM : ViewModel
         }
 
         _commanderClient = mission.GetMissionBehavior<CrpgCommanderBehaviorClient>();
-        if (_commanderClient != null)
+        _commanderPollComponent = mission.GetMissionBehavior<CrpgCommanderPollComponent>();
+        _canStartCommanderPolls = false;
+        if (_commanderClient != null && _commanderPollComponent != null)
         {
-            _commanderPollComponent = mission.GetMissionBehavior<CrpgCommanderPollComponent>();
-
-            if (_commanderPollComponent != null)
-            {
-                _canStartCommanderPolls = true;
-            }
-            else
-            {
-                _canStartCommanderPolls = false;
-            }
-        }
-        else
-        {
-            _canStartCommanderPolls = false;
-        }
-
-        _commanderClient = mission.GetMissionBehavior<CrpgCommanderBehaviorClient>();
-
-        if (_commanderClient != null)
-        {
-            _commanderPollComponent = mission.GetMissionBehavior<CrpgCommanderPollComponent>();
-
-            if (_commanderPollComponent != null)
-            {
-                _canStartCommanderPolls = true;
-            }
-            else
-            {
-                _canStartCommanderPolls = false;
-            }
-        }
-        else
-        {
-            _canStartCommanderPolls = false;
+            _canStartCommanderPolls = true;
         }
 
         EndOfBattle = new CrpgScoreboardEndOfBattleVM(mission, _missionScoreboardComponent, isSingleTeam);

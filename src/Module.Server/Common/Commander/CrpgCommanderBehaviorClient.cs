@@ -57,18 +57,12 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
     public bool IsPeerCommander(MissionPeer peer)
     {
         NetworkCommunicator? networkCommunicator = peer.GetNetworkPeer();
-        if (networkCommunicator != null)
+        if (networkCommunicator == null)
         {
-            foreach (KeyValuePair<BattleSideEnum, NetworkCommunicator?> keyValuePair in _commanders)
-            {
-                if (keyValuePair.Value == networkCommunicator)
-                {
-                    return true;
-                }
-            }
+            return false;
         }
 
-        return false;
+        return _commanders.Any(kvp => kvp.Value == networkCommunicator);
     }
 
     public override void OnBehaviorInitialize()
