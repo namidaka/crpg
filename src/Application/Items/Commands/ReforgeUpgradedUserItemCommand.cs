@@ -5,7 +5,6 @@ using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Application.Items.Models;
-using Crpg.Common.Helpers;
 using Crpg.Domain.Entities.Items;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -80,11 +79,6 @@ public record ReforgeUpgradedUserItemCommand : IMediatorRequest<UserItemViewMode
             if (baseItem == null)
             {
                 return new(CommonErrors.ItemNotReforgeable(userItemToReforge.ItemId));
-            }
-
-            if (user.Items.Any(ui => ui.Item!.Id == baseItem.Id))
-            {
-                return new(CommonErrors.ItemAlreadyOwned(baseItem.Id));
             }
 
             _db.ActivityLogs.Add(_activityLogService.CreateItemReforgedLog(user.Id, userItemToReforge.ItemId, userItemToReforge.Item.Rank, reforgePrice));

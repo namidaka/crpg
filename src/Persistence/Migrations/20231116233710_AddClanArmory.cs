@@ -63,7 +63,7 @@ namespace Crpg.Persistence.Migrations
                     lenderclanid = table.Column<int>(name: "lender_clan_id", type: "integer", nullable: false),
                     lenderuserid = table.Column<int>(name: "lender_user_id", type: "integer", nullable: false),
                     updatedat = table.Column<DateTime>(name: "updated_at", type: "timestamp with time zone", nullable: false),
-                    createdat = table.Column<DateTime>(name: "created_at", type: "timestamp with time zone", nullable: false)
+                    createdat = table.Column<DateTime>(name: "created_at", type: "timestamp with time zone", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -96,7 +96,7 @@ namespace Crpg.Persistence.Migrations
                     borrowerclanid = table.Column<int>(name: "borrower_clan_id", type: "integer", nullable: false),
                     borroweruserid = table.Column<int>(name: "borrower_user_id", type: "integer", nullable: false),
                     updatedat = table.Column<DateTime>(name: "updated_at", type: "timestamp with time zone", nullable: false),
-                    createdat = table.Column<DateTime>(name: "created_at", type: "timestamp with time zone", nullable: false)
+                    createdat = table.Column<DateTime>(name: "created_at", type: "timestamp with time zone", nullable: false),
                 },
                 constraints: table =>
                 {

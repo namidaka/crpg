@@ -56,6 +56,9 @@ import { range } from '@/utils/array';
 
 export const getCharacters = () => get<Character[]>('/users/self/characters');
 
+export const getCharactersByUserId = (userId: number) =>
+  get<Character[]>(`/users/${userId}/characters`);
+
 export const updateCharacter = (characterId: number, req: UpdateCharacterRequest) =>
   put<Character>(`/users/self/characters/${characterId}`, req);
 

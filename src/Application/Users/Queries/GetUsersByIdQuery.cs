@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Users.Queries;
 
-public record GetUsersByIdQuery : IMediatorRequest<IList<UserPublicViewModel>>
+public record GetUsersByIdQuery : IMediatorRequest<IList<UserPrivateViewModel>>
 {
     public int[] UserIds { get; init; } = Array.Empty<int>();
 
-    internal class Handler : IMediatorRequestHandler<GetUsersByIdQuery, IList<UserPublicViewModel>>
+    internal class Handler : IMediatorRequestHandler<GetUsersByIdQuery, IList<UserPrivateViewModel>>
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -23,10 +23,10 @@ public record GetUsersByIdQuery : IMediatorRequest<IList<UserPublicViewModel>>
             _mapper = mapper;
         }
 
-        public async Task<Result<IList<UserPublicViewModel>>> Handle(GetUsersByIdQuery req, CancellationToken cancellationToken)
+        public async Task<Result<IList<UserPrivateViewModel>>> Handle(GetUsersByIdQuery req, CancellationToken cancellationToken)
         {
             var users = await _db.Users
-                .ProjectTo<UserPublicViewModel>(_mapper.ConfigurationProvider)
+                .ProjectTo<UserPrivateViewModel>(_mapper.ConfigurationProvider)
                 .Where(u => req.UserIds.Contains(u.Id))
                 .ToArrayAsync(cancellationToken);
             return new(users);

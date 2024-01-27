@@ -18,7 +18,7 @@ it('initial state', () => {
 it('load clan', async () => {
   const { clanMembers, loadClanMembers, clanMembersCount, isLastMember } = useClanMembers();
 
-  await loadClanMembers(1);
+  await loadClanMembers(0, { id: 1 });
   expect(clanMembers.value).toEqual([{ user: { id: 1 } }, { user: { id: 11 } }]);
   expect(clanMembersCount.value).toEqual(2);
   expect(isLastMember.value).toEqual(false);

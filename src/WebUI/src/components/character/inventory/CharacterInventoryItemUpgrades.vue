@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ItemCompareMode, ItemRank, type ItemFlat } from '@/models/item';
-import { type UserItem,  } from '@/models/user';
+import { type UserItem } from '@/models/user';
 import { useItemUpgrades } from '@/composables/item/use-item-upgrades';
 import { useItemReforge } from '@/composables/item/use-item-reforge';
 import { useUserStore } from '@/stores/user';
@@ -84,14 +84,12 @@ const {
             </div>
             <template #popper>
               <div class="prose prose-invert">
-                <h4>
+                <h5>
                   {{ $t('character.inventory.item.upgrade.tooltip.title') }}
-                </h4>
-
+                </h5>
                 <p>
                   {{ $t('character.inventory.item.upgrade.tooltip.description') }}
                 </p>
-
                 <i18n-t
                   v-if="!upgradeValidation.maxRank"
                   scope="global"
@@ -99,19 +97,10 @@ const {
                   class="text-status-danger"
                   tag="p"
                 />
-
                 <i18n-t
                   v-else-if="!upgradeValidation.points"
                   scope="global"
                   keypath="character.inventory.item.upgrade.validation.loomPoints"
-                  class="text-status-danger"
-                  tag="p"
-                />
-
-                <i18n-t
-                  v-else-if="!upgradeValidation.exist"
-                  scope="global"
-                  keypath="character.inventory.item.upgrade.validation.exist"
                   class="text-status-danger"
                   tag="p"
                 />
@@ -141,13 +130,11 @@ const {
                   <template #loomPoints>
                     <Loom :point="1" />
                   </template>
-
                   <template #oldItem>
                     <span class="font-bold" :style="{ color: getRankColor(item.rank) }">
                       {{ item.name }}
                     </span>
                   </template>
-
                   <template #newItem>
                     <span class="font-bold" :style="{ color: getRankColor(nextItem.rank) }">
                       {{ nextItem.name }}
@@ -170,31 +157,41 @@ const {
 
             <template #popper>
               <div class="prose prose-invert">
-                <h4>
+                <h5>
                   {{ $t('character.inventory.item.reforge.tooltip.title') }}
-                </h4>
-
+                </h5>
                 <p>
                   {{ $t('character.inventory.item.reforge.tooltip.description') }}
                 </p>
-
                 <OTable :data="reforgeCostTable" bordered narrowed :loading="isLoading">
                   <OTableColumn
                     #default="{ row }: { row: [string, number] }"
                     field="rank"
-                    :label="'Item Rank'"
+                    :label="
+                      $t('character.inventory.item.reforge.tooltip.costTable.cols.rank.label')
+                    "
                   >
                     <span :style="{ color: getRankColor(Number(row[0]) as ItemRank) }">
                       +{{ row[0] }}
                     </span>
                   </OTableColumn>
-
                   <OTableColumn
                     #default="{ row }: { row: [string, number] }"
                     field="rank"
-                    :label="'Cost'"
+                    :label="
+                      $t('character.inventory.item.reforge.tooltip.costTable.cols.cost.label')
+                    "
                   >
                     <Coin :value="row[1]" />
+                  </OTableColumn>
+                  <OTableColumn
+                    #default="{ row }: { row: [string, number] }"
+                    field="looms"
+                    :label="
+                      $t('character.inventory.item.reforge.tooltip.costTable.cols.looms.label')
+                    "
+                  >
+                    <Loom :point="Number(row[0])" />
                   </OTableColumn>
                 </OTable>
 
@@ -209,7 +206,6 @@ const {
                     <span class="font-bold">0</span>
                   </template>
                 </i18n-t>
-
                 <i18n-t
                   v-else-if="!reforgeValidation.gold"
                   scope="global"
@@ -217,18 +213,6 @@ const {
                   class="text-status-danger"
                   tag="p"
                 />
-
-                <i18n-t
-                  v-else-if="!reforgeValidation.exist"
-                  scope="global"
-                  keypath="character.inventory.item.reforge.validation.exist"
-                  class="text-status-danger"
-                  tag="p"
-                >
-                  <template #existItem>
-                    <span class="font-bold">{{ baseItem.name }}</span>
-                  </template>
-                </i18n-t>
               </div>
             </template>
           </VTooltip>
@@ -255,17 +239,14 @@ const {
                   <template #gold>
                     <Coin :value="reforgeCost" />
                   </template>
-
                   <template #loomPoints>
                     <Loom :point="item.rank" />
                   </template>
-
                   <template #oldItem>
                     <span class="font-bold" :style="{ color: getRankColor(item.rank) }">
                       {{ item.name }}
                     </span>
                   </template>
-
                   <template #newItem>
                     <span class="font-bold" :style="{ color: getRankColor(baseItem.rank) }">
                       {{ baseItem.name }}

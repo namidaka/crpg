@@ -22,7 +22,7 @@ const { openedItems, closeItemDetail, computeDetailCardYPosition } = useItemDeta
         rounded
         size="2xs"
         variant="secondary"
-        @click="closeItemDetail(oi.id)"
+        @click="closeItemDetail(oi)"
       />
 
       <slot v-bind="oi" />

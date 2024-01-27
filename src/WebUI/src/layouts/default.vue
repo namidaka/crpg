@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useElementSize } from '@vueuse/core';
 import { useUserStore } from '@/stores/user';
-import { getUserActiveJoinRestriction } from '@/services/users-service';
 import { useHappyHours } from '@/composables/use-hh';
 import { useGameServerStats } from '@/composables/use-game-server-stats';
 import { usePatchNotes } from '@/composables/use-patch-notes';
@@ -13,14 +12,6 @@ const fetchUserPollId = Symbol('fetchUser');
 
 const route = useRoute();
 
-const { state: joinRestrictionRemainingDuration, execute: loadJoinRestriction } = useAsyncState(
-  () => getUserActiveJoinRestriction(userStore.user!.id),
-  null,
-  {
-    immediate: false,
-  }
-);
-
 const { patchNotes, loadPatchNotes } = usePatchNotes();
 const { HHPollId, HHEvent, HHEventRemaining, isHHCountdownEnded } = useHappyHours();
 const { gameServerStats, loadGameServerStats } = useGameServerStats();
@@ -28,12 +19,9 @@ const { gameServerStats, loadGameServerStats } = useGameServerStats();
 const promises: Array<Promise<any>> = [
   loadPatchNotes(),
   loadGameServerStats(),
-  loadJoinRestriction(),
+  userStore.fetchUserRestriction(),
+  userStore.fetchUserClanAndRole(),
 ];
-
-if (userStore.clan === null) {
-  promises.push(userStore.getUserClanAndRole());
-}
 
 const mainHeader = ref<HTMLDivElement | null>(null);
 const { height: mainHeaderHeight } = useElementSize(
@@ -66,8 +54,8 @@ await Promise.all(promises);
       :class="{ 'sticky top-0 bg-opacity-10 backdrop-blur-sm': !route.meta?.noStickyHeader }"
     >
       <UserRestrictionNotification
-        v-if="joinRestrictionRemainingDuration !== null"
-        :restriction="joinRestrictionRemainingDuration"
+        v-if="userStore.restriction !== null"
+        :restriction="userStore.restriction"
       />
 
       <HHHeaderNotification v-if="!isHHCountdownEnded && HHEventRemaining !== 0" />

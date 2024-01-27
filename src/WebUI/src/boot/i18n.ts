@@ -87,7 +87,12 @@ export const i18n = createI18n({
         minute: 'numeric',
       },
       short: {
-        dateStyle: 'short',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
       },
       long: {
         year: 'numeric',

@@ -1,8 +1,14 @@
 import { type User, type UserItem } from '@/models/user';
 import { type Character } from '@/models/character';
 import { type ClanMemberRole, type Clan } from '@/models/clan';
-
-import { getUser, getUserItems, buyUserItem, getUserClan } from '@/services/users-service';
+import { type PublicRestriction } from '@/models/restriction';
+import {
+  getUser,
+  getUserItems,
+  buyUserItem,
+  getUserClan,
+  getUserRestriction,
+} from '@/services/users-service';
 import { getCharacters } from '@/services/characters-service';
 import {
   defaultExperienceMultiplier,
@@ -15,6 +21,7 @@ interface State {
   userItems: UserItem[];
   clan: Clan | null;
   clanMemberRole: ClanMemberRole | null;
+  restriction: PublicRestriction | null;
 }
 
 export const useUserStore = defineStore('user', {
@@ -24,6 +31,7 @@ export const useUserStore = defineStore('user', {
     userItems: [],
     clan: null,
     clanMemberRole: null,
+    restriction: null,
   }),
 
   getters: {
@@ -88,7 +96,7 @@ export const useUserStore = defineStore('user', {
       this.subtractGold(userItem.item.price);
     },
 
-    async getUserClanAndRole() {
+    async fetchUserClanAndRole() {
       const userClanAndRole = await getUserClan();
 
       if (userClanAndRole === null) {
@@ -99,6 +107,10 @@ export const useUserStore = defineStore('user', {
 
       this.clan = userClanAndRole.clan;
       this.clanMemberRole = userClanAndRole.role;
+    },
+
+    async fetchUserRestriction() {
+      this.restriction = await getUserRestriction();
     },
   },
 });

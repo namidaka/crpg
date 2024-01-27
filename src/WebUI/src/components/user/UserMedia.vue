@@ -30,21 +30,7 @@ const {
       :class="[size === 'xl' ? 'h-8 w-8' : 'h-6 w-6', { 'ring-2  ring-status-success': isSelf }]"
     />
 
-    <template v-if="!hiddenClan && user.clan">
-      <RouterLink
-        class="group flex items-center gap-1 hover:opacity-75"
-        :to="{ name: 'ClansId', params: { id: user.clan.id } }"
-      >
-        <ClanRoleIcon
-          v-if="
-            clanRole !== null && [ClanMemberRole.Leader, ClanMemberRole.Officer].includes(clanRole)
-          "
-          :role="clanRole"
-        />
-        <ClanTagIcon :color="user.clan.primaryColor" />
-        [{{ user.clan.tag }}]
-      </RouterLink>
-    </template>
+    <UserClan v-if="!hiddenClan && user.clan" :clan="user.clan" :clanRole="clanRole" />
 
     <div
       v-if="!hiddenTitle"

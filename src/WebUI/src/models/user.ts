@@ -25,6 +25,14 @@ export interface UserPublic
   clan: Clan | null;
 }
 
+export interface UserPrivate extends UserPublic {
+  createdAt: Date;
+  updatedAt: Date;
+  gold: number;
+  note: string;
+  activeCharacterId: number | null;
+}
+
 // TODO: to /models/item.ts
 export interface UserItem {
   id: number;

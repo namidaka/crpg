@@ -853,7 +853,8 @@ public record SeedDataCommand : IMediatorRequest
                 RestrictedByUser = takeo,
                 Duration = TimeSpan.Zero,
                 Type = RestrictionType.Join,
-                Reason = "Reason3",
+                Reason = "INTERNAL REASON: Reason3",
+                PublicReason = "PUBLIC REASON: Reason31",
                 CreatedAt = DateTime.UtcNow.AddDays(-1),
             };
             Restriction orleRestriction1 = new()
@@ -862,7 +863,8 @@ public record SeedDataCommand : IMediatorRequest
                 RestrictedByUser = takeo,
                 Duration = TimeSpan.FromDays(10),
                 Type = RestrictionType.Join,
-                Reason = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.z",
+                Reason = "INTERNAL REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.",
+                PublicReason = "PUBLIC REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate",
                 CreatedAt = DateTime.UtcNow,
             };
             Restriction orleRestriction2 = new()
@@ -1110,6 +1112,7 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "Pecores",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
+                Languages = { Languages.Fr, Languages.En, },
             };
 
             ClanMember takeoMember = new() { User = takeo, Clan = pecores, Role = ClanMemberRole.Officer, };
@@ -1183,6 +1186,7 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "Legio",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
+                Languages = { Languages.Es, Languages.En, },
             };
             Clan theGrey = new()
             {
@@ -1192,6 +1196,7 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "The Grey",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
+                Languages = { Languages.Pl, Languages.En, },
             };
             Clan ode = new()
             {

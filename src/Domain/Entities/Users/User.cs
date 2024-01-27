@@ -41,6 +41,7 @@ public class User : AuditableEntity
     /// Not null if the user deleted its account.
     /// </summary>
     public DateTime? DeletedAt { get; set; }
+    public string Note { get; set; } = string.Empty;
 
     /// <summary>Used of optimistic concurrency.</summary>
     public uint Version { get; set; }

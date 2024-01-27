@@ -17,7 +17,7 @@
   <SpriteCategories>
     <SpriteCategory>
       <Name>ui_mploading</Name>
-      <SpriteSheetCount>137</SpriteSheetCount>
+      <SpriteSheetCount>139</SpriteSheetCount>
       <SpriteSheetSize ID="1" Width="3840" Height="1935" />
       <SpriteSheetSize ID="2" Width="3840" Height="1935" />
       <SpriteSheetSize ID="3" Width="3383" Height="1902" />
@@ -143,6 +143,8 @@
       <SpriteSheetSize ID="135" Width="1920" Height="1080" />
       <SpriteSheetSize ID="136" Width="1920" Height="1080" />
       <SpriteSheetSize ID="137" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="138" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="139" Width="1920" Height="1080" />
       <AlwaysLoad />
     </SpriteCategory>
   </SpriteCategories>
@@ -1264,6 +1266,26 @@
       <CategoryName>ui_mploading</CategoryName>
     </SpritePart>
   </SpriteParts>
+  <SpritePart>
+      <SheetID>138</SheetID>
+      <Name>crpg_dtv_musapoint</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+  </SpriteParts>
+  <SpritePart>
+      <SheetID>139</SheetID>
+      <Name>crpg_dtv_templeofposeidon</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+  </SpriteParts>
   <Sprites>
     <GenericSprite>
       <Name>mp_battle_map_001</Name>
@@ -1760,6 +1782,14 @@
     <GenericSprite>
       <Name>crpg_conquest_volskulkeep</Name>
       <SpritePartName>crpg_conquest_volskulkeep</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_dtv_musapoint</Name>
+      <SpritePartName>crpg_dtv_musapoint</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_dtv_templeofposeidon</Name>
+      <SpritePartName>crpg_dtv_templeofposeidon</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>
