@@ -9,9 +9,7 @@ import {
 import { getSearchResult } from '@/services/item-search-service';
 import { notify } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
-
 import { useUserStore } from '@/stores/user';
-
 import { useItemsFilter } from '@/composables/shop/use-filters';
 import { useItemsSort } from '@/composables/shop/use-sort';
 import { usePagination } from '@/composables/use-pagination';
@@ -27,7 +25,9 @@ definePage({
 });
 
 const userStore = useUserStore();
-const userItemsIds = computed(() => userStore.userItems.map(ui => ui.item.id));
+const { userItems, user } = toRefs(userStore);
+
+const userItemsIds = computed(() => userItems.value.map(ui => ui.item.id));
 
 const { state: items, execute: loadItems } = useAsyncState(() => getItems(), [], {
   immediate: false,
@@ -255,22 +255,16 @@ const newItemCount = computed(
         "
       >
         <template #header>
-          <div class="relative mr-2 flex items-center gap-1">
-            <ShopGridFilter
-              v-if="field in searchResult.data.aggregations"
-              :scopeAggregation="scopeAggregations[field]"
-              :aggregation="searchResult.data.aggregations[field]"
-              :aggregationConfig="aggregationsConfig[field]!"
-              :modelValue="filterModel[field]!"
-              @update:modelValue="val => updateFilter(field, val)"
-            />
-            <ShopGridSort
-              v-if="Object.keys(getSortingConfigByField(field)).length !== 0"
-              class="w-5"
-              v-model:modelValue="sortingModel"
-              :sortingConfig="getSortingConfigByField(field)"
-            />
-          </div>
+          <ShopGridFilter
+            v-if="field in searchResult.data.aggregations"
+            :scopeAggregation="scopeAggregations[field]"
+            :aggregation="searchResult.data.aggregations[field]"
+            :aggregationConfig="aggregationsConfig[field]!"
+            :filter="filterModel[field]!"
+            v-model:sorting="sortingModel"
+            :sortingConfig="getSortingConfigByField(field)"
+            @update:filter="val => updateFilter(field, val)"
+          />
         </template>
 
         <template #default="{ row: item }: { row: ItemFlat }">
@@ -290,7 +284,7 @@ const newItemCount = computed(
                 :price="rawBuckets"
                 :upkeep="item.upkeep"
                 :inInventory="userItemsIds.includes(item.id)"
-                :notEnoughGold="userStore.user!.gold < item.price"
+                :notEnoughGold="user!.gold < item.price"
                 @buy="buyItem(item)"
               />
             </template>

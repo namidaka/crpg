@@ -181,8 +181,14 @@ public class ReforgeUpgradedItemCommandTest : TestBase
             UserId = user.Id,
         }, CancellationToken.None);
 
-        var errorCode = result.Errors![0].Code;
-        Assert.That(errorCode, Is.EqualTo(ErrorCode.ItemAlreadyOwned));
+        Assert.That(result.Errors, Is.Null);
+
+        var userDb = await AssertDb.Users
+            .Include(u => u.Items)
+            .FirstAsync(u => u.Id == user.Id);
+        Assert.That(userDb.Items.Count, Is.EqualTo(2));
+        Assert.That(userDb.HeirloomPoints, Is.EqualTo(6));
+
     }
 
     [Test]

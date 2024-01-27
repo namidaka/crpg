@@ -41,7 +41,6 @@ declare module 'vue-router/auto/routes' {
   export interface RouteNamedMap {
     'Root': RouteRecordInfo<'Root', '/', Record<never, never>, Record<never, never>>,
     'PageNotFound': RouteRecordInfo<'PageNotFound', '/:404(.*)?', { 404?: ParamValueZeroOrOne<true> }, { 404?: ParamValueZeroOrOne<false> }>,
-    'Banned': RouteRecordInfo<'Banned', '/banned', Record<never, never>, Record<never, never>>,
     'Builder': RouteRecordInfo<'Builder', '/builder', Record<never, never>, Record<never, never>>,
     'CharactersParent': RouteRecordInfo<'CharactersParent', '/characters', Record<never, never>, Record<never, never>>,
     'Characters': RouteRecordInfo<'Characters', '/characters', Record<never, never>, Record<never, never>>,
@@ -61,6 +60,7 @@ declare module 'vue-router/auto/routes' {
     'ModeratorFindUser': RouteRecordInfo<'ModeratorFindUser', '/moderator/find-user', Record<never, never>, Record<never, never>>,
     'ModeratorUserId': RouteRecordInfo<'ModeratorUserId', '/moderator/user/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'ModeratorUserIdActivityLogs': RouteRecordInfo<'ModeratorUserIdActivityLogs', '/moderator/user/:id/activity-logs', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    'ModeratorUserIdInformation': RouteRecordInfo<'ModeratorUserIdInformation', '/moderator/user/:id/information', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'ModeratorUserIdRestrictions': RouteRecordInfo<'ModeratorUserIdRestrictions', '/moderator/user/:id/restrictions', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'PrivacyPolicy': RouteRecordInfo<'PrivacyPolicy', '/privacy-policy', Record<never, never>, Record<never, never>>,
     'Settings': RouteRecordInfo<'Settings', '/settings', Record<never, never>, Record<never, never>>,

@@ -12,11 +12,11 @@ definePage({
 
 const props = defineProps<{ id: string }>();
 
-const { state: user, execute: loadUser } = useAsyncState(
+const { state: user, execute: loadUser } = await useAsyncState(
   () => getUserById(Number(props.id)),
   null,
   {
-    immediate: false,
+    resetOnExecute: false,
   }
 );
 
@@ -28,11 +28,19 @@ await loadUser();
 <template>
   <div class="container">
     <div class="mb-14 flex items-center justify-center gap-8">
-      <h1 class="text-xl text-content-100">
+      <h1 class="text-lg text-content-100">
         <UserMedia :user="user!" size="xl" :clan="user?.clan" />
       </h1>
 
       <div class="flex items-center justify-center gap-2">
+        <RouterLink :to="{ name: 'ModeratorUserIdInformation' }" v-slot="{ isExactActive }">
+          <OButton
+            :variant="isExactActive ? 'transparent-active' : 'transparent'"
+            size="lg"
+            :label="'Information'"
+          />
+        </RouterLink>
+
         <RouterLink :to="{ name: 'ModeratorUserIdRestrictions' }" v-slot="{ isExactActive }">
           <OButton
             :variant="isExactActive ? 'transparent-active' : 'transparent'"
@@ -51,6 +59,6 @@ await loadUser();
       </div>
     </div>
 
-    <RouterView />
+    <RouterView @update="loadUser" />
   </div>
 </template>

@@ -318,81 +318,114 @@ it.each<[Partial<CharacterStatistics>, number]>([
   expect(getCharacterKDARatio(characterStatistics as CharacterStatistics)).toEqual(expectation);
 });
 
-it.each<[Partial<Character>, CharacterLimitations, number, boolean, RespecCapability]>([
-  // tournament char - respec always is free
-  [
-    { forTournament: true, experience: 100000 },
-    {
-      lastRespecializeAt: new Date('2023-03-23T18:00:00.0000000Z'),
-    },
-    10,
-    false,
-    {
-      price: 0,
-      nextFreeAt: { days: 0, hours: 0, minutes: 5 },
-      enabled: true,
-    },
-  ],
-  // Respec was exactly a week ago + 5 minutes (5 minute margin just in case)
-  [
-    { forTournament: false, experience: 10 },
-    {
-      lastRespecializeAt: new Date('2023-03-23T17:55:00.0000000Z'),
-    },
-    100000,
-    false,
-    {
-      price: 0,
-      nextFreeAt: { days: 0, hours: 0, minutes: 0 },
-      enabled: true,
-    },
-  ],
-  [
-    { forTournament: false, experience: 10 },
-    {
-      lastRespecializeAt: new Date('2023-03-23T17:55:00.0000000Z'),
-    },
-    100000,
-    true,
-    {
-      price: 0,
-      nextFreeAt: { days: 0, hours: 0, minutes: 0 },
-      enabled: true,
-    },
-  ],
-])(
-  'getRespecCapability - character: %j, limitations: %j, gold: %n',
-  (character, charLimitations, gold, isRecentUser, expectation) => {
-    vi.setSystemTime('2023-03-30T18:00:00.0000000Z');
+describe('getRespecCapability', () => {
+  it.each<[Partial<Character>, CharacterLimitations, number, boolean, Partial<RespecCapability>]>([
+    // tournament char - respec is always  free
+    [
+      { forTournament: true, experience: 100000 },
+      {
+        lastRespecializeAt: new Date('2024-01-01T00:00:00.0000000Z'),
+      },
+      10,
+      false,
+      {
+        enabled: true,
+        price: 0,
+      },
+    ],
+    // Respec was exactly a week ago + 5 minutes (5 minute margin just in case)
+    [
+      { forTournament: false, experience: 10 },
+      {
+        lastRespecializeAt: new Date('2024-01-02T23:56:00.0000000Z'),
+      },
+      100000,
+      false,
+      {
+        enabled: true,
+        price: 0,
+        nextFreeAt: 60000,
+        freeRespecWindowRemain: 0,
+      },
+    ],
+    // recent user
+    [
+      { forTournament: false, experience: 10 },
+      {
+        lastRespecializeAt: new Date('2024-01-09T00:00:00.0000000Z'),
+      },
+      100000,
+      true,
+      {
+        enabled: true,
+        price: 0,
+        nextFreeAt: 0,
+        freeRespecWindowRemain: 0,
+      },
+    ],
+    // post respec window - free
+    [
+      { forTournament: false, experience: 141466368 },
+      {
+        lastRespecializeAt: new Date('2024-01-09T18:00:00.0000000Z'),
+      },
+      5000,
+      false,
+      {
+        enabled: true,
+        price: 0,
+        nextFreeAt: 0,
+        freeRespecWindowRemain: 21600000,
+      },
+    ],
+    // post respec window - pay
+    [
+      { forTournament: false, experience: 141466368 },
+      {
+        lastRespecializeAt: new Date('2024-01-09T12:00:00.0000000Z'),
+      },
+      500000,
+      false,
+      {
+        enabled: true,
+        price: 113137,
+        nextFreeAt: 561900000,
+        freeRespecWindowRemain: 0,
+      },
+    ],
+  ])(
+    'getRespecCapability - character: %j, limitations: %j, gold: %n',
+    (character, charLimitations, gold, isRecentUser, expectation) => {
+      vi.setSystemTime('2024-01-10T00:00:00.0000000Z');
 
-    expect(
-      getRespecCapability(character as Character, charLimitations, gold, isRecentUser)
-    ).toEqual(expectation);
-  }
-);
-
-it('getRespecCapability - Exponential Decay', () => {
-  vi.setSystemTime('2023-03-30T18:00:00.0000000Z');
-
-  const exp = 100000000; // 100m
-  const gold = 1000000;
-  const isRecentUser = false;
-
-  const result1 = getRespecCapability(
-    { forTournament: false, experience: exp } as Character,
-    { lastRespecializeAt: new Date('2023-03-30T17:00:00.0000000Z') },
-    gold,
-    isRecentUser
+      expect(
+        getRespecCapability(character as Character, charLimitations, gold, isRecentUser)
+      ).toMatchObject(expectation);
+    }
   );
 
-  const result2 = getRespecCapability(
-    { forTournament: false, experience: exp } as Character,
-    { lastRespecializeAt: new Date('2023-03-30T16:00:00.0000000Z') },
-    gold,
-    isRecentUser
-  );
+  it('Exponential Decay', () => {
+    vi.setSystemTime('2024-01-10T01:00:00.0000000Z');
 
-  expect(result2.price < result1.price).toBeTruthy();
+    const exp = 100000000; // 100m
+    const gold = 1000000;
+
+    const result1 = getRespecCapability(
+      { forTournament: false, experience: exp } as Character,
+      { lastRespecializeAt: new Date('2024-01-08T01:00:00.0000000Z') },
+      gold,
+      false
+    );
+
+    const result2 = getRespecCapability(
+      { forTournament: false, experience: exp } as Character,
+      { lastRespecializeAt: new Date('2024-01-08T00:00:00.0000000Z') },
+      gold,
+      false
+    );
+
+    expect(result2.price < result1.price).toBeTruthy();
+  });
 });
 
 it.each<[PartialDeep<Item>, PartialDeep<CharacterCharacteristics>, boolean]>([

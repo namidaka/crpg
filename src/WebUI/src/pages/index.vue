@@ -19,7 +19,11 @@ Promise.all([loadPatchNotes(), loadGameServerStats()]);
     <Bg bg="background-1.webp" />
 
     <div class="relative flex h-full items-center border border-border-300 text-content-200">
-      <PatchNotes v-if="patchNotes.length !== 0" :patchNotes="patchNotes" />
+      <PatchNotes
+        v-if="patchNotes.length !== 0"
+        class="absolute left-6 top-6"
+        :patchNotes="patchNotes"
+      />
 
       <div class="absolute right-6 top-6 flex items-center gap-6">
         <OnlinePlayers :gameServerStats="gameServerStats" showLabel />

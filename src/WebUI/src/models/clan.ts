@@ -1,5 +1,6 @@
 import { Region } from '@/models/region';
 import { UserItem, type UserPublic } from '@/models/user';
+import { Language } from '@/models/language';
 
 export interface Clan {
   id: number;
@@ -9,6 +10,7 @@ export interface Clan {
   name: string;
   bannerKey: string;
   region: Region;
+  languages: Language[];
   discord: string | null;
   description: string;
   armoryTimeout: number;

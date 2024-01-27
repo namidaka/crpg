@@ -36,9 +36,7 @@ const props = defineProps<{
 const userStore = useUserStore();
 
 const { clanId, clan, loadClan } = useClan(props.id);
-const { clanMembers, loadClanMembers, clanMembersCount, isLastMember } = useClanMembers(
-  clanId.value
-);
+const { clanMembers, loadClanMembers, clanMembersCount, isLastMember } = useClanMembers();
 const { applicationsCount, loadClanApplications } = useClanApplications();
 
 const selfMember = computed(() => getClanMember(clanMembers.value, userStore.user!.id));
@@ -73,7 +71,7 @@ const canUpdateMember = computed(() =>
 
 const updateMember = async (userId: number, selectedRole: ClanMemberRole) => {
   await updateClanMember(clanId.value, userId, selectedRole);
-  await Promise.all([loadClanMembers(), userStore.getUserClanAndRole()]);
+  await Promise.all([loadClanMembers(0, { id: clanId.value }), userStore.fetchUserClanAndRole()]);
   notify(t('clan.member.update.notify.success'));
 };
 
@@ -86,9 +84,9 @@ const kickMember = async (member: ClanMember) => {
   const isSelfMember = checkIsSelfMember(member);
 
   await kickClanMember(clanId.value, member.user.id);
-  await loadClanMembers();
+  await loadClanMembers(0, { id: clanId.value });
   if (isSelfMember) {
-    await userStore.getUserClanAndRole();
+    await userStore.fetchUserClanAndRole();
   }
   notify(
     isSelfMember ? t('clan.member.leave.notify.success') : t('clan.member.kick.notify.success')
@@ -113,7 +111,7 @@ const selectedClanMember = computed(() =>
 const { pageModel, perPage } = usePagination();
 
 const fetchPageData = async (clanId: number) => {
-  await Promise.all([loadClan(0, { id: clanId }), loadClanMembers()]);
+  await Promise.all([loadClan(0, { id: clanId }), loadClanMembers(0, { id: clanId })]);
 
   if (canManageApplications.value) {
     await loadClanApplications(0, { id: clanId });
@@ -123,10 +121,8 @@ const fetchPageData = async (clanId: number) => {
 // TODO: SPEC
 onBeforeRouteUpdate(async (to, from) => {
   if (to.name === from.name) {
-    // if clan changed
-    await fetchPageData(Number((to as RouteLocationNormalized<'ClansId'>).params.id as string));
+    await fetchPageData(Number((to as RouteLocationNormalized<'ClansId'>).params.id));
   }
-
   return true;
 });
 
@@ -157,9 +153,15 @@ await fetchPageData(clanId.value);
 
           <div class="flex items-center gap-1.5">
             <OIcon icon="region" size="lg" class="text-content-100" />
-            <span class="text-content-200" data-aq-clan-info="region">
+            <div class="text-content-200" data-aq-clan-info="region">
               {{ $t(`region.${clan.region}`, 0) }}
-            </span>
+            </div>
+            <Tag
+              v-for="l in clan.languages"
+              :label="l"
+              v-tooltip="$t(`language.${l}`)"
+              variant="primary"
+            />
           </div>
 
           <div class="h-8 w-px select-none bg-border-200" />

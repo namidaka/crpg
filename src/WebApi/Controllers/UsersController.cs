@@ -37,7 +37,7 @@ public class UsersController : BaseController
     /// <response code="400">Bad Request.</response>
     [HttpGet("search")]
     [Authorize(Policy = ModeratorPolicy)]
-    public async Task<ActionResult<Result<UserPublicViewModel[]>>> SearchUsers(
+    public async Task<ActionResult<Result<UserPrivateViewModel[]>>> SearchUsers(
         [FromQuery] Platform platform,
         [FromQuery] string? platformUserId,
         [FromQuery] string? name)
@@ -57,7 +57,7 @@ public class UsersController : BaseController
                 return ResultToAction(res.Select(u => new[] { u }));
             }
 
-            return ResultToAction(new Result<UserPublicViewModel[]>(new Error(ErrorType.Validation, ErrorCode.InvalidField)));
+            return ResultToAction(new Result<UserPrivateViewModel[]>(new Error(ErrorType.Validation, ErrorCode.InvalidField)));
         }
 
     /// <summary>
@@ -77,10 +77,36 @@ public class UsersController : BaseController
     /// <response code="404">User was not found.</response>
     [HttpGet("{id}")]
     [Authorize(Policy = ModeratorPolicy)]
-    public Task<ActionResult<Result<UserPublicViewModel>>> GetUserById([FromRoute] int id)
+    public Task<ActionResult<Result<UserPrivateViewModel>>> GetUserById([FromRoute] int id)
     {
         return ResultToActionAsync(Mediator.Send(new GetUserByIdQuery { UserId = id }));
     }
+
+    /// <summary>
+    /// Update the user note.
+    /// </summary>
+    /// <param name="id">User id.</param>
+    /// <param name="user">The user note update.</param>
+    /// <returns>The user's note updated.</returns>
+    /// <response code="200">Updated.</response>
+    /// <response code="400">Bad Request.</response>
+    [HttpPut("{id}/note")]
+    public Task<ActionResult<Result<UserPrivateViewModel>>> UpdateUserNote([FromRoute] int id, [FromBody] UpdateUserNoteCommand user)
+    {
+       user = user with { UserId = id };
+       return ResultToActionAsync(Mediator.Send(user));
+    }
+
+    /// <summary>
+    /// Gets all characters by user id.
+    /// </summary>
+    /// <param name="id">The user id.</param>
+    /// <returns>Characters list.</returns>
+    /// <response code="200">Ok.</response>
+    [HttpGet("{id}/characters")]
+    [Authorize(Policy = ModeratorPolicy)]
+    public Task<ActionResult<Result<IList<CharacterViewModel>>>> GetUserCharactersListByUserId([FromRoute] int id) =>
+        ResultToActionAsync(Mediator.Send(new GetUserCharactersQuery { UserId = id }));
 
     /// <summary>
     /// Get user by id.
@@ -91,7 +117,7 @@ public class UsersController : BaseController
     /// <response code="400">Bad Request.</response>
     [HttpGet]
     [Authorize(Policy = ModeratorPolicy)]
-    public Task<ActionResult<Result<IList<UserPublicViewModel>>>> GetUsersById([FromQuery(Name = "id[]")] int[] ids)
+    public Task<ActionResult<Result<IList<UserPrivateViewModel>>>> GetUsersById([FromQuery(Name = "id[]")] int[] ids)
     {
         return ResultToActionAsync(Mediator.Send(new GetUsersByIdQuery { UserIds = ids }));
     }
@@ -117,6 +143,18 @@ public class UsersController : BaseController
         {
             UserId = id,
         }));
+    }
+
+    /// <summary>
+    /// Get active restriction for a user.
+    /// </summary>
+    /// <returns>The  active user restriction.</returns>
+    /// <response code="200">Ok.</response>
+    /// <response code="400">Bad Request.</response>
+    [HttpGet("self/restriction")]
+    public Task<ActionResult<Result<RestrictionPublicViewModel>>> GetUserRestriction()
+    {
+        return ResultToActionAsync(Mediator.Send(new GetUserRestrictionQuery { UserId = CurrentUser.User!.Id, }));
     }
 
     /// <summary>
@@ -512,7 +550,7 @@ public class UsersController : BaseController
     /// <summary>
     /// Gets user clan or null.
     /// </summary>
-    [HttpGet("self/clans")]
+    [HttpGet("self/clan")]
     public Task<ActionResult<Result<UserClanViewModel>>> GetUserClan()
     {
         GetUserClanQuery req = new() { UserId = CurrentUser.User!.Id };

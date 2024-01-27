@@ -68,6 +68,30 @@
     </Wave>
   </Round>
 
+  <Round reward="240">
+    <Wave>
+      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="1.5" />
+      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="1.5" />
+      <Group classDivisionId="crpg_dtv_pirate_lieutenant" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="0.5" />
+      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="0.5" />
+      <Group classDivisionId="crpg_dtv_pirate_male" count="1.0" />
+      <Group classDivisionId="crpg_dtv_pirate_female" count="0.5" />
+      <Group classDivisionId="crpg_dtv_pirate_swashbuckler" count="0.5" />
+      <Group classDivisionId="crpg_dtv_pirate_lieutenant" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="0.5" />
+      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="1.0" />
+      <Group classDivisionId="crpg_dtv_pirate_male" count="1.0" />
+      <Group classDivisionId="crpg_dtv_pirate_female" count="0.5" />
+      <Group classDivisionId="crpg_dtv_pirate_swashbuckler" count="1.0" />
+      <Group classDivisionId="crpg_dtv_pirate_boss" />
+    </Wave>
+  </Round>
+
   <Round reward="260">
     <Wave>
       <Group classDivisionId="crpg_dtv_viking_huscarl" count="0.8" />

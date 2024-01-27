@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Crpg.Module.GUI.HudExtension;
+using Crpg.Module.Modes.Conquest;
 using JetBrains.Annotations;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
@@ -20,7 +21,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
             _onSelect = onSelect;
             _culture = culture;
             Mission mission = Mission.Current;
-            IsSiege = mission != null && mission.HasMissionBehavior<MissionMultiplayerSiegeClient>();
+            IsSiege = mission != null && mission.HasMissionBehavior<CrpgConquestClient>();
             if (Team != null && Team.Side != BattleSideEnum.None)
             {
                 _missionScoreboardComponent = missionScoreboardComponent;
