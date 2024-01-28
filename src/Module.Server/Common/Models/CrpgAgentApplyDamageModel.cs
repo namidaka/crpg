@@ -156,13 +156,11 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                         result = 2f;
                         break;
                     case DamageTypes.Cut:
+                    case DamageTypes.Blunt:
                         result = 1.2f;
                         break;
                     case DamageTypes.Pierce:
-                        result = 1.6f;
-                        break;
-                    case DamageTypes.Blunt:
-                        result = 1.2f;
+                        result = 1.7f;
                         break;
                 }
 
@@ -171,12 +169,12 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             case BoneBodyPartType.Abdomen:
             case BoneBodyPartType.ShoulderLeft:
             case BoneBodyPartType.ShoulderRight:
+                result = 0.9f;
+                break;
             case BoneBodyPartType.ArmLeft:
             case BoneBodyPartType.ArmRight:
-                result = 1f;
-                break;
             case BoneBodyPartType.Legs:
-                result = 0.8f;
+                result = 0.75f;
                 break;
         }
 
@@ -199,11 +197,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                         result = 2f;
                         break;
                     case DamageTypes.Cut:
-                        result = 1.2f;
-                        break;
                     case DamageTypes.Pierce:
-                        result = 1.2f;
-                        break;
                     case DamageTypes.Blunt:
                         result = 1.2f;
                         break;
@@ -216,8 +210,6 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             case BoneBodyPartType.ShoulderRight:
             case BoneBodyPartType.ArmLeft:
             case BoneBodyPartType.ArmRight:
-                result = 0.8f;
-                break;
             case BoneBodyPartType.Legs:
                 result = 0.8f;
                 break;
@@ -242,13 +234,11 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                         result = 2f;
                         break;
                     case DamageTypes.Cut:
+                    case DamageTypes.Blunt:
                         result = 1.2f;
                         break;
                     case DamageTypes.Pierce:
-                        result = 1.6f;
-                        break;
-                    case DamageTypes.Blunt:
-                        result = 1.2f;
+                        result = 1.3f;
                         break;
                 }
 
@@ -285,13 +275,11 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                         result = 2f;
                         break;
                     case DamageTypes.Cut:
+                    case DamageTypes.Blunt:
                         result = 1.2f;
                         break;
                     case DamageTypes.Pierce:
-                        result = 1.2f;
-                        break;
-                    case DamageTypes.Blunt:
-                        result = 1.2f;
+                        result = 1.3f;
                         break;
                 }
 
@@ -302,8 +290,6 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             case BoneBodyPartType.ShoulderRight:
             case BoneBodyPartType.ArmLeft:
             case BoneBodyPartType.ArmRight:
-                result = 0.8f;
-                break;
             case BoneBodyPartType.Legs:
                 result = 0.8f;
                 break;
