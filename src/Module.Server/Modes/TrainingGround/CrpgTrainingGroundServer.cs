@@ -613,6 +613,10 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             component.OnDuelWon();
             if (challengeWinnerPeer.Peer.Communicator.IsConnectionActive)
             {
+                GameNetwork.BeginModuleEventAsServer(component.GetNetworkPeer());
+                GameNetwork.WriteMessage(new TrainingGroundDuelResultMessage { HasWonDuel = true, RatingChange = 1 });
+                GameNetwork.EndModuleEventAsServer();
+
                 GameNetwork.BeginBroadcastModuleEvent();
                 GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses, Rating = component.Rating });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
@@ -621,6 +625,10 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             component2?.OnDuelLost();
             if (challengeLoserPeer != null && challengeLoserPeer.Peer.Communicator.IsConnectionActive)
             {
+                GameNetwork.BeginModuleEventAsServer(component2.GetNetworkPeer());
+                GameNetwork.WriteMessage(new TrainingGroundDuelResultMessage { HasWonDuel = false, RatingChange = -1 });
+                GameNetwork.EndModuleEventAsServer();
+
                 GameNetwork.BeginBroadcastModuleEvent();
                 GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component2.GetNetworkPeer(), NumberOfWins = component2!.NumberOfWins, NumberOfLosses = component2.NumberOfLosses, Rating = component2.Rating });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);

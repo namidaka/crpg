@@ -189,6 +189,7 @@ internal class CrpgTrainingGroundVm : ViewModel
         myRepresentative.OnDuelPreparationStartedForTheFirstTimeEvent += OnDuelStarted;
         myRepresentative.OnDuelEndedEvent += OnDuelEnded;
         myRepresentative.OnDuelRoundEndedEvent += OnDuelRoundEnded;
+        myRepresentative.OnDuelResult += OnDuelResult;
         ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionChanged));
         Markers.RegisterEvents();
         _isMyRepresentativeAssigned = true;
@@ -221,6 +222,7 @@ internal class CrpgTrainingGroundVm : ViewModel
             myRepresentative.OnDuelPreparationStartedForTheFirstTimeEvent -= OnDuelStarted;
             myRepresentative.OnDuelEndedEvent -= OnDuelEnded;
             myRepresentative.OnDuelRoundEndedEvent -= OnDuelRoundEnded;
+            myRepresentative.OnDuelResult -= OnDuelResult;
             ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(OnManagedOptionChanged));
             Markers.UnregisterEvents();
         }
@@ -301,6 +303,11 @@ internal class CrpgTrainingGroundVm : ViewModel
         {
             duelMatchVM.OnPeerScored(winnerPeer);
             }
+    }
+
+    private void OnDuelResult(bool hasWonDuel, int ratingChange)
+    {
+
     }
 
     public void OnScreenResolutionChanged()

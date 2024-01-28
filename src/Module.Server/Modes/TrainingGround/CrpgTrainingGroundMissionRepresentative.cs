@@ -1,6 +1,8 @@
 ﻿using NetworkMessages.FromClient;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 
 namespace Crpg.Module.Modes.TrainingGround;
@@ -9,6 +11,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
 {
     public const int DuelPrepTime = 3;
     public event Action<MissionPeer> OnDuelRequestedEvent = default!;
+    public event Action<bool, int> OnDuelResult = default!;
     public event Action<MissionPeer> OnDuelRequestSentEvent = default!;
     public event Action<MissionPeer, int> OnDuelPrepStartedEvent = default!;
     public event Action OnAgentSpawnedWithoutDuelEvent = default!;
@@ -60,6 +63,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
             networkMessageHandlerRegisterer.Register<DuelEnded>(HandleServerEventDuelEnded);
             networkMessageHandlerRegisterer.Register<DuelRoundEnded>(HandleServerEventDuelRoundEnded);
             networkMessageHandlerRegisterer.Register<TrainingGroundDuelPointsUpdateMessage>(HandleServerPointUpdate);
+            networkMessageHandlerRegisterer.Register<TrainingGroundDuelResultMessage>(HandleServerEventDuelResult);
         }
     }
 
@@ -158,6 +162,24 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
         component.NumberOfLosses = message.NumberOfLosses;
         component.NumberOfWins = message.NumberOfWins;
         component.Rating = message.Rating;
+    }
+
+    private void HandleServerEventDuelResult(TrainingGroundDuelResultMessage message)
+    {
+        TextObject textObject = new("{=}You {RESULT} the duel! Your rating has changed by: {RATINGCHANGE}",
+        new Dictionary<string, object>
+        {
+            ["RESULT"] = message.HasWonDuel ? new TextObject("{=}won").ToString() : new TextObject("{=}lost").ToString(),
+            ["RATINGCHANGE"] = message.RatingChange.ToString(),
+        });
+        InformationManager.DisplayMessage(new InformationMessage
+        {
+            Information = textObject.ToString(),
+            Color = message.HasWonDuel ? new(0.45f, 0.86f, 0.45f) : new(0.96f, 0.58f, 0.47f),
+            SoundEventPath = message.HasWonDuel ? "event:/ui/mission/arena_victory" : "event:/ui/campaign/autobattle_defeat",
+        });
+
+        OnDuelResult?.Invoke(message.HasWonDuel, message.RatingChange);
     }
 
     public void DuelRequested(Agent requesterAgent)
