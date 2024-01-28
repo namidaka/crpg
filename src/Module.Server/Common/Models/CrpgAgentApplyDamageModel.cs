@@ -156,10 +156,10 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                         result = 2f;
                         break;
                     case DamageTypes.Cut:
-                    case DamageTypes.Pierce:
+                    case DamageTypes.Blunt:
                         result = 1.2f;
                         break;
-                    case DamageTypes.Blunt:
+                    case DamageTypes.Pierce:
                         result = 1.7f;
                         break;
                 }
