@@ -56,7 +56,7 @@
             </ListPanel>
 
             <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" HorizontalAlignment="!PlayerCountTextAlignment" Text="@PlayersText"/>
-            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" HorizontalAlignment="!PlayerCountTextAlignment" Text="@ Text" IsVisible="@ShowCommanders"/>
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" HorizontalAlignment="!PlayerCountTextAlignment" Text="@CommanderText" IsVisible="@ShowCommanders"/>
           </Children>
         </ListPanel>
 
