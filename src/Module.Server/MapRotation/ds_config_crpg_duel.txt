@@ -1,4 +1,4 @@
-﻿ServerName cRPG - norr2
+﻿ServerName cRPG - norr3
 GameType cRPGDuel
 GamePassword yoyo
 Map mp_duel_mode_map_004
