@@ -9,12 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Users.Queries;
 
-public record GetUserByPlatformIdQuery : IMediatorRequest<UserPublicViewModel>
+public record GetUserByPlatformIdQuery : IMediatorRequest<UserPrivateViewModel>
 {
     public Platform Platform { get; init; }
     public string PlatformUserId { get; init; } = string.Empty;
 
-    internal class Handler : IMediatorRequestHandler<GetUserByPlatformIdQuery, UserPublicViewModel>
+    internal class Handler : IMediatorRequestHandler<GetUserByPlatformIdQuery, UserPrivateViewModel>
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -25,10 +25,10 @@ public record GetUserByPlatformIdQuery : IMediatorRequest<UserPublicViewModel>
             _mapper = mapper;
         }
 
-        public async Task<Result<UserPublicViewModel>> Handle(GetUserByPlatformIdQuery req, CancellationToken cancellationToken)
+        public async Task<Result<UserPrivateViewModel>> Handle(GetUserByPlatformIdQuery req, CancellationToken cancellationToken)
         {
             var user = await _db.Users
-                .ProjectTo<UserPublicViewModel>(_mapper.ConfigurationProvider)
+                .ProjectTo<UserPrivateViewModel>(_mapper.ConfigurationProvider)
                 .Where(u => u.Platform == req.Platform && u.PlatformUserId == req.PlatformUserId)
                 .FirstOrDefaultAsync(cancellationToken);
             return user == null

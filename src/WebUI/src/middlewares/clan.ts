@@ -14,7 +14,7 @@ export const clanExistValidate: NavigationGuard = async () => {
   const userStore = useUserStore();
 
   if (userStore.clan === null) {
-    await userStore.getUserClanAndRole();
+    await userStore.fetchUserClanAndRole();
   }
 
   if (userStore.clan !== null) {
@@ -31,7 +31,7 @@ export const canUpdateClan: NavigationGuard = async to => {
   const userStore = useUserStore();
 
   if (userStore.clan === null) {
-    await userStore.getUserClanAndRole();
+    await userStore.fetchUserClanAndRole();
   }
 
   if (
@@ -48,7 +48,7 @@ export const canManageApplications: NavigationGuard = async to => {
   const userStore = useUserStore();
 
   if (userStore.clan === null) {
-    await userStore.getUserClanAndRole();
+    await userStore.fetchUserClanAndRole();
   }
 
   if (
@@ -65,7 +65,7 @@ export const canUseClanArmory: NavigationGuard = async to => {
   const userStore = useUserStore();
 
   if (userStore.clan === null) {
-    await userStore.getUserClanAndRole();
+    await userStore.fetchUserClanAndRole();
   }
 
   if (userStore.clan?.id !== Number(to.params.id as string)) {

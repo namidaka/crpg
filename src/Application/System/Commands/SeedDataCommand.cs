@@ -809,6 +809,21 @@ public record SeedDataCommand : IMediatorRequest
                     new("userItemId", "1"),
                 },
             };
+
+            ActivityLog[] newActivityLogCharacterEarned =
+            {
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-1), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "122000"), new("gold", "1244") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-12), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "7000"), new("gold", "989") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-15), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "32000"), new("gold", "-900") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-25), Metadata = { new("characterId", "6"), new("gameMode", "CRPGDTV"), new("experience", "32000"), new("gold", "1989") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-35), Metadata = { new("characterId", "6"), new("gameMode", "CRPGDTV"), new("experience", "322000"), new("gold", "989") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-11), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "1400"), new("gold", "1244") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-23), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "200"), new("gold", "-12") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-17), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "993310"), new("gold", "133") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-111), Metadata = { new("characterId", "5"), new("gameMode", "CRPGDTV"), new("experience", "122234"), new("gold", "-1222") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-112), Metadata = { new("characterId", "5"), new("gameMode", "CRPGDTV"), new("experience", "3111"), new("gold", "-122") } },
+            };
+
             ActivityLog[] newActivityLogs =
             {
                 activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserReward1, activityLogItemBought1,
@@ -818,7 +833,7 @@ public record SeedDataCommand : IMediatorRequest
             };
 
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());
-            _db.ActivityLogs.AddRange(newActivityLogs);
+            _db.ActivityLogs.AddRange(newActivityLogs.Concat(newActivityLogCharacterEarned));
 
             Restriction takeoRestriction0 = new()
             {
@@ -853,7 +868,8 @@ public record SeedDataCommand : IMediatorRequest
                 RestrictedByUser = takeo,
                 Duration = TimeSpan.Zero,
                 Type = RestrictionType.Join,
-                Reason = "Reason3",
+                Reason = "INTERNAL REASON: Reason3",
+                PublicReason = "PUBLIC REASON: Reason31",
                 CreatedAt = DateTime.UtcNow.AddDays(-1),
             };
             Restriction orleRestriction1 = new()
@@ -862,7 +878,8 @@ public record SeedDataCommand : IMediatorRequest
                 RestrictedByUser = takeo,
                 Duration = TimeSpan.FromDays(10),
                 Type = RestrictionType.Join,
-                Reason = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.z",
+                Reason = "INTERNAL REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.",
+                PublicReason = "PUBLIC REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate",
                 CreatedAt = DateTime.UtcNow,
             };
             Restriction orleRestriction2 = new()
@@ -1110,6 +1127,7 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "Pecores",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
+                Languages = { Languages.Fr, Languages.En, },
             };
 
             ClanMember takeoMember = new() { User = takeo, Clan = pecores, Role = ClanMemberRole.Officer, };
@@ -1183,6 +1201,7 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "Legio",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
+                Languages = { Languages.Es, Languages.En, },
             };
             Clan theGrey = new()
             {
@@ -1192,6 +1211,7 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "The Grey",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
+                Languages = { Languages.Pl, Languages.En, },
             };
             Clan ode = new()
             {

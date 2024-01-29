@@ -15,26 +15,19 @@ public interface IGameServerStatsService
     Task<GameServerStats?> GetGameServerStatsAsync(CancellationToken cancellationToken);
 }
 
-public class DatadogGameServerStatsService : IGameServerStatsService
+internal class DatadogGameServerStatsService : IGameServerStatsService
 {
     private static readonly ILogger Logger = LoggerFactory.CreateLogger<DatadogGameServerStatsService>();
     private readonly HttpClient? _ddHttpClient;
-
-    private readonly Dictionary<GameModeAlias, GameMode> gameModeByInstanceAlias = new()
-    {
-        { GameModeAlias.A, GameMode.CRPGBattle },
-        { GameModeAlias.B, GameMode.CRPGConquest },
-        { GameModeAlias.C, GameMode.CRPGDuel },
-        { GameModeAlias.E, GameMode.CRPGDTV },
-        { GameModeAlias.D, GameMode.CRPGSkirmish },
-    };
-
     private readonly IDateTime _dateTime;
+    private readonly IGameModeService _gameModeService;
     private DateTime _lastUpdate = DateTime.MinValue;
     private GameServerStats? _serverStats;
-    public DatadogGameServerStatsService(IConfiguration configuration, HttpClient httpClient, IDateTime dateTime)
+
+    public DatadogGameServerStatsService(IConfiguration configuration, HttpClient httpClient, IDateTime dateTime, IGameModeService gameModeService)
     {
         _dateTime = dateTime;
+        _gameModeService = gameModeService;
         string? ddApiKey = configuration["Datadog:ApiKey"];
         string? ddApplicationKey = configuration["Datadog:ApplicationKey"];
         if (ddApiKey != null && ddApplicationKey != null)
@@ -105,7 +98,7 @@ public class DatadogGameServerStatsService : IGameServerStatsService
                             serverStats.Regions[region] = new Dictionary<GameMode, GameStats>();
                         }
 
-                        serverStats.Regions[region][gameModeByInstanceAlias[instanceAlias]] = new GameStats { PlayingCount = maxPlayingCount };
+                        serverStats.Regions[region][_gameModeService.GameModeByInstanceAlias(instanceAlias)] = new GameStats { PlayingCount = maxPlayingCount };
                     }
                 }
             }

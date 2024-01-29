@@ -1,6 +1,6 @@
 locale:
-  en: 英语
-  ru: 俄语
+  en: English
+  ru: Русский
   cn: 中文
 
 platform:
@@ -61,6 +61,7 @@ timeAgo:
 dateTimeFormat:
   # TODO: https://github.com/tc39/proposal-intl-duration-format
   countdown: '{hours}:{minutes}:{seconds}'
+  'dd': '{days} @:dateTime.days.short'
   'mm': '{minutes} @:dateTime.minutes.short'
   'hh': '{hours} @:dateTime.hours.short'
   'dd:hh:mm': '{days}@:dateTime.days.short {hours}@:dateTime.hours.short {minutes}@:dateTime.minutes.short'
@@ -521,6 +522,12 @@ character:
       title: 平均维修成本
       desc: '已装备物品每小时的平均维护费用'
 
+  earningChart:
+    title: 收入图表
+    type:
+      experience: 经验
+      gold: 金子
+
   highUpkeepWarning:
     title: 你无法承担你目前的维护费用！你必须要有足够的资金！
     desc: <p>如果你在回合结束时不能支付维持费，你的物品将被打破</p><p>你可以在你的库存中付费修理你的物品</p>
@@ -568,7 +575,6 @@ character:
         validation:
           maxRank: '该物品已经升级到最高阶'
           loomPoints: '你没有足够的转生点'
-          exist: '你已经拥有该物品的改进版本'
         confirm:
           description: '你确定要使用{loomPoints}转生点来升级此物品吗？你的物品{oldItem}将会变成{newItem}。'
         currentItem: 当前物品
@@ -578,10 +584,17 @@ character:
         tooltip:
           title: '重铸物品'
           description: '你可以使用金币来重铸你的物品'
+          costTable:
+            cols:
+              rank:
+                label: 项目等级
+              cost:
+                label: 价格
+              looms:
+                label: 获得奖励
         validation:
           rank: '该物品必须拥有大于{minimumRank}的阶级'
           gold: '你没有足够的金币来执行此操作'
-          exist: '你的物品栏中已经有了{existItem}。请先出售它'
         confirm:
           description: '你确定要用{gold}的金币来重铸该物品吗？你将会获得{loomPoints}转生点作为回报，同时物品{oldItem}将变成{newItem}'
         notify:
@@ -706,6 +719,7 @@ clan:
     column:
       tag: 标签
       region: 地区
+      languages: 语言
       members: 成员
       name: 名称
       memberName: 名称
@@ -729,6 +743,7 @@ clan:
         secondaryColor: 次要颜色
         bannerKey: 横幅关键字
         discord: Discord 服务器
+        languages: 语言
       group:
         armory:
           label: 部族军械库

@@ -33,6 +33,3 @@ export const getRestrictions = async () =>
 
 export const restrictUser = (payload: RestrictionCreation) =>
   post<Restriction>('/restrictions', payload);
-
-export const getActiveJoinRestriction = (restrictions: RestrictionWithActive[]) =>
-  restrictions.find(r => r.type === RestrictionType.Join && r.active === true) || null;

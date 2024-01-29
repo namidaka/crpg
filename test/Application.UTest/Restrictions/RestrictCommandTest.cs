@@ -19,6 +19,7 @@ public class RestrictCommandTest : TestBase
             RestrictedUserId = user1.Entity.Id,
             Duration = TimeSpan.FromDays(1),
             Reason = "toto",
+            PublicReason = "dudu",
             RestrictedByUserId = user2.Entity.Id,
         }, CancellationToken.None);
 
@@ -26,6 +27,7 @@ public class RestrictCommandTest : TestBase
         Assert.That(restriction.RestrictedUser!.Id, Is.EqualTo(user1.Entity.Id));
         Assert.That(restriction.Duration, Is.EqualTo(TimeSpan.FromDays(1)));
         Assert.That(restriction.Reason, Is.EqualTo("toto"));
+        Assert.That(restriction.PublicReason, Is.EqualTo("dudu"));
         Assert.That(restriction.RestrictedByUser!.Id, Is.EqualTo(user2.Entity.Id));
         Assert.That(restriction.RestrictedByUser.PlatformUserId, Is.EqualTo(user2.Entity.PlatformUserId));
         Assert.That(restriction.RestrictedByUser.Name, Is.EqualTo(user2.Entity.Name));

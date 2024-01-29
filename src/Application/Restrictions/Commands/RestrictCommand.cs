@@ -17,6 +17,7 @@ public record RestrictCommand : IMediatorRequest<RestrictionViewModel>
     public TimeSpan Duration { get; init; }
     public RestrictionType Type { get; init; }
     public string Reason { get; init; } = default!;
+    public string PublicReason { get; init; } = default!;
     public int RestrictedByUserId { get; init; }
 
     public class Validator : AbstractValidator<RestrictCommand>
@@ -63,6 +64,7 @@ public record RestrictCommand : IMediatorRequest<RestrictionViewModel>
                 Duration = req.Duration,
                 Type = req.Type,
                 Reason = req.Reason,
+                PublicReason = req.PublicReason,
             };
 
             restrictedUser.Restrictions.Add(restriction);

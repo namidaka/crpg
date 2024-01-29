@@ -1,0 +1,89 @@
+﻿<Brushes>
+  <Brush Name="Crpg.Scoreboard.ContextMenu.Icon">
+    <Layers>
+      <BrushLayer Name="Default" IsHidden="true"/>
+      <BrushLayer Name="MuteVoice" Sprite="MPGeneral\MPScoreboard\mute_icon" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="UnmuteVoice" Sprite="MPGeneral\MPScoreboard\unmute_icon" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="MuteText" Sprite="MPGeneral\MPScoreboard\mute_text_icon" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="UnmuteText" Sprite="MPGeneral\MPScoreboard\unmute_text_icon" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="PermanentMute" Sprite="MPGeneral\MPScoreboard\mute_text_permanent_icon" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="ViewProfile" Sprite="MPGeneral\MPScoreboard\view_profile_icon" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="Report" Sprite="MPGeneral\MPScoreboard\report_icon" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="Kick" Sprite="MPLobby\Generic\kick_from_clan" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="StartKickPoll" Sprite="MPGeneral\MPScoreboard\kick_icon" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="PromoteToClanLeader" Sprite="MPLobby\Generic\set_as_clan_leader" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="PromoteToClanOfficer" Sprite="MPLobby\Generic\promote_to_officer" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="DemoteFromClanOfficer" Sprite="MPLobby\Generic\demote_from_officer" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="KickFromClan" Sprite="MPLobby\Generic\kick_from_clan" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="RequestFriendship" Sprite="MPLobby\Generic\add_as_friend" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="TerminateFriendship" Sprite="MPLobby\Generic\remove_friend" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="InviteToParty" Sprite="MPLobby\Generic\invite_to_party_icon" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="PromoteToPartyLeader" Sprite="MPLobby\Generic\promote_to_party_leader" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="LeaveParty" Sprite="MPLobby\Generic\leave_party" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="PromoteCommander" Sprite="ui_crpg_scoreboard_context_menu_promote_commander" Color="#F4E1C4FF" IsHidden="true"/>
+      <BrushLayer Name="DemoteCommander" Sprite="ui_crpg_scoreboard_context_menu_demote_commander" Color="#F4E1C4FF" IsHidden="true"/>
+    </Layers>
+    <Styles>
+      <Style Name="MuteVoice">
+        <BrushLayer Name="MuteVoice" IsHidden="false"/>
+      </Style>
+      <Style Name="UnmuteVoice">
+        <BrushLayer Name="UnmuteVoice" IsHidden="false"/>
+      </Style>
+      <Style Name="MuteText">
+        <BrushLayer Name="MuteText" IsHidden="false"/>
+      </Style>
+      <Style Name="UnmuteText">
+        <BrushLayer Name="UnmuteText" IsHidden="false"/>
+      </Style>
+      <Style Name="PermanentMute">
+        <BrushLayer Name="PermanentMute" IsHidden="false"/>
+      </Style>
+      <Style Name="ViewProfile">
+        <BrushLayer Name="ViewProfile" IsHidden="false"/>
+      </Style>
+      <Style Name="Report">
+        <BrushLayer Name="Report" IsHidden="false"/>
+      </Style>
+      <Style Name="Kick">
+        <BrushLayer Name="Kick" IsHidden="false"/>
+      </Style>
+      <Style Name="StartKickPoll">
+        <BrushLayer Name="StartKickPoll" IsHidden="false"/>
+      </Style>
+      <Style Name="PromoteToClanLeader">
+        <BrushLayer Name="PromoteToClanLeader" IsHidden="false"/>
+      </Style>
+      <Style Name="PromoteToClanOfficer">
+        <BrushLayer Name="PromoteToClanOfficer" IsHidden="false"/>
+      </Style>
+      <Style Name="DemoteFromClanOfficer">
+        <BrushLayer Name="DemoteFromClanOfficer" IsHidden="false"/>
+      </Style>
+      <Style Name="KickFromClan">
+        <BrushLayer Name="KickFromClan" IsHidden="false"/>
+      </Style>
+      <Style Name="RequestFriendship">
+        <BrushLayer Name="RequestFriendship" IsHidden="false"/>
+      </Style>
+      <Style Name="TerminateFriendship">
+        <BrushLayer Name="TerminateFriendship" IsHidden="false"/>
+      </Style>
+      <Style Name="InviteToParty">
+        <BrushLayer Name="InviteToParty" IsHidden="false"/>
+      </Style>
+      <Style Name="PromoteToPartyLeader">
+        <BrushLayer Name="PromoteToPartyLeader" IsHidden="false"/>
+      </Style>
+      <Style Name="LeaveParty">
+        <BrushLayer Name="LeaveParty" IsHidden="false"/>
+      </Style>
+      <Style Name="PromoteCommander">
+        <BrushLayer Name="PromoteCommander" IsHidden="false"/>
+      </Style>
+      <Style Name="DemoteCommander">
+        <BrushLayer Name="DemoteCommander" IsHidden="false"/>
+      </Style>
+    </Styles>
+  </Brush>
+</Brushes>

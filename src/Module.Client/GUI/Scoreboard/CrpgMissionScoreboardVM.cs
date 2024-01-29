@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.Gui;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
 using TaleWorlds.Core;
@@ -30,6 +31,10 @@ internal class CrpgMissionScoreboardVM : ViewModel
 
     private readonly MultiplayerPollComponent _missionPollComponent = default!;
 
+    private readonly CrpgCommanderPollComponent? _commanderPollComponent;
+
+    private readonly CrpgCommanderBehaviorClient? _commanderClient;
+
     private VoiceChatHandler _voiceChatHandler = default!;
 
     private MultiplayerPermissionHandler _permissionHandler = default!;
@@ -41,6 +46,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
     private bool _hasMutedAll;
 
     private bool _canStartKickPolls;
+    private bool _canStartCommanderPolls = false;
 
     private TextObject _muteAllText = new("{=AZSbwcG5}Mute All", null);
 
@@ -104,6 +110,14 @@ internal class CrpgMissionScoreboardVM : ViewModel
         if (_canStartKickPolls)
         {
             _missionPollComponent = mission.GetMissionBehavior<MultiplayerPollComponent>();
+        }
+
+        _commanderClient = mission.GetMissionBehavior<CrpgCommanderBehaviorClient>();
+        _commanderPollComponent = mission.GetMissionBehavior<CrpgCommanderPollComponent>();
+        _canStartCommanderPolls = false;
+        if (_commanderClient != null && _commanderPollComponent != null)
+        {
+            _canStartCommanderPolls = true;
         }
 
         EndOfBattle = new CrpgScoreboardEndOfBattleVM(mission, _missionScoreboardComponent, isSingleTeam);
@@ -228,6 +242,13 @@ internal class CrpgMissionScoreboardVM : ViewModel
                 {
                     PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteKick), GameTexts.FindText("str_mp_scoreboard_context_kick", null).ToString(), "StartKickPoll", player));
                 }
+
+                if (_canStartCommanderPolls)
+                {
+                    bool isCommander = _commanderClient!.IsPeerCommander(player.Peer);
+                    string definition3 = isCommander ? GameTexts.FindText("str_mp_scoreboard_context_demote_commander", null).ToString() : GameTexts.FindText("str_mp_scoreboard_context_promote_commander", null).ToString();
+                    PlayerActionList.Add(new StringPairItemWithActionVM(new Action<object>(ExecuteCommander), definition3, isCommander ? "DemoteCommander" : "PromoteCommander", player));
+                }
             }
 
             StringPairItemWithActionVM stringPairItemWithActionVM = new(new Action<object>(ExecuteReport), GameTexts.FindText("str_mp_scoreboard_context_report", null).ToString(), "Report", player);
@@ -261,6 +282,23 @@ internal class CrpgMissionScoreboardVM : ViewModel
         }
 
         MultiplayerReportPlayerManager.RequestReportPlayer(NetworkMain.GameClient.CurrentMatchId, missionScoreboardPlayerVM.Peer.Peer.Id, missionScoreboardPlayerVM.Peer.DisplayedName, true);
+    }
+
+    private void ExecuteCommander(object playerObj)
+    {
+        if (playerObj is not MissionScoreboardPlayerVM missionScoreboardPlayerVM)
+        {
+            return;
+        }
+
+        if (_mission.GetMissionBehavior<MissionLobbyComponent>().IsInWarmup)
+        {
+            MBInformationManager.AddQuickInformation(new TextObject("{=wQOq8JIE}You cannot vote for a Commander during warmup!"), 0, null, null);
+            return;
+        }
+
+        bool isCommander = _commanderClient!.IsPeerCommander(missionScoreboardPlayerVM.Peer);
+        _commanderPollComponent!.RequestCommanderPoll(missionScoreboardPlayerVM.Peer.GetNetworkPeer(), isCommander);
     }
 
     private void ExecuteMute(object playerObj)
@@ -316,6 +354,15 @@ internal class CrpgMissionScoreboardVM : ViewModel
         if (playerObj is not MissionScoreboardPlayerVM missionScoreboardPlayerVM)
         {
             return;
+        }
+
+        if (_canStartCommanderPolls)
+        {
+            if (_commanderPollComponent!.IsPollOngoing())
+            {
+                _commanderPollComponent.RejectPoll(MultiplayerPollRejectReason.HasOngoingPoll);
+                return;
+            }
         }
 
         _missionPollComponent.RequestKickPlayerPoll(missionScoreboardPlayerVM.Peer.GetNetworkPeer(), false);

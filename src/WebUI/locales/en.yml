@@ -1,7 +1,7 @@
 locale:
   en: English
-  ru: Russian
-  cn: Chinese
+  ru: Русский
+  cn: 中文
 
 platform:
   Steam: Steam
@@ -60,9 +60,9 @@ timeAgo:
 dateTimeFormat:
   # TODO: https://github.com/tc39/proposal-intl-duration-format
   countdown: '{hours}:{minutes}:{seconds}'
+  'dd': '{days} @:dateTime.days.short'
   'mm': '{minutes} @:dateTime.minutes.short'
   'hh': '{hours} @:dateTime.hours.short'
-  'dd': '{days} @:dateTime.days.short'
   'dd:hh:mm': '{days}@:dateTime.days.short {hours}@:dateTime.hours.short {minutes}@:dateTime.minutes.short'
 
 nav:
@@ -169,8 +169,34 @@ region:
   Na: North America
   As: Asia
   Oc: Oceania
-
 region-title: Region
+
+language:
+  En: English
+  Fr: Français
+  Ru: Русский
+  Zh: 中文
+  De: Deutsch
+  It: Italiano
+  Es: Español
+  Pl: Polski
+  Uk: Українська
+  Ro: Română
+  Nl: Nederlands
+  Tr: Türkçe
+  El: Ελληνικά
+  Hu: Magyar
+  Sv: Svenska
+  Cs: Čeština
+  Pt: Português
+  Sr: Srpski
+  Bg: Български
+  Hr: Hrvatski
+  Da: Dansk
+  Fi: Suomi
+  No: Norsk
+  Be: Беларуская
+  Lv: Latviešu
 
 game-mode:
   CRPGBattle: Battle
@@ -527,6 +553,12 @@ character:
       title: Avg repair cost
       desc: 'Average cost of upkeep of equipped items per hour'
 
+  earningChart:
+    title: Earning chart
+    type:
+      experience: Exp
+      gold: Gold
+
   highUpkeepWarning:
     title: You cannot afford your current upkeep!
     desc: <p>If you cannot pay upkeep at the end of the round your items will be break</p><p>You can repair your items for a fee in your inventory</p>
@@ -574,7 +606,6 @@ character:
         validation:
           maxRank: 'This item has already been upgraded to the highest point possible'
           loomPoints: "You don't have enough heirloom points"
-          exist: 'You already have an improved version of this item'
         confirm:
           description: 'Are you sure you want to upgrade this item for {loomPoints}? Your item {oldItem} will be changed to {newItem}'
         currentItem: Current item
@@ -584,10 +615,17 @@ character:
         tooltip:
           title: 'Reforge item'
           description: 'You can reforge your items for gold'
+          costTable:
+            cols:
+              rank:
+                label: Item rank
+              cost:
+                label: Price
+              looms:
+                label: Get looms
         validation:
           rank: 'The item must have a rank greater than {minimumRank}'
           gold: 'Not enough gold to perform this action'
-          exist: 'You already have the {existItem} in your inventory. Sell it first'
         confirm:
           description: 'Are you sure you want to reforge this item for {gold}? You will get {loomPoints} back, in exchange {oldItem} will be changed to {newItem}'
         notify:
@@ -711,6 +749,7 @@ clan:
     column:
       tag: Tag
       region: Region
+      languages: Language
       members: Members
       name: Name
       memberName: Name
@@ -734,6 +773,7 @@ clan:
         secondaryColor: Secondary
         bannerKey: Banner key
         discord: Discord server
+        languages: Language
       group:
         armory:
           label: Armory
@@ -883,7 +923,8 @@ restriction:
       createdAt: Created At
       duration: Duration
       type: Type
-      reason: Reason
+      reason: Internal Reason
+      publicReason: Public reason
       restrictedBy: By
   user:
     title: User Restriction
@@ -901,7 +942,9 @@ restriction:
         minutes:
           label: Minutes
         reason:
-          label: Reason
+          label: Internal Reason
+        publicReason:
+          label: Public reason
       action:
         submit: Add restriction
     notify:

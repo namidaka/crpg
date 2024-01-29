@@ -52,7 +52,7 @@ const aggregationsConfig = computed(() =>
 </script>
 
 <template>
-  <article class="w-80 p-4">
+  <article class="w-80 overflow-hidden p-4">
     <div class="relative mb-3">
       <div class="-mx-4 -mt-4">
         <img

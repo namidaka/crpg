@@ -12,7 +12,7 @@
 
   <!-- Conquest -->
   <string id="str_multiplayer_official_game_type_name.cRPGConquest" text="{=l5KJxufk}Conquest" />
-  <string id="str_multiplayer_official_game_type_explainer.cRPGConquest" text="{=JLGDB5T7}·   Capture all flags of a stage to advance to the next one{newline}·   Defenders' reward multipler increases over time and is reset on a new stage{newline}·   Attackers' reward multiplier decreases over time and is set to max on a new stage" />
+  <string id="str_multiplayer_official_game_type_explainer.cRPGConquest" text="{=JLGDB5T7}·   Capture all flags of a stage to advance to the next one{newline}·   Defenders' reward multiplier increases over time and is reset on a new stage{newline}·   Attackers' reward multiplier decreases over time and is set to max on a new stage" />
   <string id="str_multiplayer_game_type.cRPGConquest" text="{=PhKxWoxz}Conquest" />
 
   <!-- Siege -->
@@ -37,6 +37,8 @@
 
   <!-- Scoreboard -->
   <string id="str_scoreboard_header.life" text="{=fBDiQBrC}Life" />
+  <string id="str_mp_scoreboard_context_promote_commander" text="{=sXF7LsGO}Promote Commander" />
+  <string id="str_mp_scoreboard_context_demote_commander" text="{=JDAtTV9K}Demote Commander" />
 
   <!-- Kick reasons -->
   <string id="str_kick_reason.bad_player_height" text="{=gaC79g3U}Your character has a weird height. Fix it in the Bannerlord Armory to join a cRPG server." />
@@ -144,4 +146,6 @@
   <string id="str_multiplayer_scene_name.crpg_dtv_weepinghill" text="{=jKsuXc4Z}Weeping Hill" />
   <string id="str_multiplayer_scene_name.crpg_dtv_rosethornecastle" text="{=UcsEXc5J}Rosethorne Castle" />
   <string id="str_multiplayer_scene_name.crpg_dtv_ruinsofrahiz" text="{=BreAK661}Ruins of Rahiz" />
+  <string id="str_multiplayer_scene_name.crpg_dtv_musapoint" text="{=MUSA3oiT}Musa Point" />
+  <string id="str_multiplayer_scene_name.crpg_dtv_templeofposeidon" text="{=T3MpL3OP}Temple of Poseidon" />
 </strings>
