@@ -75,6 +75,9 @@
       <XmlName id="DtvData" path="dtv/dtv_data"/>
     </XmlNode>
     <XmlNode>
+      <XmlName id="Items" path="dtv/dtv_weapons"/>
+    </XmlNode>
+    <XmlNode>
       <XmlName id="Monsters" path="monsters"/>
     </XmlNode>
   </Xmls>
