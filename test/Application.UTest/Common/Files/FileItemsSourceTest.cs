@@ -166,7 +166,6 @@ public class FileItemsSourceTest
                 {
                     if (dtvItemIdsFromXml.Contains(itemId))
                     {
-                        Console.WriteLine("Item exists in dtv_weapons.xml");
                         continue;
                     }
 
