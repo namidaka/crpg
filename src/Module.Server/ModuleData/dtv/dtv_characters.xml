@@ -457,7 +457,7 @@
         <equipment slot="Body" id="Item.crpg_northern_leather_vest_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_hosen_2_v1_h0" />
         <equipment slot="Item0" id="Item.crpg_iron_hand_axe_v2_h0" />
-        <equipment slot="Item1" id="Item.dt_light_hunting_bow_v2_h0" />
+        <equipment slot="Item1" id="Item.dtv_light_hunting_bow_v2_h0" />
         <equipment slot="Item2" id="Item.crpg_light_broad_arrows_v2_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
