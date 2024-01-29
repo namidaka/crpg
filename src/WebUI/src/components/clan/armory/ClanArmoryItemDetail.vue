@@ -2,9 +2,9 @@
 import { ClanMemberRole, type ClanArmoryItem } from '@/models/clan';
 import { type UserPublic } from '@/models/user';
 import { useUserStore } from '@/stores/user';
-import { isOwnClanArmoryItem, isClanArmoryItemInInventory } from '@/services/clan-service';
+import { isClanArmoryItemInInventory, isOwnClanArmoryItem } from '@/services/clan-service';
 
-const { clanArmoryItem,borrower,lender } = defineProps<{
+const { clanArmoryItem, borrower, lender } = defineProps<{
   clanArmoryItem: ClanArmoryItem;
   lender: UserPublic;
   borrower: UserPublic | null;
@@ -54,8 +54,8 @@ const canReturn = computed(
           variant="secondary"
           expanded
           rounded
-          :disabled="isInInventory"
           size="lg"
+          :disabled="isInInventory"
           v-tooltip="{
             disabled: !isInInventory,
             content: $t('clan.armory.item.borrow.validation.isInInventory'),

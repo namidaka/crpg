@@ -4,7 +4,7 @@ import { characterClassToIcon } from '@/services/characters-service';
 
 const { character, isActive = false } = defineProps<{
   character: Character;
-  isActive: boolean;
+  isActive?: boolean;
 }>();
 </script>
 

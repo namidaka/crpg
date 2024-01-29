@@ -9,12 +9,7 @@ vi.mock('@/utils/date', () => ({
   checkIsDateExpired: mockCheckIsDateExpired,
 }));
 
-import {
-  mapRestrictions,
-  getRestrictions,
-  restrictUser,
-  getActiveJoinRestriction,
-} from '@/services/restriction-service';
+import { mapRestrictions, getRestrictions, restrictUser } from '@/services/restriction-service';
 
 const duration = 180000; // 3 min
 
@@ -189,27 +184,6 @@ it('getRestrictions', async () => {
   expect(await getRestrictions()).toEqual([{ ...restrictions, active: true }]);
 
   expect(mockCheckIsDateExpired).toBeCalled();
-});
-
-it('getActiveJoinRestriction', () => {
-  const restrictions = [
-    {
-      id: 1,
-      duration: 1,
-      type: 'Chat',
-      reason: '',
-      active: true,
-    },
-    {
-      id: 2,
-      duration: 11,
-      type: 'Join',
-      reason: '',
-      active: true,
-    },
-  ];
-
-  expect(getActiveJoinRestriction(restrictions as RestrictionWithActive[])!.id).toEqual(2);
 });
 
 it('restrictUser', async () => {

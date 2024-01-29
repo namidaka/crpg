@@ -15,7 +15,6 @@ definePage({
 });
 
 const router = useRouter();
-const route = useRoute();
 const userStore = useUserStore();
 
 const { pageModel, perPage } = usePagination();

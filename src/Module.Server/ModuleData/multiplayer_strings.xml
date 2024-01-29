@@ -37,6 +37,8 @@
 
   <!-- Scoreboard -->
   <string id="str_scoreboard_header.life" text="{=fBDiQBrC}Life" />
+  <string id="str_mp_scoreboard_context_promote_commander" text="{=sXF7LsGO}Promote Commander" />
+  <string id="str_mp_scoreboard_context_demote_commander" text="{=JDAtTV9K}Demote Commander" />
 
   <!-- Kick reasons -->
   <string id="str_kick_reason.bad_player_height" text="{=gaC79g3U}Your character has a weird height. Fix it in the Bannerlord Armory to join a cRPG server." />

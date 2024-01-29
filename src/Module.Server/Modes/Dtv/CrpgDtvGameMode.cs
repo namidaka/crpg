@@ -1,4 +1,5 @@
 using Crpg.Module.Common;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.Common.TeamSelect;
 using Crpg.Module.Modes.Warmup;
 using Crpg.Module.Notifications;
@@ -14,10 +15,10 @@ using Crpg.Module.Common.ChatCommands;
 #else
 using Crpg.Module.Common.HotConstants;
 using Crpg.Module.GUI;
+using Crpg.Module.GUI.Commander;
 using Crpg.Module.GUI.Dtv;
 using Crpg.Module.GUI.Spectator;
 using Crpg.Module.GUI.Warmup;
-using TaleWorlds.MountAndBlade.Multiplayer;
 using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
@@ -60,6 +61,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
             MultiplayerViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
             MultiplayerViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
             MultiplayerViewCreator.CreatePollProgressUIHandler(),
+            new CommanderPollingProgressUiHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
             MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
@@ -110,6 +112,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
 #if CRPG_CLIENT
                 new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
                 new MultiplayerMissionAgentVisualSpawnComponent(), // expose method to spawn an agent
+                new CrpgCommanderBehaviorClient(),
 #endif
                 dtvClient,
                 new MultiplayerTimerComponent(), // round timer
@@ -120,6 +123,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new AgentVictoryLogic(), // AI cheering when winning round
                 new MissionBoundaryCrossingHandler(), // kills agent out of mission boundaries
                 new MultiplayerPollComponent(), // poll logic to kick player, ban player, change game
+                new CrpgCommanderPollComponent(),
                 new MissionOptionsComponent(),
                 new CrpgScoreboardComponent(new CrpgBattleScoreboardData()),
                 new MissionAgentPanicHandler(),
@@ -144,6 +148,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new NotAllPlayersReadyComponent(),
                 new DrowningBehavior(),
                 new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
+                new CrpgCommanderBehaviorServer(),
 #else
                 new MultiplayerAchievementComponent(),
                 MissionMatchHistoryComponent.CreateIfConditionsAreMet(),

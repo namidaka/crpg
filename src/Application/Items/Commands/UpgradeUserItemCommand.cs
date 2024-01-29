@@ -76,11 +76,6 @@ public record UpgradeUserItemCommand : IMediatorRequest<UserItemViewModel>
                 return new(CommonErrors.UserItemMaxRankReached(userItemToUpgrade.Id, userItemToUpgrade.Item!.Rank));
             }
 
-            if (user.Items.Any(ui => ui.Item!.Id == upgradedItem.Id))
-            {
-                return new(CommonErrors.ItemAlreadyOwned(upgradedItem.Id));
-            }
-
             userItemToUpgrade.Item = upgradedItem;
             user.HeirloomPoints -= 1;
 

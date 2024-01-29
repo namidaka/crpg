@@ -59,9 +59,9 @@ timeAgo:
 
 dateTimeFormat:
   countdown: '{hours}:{minutes}:{seconds}'
+  'dd': '{days} @:dateTime.days.short'
   'mm': '{minutes} @:dateTime.minutes.short'
   'hh': '{hours} @:dateTime.hours.short'
-  'dd': '{days} @:dateTime.days.short'
   'dd:hh:mm': '{days}@:dateTime.days.short {hours}@:dateTime.hours.short {minutes}@:dateTime.minutes.short'
 
 nav:
@@ -522,6 +522,12 @@ character:
       title: Ремонт
       desc: 'Усредненная стоимость содержания экипированных предметов в час'
 
+  earningChart:
+    title: График
+    type:
+      experience: Опыт
+      gold: Золото
+
   highUpkeepWarning:
     title: Вы не можете позволить себе текущиее содержание предметов!
     desc: <p>Если вы не сможете оплатить содержание в конце раунда, ваши предметы будут сломаны</p><p>Вы можете отремонтировать свои предметы в инвентаре за плату</p>
@@ -569,7 +575,6 @@ character:
         validation:
           maxRank: 'Предмет уже имеет максимальный ранг'
           loomPoints: 'У вас недостаточно очков улучшения'
-          exist: 'У вас уже есть улучшенная версия этого предмета'
         confirm:
           description: 'Вы уверены, что хотите улучшить этот предмет за {loomPoints}? {oldItem} будет заменен на {newItem}'
         currentItem: Текущий предмет
@@ -579,10 +584,17 @@ character:
         tooltip:
           title: 'Рассплавить предмет'
           description: 'Вы можете перековать свои предметы за золото'
+          costTable:
+            cols:
+              rank:
+                label: Ранг предмета
+              cost:
+                label: Стоимость
+              looms:
+                label: Награда
         validation:
           rank: 'Предмет должен иметь ранг больше, чем {minimumRank}'
           gold: 'У вас недостаточно золота'
-          exist: 'У вас уже есть {existItem} в инвентаре. Сначала продайте его'
         confirm:
           description: 'Вы уверены, что хотите рассплавить этот предмет за {gold}? Вы получите {loomPoints}, также предмет {oldItem} будет заменен на {newItem}.'
         notify:

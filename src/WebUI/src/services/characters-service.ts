@@ -1,4 +1,5 @@
 import { defu } from 'defu';
+import qs from 'qs';
 import { type PartialDeep } from 'type-fest';
 import {
   weaponProficiencyPointsForLevelCoefs,
@@ -47,14 +48,21 @@ import {
 } from '@/models/character';
 import { ItemSlot, ItemType, type Item, type ItemArmorComponent } from '@/models/item';
 import { type HumanDuration } from '@/models/datetime';
+import { type ActivityLog, type CharacterEarnedMetadata } from '@/models/activity-logs';
+import { type TimeSeries } from '@/models/timeseries';
 
 import { get, put, del } from '@/services/crpg-client';
 import { armorTypes, computeAverageRepairCostPerHour } from '@/services/item-service';
+import { t } from '@/services/translate-service';
+
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
 import { computeLeftMs, parseTimestamp } from '@/utils/date';
-import { range } from '@/utils/array';
+import { range, groupBy } from '@/utils/array';
 
 export const getCharacters = () => get<Character[]>('/users/self/characters');
+
+export const getCharactersByUserId = (userId: number) =>
+  get<Character[]>(`/users/${userId}/characters`);
 
 export const updateCharacter = (characterId: number, req: UpdateCharacterRequest) =>
   put<Character>(`/users/self/characters/${characterId}`, req);
@@ -87,6 +95,48 @@ export const deleteCharacter = (characterId: number) =>
 
 export const getCharacterStatistics = (characterId: number) =>
   get<CharacterStatistics>(`/users/self/characters/${characterId}/statistics`);
+
+export enum CharacterEarningType {
+  'Exp' = 'Exp',
+  'Gold' = 'Gold',
+}
+
+// TODO: spec
+export const getCharacterEarningStatistics = async (
+  characterId: number,
+  type: CharacterEarningType,
+  from: Date
+) => {
+  return (
+    await get<ActivityLog<CharacterEarnedMetadata>[]>(
+      `/users/self/characters/${characterId}/earning-statistics?${qs.stringify({ from })}`
+    )
+  ).reduce((out, l) => {
+    const currentEl = out.find(el => el.name === t(`game-mode.${l.metadata.gameMode}`));
+
+    if (currentEl) {
+      currentEl.data.push([
+        l.createdAt,
+        parseInt(type === CharacterEarningType.Exp ? l.metadata.experience : l.metadata.gold, 10),
+      ]);
+    } else {
+      out.push({
+        name: t(`game-mode.${l.metadata.gameMode}`),
+        data: [
+          [
+            l.createdAt,
+            parseInt(
+              type === CharacterEarningType.Exp ? l.metadata.experience : l.metadata.gold,
+              10
+            ),
+          ],
+        ],
+      });
+    }
+
+    return out;
+  }, [] as TimeSeries[]);
+};
 
 export const getCharacterRating = (characterId: number) =>
   get<CharacterRating>(`/users/self/characters/${characterId}/rating`);

@@ -1,12 +1,9 @@
-﻿using System.Security.Claims;
-using Crpg.Application.Characters.Commands;
-using Crpg.Application.Common.Interfaces;
+﻿using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Results;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Crpg.Application.Common.Services;
 
@@ -134,6 +131,7 @@ internal class ClanService : IClanService
         }
 
         var userItem = await db.UserItems
+                .AsSplitQuery()
                 .Where(ui =>
                     ui.UserId == user.Id
                     && ui.Id == userItemId
@@ -143,6 +141,7 @@ internal class ClanService : IClanService
                 .Include(ui => ui.ClanArmoryItem)
                 .Include(ui => ui.EquippedItems)
                 .FirstOrDefaultAsync(cancellationToken);
+
         if (userItem == null)
         {
             return new(CommonErrors.UserItemNotFound(userItemId));
@@ -150,7 +149,7 @@ internal class ClanService : IClanService
 
         if (userItem.EquippedItems.Any())
         {
-            return new(CommonErrors.UserItemInUse(userItemId));
+            db.EquippedItems.RemoveRange(userItem.EquippedItems);
         }
 
         if (userItem.ClanArmoryItem != null)

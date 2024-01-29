@@ -3,7 +3,7 @@ import { RestrictionWithActive } from '@/models/restriction';
 import { usePagination } from '@/composables/use-pagination';
 import { parseTimestamp, computeLeftMs } from '@/utils/date';
 
-const props = defineProps<{ restrictions: RestrictionWithActive[]; hiddenCols?: string[] }>();
+defineProps<{ restrictions: RestrictionWithActive[]; hiddenCols?: string[] }>();
 
 const { pageModel, perPage } = usePagination();
 </script>
@@ -16,6 +16,7 @@ const { pageModel, perPage } = usePagination();
     :paginated="restrictions.length > perPage"
     hoverable
     bordered
+    narrowed
     :debounceSearch="300"
     sortIcon="chevron-up"
     sortIconSize="xs"
@@ -23,19 +24,9 @@ const { pageModel, perPage } = usePagination();
   >
     <OTableColumn
       #default="{ row: restriction }: { row: RestrictionWithActive }"
-      field="id"
-      label="Id"
-      :width="40"
-      sortable
-    >
-      {{ restriction.id }}
-    </OTableColumn>
-
-    <OTableColumn
-      #default="{ row: restriction }: { row: RestrictionWithActive }"
       field="active"
       :label="$t('restriction.table.column.status')"
-      :width="160"
+      :width="90"
       sortable
     >
       <Tag
@@ -56,16 +47,15 @@ const { pageModel, perPage } = usePagination();
       v-if="!hiddenCols?.includes('restrictedUser')"
       field="restrictedUser.name"
       :label="$t('restriction.table.column.user')"
-      :width="160"
       searchable
     >
       <template #searchable="props">
-        <o-input
+        <OInput
           v-model="props.filters[props.column.field]"
           :placeholder="$t('action.search')"
           icon="search"
-          class="w-44"
-          size="sm"
+          class="w-40"
+          size="xs"
           clearable
         />
       </template>
@@ -78,7 +68,7 @@ const { pageModel, perPage } = usePagination();
           }"
           class="inline-block hover:text-content-100"
         >
-          <UserMedia class="max-w-[10rem]" :user="restriction.restrictedUser" hiddenClan />
+          <UserMedia class="max-w-[12rem]" :user="restriction.restrictedUser" hiddenClan />
         </RouterLink>
       </template>
     </OTableColumn>
@@ -87,10 +77,10 @@ const { pageModel, perPage } = usePagination();
       #default="{ row: restriction }: { row: RestrictionWithActive }"
       field="createdAt"
       :label="$t('restriction.table.column.createdAt')"
-      :width="180"
+      :width="160"
       sortable
     >
-      {{ $d(restriction.createdAt, 'long') }}
+      {{ $d(restriction.createdAt, 'short') }}
     </OTableColumn>
 
     <OTableColumn
@@ -120,45 +110,24 @@ const { pageModel, perPage } = usePagination();
       field="reason"
       :label="$t('restriction.table.column.reason')"
     >
-      <template v-if="restriction.reason.length <= 50">
-        {{ restriction.reason }}
-      </template>
+      <CollapsibleText :text="restriction.reason" />
+    </OTableColumn>
 
-      <OCollapse v-else :open="false" position="bottom">
-        <template #trigger="props">
-          <template v-if="!props.open">
-            {{ restriction.reason.substring(0, 50) }}...
-            <OButton
-              v-tooltip="$t('action.expand')"
-              variant="secondary"
-              rounded
-              size="2xs"
-              :aria-expanded="props.open"
-              iconRight="chevron-down"
-            />
-          </template>
-          <OButton
-            v-else
-            v-tooltip="$t('action.collapse')"
-            variant="secondary"
-            size="2xs"
-            rounded
-            :aria-expanded="props.open"
-            iconRight="chevron-up"
-            class="mt-1"
-          />
-        </template>
-        {{ restriction.reason }}
-      </OCollapse>
+    <OTableColumn
+      #default="{ row: restriction }: { row: RestrictionWithActive }"
+      field="publicReason"
+      :label="$t('restriction.table.column.publicReason')"
+    >
+      <CollapsibleText :text="restriction.publicReason" />
     </OTableColumn>
 
     <OTableColumn
       #default="{ row: restriction }: { row: RestrictionWithActive }"
       field="restrictedByUser.name"
       :label="$t('restriction.table.column.restrictedBy')"
-      :width="224"
+      :width="200"
     >
-      <UserMedia :user="restriction.restrictedByUser" class="max-w-[14rem]" />
+      <UserMedia :user="restriction.restrictedByUser" class="max-w-[12rem]" hiddenClan />
     </OTableColumn>
 
     <template #empty>

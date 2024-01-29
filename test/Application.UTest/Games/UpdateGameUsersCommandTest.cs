@@ -4,6 +4,7 @@ using Crpg.Application.Games.Commands;
 using Crpg.Application.Games.Models;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Items;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -17,8 +18,9 @@ public class UpdateGameUsersCommandTest : TestBase
     public void ShouldDoNothingForEmptyUpdates()
     {
         Mock<ICharacterService> characterServiceMock = new();
+        Mock<IGameModeService> gameModeServiceServiceMock = new();
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
-        UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object);
+        UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object, gameModeServiceServiceMock.Object);
         Assert.That(() => handler.Handle(new UpdateGameUsersCommand(), CancellationToken.None), Throws.Nothing);
     }
 
@@ -70,11 +72,15 @@ public class UpdateGameUsersCommandTest : TestBase
             .Setup(cs => cs.GiveExperience(It.IsAny<Character>(), 10, true))
             .Callback((Character c, int xp, bool _) => c.Experience += xp);
         characterServiceMock
-            .Setup(cs => cs.UpdateRating(It.IsAny<Character>(), 4, 5, 6));
+            .Setup(cs => cs.UpdateRating(It.IsAny<Character>(), 4, 5, 6, true));
 
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
+        Mock<IGameModeService> gameModeServiceServiceMock = new();
+        // gameModeServiceServiceMock
+        //     .Setup(m => m.GameModeByInstanceAlias(It.Is<GameModeAlias>(a => a == GameModeAlias.A)))
+        //     .Returns(GameMode.CRPGBattle);
 
-        UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object);
+        UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object, gameModeServiceServiceMock.Object);
         var result = await handler.Handle(new UpdateGameUsersCommand
         {
             Updates = new[]
@@ -100,6 +106,7 @@ public class UpdateGameUsersCommandTest : TestBase
                         Deviation = 5,
                         Volatility = 6,
                     },
+                    Instance = "crpg01a",
                 },
             },
         }, CancellationToken.None);
@@ -125,6 +132,11 @@ public class UpdateGameUsersCommandTest : TestBase
         Assert.That(dbCharacter.Statistics.PlayTime, Is.EqualTo(TimeSpan.FromSeconds(12)));
 
         characterServiceMock.VerifyAll();
+
+        gameModeServiceServiceMock.Verify(m =>
+            m.GameModeByInstanceAlias(It.IsAny<GameModeAlias>()), Times.Once);
+        activityLogServiceMock.Verify(m =>
+            m.CreateCharacterEarnedLog(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameMode>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
     }
 
     [Test]
@@ -162,8 +174,9 @@ public class UpdateGameUsersCommandTest : TestBase
         Mock<ICharacterService> characterServiceMock = new();
 
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
+        Mock<IGameModeService> gameModeServiceServiceMock = new();
 
-        UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object);
+        UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object, gameModeServiceServiceMock.Object);
         var result = await handler.Handle(new UpdateGameUsersCommand
         {
             Updates = new[]
@@ -252,8 +265,9 @@ public class UpdateGameUsersCommandTest : TestBase
         Mock<ICharacterService> characterServiceMock = new();
 
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
+        Mock<IGameModeService> gameModeServiceServiceMock = new();
 
-        UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object);
+        UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object, gameModeServiceServiceMock.Object);
         var result = await handler.Handle(new UpdateGameUsersCommand
         {
             Updates = new[]

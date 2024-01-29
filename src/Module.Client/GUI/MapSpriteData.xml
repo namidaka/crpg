@@ -1265,8 +1265,7 @@
       <SheetY>0</SheetY>
       <CategoryName>ui_mploading</CategoryName>
     </SpritePart>
-  </SpriteParts>
-  <SpritePart>
+    <SpritePart>
       <SheetID>138</SheetID>
       <Name>crpg_dtv_musapoint</Name>
       <Width>1920</Width>
@@ -1275,8 +1274,7 @@
       <SheetY>0</SheetY>
       <CategoryName>ui_mploading</CategoryName>
     </SpritePart>
-  </SpriteParts>
-  <SpritePart>
+    <SpritePart>
       <SheetID>139</SheetID>
       <Name>crpg_dtv_templeofposeidon</Name>
       <Width>1920</Width>
