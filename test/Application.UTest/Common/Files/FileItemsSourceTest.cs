@@ -143,13 +143,19 @@ public class FileItemsSourceTest
 
         string filepath = GetFilePath();
         string charactersFilePath = Path.Combine(filepath, "../../../../../src/Module.Server/ModuleData/dtv/dtv_characters.xml");
+        string dtvItemsFilePath = Path.Combine(filepath, "../../../../../src/Module.Server/ModuleData/dtv/dtv_weapons.xml");
         Console.WriteLine(filepath);
         string charactersXmlPath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)
                                    + "/ModuleData/dtv/dtv_characters.xml";
         XDocument charactersDoc = XDocument.Load(charactersFilePath);
+        XDocument dtvItemsDoc = XDocument.Load(dtvItemsFilePath);
         string[] itemIdsFromXml = charactersDoc
             .Descendants("equipment")
             .Select(el => el.Attribute("id")!.Value["Item.".Length..])
+            .ToArray();
+        string[] dtvItemIdsFromXml = dtvItemsDoc
+            .Descendants("Item")
+            .Select(el => el.Attribute("id")!.Value)
             .ToArray();
 
         Assert.Multiple(() =>
@@ -158,6 +164,12 @@ public class FileItemsSourceTest
             {
                 if (!items.Contains(itemId))
                 {
+                    if (dtvItemIdsFromXml.Contains(itemId))
+                    {
+                        Console.WriteLine("Item exists in dtv_weapons.xml");
+                        continue;
+                    }
+
                     string closestItemId = TestHelper.FindClosestString(itemId, items);
                     Assert.Fail($"Character item {itemId} was not found in items.json. Did you mean {closestItemId}?");
                     charactersDoc
