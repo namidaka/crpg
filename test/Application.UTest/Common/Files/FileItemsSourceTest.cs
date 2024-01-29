@@ -153,23 +153,20 @@ public class FileItemsSourceTest
             .Descendants("equipment")
             .Select(el => el.Attribute("id")!.Value["Item.".Length..])
             .ToArray();
-        string[] dtvItemIdsFromXml = dtvItemsDoc
+        var dtvItemIdsFromXml = dtvItemsDoc
             .Descendants("Item")
             .Select(el => el.Attribute("id")!.Value)
-            .ToArray();
+            .ToHashSet();
+
+        var combinedItems = items.Concat(dtvItemIdsFromXml);
 
         Assert.Multiple(() =>
         {
             foreach (string itemId in itemIdsFromXml)
             {
-                if (!items.Contains(itemId))
+                if (!combinedItems.Contains(itemId))
                 {
-                    if (dtvItemIdsFromXml.Contains(itemId))
-                    {
-                        continue;
-                    }
-
-                    string closestItemId = TestHelper.FindClosestString(itemId, items);
+                    string closestItemId = TestHelper.FindClosestString(itemId, combinedItems);
                     Assert.Fail($"Character item {itemId} was not found in items.json. Did you mean {closestItemId}?");
                     charactersDoc
                     .Descendants("equipment")
