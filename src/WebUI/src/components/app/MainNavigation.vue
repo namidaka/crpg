@@ -3,7 +3,7 @@ import { type PatchNote } from '@/models/patch-note';
 import { useUserStore } from '@/stores/user';
 import Role from '@/models/role';
 
-defineProps<{ latestPatch: PatchNote }>();
+defineProps<{ latestPatch?: PatchNote }>();
 
 const userStore = useUserStore();
 </script>
@@ -12,6 +12,7 @@ const userStore = useUserStore();
   <nav class="flex items-center gap-5">
     <div class="flex items-center rounded-full border border-border-200 hover:border-border-300">
       <OButton
+        v-if="latestPatch"
         variant="primary"
         class="cursor-pointer"
         size="sm"

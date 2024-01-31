@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Crpg.Application.UTest</RootNamespace>
     <AssemblyName>Crpg.Application.UTest</AssemblyName>
   </PropertyGroup>
