@@ -25,6 +25,10 @@
     <string id="OUnhyvby" text="保卫子爵" />
     <string id="bp8JJZpG" text="·   保卫子爵免受敌人的攻击！{newline}·   保护子爵会获得奖励！{newline}·   在 c-rpg.eu 上升级你的角色。" />
     <string id="3uoZAXxh" text="保卫子爵" />
+    
+    <!-- Intermission -->
+    <string id="OZYLgnQq" text="请稍候：" />
+    
     <string id="fBDiQBrC" text="生活" />
     <string id="gaC79g3U" text="你的角色身高有点奇怪。在 Bannerlord Armory 中修复它以加入 cRPG 服务器。" />
     <string id="qoYQE5yX" text="你已被 cRPG 服务器封禁。" />

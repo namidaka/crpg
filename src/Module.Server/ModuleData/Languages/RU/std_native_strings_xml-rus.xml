@@ -39,6 +39,9 @@
     <string id="bp8JJZpG" text="·   Защищайте графа от волн врагов!{newline}·   Получайте награды за защиту!{newline}·   Улучшайте своего персонажа на c-rpg.eu" />
     <string id="3uoZAXxh" text="Защита графа" />
 
+    <!-- Intermission -->
+    <string id="OZYLgnQq" text="Пожалуйста, подождите:" />
+    
     <!-- Scoreboard -->
     <string id="fBDiQBrC" text="Жизнь" />
 
