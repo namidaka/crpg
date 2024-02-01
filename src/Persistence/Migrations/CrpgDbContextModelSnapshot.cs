@@ -28,7 +28,7 @@ namespace Crpg.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "activity_log_type", new[] { "user_created", "user_deleted", "user_renamed", "user_rewarded", "item_bought", "item_sold", "item_broke", "item_reforged", "item_repaired", "item_upgraded", "character_created", "character_deleted", "character_rating_reset", "character_respecialized", "character_retired", "character_rewarded", "character_earned", "server_joined", "chat_message_sent", "team_hit", "clan_armory_add_item", "clan_armory_remove_item", "clan_armory_return_item", "clan_armory_borrow_item" });
@@ -1493,14 +1493,14 @@ namespace Crpg.Persistence.Migrations
                         .HasForeignKey("BorrowerClanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_clan_armory_borrowed_items_clans_borrower_clan_id");
+                        .HasConstraintName("fk_clan_armory_borrowed_items_clans_clan_id");
 
                     b.HasOne("Crpg.Domain.Entities.Clans.ClanMember", "Borrower")
                         .WithMany("ArmoryBorrowedItems")
                         .HasForeignKey("BorrowerUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_clan_armory_borrowed_items_clan_members_borrower_user_id");
+                        .HasConstraintName("fk_clan_armory_borrowed_items_clan_members_borrower_temp_id");
 
                     b.HasOne("Crpg.Domain.Entities.Items.UserItem", "UserItem")
                         .WithOne("ClanArmoryBorrowedItem")
@@ -1514,7 +1514,7 @@ namespace Crpg.Persistence.Migrations
                         .HasForeignKey("Crpg.Domain.Entities.Clans.ClanArmoryBorrowedItem", "UserItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_clan_armory_borrowed_items_clan_armory_items_user_item_id");
+                        .HasConstraintName("fk_clan_armory_borrowed_items_clan_armory_items_armory_item_te");
 
                     b.Navigation("ArmoryItem");
 
@@ -1583,14 +1583,14 @@ namespace Crpg.Persistence.Migrations
                         .HasForeignKey("LenderClanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_clan_armory_items_clans_lender_clan_id");
+                        .HasConstraintName("fk_clan_armory_items_clans_clan_id");
 
                     b.HasOne("Crpg.Domain.Entities.Clans.ClanMember", "Lender")
                         .WithMany("ArmoryItems")
                         .HasForeignKey("LenderUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_clan_armory_items_clan_members_lender_user_id");
+                        .HasConstraintName("fk_clan_armory_items_clan_members_lender_temp_id1");
 
                     b.HasOne("Crpg.Domain.Entities.Items.UserItem", "UserItem")
                         .WithOne("ClanArmoryItem")
@@ -1998,7 +1998,7 @@ namespace Crpg.Persistence.Migrations
                         .HasForeignKey("Crpg.Domain.Entities.Parties.Party", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_parties_users_id");
+                        .HasConstraintName("fk_parties_users_user_id");
 
                     b.HasOne("Crpg.Domain.Entities.Parties.Party", "TargetedParty")
                         .WithMany()
@@ -2095,7 +2095,7 @@ namespace Crpg.Persistence.Migrations
                     b.HasOne("Crpg.Domain.Entities.Characters.Character", "ActiveCharacter")
                         .WithOne()
                         .HasForeignKey("Crpg.Domain.Entities.Users.User", "ActiveCharacterId")
-                        .HasConstraintName("fk_users_characters_active_character_id");
+                        .HasConstraintName("fk_users_characters_active_character_id1");
 
                     b.Navigation("ActiveCharacter");
                 });

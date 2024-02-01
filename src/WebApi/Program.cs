@@ -115,7 +115,7 @@ builder.Services.AddOpenIddict()
 
         if (epicGamesClientId != null && epicGamesClientSecret != null)
         {
-            webIntegrationBuilder.AddEpicGames(epicGames =>
+            webIntegrationBuilder.UseEpicGames(epicGames =>
             {
                 epicGames
                     .SetClientId(epicGamesClientId)
@@ -130,7 +130,7 @@ builder.Services.AddOpenIddict()
 
         if (microsoftClientId != null && microsoftClientSecret != null)
         {
-            webIntegrationBuilder.AddMicrosoft(microsoft =>
+            webIntegrationBuilder.UseMicrosoft(microsoft =>
             {
                 microsoft.SetClientId(microsoftClientId)
                     .SetClientSecret(microsoftClientSecret)
