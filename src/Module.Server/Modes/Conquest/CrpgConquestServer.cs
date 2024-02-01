@@ -365,7 +365,7 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
             CaptureTheFlagFlagDirection flagDirection = ComputeFlagDirection(flag, flagOwner, agentDiffNumber);
             if (flagDirection != CaptureTheFlagFlagDirection.None)
             {
-                flag.SetMoveFlag(flagDirection, speedMultiplier: (float)(0.1f * Math.Abs(agentDiffNumber)));
+                flag.SetMoveFlag(flagDirection, speedMultiplier: (float)(0.2f * Math.Abs(agentDiffNumber)));
             }
 
             flag.OnAfterTick(agentDiffNumber < 0, out bool flagOwnerChanged);
