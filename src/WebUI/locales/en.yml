@@ -1,7 +1,7 @@
 locale:
   en: English
-  ru: Русский
-  cn: 中文
+  ru: Russian
+  cn: Chinese
 
 platform:
   Steam: Steam
@@ -169,34 +169,8 @@ region:
   Na: North America
   As: Asia
   Oc: Oceania
-region-title: Region
 
-language:
-  En: English
-  Fr: Français
-  Ru: Русский
-  Zh: 中文
-  De: Deutsch
-  It: Italiano
-  Es: Español
-  Pl: Polski
-  Uk: Українська
-  Ro: Română
-  Nl: Nederlands
-  Tr: Türkçe
-  El: Ελληνικά
-  Hu: Magyar
-  Sv: Svenska
-  Cs: Čeština
-  Pt: Português
-  Sr: Srpski
-  Bg: Български
-  Hr: Hrvatski
-  Da: Dansk
-  Fi: Suomi
-  No: Norsk
-  Be: Беларуская
-  Lv: Latviešu
+region-title: Region
 
 game-mode:
   CRPGBattle: Battle
@@ -749,7 +723,6 @@ clan:
     column:
       tag: Tag
       region: Region
-      languages: Language
       members: Members
       name: Name
       memberName: Name
@@ -773,7 +746,6 @@ clan:
         secondaryColor: Secondary
         bannerKey: Banner key
         discord: Discord server
-        languages: Language
       group:
         armory:
           label: Armory

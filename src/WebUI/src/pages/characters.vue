@@ -106,7 +106,7 @@ if (userStore.characters.length === 0) {
                 :isActive="currentCharacter.id === user?.activeCharacterId"
               />
 
-              <Divider inline />
+              <div class="h-4 w-px select-none bg-border-300"></div>
 
               <OIcon
                 icon="chevron-down"

@@ -11,23 +11,9 @@
       "problemMatcher": []
     },
     {
-      "label": "WebApi Persistent Database",
-      "type": "shell",
-      "command": "cd src/WebApi && dotnet run -lp 'Persistent Database'",
-      "isBackground": true,
-      "problemMatcher": []
-    },
-    {
       "label": "WebUI",
       "type": "shell",
       "command": "cd src/WebUI && npm run dev",
-      "isBackground": true,
-      "problemMatcher": []
-    },
-    {
-      "label": "DB",
-      "type": "shell",
-      "command": "service postgresql start",
       "isBackground": true,
       "problemMatcher": []
     },
