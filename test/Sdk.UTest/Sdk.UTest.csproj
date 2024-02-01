@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Crpg.Sdk.UTest</RootNamespace>
     <AssemblyName>Crpg.Sdk.UTest</AssemblyName>
   </PropertyGroup>
