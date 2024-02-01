@@ -343,33 +343,33 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
                 continue;
             }
 
+            int agentDiffNumber = 0;
             Team? flagOwner = GetFlagOwnerTeam(flag);
-            Agent? closestAgentToFlag = null;
-            float closestAgentDistanceToFlagSquared = float.MaxValue;
             foreach (var agent in EnumerateAgentsAroundFlag(flag))
             {
-                if (agent.IsMount || !agent.IsActive())
+                if (agent.IsMount || !agent.IsActive() || agent.Position.DistanceSquared(flag.Position) > FlagCaptureRangeSquared)
                 {
                     continue;
                 }
 
-                float agentDistanceToFlagSquared = agent.Position.DistanceSquared(flag.Position);
-                if (agentDistanceToFlagSquared <= FlagCaptureRangeSquared
-                    && agentDistanceToFlagSquared < closestAgentDistanceToFlagSquared)
+                if (agent.Team == flagOwner)
                 {
-                    closestAgentToFlag = agent;
-                    closestAgentDistanceToFlagSquared = agentDistanceToFlagSquared;
+                    agentDiffNumber++;
+                }
+                else
+                {
+                    agentDiffNumber--;
                 }
             }
 
-            CaptureTheFlagFlagDirection flagDirection = ComputeFlagDirection(flag, flagOwner, closestAgentToFlag);
+            CaptureTheFlagFlagDirection flagDirection = ComputeFlagDirection(flag, flagOwner, agentDiffNumber);
             if (flagDirection != CaptureTheFlagFlagDirection.None)
             {
                 flag.SetMoveFlag(flagDirection, speedMultiplier: 0.4f);
             }
 
-            flag.OnAfterTick(closestAgentToFlag != null, out bool flagOwnerChanged);
-            Team? flagNewOwner = closestAgentToFlag?.Team;
+            flag.OnAfterTick(agentDiffNumber < 0, out bool flagOwnerChanged);
+            Team? flagNewOwner = flagOwner;
             if (flagOwnerChanged && flagNewOwner != null)
             {
                 OnFlagCaptured(flag, flagNewOwner);
@@ -434,36 +434,16 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
     private CaptureTheFlagFlagDirection ComputeFlagDirection(
         FlagCapturePoint flag,
         Team? flagOwner,
-        Agent? closestAgentToFlag)
+        int agentDiffNumber)
     {
-        bool isContested = flag.IsContested;
-        if (flagOwner == null)
-        {
-            if (!isContested && closestAgentToFlag != null)
-            {
-                return CaptureTheFlagFlagDirection.Down;
-            }
-
-            if (closestAgentToFlag == null & isContested)
-            {
-                return CaptureTheFlagFlagDirection.Up;
-            }
-        }
-        else if (closestAgentToFlag != null)
-        {
-            if (closestAgentToFlag.Team != flagOwner && !isContested)
-            {
-                return CaptureTheFlagFlagDirection.Down;
-            }
-
-            if (closestAgentToFlag.Team == flagOwner && isContested)
-            {
-                return CaptureTheFlagFlagDirection.Up;
-            }
-        }
-        else if (isContested)
+        if (agentDiffNumber >= 0)
         {
             return CaptureTheFlagFlagDirection.Up;
+        }
+
+        if ((flagOwner == null && agentDiffNumber != 0) || agentDiffNumber < 0)
+        {
+            return CaptureTheFlagFlagDirection.Down;
         }
 
         return CaptureTheFlagFlagDirection.None;
