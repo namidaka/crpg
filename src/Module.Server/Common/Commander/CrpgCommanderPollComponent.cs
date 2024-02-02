@@ -98,10 +98,9 @@ internal class CrpgCommanderPollComponent : MissionNetwork
     {
         base.OnMissionTick(dt);
 
-        int count = _ongoingPolls.Count;
-        for (int i = 0; i < count; i++)
+        foreach (CommanderPoll commanderPoll in _ongoingPolls.ToList())
         {
-            _ongoingPolls[i]?.Tick();
+            commanderPoll.Tick();
         }
     }
 
