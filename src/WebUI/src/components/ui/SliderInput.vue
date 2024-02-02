@@ -2,17 +2,20 @@
 import { clamp } from '@/utils/math';
 
 const props = defineProps<{
+  modelValue: number[];
   min: number;
   max: number;
   step: number;
 }>();
 
-const modelValue = defineModel<number[]>({ default: () => [] });
+const emit = defineEmits<{
+  (e: 'update:modelValue', modelValue: number[]): void;
+}>();
 
-// TODO: SPEC
+// TODO: FIXME: SPEC
 const localValue = computed({
   get() {
-    const [from, to] = modelValue.value;
+    const [from, to] = props.modelValue;
 
     if (!from && !to) {
       // console.log('get [from, to]', [from, to]);
@@ -59,9 +62,9 @@ const localValue = computed({
 
     // Empty with default values. Not to flood the query string ;)
     if (from === props.min && to === props.max) {
-      modelValue.value = [];
+      emit('update:modelValue', []);
     } else {
-      modelValue.value = [from, to];
+      emit('update:modelValue', [from, to]);
     }
 
     nextTick().then(forceRerender); // TODO: Fix native-input display bug, ref: https://michaelnthiessen.com/force-re-render/

@@ -128,15 +128,25 @@ internal class CrpgSubModule : MBSubModuleBase
                         continue;
                     }
 
-                    ListedServerCommandManager.ServerSideIntermissionManager.AddMapToAutomatedBattlePool(map);
-
-                    Debug.Print($"added {map} to map pool");
+                    if (ServerSideIntermissionManager.Instance != null)
+                    {
+                        ServerSideIntermissionManager.Instance.AddMapToUsableMaps(map);
+                        ServerSideIntermissionManager.Instance.AddMapToAutomatedBattlePool(map);
+                        Debug.Print($"added {map} to map pool", color: Debug.DebugColor.Red);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            Debug.Print($"There's no instance of ServerSideIntermissionManager", color: Debug.DebugColor.Red);
+                        }
+                    }
                 }
             }
             catch (Exception e)
             {
-                Debug.Print($"could not read the map file {mapconfigfilepath}");
-                Debug.Print($"{e.Message}");
+                Debug.Print($"could not read the map file {mapconfigfilepath}", color: Debug.DebugColor.Red);
+                Debug.Print($"{e.Message}", color: Debug.DebugColor.Red);
             }
         }
         else

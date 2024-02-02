@@ -44,7 +44,6 @@ namespace Crpg.Persistence.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "damage_type", new[] { "undefined", "cut", "pierce", "blunt" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_slot", new[] { "head", "shoulder", "body", "hand", "leg", "mount_harness", "mount", "weapon0", "weapon1", "weapon2", "weapon3", "weapon_extra" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_type", new[] { "undefined", "head_armor", "shoulder_armor", "body_armor", "hand_armor", "leg_armor", "mount_harness", "mount", "shield", "bow", "crossbow", "one_handed_weapon", "two_handed_weapon", "polearm", "thrown", "arrows", "bolts", "pistol", "musket", "bullets", "banner" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "languages", new[] { "en", "zh", "ru", "de", "fr", "it", "es", "pl", "uk", "ro", "nl", "tr", "el", "hu", "sv", "cs", "pt", "sr", "bg", "hr", "da", "fi", "no", "be", "lv" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "party_status", new[] { "idle", "idle_in_settlement", "recruiting_in_settlement", "moving_to_point", "following_party", "moving_to_settlement", "moving_to_attack_party", "moving_to_attack_settlement", "in_battle" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "platform", new[] { "steam", "epic_games", "microsoft" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "region", new[] { "eu", "na", "as", "oc" });
@@ -442,11 +441,6 @@ namespace Crpg.Persistence.Migrations
                     b.Property<string>("Discord")
                         .HasColumnType("text")
                         .HasColumnName("discord");
-
-                    b.Property<string>("Languages")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("languages");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -4,11 +4,11 @@ import { useUserStore } from '@/stores/user';
 export const useRegion = () => {
   const route = useRoute();
   const router = useRouter();
-  const { user } = toRefs(useUserStore());
+  const userStore = useUserStore();
 
   const regionModel = computed({
     get() {
-      return (route.query?.region as Region) || user.value!.region || Region.Eu;
+      return (route.query?.region as Region) || userStore.user!.region || Region.Eu;
     },
 
     set(region: Region) {

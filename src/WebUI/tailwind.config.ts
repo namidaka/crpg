@@ -154,10 +154,6 @@ export default {
         ping: 'ping 1s linear infinite',
       },
 
-      textUnderlineOffset: {
-        6: '6px',
-      },
-
       // ref: https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js
       typography: ({ theme }) => {
         // console.log(theme('spacing'));
