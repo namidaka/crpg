@@ -265,7 +265,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
         foreach (var mount in Mission.MountsWithoutRiders.Select(m => m.Key).Intersect(_mountsToKillNextRound)) // Select because MountWithoutRiders is an <Agent, Time> keyValuePair
         {
-            DamageHelper.DamageAgent(mount, 500);
+            DamageHelper.DamageAgent(mount, (int)mount.Health + 2);
         }
 
         _mountsToKillNextRound.Clear();
