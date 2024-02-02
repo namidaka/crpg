@@ -251,6 +251,11 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         props.MountDashAccelerationMultiplier = 1f / (2f + 8f * harnessWeightPercentage); // native between 1 and 0.1 . cRPG between 0.5 and 0.1
     }
 
+    // WARNING : for some reasone UpdateHumanAgentStats is called twice everytime there is a change (respawn or weapon switch)
+    // The first call will have crpgUser be null , and all resulting cRPG stats be null
+    // it is then overriden by the second call that will have crpgUser properly set
+    // if for some reason a calculation relies on str or agi being superior to 3 , the first call will have them set to 0 which can rely on dividing by zero
+    // if you're dividing by (str -3)
     private void UpdateHumanAgentStats(Agent agent, AgentDrivenProperties props)
     {
 
@@ -282,7 +287,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             ? equipment[wieldedItemIndex4].CurrentUsageItem
             : null;
 
-        int strengthSkill = GetEffectiveSkill(agent, CrpgSkills.Strength);
+        int strengthSkill = Math.Max(GetEffectiveSkill(agent, CrpgSkills.Strength), 3);
         int athleticsSkill = GetEffectiveSkill(agent, DefaultSkills.Athletics);
         const float awfulScaler = 3231477.548f;
         float[] weightReductionPolynomialFactor = { 30f / awfulScaler, 0.00005f / awfulScaler, 0.5f / awfulScaler, 1000000f / awfulScaler, 0f };
