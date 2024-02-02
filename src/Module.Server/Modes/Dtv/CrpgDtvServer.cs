@@ -262,15 +262,17 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _currentWave = -1;
         SpawningBehavior.RequestSpawnSessionForRoundStart(firstRound: _currentRound == 0);
         SendDataToPeers(new CrpgDtvRoundStartMessage { Round = _currentRound });
-
-        for (int i = _mountsToKill.Count - 1; i >= 0; i--) // kill mounts marked for death
+        if (_mountsToKill.Count > 0)
         {
-            if (_mountsToKill[i].RiderAgent == null)
+            for (int i = _mountsToKill.Count - 1; i >= 0; i--) // kill mounts marked for death
             {
-                DamageHelper.DamageAgent(_mountsToKill[i], 500);
-            }
+                if (_mountsToKill[i] != null && _mountsToKill[i].RiderAgent == null)
+                {
+                    DamageHelper.DamageAgent(_mountsToKill[i], 500);
+                }
 
-            _mountsToKill.Remove(_mountsToKill[i]);
+                _mountsToKill.Remove(_mountsToKill[i]);
+            }
         }
 
         foreach (var mount in Mission.MountsWithoutRiders) // force mounts to flee and mark them to die next round
