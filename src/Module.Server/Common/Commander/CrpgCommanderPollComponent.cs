@@ -100,7 +100,7 @@ internal class CrpgCommanderPollComponent : MissionNetwork
 
         foreach (CommanderPoll commanderPoll in _ongoingPolls.ToList())
         {
-            commanderPoll.Tick();
+            commanderPoll?.Tick();
         }
     }
 
