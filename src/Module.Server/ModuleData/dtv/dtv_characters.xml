@@ -3327,6 +3327,424 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_shielder"
+            name="{=}Grey Order Shielder" race="light_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="30"
+                      weight="0.4"
+                      build="0.4"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503977635096699853444400000000000000000003EFC3002000000004F2C3004" />
+    </face>
+    <skills>
+      <skill id="Strength" value="21" />
+      <skill id="Agility" value="30" />
+      <skill id="IronFlesh" value="7" />
+      <skill id="PowerStrike" value="7" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="3" />
+      <skill id="OneHanded" value="220" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
+        <equipment slot="Cape" id="Item.crpg_bearskin_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_decorated_elite_scimitar_v1_h0" />
+        <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h0" />
+      </EquipmentRoster>
+	  <EquipmentRoster>
+	    <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
+        <equipment slot="Cape" id="Item.crpg_bearskin_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_vlandia_chainmail_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h0" />
+        <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h0" />
+    </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_kuyak_two_handed"
+            name="{=}Grey Order Kuyak Hero" race="light_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="30"
+                      weight="0.1"
+                      build="0.1"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503777635076699853444400000000000000000003EFC3002000000004EDC3002" />
+    </face>
+    <skills>
+      <skill id="Strength" value="15" />
+      <skill id="Agility" value="33" />
+      <skill id="IronFlesh" value="5" />
+      <skill id="PowerStrike" value="5" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="11" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="220" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vaegir_helm_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0"" />
+        <equipment slot="Item0" id="Item.crpg_wide_fullered_broad_two_hander_v1_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_heavy_two_handed"
+            name="{=}Grey Order Heavy Infantry" race="heavy_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="30"
+                      weight="0.8"
+                      build="0.8"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+    </face>
+    <skills>
+      <skill id="Strength" value="33" />
+      <skill id="Agility" value="15" />
+      <skill id="IronFlesh" value="11" />
+      <skill id="PowerStrike" value="11" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="150" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+      </EquipmentRoster>
+	  <EquipmentRoster>
+	    <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
+        <equipment slot="Item0" id="Item.crpg_le_bonke_v1_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_heavy_polearm"
+            name="{=}Grey Order Heavy Infantry" race="heavy_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="30"
+                      weight="0.8"
+                      build="0.8"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+    </face>
+    <skills>
+      <skill id="Strength" value="33" />
+      <skill id="Agility" value="15" />
+      <skill id="IronFlesh" value="11" />
+      <skill id="PowerStrike" value="11" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="150" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
+        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v2_h0" />
+      </EquipmentRoster>
+	  <EquipmentRoster>
+	    <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h0" />
+	   </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_varadin"
+              name="{=}Varadin The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="30"
+                      weight="0.4"
+                      build="0.9"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+    </face>
+    <skills>
+      <skill id="Strength" value="39" />
+      <skill id="Agility" value="12" />
+      <skill id="IronFlesh" value="14" />
+      <skill id="PowerStrike" value="14" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="4" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="120" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_sa_bacinet_with_facemask_h0" />
+        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0"" />
+        <equipment slot="Item0" id="Item.crpg_great_bardiche_v1_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_knitler"
+              name="{=}Knitler The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="30"
+                      weight="0.4"
+                      build="0.9"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+    </face>
+    <skills>
+      <skill id="Strength" value="30" />
+      <skill id="Agility" value="30" />
+      <skill id="IronFlesh" value="10" />
+      <skill id="PowerStrike" value="10" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="300" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_sa_1ChurburghHelm_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0"" />
+        <equipment slot="Item0" id="Item.crpg_awlpike_v1_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_harpag"
+              name="{=}Harpag The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="65"
+                      weight="0.7"
+                      build="0.7"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+    </face>
+    <skills>
+      <skill id="Strength" value="24" />
+      <skill id="Agility" value="33" />
+      <skill id="IronFlesh" value="8" />
+      <skill id="PowerStrike" value="8" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="5" />
+      <skill id="OneHanded" value="200" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
+        <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Gloves" id="Item.Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0"" />
+        <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h3" />
+		    <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_pawiu"
+              name="{=}Pawiu The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="30"
+                      weight="0.4"
+                      build="0.9"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+    </face>
+    <skills>
+      <skill id="Strength" value="39" />
+      <skill id="Agility" value="12" />
+      <skill id="IronFlesh" value="14" />
+      <skill id="PowerStrike" value="14" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="150" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_sallet_base_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldronclean_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor_h0" />
+        <equipment slot="Gloves" id="Item.crpg_sa_ChurburghGauntlet_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0"" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+ <NPCCharacter id="crpg_dtv_greyorder_boss_hetman"
+              name="{=}Hetman The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="30"
+                      weight="0.4"
+                      build="0.9"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+    </face>
+    <skills>
+      <skill id="Strength" value="36" />
+      <skill id="Agility" value="30" />
+      <skill id="IronFlesh" value="13" />
+      <skill id="PowerStrike" value="13" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="300" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
+        <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0"" />
+        <equipment slot="Item0" id="Item.crpg_decorated_elite_scimitar_v1_h3" />
+		<equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_boss_tamra"
+              name="{=}Tamra The Grey" is_female="true" race="heavy_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="33"
+                      weight="0.1"
+                      build="0.1"
+                      key="00026C0F1300200298868A3266629726C05B7489548A1717769ACB537CAE17790270062407547366000000000000000000000000000000000000000066FC2003"  />
+    </face>
+    <skills>
+      <skill id="Strength" value="45" />
+      <skill id="Agility" value="15" />
+      <skill id="IronFlesh" value="15" />
+      <skill id="PowerStrike" value="15" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="180" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_plumed_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_female_hood_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_imperial_scale_armor_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_german_halberd_v1_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
   <NPCCharacter id="crpg_dtv_tincan_soldier" name="{=}Tincan" race="heavy_bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.5" build="0.5" key="0015DC008070040F7995296A66AC7A488E743843A9A6871A5ADDC44BC559596701B776130BBD58E300000000000000000000000002FC800400000000317C3144" />
