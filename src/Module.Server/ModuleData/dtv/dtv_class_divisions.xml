@@ -2039,7 +2039,7 @@
     </Perks>
   </MPClassDivision>
 
-    <MPClassDivision id="crpg_dtv_greyorder_lieutenant_harpag"
+  <MPClassDivision id="crpg_dtv_greyorder_lieutenant_harpag"
                    hero="crpg_dtv_greyorder_lieutenant_harpag"
                    troop="crpg_dtv_greyorder_lieutenant_harpag"
                    hero_idle_anim="act_vlandia_mp_voulgier_idle"
