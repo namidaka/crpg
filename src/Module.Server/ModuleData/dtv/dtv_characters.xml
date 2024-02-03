@@ -3541,7 +3541,7 @@
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_sa_bacinet_with_facemask_h0" />
         <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
-        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Body" id="Item.crpg_cuir_bouilli_over_mail_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
         <equipment slot="Item0" id="Item.crpg_great_bardiche_v1_h3" />
