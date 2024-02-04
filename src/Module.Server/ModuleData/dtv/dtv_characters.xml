@@ -3415,6 +3415,54 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_balanced_infantry"
+            name="{=}Grey Order Infantry" race="light_bot">
+    <face>
+      <BodyProperties version="4"
+                      age="30"
+                      weight="0.5"
+                      build="0.5"
+                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503777635076699853444400000000000000000003EFC3002000000004EDC3002" />
+    </face>
+    <skills>
+      <skill id="Strength" value="27" />
+      <skill id="Agility" value="21" />
+      <skill id="IronFlesh" value="9" />
+      <skill id="PowerStrike" value="9" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="7" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="180" />
+      <skill id="Polearm" value="180" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vlandian_helm_with_visor_h0" />
+        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_northern_plated_boots_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_burgundian_poleaxe_v4_h0" />
+       </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vlandian_helm_with_visor_h0" />
+        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_northern_plated_boots_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_executioner_long_sword_v1_h0" />
+      </EquipmentRoster>
+     <EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
   <NPCCharacter id="crpg_dtv_greyorder_heavy_two_handed"
             name="{=}Grey Order Heavy Infantry" race="heavy_bot">
     <face>
