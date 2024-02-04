@@ -1919,7 +1919,7 @@
     </Perks>
   </MPClassDivision>
 
-    <MPClassDivision id="ccrpg_dtv_greyorder_balanced_infantry"
+    <MPClassDivision id="crpg_dtv_greyorder_balanced_infantry"
                    hero="crpg_dtv_greyorder_balanced_infantry"
                    troop="crpg_dtv_greyorder_balanced_infantry"
                    hero_idle_anim="act_vlandia_mp_voulgier_idle"
