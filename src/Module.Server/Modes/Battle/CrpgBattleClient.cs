@@ -16,7 +16,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
     private const int BattleFlagSpawnTime = 150;
     private const int SkirmishFlagsRemovalTime = 120;
 
-    private readonly bool _isSkirmish;
+    private readonly MultiplayerGameType _gameType;
     private FlagCapturePoint[] _flags = Array.Empty<FlagCapturePoint>();
     private Team?[] _flagOwners = Array.Empty<Team>();
     private bool _notifiedForFlagRemoval;
@@ -29,21 +29,18 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
     public event Action? OnFlagNumberChangedEvent;
     public event Action<FlagCapturePoint, Team?>? OnCapturePointOwnerChangedEvent;
 
-    public CrpgBattleClient(bool isSkirmish)
+    public CrpgBattleClient(MultiplayerGameType gameType)
     {
-        _isSkirmish = isSkirmish;
+        _gameType = gameType;
     }
-
     public override bool IsGameModeUsingGold => false;
     public override bool IsGameModeTactical => _flags.Length != 0;
     public override bool IsGameModeUsingRoundCountdown => true;
-    public override MultiplayerGameType GameType => _isSkirmish
-        ? MultiplayerGameType.Skirmish
-        : MultiplayerGameType.Battle;
+    public override MultiplayerGameType GameType => _gameType;
     public override bool IsGameModeUsingCasualGold => false;
     public IEnumerable<FlagCapturePoint> AllCapturePoints => _flags;
     public bool AreMoralesIndependent => false;
-    public float FlagManipulationTime => _isSkirmish ? SkirmishFlagsRemovalTime : BattleFlagSpawnTime;
+    public float FlagManipulationTime => _gameType == MultiplayerGameType.Skirmish ? SkirmishFlagsRemovalTime : BattleFlagSpawnTime;
 
     public override void OnBehaviorInitialize()
     {
@@ -203,7 +200,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
         {
             registerer.Register<FlagDominationMoraleChangeMessage>(OnMoraleChange);
             registerer.Register<FlagDominationCapturePointMessage>(OnCapturePoint);
-            if (_isSkirmish)
+            if (_gameType == MultiplayerGameType.Skirmish)
             {
                 registerer.Register<FlagDominationFlagsRemovedMessage>(OnFlagsRemovedSkirmish);
             }
@@ -241,7 +238,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
 
     private void NotifyForFlagManipulation()
     {
-        if (!_isSkirmish)
+        if (!(_gameType == MultiplayerGameType.Skirmish))
         {
             TextObject textObject = new("{=nbOZ9BNX}A flag will spawn in {TIMER} seconds.",
             new Dictionary<string, object> { ["TIMER"] = 30 });

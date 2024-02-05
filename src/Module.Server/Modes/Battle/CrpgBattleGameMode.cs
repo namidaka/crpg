@@ -11,13 +11,12 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Source.Missions;
 using TaleWorlds.MountAndBlade.Multiplayer;
 
-
-
 #if CRPG_SERVER
 using Crpg.Module.Api;
 using Crpg.Module.Common.ChatCommands;
 #else
-
+using TaleWorlds.MountAndBlade.Multiplayer.GauntletUI.Mission;
+using TaleWorlds.MountAndBlade.View.MissionViews.Order;
 using Crpg.Module.GUI;
 using Crpg.Module.GUI.Commander;
 using Crpg.Module.GUI.EndOfRound;
@@ -37,16 +36,20 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
 {
     private const string BattleGameName = "cRPGBattle";
     private const string SkirmishGameName = "cRPGSkirmish";
-
+    private const string CaptainGameName = "cRPGCaptain";
     private static CrpgConstants _constants = default!; // Static so it's accessible from the views.
-
-    private readonly bool _isSkirmish;
-
-    public CrpgBattleGameMode(CrpgConstants constants, bool isSkirmish)
-        : base(isSkirmish ? SkirmishGameName : BattleGameName)
+    private MultiplayerGameType _gameType;
+    public CrpgBattleGameMode(CrpgConstants constants, MultiplayerGameType gameType)
+        : base(gameType switch
+        {
+            MultiplayerGameType.Battle => BattleGameName,
+            MultiplayerGameType.Skirmish => SkirmishGameName,
+            MultiplayerGameType.Captain => CaptainGameName,
+            _ => throw new ArgumentException(message: "Invalid game type", paramName: nameof(gameType)),
+        })
     {
+        _gameType = gameType;
         _constants = constants;
-        _isSkirmish = isSkirmish;
     }
 
 #if CRPG_CLIENT
@@ -56,6 +59,8 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
     public static MissionView[] OpenCrpgBattle(Mission mission) => OpenCrpgBattleOrSkirmish(mission);
     [ViewMethod(SkirmishGameName)]
     public static MissionView[] OpenCrpgSkirmish(Mission mission) => OpenCrpgBattleOrSkirmish(mission);
+    [ViewMethod(CaptainGameName)]
+    public static MissionView[] OpenCrpgCaptain(Mission mission) => OpenCrpgBattleOrSkirmish(mission);
 
     [ViewMethod("")] // All static instances in ViewCreatorModule classes are expected to have a ViewMethod attribute.
     private static MissionView[] OpenCrpgBattleOrSkirmish(Mission mission)
@@ -69,6 +74,8 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
             MultiplayerViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
             ViewCreator.CreateMissionAgentStatusUIHandler(mission),
             ViewCreator.CreateMissionMainAgentEquipmentController(mission), // Pick/drop items.
+            new MissionGauntletMultiplayerOrderUIHandler(),
+            new OrderTroopPlacer(),
             new CrpgMissionGauntletMainAgentCheerControllerView(),
             crpgEscapeMenu,
             ViewCreator.CreateMissionAgentLabelUIHandler(mission),
@@ -95,6 +102,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
     }
 #endif
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:Parameter should not span multiple lines", Justification = "<En attente>")]
     public override void StartMultiplayerGame(string scene)
     {
         // Inherits the MultiplayerGameNotificationsComponent component.
@@ -108,16 +116,21 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
 
         MultiplayerRoundController roundController = new(); // starts/stops round, ends match
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, () =>
-            (new FlagDominationSpawnFrameBehavior(), _isSkirmish
-                ? new CrpgSkirmishSpawningBehavior(_constants, roundController)
-                : new CrpgBattleSpawningBehavior(_constants, roundController)));
+            (new FlagDominationSpawnFrameBehavior(),
+                    _gameType switch
+                    {
+                        MultiplayerGameType.Battle => new CrpgBattleSpawningBehavior(_constants, roundController, _gameType),
+                        MultiplayerGameType.Skirmish => new CrpgSkirmishSpawningBehavior(_constants, roundController),
+                        MultiplayerGameType.Captain => new CrpgBattleSpawningBehavior(_constants, roundController, _gameType),
+                        _ => throw new ArgumentException(message: "Invalid game type", paramName: nameof(_gameType)),
+                    }));
         CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, roundController);
         CrpgRewardServer rewardServer = new(crpgClient, _constants, warmupComponent, enableTeamHitCompensations: true, enableRating: true);
 #else
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, null);
         CrpgTeamSelectClientComponent teamSelectComponent = new();
 #endif
-        CrpgBattleClient battleClient = new(_isSkirmish);
+        CrpgBattleClient battleClient = new(_gameType);
 
         MissionState.OpenNew(
             Name,
@@ -142,7 +155,13 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new MultiplayerPollComponent(), // poll logic to kick player, ban player, change game
                     new CrpgCommanderPollComponent(),
                     new MissionOptionsComponent(),
-                    new CrpgScoreboardComponent(_isSkirmish ? new CrpgSkirmishScoreboardData() : new CrpgBattleScoreboardData()),
+                    new CrpgScoreboardComponent(_gameType switch
+                            {
+                                    MultiplayerGameType.Battle => new CrpgBattleScoreboardData(),
+                                    MultiplayerGameType.Skirmish => new CrpgSkirmishScoreboardData(),
+                                    MultiplayerGameType.Captain => new CrpgBattleScoreboardData(),
+                                    _ => throw new ArgumentException(message: "Invalid game type", paramName: nameof(_gameType)),
+                            }),
                     new MissionAgentPanicHandler(),
                     new EquipmentControllerLeaveLogic(),
                     new MultiplayerPreloadHelper(),
@@ -152,11 +171,18 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
 
 #if CRPG_SERVER
                     roundController,
-                    new CrpgBattleServer(battleClient, _isSkirmish, rewardServer),
+                    new CrpgBattleServer(battleClient, _gameType, rewardServer),
                     rewardServer,
                     // SpawnFrameBehaviour: where to spawn, SpawningBehaviour: when to spawn
                     new SpawnComponent(new BattleSpawnFrameBehavior(),
-                        _isSkirmish ? new CrpgSkirmishSpawningBehavior(_constants, roundController) : new CrpgBattleSpawningBehavior(_constants, roundController)),
+                    _gameType switch
+                            {
+                                    MultiplayerGameType.Battle => new CrpgBattleSpawningBehavior(_constants, roundController, _gameType),
+                                    MultiplayerGameType.Skirmish => new CrpgSkirmishSpawningBehavior(_constants, roundController),
+                                    MultiplayerGameType.Captain => new CrpgBattleSpawningBehavior(_constants, roundController, _gameType),
+                                    _ => throw new ArgumentException(message: "Invalid game type", paramName: nameof(_gameType)),
+                            }),
+
                     new AgentHumanAILogic(), // bot intelligence
                     new MultiplayerAdminComponent(), // admin UI to kick player or restart game
                     new CrpgUserManagerServer(crpgClient, _constants),
