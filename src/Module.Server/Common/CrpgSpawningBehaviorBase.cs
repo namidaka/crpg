@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Crpg.Module.Api.Models.Characters;
 using Crpg.Module.Api.Models.Users;
+using Crpg.Module.Modes.Warmup;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
@@ -12,7 +13,9 @@ namespace Crpg.Module.Common;
 internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 {
     private readonly CrpgConstants _constants;
+    private MultiplayerGameType gameMode = MultiplayerGameType.Battle;
 
+    public virtual MultiplayerGameType GameMode { get => gameMode; protected set => gameMode = value; }
     public CrpgSpawningBehaviorBase(CrpgConstants constants)
     {
         _constants = constants;
@@ -82,6 +85,19 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             initialDirection.RotateCCW(MBRandom.RandomFloatRanged(-MathF.PI / 3f, MathF.PI / 3f));
             var troopOrigin = new CrpgBattleAgentOrigin(characterXml, characterSkills);
             CrpgCharacterBuilder.AssignArmorsToTroopOrigin(troopOrigin, crpgPeer.User.Character.EquippedItems.ToList());
+            Formation formation = missionPeer.ControlledFormation;
+            if (formation == null)
+            {
+                formation = missionPeer.Team.FormationsIncludingEmpty.First((Formation x) => x.PlayerOwner == null && x.CountOfUnits == 0);
+                formation.ContainsAgentVisuals = true;
+                if (string.IsNullOrEmpty(formation.BannerCode))
+                {
+                    formation.BannerCode = missionPeer.Peer.BannerCode;
+                }
+            }
+
+            missionPeer.ControlledFormation = formation;
+            missionPeer.HasSpawnedAgentVisuals = true;
             AgentBuildData agentBuildData = new AgentBuildData(characterXml)
                 .MissionPeer(missionPeer)
                 .Equipment(characterEquipment)
@@ -94,7 +110,8 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 // Note that what is sent here doesn't matter since it's ignored by the client.
                 .BodyProperties(characterXml.GetBodyPropertiesMin())
                 .InitialPosition(in spawnFrame.origin)
-                .InitialDirection(in initialDirection);
+                .InitialDirection(in initialDirection)
+                .Formation(formation);
 
             if (crpgPeer.Clan != null)
             {
@@ -126,7 +143,13 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 agent.WieldInitialWeapons();
             }
 
-            missionPeer.HasSpawnedAgentVisuals = true;
+            if (IsRoundInProgress() && gameMode == MultiplayerGameType.Captain)
+            {
+                for (int i=0;i < 250; i++)
+                {
+                    SpawnBotAgent(peerClass.StringId, agent.Team, missionPeer);
+                }
+            }
 
             // AgentVisualSpawnComponent.RemoveAgentVisuals(missionPeer, sync: true);
         }
@@ -141,7 +164,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
         return characterObject;
     }
 
-    protected Agent SpawnBotAgent(string classDivisionId, Team team)
+    protected Agent SpawnBotAgent(string classDivisionId, Team team, MissionPeer? peer = null)
     {
         var teamCulture = team.Side == BattleSideEnum.Attacker
             ? MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue())
@@ -155,6 +178,8 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
         bool hasMount = character.Equipment[EquipmentIndex.Horse].Item != null;
         MatrixFrame spawnFrame = SpawnComponent.GetSpawnFrame(team, hasMount, true);
         Vec2 initialDirection = spawnFrame.rotation.f.AsVec2.Normalized();
+
+
 
         AgentBuildData agentBuildData = new AgentBuildData(character)
             .Equipment(character.AllEquipments[MBRandom.RandomInt(character.AllEquipments.Count)])
@@ -170,6 +195,23 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             .ClothingColor2(team.Side == BattleSideEnum.Attacker
                 ? teamCulture.Color2
                 : teamCulture.ClothAlternativeColor2);
+        if (peer != null)
+        {
+            agentBuildData.OwningMissionPeer(peer);
+            agentBuildData.Formation(peer.ControlledFormation);
+            var crpgPeer = peer.GetComponent<CrpgPeer>();
+            if (crpgPeer != null && crpgPeer?.User != null)
+            {
+                var characterEquipment = CrpgCharacterBuilder.CreateCharacterEquipment(crpgPeer.User.Character.EquippedItems);
+                var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>("crpg_class_division");
+                var characterSkills = CrpgCharacterBuilder.CreateCharacterSkills(crpgPeer.User!.Character.Characteristics);
+                var characterXml = peerClass.HeroCharacter;
+                var troopOrigin = new CrpgBattleAgentOrigin(characterXml, characterSkills);
+                agentBuildData.Equipment(characterEquipment);
+                agentBuildData.TroopOrigin(troopOrigin);
+                agentBuildData.Banner(new Banner(peer.Peer.BannerCode));
+            }
+        }
 
         var bodyProperties = BodyProperties.GetRandomBodyProperties(
             character.Race,
@@ -229,7 +271,12 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
     }
 
     protected virtual void OnPeerSpawned(Agent agent)
-    {
+        {
+        if (agent.MissionPeer.ControlledFormation != null)
+        {
+            agent.Team.AssignPlayerAsSergeantOfFormation(agent.MissionPeer, agent.MissionPeer.ControlledFormation.FormationIndex);
+        }
+
         var crpgPeer = agent.MissionPeer.GetComponent<CrpgPeer>();
         crpgPeer.LastSpawnInfo = new SpawnInfo(agent.MissionPeer.Team, crpgPeer.User!.Character.EquippedItems);
     }
