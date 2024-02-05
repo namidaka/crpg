@@ -34,6 +34,10 @@ import {
 } from '@/services/characters-service';
 import { createRankTable } from '@/services/leaderboard-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
+import { useGameMode } from '@/composables/use-gamemode';
+import { GameMode } from '@/models/game-mode';
+import { type CharacterStatistics } from '@/models/character';
+import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({
   meta: {
@@ -42,6 +46,8 @@ definePage({
 });
 
 const userStore = useUserStore();
+
+const { gameModes } = useGameMode();
 
 const character = injectStrict(characterKey);
 const { loadCharacterCharacteristics } = injectStrict(characterCharacteristicsKey);
@@ -98,7 +104,7 @@ const onSetCharacterForTournament = async () => {
 
 const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
   ({ id }: { id: number }) => getCharacterStatistics(id),
-  { kills: 0, deaths: 0, assists: 0, playTime: 0 },
+  [{ kills: 0, deaths: 0, assists: 0, playTime: 0, gameMode: GameMode.Battle }],
   {
     immediate: false,
     resetOnExecute: false,
@@ -142,7 +148,9 @@ const { state: characterLimitations, execute: loadCharacterLimitations } = useAs
 );
 
 const kdaRatio = computed(() =>
-  characterStatistics.value.deaths === 0 ? '∞' : getCharacterKDARatio(characterStatistics.value)
+  selectedCharacterStatistics.value.deaths === 0
+    ? '∞'
+    : getCharacterKDARatio(selectedCharacterStatistics.value)
 );
 
 const experienceMultiplierBonus = computed(() =>
@@ -160,10 +168,37 @@ const fetchPageData = (characterId: number) =>
   ]);
 
 onBeforeRouteUpdate(async to => {
-  if (to.name === 'CharactersId') {
-    await fetchPageData(Number(to.params.id));
-  }
+  const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
+  await fetchPageData(characterId);
   return true;
+});
+
+const currentGameMode = ref(GameMode.Battle);
+
+const selectedGameModeModel = computed({
+  get() {
+    return (currentGameMode.value as GameMode) || GameMode.Battle;
+  },
+
+  set(gameMode: GameMode) {
+    currentGameMode.value = gameMode;
+  },
+});
+
+const selectedCharacterStatistics = computed({
+  get(): CharacterStatistics {
+    return (
+      characterStatistics.value.find(s => s.gameMode === selectedGameModeModel.value) || {
+        kills: 0,
+        deaths: 0,
+        assists: 0,
+        playTime: 0,
+        gameMode: selectedGameModeModel.value,
+      }
+    );
+  },
+
+  set(value: CharacterStatistics) {},
 });
 
 await fetchPageData(character.value.id);
@@ -172,6 +207,16 @@ await fetchPageData(character.value.id);
 <template>
   <div class="mx-auto max-w-2xl space-y-12 pb-12">
     <FormGroup :label="$t('character.settings.group.overview.title')" :collapsable="false">
+      <div class="flex items-center justify-center">
+        <OTabs v-model="selectedGameModeModel" contentClass="hidden">
+          <OTabItem
+            v-for="gamemode in gameModes"
+            :label="$t(`game-mode.${gamemode}`, 0)"
+            :icon="gameModeToIcon[gamemode]"
+            :value="gamemode"
+          />
+        </OTabs>
+      </div>
       <div class="grid grid-cols-2 gap-2 text-2xs">
         <SimpleTableRow
           :label="$t('character.statistics.level.title')"
@@ -244,9 +289,9 @@ await fetchPageData(character.value.id);
             :label="$t('character.statistics.kda.title')"
             :value="
               $t('character.format.kda', {
-                kills: characterStatistics!.kills,
-                deaths: characterStatistics!.deaths,
-                assists: characterStatistics!.assists,
+                kills: selectedCharacterStatistics.kills,
+                deaths: selectedCharacterStatistics.deaths,
+                assists: selectedCharacterStatistics.assists,
                 ratio: kdaRatio,
               })
             "
@@ -257,7 +302,9 @@ await fetchPageData(character.value.id);
 
           <SimpleTableRow
             :label="$t('character.statistics.playTime.title')"
-            :value="$t('dateTimeFormat.hh', { hours: msToHours(characterStatistics.playTime) })"
+            :value="
+              $t('dateTimeFormat.hh', { hours: msToHours(selectedCharacterStatistics.playTime) })
+            "
           />
 
           <div class="col-span-2 mt-12 px-4 py-2.5">

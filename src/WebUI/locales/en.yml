@@ -180,6 +180,10 @@ game-mode:
   CRPGConquest: Conquest
   CRPGDTV: DTV
   CRPGDuel: Duel
+  CRPGSiege: Siege
+  CRPGTeamDeathmatch: Team Deathmatch
+  CRPGSkirmish: Skirmish
+
 
 clanBalancingExplanation: "
   <h3>You're not in any clan</h3>
