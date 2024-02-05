@@ -26,6 +26,7 @@ using System.Windows.Resources;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Shell;
+using System.Windows.Input;
 
 namespace LauncherV3;
 
@@ -40,7 +41,8 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     public double _progress;
-
+    [ObservableProperty]
+    private bool isBeta;
     [ObservableProperty]
     private bool isUpdating;
     [ObservableProperty]
@@ -107,6 +109,9 @@ public partial class MainViewModel : ObservableObject
         StartCrpgCommand.NotifyCanExecuteChanged();
         DetectCommand.NotifyCanExecuteChanged();
         ResetConfigCommand.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(StartUpdateCrpgCommand));
+        OnPropertyChanged(nameof(StartUpdateText));
+
     }
 
     partial void OnGameLocationChanged(GameInstallationInfo? value)
@@ -128,12 +133,19 @@ public partial class MainViewModel : ObservableObject
     {
         NotifyUI();
     }
-
+    partial void OnIsBetaChanged(bool oldValue, bool newValue)
+    {
+        IsGameUpToDate = false;
+        NotifyUI();
+    }
     private bool CanUpdate()
     {
         bool CanUpdate = !IsUpdating && !IsVerifying && GameLocation != null;
         return CanUpdate;
     }
+
+    public ICommand StartUpdateCrpgCommand => IsGameUpToDate ? StartCrpgCommand : UpdateGameFilesCommand;
+    public string StartUpdateText => IsGameUpToDate ? "Launch cRPG" : "Check For Update";
 
     [RelayCommand(CanExecute = nameof(CanStartCrpg))]
     private void StartCrpg()
@@ -246,7 +258,7 @@ public partial class MainViewModel : ObservableObject
         XmlDocument doc = new XmlDocument();
         try
         {
-            string url = "https://c-rpg.eu/hash.xml"; // Replace with your XML URL
+            string url = isBeta ? "https://namidaka.fr/hash.xml" : "https://c-rpg.eu/hash.xml"; // Replace with your XML URL
             using (WebClient client = new WebClient())
             {
                 string xmlContent = client.DownloadString(url);
@@ -403,7 +415,7 @@ public partial class MainViewModel : ObservableObject
                     // Download the file
                     WriteToConsole($"Downloading and extracting {assetToDownload.Key + ".tar.gz"} ");
                     string fileToDownload = assetToDownload.Key + ".tar.gz";
-                    var chunkedRequest = CrpgChunkedRequest.Create("https://c-rpg.eu/AssetPackages/" + assetToDownload.Key + ".tar.gz");
+                    var chunkedRequest = CrpgChunkedRequest.Create((isBeta ? "https://namidaka.fr/AssetPackages/" : "https://c-rpg.eu/AssetPackages/") + assetToDownload.Key + ".tar.gz");
                     string tempPath = Path.Combine(Path.GetTempPath(), fileToDownload);
                     IProgress<double> currentProgress = new Progress<double>(p =>
                     {
@@ -449,7 +461,7 @@ public partial class MainViewModel : ObservableObject
                     {
                         WriteToConsole($"Downloading and extracting {mapToDownload.Key + ".tar.gz"} ");
                         string fileToDownload = mapToDownload.Key + ".tar.gz";
-                        var chunkedRequest = CrpgChunkedRequest.Create("https://c-rpg.eu/SceneObj/" + fileToDownload);
+                        var chunkedRequest = CrpgChunkedRequest.Create((isBeta ? "https://namidaka.fr/SceneObj/" : "https://c-rpg.eu/SceneObj/") + fileToDownload);
                         string tempPath = Path.Combine(Path.GetTempPath(), fileToDownload);
 
                         progresses.TryAdd(localIndex, 0); // Initialize progress for this download
@@ -490,7 +502,7 @@ public partial class MainViewModel : ObservableObject
                     // Download the file
                     WriteToConsole($"Downloading and extracting the xmls files : rest.tar.gz");
                     string fileToDownload = "rest" + ".tar.gz";
-                    var chunkedRequest = CrpgChunkedRequest.Create("https://c-rpg.eu/" + fileToDownload);
+                    var chunkedRequest = CrpgChunkedRequest.Create((isBeta ? "https://namidaka.fr/" : "https://c-rpg.eu/") + fileToDownload);
                     string tempPath = Path.Combine(Path.GetTempPath(), fileToDownload);
                     IProgress<double> currentProgress = new Progress<double>(p =>
                     {
