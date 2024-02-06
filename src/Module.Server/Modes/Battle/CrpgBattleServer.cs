@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Modes.Battle.FlagSystems;
+﻿using System.Reflection;
+using Crpg.Module.Modes.Battle.FlagSystems;
 using Crpg.Module.Modes.Skirmish;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
@@ -38,6 +39,9 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         _battleClient = battleClient;
         _gametype = gametype;
         _rewardServer = rewardServer;
+        typeof(TaleWorlds.MountAndBlade.CompressionMission)
+            .GetField(nameof(TaleWorlds.MountAndBlade.CompressionMission.AgentOffsetCompressionInfo), BindingFlags.Public | BindingFlags.Static)?
+            .SetValue(null, new CompressionInfo.Integer(0, 10));
     }
 
     public override MultiplayerGameType GetMissionType()
@@ -48,6 +52,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
     public override void AfterStart()
     {
         base.AfterStart();
+        MissionPeer.OnPreTeamChanged += this.OnPreTeamChanged;
         RoundController.OnPreRoundEnding += OnPreRoundEnding;
 
         AddTeams();
@@ -62,6 +67,16 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
 
         ((CrpgBattleFlagSystem)_flagSystem).CheckForDeadPlayerFlagSpawnThreshold();
     }
+
+    protected override void HandleEarlyPlayerDisconnect(NetworkCommunicator networkPeer)
+    {
+        if (this.RoundController.IsRoundInProgress && MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) > 0)
+        {
+            this.MakePlayerFormationCharge(networkPeer);
+        }
+    }
+
+
 
     public override void OnBehaviorInitialize()
     {
@@ -79,6 +94,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
     public override void OnRemoveBehavior()
     {
         RoundController.OnPreRoundEnding -= OnPreRoundEnding;
+        MissionPeer.OnPreTeamChanged -= this.OnPreTeamChanged;
         base.OnRemoveBehavior();
     }
 
@@ -430,6 +446,24 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
                     }
                 }
             }
+        }
+    }
+    private void MakePlayerFormationCharge(NetworkCommunicator peer)
+    {
+        if (peer.IsSynchronized)
+        {
+            MissionPeer component = peer.GetComponent<MissionPeer>();
+            if (component.ControlledFormation != null)
+            {
+                component.ControlledFormation.SetMovementOrder(MovementOrder.MovementOrderCharge);
+            }
+        }
+    }
+    private void OnPreTeamChanged(NetworkCommunicator peer, Team currentTeam, Team newTeam)
+    {
+        if (peer.IsSynchronized && peer.GetComponent<MissionPeer>().ControlledAgent != null)
+        {
+            this.MakePlayerFormationCharge(peer);
         }
     }
 }

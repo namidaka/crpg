@@ -92,7 +92,7 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent,
             () => (new SiegeSpawnFrameBehavior(), new CrpgSiegeSpawningBehavior(_constants)));
-        CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, null);
+        CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, null, MultiplayerGameType.Siege);
         CrpgRewardServer rewardServer = new(crpgClient, _constants, warmupComponent, enableTeamHitCompensations: false, enableRating: false);
 #else
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, null);
