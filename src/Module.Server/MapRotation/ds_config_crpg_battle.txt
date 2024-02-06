@@ -1,6 +1,5 @@
-ServerName cRPG - Test Battle - c-rpg.eu Private Test 2
+ServerName Livetest c-rpg.eu works now
 GameType cRPGCaptain
-GamePassword yoyo
 WelcomeMessage yoyoyooooo
 AllowPollsToKickPlayers True
 AllowPollsToChangeMaps True

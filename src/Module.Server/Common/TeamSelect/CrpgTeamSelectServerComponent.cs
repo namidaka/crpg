@@ -26,6 +26,7 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
     private readonly MultiplayerRoundController? _roundController;
     private readonly MatchBalancer _balancer;
     private readonly PeriodStatsHelper _periodStatsHelper;
+    private readonly MultiplayerGameType _gameType;
 
     /// <summary>
     /// Players waiting to be assigned to a team when the cRPG balancer is enabled.
@@ -34,7 +35,7 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
 
     private readonly Dictionary<PlayerId, Team> _playerTeamsBeforeJoiningSpectator;
 
-    public CrpgTeamSelectServerComponent(MultiplayerWarmupComponent warmupComponent, MultiplayerRoundController? roundController)
+    public CrpgTeamSelectServerComponent(MultiplayerWarmupComponent warmupComponent, MultiplayerRoundController? roundController, MultiplayerGameType gameType)
     {
         _warmupComponent = warmupComponent;
         _roundController = roundController;
@@ -42,6 +43,7 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
         _periodStatsHelper = new PeriodStatsHelper();
         _playersWaitingForTeam = new HashSet<PlayerId>();
         _playerTeamsBeforeJoiningSpectator = new Dictionary<PlayerId, Team>();
+        _gameType = gameType;
     }
 
     public override void OnBehaviorInitialize()
@@ -106,13 +108,13 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
             else
             {
                 var missionPeer = peer.GetComponent<MissionPeer>();
-                if (missionPeer is { Team: null })
+                if (missionPeer is { Team: null } && _gameType != MultiplayerGameType.Captain)
                 {
                     // If the player just connected to the server, auto-assign their team so they have a chance
                     // to play the round.
                     AutoAssignTeam(peer);
                 }
-                else if (_playerTeamsBeforeJoiningSpectator.TryGetValue(peer.VirtualPlayer.Id, out var teamBeforeSpectator))
+                else if (_playerTeamsBeforeJoiningSpectator.TryGetValue(peer.VirtualPlayer.Id, out var teamBeforeSpectator))// && _gameType != MultiplayerGameType.Captain)
                 {
                     ChangeTeamServer(peer, teamBeforeSpectator);
                     _playerTeamsBeforeJoiningSpectator.Remove(peer.VirtualPlayer.Id);
