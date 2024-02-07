@@ -321,8 +321,6 @@ public partial class MainViewModel : ObservableObject
         {
             WriteToConsole("Your game is Up To Date");
             IsGameUpToDate = true;
-            Config.IsGameUpToDate = true;
-            WriteConfig();
             IsUpdating = false;
             return;
         }
@@ -531,8 +529,6 @@ public partial class MainViewModel : ObservableObject
             doc.Save(Path.Combine(ProgramDataPath, HashFileName));
             WriteToConsole("Update Finished");
             IsGameUpToDate = true;
-            Config.IsGameUpToDate = true;
-            IsGameUpToDate = true;
             WriteConfig();
         }
         else
@@ -544,9 +540,7 @@ public partial class MainViewModel : ObservableObject
             await VerifyGameFilesAsync(false);
             WriteToConsole("It is possible that we are currently updating cRPG");
             WriteToConsole("If problem persist in an hour, please contact and moderator on discord");
-            Config.IsGameUpToDate = false;
             IsGameUpToDate = false;
-            WriteConfig();
         }
 
         IsUpdating = false;
@@ -698,7 +692,6 @@ public partial class MainViewModel : ObservableObject
                     WriteToConsole("cRPG is not Installed, Click on Install Mod to Install");
                     IsCrpgInstalled = false;
                     IsGameUpToDate = false;
-                    Config.IsGameUpToDate = false;
                 }
                 else
                 {
@@ -782,8 +775,9 @@ public partial class MainViewModel : ObservableObject
         {
             SelectedPlatform = Config.LastPlatform;
             GameLocation = Config.GameLocations.TryGetValue(SelectedPlatform, out var gameLocation) ? gameLocation : null;
-            IsGameUpToDate = Config.IsGameUpToDate;
+            IsGameUpToDate = false;
         }
+
         NotifyUI();
     }
 
