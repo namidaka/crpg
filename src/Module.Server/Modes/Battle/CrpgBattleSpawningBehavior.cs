@@ -61,7 +61,6 @@ internal class CrpgBattleSpawningBehavior : CrpgSpawningBehaviorBase
     public override void RequestStartSpawnSession()
     {
         base.RequestStartSpawnSession();
-        _botsSpawned = false;
         _spawnTimer = new MissionTimer(TotalSpawnDuration); // Limit spawning for 30 seconds.
         _cavalrySpawnDelayTimer = new MissionTimer(GetCavalrySpawnDelay()); // Cav will spawn X seconds later.
         _notifiedPlayersAboutSpawnRestriction.Clear();

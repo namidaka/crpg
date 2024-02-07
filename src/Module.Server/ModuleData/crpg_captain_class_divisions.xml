@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- have mercy on my soul , THEY made me do this... -->
 <MPClassDivisions>
-<MPClassDivision id="crpg_class_division_1"
-                   hero="crpg_character_1"
-                   troop="crpg_character_1"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  <MPClassDivision id="crpg_class_division_1"
+                    hero="crpg_character_1"
+                    troop="crpg_character_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -23,21 +23,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_2"
-                   hero="crpg_character_2"
-                   troop="crpg_character_2"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_1_1"
+                    hero="crpg_character_1_1"
+                    troop="crpg_character_1_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -46,21 +46,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_3"
-                   hero="crpg_character_3"
-                   troop="crpg_character_3"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_1_2"
+                    hero="crpg_character_1_2"
+                    troop="crpg_character_1_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -69,21 +69,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_4"
-                   hero="crpg_character_4"
-                   troop="crpg_character_4"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_1_3"
+                    hero="crpg_character_1_3"
+                    troop="crpg_character_1_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -92,21 +92,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_5"
-                   hero="crpg_character_5"
-                   troop="crpg_character_5"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_2"
+                    hero="crpg_character_2"
+                    troop="crpg_character_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -115,21 +115,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_6"
-                   hero="crpg_character_6"
-                   troop="crpg_character_6"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_2_1"
+                    hero="crpg_character_2_1"
+                    troop="crpg_character_2_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -138,21 +138,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_7"
-                   hero="crpg_character_7"
-                   troop="crpg_character_7"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_2_2"
+                    hero="crpg_character_2_2"
+                    troop="crpg_character_2_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -161,21 +161,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_8"
-                   hero="crpg_character_8"
-                   troop="crpg_character_8"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_2_3"
+                    hero="crpg_character_2_3"
+                    troop="crpg_character_2_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -184,21 +184,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_9"
-                   hero="crpg_character_9"
-                   troop="crpg_character_9"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_3"
+                    hero="crpg_character_3"
+                    troop="crpg_character_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -207,21 +207,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_10"
-                   hero="crpg_character_10"
-                   troop="crpg_character_10"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_3_1"
+                    hero="crpg_character_3_1"
+                    troop="crpg_character_3_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -230,21 +230,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_11"
-                   hero="crpg_character_11"
-                   troop="crpg_character_11"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_3_2"
+                    hero="crpg_character_3_2"
+                    troop="crpg_character_3_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -253,21 +253,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_12"
-                   hero="crpg_character_12"
-                   troop="crpg_character_12"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_3_3"
+                    hero="crpg_character_3_3"
+                    troop="crpg_character_3_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -276,21 +276,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_13"
-                   hero="crpg_character_13"
-                   troop="crpg_character_13"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_4"
+                    hero="crpg_character_4"
+                    troop="crpg_character_4"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -299,21 +299,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_14"
-                   hero="crpg_character_14"
-                   troop="crpg_character_14"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_4_1"
+                    hero="crpg_character_4_1"
+                    troop="crpg_character_4_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -322,21 +322,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_15"
-                   hero="crpg_character_15"
-                   troop="crpg_character_15"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_4_2"
+                    hero="crpg_character_4_2"
+                    troop="crpg_character_4_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -345,21 +345,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_16"
-                   hero="crpg_character_16"
-                   troop="crpg_character_16"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_4_3"
+                    hero="crpg_character_4_3"
+                    troop="crpg_character_4_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -368,21 +368,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_17"
-                   hero="crpg_character_17"
-                   troop="crpg_character_17"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_5"
+                    hero="crpg_character_5"
+                    troop="crpg_character_5"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -391,21 +391,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_18"
-                   hero="crpg_character_18"
-                   troop="crpg_character_18"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_5_1"
+                    hero="crpg_character_5_1"
+                    troop="crpg_character_5_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -414,21 +414,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_19"
-                   hero="crpg_character_19"
-                   troop="crpg_character_19"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_5_2"
+                    hero="crpg_character_5_2"
+                    troop="crpg_character_5_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -437,21 +437,21 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_20"
-                   hero="crpg_character_20"
-                   troop="crpg_character_20"
-                   hero_idle_anim="act_vlandia_mp_sergeant_idle"
-                   troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
-                   multiplier="0"
-                   cost="0"
-                   icon="infantry_light"
-                   melee_ai="50"
-                   ranged_ai="50"
-                   armor="0"
-                   movement_speed="0"
-                   combat_movement_speed="0"
-                   acceleration="0">
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_5_3"
+                    hero="crpg_character_5_3"
+                    troop="crpg_character_5_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"
@@ -460,8 +460,1388 @@
             perk_list="1">
       </Perk>
     </Perks>
-</MPClassDivision>
-<MPClassDivision id="crpg_class_division_21"
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_6"
+                    hero="crpg_character_6"
+                    troop="crpg_character_6"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_6_1"
+                    hero="crpg_character_6_1"
+                    troop="crpg_character_6_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_6_2"
+                    hero="crpg_character_6_2"
+                    troop="crpg_character_6_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_6_3"
+                    hero="crpg_character_6_3"
+                    troop="crpg_character_6_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_7"
+                    hero="crpg_character_7"
+                    troop="crpg_character_7"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_7_1"
+                    hero="crpg_character_7_1"
+                    troop="crpg_character_7_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_7_2"
+                    hero="crpg_character_7_2"
+                    troop="crpg_character_7_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_7_3"
+                    hero="crpg_character_7_3"
+                    troop="crpg_character_7_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_8"
+                    hero="crpg_character_8"
+                    troop="crpg_character_8"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_8_1"
+                    hero="crpg_character_8_1"
+                    troop="crpg_character_8_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_8_2"
+                    hero="crpg_character_8_2"
+                    troop="crpg_character_8_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_8_3"
+                    hero="crpg_character_8_3"
+                    troop="crpg_character_8_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_9"
+                    hero="crpg_character_9"
+                    troop="crpg_character_9"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_9_1"
+                    hero="crpg_character_9_1"
+                    troop="crpg_character_9_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_9_2"
+                    hero="crpg_character_9_2"
+                    troop="crpg_character_9_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_9_3"
+                    hero="crpg_character_9_3"
+                    troop="crpg_character_9_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_10"
+                    hero="crpg_character_10"
+                    troop="crpg_character_10"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_10_1"
+                    hero="crpg_character_10_1"
+                    troop="crpg_character_10_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_10_2"
+                    hero="crpg_character_10_2"
+                    troop="crpg_character_10_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_10_3"
+                    hero="crpg_character_10_3"
+                    troop="crpg_character_10_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_11"
+                    hero="crpg_character_11"
+                    troop="crpg_character_11"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_11_1"
+                    hero="crpg_character_11_1"
+                    troop="crpg_character_11_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_11_2"
+                    hero="crpg_character_11_2"
+                    troop="crpg_character_11_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_11_3"
+                    hero="crpg_character_11_3"
+                    troop="crpg_character_11_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_12"
+                    hero="crpg_character_12"
+                    troop="crpg_character_12"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_12_1"
+                    hero="crpg_character_12_1"
+                    troop="crpg_character_12_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_12_2"
+                    hero="crpg_character_12_2"
+                    troop="crpg_character_12_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_12_3"
+                    hero="crpg_character_12_3"
+                    troop="crpg_character_12_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_13"
+                    hero="crpg_character_13"
+                    troop="crpg_character_13"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_13_1"
+                    hero="crpg_character_13_1"
+                    troop="crpg_character_13_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_13_2"
+                    hero="crpg_character_13_2"
+                    troop="crpg_character_13_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_13_3"
+                    hero="crpg_character_13_3"
+                    troop="crpg_character_13_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_14"
+                    hero="crpg_character_14"
+                    troop="crpg_character_14"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_14_1"
+                    hero="crpg_character_14_1"
+                    troop="crpg_character_14_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_14_2"
+                    hero="crpg_character_14_2"
+                    troop="crpg_character_14_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_14_3"
+                    hero="crpg_character_14_3"
+                    troop="crpg_character_14_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_15"
+                    hero="crpg_character_15"
+                    troop="crpg_character_15"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_15_1"
+                    hero="crpg_character_15_1"
+                    troop="crpg_character_15_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_15_2"
+                    hero="crpg_character_15_2"
+                    troop="crpg_character_15_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_15_3"
+                    hero="crpg_character_15_3"
+                    troop="crpg_character_15_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_16"
+                    hero="crpg_character_16"
+                    troop="crpg_character_16"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_16_1"
+                    hero="crpg_character_16_1"
+                    troop="crpg_character_16_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_16_2"
+                    hero="crpg_character_16_2"
+                    troop="crpg_character_16_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_16_3"
+                    hero="crpg_character_16_3"
+                    troop="crpg_character_16_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_17"
+                    hero="crpg_character_17"
+                    troop="crpg_character_17"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_17_1"
+                    hero="crpg_character_17_1"
+                    troop="crpg_character_17_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_17_2"
+                    hero="crpg_character_17_2"
+                    troop="crpg_character_17_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_17_3"
+                    hero="crpg_character_17_3"
+                    troop="crpg_character_17_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_18"
+                    hero="crpg_character_18"
+                    troop="crpg_character_18"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_18_1"
+                    hero="crpg_character_18_1"
+                    troop="crpg_character_18_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_18_2"
+                    hero="crpg_character_18_2"
+                    troop="crpg_character_18_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_18_3"
+                    hero="crpg_character_18_3"
+                    troop="crpg_character_18_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_19"
+                    hero="crpg_character_19"
+                    troop="crpg_character_19"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_19_1"
+                    hero="crpg_character_19_1"
+                    troop="crpg_character_19_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_19_2"
+                    hero="crpg_character_19_2"
+                    troop="crpg_character_19_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_19_3"
+                    hero="crpg_character_19_3"
+                    troop="crpg_character_19_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_20"
+                    hero="crpg_character_20"
+                    troop="crpg_character_20"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_20_1"
+                    hero="crpg_character_20_1"
+                    troop="crpg_character_20_1"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_20_2"
+                    hero="crpg_character_20_2"
+                    troop="crpg_character_20_2"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_20_3"
+                    hero="crpg_character_20_3"
+                    troop="crpg_character_20_3"
+                    hero_idle_anim="act_vlandia_mp_sergeant_idle"
+                    troop_idle_anim="act_idle_1h_with_shield_1_left_stance"
+                    multiplier="0"
+                    cost="0"
+                    icon="infantry_light"
+                    melee_ai="50"
+                    ranged_ai="50"
+                    armor="0"
+                    movement_speed="0"
+                    combat_movement_speed="0"
+                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  <MPClassDivision id="crpg_class_division_21"
                    hero="crpg_character_21"
                    troop="crpg_character_21"
                    hero_idle_anim="act_vlandia_mp_sergeant_idle"

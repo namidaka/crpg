@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using Crpg.Module.Api.Models.Captains;
 using Crpg.Module.Api.Models.Characters;
 using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Api.Models.Items;
@@ -50,6 +51,7 @@ internal sealed class UpdateCrpgUser : GameNetworkMessage
         {
             WriteCharacterToPacket(writer, user.Character);
             WriteClanMemberToPacket(writer, user.ClanMembership);
+            WriteCaptainToPacket(writer, user.Captain);
         }
 
         WriteByteArrayToPacket(stream.ToArray(), 0, (int)stream.Length);
@@ -57,7 +59,7 @@ internal sealed class UpdateCrpgUser : GameNetworkMessage
 
     private CrpgUser ReadUserFromPacket(ref bool bufferReadValid)
     {
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[10240];
         int bufferLength = ReadByteArrayFromPacket(buffer, 0, buffer.Length, ref bufferReadValid);
 
         using MemoryStream stream = new(buffer, 0, bufferLength);
@@ -66,15 +68,22 @@ internal sealed class UpdateCrpgUser : GameNetworkMessage
 
         var character = ReadCharacterFromPacket(reader);
         var clanMember = ReadClanMemberFromPacket(reader);
+        var captain = ReadCaptainFromPacket(reader);
         return new CrpgUser
         {
             Character = character,
             ClanMembership = clanMember,
+            Captain = captain,
         };
     }
 
-    private void WriteCharacterToPacket(BinaryWriter writer, CrpgCharacter character)
+    private void WriteCharacterToPacket(BinaryWriter writer, CrpgCharacter? character)
     {
+        if (character == null)
+        {
+            return;
+        }
+
         writer.Write(character.Generation);
         writer.Write(character.Level);
         writer.Write(character.Experience);
@@ -208,5 +217,55 @@ internal sealed class UpdateCrpgUser : GameNetworkMessage
     {
         int clanId = reader.ReadInt32();
         return clanId != -1 ? new CrpgClanMember { ClanId = clanId } : null;
+    }
+
+    private void WriteCaptainToPacket(BinaryWriter writer, CrpgCaptain captain)
+    {
+        writer.Write(captain.Formations.Count);
+        foreach (CrpgCaptainFormation formation in captain.Formations)
+        {
+            WriteFormationToPacket(writer, formation);
+        }
+    }
+
+    private CrpgCaptain ReadCaptainFromPacket(BinaryReader reader)
+    {
+        var formations = ReadFormationFromPacket(reader);
+        return new CrpgCaptain
+        {
+            Formations = formations,
+        };
+    }
+
+    private void WriteFormationToPacket(BinaryWriter writer, CrpgCaptainFormation formation)
+    {
+        writer.Write(formation.Number);
+        writer.Write(formation.Character != null);
+        if (formation.Character != null)
+        {
+            WriteCharacterToPacket(writer, formation.Character);
+        }
+    }
+
+    private IList<CrpgCaptainFormation> ReadFormationFromPacket(BinaryReader reader)
+    {
+
+        int formationLength = reader.ReadInt32();
+
+        List<CrpgCaptainFormation> formations = new(formationLength);
+        for (int i = 0; i < formationLength; i += 1)
+        {
+            int number = reader.ReadInt32();
+            bool doesCharacterExist = reader.ReadBoolean();
+            var character = doesCharacterExist ? ReadCharacterFromPacket(reader) : null;
+
+            formations.Add(new CrpgCaptainFormation
+            {
+                Number = number,
+                Character = character,
+            });
+        }
+
+        return formations;
     }
 }

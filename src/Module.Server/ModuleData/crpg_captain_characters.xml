@@ -6,101 +6,401 @@
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_1_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_1_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_1_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_2" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_2_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_2_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_2_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_3" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_3_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_3_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_3_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_4" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_4_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_4_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_4_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_5" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_5_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_5_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_5_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_6" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_6_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_6_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_6_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_7" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_7_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_7_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_7_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_8" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_8_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_8_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_8_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_9" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_9_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_9_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_9_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_10" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_10_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_10_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_10_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_11" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_11_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_11_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_11_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_12" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_12_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_12_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_12_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_13" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_13_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_13_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_13_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_14" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_14_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_14_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_14_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_15" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_15_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_15_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_15_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_16" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_16_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_16_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_16_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_17" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_17_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_17_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_17_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_18" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_18_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_18_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_18_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_19" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_19_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_19_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_19_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_20" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
     </face>
 </NPCCharacter>
+  <NPCCharacter id="crpg_character_20_1" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_20_2" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_character_20_3" name="{=}Captain Bot">
+    <face>
+      <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />
+    </face>
+  </NPCCharacter>
 <NPCCharacter id="crpg_character_21" name="{=}Captain Bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.3333" build="0" key="00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000" />

@@ -28,6 +28,7 @@ internal static class CrpgServerConfiguration
     public static float TeamBalancerClanGroupSizePenalty { get; private set; } = 0f;
     public static float ServerExperienceMultiplier { get; private set; } = 1.0f;
     public static int RewardTick { get; private set; } = 60;
+    public static int CaptainTotalBotCount { get; private set; } = 40;
     public static bool TeamBalanceOnce { get; private set; }
     public static bool FrozenBots { get; private set; } = false;
     public static Tuple<TimeSpan, TimeSpan, TimeZoneInfo>? HappyHours { get; private set; }
@@ -79,6 +80,23 @@ internal static class CrpgServerConfiguration
 
         RewardTick = rewardTick;
         Debug.Print($"Set reward tick to {rewardTick}");
+    }
+
+    [UsedImplicitly]
+    [ConsoleCommandMethod("crpg_captain_bot_count", "Sets the total number of bots to spawn in Captain gamemode.")]
+    private static void SetCaptainBotCount(string? botCountStr)
+    {
+        if (botCountStr == null
+            || !int.TryParse(botCountStr, out int botCount)
+            || botCount < 0
+            || botCount > 1000)
+        {
+            Debug.Print($"Invalid bot count: {botCountStr}");
+            return;
+        }
+
+        CaptainTotalBotCount = botCount;
+        Debug.Print($"Set total captain bot count to {botCount}");
     }
 
     [UsedImplicitly]

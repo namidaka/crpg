@@ -6,6 +6,7 @@ export const gameModeToIcon: Record<GameMode, string> = {
   [GameMode.DTV]: 'game-mode-dtv',
   [GameMode.Duel]: 'game-mode-duel',
   [GameMode.TeamDeathmatch]: 'game-mode-teamdeathmatch',
+  [GameMode.Captain]: 'game-mode-captain',
 };
 
 export const rankedGameModes: GameMode[] = [GameMode.Battle, GameMode.Duel];

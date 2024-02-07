@@ -74,6 +74,7 @@ nav:
     Characters: 角色
     Shop: 商店
     Clans: 氏族
+    Captain: 队长
     Moderator: 管理员
     Builder: 生成器
     Leaderboard: 排行榜
@@ -191,6 +192,7 @@ game-mode:
   CRPGSiege: 围困
   CRPGTeamDeathmatch: 团队死亡竞赛
   CRPGSkirmish: 小规模战斗
+  CRPGCaptain: 队长
 
 clanBalancingExplanation: '
   <h3>你不在任何宗族中</h3>
@@ -1331,6 +1333,19 @@ item:
 
   filter:
     all: 一应俱全
+
+captain:
+  title: 船长编队
+  formation:
+    title: 编队 {id}
+    update:
+      notify:
+        success: 编队更新成功
+    character:
+      title: 选定的部队
+      remove: 从编队中移除
+    weight:
+      title: 编队重量
 
 leaderboard:
   title: 排行榜

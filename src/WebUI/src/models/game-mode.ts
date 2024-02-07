@@ -4,4 +4,5 @@ export enum GameMode {
   DTV = 'CRPGDTV',
   Duel = 'CRPGDuel',
   TeamDeathmatch = 'CRPGTeamDeathmatch',
+  Captain = 'CRPGCaptain',
 }

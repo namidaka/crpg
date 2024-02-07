@@ -2,6 +2,7 @@ using Crpg.Module.Common;
 using Crpg.Module.Common.Commander;
 using Crpg.Module.Common.HotConstants;
 using Crpg.Module.Common.TeamSelect;
+using Crpg.Module.Modes.Captain;
 using Crpg.Module.Modes.Skirmish;
 using Crpg.Module.Modes.Warmup;
 using Crpg.Module.Notifications;
@@ -124,7 +125,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     {
                         MultiplayerGameType.Battle => new CrpgBattleSpawningBehavior(_constants, roundController, _gameType),
                         MultiplayerGameType.Skirmish => new CrpgSkirmishSpawningBehavior(_constants, roundController),
-                        MultiplayerGameType.Captain => new CrpgBattleSpawningBehavior(_constants, roundController, _gameType),
+                        MultiplayerGameType.Captain => new CrpgCaptainSpawningBehavior(_constants, roundController, _gameType),
                         _ => throw new ArgumentException(message: "Invalid game type", paramName: nameof(_gameType)),
                     }));
         CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, roundController, _gameType);
@@ -182,7 +183,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                             {
                                     MultiplayerGameType.Battle => new CrpgBattleSpawningBehavior(_constants, roundController, _gameType),
                                     MultiplayerGameType.Skirmish => new CrpgSkirmishSpawningBehavior(_constants, roundController),
-                                    MultiplayerGameType.Captain => new CrpgBattleSpawningBehavior(_constants, roundController, _gameType),
+                                    MultiplayerGameType.Captain => new CrpgCaptainSpawningBehavior(_constants, roundController, _gameType),
                                     _ => throw new ArgumentException(message: "Invalid game type", paramName: nameof(_gameType)),
                             }),
 

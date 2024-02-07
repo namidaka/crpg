@@ -37,6 +37,24 @@ internal static class CommonErrors
         Detail = $"Battle with id '{battleId}' is too far to perform the requested action",
     };
 
+    public static Error CaptainFormationNotFound(int captainFormationId, int userId) => new(ErrorType.NotFound, ErrorCode.CaptainFormationNotFound)
+    {
+        Title = "Formation was not found",
+        Detail = $"Formation with id '{captainFormationId}' for user with id '{userId}' was not found",
+    };
+
+    public static Error CaptainFormationWeightNotInBounds(int captainFormationId, int userId, int weight) => new(ErrorType.NotFound, ErrorCode.CaptainFormationWeightNotInBounds)
+    {
+        Title = "Weight was invalid",
+        Detail = $"Formation with id '{captainFormationId}' for user with id '{userId}' with weight '{weight}' was outside of bounds.",
+    };
+
+    public static Error CaptainNotFound(int userId) => new(ErrorType.NotFound, ErrorCode.CaptainNotFound)
+    {
+        Title = "Captain was not found",
+        Detail = $"Captain for user with id '{userId}' was not found",
+    };
+
     public static Error CharacterForTournament(int characterId) => new(ErrorType.Validation, ErrorCode.CharacterForTournament)
     {
         Title = "Character is for tournament",

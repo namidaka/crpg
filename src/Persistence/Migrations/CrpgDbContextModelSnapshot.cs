@@ -351,6 +351,82 @@ namespace Crpg.Persistence.Migrations
                     b.ToTable("battle_mercenary_applications", (string)null);
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Captains.Captain", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_captains");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_captains_user_id");
+
+                    b.ToTable("captains", (string)null);
+                });
+
+            modelBuilder.Entity("Crpg.Domain.Entities.Captains.CaptainFormation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CaptainId")
+                        .HasColumnType("integer")
+                        .HasColumnName("captain_id");
+
+                    b.Property<int?>("CharacterId")
+                        .HasColumnType("integer")
+                        .HasColumnName("character_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("integer")
+                        .HasColumnName("number");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("integer")
+                        .HasColumnName("weight");
+
+                    b.HasKey("Id")
+                        .HasName("pk_captain_formation");
+
+                    b.HasIndex("CaptainId")
+                        .HasDatabaseName("ix_captain_formation_captain_id");
+
+                    b.HasIndex("CharacterId")
+                        .HasDatabaseName("ix_captain_formation_character_id");
+
+                    b.ToTable("captain_formation", (string)null);
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Characters.Character", b =>
                 {
                     b.Property<int>("Id")
@@ -1298,6 +1374,37 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("Character");
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Captains.Captain", b =>
+                {
+                    b.HasOne("Crpg.Domain.Entities.Users.User", "User")
+                        .WithOne("Captain")
+                        .HasForeignKey("Crpg.Domain.Entities.Captains.Captain", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_captains_users_user_id");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Crpg.Domain.Entities.Captains.CaptainFormation", b =>
+                {
+                    b.HasOne("Crpg.Domain.Entities.Captains.Captain", "Captain")
+                        .WithMany("Formations")
+                        .HasForeignKey("CaptainId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_captain_formation_captains_captain_id");
+
+                    b.HasOne("Crpg.Domain.Entities.Characters.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("CharacterId")
+                        .HasConstraintName("fk_captain_formation_characters_character_id");
+
+                    b.Navigation("Captain");
+
+                    b.Navigation("Character");
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Characters.Character", b =>
                 {
                     b.HasOne("Crpg.Domain.Entities.Users.User", "User")
@@ -2189,6 +2296,11 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("MercenaryApplications");
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Captains.Captain", b =>
+                {
+                    b.Navigation("Formations");
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Characters.Character", b =>
                 {
                     b.Navigation("EquippedItems");
@@ -2249,6 +2361,8 @@ namespace Crpg.Persistence.Migrations
 
             modelBuilder.Entity("Crpg.Domain.Entities.Users.User", b =>
                 {
+                    b.Navigation("Captain");
+
                     b.Navigation("Characters");
 
                     b.Navigation("ClanMembership");

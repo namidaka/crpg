@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Api.Models.Characters;
+﻿using Crpg.Module.Api.Models.Captains;
+using Crpg.Module.Api.Models.Characters;
 using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Api.Models.Restrictions;
 
@@ -18,4 +19,5 @@ internal class CrpgUser
     public CrpgCharacter Character { get; set; } = default!;
     public IList<CrpgRestriction> Restrictions { get; set; } = Array.Empty<CrpgRestriction>();
     public CrpgClanMember? ClanMembership { get; set; }
+    public CrpgCaptain Captain { get; set; } = default!;
 }

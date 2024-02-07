@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Crpg.Module.Modes.Battle.FlagSystems;
+using Crpg.Module.Modes.Captain;
 using Crpg.Module.Modes.Skirmish;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
@@ -79,8 +80,6 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         }
     }
 
-
-
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
@@ -132,8 +131,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         base.OnMissionTick(dt);
         if (MissionLobbyComponent.CurrentMultiplayerState != MissionLobbyComponent.MultiplayerGameState.Playing
             || !RoundController.IsRoundInProgress
-            || !CanGameModeSystemsTickThisFrame
-            || _flagSystem.HasNoFlags()) // Protection against scene with no flags.
+            || !CanGameModeSystemsTickThisFrame)
         {
             return;
         }
@@ -147,6 +145,12 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         }
 
         CheckForPlayersSpawningAsBots();
+
+
+        if (_flagSystem.HasNoFlags()) // Protection against scene with no flags.
+        {
+            return;
+        }
 
         _flagSystem.CheckForManipulationOfFlags();
         CheckMorales();
@@ -178,6 +182,11 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         }
 
         if (SpawnComponent.SpawningBehavior is CrpgBattleSpawningBehavior s && !s.SpawnDelayEnded())
+        {
+            return false;
+        }
+
+        if (SpawnComponent.SpawningBehavior is CrpgCaptainSpawningBehavior c && !c.SpawnDelayEnded())
         {
             return false;
         }
@@ -417,6 +426,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             missionBehavior.SetTimersOfVictoryReactionsOnBattleEnd(BattleSideEnum.Defender);
         }
     }
+
     private void CheckForPlayersSpawningAsBots()
     {
         foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -463,6 +473,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             }
         }
     }
+
     private void MakePlayerFormationCharge(NetworkCommunicator peer)
     {
         if (peer.IsSynchronized)
@@ -474,6 +485,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             }
         }
     }
+
     private void OnPreTeamChanged(NetworkCommunicator peer, Team currentTeam, Team newTeam)
     {
         if (peer.IsSynchronized && peer.GetComponent<MissionPeer>().ControlledAgent != null)

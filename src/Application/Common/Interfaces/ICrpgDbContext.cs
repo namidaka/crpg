@@ -1,5 +1,6 @@
 using Crpg.Domain.Entities.ActivityLogs;
 using Crpg.Domain.Entities.Battles;
+using Crpg.Domain.Entities.Captains;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.GameServers;
@@ -29,6 +30,7 @@ public interface ICrpgDbContext
     DbSet<ClanArmoryItem> ClanArmoryItems { get; }
     DbSet<ClanArmoryBorrowedItem> ClanArmoryBorrowedItems { get; }
     DbSet<ClanInvitation> ClanInvitations { get; }
+    DbSet<Captain> Captains { get; }
     DbSet<Party> Parties { get; }
     DbSet<Settlement> Settlements { get; }
     DbSet<SettlementItem> SettlementItems { get; }

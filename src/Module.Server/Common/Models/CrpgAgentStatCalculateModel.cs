@@ -273,26 +273,40 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             }
             else if (agentCharacterId.StartsWith("crpg_character"))
             {
+                string[] parts = agentCharacterId.Split('_'); // Split the agentCharacterId to get the base ID and the formation ID
+                string baseId = string.Join("_", parts.Take(3)); // This reassembles the base ID (e.g., "crpg_character_1")
+                int? formationId = parts.Length > 3 ? int.Parse(parts[3]) : default(int?); // Extracts the formation ID
+
                 var crpgNetworkPeers = GameNetwork.NetworkPeers.Where(p =>
                     p.GetComponent<CrpgPeer>() != null);
                 var ownerNetworkPeer =
-                    crpgNetworkPeers.FirstOrDefault(p => p.ControlledAgent?.Character.StringId.Contains(agentCharacterId) ?? false);
+                    crpgNetworkPeers.FirstOrDefault(p => p.ControlledAgent?.Character.StringId.Contains(baseId) ?? false);
                 if (ownerNetworkPeer?.GetComponent<CrpgPeer>()?.User != null && agent.Origin is not CrpgBattleAgentOrigin)
                 {
-                    var characteristics = ownerNetworkPeer.GetComponent<CrpgPeer>().User!.Character.Characteristics;
-                    var mbSkills = CrpgCharacterBuilder.CreateCharacterSkills(characteristics);
-                    agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, mbSkills);
-                    InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
+                    var formation = formationId != null ? ownerNetworkPeer.GetComponent<CrpgPeer>().User!.Captain?.Formations?
+                                                .FirstOrDefault(f => f?.Number == formationId) : null;
+
+                    if (formation != null)
+                    {
+                        var characteristics = formation.Character!.Characteristics;
+
+                        var mbSkills = CrpgCharacterBuilder.CreateCharacterSkills(characteristics);
+                        agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, mbSkills);
+                        InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
+                    }
+                    else
+                    {
+                        var characteristics = ownerNetworkPeer.GetComponent<CrpgPeer>().User!.Character.Characteristics;
+
+                        var mbSkills = CrpgCharacterBuilder.CreateCharacterSkills(characteristics);
+                        agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, mbSkills);
+                        InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
+                    }
+
                 }
-
             }
-        }/*
-            else if (agent.Character.StringId.StartsWith("crpg_h")
-            {
-                agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, crpgComponent._mbSkills);
-                InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
-            }*/
 
+        }
 
         MissionEquipment equipment = agent.Equipment;
         props.WeaponsEncumbrance = equipment.GetTotalWeightOfWeapons();
