@@ -66,6 +66,12 @@
       <XmlName id="MPClassDivisions" path="class_divisions"/>
     </XmlNode>
     <XmlNode>
+      <XmlName id="MPCharacters" path="crpg_captain_characters"/>
+    </XmlNode>
+    <XmlNode>
+      <XmlName id="MPClassDivisions" path="crpg_captain_class_divisions"/>
+    </XmlNode>
+    <XmlNode>
       <XmlName id="MPCharacters" path="dtv/dtv_characters"/>
     </XmlNode>
     <XmlNode>

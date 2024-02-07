@@ -1,4 +1,4 @@
-ServerName Livetest c-rpg.eu works now
+ServerName Livetest c-rpg.eu works now 800
 GameType cRPGCaptain
 WelcomeMessage yoyoyooooo
 AllowPollsToKickPlayers True

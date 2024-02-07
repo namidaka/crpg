@@ -15,7 +15,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
     private Dictionary<Team, int> _TeamSumOfEquipment = new Dictionary<Team, int>();
     private Dictionary<Team, int> _TeamAverageEquipment = new Dictionary<Team, int>();
     private Dictionary<Team, int> _TeamNumberOfBots = new Dictionary<Team, int>();
-    private const int totalNumberOfBots = 1000;
+    private const int totalNumberOfBots = 800;
     public virtual MultiplayerGameType GameMode { get => gameMode; protected set => gameMode = value; }
     public CrpgSpawningBehaviorBase(CrpgConstants constants)
     {
@@ -59,7 +59,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
     {
         BasicCultureObject cultureTeam1 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue());
         BasicCultureObject cultureTeam2 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue());
-
+        int p = 1;
         foreach (NetworkCommunicator networkPeer in GameNetwork.NetworkPeers)
         {
             MissionPeer missionPeer = networkPeer.GetComponent<MissionPeer>();
@@ -78,7 +78,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             }
 
             BasicCultureObject teamCulture = missionPeer.Team == Mission.AttackerTeam ? cultureTeam1 : cultureTeam2;
-            var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>("crpg_class_division");
+            var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>($"crpg_class_division_{p}");
             // var character = CreateCharacter(crpgPeer.User.Character, _constants);
             var characterSkills = CrpgCharacterBuilder.CreateCharacterSkills(crpgPeer.User!.Character.Characteristics);
             var characterXml = peerClass.HeroCharacter;
@@ -181,7 +181,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 
                 for (int i = 0; i < peerNumberOfBots; i++)
                 {
-                    SpawnBotAgent(peerClass.StringId, agent.Team, missionPeer);
+                    SpawnBotAgent(peerClass.StringId, agent.Team, missionPeer, p);
                 }
             }
 
@@ -198,7 +198,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
         return characterObject;
     }
 
-    protected Agent SpawnBotAgent(string classDivisionId, Team team, MissionPeer? peer = null)
+    protected Agent SpawnBotAgent(string classDivisionId, Team team, MissionPeer? peer = null, int p = 0)
     {
         var teamCulture = team.Side == BattleSideEnum.Attacker
             ? MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue())
@@ -237,10 +237,12 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             if (crpgPeer != null && crpgPeer?.User != null)
             {
                 var characterEquipment = CrpgCharacterBuilder.CreateCharacterEquipment(crpgPeer.User.Character.EquippedItems);
-                var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>("crpg_class_division");
+                var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>($"crpg_class_division_{p}");
                 var characterSkills = CrpgCharacterBuilder.CreateCharacterSkills(crpgPeer.User!.Character.Characteristics);
                 var characterXml = peerClass.HeroCharacter;
                 var troopOrigin = new CrpgBattleAgentOrigin(characterXml, characterSkills);
+                agentBuildData.OwningMissionPeer(peer);
+                agentBuildData.Formation(peer.ControlledFormation);
                 agentBuildData.Equipment(characterEquipment);
                 agentBuildData.TroopOrigin(troopOrigin);
                 agentBuildData.Banner(new Banner(peer.Peer.BannerCode));
@@ -393,6 +395,10 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
     {
         int value = peer?.User?.Character.EquippedItems.Select(i => MBObjectManager.Instance.GetObject<ItemObject>(i.UserItem.ItemId)).Sum(io => io.Value) ?? 0;
         return value + 10000; // protection against naked
+    }
+    private int ComputeSingleEquipmentValue(ItemObject item)
+    {
+        return 0;
     }
 
     private bool IsNetworkPeerRelevant(NetworkCommunicator networkPeer)

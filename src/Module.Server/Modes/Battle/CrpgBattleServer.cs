@@ -41,7 +41,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         _rewardServer = rewardServer;
         typeof(TaleWorlds.MountAndBlade.CompressionMission)
             .GetField(nameof(TaleWorlds.MountAndBlade.CompressionMission.AgentOffsetCompressionInfo), BindingFlags.Public | BindingFlags.Static)?
-            .SetValue(null, new CompressionInfo.Integer(0, 10));
+            .SetValue(null, new CompressionInfo.Integer(0, 16));
     }
 
     public override MultiplayerGameType GetMissionType()
