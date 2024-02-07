@@ -3,11 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
+
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Media;
+
 using static LauncherV3.MainViewModel;
 
 internal static class Config
