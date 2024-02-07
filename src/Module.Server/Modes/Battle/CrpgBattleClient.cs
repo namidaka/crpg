@@ -48,7 +48,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
     {
         typeof(TaleWorlds.MountAndBlade.CompressionMission)
             .GetField(nameof(TaleWorlds.MountAndBlade.CompressionMission.AgentOffsetCompressionInfo), BindingFlags.Public | BindingFlags.Static)?
-            .SetValue(null, new CompressionInfo.Integer(0, 10));
+            .SetValue(null, new CompressionInfo.Integer(0, 16));
         base.OnBehaviorInitialize();
         RoundComponent.OnPreparationEnded += OnPreparationEnded;
         MissionNetworkComponent.OnMyClientSynchronized += OnMyClientSynchronized;
