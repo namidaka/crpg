@@ -284,15 +284,8 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                     agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, mbSkills);
                     InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
                 }
-
             }
-        }/*
-            else if (agent.Character.StringId.StartsWith("crpg_h")
-            {
-                agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, crpgComponent._mbSkills);
-                InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
-            }*/
-
+        }
 
         MissionEquipment equipment = agent.Equipment;
         props.WeaponsEncumbrance = equipment.GetTotalWeightOfWeapons();
