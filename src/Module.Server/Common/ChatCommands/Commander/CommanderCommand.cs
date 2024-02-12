@@ -10,7 +10,7 @@ using TaleWorlds.MountAndBlade;
 namespace Crpg.Module.Common.ChatCommands.Commander;
 internal class CommanderCommand : ChatCommand
 {
-    private const int MessageCooldown = 30;
+    private const int MessageCooldown = 10;
 
     protected CommanderCommand(ChatCommandsComponent chatComponent)
         : base(chatComponent)
