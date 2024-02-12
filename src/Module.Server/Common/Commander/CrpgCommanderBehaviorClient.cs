@@ -142,6 +142,12 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
     {
         var killerAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentKillerIndex, true);
         var commanderAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentCommanderIndex, true);
+
+        if (commanderAgent == null)
+        {
+            return;
+        }
+
         BattleSideEnum commanderSide = commanderAgent.MissionPeer.Team.Side;
         BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side;
 
@@ -150,12 +156,12 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         if (message.AgentKillerIndex == message.AgentCommanderIndex)
         {
             textObject = new(CommanderSuicideStrings.GetRandomElement(),
-            new Dictionary<string, object> { ["COMMANDER"] = commanderAgent?.Name ?? string.Empty });
+            new Dictionary<string, object> { ["COMMANDER"] = commanderAgent.Name });
         }
         else
         {
             textObject = new(CommanderKilledStrings.GetRandomElement(),
-            new Dictionary<string, object> { ["AGENT"] = killerAgent?.Name ?? string.Empty, ["COMMANDER"] = commanderAgent?.Name ?? string.Empty });
+            new Dictionary<string, object> { ["AGENT"] = killerAgent?.Name ?? string.Empty, ["COMMANDER"] = commanderAgent.Name });
         }
 
         InformationManager.DisplayMessage(new InformationMessage
