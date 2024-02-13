@@ -13,5 +13,4 @@ public record ClanPublicViewModel : IMapFrom<Clan>
     public string Name { get; init; } = string.Empty;
     public string BannerKey { get; init; } = string.Empty;
     public Region Region { get; set; }
-    public IList<Languages> Languages { get; init; } = new List<Languages>();
 }

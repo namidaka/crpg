@@ -4,10 +4,13 @@ crpg_conquest_orlghelovar
 crpg_conquest_ironhale
 crpg_conquest_frederiksborg
 crpg_conquest_hades
+crpg_conquest_fjallborn
 crpg_conquest_ardumu
 crpg_conquest_neuenburg
 crpg_conquest_skalalanding
 crpg_conquest_hailescastle
+crpg_conquest_thewhitecity
 crpg_conquest_jameyyedcastle
 crpg_conquest_talmberg
-
+crpg_conquest_volskulkeep
+crpg_conquest_motteandbailey

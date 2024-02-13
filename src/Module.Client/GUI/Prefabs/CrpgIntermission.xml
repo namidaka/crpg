@@ -21,7 +21,6 @@
         </Widget>
 
         <!-- Top Panel -->
-        <!-- 
           <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="180" MarginLeft="30" MarginRight="30" MarginTop="30">
             <Children>
               
@@ -37,10 +36,9 @@
                   <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPIntermission.Label.Text" Text="@NextGameStateTimerLabel" />
                   <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPIntermission.Value.Text" Brush.FontSize="50" Text="@NextGameStateTimerValue" />
                 </Children>
-              </ListPanel>-->
+              </ListPanel>
 
         <!-- Leave Button -->
-        <!-- 
               <NavigationScopeTargeter ScopeID="LeaveButtonScope" ScopeParent="..\LeaveButtonParent" />
               <ListPanel Id="LeaveButtonParent" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Top" StackLayout.LayoutMethod="VerticalBottomToTop">
                 <Children>
@@ -50,7 +48,7 @@
               </ListPanel>
           
             </Children>
-          </Widget> -->
+          </Widget>
 
         <!-- Banners -->
         <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" VerticalAlignment="Top" HorizontalAlignment="Center" PositionYOffset="210" MarginLeft="18" MarginRight="18">
