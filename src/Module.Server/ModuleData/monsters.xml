@@ -188,4 +188,9 @@
     base_monster="human"
     weight="10">
   </Monster>
+  <Monster
+    id="dwarf_bot"
+    base_monster="human"
+    weight="10">
+  </Monster>
 </Monsters>
