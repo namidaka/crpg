@@ -186,7 +186,7 @@
       <Group classDivisionId="crpg_dtv_samurai_boss" />
     </Wave>
   </Round>
-  
+
   <Round reward="360">
     <Wave>
       <Group classDivisionId="crpg_dtv_legion_soldier" count="1.5" />
