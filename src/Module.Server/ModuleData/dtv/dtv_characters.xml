@@ -2196,7 +2196,7 @@
         <equipment slot="Body" id="Item.crpg_sturgian_fortified_armor_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_tapered_two-hander_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_tapered_two-hander_v1_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2232,9 +2232,9 @@
         <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_chain_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_knightly_lance_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v3_h0" />
-        <equipment slot="Item2" id="Item.crpg_fine_steel_long_kaskara_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_knightly_lance_v1_h2" />
+        <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v3_h2" />
+        <equipment slot="Item2" id="Item.crpg_fine_steel_long_kaskara_v1_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2436,9 +2436,9 @@
         <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_chain_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_knightly_lance_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_western_riders_kite_shield_v3_h0" />
-        <equipment slot="Item2" id="Item.crpg_dawnbreaker_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_knightly_lance_v1_h2" />
+        <equipment slot="Item1" id="Item.crpg_western_riders_kite_shield_v3_h2" />
+        <equipment slot="Item2" id="Item.crpg_dawnbreaker_v1_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2474,9 +2474,9 @@
         <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_chain_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_knightly_lance_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_western_riders_kite_shield_v3_h0" />
-        <equipment slot="Item2" id="Item.crpg_dawnbreaker_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_knightly_lance_v1_h2" />
+        <equipment slot="Item1" id="Item.crpg_western_riders_kite_shield_v3_h2" />
+        <equipment slot="Item2" id="Item.crpg_dawnbreaker_v1_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
