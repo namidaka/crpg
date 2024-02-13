@@ -313,28 +313,28 @@
 
 <Round reward="540">
     <Wave>
-    <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.5" />
-    <Group classDivisionId="crpg_dtv_greyorder_kuyak_two_handed" count="0.4" />
-	  <Group classDivisionId="crpg_dtv_greyorder_balanced_infantry" count="0.8" />
-    <Group classDivisionId="crpg_dtv_greyorder_heavy_two_handed" count="0.2" />
-	  <Group classDivisionId="crpg_dtv_greyorder_heavy_polearm" count="0.2" />
-	  <Group classDivisionId="crpg_dtv_greyorder_lieutenant_varadin" />
-	  <Group classDivisionId="crpg_dtv_greyorder_lieutenant_knitler" />
+     <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.5" />
+     <Group classDivisionId="crpg_dtv_greyorder_kuyak_two_handed" count="0.4" />
+	   <Group classDivisionId="crpg_dtv_greyorder_balanced_infantry" count="0.8" />
+     <Group classDivisionId="crpg_dtv_greyorder_heavy_two_handed" count="0.2" />
+	   <Group classDivisionId="crpg_dtv_greyorder_heavy_polearm" count="0.2" />
+	   <Group classDivisionId="crpg_dtv_greyorder_lieutenant_varadin" />
+	   <Group classDivisionId="crpg_dtv_greyorder_lieutenant_knitler" />
     </Wave>
     <Wave>
-    <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.2" />
-	  <Group classDivisionId="crpg_dtv_greyorder_kuyak_two_handed" count="1.2" />
-    <Group classDivisionId="crpg_dtv_greyorder_balanced_infantry" count="1.2" />
-    <Group classDivisionId="crpg_dtv_greyorder_heavy_two_handed" count="0.8" />
-	  <Group classDivisionId="crpg_dtv_greyorder_heavy_polearm" count="0.8" />
-	  <Group classDivisionId="crpg_dtv_greyorder_lieutenant_harpag" />
-	  <Group classDivisionId="crpg_dtv_greyorder_lieutenant_pawiu" />
+     <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.2" />
+	   <Group classDivisionId="crpg_dtv_greyorder_kuyak_two_handed" count="1.2" />
+     <Group classDivisionId="crpg_dtv_greyorder_balanced_infantry" count="1.2" />
+     <Group classDivisionId="crpg_dtv_greyorder_heavy_two_handed" count="0.8" />
+	   <Group classDivisionId="crpg_dtv_greyorder_heavy_polearm" count="0.8" />
+	   <Group classDivisionId="crpg_dtv_greyorder_lieutenant_harpag" />
+	   <Group classDivisionId="crpg_dtv_greyorder_lieutenant_pawiu" />
     </Wave>
     <Wave>
-    <Group classDivisionId="crpg_dtv_greyorder_heavy_two_handed" count="2.0" />
-	  <Group classDivisionId="crpg_dtv_greyorder_heavy_polearm" count="2.0" />
-    <Group classDivisionId="crpg_dtv_greyorder_boss_tamra" />
-	  <Group classDivisionId="crpg_dtv_greyorder_boss_hetman" />
+     <Group classDivisionId="crpg_dtv_greyorder_heavy_two_handed" count="2.0" />
+	   <Group classDivisionId="crpg_dtv_greyorder_heavy_polearm" count="2.0" />
+     <Group classDivisionId="crpg_dtv_greyorder_boss_tamra" />
+	   <Group classDivisionId="crpg_dtv_greyorder_boss_hetman" />
     </Wave>
   </Round>
 
