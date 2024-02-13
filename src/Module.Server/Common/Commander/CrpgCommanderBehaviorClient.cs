@@ -90,6 +90,10 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         {
             textObject = new("{=C7TYZ8s0}You cannot order troops when you are dead!");
         }
+        else if (message.RejectReason == CommanderChatCommandRejectReason.Muted)
+        {
+            textObject = new("{=sisK3HPI}You are muted.");
+        }
         else
         {
             textObject = new("{=uRmpZM0q}Please wait {COOLDOWN} seconds before issuing a new order!",

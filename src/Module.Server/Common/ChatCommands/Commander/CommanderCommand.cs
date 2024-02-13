@@ -45,7 +45,14 @@ internal class CommanderCommand : ChatCommand
                 GameNetwork.BeginModuleEventAsServer(fromPeer);
                 GameNetwork.WriteMessage(new CommanderChatCommand { RejectReason = CommanderChatCommandRejectReason.Cooldown, Cooldown = earliestMessageTime - Mission.Current.CurrentTime });
                 GameNetwork.EndModuleEventAsServer();
-                    
+                return false;
+            }
+
+            if (fromPeer.IsMuted)
+            {
+                GameNetwork.BeginModuleEventAsServer(fromPeer);
+                GameNetwork.WriteMessage(new CommanderChatCommand { RejectReason = CommanderChatCommandRejectReason.Muted });
+                GameNetwork.EndModuleEventAsServer();
                 return false;
             }
 
