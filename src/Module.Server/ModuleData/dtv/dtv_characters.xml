@@ -2094,7 +2094,7 @@
         <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2" />
         <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2" />
         <equipment slot="Horse" id="Item.crpg_mount_rouncey_9_v1" />
-        <equipment slot="HorseHarness" id=Item."crpg_desert_cloth_harness_v1" />
+        <equipment slot="HorseHarness" id="Item.crpg_desert_cloth_harness_v1" />
         <equipment slot="Item0" id="Item.crpg_knob_headed_spear_v1" />
         <equipment slot="Item1" id="Item.crpg_large_adarga_v3" />
         <equipment slot="Item2" id="Item.crpg_light_royal_mace_v1" />
