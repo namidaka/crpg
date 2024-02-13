@@ -216,6 +216,7 @@
       <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="1.5" />
       <Group classDivisionId="crpg_dtv_reconquista_explorer" count="0.5" />
       <Group classDivisionId="crpg_dtv_reconquista_champion" count="0.2" />
+      <Group classDivisionId="crpg_dtv_reconquista_lieutenant" />
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_reconquista_champion" count="1.5" />

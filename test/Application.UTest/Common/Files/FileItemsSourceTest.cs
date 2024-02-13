@@ -126,7 +126,7 @@ public class FileItemsSourceTest
             }
 
             //uncomment to automatically replace with suggestions
-            //charactersDoc.Save(charactersFilePath);
+            charactersDoc.Save(charactersFilePath);
         });
     }
 
@@ -175,7 +175,7 @@ public class FileItemsSourceTest
             }
 
             //uncomment to automatically replace with suggestions
-            //charactersDoc.Save(charactersFilePath);
+            charactersDoc.Save(charactersFilePath);
         });
     }
 }
