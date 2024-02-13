@@ -48,14 +48,6 @@ internal class CommanderCommand : ChatCommand
                 return false;
             }
 
-            if (fromPeer.IsMuted)
-            {
-                GameNetwork.BeginModuleEventAsServer(fromPeer);
-                GameNetwork.WriteMessage(new CommanderChatCommand { RejectReason = CommanderChatCommandRejectReason.Muted });
-                GameNetwork.EndModuleEventAsServer();
-                return false;
-            }
-
             commanderServer.SetCommanderMessageSendTime(side, Mission.Current.CurrentTime);
             return true;
         }
