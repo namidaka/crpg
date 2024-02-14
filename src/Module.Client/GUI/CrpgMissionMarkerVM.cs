@@ -25,7 +25,7 @@ internal class CrpgMissionMarkerVm : ViewModel
     private static readonly uint DefaultColor = Color.ConvertStringToColor("#FFFFFFFF").ToUnsignedInteger(); // White
     private static readonly uint ClanMateColor = Color.ConvertStringToColor("#00FFFFFF").ToUnsignedInteger(); // Aqua
     private static readonly uint FriendColor = Color.ConvertStringToColor("#FFFF00FF").ToUnsignedInteger(); // Yellow
-    private static readonly uint CommanderColor = Color.ConvertStringToColor("#00FF00FF").ToUnsignedInteger(); // Red
+    private static readonly uint CommanderColor = Color.ConvertStringToColor("#00FF00FF").ToUnsignedInteger(); // Green
 
     private readonly Camera _missionCamera;
     private readonly MissionMultiplayerGameModeBaseClient _gameModeClient;
