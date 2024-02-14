@@ -39,6 +39,9 @@
     <string id="bp8JJZpG" text="·   Защищайте графа от волн врагов!{newline}·   Получайте награды за защиту!{newline}·   Улучшайте своего персонажа на c-rpg.eu" />
     <string id="3uoZAXxh" text="Защита графа" />
 
+    <!-- Intermission -->
+    <string id="OZYLgnQq" text="Пожалуйста, подождите:" />
+    
     <!-- Scoreboard -->
     <string id="fBDiQBrC" text="Жизнь" />
 
@@ -134,6 +137,9 @@
     <string id="Kgiopaqf" text= "Rytsarskiy gerb" />
     <string id="TBergyuj" text= "Тальмберг" />
     <string id="V0lSkuLK" text= "Крепость Вольскуль" />
+    <string id="M0TT3BA1" text= "Мотте и Бейли" />
+    <string id="fallbj0r" text= "Фьялльборн" />
+    <string id="tw1tEC1t" text= "Белый город" />
 
     <!-- DTV Maps -->
     <string id="ArnxGr8j1j" text="Лагерь" />

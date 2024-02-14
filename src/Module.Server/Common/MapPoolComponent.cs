@@ -16,7 +16,7 @@ namespace Crpg.Module.Common;
 /// </remarks>
 internal class MapPoolComponent : MissionLogic
 {
-    private static int _mapVoteItemsIdx;
+    private static int nextMapId;
 
     private string? _forcedNextMap;
 
@@ -29,23 +29,11 @@ internal class MapPoolComponent : MissionLogic
 
         _forcedNextMap = map;
     }
-
     protected override void OnEndMission()
     {
-        var votingManager = MultiplayerIntermissionVotingManager.Instance;
-        if (votingManager.MapVoteItems.Count == 0) // When automated_battle_pool is not used.
-        {
-            return;
-        }
-
-        _mapVoteItemsIdx = (_mapVoteItemsIdx + 1) % votingManager.MapVoteItems.Count;
-
-        string nextMap = _forcedNextMap ?? votingManager.MapVoteItems[_mapVoteItemsIdx].Id;
-        foreach (var vote in votingManager.MapVoteItems)
-        {
-            vote.SetVoteCount(vote.Id == nextMap ? 1 : 0);
-        }
-
+        nextMapId = (nextMapId + 1) % ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool.Count;
+        string nextMap = _forcedNextMap ?? ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool[nextMapId];
+        MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.NextMapOptions);
         _forcedNextMap = null;
     }
 }

@@ -9,8 +9,6 @@ import {
   clanDescriptionMaxLength,
 } from '@root/data/constants.json';
 import { type Clan } from '@/models/clan';
-import { Language } from '@/models/language';
-
 import {
   required,
   url,
@@ -35,7 +33,6 @@ const props = withDefaults(
   {
     clan: () => ({
       region: Region.Eu,
-      languages: [],
       primaryColor: '#000000',
       secondaryColor: '#000000',
       name: '',
@@ -183,58 +180,14 @@ const onSubmit = async () => {
       </FormGroup>
 
       <FormGroup icon="region" :label="$t('region-title')">
-        <div class="space-y-8">
-          <OField :addons="false">
-            <div class="flex flex-col gap-4">
-              <ORadio
-                v-for="region in Object.keys(Region)"
-                v-model="clanFormModel.region"
-                :native-value="region"
-                data-aq-clan-form-input="region"
-              >
-                {{ $t(`region.${region}`, 0) }}
-              </ORadio>
-            </div>
-          </OField>
-
-          <OField>
-            <VDropdown :triggers="['click']">
-              <template #default="{ shown }">
-                <OButton variant="secondary" outlined size="lg">
-                  {{ $t('clan.update.form.field.languages') }}
-                  <div class="flex items-center gap-1.5">
-                    <Tag
-                      v-for="l in clanFormModel.languages"
-                      :label="l"
-                      v-tooltip="$t(`language.${l}`)"
-                      variant="primary"
-                    />
-                  </div>
-                  <Divider inline />
-                  <OIcon
-                    icon="chevron-down"
-                    size="lg"
-                    :rotation="shown ? 180 : 0"
-                    class="text-content-400"
-                  />
-                </OButton>
-              </template>
-
-              <template #popper>
-                <div class="max-h-64 max-w-md overflow-y-auto">
-                  <DropdownItem v-for="l in Object.keys(Language)">
-                    <OCheckbox
-                      v-model="clanFormModel.languages"
-                      :nativeValue="l"
-                      class="items-center"
-                      :label="$t(`language.${l}`) + ` - ${l}`"
-                    />
-                  </DropdownItem>
-                </div>
-              </template>
-            </VDropdown>
-          </OField>
-        </div>
+        <ORadio
+          v-for="region in Object.keys(Region)"
+          v-model="clanFormModel.region"
+          :native-value="region"
+          data-aq-clan-form-input="region"
+        >
+          {{ $t(`region.${region}`, 0) }}
+        </ORadio>
       </FormGroup>
 
       <FormGroup>

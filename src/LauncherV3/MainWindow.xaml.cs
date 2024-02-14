@@ -110,13 +110,6 @@ public partial class MainWindow : Window
         _messageQueue.Enqueue(text);
     }
 
-
-
-    private void checkForUpdateButton_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
     private void MinimizeButton_Click(object sender, MouseButtonEventArgs e)
     {
         if (e.LeftButton == MouseButtonState.Pressed)

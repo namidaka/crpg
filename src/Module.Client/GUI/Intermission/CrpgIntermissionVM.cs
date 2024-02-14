@@ -18,6 +18,7 @@ public class CrpgIntermissionVM : ViewModel
     private MultiplayerIntermissionState _currentIntermissionState = default!;
 
     private readonly TextObject _voteLabelText = new TextObject("{=KOVHgkVq}Voting Ends In:");
+    private readonly TextObject _waitLabelText = new TextObject("{=OZYLgnQq}Please Wait:");
 
     private readonly TextObject _nextGameLabelText = new TextObject("{=lX9Qx7Wo}Next Game Starts In:");
 
@@ -641,7 +642,7 @@ public class CrpgIntermissionVM : ViewModel
         if (_currentIntermissionState == MultiplayerIntermissionState.CountingForMapVote)
         {
             int num = (int)_baseNetworkComponent.CurrentIntermissionTimer;
-            NextGameStateTimerLabel = _voteLabelText.ToString();
+            NextGameStateTimerLabel = _waitLabelText.ToString();
             NextGameStateTimerValue = num.ToString();
             IsMissionTimerEnabled = true;
             IsEndGameTimerEnabled = false;
@@ -649,26 +650,6 @@ public class CrpgIntermissionVM : ViewModel
             IsCultureVoteEnabled = false;
             IsPlayerCountEnabled = true;
             flag = false;
-            List<IntermissionVoteItem> mapVoteItems = MultiplayerIntermissionVotingManager.Instance.MapVoteItems;
-            if (mapVoteItems.Count > 0)
-            {
-                IsMapVoteEnabled = true;
-                foreach (IntermissionVoteItem mapItem in mapVoteItems)
-                {
-                    if (mapItem.Id == Mission.Current.SceneName)
-                    {
-                        continue;
-                    }
-
-                    if (AvailableMaps.FirstOrDefault((MPIntermissionMapItemVM m) => m.MapID == mapItem.Id) == null)
-                    {
-                        AvailableMaps.Add(new MPIntermissionMapItemVM(mapItem.Id, OnPlayerVotedForMap));
-                    }
-
-                    int voteCount = mapItem.VoteCount;
-                    AvailableMaps.First((MPIntermissionMapItemVM m) => m.MapID == mapItem.Id).Votes = voteCount;
-                }
-            }
         }
 
         if (_baseNetworkComponent.ClientIntermissionState == MultiplayerIntermissionState.CountingForCultureVote)

@@ -112,6 +112,18 @@ public record SeedDataCommand : IMediatorRequest
                 ExperienceMultiplier = 1.09f,
                 Avatar = new Uri("https://avatars.akamai.steamstatic.com/d51d5155b1a564421c0b3fd5fb7eed7c4474e73d_full.jpg"),
             };
+            User droob = new()
+            {
+                PlatformUserId = "76561198023558734",
+                Platform = Platform.Steam,
+                Name = "droob",
+                Role = Role.Moderator,
+                // ActiveCharacterId = 5,
+                Gold = 1000000,
+                HeirloomPoints = 12,
+                ExperienceMultiplier = 1.09f,
+                Avatar = new Uri("https://avatars.cloudflare.steamstatic.com/2456d3a9f13512fb57d7b02bcf3b1249d662ad16_full.jpg"),
+            };
             User kadse = new()
             {
                 PlatformUserId = "76561198017779751",
@@ -495,7 +507,7 @@ public record SeedDataCommand : IMediatorRequest
 
             User[] newUsers =
             {
-                takeo, orle, baronCyborg, magnuclean, knitler, tjens, lerch, buddha, lancelot, bakhrat, distance,
+                takeo, orle, droob, baronCyborg, magnuclean, knitler, tjens, lerch, buddha, lancelot, bakhrat, distance,
                 victorhh888, schumetzq, bryggan, ikarooz, kiwi, brainfart, falcom, opset, leanir, sellka, firebat,
                 ecko, neostralie, zorguy, azuma, elmaryk, namidaka, laHire, manik, ajroselle, skrael, bedo, lambic,
                 sanasar, vlad007, canp0g, shark, noobAmphetamine, mundete, aroyFalconer, insanitoid, scarface,
@@ -993,6 +1005,33 @@ public record SeedDataCommand : IMediatorRequest
                 Level = 25,
                 Experience = _experienceTable.GetExperienceForLevel(25) + (_experienceTable.GetExperienceForLevel(26) - _experienceTable.GetExperienceForLevel(25)) / 2,
             };
+            Character droobCharacter0 = new()
+            {
+                User = droob,
+                Name = "Droob Soldier",
+                Level = 33,
+                Generation = 3,
+                Experience = _experienceTable.GetExperienceForLevel(33) + (_experienceTable.GetExperienceForLevel(34) - _experienceTable.GetExperienceForLevel(33)) / 2,
+                Statistics = new CharacterStatistics
+                {
+                    Kills = 2,
+                    Assists = 3,
+                    Deaths = 6,
+                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                },
+                Characteristics = new CharacterCharacteristics
+                {
+                    Attributes = new CharacterAttributes { Points = 100 },
+                    Skills = new CharacterSkills { Points = 100 },
+                },
+                Rating = new()
+                {
+                    Value = 50,
+                    Deviation = 100,
+                    Volatility = 100,
+                    CompetitiveValue = 1900,
+                },
+            };
             Character kadseCharacter0 = new()
             {
                 User = kadse,
@@ -1045,7 +1084,7 @@ public record SeedDataCommand : IMediatorRequest
             };
             Character[] newCharacters =
             {
-                takeoCharacter0, takeoCharacter1, takeoCharacter2, namidakaCharacter0, orleCharacter0, orleCharacter1, orleCharacter2,
+                takeoCharacter0, takeoCharacter1, takeoCharacter2, namidakaCharacter0, orleCharacter0, orleCharacter1, orleCharacter2, droobCharacter0,
                 falcomCharacter0, victorhh888Character0, sellkaCharacter0, krogCharacter0, kadseCharacter0, noobAmphetamine0, baronCyborg0,
             };
 
@@ -1127,8 +1166,19 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "Pecores",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
-                Languages = { Languages.Fr, Languages.En, },
             };
+
+            Clan droobClan = new()
+            {
+                Tag = "DROO",
+                PrimaryColor = 4278190318,
+                SecondaryColor = 4294957414,
+                Name = "Droob clan",
+                BannerKey = string.Empty,
+                Region = Region.Eu,
+            };
+
+            ClanMember droobMember = new() { User = droob, Clan = droobClan, Role = ClanMemberRole.Leader, };
 
             ClanMember takeoMember = new() { User = takeo, Clan = pecores, Role = ClanMemberRole.Officer, };
             ClanMember orleMember = new() { User = orle, Clan = pecores, Role = ClanMemberRole.Leader, };
@@ -1201,7 +1251,6 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "Legio",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
-                Languages = { Languages.Es, Languages.En, },
             };
             Clan theGrey = new()
             {
@@ -1211,7 +1260,6 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "The Grey",
                 BannerKey = string.Empty,
                 Region = Region.Eu,
-                Languages = { Languages.Pl, Languages.En, },
             };
             Clan ode = new()
             {
@@ -1297,7 +1345,7 @@ public record SeedDataCommand : IMediatorRequest
             Clan[] newClans =
             {
                 pecores, ats, legio, theGrey, ode, virginDefenders, randomClan, abcClan, defClan, ghiClan, jklClan,
-                mnoClan, pqrClan,
+                mnoClan, pqrClan, droobClan,
             };
 
             var existingClans = await _db.Clans.ToDictionaryAsync(c => c.Name);
@@ -1341,7 +1389,7 @@ public record SeedDataCommand : IMediatorRequest
                 eckoMember, firebatMember, sellkaMember, leanirMember, opsetMember,
                 falcomMember, brainfartMember, kiwiMember, ikaroozMember, brygganMember, schumetzqMember,
                 victorhh888Member, distanceMember, bakhratMember, lancelotMember,
-                buddhaMember, lerchMember, tjensMember, knitlerMember, magnucleanMember, baronCyborgMember, noobAmphetamineMember,
+                buddhaMember, lerchMember, tjensMember, knitlerMember, magnucleanMember, baronCyborgMember, noobAmphetamineMember, droobMember,
             };
             var existingClanMembers = await _db.ClanMembers.ToDictionaryAsync(cm => cm.UserId);
             foreach (var newClanMember in newClanMembers)
