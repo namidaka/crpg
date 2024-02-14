@@ -162,7 +162,7 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         }
 
         BattleSideEnum commanderSide = commanderAgent.MissionPeer?.Team?.Side ?? BattleSideEnum.None;
-        BattleSideEnum killerSide = killerAgent.MissionPeer?.Team?.Side ?? BattleSideEnum.None;
+        BattleSideEnum killerSide = killerAgent?.MissionPeer?.Team?.Side ?? BattleSideEnum.None;
         BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side;
 
         TextObject textObject;
