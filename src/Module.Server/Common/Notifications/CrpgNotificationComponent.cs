@@ -7,7 +7,9 @@ using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.ObjectSystem;
+using TaleWorlds.PlayerServices;
 
 namespace Crpg.Module.Notifications;
 
@@ -18,12 +20,14 @@ namespace Crpg.Module.Notifications;
 internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
 {
     private CrpgCommanderBehaviorClient? _commanderClient;
+    private ChatBox? _chatBox;
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
         if (GameNetwork.IsClient)
         {
-           _commanderClient = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorClient>();
+            _commanderClient = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorClient>();
+            _chatBox = Game.Current.GetGameHandler<ChatBox>();
         }
     }
 
@@ -80,11 +84,21 @@ internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
         else if (type == CrpgNotificationType.Commander && _commanderClient != null) // Chatbox display message
         {
             BattleSideEnum side = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
+            NetworkCommunicator? myCommander = _commanderClient.GetCommanderBySide(side);
+
+            if (myCommander != null && _chatBox != null)
+            {
+                PlayerId id = myCommander.VirtualPlayer.Id;
+                if (_chatBox.IsPlayerMutedFromGame(id) || PermaMuteList.IsPlayerMuted(id) || _chatBox.IsPlayerMutedFromPlatform(id))
+                {
+                    return;
+                }
+            }
 
             InformationManager.DisplayMessage(new InformationMessage
             {
                 Information = new TextObject("{=iERprCDU}(Commander) {NAME}: ",
-                new Dictionary<string, object> { ["NAME"] = _commanderClient.GetCommanderBySide(side)?.UserName ?? string.Empty }).ToString() + message,
+                new Dictionary<string, object> { ["NAME"] = myCommander?.UserName ?? string.Empty }).ToString() + message,
                 Color = new Color(0.1f, 1f, 0f),
                 SoundEventPath = "event:/ui/mission/horns/attack",
             });
