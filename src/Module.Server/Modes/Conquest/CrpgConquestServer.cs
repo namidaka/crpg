@@ -365,11 +365,11 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
             CaptureTheFlagFlagDirection flagDirection = ComputeFlagDirection(flag, flagOwner, agentDiffNumber);
             if (flagDirection != CaptureTheFlagFlagDirection.None)
             {
-                flag.SetMoveFlag(flagDirection, speedMultiplier: (float)(0.2f * Math.Abs(agentDiffNumber)));
+                flag.SetMoveFlag(flagDirection, speedMultiplier: (float)(0.2f * Math.Max(1, Math.Abs(agentDiffNumber))));
             }
 
             flag.OnAfterTick(agentDiffNumber < 0, out bool flagOwnerChanged);
-            Team? flagNewOwner = flagOwner;
+            Team? flagNewOwner = flagOwner!.IsAttacker ? Mission.Teams.Defender : Mission.Teams.Attacker;
             if (flagOwnerChanged && flagNewOwner != null)
             {
                 OnFlagCaptured(flag, flagNewOwner);
@@ -436,12 +436,13 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
         Team? flagOwner,
         int agentDiffNumber)
     {
-        if (agentDiffNumber >= 0)
+        bool isContested = flag.IsContested;
+
+        if (agentDiffNumber >= 0 && isContested)
         {
             return CaptureTheFlagFlagDirection.Up;
         }
-
-        if ((flagOwner == null && agentDiffNumber != 0) || agentDiffNumber < 0)
+        else if (((flagOwner == null && agentDiffNumber != 0) || agentDiffNumber < 0) && !isContested)
         {
             return CaptureTheFlagFlagDirection.Down;
         }
