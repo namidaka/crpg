@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <Name value="cRPG Editor"/>
+  <Id value="cRPG Editor"/>
+  <Version value="v1.2.9.102"/>
+  <ModuleCategory value="Singleplayer"/>
+  <DependedModules>
+    <DependedModule Id="Native" DependentVersion="v1.2.9" Optional="false"/>
+  </DependedModules>
+  <SubModules>
+    <SubModule>
+      <Name value="cRPG Editor"/>
+      <DLLName value="Crpg.Module.dll"/>
+      <SubModuleClassType value="Crpg.Module.CrpgEditorSubModule"/>
+      <Tags />
+    </SubModule>
+  </SubModules>
+</Module>

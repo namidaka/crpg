@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Module.Editor": {
+      "commandName": "Executable",
+      "executablePath": "%MB_CLIENT_PATH%\\bin\\Win64_Shipping_wEditor\\Bannerlord.exe",
+      "commandLineArgs": "_MODULES_*Native*SandBox Core*Sandbox*cRPG Editor*_MODULES_",
+      "workingDirectory": "%MB_CLIENT_PATH%\\bin\\Win64_Shipping_wEditor\\"
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json"
+}
