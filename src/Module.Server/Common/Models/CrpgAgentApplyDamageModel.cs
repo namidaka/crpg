@@ -125,6 +125,20 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             finalDamage *= 0.23f; // Decrease damage from couched lance.
         }
 
+        // Check if the attacker is mounted and using a two-handed polearm
+        if (attackInformation.DoesAttackerHaveMountAgent && weapon.CurrentUsageItem.WeaponClass == WeaponClass.TwoHandedPolearm)
+        {
+            // Checks if attack direction is swing
+            bool isSwingAttack = collisionData.StrikeType == (int)StrikeType.Swing;
+
+            if (isSwingAttack)
+            {
+                // Decrease swing damage by 10%
+                float swingDamageDecreaseFactor = 0.90f;
+                finalDamage *= swingDamageDecreaseFactor;
+            }
+        }
+
         return finalDamage;
     }
 
