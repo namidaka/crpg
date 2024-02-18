@@ -36,6 +36,7 @@ import {
 import { createRankTable } from '@/services/leaderboard-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
 import { Suspense } from 'vue';
+import { GameMode } from '@/models/game-mode';
 
 definePage({
   meta: {
@@ -100,7 +101,7 @@ const onSetCharacterForTournament = async () => {
 };
 
 const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
-  ({ id }: { id: number }) => getCharacterStatistics(id),
+  ({ id }: { id: number }, { gameMode }: { gameMode: GameMode }) => getCharacterStatistics(id, gameMode),
   { kills: 0, deaths: 0, assists: 0, playTime: 0 },
   {
     immediate: false,
@@ -157,7 +158,7 @@ const retireTableData = computed(() => getHeirloomPointByLevelAggregation());
 
 const fetchPageData = (characterId: number) =>
   Promise.all([
-    loadCharacterStatistics(0, { id: characterId }),
+    loadCharacterStatistics(0, { id: characterId }, {gameMode: GameMode.Battle}),
     loadCharacterRating(0, { id: characterId }),
     loadCharacterLimitations(0, { id: characterId }),
   ]);

@@ -58,6 +58,7 @@ import { t } from '@/services/translate-service';
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
 import { computeLeftMs, parseTimestamp } from '@/utils/date';
 import { range, groupBy } from '@/utils/array';
+import { GameMode } from '@/models/game-mode';
 
 export const getCharacters = () => get<Character[]>('/users/self/characters');
 
@@ -93,8 +94,8 @@ export const retireCharacter = (characterId: number) =>
 export const deleteCharacter = (characterId: number) =>
   del(`/users/self/characters/${characterId}`);
 
-export const getCharacterStatistics = (characterId: number) =>
-  get<CharacterStatistics>(`/users/self/characters/${characterId}/statistics`);
+export const getCharacterStatistics = (characterId: number, gameMode: GameMode) =>
+  get<CharacterStatistics>(`/users/self/characters/${characterId}/statistics/${gameMode}`);
 
 export enum CharacterEarningType {
   'Exp' = 'Exp',
