@@ -334,24 +334,26 @@ public class CharacterServiceTest
         Character character = new()
         {
             Level = 5,
-            Statistics = new Dictionary<GameMode, CharacterStatistics>
+            Statistics = new List<CharacterStatistics>
                     {
                         {
-                            GameMode.CRPGBattle, new CharacterStatistics
+                            new CharacterStatistics
                             {
                                 Kills = 100,
                                 Deaths = 100,
                                 Assists = 100,
                                 PlayTime = TimeSpan.FromHours(1),
+                                GameMode = GameMode.CRPGBattle,
                             }
                         },
                     },
         };
         characterService.ResetStatistics(character);
 
-        Assert.That(character.Statistics[GameMode.CRPGBattle].Kills, Is.EqualTo(0));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].Deaths, Is.EqualTo(0));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].Assists, Is.EqualTo(0));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].PlayTime, Is.EqualTo(TimeSpan.Zero));
+        CharacterStatistics? charStats = character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle);
+        Assert.That(charStats?.Kills, Is.EqualTo(0));
+        Assert.That(charStats?.Deaths, Is.EqualTo(0));
+        Assert.That(charStats?.Assists, Is.EqualTo(0));
+        Assert.That(charStats?.PlayTime, Is.EqualTo(TimeSpan.Zero));
     }
 }

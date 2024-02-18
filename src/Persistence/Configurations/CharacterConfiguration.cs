@@ -13,7 +13,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         builder.HasQueryFilter(c => c.DeletedAt == null);
         builder.Property(c => c.Version).IsRowVersion();
         builder.OwnsOne(c => c.Characteristics, ConfigureCharacterCharacteristics);
-        builder.OwnsOne(c => c.Statistics, ConfigureCharacterStatistics);
+        builder.OwnsMany(c => c.Statistics, ConfigureCharacterStatistics);
         builder.OwnsOne(c => c.Rating, ConfigureCharacterRating);
     }
 
@@ -59,7 +59,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         builder.Property(wp => wp.Crossbow).HasColumnName("crossbow");
     }
 
-    private static void ConfigureCharacterStatistics(OwnedNavigationBuilder<Character, List<CharacterStatistics>> builder)
+    private static void ConfigureCharacterStatistics(OwnedNavigationBuilder<Character, CharacterStatistics> builder)
     {
         // Default names are prefixed with character_statistics.
         builder.Property(s => s.Kills).HasColumnName("kills");

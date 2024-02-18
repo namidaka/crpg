@@ -41,15 +41,16 @@ public class RespecializeCharacterCommandTest : TestBase
                 new EquippedItem { UserItem = new UserItem(), Slot = ItemSlot.Body },
                 new EquippedItem { UserItem = new UserItem(), Slot = ItemSlot.Weapon0 },
             },
-            Statistics = new Dictionary<GameMode, CharacterStatistics>
+            Statistics = new List<CharacterStatistics>
             {
                 {
-                    GameMode.CRPGBattle, new CharacterStatistics
+                    new CharacterStatistics
                     {
                         Kills = 1,
                         Deaths = 2,
                         Assists = 3,
                         PlayTime = TimeSpan.FromSeconds(4),
+                        GameMode = GameMode.CRPGBattle,
                     }
                 },
             },
@@ -103,10 +104,12 @@ public class RespecializeCharacterCommandTest : TestBase
         Assert.That(character.Level, Is.EqualTo(3));
         Assert.That(character.Experience, Is.EqualTo(150));
         Assert.That(character.EquippedItems.Count, Is.EqualTo(3));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].Kills, Is.EqualTo(1));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].Deaths, Is.EqualTo(2));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].Assists, Is.EqualTo(3));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].PlayTime, Is.EqualTo(TimeSpan.FromSeconds(4)));
+        CharacterStatistics? charStats = character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle);
+        Assert.That(charStats?.Kills, Is.EqualTo(1));
+        Assert.That(charStats?.Deaths, Is.EqualTo(2));
+        Assert.That(charStats?.Assists, Is.EqualTo(3));
+        Assert.That(charStats?.PlayTime, Is.EqualTo(TimeSpan.FromSeconds(4)));
+
         characterServiceMock.Verify(cs => cs.ResetCharacterCharacteristics(It.IsAny<Character>(), true));
     }
 
@@ -125,15 +128,16 @@ public class RespecializeCharacterCommandTest : TestBase
                 new EquippedItem { UserItem = new UserItem(), Slot = ItemSlot.Body },
                 new EquippedItem { UserItem = new UserItem(), Slot = ItemSlot.Weapon0 },
             },
-            Statistics = new Dictionary<GameMode, CharacterStatistics>
+            Statistics = new List<CharacterStatistics>
             {
                 {
-                    GameMode.CRPGBattle, new CharacterStatistics
+                    new CharacterStatistics
                     {
                         Kills = 1,
                         Deaths = 2,
                         Assists = 3,
                         PlayTime = TimeSpan.FromSeconds(4),
+                        GameMode = GameMode.CRPGBattle,
                     }
                 },
             },
@@ -165,10 +169,12 @@ public class RespecializeCharacterCommandTest : TestBase
         Assert.That(character.Level, Is.EqualTo(3));
         Assert.That(character.Experience, Is.EqualTo(150));
         Assert.That(character.EquippedItems.Count, Is.EqualTo(3));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].Kills, Is.EqualTo(1));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].Deaths, Is.EqualTo(2));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].Assists, Is.EqualTo(3));
-        Assert.That(character.Statistics[GameMode.CRPGBattle].PlayTime, Is.EqualTo(TimeSpan.FromSeconds(4)));
+        CharacterStatistics? charStats = character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle);
+        Assert.That(charStats?.Kills, Is.EqualTo(1));
+        Assert.That(charStats?.Deaths, Is.EqualTo(2));
+        Assert.That(charStats?.Assists, Is.EqualTo(3));
+        Assert.That(charStats?.PlayTime, Is.EqualTo(TimeSpan.FromSeconds(4)));
+
         characterServiceMock.Verify(cs => cs.ResetCharacterCharacteristics(It.IsAny<Character>(), true));
     }
 

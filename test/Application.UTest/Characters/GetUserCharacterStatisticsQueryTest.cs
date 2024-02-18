@@ -28,7 +28,7 @@ public class GetUserCharacterStatisticsQueryTest : TestBase
         {
             Name = "toto",
             UserId = 2,
-            Statistics = new Dictionary<GameMode, CharacterStatistics>(),
+            Statistics = new List<CharacterStatistics> { new() { GameMode = GameMode.CRPGBattle } },
         };
         ArrangeDb.Characters.Add(character);
         await ArrangeDb.SaveChangesAsync();
@@ -36,6 +36,7 @@ public class GetUserCharacterStatisticsQueryTest : TestBase
         GetUserCharacterStatisticsQuery.Handler handler = new(ActDb, Mapper);
         var result = await handler.Handle(new GetUserCharacterStatisticsQuery
         {
+            GameMode = GameMode.CRPGBattle,
             CharacterId = character.Id,
             UserId = 2,
         }, CancellationToken.None);

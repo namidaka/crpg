@@ -97,7 +97,7 @@ internal class CharacterService : ICharacterService
 
     public void ResetStatistics(Character character)
     {
-        foreach (CharacterStatistics modeStats in character.Statistics.Values)
+        foreach (CharacterStatistics modeStats in character.Statistics)
         {
             modeStats.Kills = 0;
             modeStats.Deaths = 0;
