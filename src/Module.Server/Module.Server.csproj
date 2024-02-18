@@ -64,4 +64,8 @@
   <ItemGroup>
     <InternalsVisibleTo Include="$(AssemblyName).UTest" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
 </Project>

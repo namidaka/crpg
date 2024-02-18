@@ -3,6 +3,7 @@ using Crpg.Application.Common.Results;
 using Crpg.Common.Helpers;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Limitations;
+using Crpg.Domain.Entities.Servers;
 
 namespace Crpg.Application.Common.Services;
 
@@ -96,13 +97,13 @@ internal class CharacterService : ICharacterService
 
     public void ResetStatistics(Character character)
     {
-        character.Statistics = new CharacterStatistics
+        foreach (CharacterStatistics modeStats in character.Statistics.Values)
         {
-            Kills = 0,
-            Deaths = 0,
-            Assists = 0,
-            PlayTime = TimeSpan.Zero,
-        };
+            modeStats.Kills = 0;
+            modeStats.Deaths = 0;
+            modeStats.Assists = 0;
+            modeStats.PlayTime = TimeSpan.Zero;
+        }
     }
 
     public void UpdateRating(Character character, float value, float deviation, float volatility, bool isGameUserUpdate = false)

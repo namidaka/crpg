@@ -1,6 +1,7 @@
 using Crpg.Domain.Common;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 
 namespace Crpg.Domain.Entities.Characters;
@@ -33,7 +34,7 @@ public class Character : AuditableEntity
 
     public CharacterCharacteristics Characteristics { get; set; } = new();
     public IList<EquippedItem> EquippedItems { get; set; } = new List<EquippedItem>();
-    public CharacterStatistics Statistics { get; set; } = new();
+    public IList<CharacterStatistics> Statistics { get; set; } = new List<CharacterStatistics>();
     public CharacterRating Rating { get; set; } = new();
 
     public User? User { get; set; }
