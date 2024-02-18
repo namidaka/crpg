@@ -128,12 +128,12 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         // Check if the attacker is mounted and using a two-handed polearm
         if (attackInformation.DoesAttackerHaveMountAgent && weapon.CurrentUsageItem.WeaponClass == WeaponClass.TwoHandedPolearm)
         {
-            // Checks if attack direction is swing
+            // Check if attack direction is swing
             bool isSwingAttack = collisionData.StrikeType == (int)StrikeType.Swing;
 
             if (isSwingAttack)
             {
-                // Decrease swing damage by 10%
+                // If all of the above are true -> Decrease swing damage by 10%
                 float swingDamageDecreaseFactor = 0.90f;
                 finalDamage *= swingDamageDecreaseFactor;
             }
