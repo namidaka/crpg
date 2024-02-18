@@ -3,6 +3,7 @@ using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Items;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 using Moq;
 using NUnit.Framework;
@@ -333,13 +334,24 @@ public class CharacterServiceTest
         Character character = new()
         {
             Level = 5,
-            Statistics = new CharacterStatistics() { Kills = 100, Deaths = 100, Assists = 100, PlayTime = TimeSpan.FromHours(1) },
+            Statistics = new Dictionary<GameMode, CharacterStatistics>
+                    {
+                        {
+                            GameMode.CRPGBattle, new CharacterStatistics
+                            {
+                                Kills = 100,
+                                Deaths = 100,
+                                Assists = 100,
+                                PlayTime = TimeSpan.FromHours(1),
+                            }
+                        },
+                    },
         };
         characterService.ResetStatistics(character);
 
-        Assert.That(character.Statistics.Kills, Is.EqualTo(0));
-        Assert.That(character.Statistics.Deaths, Is.EqualTo(0));
-        Assert.That(character.Statistics.Assists, Is.EqualTo(0));
-        Assert.That(character.Statistics.PlayTime, Is.EqualTo(TimeSpan.Zero));
+        Assert.That(character.Statistics[GameMode.CRPGBattle].Kills, Is.EqualTo(0));
+        Assert.That(character.Statistics[GameMode.CRPGBattle].Deaths, Is.EqualTo(0));
+        Assert.That(character.Statistics[GameMode.CRPGBattle].Assists, Is.EqualTo(0));
+        Assert.That(character.Statistics[GameMode.CRPGBattle].PlayTime, Is.EqualTo(TimeSpan.Zero));
     }
 }

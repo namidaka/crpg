@@ -1,6 +1,7 @@
 using Crpg.Application.Characters.Queries;
 using Crpg.Application.Common.Results;
 using Crpg.Domain.Entities.Characters;
+using Crpg.Domain.Entities.Servers;
 using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Characters;
@@ -27,7 +28,7 @@ public class GetUserCharacterStatisticsQueryTest : TestBase
         {
             Name = "toto",
             UserId = 2,
-            Statistics = new CharacterStatistics(),
+            Statistics = new Dictionary<GameMode, CharacterStatistics>(),
         };
         ArrangeDb.Characters.Add(character);
         await ArrangeDb.SaveChangesAsync();

@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Module.Common;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
@@ -180,8 +181,8 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             float roundDuration = _currentRoundStartTime.ElapsedSeconds;
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: Math.Max(_currentWave, 0)),
+                gameMode: GameMode.CRPGDTV,
                 durationUpkeep: roundDuration * UpkeepMultiplier,
-                updateUserStats: false,
                 constantMultiplier: RewardMultiplier);
         }
     }
@@ -306,8 +307,8 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         {
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave),
+                gameMode: GameMode.CRPGDTV,
                 durationUpkeep: roundDuration * UpkeepMultiplier,
-                updateUserStats: false,
                 constantMultiplier: RewardMultiplier);
             EndGame(Mission.AttackerTeam);
             return;
@@ -327,8 +328,8 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
         _ = _rewardServer.UpdateCrpgUsersAsync(
             durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave + 1),
+            gameMode: GameMode.CRPGDTV,
             durationUpkeep: roundDuration * UpkeepMultiplier,
-            updateUserStats: false,
             constantMultiplier: RewardMultiplier);
 
         if (_currentRound < RoundsCount - 1)

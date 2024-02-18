@@ -1,4 +1,6 @@
+using System.Reflection.Emit;
 using Crpg.Domain.Entities.Characters;
+using Crpg.Domain.Entities.Servers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -57,7 +59,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         builder.Property(wp => wp.Crossbow).HasColumnName("crossbow");
     }
 
-    private static void ConfigureCharacterStatistics(OwnedNavigationBuilder<Character, CharacterStatistics> builder)
+    private static void ConfigureCharacterStatistics(OwnedNavigationBuilder<Character, List<CharacterStatistics>> builder)
     {
         // Default names are prefixed with character_statistics.
         builder.Property(s => s.Kills).HasColumnName("kills");

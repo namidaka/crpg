@@ -48,12 +48,26 @@ public class UpdateGameUsersCommandTest : TestBase
                             Slot = ItemSlot.Body,
                         },
                     },
-                    Statistics = new CharacterStatistics
+                    Statistics = new Dictionary<GameMode, CharacterStatistics>
                     {
-                        Kills = 1,
-                        Deaths = 2,
-                        Assists = 3,
-                        PlayTime = TimeSpan.FromSeconds(4),
+                        {
+                            GameMode.CRPGBattle, new CharacterStatistics
+                            {
+                                Kills = 1,
+                                Deaths = 2,
+                                Assists = 3,
+                                PlayTime = TimeSpan.FromSeconds(4),
+                            }
+                        },
+                        {
+                            GameMode.CRPGConquest, new CharacterStatistics
+                            {
+                                Kills = 2,
+                                Deaths = 4,
+                                Assists = 6,
+                                PlayTime = TimeSpan.FromSeconds(8),
+                            }
+                        },
                     },
                     Rating = new CharacterRating
                     {
@@ -126,10 +140,10 @@ public class UpdateGameUsersCommandTest : TestBase
         Assert.That(data.UpdateResults[0].RepairedItems, Is.Empty);
 
         var dbCharacter = await AssertDb.Characters.FirstAsync(c => c.Id == user.Characters[0].Id);
-        Assert.That(dbCharacter.Statistics.Kills, Is.EqualTo(6));
-        Assert.That(dbCharacter.Statistics.Deaths, Is.EqualTo(8));
-        Assert.That(dbCharacter.Statistics.Assists, Is.EqualTo(10));
-        Assert.That(dbCharacter.Statistics.PlayTime, Is.EqualTo(TimeSpan.FromSeconds(12)));
+        Assert.That(dbCharacter.Statistics[GameMode.CRPGBattle].Kills, Is.EqualTo(6));
+        Assert.That(dbCharacter.Statistics[GameMode.CRPGBattle].Deaths, Is.EqualTo(8));
+        Assert.That(dbCharacter.Statistics[GameMode.CRPGBattle].Assists, Is.EqualTo(10));
+        Assert.That(dbCharacter.Statistics[GameMode.CRPGBattle].PlayTime, Is.EqualTo(TimeSpan.FromSeconds(12)));
 
         characterServiceMock.VerifyAll();
 

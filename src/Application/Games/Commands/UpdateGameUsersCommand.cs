@@ -20,6 +20,7 @@ namespace Crpg.Application.Games.Commands;
 public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 {
     public IList<GameUserUpdate> Updates { get; init; } = Array.Empty<GameUserUpdate>();
+    public GameMode GameMode { get; set; } = default!;
 
     internal class Handler : IMediatorRequestHandler<UpdateGameUsersCommand, UpdateGameUsersResult>
     {
@@ -55,7 +56,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 
                 _characterService.UpdateRating(character, update.Rating.Value, update.Rating.Deviation, update.Rating.Volatility, isGameUserUpdate: true);
                 var reward = GiveReward(character, update.Reward, update.Instance);
-                UpdateStatistics(character, update.Statistics);
+                UpdateStatistics(req.GameMode, character, update.Statistics);
                 var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
                 results.Add((character.User!, reward, brokenItems));
             }
@@ -108,12 +109,27 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             };
         }
 
-        private void UpdateStatistics(Character character, CharacterStatisticsViewModel statistics)
+        private void UpdateStatistics(GameMode gameMode, Character character, CharacterStatisticsViewModel statistics)
         {
-            character.Statistics.Kills += statistics.Kills;
-            character.Statistics.Deaths += statistics.Deaths;
-            character.Statistics.Assists += statistics.Assists;
-            character.Statistics.PlayTime += statistics.PlayTime;
+            CharacterStatistics? statisticsForGameMode = character.Statistics.FirstOrDefault(cs => cs.GameMode == gameMode);
+            if (statisticsForGameMode != null)
+            {
+                statisticsForGameMode.Kills += statistics.Kills;
+                statisticsForGameMode.Deaths += statistics.Deaths;
+                statisticsForGameMode.Assists += statistics.Assists;
+                statisticsForGameMode.PlayTime += statistics.PlayTime;
+            }
+            else
+            {
+                character.Statistics.Add(new CharacterStatistics
+                {
+                    Kills = statistics.Kills,
+                    Deaths = statistics.Deaths,
+                    Assists = statistics.Assists,
+                    PlayTime = statistics.PlayTime,
+                    GameMode = gameMode,
+                });
+            }
         }
 
         private async Task<List<GameRepairedItem>> RepairOrBreakItems(Character character,
