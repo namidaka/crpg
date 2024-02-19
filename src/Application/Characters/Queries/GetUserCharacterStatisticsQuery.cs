@@ -33,7 +33,16 @@ public record GetUserCharacterStatisticsQuery : IMediatorRequest<CharacterStatis
 
             return character == null
                 ? new(CommonErrors.CharacterNotFound(req.CharacterId, req.UserId))
-                : new(_mapper.Map<CharacterStatisticsViewModel>(character.Statistics.FirstOrDefault(cs => cs.GameMode == req.GameMode)));
+                : new(_mapper.Map<CharacterStatisticsViewModel>(character.Statistics.FirstOrDefault(cs => cs.GameMode == req.GameMode) == null
+                ? new CharacterStatisticsViewModel
+                {
+                    Kills = 0,
+                    Deaths = 0,
+                    Assists = 0,
+                    PlayTime = TimeSpan.Zero,
+                    GameMode = req.GameMode,
+                }
+                : character.Statistics.FirstOrDefault(cs => cs.GameMode == req.GameMode)));
         }
     }
 }

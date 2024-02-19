@@ -35,8 +35,10 @@ import {
 } from '@/services/characters-service';
 import { createRankTable } from '@/services/leaderboard-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
+import { useGameMode } from '@/composables/use-gamemode';
 import { Suspense } from 'vue';
 import { GameMode } from '@/models/game-mode';
+import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({
   meta: {
@@ -46,6 +48,8 @@ definePage({
 });
 
 const userStore = useUserStore();
+
+const { gameModeModel, gameModes } = useGameMode();
 
 const character = injectStrict(characterKey);
 const { loadCharacterCharacteristics } = injectStrict(characterCharacteristicsKey);
@@ -156,15 +160,18 @@ const experienceMultiplierBonus = computed(() =>
 const heirloomPointByLevel = computed(() => getHeirloomPointByLevel(character.value.level));
 const retireTableData = computed(() => getHeirloomPointByLevelAggregation());
 
-const fetchPageData = (characterId: number) =>
+const fetchPageData = (characterId: number, selectedGameMode: GameMode) =>
   Promise.all([
-    loadCharacterStatistics(0, { id: characterId }, {gameMode: GameMode.Battle}),
+    loadCharacterStatistics(0, { id: characterId }, {gameMode: selectedGameMode}),
     loadCharacterRating(0, { id: characterId }),
     loadCharacterLimitations(0, { id: characterId }),
   ]);
 
 onBeforeRouteUpdate(async to => {
-  await fetchPageData(Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string));
+  const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
+  const gameMode = (to.query.gameMode as GameMode) || 'CRPGBattle';
+  
+  await fetchPageData(characterId, gameMode);
   return true;
 });
 
@@ -173,12 +180,17 @@ const LazyCharacterEarningChart = defineAsyncComponent({
   suspensible: true,
 });
 
-await fetchPageData(character.value.id);
+await fetchPageData(character.value.id, gameModeModel.value);
 </script>
 
 <template>
   <div class="mx-auto max-w-2xl space-y-12 pb-12">
     <FormGroup :label="$t('character.settings.group.overview.title')" :collapsable="false">
+    <div class="flex items-center justify-center">
+      <OTabs v-model="gameModeModel" contentClass="hidden">
+          <OTabItem v-for="gamemode in gameModes" :label="$t(`game-mode.${gamemode}`, 0)" :icon="gameModeToIcon[gamemode]" :value="gamemode" />
+      </OTabs>
+    </div>
       <div class="grid grid-cols-2 gap-2 text-2xs">
         <SimpleTableRow
           :label="$t('character.statistics.level.title')"

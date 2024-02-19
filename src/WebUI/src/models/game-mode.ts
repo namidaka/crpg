@@ -3,8 +3,4 @@ export enum GameMode {
   Conquest = 'CRPGConquest',
   DTV = 'CRPGDTV',
   Duel = 'CRPGDuel',
-  Siege = 'CRPGSiege',
-  TeamDeathmatch = 'CRPGTeamDeathmatch',
-  Skirmish = 'CRPGSkirmish',
-  Warmup = 'CRPGWarmup',
 }

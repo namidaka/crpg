@@ -1045,7 +1045,7 @@ public record SeedDataCommand : IMediatorRequest
                             Kills = 1,
                             Deaths = 30,
                             Assists = 10,
-                            PlayTime = new TimeSpan(10, 1, 5, 20),
+                            PlayTime = new TimeSpan(10, 7, 5, 20),
                             GameMode = GameMode.CRPGBattle,
                         }
                     },
@@ -1055,7 +1055,7 @@ public record SeedDataCommand : IMediatorRequest
                             Kills = 10,
                             Deaths = 0,
                             Assists = 10,
-                            PlayTime = new TimeSpan(100, 1, 50, 15),
+                            PlayTime = new TimeSpan(100, 3, 50, 15),
                             GameMode = GameMode.CRPGConquest,
                         }
                     },
@@ -1075,7 +1075,7 @@ public record SeedDataCommand : IMediatorRequest
                             Kills = 500,
                             Deaths = 10,
                             Assists = 90,
-                            PlayTime = new TimeSpan(100, 1, 1, 0),
+                            PlayTime = new TimeSpan(50, 4, 59, 0),
                             GameMode = GameMode.CRPGDTV,
                         }
                     },

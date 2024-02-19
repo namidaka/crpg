@@ -19,7 +19,7 @@ export const useGameMode = () => {
     },
   });
 
-  const gameModes = Object.keys(GameMode);
+  const gameModes = Object.values(GameMode);
 
   return {
     gameModeModel,
