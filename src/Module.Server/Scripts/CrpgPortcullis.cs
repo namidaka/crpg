@@ -17,6 +17,7 @@ public class CrpgPortcullis : UsableMachine
 {
     private const string OpenTag = "open";
     private const string CloseTag = "close";
+    private const float DistanceThreshold = 0.01f;
 
     private ActionIndexCache _actStart = default!;
     private ActionIndexCache _actEnd = default!;
@@ -41,7 +42,9 @@ public class CrpgPortcullis : UsableMachine
     };
 
     private SynchedMissionObject? _synchedObject;
+    private DestructableComponent? _destructableComponent;
     private SoundEvent? _movementSound;
+    private int _batteringRamHitSoundIdCache;
     private bool _isMoveSoundPlaying;
     private int _soundIndex;
     private float _duration;
@@ -55,6 +58,7 @@ public class CrpgPortcullis : UsableMachine
     public string MovementSoundEffect = "event:/mission/siege/siegetower/move";
     public string StartAnimation = "act_pickup_middle_begin";
     public string EndAnimation = "act_pickup_middle_end";
+    public string BatteringRamHitSound = "event:/mission/siege/door/hit";
     public float Duration = 5f;
     public Vec3 Translation = Vec3.Zero;
 
@@ -74,11 +78,12 @@ public class CrpgPortcullis : UsableMachine
         if (_synchedObject != null)
         {
             Vec3 origin = _synchedObject.GameEntity.GetFrame().origin;
-            if (origin != _targetPosition)
+            float distanceSquared = (origin - _targetPosition).LengthSquared;
+            if (distanceSquared > DistanceThreshold) // avoid floating point imprecision
             {
                 return GateState.Moving;
             }
-            else if (origin == _closedPosition)
+            else if ((origin - _closedPosition).LengthSquared < DistanceThreshold)
             {
                 return GateState.Closed;
             }
@@ -92,7 +97,7 @@ public class CrpgPortcullis : UsableMachine
         if (_synchedObject != null)
         {
             Vec3 origin = _synchedObject.GameEntity.GetFrame().origin;
-            if (origin.Distance(_closedPosition) < 0.05f || origin.Distance(_openPosition) < 0.05f)
+            if ((origin - _closedPosition).LengthSquared < DistanceThreshold || (origin - _openPosition).LengthSquared < DistanceThreshold)
             {
                 return false;
             }
@@ -132,6 +137,14 @@ public class CrpgPortcullis : UsableMachine
         {
             Debug.Print($"Entity {GameEntity.GetGuid()} has a {nameof(CrpgPortcullis)} script but no {nameof(SynchedMissionObject)} one");
             return;
+        }
+
+        if (_destructableComponent != null && !GameNetwork.IsClientOrReplay)
+        {
+            _batteringRamHitSoundIdCache = SoundEvent.GetEventIdFromString(BatteringRamHitSound);
+            _destructableComponent.OnDestroyed += new DestructableComponent.OnHitTakenAndDestroyedDelegate(OnDestroyed);
+            _destructableComponent.OnHitTaken += new DestructableComponent.OnHitTakenAndDestroyedDelegate(OnHitTaken);
+            _destructableComponent.BattleSide = BattleSideEnum.Defender;
         }
 
         _closedPosition = _synchedObject.GameEntity.GetFrame().origin;
@@ -179,6 +192,19 @@ public class CrpgPortcullis : UsableMachine
         frame.origin = _startPosition + (_targetPosition - _startPosition) * transitionProgress;
         _synchedObject.SetFrameSynched(ref frame);
         _duration += dt;
+    }
+
+    protected override void OnRemoved(int removeReason)
+    {
+        base.OnRemoved(removeReason);
+        if (_destructableComponent != null)
+        {
+            if (!GameNetwork.IsClientOrReplay)
+            {
+                _destructableComponent.OnDestroyed -= new DestructableComponent.OnHitTakenAndDestroyedDelegate(OnDestroyed);
+                _destructableComponent.OnHitTaken -= new DestructableComponent.OnHitTakenAndDestroyedDelegate(OnHitTaken);
+            }
+        }
     }
 
     private void TickSound()
@@ -239,7 +265,7 @@ public class CrpgPortcullis : UsableMachine
                 }
             }
 
-            if (!IsDestroyed)
+            if (_destructableComponent == null || (_destructableComponent != null && !_destructableComponent.IsDestroyed))
             {
                 foreach (StandingPoint standingPoint2 in StandingPoints)
                 {
@@ -264,6 +290,25 @@ public class CrpgPortcullis : UsableMachine
         }
     }
 
+    private void OnHitTaken(DestructableComponent hitComponent, Agent hitterAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage)
+    {
+        if (!GameNetwork.IsClientOrReplay && inflictedDamage >= 200 && State == GateState.Closed && attackerScriptComponentBehavior is BatteringRam)
+        {
+            Mission.Current.MakeSound(_batteringRamHitSoundIdCache, GameEntity.GlobalPosition, false, true, -1, -1);
+        }
+    }
+
+    private void OnDestroyed(DestructableComponent destroyedComponent, Agent destroyerAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage)
+    {
+        if (!GameNetwork.IsClientOrReplay)
+        {
+            foreach (StandingPoint standingPoint in StandingPoints)
+            {
+                standingPoint.SetIsDeactivatedSynched(true);
+            }
+        }
+    }
+
     public enum TimingFunctionType
     {
         Linear,
@@ -273,25 +318,26 @@ public class CrpgPortcullis : UsableMachine
         EaseInOut,
     }
 
+    public override string GetDescriptionText(GameEntity? gameEntity = null)
+    {
+        return new TextObject("{=feRWCkrF}Portcullis", null).ToString();
+    }
+
+    public override TextObject GetActionTextForStandingPoint(UsableMissionObject usableGameObject)
+    {
+        TextObject textObject = new(usableGameObject.GameEntity.HasTag(OpenTag) ? "{=5oozsaIb}{KEY} Open" : "{=TJj71hPO}{KEY} Close", null);
+        textObject.SetTextVariable("KEY", HyperlinkTexts.GetKeyHyperlinkText(HotKeyManager.GetHotKeyId("CombatHotKeyCategory", 13)));
+        return textObject;
+    }
+
     protected void CollectGameEntities()
     {
         List<GameEntity> list = GameEntity.CollectChildrenEntitiesWithTag("portcullis");
         if (list.Count > 0)
         {
             _synchedObject = list.FirstOrDefault().GetFirstScriptOfType<SynchedMissionObject>();
+            _destructableComponent = list.FirstOrDefault().GetFirstScriptOfType<DestructableComponent>();
         }
-    }
-
-    public override string GetDescriptionText(GameEntity? gameEntity = null)
-    {
-        return new TextObject("{=}Portcullis", null).ToString();
-    }
-
-    public override TextObject GetActionTextForStandingPoint(UsableMissionObject usableGameObject)
-    {
-        TextObject textObject = new TextObject(usableGameObject.GameEntity.HasTag(OpenTag) ? "{=5oozsaIb}{KEY} Open" : "{=TJj71hPO}{KEY} Close", null);
-        textObject.SetTextVariable("KEY", HyperlinkTexts.GetKeyHyperlinkText(HotKeyManager.GetHotKeyId("CombatHotKeyCategory", 13)));
-        return textObject;
     }
 
     private bool IsUserAgentAnimationEnding(Agent agent)
