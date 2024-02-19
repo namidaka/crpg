@@ -126,7 +126,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         }
 
         // Check if the attacker is mounted and using a two-handed polearm
-        if (attackInformation.DoesAttackerHaveMountAgent && weapon.CurrentUsageItem.WeaponClass == WeaponClass.TwoHandedPolearm)
+        if (attackInformation.DoesAttackerHaveMountAgent && weapon.CurrentUsageItem.WeaponClass == WeaponClass.TwoHandedPolearm && weapon.CurrentUsageItem.WeaponLength >= 150)
         {
             // Check if attack direction is swing
             bool isSwingAttack = collisionData.StrikeType == (int)StrikeType.Swing;
