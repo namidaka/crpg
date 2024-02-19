@@ -61,6 +61,12 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                 case WeaponClass.Arrow:
                     finalDamage *= 1.5f;
                     break;
+                case WeaponClass.Javelin:
+                case WeaponClass.ThrowingAxe:
+                case WeaponClass.ThrowingKnife:
+                case WeaponClass.Stone:
+                    finalDamage *= 2.0f;
+                    break;
             }
         }
 
