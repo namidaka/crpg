@@ -951,10 +951,15 @@ public record SeedDataCommand : IMediatorRequest
                 Character = kadseCharacter0,
                 LastRespecializeAt = DateTime.UtcNow.AddDays(-8),
             };
+            CharacterLimitations droobCharacter0Limitations = new()
+            {
+                Character = droobCharacter0,
+                LastRespecializeAt = DateTime.UtcNow.AddDays(-8),
+            };
             CharacterLimitations[] newCharactersLimitations =
             {
                 takeoCharacter0Limitations, takeoCharacter1Limitations, takeoCharacter2Limitations, orleCharacter0Limitations,
-                orleCharacter2Limitations, kadseCharacter0Limitations,
+                orleCharacter2Limitations, kadseCharacter0Limitations, droobCharacter0Limitations,
             };
 
             var existingCharactersLimitations = await _db.CharacterLimitations.ToDictionaryAsync(l => l.CharacterId);
