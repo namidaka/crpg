@@ -125,6 +125,11 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             finalDamage *= 0.23f; // Decrease damage from couched lance.
         }
 
+        if (attackInformation.DoesAttackerHaveMountAgent && attackInformation.IsAttackerAgentDoingPassiveAttack)
+        {
+            finalDamage *= 0.23f; // Decrease damage from couched lance.
+        }
+
         // Check if the attacker is mounted and using a two-handed polearm
         if (attackInformation.DoesAttackerHaveMountAgent && weapon.CurrentUsageItem.WeaponClass == WeaponClass.TwoHandedPolearm && weapon.CurrentUsageItem.WeaponLength >= 150)
         {
@@ -133,9 +138,13 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
 
             if (isSwingAttack)
             {
-                // If all of the above are true -> Decrease swing damage by 10%
-                float swingDamageDecreaseFactor = 0.90f;
-                finalDamage *= swingDamageDecreaseFactor;
+                // Calculate the dynamic damage decrease factor based on weapon length
+                // This formula adjusts the damage reduction to be more severe for longer weapons.
+                // Example: a weapon of length 150 has a factor of 1, and length increases lead to proportional increases in the factor.
+                float lengthFactor = Math.Max(weapon.CurrentUsageItem.WeaponLength / 125f, 1f);
+                float dynamicDamageDecreaseFactor = 1f - (0.05f * lengthFactor); // Starting with a 5% reduction for the base length of 150 and increasing.
+
+                finalDamage *= dynamicDamageDecreaseFactor;
             }
         }
 
