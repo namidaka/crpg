@@ -3631,7 +3631,7 @@
         <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
         <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
         <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
-        <equipment slot="Gloves" id="Item.Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h3" />
         <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h3" />
