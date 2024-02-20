@@ -3327,14 +3327,9 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_shielder"
-            name="{=}Grey Order Shielder" race="light_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_shielder" name="{=}Grey Order Shielder" race="light_bot">
     <face>
-      <BodyProperties version="4"
-                      age="30"
-                      weight="0.4"
-                      build="0.4"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503977635096699853444400000000000000000003EFC3002000000004F2C3004" />
+      <BodyProperties version="4" age="30" weight="0.4" build="0.4" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503977635096699853444400000000000000000003EFC3002000000004F2C3004" />
     </face>
     <skills>
       <skill id="Strength" value="21" />
@@ -3376,14 +3371,9 @@
     </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_kuyak_two_handed"
-            name="{=}Grey Order Kuyak Hero" race="light_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_kuyak_two_handed" name="{=}Grey Order Kuyak Hero" race="light_bot">
     <face>
-      <BodyProperties version="4"
-                      age="30"
-                      weight="0.1"
-                      build="0.1"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503777635076699853444400000000000000000003EFC3002000000004EDC3002" />
+      <BodyProperties version="4" age="30" weight="0.1" build="0.1" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503777635076699853444400000000000000000003EFC3002000000004EDC3002" />
     </face>
     <skills>
       <skill id="Strength" value="15" />
@@ -3415,14 +3405,9 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_balanced_infantry"
-            name="{=}Grey Order Infantry" race="light_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_balanced_infantry" name="{=}Grey Order Infantry" race="light_bot">
     <face>
-      <BodyProperties version="4"
-                      age="30"
-                      weight="0.5"
-                      build="0.5"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503777635076699853444400000000000000000003EFC3002000000004EDC3002" />
+      <BodyProperties version="4" age="30" weight="0.5" build="0.5" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503777635076699853444400000000000000000003EFC3002000000004EDC3002" />
     </face>
     <skills>
       <skill id="Strength" value="27" />
@@ -3460,17 +3445,11 @@
         <equipment slot="Leg" id="Item.crpg_northern_plated_boots_v3_h0" />
         <equipment slot="Item0" id="Item.crpg_heavy_executioner_long_sword_v1_h0" />
       </EquipmentRoster>
-     <EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_heavy_two_handed"
-            name="{=}Grey Order Heavy Infantry" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_heavy_two_handed" name="{=}Grey Order Heavy Infantry" race="heavy_bot">
     <face>
-      <BodyProperties version="4"
-                      age="30"
-                      weight="0.8"
-                      build="0.8"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+      <BodyProperties version="4" age="30" weight="0.8" build="0.8" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
     </face>
     <skills>
       <skill id="Strength" value="33" />
@@ -3510,8 +3489,7 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_heavy_polearm"
-            name="{=}Grey Order Heavy Infantry" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_heavy_polearm" name="{=}Grey Order Heavy Infantry" race="heavy_bot">
     <face>
       <BodyProperties version="4"
                       age="30"
@@ -3557,14 +3535,9 @@
 	   </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_varadin"
-              name="{=}Varadin The Grey" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_varadin" name="{=}Varadin The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4"
-                      age="30"
-                      weight="0.4"
-                      build="0.9"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
     </face>
     <skills>
       <skill id="Strength" value="39" />
@@ -3596,14 +3569,9 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_knitler"
-              name="{=}Knitler The Grey" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_knitler" name="{=}Knitler The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4"
-                      age="30"
-                      weight="0.4"
-                      build="0.9"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
     </face>
     <skills>
       <skill id="Strength" value="30" />
@@ -3635,14 +3603,9 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_harpag"
-              name="{=}Harpag The Grey" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_harpag" name="{=}Harpag The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4"
-                      age="65"
-                      weight="0.7"
-                      build="0.7"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="65" weight="0.7" build="0.7" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
     </face>
     <skills>
       <skill id="Strength" value="24" />
@@ -3675,14 +3638,9 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_pawiu"
-              name="{=}Pawiu The Grey" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_pawiu" name="{=}Pawiu The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4"
-                      age="30"
-                      weight="0.4"
-                      build="0.9"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
     </face>
     <skills>
       <skill id="Strength" value="39" />
@@ -3717,11 +3675,7 @@
  <NPCCharacter id="crpg_dtv_greyorder_boss_hetman"
               name="{=}Hetman The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4"
-                      age="30"
-                      weight="0.4"
-                      build="0.9"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
     </face>
     <skills>
       <skill id="Strength" value="36" />
@@ -3754,14 +3708,9 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_greyorder_boss_tamra"
-              name="{=}Tamra The Grey" is_female="true" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_boss_tamra" name="{=}Tamra The Grey" is_female="true" race="heavy_bot">
     <face>
-      <BodyProperties version="4"
-                      age="33"
-                      weight="0.1"
-                      build="0.1"
-                      key="00026C0F1300200298868A3266629726C05B7489548A1717769ACB537CAE17790270062407547366000000000000000000000000000000000000000066FC2003"  />
+      <BodyProperties version="4" age="33" weight="0.1" build="0.1" key="00026C0F1300200298868A3266629726C05B7489548A1717769ACB537CAE17790270062407547366000000000000000000000000000000000000000066FC2003"  />
     </face>
     <skills>
       <skill id="Strength" value="45" />
