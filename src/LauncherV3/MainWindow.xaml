@@ -42,9 +42,9 @@
 
 
 
-            <Button x:Name="startUpdateButton" Command="{Binding StartUpdateCrpgCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="{Binding StartUpdateText}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="31" Width="195" Grid.Row="1"/>
+            <Button x:Name="startUpdateButton" Command="{Binding StartUpdateCrpgCommand}" Foreground="#FFFFFFFF" Background="{Binding StartUpdateBackground}" FontFamily="CAT Walzhari" FontSize="20" Grid.Column="1" Content="{Binding StartUpdateText}" HorizontalAlignment="Center" Margin="0,151,0,0" VerticalAlignment="Top" Height="62" Width="195" Grid.Row="3"/>
 
-            <ComboBox Style="{DynamicResource ComboBoxStyle1}" HorizontalContentAlignment="Center" ItemsSource="{Binding PlatformOptions}" SelectedItem="{Binding SelectedPlatform}"  DisplayMemberPath="."  x:Name="platformComboBox" Grid.Column="1" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Width="195" Height="24" Grid.Row="1" >
+            <ComboBox Style="{DynamicResource ComboBoxStyle1}" HorizontalContentAlignment="Center" ItemsSource="{Binding PlatformOptions}" SelectedItem="{Binding SelectedPlatform}"  DisplayMemberPath="."  x:Name="platformComboBox" Grid.Column="1" HorizontalAlignment="Center" Margin="0,218,0,0" VerticalAlignment="Top" Width="195" Height="24" Grid.Row="3" >
             </ComboBox>
             <Label Grid.Column="1" Content="X" Padding="0" Margin="206,1,2,1" MouseUp="CloseButton_Click" MouseDown="CloseButton_Click" Panel.ZIndex="1" Focusable="True"/>
             <Label Grid.Column="1" Content="－" Padding="0" HorizontalAlignment="Left" Margin="190,0,0,0" VerticalAlignment="Center" Panel.ZIndex="1" Focusable="True" MouseUp="MinimizeButton_Click" MouseDown="MinimizeButton_Click"/>

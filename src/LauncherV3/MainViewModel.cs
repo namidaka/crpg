@@ -27,6 +27,9 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Shell;
 using System.Windows.Input;
+using System.Drawing.Drawing2D;
+using System.Windows.Media;
+using LinearGradientBrush = System.Windows.Media.LinearGradientBrush;
 
 namespace LauncherV3;
 
@@ -111,6 +114,7 @@ public partial class MainViewModel : ObservableObject
         ResetConfigCommand.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(StartUpdateCrpgCommand));
         OnPropertyChanged(nameof(StartUpdateText));
+        OnPropertyChanged(nameof(StartUpdateBackground));
 
     }
 
@@ -145,7 +149,8 @@ public partial class MainViewModel : ObservableObject
     }
 
     public ICommand StartUpdateCrpgCommand => IsGameUpToDate ? StartCrpgCommand : UpdateGameFilesCommand;
-    public string StartUpdateText => IsGameUpToDate ? "Launch cRPG" : "Check For Update";
+    public string StartUpdateText => IsGameUpToDate ? "Launch cRPG" : "Update cRPG";
+    public LinearGradientBrush StartUpdateBackground => IsGameUpToDate ? new LinearGradientBrush(Color.FromArgb(0, 148, 56, 55), Color.FromArgb(100, 148, 56, 55), 90) : new LinearGradientBrush(Color.FromArgb(0, 251, 214, 1), Color.FromArgb(255, 251, 214, 1), 90);
 
     [RelayCommand(CanExecute = nameof(CanStartCrpg))]
     private void StartCrpg()
