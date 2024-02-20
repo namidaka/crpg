@@ -150,7 +150,7 @@ public partial class MainViewModel : ObservableObject
 
     public ICommand StartUpdateCrpgCommand => IsGameUpToDate ? StartCrpgCommand : UpdateGameFilesCommand;
     public string StartUpdateText => IsGameUpToDate ? "Launch cRPG" : "Update cRPG";
-    public LinearGradientBrush StartUpdateBackground => IsGameUpToDate ? new LinearGradientBrush(Color.FromArgb(0, 148, 56, 55), Color.FromArgb(100, 148, 56, 55), 90) : new LinearGradientBrush(Color.FromArgb(0, 251, 214, 1), Color.FromArgb(255, 251, 214, 1), 90);
+    public LinearGradientBrush StartUpdateBackground => IsGameUpToDate ? new LinearGradientBrush(Color.FromArgb(50, 148, 56, 55), Color.FromArgb(255, 148, 56, 55), 90) : new LinearGradientBrush(Color.FromArgb(50, 251, 214, 1), Color.FromArgb(255, 251, 214, 1), 90);
 
     [RelayCommand(CanExecute = nameof(CanStartCrpg))]
     private void StartCrpg()
