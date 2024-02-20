@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <DtvData>
   
   <Round reward="55">
@@ -70,24 +70,23 @@
 
   <Round reward="190">
     <Wave>
-      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="1.5" />
-      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="1.5" />
+      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="1.0" />
+      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="1.0" />
       <Group classDivisionId="crpg_dtv_pirate_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="0.5" />
-      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="0.5" />
-      <Group classDivisionId="crpg_dtv_pirate_male" count="1.0" />
-      <Group classDivisionId="crpg_dtv_pirate_female" count="0.5" />
+      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="0.3" />
+      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="0.2" />
+      <Group classDivisionId="crpg_dtv_pirate_male" count="0.7" />
+      <Group classDivisionId="crpg_dtv_pirate_female" count="0.3" />
       <Group classDivisionId="crpg_dtv_pirate_swashbuckler" count="0.5" />
       <Group classDivisionId="crpg_dtv_pirate_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="0.5" />
-      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="1.0" />
-      <Group classDivisionId="crpg_dtv_pirate_male" count="1.0" />
-      <Group classDivisionId="crpg_dtv_pirate_female" count="0.5" />
-      <Group classDivisionId="crpg_dtv_pirate_swashbuckler" count="1.0" />
+      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="0.2" />
+      <Group classDivisionId="crpg_dtv_pirate_male" count="0.7" />
+      <Group classDivisionId="crpg_dtv_pirate_female" count="0.6" />
+      <Group classDivisionId="crpg_dtv_pirate_swashbuckler" count="0.5" />
       <Group classDivisionId="crpg_dtv_pirate_boss" />
     </Wave>
   </Round>

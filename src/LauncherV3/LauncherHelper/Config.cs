@@ -3,11 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
+
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Media;
+
 using static LauncherV3.MainViewModel;
 
 internal static class Config
@@ -15,7 +13,6 @@ internal static class Config
     public static Dictionary<Platform, GameInstallationFolderResolver.GameInstallationInfo?> GameLocations { get; private set; } = new() ;
     public static bool DevMode { get; set; }
     public static Platform LastPlatform { get; set; }
-    public static bool IsGameUpToDate { get; set; }
 
     public static bool WriteConfig(string folderPath, string fileName)
     {
@@ -24,7 +21,6 @@ internal static class Config
             GameLocations = GameLocations,
             DevMode = DevMode,
             LastPlatform = LastPlatform,
-            IsGameUpToDate = IsGameUpToDate,
         };
 
         var options = new JsonSerializerOptions { WriteIndented = true };
@@ -66,7 +62,6 @@ internal static class Config
             Config.GameLocations = configData.GameLocations;
             DevMode = configData.DevMode;
             LastPlatform = configData.LastPlatform;
-            IsGameUpToDate = configData.IsGameUpToDate;
         }
 
         return true;
@@ -82,7 +77,6 @@ internal static class Config
         public Dictionary<Platform, GameInstallationFolderResolver.GameInstallationInfo?> GameLocations { get; set; } = new();
         public bool DevMode { get; set; }
         public Platform LastPlatform { get; set; }
-        public bool IsGameUpToDate { get; set; }
     }
 
 
