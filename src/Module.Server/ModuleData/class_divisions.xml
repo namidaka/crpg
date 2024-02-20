@@ -132,7 +132,7 @@
                    ranged_ai="50"
                    armor="0"
                    movement_speed="0"
-                   combattt_movement_speed="0"
+                   combat_movement_speed="0"
                    acceleration="0">
     <Perks>
       <Perk game_mode="all"
