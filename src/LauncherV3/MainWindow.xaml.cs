@@ -156,4 +156,8 @@ public partial class MainWindow : Window
 
     }
 
+    private void Beta_Checked(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

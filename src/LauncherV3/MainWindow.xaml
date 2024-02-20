@@ -39,29 +39,29 @@
 
             <Button x:Name="resetConfig" Command="{Binding ResetConfigCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="2" Content="Reset Config" HorizontalAlignment="Center" Margin="0,70,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="194"/>
 
-            <Button x:Name="locationButton" Command="{Binding OpenFolderCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="2" Content="Change Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Height="24" Width="195" />
+            <Button x:Name="locationButton" Command="{Binding OpenFolderCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="2" Content="Change Location" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="2" Height="24" Width="195" Margin="0,6,0,0"/>
 
 
 
-            <Button x:Name="startUpdateButton" Command="{Binding StartUpdateCrpgCommand}" Foreground="#FFFFFFFF" Background="{Binding StartUpdateBackground}" FontFamily="CAT Walzhari" FontSize="20" Grid.Column="2" Content="{Binding StartUpdateText}" HorizontalAlignment="Center" Margin="0,151,0,0" VerticalAlignment="Top" Height="62" Width="195" Grid.Row="3"/>
+            <Button x:Name="startUpdateButton" Command="{Binding StartUpdateCrpgCommand}" Foreground="#FFFFFFFF" Background="{Binding StartUpdateBackground}" FontFamily="CAT Walzhari" FontSize="24" Grid.Column="2" Content="{Binding StartUpdateText}" HorizontalAlignment="Center" Margin="0,151,0,0" VerticalAlignment="Top" Height="62" Width="195" Grid.Row="3"/>
 
             <ComboBox Style="{DynamicResource ComboBoxStyle1}" HorizontalContentAlignment="Center" ItemsSource="{Binding PlatformOptions}" SelectedItem="{Binding SelectedPlatform}"  DisplayMemberPath="."  x:Name="platformComboBox" Grid.Column="2" HorizontalAlignment="Center" Margin="0,218,0,0" VerticalAlignment="Top" Width="195" Height="24" Grid.Row="3" >
             </ComboBox>
             <Label Grid.Column="2" Content="X" Padding="0" Margin="206,1,2,1" MouseUp="CloseButton_Click" MouseDown="CloseButton_Click" Panel.ZIndex="1" Focusable="True"/>
             <Label Grid.Column="2" Content="－" Padding="0" HorizontalAlignment="Left" Margin="190,0,0,0" VerticalAlignment="Center" Panel.ZIndex="1" Focusable="True" MouseUp="MinimizeButton_Click" MouseDown="MinimizeButton_Click"/>
-            <TextBlock HorizontalAlignment="Left" Margin="36,0,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center">
-                <Hyperlink NavigateUri="https://discord.gg/c-rpg" RequestNavigate="Hyperlink_RequestNavigate">
-                    <Image Source="pack://application:,,,/discord.png"></Image>
+            <TextBlock HorizontalAlignment="Left" Margin="80,0,0,0" Grid.Row="3" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Bottom">
+                <Hyperlink NavigateUri="https://discord.gg/c-rpg" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                    <Image Source="pack://application:,,,/discord.png" Height="29" Width="46"></Image>
                 </Hyperlink>
             </TextBlock>
-            <TextBlock  Margin="70,259,0,0" Grid.Row="3" FontSize="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65" Grid.RowSpan="2">           
-                <Hyperlink NavigateUri="https://c-rpg.eu" RequestNavigate="Hyperlink_RequestNavigate">
-                    c-rpg.eu
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="40">          
+                <Hyperlink NavigateUri="https://c-rpg.eu" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                    <Image Source="pack://application:,,,/website.png" Height="46" Width="46"></Image>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Text="{Binding Version}"  Margin="155,0,0,0" Grid.Row="4" Grid.Column="2" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Width="60" Height="20" Panel.ZIndex="10"/>
-            <ProgressBar Value="{Binding Progress, Mode=OneWay}" HorizontalAlignment="Left" Height="23" Margin="10,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="545" Grid.ColumnSpan="2"/>
-            <CheckBox x:Name="Beta" Content="Beta" HorizontalAlignment="Left" Height="17" Margin="155,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="51" IsChecked="{Binding IsBeta, Mode=TwoWay}" Command="{Binding CheckBeta}"/>
+            <ProgressBar Value="{Binding Progress, Mode=OneWay}" HorizontalAlignment="Left" Height="24" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Center" Width="760" Grid.ColumnSpan="3"/>
+            <CheckBox x:Name="Beta" Content="Beta" HorizontalAlignment="Left" Height="17" Margin="10,247,0,0" Grid.Row="3" VerticalAlignment="Top" Width="51" IsChecked="{Binding IsBeta, Mode=TwoWay}" Command="{Binding CheckBeta}" Grid.Column="2" Checked="Beta_Checked" Background="#7FFFFFFF" Grid.RowSpan="2"/>
 
 
         </Grid>
