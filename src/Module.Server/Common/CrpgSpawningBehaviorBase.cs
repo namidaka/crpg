@@ -48,9 +48,13 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 
         foreach (Team team in Mission.Current.Teams)
         {
+            var peers = GameNetwork.NetworkPeers;
+            var teamRelevantPeers =
+            peers.Where(p => IsNetworkPeerRelevant(p) && p.GetComponent<MissionPeer>().Team == team).ToList();
+
             float numerator = _totalNumberOfBots * _teamAverageEquipment.Where(kvp => kvp.Key != team).Sum(kvp => kvp.Value);
             float denominator = (Mission.Current.Teams.Count - 2) * _teamAverageEquipment.Sum(kvp => kvp.Value); // -2 because we also remove spectator
-            _teamNumberOfBots[team] = (int)(numerator / denominator);
+            _teamNumberOfBots[team] = (int)(numerator / denominator) - teamRelevantPeers.Count;
         }
 
         base.RequestStartSpawnSession();
@@ -310,7 +314,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
     }
 
     protected virtual void OnPeerSpawned(Agent agent)
-        {
+    {
         if (agent.MissionPeer.ControlledFormation != null)
         {
             agent.Team.AssignPlayerAsSergeantOfFormation(agent.MissionPeer, agent.MissionPeer.ControlledFormation.FormationIndex);

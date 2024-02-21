@@ -76,8 +76,6 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         }
     }
 
-
-
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
@@ -402,6 +400,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             missionBehavior.SetTimersOfVictoryReactionsOnBattleEnd(BattleSideEnum.Defender);
         }
     }
+
     private void CheckForPlayersSpawningAsBots()
     {
         foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -448,6 +447,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             }
         }
     }
+
     private void MakePlayerFormationCharge(NetworkCommunicator peer)
     {
         if (peer.IsSynchronized)
@@ -459,6 +459,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             }
         }
     }
+
     private void OnPreTeamChanged(NetworkCommunicator peer, Team currentTeam, Team newTeam)
     {
         if (peer.IsSynchronized && peer.GetComponent<MissionPeer>().ControlledAgent != null)
