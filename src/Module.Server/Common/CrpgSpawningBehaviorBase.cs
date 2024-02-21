@@ -11,15 +11,21 @@ namespace Crpg.Module.Common;
 internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 {
     private readonly CrpgConstants _constants;
+    private readonly Dictionary<Team, int> _teamSumOfEquipment = new();
+    private readonly Dictionary<Team, int> _teamAverageEquipment = new();
+    private readonly Dictionary<Team, int> _teamNumberOfBots = new();
+
+    private readonly int _totalNumberOfBots;
+
     private MultiplayerGameType gameMode = MultiplayerGameType.Battle;
-    private Dictionary<Team, int> _TeamSumOfEquipment = new Dictionary<Team, int>();
-    private Dictionary<Team, int> _TeamAverageEquipment = new Dictionary<Team, int>();
-    private Dictionary<Team, int> _TeamNumberOfBots = new Dictionary<Team, int>();
-    private const int totalNumberOfBots = 800;
+
     public virtual MultiplayerGameType GameMode { get => gameMode; protected set => gameMode = value; }
     public CrpgSpawningBehaviorBase(CrpgConstants constants)
     {
         _constants = constants;
+#if CRPG_SERVER
+        _totalNumberOfBots = CrpgServerConfiguration.CaptainTotalBotCount;
+#endif
     }
 
     public override bool AllowEarlyAgentVisualsDespawning(MissionPeer missionPeer)
@@ -36,14 +42,15 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
     {
         foreach (Team team in Mission.Current.Teams)
         {
-            _TeamSumOfEquipment[team] = ComputeTeamSumOfEquipmentValue(team);
-            _TeamAverageEquipment[team] = ComputeTeamAverageUnitValue(team, _TeamSumOfEquipment[team]);
+            _teamSumOfEquipment[team] = ComputeTeamSumOfEquipmentValue(team);
+            _teamAverageEquipment[team] = ComputeTeamAverageUnitValue(team, _teamSumOfEquipment[team]);
         }
+
         foreach (Team team in Mission.Current.Teams)
         {
-            float numerator = totalNumberOfBots * _TeamAverageEquipment.Where(kvp => kvp.Key != team).Sum(kvp => kvp.Value);
-            float denominator = (Mission.Current.Teams.Count - 2) * _TeamAverageEquipment.Sum(kvp => kvp.Value); // -2 because we also remove spectator
-            _TeamNumberOfBots[team] = (int)(numerator / denominator);
+            float numerator = _totalNumberOfBots * _teamAverageEquipment.Where(kvp => kvp.Key != team).Sum(kvp => kvp.Value);
+            float denominator = (Mission.Current.Teams.Count - 2) * _teamAverageEquipment.Sum(kvp => kvp.Value); // -2 because we also remove spectator
+            _teamNumberOfBots[team] = (int)(numerator / denominator);
         }
 
         base.RequestStartSpawnSession();
@@ -92,8 +99,6 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             Expecting that a character always exist in xmls
              */
 
-            //
-
             bool hasMount = characterEquipment[EquipmentIndex.Horse].Item != null;
 
             bool firstSpawn = missionPeer.SpawnCountThisRound == 0;
@@ -110,7 +115,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 formation.ContainsAgentVisuals = true;
                 if (string.IsNullOrEmpty(formation.BannerCode))
                 {
-                    formation.BannerCode = missionPeer.Peer.BannerCode;
+                    formation.BannerCode = crpgPeer.Clan?.BannerKey ?? missionPeer.Peer.BannerCode;
                 }
             }
 
@@ -166,16 +171,16 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 var peers = GameNetwork.NetworkPeers;
                 var teamRelevantPeers =
                     peers.Where(p => IsNetworkPeerRelevant(p) && p.GetComponent<MissionPeer>().Team == missionPeer.Team).ToList();
-                float sumOfTeamEquipment = _TeamSumOfEquipment[missionPeer.Team];
+                float sumOfTeamEquipment = _teamSumOfEquipment[missionPeer.Team];
                 float peerSumOfEquipment = ComputeEquipmentValue(crpgPeer);
                 int peerNumberOfBots = 0;
-                if (teamRelevantPeers.Count - 1 < 1 )
+                if (teamRelevantPeers.Count - 1 < 1)
                 {
-                    peerNumberOfBots = _TeamNumberOfBots[missionPeer.Team];
+                    peerNumberOfBots = _teamNumberOfBots[missionPeer.Team];
                 }
                 else
                 {
-                    peerNumberOfBots = (int)(_TeamNumberOfBots[missionPeer.Team] * (1 - peerSumOfEquipment / sumOfTeamEquipment) /
+                    peerNumberOfBots = (int)(_teamNumberOfBots[missionPeer.Team] * (1 - peerSumOfEquipment / sumOfTeamEquipment) /
                              (float)(teamRelevantPeers.Count - 1));
                 }
 
@@ -213,8 +218,6 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
         MatrixFrame spawnFrame = SpawnComponent.GetSpawnFrame(team, hasMount, true);
         Vec2 initialDirection = spawnFrame.rotation.f.AsVec2.Normalized();
 
-
-
         AgentBuildData agentBuildData = new AgentBuildData(character)
             .Equipment(character.AllEquipments[MBRandom.RandomInt(character.AllEquipments.Count)])
             .TroopOrigin(new BasicBattleAgentOrigin(character))
@@ -245,7 +248,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 agentBuildData.Formation(peer.ControlledFormation);
                 agentBuildData.Equipment(characterEquipment);
                 agentBuildData.TroopOrigin(troopOrigin);
-                agentBuildData.Banner(new Banner(peer.Peer.BannerCode));
+                agentBuildData.Banner(new Banner(crpgPeer.Clan?.BannerKey ?? peer.Peer.BannerCode));
             }
         }
 
@@ -341,6 +344,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             }
         }
     }
+
     private new void OnAllAgentsFromPeerSpawnedFromVisuals(MissionPeer peer)
     {
         if (peer.ControlledFormation != null)
@@ -353,29 +357,33 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 GameNetwork.BeginBroadcastModuleEvent();
                 GameNetwork.WriteMessage(new BotsControlledChange(networkPeer, peer.BotsUnderControlAlive, peer.BotsUnderControlTotal));
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
-                base.Mission.GetMissionBehavior<MissionMultiplayerGameModeFlagDominationClient>().OnBotsControlledChanged(peer, peer.BotsUnderControlAlive, peer.BotsUnderControlTotal);
+                Mission.GetMissionBehavior<MissionMultiplayerGameModeFlagDominationClient>().OnBotsControlledChanged(peer, peer.BotsUnderControlAlive, peer.BotsUnderControlTotal);
             }
-            if (peer.Team == base.Mission.AttackerTeam)
+
+            if (peer.Team == Mission.AttackerTeam)
             {
-                base.Mission.NumOfFormationsSpawnedTeamOne++;
+                Mission.NumOfFormationsSpawnedTeamOne++;
             }
             else
             {
-                base.Mission.NumOfFormationsSpawnedTeamTwo++;
+                Mission.NumOfFormationsSpawnedTeamTwo++;
             }
+
             GameNetwork.BeginBroadcastModuleEvent();
-            GameNetwork.WriteMessage(new SetSpawnedFormationCount(base.Mission.NumOfFormationsSpawnedTeamOne, base.Mission.NumOfFormationsSpawnedTeamTwo));
+            GameNetwork.WriteMessage(new SetSpawnedFormationCount(Mission.NumOfFormationsSpawnedTeamOne, Mission.NumOfFormationsSpawnedTeamTwo));
             GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
         }
     }
+
     private int ComputeTeamSumOfEquipmentValue(Team team)
     {
         var peers = GameNetwork.NetworkPeers;
         var teamRelevantPeers =
             peers.Where(p => IsNetworkPeerRelevant(p) && p.GetComponent<MissionPeer>().Team == team).ToList();
         int valueToReturn = teamRelevantPeers.Sum(p => ComputeEquipmentValue(p.GetComponent<CrpgPeer>()));
-        return (int) Math.Max(valueToReturn, 1);
+        return (int)Math.Max(valueToReturn, 1);
     }
+
     private int ComputeTeamAverageUnitValue(Team team, int teamSumOfEquipment)
     {
         var peers = GameNetwork.NetworkPeers;
@@ -396,6 +404,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
         int value = peer?.User?.Character.EquippedItems.Select(i => MBObjectManager.Instance.GetObject<ItemObject>(i.UserItem.ItemId)).Sum(io => io.Value) ?? 0;
         return value + 10000; // protection against naked
     }
+
     private int ComputeSingleEquipmentValue(ItemObject item)
     {
         return 0;

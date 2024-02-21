@@ -1,6 +1,5 @@
-ServerName Livetest c-rpg.eu works now 800
+ServerName cRPG - Test Captain's Mode - c-rpg.eu
 GameType cRPGCaptain
-WelcomeMessage yoyoyooooo
 AllowPollsToKickPlayers True
 AllowPollsToChangeMaps True
 disable_culture_voting
@@ -28,3 +27,4 @@ set_automated_battle_count -1
 enable_automated_battle_switching
 crpg_frozen_bots False
 crpg_apply_harmony_patches
+crpg_captain_bot_count 40
