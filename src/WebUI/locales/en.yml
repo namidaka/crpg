@@ -177,6 +177,7 @@ game-mode:
   CRPGConquest: Conquest
   CRPGDTV: DTV
   CRPGDuel: Duel
+  CRPGCaptain: Captain
 
 clanBalancingExplanation: "
   <h3>You're not in any clan</h3>

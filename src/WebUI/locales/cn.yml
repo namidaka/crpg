@@ -178,6 +178,7 @@ game-mode:
   CRPGConquest: 征服
   CRPGDTV: DTV
   CRPGDuel: 决斗
+  CRPGCaptain: 队长
 
 clanBalancingExplanation: '
   <h3>你不在任何宗族中</h3>
