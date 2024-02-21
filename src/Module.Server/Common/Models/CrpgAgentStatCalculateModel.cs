@@ -325,11 +325,23 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         {
             int weaponSkill = GetEffectiveSkillForWeapon(agent, equippedItem);
             props.WeaponInaccuracy = GetWeaponInaccuracy(agent, equippedItem, weaponSkill);
-            if (agent.HasMount && !equippedItem.IsRangedWeapon)
-            {
-                // SwingSpeed Nerf on Horseback
-                float swingSpeedFactor = 1f / Math.Max(equippedItem.WeaponLength / 115f, 1f);
-                props.SwingSpeedMultiplier *= HasSwingDamage(primaryItem) ? swingSpeedFactor : 1f;
+            // Only apply if player is mounted and using polearm OR 2h to avoid penalising 1h unnecessarily
+            if (agent.HasMount && (equippedItem.IsPolearm || equippedItem.IsTwoHanded))
+            { // Swingspeed Nerf on Horseback
+                float swingSpeedFactor;
+                // Check if weapon length is above or equal to 150 length
+                if (equippedItem.WeaponLength <= 150)
+                {
+                    // If above is true, apply 80% of the debuff instead of full debuff to avoid harming shorter weapons too much
+                    swingSpeedFactor = 1f / Math.Max((equippedItem.WeaponLength / 80f) * 0.8f + 0.2f, 1f);
+                }
+                else
+                {
+                    // Else apply the full debuff to swing speed
+                    swingSpeedFactor = 1f / Math.Max(equippedItem.WeaponLength / 80f, 1f);
+                }
+
+                props.SwingSpeedMultiplier *= HasSwingDamage(primaryItem) ? swingSpeedFactor : 1.0f;
                 // Thrustspeed Nerf on Horseback
                 props.ThrustOrRangedReadySpeedMultiplier *= 0.84f;
             }
