@@ -58,13 +58,11 @@
     <string id="s894oFCj" text="Командир {COMMANDER} погиб, причем очень эффектно." />
     <string id="vu94iRTE" text="Командир {COMMANDER} пал!" />
     <string id="sy9OJEOM" text="У командира {COMMANDER} не было ни единого шанса!" />
-
-    <string id="uD9I4mVt" text="Командир {COMMANDER} был убит {AGENT}!" />
-    <string id="IXqXzFNt" text="Командир {COMMANDER} был убит {AGENT}!" />
-    <string id="7lJdMRdX" text="Командир {COMMANDER} был убит {AGENT}!" />
-    <string id="K14mdvO5" text="Командир {COMMANDER} был убит {AGENT}!" />
-    <string id="NcM64S4W" text="Командир {COMMANDER} был убит {AGENT}!" />
-
+    <string id="uD9I4mVt" text="Командир {COMMANDER} был убит союзником {AGENT}! Честная ошибка!" />
+    <string id="IXqXzFNt" text="Командир {COMMANDER} был убит союзником {AGENT}! Наверняка случайно!" />
+    <string id="7lJdMRdX" text="{AGENT} устроил мятеж, убив командира {COMMANDER}!" />
+    <string id="K14mdvO5" text="{AGENT} должен быть более осторожным! Они убили командира {COMMANDER}!" />
+    <string id="NcM64S4W" text="Командир {COMMANDER} был сражен своим союзником, {AGENT}!" />
     <string id="8a5Icfba" text="Командир, {КОМАНДИР} погиб!" />
     <string id="wBRZQfd6" text="Командир {COMMANDER} был убит {AGENT}!" />
     <string id="sEkwjLWt" text="{AGENT} убил командира {COMMANDER}!" />
