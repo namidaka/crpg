@@ -52,6 +52,7 @@ internal class CrpgBattleSpawningBehavior : CrpgSpawningBehaviorBase
         if (!_botsSpawned)
         {
             SpawnBotAgents();
+            SpawnCaptainBots();
             _botsSpawned = true;
         }
 
