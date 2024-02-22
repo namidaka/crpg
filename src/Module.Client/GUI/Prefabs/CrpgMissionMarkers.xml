@@ -24,6 +24,12 @@
               </ItemTemplate>
             </Widget>
 
+            <Widget DataSource="{PortcullisTargets}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+              <ItemTemplate>
+                <CrpgMissionMarkerPortcullis />
+              </ItemTemplate>
+            </Widget>
+
           </Children>
         </Widget>
 

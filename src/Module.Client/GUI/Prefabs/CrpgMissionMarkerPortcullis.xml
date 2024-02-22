@@ -1,0 +1,14 @@
+﻿<Prefab>
+  <Window>
+    <MultiplayerMissionMarkerListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" CloseDistanceCutoff="25" Distance="@Distance" FarAlphaTarget="0.5" FarDistanceCutoff="250" SiegeEngineWidget="SiegeEngineWidget" IsMarkerEnabled="@IsEnabled" StackLayout.LayoutMethod="VerticalBottomToTop" MarkerType="@MarkerType" Position="@ScreenPosition" IsSpawnFlag="false">
+      <Children>
+        <CrpgPortcullisVisualWidget Id="SiegeEngineWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="66" SuggestedHeight="66" OutlineWidget="PortcullisOutlineWidget" IconWidget="PortcullisIconWidget">
+          <Children>
+            <Widget Id="PortcullisOutlineWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Color="@Color" />
+            <Widget Id="PortcullisIconWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Color="@Color2" />
+          </Children>
+        </CrpgPortcullisVisualWidget>
+      </Children>
+    </MultiplayerMissionMarkerListPanel>
+  </Window>
+</Prefab>

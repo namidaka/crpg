@@ -2,6 +2,7 @@
 using Crpg.Module.Helpers;
 using Crpg.Module.Modes.Duel;
 using Crpg.Module.Modes.Siege;
+using Crpg.Module.Scripts;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
@@ -38,6 +39,7 @@ internal class CrpgMissionMarkerVm : ViewModel
     private MBBindingList<MissionFlagMarkerTargetVM> _flagTargets = default!;
     private MBBindingList<MissionPeerMarkerTargetVM> _peerTargets = default!;
     private MBBindingList<MissionSiegeEngineMarkerTargetVM> _siegeEngineTargets = default!;
+    private MBBindingList<CrpgPortcullisMarkerTargetVm> _portcullisTargets = default!;
     private MBBindingList<MissionAlwaysVisibleMarkerTargetVM> _alwaysVisibleTargets = default!;
 
     public CrpgMissionMarkerVm(Camera missionCamera, MissionMultiplayerGameModeBaseClient gameModeClient)
@@ -109,6 +111,20 @@ internal class CrpgMissionMarkerVm : ViewModel
             if (value != _siegeEngineTargets)
             {
                 _siegeEngineTargets = value;
+                OnPropertyChangedWithValue(value);
+            }
+        }
+    }
+
+    [DataSourceProperty]
+    public MBBindingList<CrpgPortcullisMarkerTargetVm> PortcullisTargets
+    {
+        get => _portcullisTargets;
+        set
+        {
+            if (value != _portcullisTargets)
+            {
+                _portcullisTargets = value;
                 OnPropertyChangedWithValue(value);
             }
         }
@@ -227,6 +243,7 @@ internal class CrpgMissionMarkerVm : ViewModel
         }
 
         SiegeEngineTargets.Clear();
+        PortcullisTargets.Clear();
         foreach (GameEntity item in Mission.Current.GetActiveEntitiesWithScriptComponentOfType<SiegeWeapon>())
         {
             SiegeWeapon firstScriptOfType = item.GetFirstScriptOfType<SiegeWeapon>();
@@ -235,6 +252,12 @@ internal class CrpgMissionMarkerVm : ViewModel
                 SiegeEngineTargets.Add(new MissionSiegeEngineMarkerTargetVM(firstScriptOfType));
             }
         }
+
+        foreach (GameEntity item in Mission.Current.GetActiveEntitiesWithScriptComponentOfType<CrpgPortcullis>())
+        {
+            CrpgPortcullis firstScriptOfType = item.GetFirstScriptOfType<CrpgPortcullis>();
+            PortcullisTargets.Add(new CrpgPortcullisMarkerTargetVm(firstScriptOfType));
+        }
     }
 
     private void UpdateTargetScreenPositions()
@@ -242,9 +265,11 @@ internal class CrpgMissionMarkerVm : ViewModel
         PeerTargets.ApplyActionOnAllItems(pt => pt.UpdateScreenPosition(_missionCamera));
         FlagTargets.ApplyActionOnAllItems(ft => ft.UpdateScreenPosition(_missionCamera));
         SiegeEngineTargets.ApplyActionOnAllItems(st => st.UpdateScreenPosition(_missionCamera));
+        PortcullisTargets.ApplyActionOnAllItems(st => st.UpdateScreenPosition(_missionCamera));
         PeerTargets.Sort(_distanceComparer);
         FlagTargets.Sort(_distanceComparer);
         SiegeEngineTargets.Sort(_distanceComparer);
+        PortcullisTargets.Sort(_distanceComparer);
     }
 
     private void UpdateAlwaysVisibleTargetScreenPosition()
@@ -374,6 +399,7 @@ internal class CrpgMissionMarkerVm : ViewModel
         PeerTargets.ApplyActionOnAllItems(pt => pt.IsEnabled = state);
         FlagTargets.ApplyActionOnAllItems(ft => ft.IsEnabled = state);
         SiegeEngineTargets.ApplyActionOnAllItems(st => st.IsEnabled = state);
+        PortcullisTargets.ApplyActionOnAllItems(st => st.IsEnabled = state);
     }
 
     /// <summary>
