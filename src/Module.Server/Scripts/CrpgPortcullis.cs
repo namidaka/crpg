@@ -29,7 +29,8 @@ public class CrpgPortcullis : UsableMachine
     {
         Open,
         Closed,
-        Moving,
+        Opening,
+        Closing,
     }
 
     private static readonly Dictionary<TimingFunctionType, CubicBezier> TimingFunctions = new()
@@ -46,24 +47,32 @@ public class CrpgPortcullis : UsableMachine
     private SoundEvent? _movementSound;
     private int _batteringRamHitSoundIdCache;
     private bool _isMoveSoundPlaying;
-    private int _soundIndex;
+    private bool _hasMovedSinceLastStop = false;
+    private int _movementSoundIndex;
+    private int _closeSoundIndex;
+    private float _currentDuration;
     private float _duration;
     private Vec3 _startPosition;
     private Vec3 _closedPosition;
     private Vec3 _openPosition;
     private Vec3 _targetPosition;
+    private GateState _previousState;
+    private TimingFunctionType _currentTimingFunction;
 
 #pragma warning disable SA1401 // Bannerlord editor expects fields
 #pragma warning disable SA1202
     public string MovementSoundEffect = "event:/mission/siege/siegetower/move";
+    public string CloseSoundEffect = "event:/mission/siege/generic/stone_destroy";
     public string StartAnimation = "act_pickup_middle_begin";
     public string EndAnimation = "act_pickup_middle_end";
     public string BatteringRamHitSound = "event:/mission/siege/door/hit";
-    public float Duration = 5f;
+    public float OpenDuration = 5f;
+    public float CloseDuration = 1f;
     public Vec3 Translation = Vec3.Zero;
 
     /// <summary>As defined in https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function.</summary>
-    public TimingFunctionType TimingFunction = TimingFunctionType.Linear;
+    public TimingFunctionType OpenTimingFunction = TimingFunctionType.EaseInOut;
+    public TimingFunctionType CloseTimingFunction = TimingFunctionType.EaseIn;
 
 #pragma warning restore SA1202
 #pragma warning restore SA1401
@@ -81,7 +90,12 @@ public class CrpgPortcullis : UsableMachine
             float distanceSquared = (origin - _targetPosition).LengthSquared;
             if (distanceSquared > DistanceThreshold) // avoid floating point imprecision
             {
-                return GateState.Moving;
+                if (_targetPosition == _closedPosition)
+                {
+                    return GateState.Closing;
+                }
+
+                return GateState.Opening;
             }
             else if ((origin - _closedPosition).LengthSquared < DistanceThreshold)
             {
@@ -110,9 +124,11 @@ public class CrpgPortcullis : UsableMachine
     {
         if (!IsDisabled)
         {
-            _duration = 0;
+            _currentDuration = 0;
+            _duration = OpenDuration;
             _startPosition = _closedPosition;
             _targetPosition = _openPosition;
+            _currentTimingFunction = OpenTimingFunction;
         }
     }
 
@@ -120,9 +136,11 @@ public class CrpgPortcullis : UsableMachine
     {
         if (!IsDisabled)
         {
-            _duration = 0;
+            _currentDuration = 0;
+            _duration = CloseDuration;
             _startPosition = _openPosition;
             _targetPosition = _closedPosition;
+            _currentTimingFunction = CloseTimingFunction;
         }
     }
 
@@ -151,9 +169,11 @@ public class CrpgPortcullis : UsableMachine
         _targetPosition = _closedPosition;
         _startPosition = _closedPosition;
         _openPosition = _closedPosition + Translation;
+        _previousState = State;
         _actStart = ActionIndexCache.Create(StartAnimation);
         _actEnd = ActionIndexCache.Create(EndAnimation);
-        _soundIndex = SoundEvent.GetEventIdFromString(MovementSoundEffect);
+        _movementSoundIndex = SoundEvent.GetEventIdFromString(MovementSoundEffect);
+        _closeSoundIndex = SoundEvent.GetEventIdFromString(CloseSoundEffect);
     }
 
     protected override void OnTick(float dt)
@@ -176,22 +196,23 @@ public class CrpgPortcullis : UsableMachine
         }
 
         var frame = _synchedObject.GameEntity.GetFrame();
+        float distanceSquared = (frame.origin - _targetPosition).LengthSquared;
 
-        if (frame.origin == _targetPosition)
+        if (distanceSquared < DistanceThreshold)
         {
             return;
         }
 
-        if (_duration >= Duration)
+        if (_currentDuration >= _duration)
         {
-            _duration = Duration;
+            _currentDuration = _duration;
         }
 
-        float durationProgress = _duration / Duration;
-        float transitionProgress = (float)TimingFunctions[TimingFunction].Sample(durationProgress);
+        float durationProgress = _currentDuration / _duration;
+        float transitionProgress = (float)TimingFunctions[_currentTimingFunction].Sample(durationProgress);
         frame.origin = _startPosition + (_targetPosition - _startPosition) * transitionProgress;
         _synchedObject.SetFrameSynched(ref frame);
-        _duration += dt;
+        _currentDuration += dt;
     }
 
     protected override void OnRemoved(int removeReason)
@@ -218,11 +239,34 @@ public class CrpgPortcullis : UsableMachine
         StopMovementSound();
     }
 
+    private void CheckGateClosed()
+    {
+        if (_synchedObject != null)
+        {
+            Vec3 currentPosition = _synchedObject.GameEntity.GetFrame().origin;
+            if (State == GateState.Closed && _hasMovedSinceLastStop)
+            {
+                OnGateClosed();
+                _hasMovedSinceLastStop = false;
+            }
+            else if (State != GateState.Closed && State != _previousState)
+            {
+                _hasMovedSinceLastStop = true;
+                _previousState = State;
+            }
+        }
+    }
+
+    private void OnGateClosed()
+    {
+        Mission.Current.MakeSound(_closeSoundIndex, GameEntity.GlobalPosition, false, true, -1, -1);
+    }
+
     private void PlayMovementSound()
     {
         if (!_isMoveSoundPlaying)
         {
-            _movementSound = SoundEvent.CreateEvent(_soundIndex, GameEntity.Scene);
+            _movementSound = SoundEvent.CreateEvent(_movementSoundIndex, GameEntity.Scene);
             _movementSound.Play();
             _isMoveSoundPlaying = true;
         }
@@ -243,6 +287,7 @@ public class CrpgPortcullis : UsableMachine
     {
         if (!IsDeactivated)
         {
+            CheckGateClosed();
             foreach (StandingPoint standingPoint in StandingPoints)
             {
                 if (standingPoint.HasUser)
