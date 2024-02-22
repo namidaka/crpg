@@ -13,6 +13,11 @@
       <SpriteSheetSize ID="1" Width="64" Height="32" />
       <AlwaysLoad />
     </SpriteCategory>
+    <SpriteCategory>
+      <Name>ui_crpg_mission</Name>
+      <SpriteSheetCount>1</SpriteSheetCount>
+      <SpriteSheetSize ID="1" Width="256" Height="128" />
+    </SpriteCategory>
   </SpriteCategories>
   <SpriteParts>
     <SpritePart>
@@ -933,6 +938,24 @@
       <SheetY>4</SheetY>
       <CategoryName>ui_crpg_scoreboard</CategoryName>
     </SpritePart>
+    <SpritePart>
+      <SheetID>1</SheetID>
+      <Name>ui_crpg_mission_marker_portcullis</Name>
+      <Width>66</Width>
+      <Height>66</Height>
+      <SheetX>4</SheetX>
+      <SheetY>4</SheetY>
+      <CategoryName>ui_crpg_mission</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>1</SheetID>
+      <Name>ui_crpg_mission_marker_portcullis_outline</Name>
+      <Width>66</Width>
+      <Height>66</Height>
+      <SheetX>78</SheetX>
+      <SheetY>4</SheetY>
+      <CategoryName>ui_crpg_mission</CategoryName>
+    </SpritePart>
   </SpriteParts>
   <Sprites>
     <GenericSprite>
@@ -1342,6 +1365,14 @@
     <GenericSprite>
       <Name>ui_crpg_scoreboard_context_menu_promote_commander</Name>
       <SpritePartName>ui_crpg_scoreboard_context_menu_promote_commander</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>ui_crpg_mission_marker_portcullis</Name>
+      <SpritePartName>ui_crpg_mission_marker_portcullis</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>ui_crpg_mission_marker_portcullis_outline</Name>
+      <SpritePartName>ui_crpg_mission_marker_portcullis_outline</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>
