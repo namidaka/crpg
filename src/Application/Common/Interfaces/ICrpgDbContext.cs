@@ -29,6 +29,7 @@ public interface ICrpgDbContext
     DbSet<ClanArmoryBorrowedItem> ClanArmoryBorrowedItems { get; }
     DbSet<ClanInvitation> ClanInvitations { get; }
     DbSet<Captain> Captains { get; }
+    DbSet<CaptainFormation> CaptainFormations { get; }
     DbSet<Party> Parties { get; }
     DbSet<Settlement> Settlements { get; }
     DbSet<SettlementItem> SettlementItems { get; }

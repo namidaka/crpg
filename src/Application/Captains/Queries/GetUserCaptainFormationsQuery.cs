@@ -25,9 +25,9 @@ public record GetUserCaptainFormationsQuery : IMediatorRequest<IList<CaptainForm
 
         public async Task<Result<IList<CaptainFormationViewModel>>> Handle(GetUserCaptainFormationsQuery req, CancellationToken cancellationToken)
         {
-            var formations = await _db.Captains
+            var formations = await _db.CaptainFormations
                 .Where(c => c.UserId == req.UserId)
-                .Select(c => c.Formations.OrderByDescending(f => f.Id))
+                .OrderByDescending(f => f.Id)
                 .ToListAsync(cancellationToken);
 
             return formations == null

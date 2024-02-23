@@ -3,25 +3,31 @@ import { type Character } from '@/models/character';
 import { characterClassToIcon } from '@/services/characters-service';
 
 const { character, isActive = false } = defineProps<{
-  character: Character;
+  character?: Character;
   isActive?: boolean;
 }>();
 </script>
 
 <template>
   <div class="flex items-center gap-2">
-    <OIcon
+    <OIcon v-if="character != null"
       :icon="characterClassToIcon[character.class]"
       size="lg"
       v-tooltip="$t(`character.class.${character.class}`)"
     />
+    <OIcon v-else
+      :icon="'help-circle'"
+      size="lg"
+      v-tooltip="$t(`character.class.NotFound`)"
+    />
 
     <div class="flex items-center gap-1">
       <div class="max-w-[150px] overflow-x-hidden text-ellipsis whitespace-nowrap">
-        {{ character.name }}
+        <div v-if="character != null">{{ character.name }}</div>
+        <div v-else>{{ $t(`character.empty.name`) }}</div>
       </div>
 
-      <div>({{ character.level }})</div>
+      <div v-if="character != null">({{ character.level }})</div>
     </div>
 
     <Tag
@@ -33,7 +39,7 @@ const { character, isActive = false } = defineProps<{
     />
 
     <Tag
-      v-if="character.forTournament"
+      v-if="character?.forTournament"
       :label="$t('character.status.forTournament.short')"
       v-tooltip="$t('character.status.forTournament.title')"
       variant="warning"

@@ -8,7 +8,6 @@ namespace Crpg.Domain.Entities.Captains;
 /// </summary>
 public class Captain : AuditableEntity
 {
-    public int Id { get; set; }
     public int UserId { get; set; }
     public IList<CaptainFormation> Formations { get; set; } = new List<CaptainFormation>();
     public User? User { get; set; }

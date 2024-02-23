@@ -8,13 +8,14 @@ namespace Crpg.Domain.Entities.Captains;
 /// </summary>
 public class CaptainFormation : AuditableEntity
 {
-    public int UserId { get; set; }
     public int Id { get; set; }
+    public int UserId { get; set; }
+    public Captain Captain { get; set; } = default!;
 
     /// <summary>
-    /// The troops to spawn in a formation .
+    /// The characterId of the troops to spawn in a formation.
     /// </summary>
-    public Character? Troop { get; set; }
+    public int? CharacterId { get; set; }
 
     /// <summary>
     /// The weight is compared to other formations to determine the composition of an army.

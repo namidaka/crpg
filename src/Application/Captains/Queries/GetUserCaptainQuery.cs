@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Crpg.Application.Captains.Models;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
@@ -25,13 +26,12 @@ public record GetUserCaptainQuery : IMediatorRequest<CaptainViewModel>
         public async Task<Result<CaptainViewModel>> Handle(GetUserCaptainQuery req, CancellationToken cancellationToken)
         {
             var captain = await _db.Captains
-                .Include(c => c.Formations.OrderByDescending(f => f.Id))
-                .Include(c => c.User)
-                .FirstOrDefaultAsync(c => c.UserId == req.UserId, cancellationToken);
-
+                .Where(c => c.UserId == req.UserId)
+                .ProjectTo<CaptainViewModel>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(cancellationToken);
             return captain == null
                 ? new(CommonErrors.CaptainNotFound(req.UserId))
-                : new(_mapper.Map<CaptainViewModel>(captain));
+                : new(captain);
         }
     }
 }

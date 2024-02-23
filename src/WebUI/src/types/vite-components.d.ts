@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     ActivityLogItem: typeof import('./../components/moderator/ActivityLogItem.vue')['default']
     Bg: typeof import('./../components/app/Bg.vue')['default']
+    CaptainFormationForm: typeof import('./../components/captain/CaptainFormationForm.vue')['default']
     CharacterCreateModal: typeof import('./../components/character/CharacterCreateModal.vue')['default']
     CharacterEarningChart: typeof import('./../components/character/CharacterEarningChart.vue')['default']
     CharacterEditForm: typeof import('./../components/character/CharacterEditForm.vue')['default']

@@ -11,9 +11,8 @@ public class CaptainConfiguration : IEntityTypeConfiguration<Captain>
     {
         builder.HasKey(c => c.UserId);
 
-        builder.HasOne(c => c.User)
-            .WithOne(u => u.Captain)
-            .HasForeignKey<Captain>(u => u.UserId)
-            .IsRequired();
+        builder.HasMany(c => c.Formations)
+            .WithOne(f => f.Captain)
+            .HasForeignKey(f => f.UserId);
     }
 }

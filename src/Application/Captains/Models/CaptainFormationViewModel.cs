@@ -8,8 +8,7 @@ namespace Crpg.Application.Captains.Models;
 public record CaptainFormationViewModel : IMapFrom<CaptainFormation>
 {
     public int Id { get; set; }
-    public Character? Troop { get; set; }
+    public int? CharacterId { get; set; }
     public float Weight { get; set; }
-    public CaptainViewModel Captain { get; set; } = default!;
 
 }

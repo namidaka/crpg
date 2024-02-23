@@ -226,6 +226,7 @@ character:
   empty:
     title: You don't have a character yet
     desc: To create a character, simply join a cRPG server
+    name: Select Character
 
   create:
     title: New character
@@ -256,6 +257,7 @@ character:
     Archer: Archer
     Cavalry: Cavalry
     MountedArcher: Mounted archer
+    NotFound: The character class could not be found
 
   statistics:
     generation:

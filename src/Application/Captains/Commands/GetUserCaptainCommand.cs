@@ -59,9 +59,9 @@ public record GetUserCaptainCommand : IMediatorRequest<CaptainViewModel>
                 UserId = userId,
                 Formations = new List<CaptainFormation>()
                 {
-                    new() { Id = 1, UserId = userId, Weight = 0.33f },
-                    new() { Id = 2, UserId = userId, Weight = 0.33f },
-                    new() { Id = 3, UserId = userId, Weight = 0.33f },
+                    new() { UserId = userId, Weight = 0.33f },
+                    new() { UserId = userId, Weight = 0.33f },
+                    new() { UserId = userId, Weight = 0.33f },
                 },
             };
 

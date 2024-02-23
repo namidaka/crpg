@@ -52,7 +52,7 @@ public record AssignFormationCharacterCommand : IMediatorRequest
 
             var formation = _mapper.Map<CaptainFormationViewModel>(captain);
 
-            formation.Troop = req.Active ? character : null;
+            formation.CharacterId = req.Active ? req.CharacterId : null;
 
             await _db.SaveChangesAsync(cancellationToken);
             return new Result();

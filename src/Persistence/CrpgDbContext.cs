@@ -75,6 +75,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<ClanArmoryBorrowedItem> ClanArmoryBorrowedItems { get; set; } = default!;
     public DbSet<ClanInvitation> ClanInvitations { get; set; } = default!;
     public DbSet<Captain> Captains { get; set; } = default!;
+    public DbSet<CaptainFormation> CaptainFormations { get; set; } = default!;
     public DbSet<Party> Parties { get; set; } = default!;
     public DbSet<Settlement> Settlements { get; set; } = default!;
     public DbSet<SettlementItem> SettlementItems { get; set; } = default!;

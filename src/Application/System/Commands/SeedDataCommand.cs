@@ -1438,17 +1438,19 @@ public record SeedDataCommand : IMediatorRequest
 
             Captain droobCaptain = new() { User = droob, Formations = new List<CaptainFormation>
                 {
-                    new() { Id = 1, Weight = 0.33f },
-                    new() { Id = 2, Weight = 0.33f },
-                    new() { Id = 3, Weight = 0.33f },
+                    new() { CharacterId = 8, Weight = 0.33f },
+                    new() { Weight = 0.33f },
+                    new() { Weight = 0.33f },
                 },
             };
 
             Captain[] newCaptains = { droobCaptain };
             var existingCaptains =
-                await _db.Captains.ToDictionaryAsync(c => (c.Id, c.UserId));
-            foreach (var newCaptain in newCaptains){
-                if (!existingCaptains.ContainsKey((newCaptain.Id, newCaptain.UserId))){
+                await _db.Captains.ToDictionaryAsync(c => c.UserId);
+            foreach (var newCaptain in newCaptains)
+            {
+                if (!existingCaptains.ContainsKey(newCaptain.UserId))
+                {
                     _db.Captains.Add(newCaptain);
                 }
             }
