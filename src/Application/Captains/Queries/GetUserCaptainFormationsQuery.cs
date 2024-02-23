@@ -4,6 +4,7 @@ using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Crpg.Application.Captains.Queries;
 
@@ -26,8 +27,8 @@ public record GetUserCaptainFormationsQuery : IMediatorRequest<IList<CaptainForm
         {
             var formations = await _db.Captains
                 .Where(c => c.UserId == req.UserId)
-                .Include(c => c.Formations.OrderByDescending(f => f.Id))
-                .FirstOrDefaultAsync(cancellationToken);
+                .Select(c => c.Formations.OrderByDescending(f => f.Id))
+                .ToListAsync(cancellationToken);
 
             return formations == null
                 ? new(CommonErrors.CaptainNotFound(req.UserId))

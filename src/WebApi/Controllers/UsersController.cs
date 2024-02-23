@@ -207,18 +207,17 @@ public class UsersController : BaseController
     /// <response code="200">Ok.</response>
     /// <response code="404">Captain not found.</response>
     [HttpGet("self/captain/")]
-    public Task<ActionResult<Result<CaptainViewModel>>> GetUserCaptain([FromRoute] int id) =>
+    public Task<ActionResult<Result<CaptainViewModel>>> GetUserCaptain() =>
         ResultToActionAsync(Mediator.Send(new GetUserCaptainQuery
             { UserId = CurrentUser.User!.Id }));
 
     /// <summary>
     /// Gets the current user's formations.
     /// </summary>
-    /// <param name="id">User id.</param>
     /// <response code="200">Ok.</response>
     /// <response code="404">Captain not found.</response>
     [HttpGet("self/captain/formations")]
-    public Task<ActionResult<Result<IList<CaptainFormationViewModel>>>> GetUserCaptainFormations([FromRoute] int id) =>
+    public Task<ActionResult<Result<IList<CaptainFormationViewModel>>>> GetUserCaptainFormations() =>
         ResultToActionAsync(Mediator.Send(new GetUserCaptainFormationsQuery
             { UserId = CurrentUser.User!.Id }));
 

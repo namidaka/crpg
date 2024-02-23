@@ -6,7 +6,7 @@ import {
   import { rgbHexColorToArgbInt, argbIntToRgbHexColor } from '@/utils/color';
   
   export const getCaptain = async () =>
-  (await get<Captain>(`/users/self/captain`));
+  (get<Captain>(`/users/self/captain`));
 
   export const getFormations = async () =>
   (await get<CaptainFormation[]>(`/users/self/captain/formations`));

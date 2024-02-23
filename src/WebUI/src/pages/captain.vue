@@ -14,14 +14,14 @@ definePage({
   },
 });
 
-
+const selfCaptain = await getCaptain();
+const selfFormations = await getFormations();
 </script>
 
 <template>
   <div class="container relative py-6">
-    Hi
     <div class="order-1 flex items-center gap-4">
-      Hello
+        {{ selfCaptain }}
     </div>
   </div>
 </template>

@@ -1,4 +1,5 @@
 using Crpg.Application.Common.Mappings;
+using Crpg.Application.Users.Models;
 using Crpg.Domain.Entities.Captains;
 
 namespace Crpg.Application.Captains.Models;
@@ -6,7 +7,6 @@ namespace Crpg.Application.Captains.Models;
 public record CaptainViewModel : IMapFrom<Captain>
 {
     public int Id { get; set; }
-    public int UserId { get; set; }
     public IList<CaptainFormation> Formations { get; set; } = new List<CaptainFormation>();
-    public bool ForTournament { get; init; }
+    public UserViewModel User { get; set; } = default!;
 }

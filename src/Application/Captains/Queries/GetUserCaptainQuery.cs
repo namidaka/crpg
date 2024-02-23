@@ -25,8 +25,9 @@ public record GetUserCaptainQuery : IMediatorRequest<CaptainViewModel>
         public async Task<Result<CaptainViewModel>> Handle(GetUserCaptainQuery req, CancellationToken cancellationToken)
         {
             var captain = await _db.Captains
-                .Where(c => c.UserId == req.UserId)
-                .FirstOrDefaultAsync(cancellationToken);
+                .Include(c => c.Formations.OrderByDescending(f => f.Id))
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(c => c.UserId == req.UserId, cancellationToken);
 
             return captain == null
                 ? new(CommonErrors.CaptainNotFound(req.UserId))

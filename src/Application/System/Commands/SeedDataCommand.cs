@@ -1436,6 +1436,23 @@ public record SeedDataCommand : IMediatorRequest
                 }
             }
 
+            Captain droobCaptain = new() { User = droob, Formations = new List<CaptainFormation>
+                {
+                    new() { Id = 1, Weight = 0.33f },
+                    new() { Id = 2, Weight = 0.33f },
+                    new() { Id = 3, Weight = 0.33f },
+                },
+            };
+
+            Captain[] newCaptains = { droobCaptain };
+            var existingCaptains =
+                await _db.Captains.ToDictionaryAsync(c => (c.Id, c.UserId));
+            foreach (var newCaptain in newCaptains){
+                if (!existingCaptains.ContainsKey((newCaptain.Id, newCaptain.UserId))){
+                    _db.Captains.Add(newCaptain);
+                }
+            }
+
             Task<Settlement> GetSettlementByName(string name) =>
                 _db.Settlements.FirstAsync(s => s.Name == name && s.Region == Region.Eu);
             var epicrotea = await GetSettlementByName("Epicrotea");
