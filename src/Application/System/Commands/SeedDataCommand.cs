@@ -6,6 +6,7 @@ using Crpg.Application.Items.Models;
 using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.ActivityLogs;
 using Crpg.Domain.Entities.Battles;
+using Crpg.Domain.Entities.Captains;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;

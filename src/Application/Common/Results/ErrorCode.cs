@@ -10,6 +10,8 @@ public enum ErrorCode
     BattleInvalidPhase,
     BattleNotFound,
     BattleTooFar,
+    CaptainFormationNotFound,
+    CaptainNotFound,
     CharacterForTournament,
     CharacterForTournamentNotFound,
     CharacterGenerationRequirement,

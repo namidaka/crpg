@@ -1,5 +1,8 @@
 using System.Net;
 using Crpg.Application.ActivityLogs.Models;
+using Crpg.Application.Captains.Commands;
+using Crpg.Application.Captains.Models;
+using Crpg.Application.Captains.Queries;
 using Crpg.Application.Characters.Commands;
 using Crpg.Application.Characters.Models;
 using Crpg.Application.Characters.Queries;
@@ -11,7 +14,6 @@ using Crpg.Application.Items.Models;
 using Crpg.Application.Items.Queries;
 using Crpg.Application.Limitations.Models;
 using Crpg.Application.Limitations.Queries;
-using Crpg.Application.Parties.Commands;
 using Crpg.Application.Restrictions.Models;
 using Crpg.Application.Restrictions.Queries;
 using Crpg.Application.Users.Commands;
@@ -198,6 +200,41 @@ public class UsersController : BaseController
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public Task<ActionResult> DeleteUser() =>
         ResultToActionAsync(Mediator.Send(new DeleteUserCommand { UserId = CurrentUser.User!.Id }));
+
+    /// <summary>
+    /// Gets the current user's captain.
+    /// </summary>
+    /// <response code="200">Ok.</response>
+    /// <response code="404">Captain not found.</response>
+    [HttpGet("self/captain/")]
+    public Task<ActionResult<Result<CaptainViewModel>>> GetUserCaptain([FromRoute] int id) =>
+        ResultToActionAsync(Mediator.Send(new GetUserCaptainQuery
+            { UserId = CurrentUser.User!.Id }));
+
+    /// <summary>
+    /// Gets the current user's formations.
+    /// </summary>
+    /// <param name="id">User id.</param>
+    /// <response code="200">Ok.</response>
+    /// <response code="404">Captain not found.</response>
+    [HttpGet("self/captain/formations")]
+    public Task<ActionResult<Result<IList<CaptainFormationViewModel>>>> GetUserCaptainFormations([FromRoute] int id) =>
+        ResultToActionAsync(Mediator.Send(new GetUserCaptainFormationsQuery
+            { UserId = CurrentUser.User!.Id }));
+
+    /// <summary>
+    /// Assigns a character to the selected formation.
+    /// </summary>
+    /// <param name="id">Formation id.</param>
+    /// <response code="200">Ok.</response>
+    /// <response code="404">Captain not found.</response>
+    [HttpPut("self/captain/{id}")]
+    public Task<ActionResult> AssignFormationCharacter([FromRoute] int id,
+        [FromBody] AssignFormationCharacterCommand req)
+    {
+        req = req with { CharacterId = req.CharacterId, FormationId = id, UserId = CurrentUser.User!.Id };
+        return ResultToActionAsync(Mediator.Send(req));
+    }
 
     /// <summary>
     /// Gets the specified current user's character.

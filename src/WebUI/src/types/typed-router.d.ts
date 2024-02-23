@@ -42,6 +42,8 @@ declare module 'vue-router/auto/routes' {
     'Root': RouteRecordInfo<'Root', '/', Record<never, never>, Record<never, never>>,
     'PageNotFound': RouteRecordInfo<'PageNotFound', '/:404(.*)?', { 404?: ParamValueZeroOrOne<true> }, { 404?: ParamValueZeroOrOne<false> }>,
     'Builder': RouteRecordInfo<'Builder', '/builder', Record<never, never>, Record<never, never>>,
+    'Captain': RouteRecordInfo<'Captain', '/captain', Record<never, never>, Record<never, never>>,
+    'CaptainCaptain': RouteRecordInfo<'CaptainCaptain', '/captain/captain', Record<never, never>, Record<never, never>>,
     'CharactersParent': RouteRecordInfo<'CharactersParent', '/characters', Record<never, never>, Record<never, never>>,
     'Characters': RouteRecordInfo<'Characters', '/characters', Record<never, never>, Record<never, never>>,
     'CharactersIdParent': RouteRecordInfo<'CharactersIdParent', '/characters/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
