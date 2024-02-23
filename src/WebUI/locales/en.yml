@@ -1362,6 +1362,11 @@ activityLog:
     ClanArmoryReturnItem: 'Item {userItemId} was returned from clan {clanId} armory'
     ClanArmoryBorrowItem: 'Item {userItemId} was borrowed from clan {clanId} armory'
 
+captain:
+  title: Captain Formations
+  formation:
+    title: Formation {id}
+
 leaderboard:
   title: Leaderboard
   table:

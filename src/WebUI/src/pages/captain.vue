@@ -11,6 +11,7 @@ import { t } from '@/services/translate-service';
 definePage({
   meta: {
     layout: 'default',
+    bg: 'background-4.webp',
     roles: ['User', 'Moderator', 'Admin'],
   },
 });
@@ -27,6 +28,10 @@ const onFormationChanged = async (formation: CaptainFormation) => {
 
 <template>
   <div class="container relative py-6">
+    <div class="mb-5 flex justify-center">
+      <OIcon icon="trumpet" size="5x" class="text-more-support" />
+    </div>
+    <Heading :title="$t('captain.title')" />
     <div class="relative grid grid-cols-12 gap-5">
       <div class="col-span-4">
         <CaptainFormationForm :formation="selfFormations.find(f => f.id == 1)" @change="onFormationChanged" />
