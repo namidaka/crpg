@@ -328,10 +328,16 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             if (agent.HasMount && !equippedItem.IsRangedWeapon)
             {
                 // SwingSpeed Nerf on Horseback, incorporating the power of N (where n=2) to the formula
-                float baseSwingSpeedFactor = equippedItem.WeaponLength / 125f;
-                float swingSpeedFactor = 1f / (float)Math.Pow(Math.Max(baseSwingSpeedFactor, 1f), 1.5);
+                static double Polynomial(float x)
+                {
+                    double y = x / 100f;
+                    return 0.1f * y + 0.01f * Math.Pow(y, 8);
+                }
 
-                props.SwingSpeedMultiplier *= HasSwingDamage(primaryItem) ? swingSpeedFactor : 1f;
+                double swingTimeFactor = 1 - Polynomial(125) + Polynomial(equippedItem.WeaponLength);
+
+                float cappedSwingSpeedFactor = MBMath.ClampFloat((float)(1 / swingTimeFactor), 0.25f, 1f);
+                props.SwingSpeedMultiplier *= HasSwingDamage(primaryItem) ? cappedSwingSpeedFactor : 1f;
                 // Thrustspeed Nerf on Horseback
                 props.ThrustOrRangedReadySpeedMultiplier *= 0.84f;
             }
