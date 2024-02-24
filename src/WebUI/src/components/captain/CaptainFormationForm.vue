@@ -1,12 +1,5 @@
-
-import { minLength } from '@vuelidate/validators';
-
-import { getFormations } from '@/services/captain-service';
-
-import { assignCharacterToFormation } from '@/services/captain-service';
-
-import { number } from 'echarts';
 <script setup lang="ts">
+import { ref, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { useUserStore } from '@/stores/user';
 import { assignCharacterToFormation, setFormationWeight } from '@/services/captain-service'
@@ -24,6 +17,7 @@ const props = withDefaults(
   }
 );
 
+const formationCharacter = ref<Character | null>(null);
 const userStore = useUserStore();
 
 onMounted(async () => {
@@ -32,9 +26,15 @@ onMounted(async () => {
   }
 });
 
-const formationCharacter = computed((): Character | null => {
-  return userStore.characters.find((c: Character) => c.id === props.formation?.characterId) || null;
-});
+watch(
+  () => props.formation?.characterId,
+  (newCharacterId) => {
+    formationCharacter.value = userStore.characters.find(c => c.id === newCharacterId) || null;
+  },
+  {
+    immediate: true,
+  }
+);
 
 const setFormationCharacter = async (characterId: number, active: boolean) => {
     await assignCharacterToFormation(props.formation!.id, characterId, active);
@@ -42,7 +42,7 @@ const setFormationCharacter = async (characterId: number, active: boolean) => {
     notify(t('captain.formation.character.notify.success'));
 }
 
-const SetFormationWeight = async () => {
+const assignFormationWeight = async () => {
     await setFormationWeight(props.formation!.id, props.formation!.weight);
     notify(t('captain.formation.weight.notify.success'));
 }
@@ -140,7 +140,7 @@ const onFormationChange = (characterid: number, id: number, weight: number) => {
             variant="primary"
             size="xl"
             :label="$t('action.confirm')"
-            @click="SetFormationWeight()"
+            @click="assignFormationWeight()"
           />
     </div>
 </div>
