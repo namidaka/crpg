@@ -11,7 +11,10 @@ import {
   export const getFormations = async () =>
   (await get<CaptainFormation[]>(`/users/self/captain/formations`));
   
- export const assignCharacterToFormation = (formationId: number) =>
- post(`/users/self/captain/${formationId}`)
+ export const assignCharacterToFormation = (formationId: number, characterId: number, active: boolean) =>
+ put(`/users/self/captain/${formationId}/assign/character`, { characterId, active })
+
+ export const setFormationWeight = (formationId: number, weight: number) =>
+ put(`/users/self/captain/${formationId}/assign/weight`, { weight })
   
   

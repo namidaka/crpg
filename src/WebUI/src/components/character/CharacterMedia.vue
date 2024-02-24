@@ -1,9 +1,9 @@
-<script setup lang="ts">
+#<script setup lang="ts">
 import { type Character } from '@/models/character';
 import { characterClassToIcon } from '@/services/characters-service';
 
 const { character, isActive = false } = defineProps<{
-  character?: Character;
+  character: Character | null;
   isActive?: boolean;
 }>();
 </script>

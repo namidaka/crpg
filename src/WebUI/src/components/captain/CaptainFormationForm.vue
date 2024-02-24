@@ -9,99 +9,139 @@ import { number } from 'echarts';
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core';
 import { useUserStore } from '@/stores/user';
+import { assignCharacterToFormation, setFormationWeight } from '@/services/captain-service'
+import type { CaptainFormation } from '@/models/captain'
+import type { Character } from '@/models/character';
 import { notify, NotificationType } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
 
 const props = withDefaults(
   defineProps<{
     formation: CaptainFormation | null,
-    id: number | null,
-    characterid: number | null,
-    weight: 1,
   }>(),
   {
     formation: null,
-    id: null,
-    characterid: null,
-    weight: 1,
   }
 );
 
 const userStore = useUserStore();
-if (userStore.characters.length === 0) {
+
+onMounted(async () => {
+  if (userStore.characters.length === 0) {
     await userStore.fetchCharacters();
+  }
+});
+
+const formationCharacter = computed((): Character | null => {
+  return userStore.characters.find((c: Character) => c.id === props.formation?.characterId) || null;
+});
+
+const setFormationCharacter = async (characterId: number, active: boolean) => {
+    await assignCharacterToFormation(props.formation!.id, characterId, active);
+    emit('update:formation', { characterId, id: props.formation!.id, weight: props.formation!.weight});
+    notify(t('captain.formation.character.notify.success'));
 }
 
-const formationCharacter = userStore.characters.find(c => c.id == props.formation.characterId);
-
-const setFormationCharacter = async (characterid: number, status: boolean) => {
-    await assignCharacterToFormation(props.formation.id);
+const SetFormationWeight = async () => {
+    await setFormationWeight(props.formation!.id, props.formation!.weight);
+    notify(t('captain.formation.weight.notify.success'));
 }
 
+const route = useRoute('Captain');
 const { user } = toRefs(useUserStore());
 const router = useRouter();
 
 const emit = defineEmits<{
-  (e: 'change', characterid: number, id: number, weight: number): void;
+  (e: 'update:formation', formation: CaptainFormation): void;
 }>();
 
 const onFormationChange = (characterid: number, id: number, weight: number) => {
-    emit('change', characterid, id, weight);
+    emit('update:formation', { characterId: characterid, id, weight });
 }
 
 </script>
 
 <template>
     <div class="mx-auto max-w-lg rounded-xl border border-border-200 p-6 bg-base-100 opacity-75">
-    <div class="mb-8 space-y-4">
-        <div class="prose prose-invert px-12 pb-6 text-center">
-            <h4 class="text-sm text-content-100">{{ $t('captain.formation.title', { id: formation.id }) }}</h4>
+        <div class="mb-8 space-y-4">
+            <div class="prose prose-invert px-12 pb-6 text-center">
+                <h2 class="text-m text-content-100">{{ $t('captain.formation.title', { id: formation!.id }) }}</h2>
+                <Divider />
+            </div>
+        <div class="text-center text">
+            {{ $t('captain.formation.character.title') }}
+        </div>
+                
+            <div class="flex justify-center pb-6">
+                <VDropdown :triggers="['click']" placement="bottom-end">
+                    <template #default="{ shown }">
+                        <OButton variant="primary" outlined size="lg">
+                        <CharacterMedia
+                            :character="formationCharacter"
+                            :isActive="false"
+                        />
+                        <div class="h-4 w-px select-none bg-border-300"></div>
+
+                        <OIcon
+                            icon="chevron-down"
+                            size="lg"
+                            :rotation="shown ? 180 : 0"
+                            class="text-content-400"
+                        />
+                        </OButton>
+                    </template>
+
+                    <template #popper="{ hide }">
+                        <div class="min-w-[18rem]">
+                            <DropdownItem
+                                v-for="char in userStore.characters"
+                                :checked="char.id === formation?.characterId"
+                                tag="RouterLink"
+                                :to="{ name: route.name }"
+                                class="justify-between"
+                                @click="() => { setFormationCharacter(char.id, true); hide(); }"
+                            >
+                            <CharacterMedia :character="char" />
+                            </DropdownItem>
+                            <DropdownItem
+                                class="text-primary hover:text-primary-hover"
+                                @click="
+                                () => {
+                                    setFormationCharacter(0, false);
+                                    hide();
+                                }
+                                "
+                            >
+                                <OIcon icon="minus" size="lg" />
+                                {{ $t('captain.formation.character.remove') }}
+                            </DropdownItem>
+                        </div>
+                    </template>
+                </VDropdown>
+
+            </div>
             <Divider />
-        </div>
-        
-        <div class="flex justify-center">
-            <VDropdown :triggers="['click']" placement="bottom-end">
-                <template #default="{ shown }">
-                    <OButton variant="primary" outlined size="lg">
-                    <CharacterMedia
-                        :character="formationCharacter"
-                        :isActive="false"
-                    />
-                    <div class="h-4 w-px select-none bg-border-300"></div>
-
-                    <OIcon
-                        icon="chevron-down"
-                        size="lg"
-                        :rotation="shown ? 180 : 0"
-                        class="text-content-400"
-                    />
-                    </OButton>
-                </template>
-
-                <template #popper="{ hide }">
-                    <div class="min-w-[24rem]">
-                        <DropdownItem
-                            v-for="char in userStore.characters"
-                            :checked="char.id === formation.characterId"
-                            class="justify-between"
-                            @click="hide"
-                        >
-                            <CharacterSelectItem
-                            :character="char"
-                            :modelValue="formation.characterId === char.id"
-                            @update:modelValue="(val: boolean) => onActivateCharacter(char.id, val)"
-                            />
-                        </DropdownItem>
-                    </div>
-                </template>
-            </VDropdown>
+        </div>    
+        <div class="text-center text-l pb-6">
+            {{ $t('captain.formation.weight.title') }}
+        </div>       
+        <div class="pb-12">
             <VueSlider
-                v-model="desiredWeight"
-                :min="0"
-                :max="100"
-                :step="1"
-                :marks="[min, max]"
-            />
+                    v-model="formation!.weight"
+                    :min="0"
+                    :max="100"
+                    :step="1"
+                    :marks="[0, 50, 100]"
+                />
+
         </div>
-    </div></div>
+        <div class="flex justify-center">
+        <OButton
+            variant="primary"
+            size="xl"
+            :label="$t('action.confirm')"
+            @click="SetFormationWeight()"
+          />
+    </div>
+</div>
 </template>

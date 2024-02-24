@@ -7,6 +7,6 @@ export interface Captain {
 
 export interface CaptainFormation {
     id: number,
-    characterid: number,
+    characterId: number | null,
     weight: number,
 }

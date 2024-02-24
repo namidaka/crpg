@@ -1033,6 +1033,60 @@ public record SeedDataCommand : IMediatorRequest
                     CompetitiveValue = 1900,
                 },
             };
+            Character droobCharacter1 = new()
+            {
+                User = droob,
+                Name = "Droob Archer",
+                Level = 37,
+                Generation = 16,
+                Experience = _experienceTable.GetExperienceForLevel(37),
+                Statistics = new CharacterStatistics
+                {
+                    Kills = 2,
+                    Assists = 3,
+                    Deaths = 6,
+                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                },
+                Characteristics = new CharacterCharacteristics
+                {
+                    Attributes = new CharacterAttributes { Points = 100 },
+                    Skills = new CharacterSkills { Points = 100 },
+                },
+                Rating = new()
+                {
+                    Value = 50,
+                    Deviation = 100,
+                    Volatility = 100,
+                    CompetitiveValue = 1900,
+                },
+            };
+            Character droobCharacter2 = new()
+            {
+                User = droob,
+                Name = "Droob Cavalry",
+                Level = 37,
+                Generation = 16,
+                Experience = _experienceTable.GetExperienceForLevel(37),
+                Statistics = new CharacterStatistics
+                {
+                    Kills = 2,
+                    Assists = 3,
+                    Deaths = 6,
+                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                },
+                Characteristics = new CharacterCharacteristics
+                {
+                    Attributes = new CharacterAttributes { Points = 100 },
+                    Skills = new CharacterSkills { Points = 100 },
+                },
+                Rating = new()
+                {
+                    Value = 50,
+                    Deviation = 100,
+                    Volatility = 100,
+                    CompetitiveValue = 1900,
+                },
+            };
             Character kadseCharacter0 = new()
             {
                 User = kadse,
@@ -1086,7 +1140,8 @@ public record SeedDataCommand : IMediatorRequest
             Character[] newCharacters =
             {
                 takeoCharacter0, takeoCharacter1, takeoCharacter2, namidakaCharacter0, orleCharacter0, orleCharacter1, orleCharacter2, droobCharacter0,
-                falcomCharacter0, victorhh888Character0, sellkaCharacter0, krogCharacter0, kadseCharacter0, noobAmphetamine0, baronCyborg0,
+                droobCharacter1, droobCharacter2, falcomCharacter0, victorhh888Character0, sellkaCharacter0, krogCharacter0, kadseCharacter0,
+                noobAmphetamine0, baronCyborg0,
             };
 
             var existingCharacters = await _db.Characters.ToDictionaryAsync(c => c.Name);
@@ -1436,15 +1491,22 @@ public record SeedDataCommand : IMediatorRequest
                 }
             }
 
+            Captain orleCaptain = new() { User = orle, Formations = new List<CaptainFormation>
+                {
+                    new() { CharacterId = 5, Weight = 33 },
+                    new() { Weight = 33 },
+                    new() { Weight = 33 },
+                },
+            };
             Captain droobCaptain = new() { User = droob, Formations = new List<CaptainFormation>
                 {
-                    new() { CharacterId = 8, Weight = 0.33f },
-                    new() { Weight = 0.33f },
-                    new() { Weight = 0.33f },
+                    new() { CharacterId = 8, Weight = 33 },
+                    new() { Weight = 33 },
+                    new() { Weight = 33 },
                 },
             };
 
-            Captain[] newCaptains = { droobCaptain };
+            Captain[] newCaptains = { droobCaptain, orleCaptain };
             var existingCaptains =
                 await _db.Captains.ToDictionaryAsync(c => c.UserId);
             foreach (var newCaptain in newCaptains)

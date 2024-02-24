@@ -227,11 +227,25 @@ public class UsersController : BaseController
     /// <param name="id">Formation id.</param>
     /// <response code="200">Ok.</response>
     /// <response code="404">Captain not found.</response>
-    [HttpPut("self/captain/{id}")]
-    public Task<ActionResult> AssignFormationCharacter([FromRoute] int id,
+    [HttpPut("self/captain/{id}/assign/character")]
+    public Task<ActionResult<Result<CaptainFormationViewModel>>> AssignFormationCharacter([FromRoute] int id,
         [FromBody] AssignFormationCharacterCommand req)
     {
-        req = req with { CharacterId = req.CharacterId, FormationId = id, UserId = CurrentUser.User!.Id };
+        req = req with { CharacterId = req.CharacterId, FormationId = id, UserId = CurrentUser.User!.Id, Active = req.Active };
+        return ResultToActionAsync(Mediator.Send(req));
+    }
+
+     /// <summary>
+    /// Assigns a character to the selected formation.
+    /// </summary>
+    /// <param name="id">Formation id.</param>
+    /// <response code="200">Ok.</response>
+    /// <response code="404">Captain not found.</response>
+    [HttpPut("self/captain/{id}/assign/weight")]
+    public Task<ActionResult<Result<CaptainFormationViewModel>>> AssignFormationCharacter([FromRoute] int id,
+        [FromBody] SetFormationWeightCommand req)
+    {
+        req = req with { FormationId = id, UserId = CurrentUser.User!.Id, Weight = req.Weight };
         return ResultToActionAsync(Mediator.Send(req));
     }
 

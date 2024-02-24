@@ -9,6 +9,6 @@ public record CaptainFormationViewModel : IMapFrom<CaptainFormation>
 {
     public int Id { get; set; }
     public int? CharacterId { get; set; }
-    public float Weight { get; set; }
+    public int Weight { get; set; }
 
 }

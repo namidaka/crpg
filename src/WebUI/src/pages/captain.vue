@@ -18,12 +18,21 @@ definePage({
 
 const router = useRouter();
 const selfCaptain = await getCaptain();
-const selfFormations = await getFormations();
+const selfFormations = ref(await getFormations());
+
+const selectedFormations = computed(() => {
+  return [1, 2, 3].map(id => selfFormations.value.find(f => f.id === id)).filter(f => f !== undefined);
+});
 
 const onFormationChanged = async (formation: CaptainFormation) => {
-  const clan = await assignCharacterToFormation(formation.id);
-  notify(t('clan.create.notify.success'));
+  const index = selfFormations.value.findIndex(f => f.id === formation.id);
+  if (index !== -1) {
+    selfFormations.value[index] = formation;
+  } else {
+    selfFormations.value.push(formation);
+  }
 };
+
 </script>
 
 <template>
@@ -33,14 +42,8 @@ const onFormationChanged = async (formation: CaptainFormation) => {
     </div>
     <Heading :title="$t('captain.title')" />
     <div class="relative grid grid-cols-12 gap-5">
-      <div class="col-span-4">
-        <CaptainFormationForm :formation="selfFormations.find(f => f.id == 1)" @change="onFormationChanged" />
-      </div>
-      <div class="col-span-4">
-        <CaptainFormationForm :formation="selfFormations.find(f => f.id == 2)" @change="onFormationChanged" />
-      </div>
-      <div class="col-span-4">
-        <CaptainFormationForm :formation="selfFormations.find(f => f.id == 3)" @change="onFormationChanged" />
+      <div v-for="(formation, index) in selectedFormations" :key="index" class="col-span-4">
+        <CaptainFormationForm :formation="formation" @update:formation="onFormationChanged" />
       </div>
     </div>
   </div>

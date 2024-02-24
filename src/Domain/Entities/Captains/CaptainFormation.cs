@@ -20,5 +20,5 @@ public class CaptainFormation : AuditableEntity
     /// <summary>
     /// The weight is compared to other formations to determine the composition of an army.
     /// </summary>
-    public float Weight { get; set; }
+    public int Weight { get; set; }
 }
