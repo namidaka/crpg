@@ -136,6 +136,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             return;
         }
 
+        CheckForPlayersSpawningAsBots();
         _flagSystem.CheckForManipulationOfFlags();
         CheckMorales();
         _flagSystem.TickFlags();

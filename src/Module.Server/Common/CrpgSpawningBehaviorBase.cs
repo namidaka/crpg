@@ -1,4 +1,4 @@
-﻿using Crpg.Module.Api.Models.Captains;
+using Crpg.Module.Api.Models.Captains;
 using Crpg.Module.Api.Models.Characters;
 using Crpg.Module.Api.Models.Users;
 using Microsoft.VisualBasic;
@@ -262,7 +262,6 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                         SpawnBotAgent(peerClass.StringId, agent.Team, missionPeer, captainFormation.Key);
                     }
                 }
-
             }
 
             // AgentVisualSpawnComponent.RemoveAgentVisuals(missionPeer, sync: true);
