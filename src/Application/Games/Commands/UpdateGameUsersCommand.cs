@@ -87,6 +87,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 
             // Extract character IDs from formations
             int[] formationCharacterIds = charactersById.Values
+                .Where(c => c.User!.Captain != null)
                 .SelectMany(c => c.User!.Captain!.Formations)
                 .Where(f => f.CharacterId.HasValue)
                 .Select(f => f.CharacterId!.Value)
