@@ -1366,15 +1366,14 @@ captain:
   title: Captain Formations
   formation:
     title: Formation {id}
+    update:
+      notify:
+        success: Formations updated successfully
     character:
       title: Selected Troop
       remove: Remove from Formation
-      notify:
-        success: Formation character updated successfully
     weight:
       title: Formation Weight
-      notify:
-        success: Formation weight updated successfully
 
 leaderboard:
   title: Leaderboard

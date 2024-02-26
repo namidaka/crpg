@@ -1331,15 +1331,14 @@ captain:
   title: Формации Капитана
   formation:
     title: Формация {id}
+    update:
+      notify:
+        success: Формации успешно обновлены
     character:
       title: Выбранный Отряд
       remove: Удалить из Формации
-      notify:
-        success: Персонаж формации успешно обновлен
     weight:
       title: Вес Формации
-      notify:
-        success: Вес формации успешно обновлен
 
 leaderboard:
   title: Таблица лидеров

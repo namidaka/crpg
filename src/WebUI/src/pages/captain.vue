@@ -15,6 +15,7 @@ import {
   setFormationWeight,
 } from '@/services/captain-service';
 import { currentLocale, t } from '@/services/translate-service';
+import { not } from '@vuelidate/validators';
 definePage({
   meta: {
     layout: 'default',
@@ -26,69 +27,36 @@ definePage({
 const router = useRouter();
 const selfCaptain = await getCaptain();
 const selfFormations = ref(await getFormations());
+let haveFormationsChanged = ref(false);
 
-const sliders = [
-  { slider: 1, locked: false },
-  { slider: 2, locked: false },
-  { slider: 3, locked: false },
-]
 
 const selectedFormations = computed(() => {
   return [1, 2, 3].map(id => selfFormations.value.find(f => f.number === id)).filter(f => f !== undefined);
 });
 
-const totalWeight = computed(() => {
-  return selfFormations.value
-  .filter(f => f.characterId !== null)
-  .reduce((acc, curr) => acc + curr.weight, 0);
-});
-
-
 const onFormationChange = (updatedFormation: CaptainFormation) => {
-  const index = selfFormations.value.findIndex(f => f.number === updatedFormation.number);
+  haveFormationsChanged.value = true;
+  const index = selfFormations.value.findIndex(f => f!.number === updatedFormation.number);
   if (index !== -1) {
-    // Update the formation in place
-    selfFormations.value[index] = updatedFormation;
-  } else {
-    // Optionally handle the case where the formation isn't found,
-    // such as adding the new formation to the array
-    selfFormations.value.push(updatedFormation);
+    selfFormations.value.splice(index, 1, updatedFormation);
   }
-}
-
-const lockFormationWeight = (updatedFormation: number) => {
-  sliders.find(s => s.slider == updatedFormation)?.locked == true ? false : true;
-}
+};
 
 
-const assignFormationWeight = async () => {
-  $v.value.$touch(); // Mark the fields as touched to show errors
+watch(selectedFormations, (newFormations) => {
   
-  if ($v.value.$invalid) {
-    notify('Validation failed. Total weight must be 100.');
-    return; // Stop if validation fails
-  }
-  
+}, { deep: true });
+
+const applyFormationChanges = async () => { 
   for (const formation of selectedFormations.value){
     if (formation){
       await setFormationWeight(formation.number, formation.weight);
+      await assignCharacterToFormation(formation.number, formation.characterId);
     }
   }
-    
-    notify(t('captain.formation.weight.notify.success'));
+  notify(t('captain.formation.update.notify.success'));
+  haveFormationsChanged.value = false;
 };
-
-const mustBeMaxWeight = (value: number) => value == 100
-
-const $v = useVuelidate(
-  {
-    totalWeight: {
-      required,
-      value: mustBeMaxWeight,
-    },
-  },
-  { totalWeight }
-);
 
 </script>
 
@@ -98,22 +66,11 @@ const $v = useVuelidate(
       <OIcon icon="trumpet" size="5x" class="text-more-support" />
     </div>
     <Heading :title="$t('captain.title')" />
-    <div class="sticky bottom-4 left-0 z-10 flex w-full justify-center rounded-lg p-4">
-      <div class="inline-flex gap-1.5 align-middle">
-          Total value:
-          <SvgSpriteImg name="coin" viewBox="0 0 18 18" class="w-4" />
-          <span class="text-xs font-bold text-primary">{{ $n(10000) }}</span>
-        </div>
-    </div>
     <div class="relative grid grid-cols-12 gap-5">
       <div v-for="(formation, index) in selectedFormations" :key="index" class="col-span-4">
-        <CaptainFormationForm :formation="formation" @update:formation="onFormationChange" @toggleLock="lockFormationWeight" />
+        <CaptainFormationForm :formation="formation" @update:formation="onFormationChange" />
       </div>
     </div>
-    <div class="flex justify-center">
-      <div v-if="$v.$error" class="text-danger">
-        Total weight must be 100
-    </div></div>
 
 
     <div class="flex justify-center p-10">
@@ -121,7 +78,8 @@ const $v = useVuelidate(
           variant="primary"
           size="xl"
           :label="$t('action.apply')"
-          @click="assignFormationWeight()"
+          @click="applyFormationChanges"
+          :disabled="!haveFormationsChanged"
         />
     </div>
 

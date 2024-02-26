@@ -1,23 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useVuelidate } from '@vuelidate/core';
 import { useUserStore } from '@/stores/user';
-import {
-  characterKey,
-  characterCharacteristicsKey,
-  characterHealthPointsKey,
-  characterItemsKey,
-  characterItemsStatsKey,
-  equippedItemsBySlotKey,
-} from '@/symbols/character';
-import { getCaptain, assignCharacterToFormation, setFormationWeight } from '@/services/captain-service'
 import { getCharacterItems, computeOverallPrice } from '@/services/characters-service';
 import type { CaptainFormation } from '@/models/captain'
-import type { Character, CharacterOverallItemsStats } from '@/models/character';
-import { notify, NotificationType } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
-
-import { usePollInterval } from '@/composables/use-poll-interval';
+import type { Character } from '@/models/character';
 
 const props = withDefaults(
   defineProps<{
@@ -28,16 +14,25 @@ const props = withDefaults(
   }
 );
 
-const loadCharacterItemsSymbol = Symbol('loadCharacterItems');
-const loadCharactersSymbol = Symbol('fetchCharacters');
-const loadUserItemsSymbol = Symbol('fetchUserItems');
-
-const { subscribe, unsubscribe } = usePollInterval();
 const formationCharacter = ref<Character | null>(null);
 const userStore = useUserStore();
 
 if (userStore.characters.length === 0) {
     await userStore.fetchCharacters();
+}
+
+const route = useRoute('Captain');
+
+const emit = defineEmits<{
+  (e: 'update:formation', formation: CaptainFormation): void,
+}>();
+
+const setFormationCharacter = async (characterId: number | null) => {
+    emit('update:formation', { characterId, number: props.formation!.number, weight: props.formation!.weight});
+}
+
+const onWeightChanged = (newWeight: number) => {
+    emit('update:formation', { characterId: props.formation!.characterId ?? null, number: props.formation!.number, weight: newWeight });
 }
 
 watch(
@@ -49,55 +44,6 @@ watch(
     immediate: true,
   }
 );
-
-onMounted(() => {
-  subscribe(loadCharacterItemsSymbol, () => loadCharacterItems(0, { id: formationCharacter.value?.id }));
-  subscribe(loadUserItemsSymbol, userStore.fetchUserItems);
-});
-
-const { state: characterItems, execute: loadCharacterItems } = useAsyncState(
-  ({ id }: { id: number | null | undefined }) => {
-    if (id !== null && id !== undefined) {
-      return getCharacterItems(id);
-    }
-    return Promise.resolve([]);
-  },
-  [],
-  {
-    immediate: false,
-    resetOnExecute: false,
-  }
-);
-
-const itemsStats = computed((): number => {
-  const items = characterItems.value.map(ei => ei.userItem.item);
-  return computeOverallPrice(items);
-});
-
-const setFormationCharacter = async (characterId: number, active: boolean) => {
-    await assignCharacterToFormation(props.formation!.number, characterId, active);
-    emit('update:formation', { characterId, number: props.formation!.number, weight: props.formation!.weight});
-    notify(t('captain.formation.character.notify.success'));
-}
-
-const route = useRoute('Captain');
-const { user } = toRefs(useUserStore());
-const router = useRouter();
-let locked = ref(false);
-
-const emit = defineEmits<{
-  (e: 'update:formation', formation: CaptainFormation): void,
-  (e: 'toggleLock', number: number): void;
-}>();
-
-const onFormationChange = (formation: CaptainFormation) => {
-    emit('update:formation', { characterId: formation.characterId ?? null, number: formation.number, weight: formation.weight });
-}
-
-const toggleLock = (number: number) => {
-    locked.value = !locked.value;
-    emit('toggleLock',  number);
-}
 
 </script>
 
@@ -139,7 +85,7 @@ const toggleLock = (number: number) => {
                                 tag="RouterLink"
                                 :to="{ name: route.name }"
                                 class="justify-between"
-                                @click="() => { setFormationCharacter(char.id, true); hide(); }"
+                                @click="() => { setFormationCharacter(char.id); hide(); }"
                             >
                             <CharacterMedia :character="char" />
                             </DropdownItem>
@@ -147,7 +93,7 @@ const toggleLock = (number: number) => {
                                 class="text-status-danger hover:text-status-danger-hover"
                                 @click="
                                 () => {
-                                    setFormationCharacter(0, false);
+                                    setFormationCharacter(null);
                                     hide();
                                 }
                                 "
@@ -163,18 +109,16 @@ const toggleLock = (number: number) => {
         </div>    
         <div class="flex items-center justify-center gap-3 pb-6">
             {{ $t('captain.formation.weight.title') }}
-            <OIcon icon="lock" size="s" class="hover:text-content-400" v-tooltip="$t(`captain.formation.weight.lock`)" @click="toggleLock"/>
         </div>       
         <div class="pb-12">
             
             <VueSlider
-                    :disabled="locked"
                     v-model="formation!.weight"
                     :min="0"
                     :max="100"
                     :step="1"
                     :marks="[0, 50, 100]"
-                    @change="onFormationChange(formation!)"
+                    @change="(newValue: number) => onWeightChanged(newValue)"
                     class=""
                 />
 

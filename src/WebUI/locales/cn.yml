@@ -1322,15 +1322,14 @@ captain:
   title: 船长编队
   formation:
     title: 编队 {id}
+    update:
+      notify:
+        success: 编队更新成功
     character:
       title: 选定的部队
       remove: 从编队中移除
-      notify:
-        success: 编队角色更新成功
     weight:
       title: 编队重量
-      notify:
-        success: 编队重量更新成功
 
 leaderboard:
   title: 排行榜

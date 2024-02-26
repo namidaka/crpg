@@ -9,10 +9,9 @@ namespace Crpg.Application.Captains.Commands;
 
 public record AssignFormationCharacterCommand : IMediatorRequest<CaptainFormationViewModel>
 {
-    public int CharacterId { get; init; }
+    public int? CharacterId { get; init; }
     public int UserId { get; init; }
     public int Number { get; init; }
-    public bool Active { get; init; }
 
     internal class Handler : IMediatorRequestHandler<AssignFormationCharacterCommand, CaptainFormationViewModel>
     {
@@ -41,8 +40,7 @@ public record AssignFormationCharacterCommand : IMediatorRequest<CaptainFormatio
                 return new(CommonErrors.CaptainFormationNotFound(req.Number, req.UserId));
             }
 
-            if (!req.Active)
-            {
+            if (req.CharacterId == null){
                 captain.Formation.CharacterId = null;
                 await _db.SaveChangesAsync(cancellationToken);
                 return new(_mapper.Map<CaptainFormationViewModel>(captain.Formation));
@@ -50,18 +48,18 @@ public record AssignFormationCharacterCommand : IMediatorRequest<CaptainFormatio
 
             var character = await _db.Characters
                 .Include(c => c.User)
-                .FirstOrDefaultAsync(c => c.UserId == req.UserId && c.Id == req.CharacterId, cancellationToken);
+                .FirstOrDefaultAsync(c => c.UserId == req.UserId && c.Id == req.CharacterId.Value, cancellationToken);
             if (character == null)
             {
-                return new(CommonErrors.CharacterNotFound(req.CharacterId, req.UserId));
+                return new(CommonErrors.CharacterNotFound(req.CharacterId.Value, req.UserId));
             }
 
             if (character.ForTournament)
             {
-                return new(CommonErrors.CharacterForTournament(req.CharacterId));
+                return new(CommonErrors.CharacterForTournament(req.CharacterId.Value));
             }
 
-            captain.Formation.CharacterId = req.CharacterId;
+            captain.Formation.CharacterId = req.CharacterId.Value;
 
             await _db.SaveChangesAsync(cancellationToken);
             return new(_mapper.Map<CaptainFormationViewModel>(captain.Formation));
