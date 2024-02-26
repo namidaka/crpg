@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Captains.Commands;
 
-public record SetFormationWeightCommand : IMediatorRequest<CaptainFormationViewModel>
+public record UpdateFormationWeightCommand : IMediatorRequest<CaptainFormationViewModel>
 {
     public int UserId { get; init; }
     public int Weight { get; init; }
     public int Number { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<SetFormationWeightCommand, CaptainFormationViewModel>
+    internal class Handler : IMediatorRequestHandler<UpdateFormationWeightCommand, CaptainFormationViewModel>
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -24,7 +24,7 @@ public record SetFormationWeightCommand : IMediatorRequest<CaptainFormationViewM
             _mapper = mapper;
         }
 
-        public async Task<Result<CaptainFormationViewModel>> Handle(SetFormationWeightCommand req, CancellationToken cancellationToken)
+        public async Task<Result<CaptainFormationViewModel>> Handle(UpdateFormationWeightCommand req, CancellationToken cancellationToken)
         {
             var captain = await _db.Captains
                 .Where(c => c.UserId == req.UserId)

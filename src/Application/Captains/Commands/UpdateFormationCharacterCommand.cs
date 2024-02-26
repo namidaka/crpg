@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Captains.Commands;
 
-public record AssignFormationCharacterCommand : IMediatorRequest<CaptainFormationViewModel>
+public record UpdateFormationCharacterCommand : IMediatorRequest<CaptainFormationViewModel>
 {
     public int? CharacterId { get; init; }
     public int UserId { get; init; }
     public int Number { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<AssignFormationCharacterCommand, CaptainFormationViewModel>
+    internal class Handler : IMediatorRequestHandler<UpdateFormationCharacterCommand, CaptainFormationViewModel>
     {
         private readonly ICrpgDbContext _db;
 
@@ -25,7 +25,7 @@ public record AssignFormationCharacterCommand : IMediatorRequest<CaptainFormatio
             _mapper = mapper;
         }
 
-        public async Task<Result<CaptainFormationViewModel>> Handle(AssignFormationCharacterCommand req, CancellationToken cancellationToken)
+        public async Task<Result<CaptainFormationViewModel>> Handle(UpdateFormationCharacterCommand req, CancellationToken cancellationToken)
         {
             var captain = await _db.Captains
                 .Where(c => c.UserId == req.UserId)
@@ -40,14 +40,13 @@ public record AssignFormationCharacterCommand : IMediatorRequest<CaptainFormatio
                 return new(CommonErrors.CaptainFormationNotFound(req.Number, req.UserId));
             }
 
-            if (req.CharacterId == null){
+            if (req.CharacterId == null) {
                 captain.Formation.CharacterId = null;
                 await _db.SaveChangesAsync(cancellationToken);
                 return new(_mapper.Map<CaptainFormationViewModel>(captain.Formation));
             }
 
             var character = await _db.Characters
-                .Include(c => c.User)
                 .FirstOrDefaultAsync(c => c.UserId == req.UserId && c.Id == req.CharacterId.Value, cancellationToken);
             if (character == null)
             {
