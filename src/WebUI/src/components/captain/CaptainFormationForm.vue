@@ -2,11 +2,22 @@
 import { ref, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { useUserStore } from '@/stores/user';
-import { assignCharacterToFormation, setFormationWeight } from '@/services/captain-service'
+import {
+  characterKey,
+  characterCharacteristicsKey,
+  characterHealthPointsKey,
+  characterItemsKey,
+  characterItemsStatsKey,
+  equippedItemsBySlotKey,
+} from '@/symbols/character';
+import { getCaptain, assignCharacterToFormation, setFormationWeight } from '@/services/captain-service'
+import { getCharacterItems, computeOverallPrice } from '@/services/characters-service';
 import type { CaptainFormation } from '@/models/captain'
-import type { Character } from '@/models/character';
+import type { Character, CharacterOverallItemsStats } from '@/models/character';
 import { notify, NotificationType } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
+
+import { usePollInterval } from '@/composables/use-poll-interval';
 
 const props = withDefaults(
   defineProps<{
@@ -17,14 +28,17 @@ const props = withDefaults(
   }
 );
 
+const loadCharacterItemsSymbol = Symbol('loadCharacterItems');
+const loadCharactersSymbol = Symbol('fetchCharacters');
+const loadUserItemsSymbol = Symbol('fetchUserItems');
+
+const { subscribe, unsubscribe } = usePollInterval();
 const formationCharacter = ref<Character | null>(null);
 const userStore = useUserStore();
 
-onMounted(async () => {
-  if (userStore.characters.length === 0) {
+if (userStore.characters.length === 0) {
     await userStore.fetchCharacters();
-  }
-});
+}
 
 watch(
   () => props.formation?.characterId,
@@ -36,27 +50,53 @@ watch(
   }
 );
 
-const setFormationCharacter = async (characterId: number, active: boolean) => {
-    await assignCharacterToFormation(props.formation!.id, characterId, active);
-    emit('update:formation', { characterId, id: props.formation!.id, weight: props.formation!.weight});
-    notify(t('captain.formation.character.notify.success'));
-}
+onMounted(() => {
+  subscribe(loadCharacterItemsSymbol, () => loadCharacterItems(0, { id: formationCharacter.value?.id }));
+  subscribe(loadUserItemsSymbol, userStore.fetchUserItems);
+});
 
-const assignFormationWeight = async () => {
-    await setFormationWeight(props.formation!.id, props.formation!.weight);
-    notify(t('captain.formation.weight.notify.success'));
+const { state: characterItems, execute: loadCharacterItems } = useAsyncState(
+  ({ id }: { id: number | null | undefined }) => {
+    if (id !== null && id !== undefined) {
+      return getCharacterItems(id);
+    }
+    return Promise.resolve([]);
+  },
+  [],
+  {
+    immediate: false,
+    resetOnExecute: false,
+  }
+);
+
+const itemsStats = computed((): number => {
+  const items = characterItems.value.map(ei => ei.userItem.item);
+  return computeOverallPrice(items);
+});
+
+const setFormationCharacter = async (characterId: number, active: boolean) => {
+    await assignCharacterToFormation(props.formation!.number, characterId, active);
+    emit('update:formation', { characterId, number: props.formation!.number, weight: props.formation!.weight});
+    notify(t('captain.formation.character.notify.success'));
 }
 
 const route = useRoute('Captain');
 const { user } = toRefs(useUserStore());
 const router = useRouter();
+let locked = ref(false);
 
 const emit = defineEmits<{
-  (e: 'update:formation', formation: CaptainFormation): void;
+  (e: 'update:formation', formation: CaptainFormation): void,
+  (e: 'toggleLock', number: number): void;
 }>();
 
-const onFormationChange = (characterid: number, id: number, weight: number) => {
-    emit('update:formation', { characterId: characterid, id, weight });
+const onFormationChange = (formation: CaptainFormation) => {
+    emit('update:formation', { characterId: formation.characterId ?? null, number: formation.number, weight: formation.weight });
+}
+
+const toggleLock = (number: number) => {
+    locked.value = !locked.value;
+    emit('toggleLock',  number);
 }
 
 </script>
@@ -65,7 +105,7 @@ const onFormationChange = (characterid: number, id: number, weight: number) => {
     <div class="mx-auto max-w-lg rounded-xl border border-border-200 p-6 bg-base-100 opacity-75">
         <div class="mb-8 space-y-4">
             <div class="prose prose-invert px-12 pb-6 text-center">
-                <h2 class="text-m text-content-100">{{ $t('captain.formation.title', { id: formation!.id }) }}</h2>
+                <h2 class="text-m text-content-100">{{ $t('captain.formation.title', { id: formation!.number }) }}</h2>
                 <Divider />
             </div>
         <div class="text-center text">
@@ -104,7 +144,7 @@ const onFormationChange = (characterid: number, id: number, weight: number) => {
                             <CharacterMedia :character="char" />
                             </DropdownItem>
                             <DropdownItem
-                                class="text-primary hover:text-primary-hover"
+                                class="text-status-danger hover:text-status-danger-hover"
                                 @click="
                                 () => {
                                     setFormationCharacter(0, false);
@@ -118,30 +158,26 @@ const onFormationChange = (characterid: number, id: number, weight: number) => {
                         </div>
                     </template>
                 </VDropdown>
-
             </div>
             <Divider />
         </div>    
-        <div class="text-center text-l pb-6">
+        <div class="flex items-center justify-center gap-3 pb-6">
             {{ $t('captain.formation.weight.title') }}
+            <OIcon icon="lock" size="s" class="hover:text-content-400" v-tooltip="$t(`captain.formation.weight.lock`)" @click="toggleLock"/>
         </div>       
         <div class="pb-12">
+            
             <VueSlider
+                    :disabled="locked"
                     v-model="formation!.weight"
                     :min="0"
                     :max="100"
                     :step="1"
                     :marks="[0, 50, 100]"
+                    @change="onFormationChange(formation!)"
+                    class=""
                 />
 
         </div>
-        <div class="flex justify-center">
-        <OButton
-            variant="primary"
-            size="xl"
-            :label="$t('action.confirm')"
-            @click="assignFormationWeight()"
-          />
-    </div>
 </div>
 </template>

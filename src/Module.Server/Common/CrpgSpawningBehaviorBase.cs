@@ -1,4 +1,7 @@
-﻿using Crpg.Module.Api.Models.Characters;
+﻿using Crpg.Module.Api.Models.Captains;
+using Crpg.Module.Api.Models.Characters;
+using Crpg.Module.Api.Models.Users;
+using Microsoft.VisualBasic;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -69,7 +72,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             {
                 if (team.Side != BattleSideEnum.None)
                 {
-                    _teamNumberOfBots[team] = _totalNumberOfBots / Mission.Current.Teams.Count - 1;
+                    _teamNumberOfBots[team] = _totalNumberOfBots / (Mission.Current.Teams.Count - 1);
                 }
             }
         }
@@ -224,7 +227,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 int peerNumberOfBots = 0;
                 if (teamRelevantPeers.Count - 1 < 1)
                 {
-                    peerNumberOfBots = _teamNumberOfBots[missionPeer.Team];
+                    peerNumberOfBots = _teamNumberOfBots[missionPeer.Team] - 1;
                 }
                 else
                 {
@@ -232,10 +235,34 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                              (float)(teamRelevantPeers.Count - 1));
                 }
 
-                for (int i = 0; i < peerNumberOfBots; i++)
+                Dictionary<int, double> formationBotWeight = new();
+                var captainFormations = crpgPeer.User.Captain.Formations.Where(f => f.Character != null);
+                if (captainFormations.Any())
                 {
-                    SpawnBotAgent(peerClass.StringId, agent.Team, missionPeer, p);
+                    double totalWeight = captainFormations.Sum(cf => cf.Weight);
+
+                    foreach (CrpgCaptainFormation captainFormation in captainFormations)
+                    {
+                        double proportion = (double)(captainFormation.Weight / totalWeight);
+                        formationBotWeight.Add(captainFormation.Number, proportion);
+                    }
                 }
+                else
+                {
+                    for (int i = 0; i < peerNumberOfBots; i++)
+                    {
+                        SpawnBotAgent(peerClass.StringId, agent.Team, missionPeer);
+                    }
+                }
+
+                foreach (KeyValuePair<int, double> captainFormation in formationBotWeight)
+                {
+                    for (int i = 0; i < (int)(captainFormation.Value * peerNumberOfBots); i++)
+                    {
+                        SpawnBotAgent(peerClass.StringId, agent.Team, missionPeer, captainFormation.Key);
+                    }
+                }
+
             }
 
             // AgentVisualSpawnComponent.RemoveAgentVisuals(missionPeer, sync: true);
@@ -273,7 +300,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
         return characterObject;
     }
 
-    protected Agent SpawnBotAgent(string classDivisionId, Team team, MissionPeer? peer = null, int p = 0)
+    protected Agent SpawnBotAgent(string classDivisionId, Team team, MissionPeer? peer = null, int formationId = 0)
     {
         var teamCulture = team.Side == BattleSideEnum.Attacker
             ? MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue())
@@ -309,9 +336,12 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
             var crpgPeer = peer.GetComponent<CrpgPeer>();
             if (crpgPeer != null && crpgPeer?.User != null)
             {
-                var characterEquipment = CrpgCharacterBuilder.CreateCharacterEquipment(crpgPeer.User.Character.EquippedItems);
-                var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>($"crpg_class_division_{p}");
-                var characterSkills = CrpgCharacterBuilder.CreateCharacterSkills(crpgPeer.User!.Character.Characteristics);
+                var formation = GetFormationFromPeer(peer, formationId);
+
+                var formationCharacter = formation?.Character ?? crpgPeer.User.Character;
+                var characterEquipment = CrpgCharacterBuilder.CreateCharacterEquipment(formationCharacter.EquippedItems);
+                var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>($"crpg_class_division_1");
+                var characterSkills = CrpgCharacterBuilder.CreateCharacterSkills(formationCharacter.Characteristics);
                 var characterXml = peerClass.HeroCharacter;
                 var troopOrigin = new CrpgBattleAgentOrigin(characterXml, characterSkills);
                 agentBuildData.OwningMissionPeer(peer);
@@ -477,8 +507,33 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 
     private int ComputeEquipmentValue(CrpgPeer peer)
     {
-        int value = peer?.User?.Character.EquippedItems.Select(i => MBObjectManager.Instance.GetObject<ItemObject>(i.UserItem.ItemId)).Sum(io => io.Value) ?? 0;
-        return value + 10000; // protection against naked
+        int totalValue = 0;
+
+        Dictionary<int, double> formationBotWeight = new();
+        var captainFormations = peer?.User?.Captain.Formations.Where(f => f.Character != null);
+        if (captainFormations.Any())
+        {
+            double totalWeight = captainFormations.Sum(cf => cf.Weight);
+
+            foreach (CrpgCaptainFormation captainFormation in captainFormations!)
+            {
+                double proportion = (double)(captainFormation.Weight / totalWeight);
+                formationBotWeight.Add(captainFormation.Number, proportion);
+
+                int characterValue = captainFormation.Character!.EquippedItems
+                .Select(i => MBObjectManager.Instance.GetObject<ItemObject>(i.UserItem.ItemId))
+                .Where(io => io != null)
+                .Sum(io => io.Value);
+
+                totalValue += (int)(characterValue * formationBotWeight[captainFormation.Number]);
+            }
+        }
+        else
+        {
+            totalValue = peer?.User?.Character.EquippedItems.Select(i => MBObjectManager.Instance.GetObject<ItemObject>(i.UserItem.ItemId)).Sum(io => io.Value) ?? 0;
+        }
+
+        return totalValue + 10000; // protection against naked
     }
 
     private int ComputeSingleEquipmentValue(ItemObject item)
@@ -498,5 +553,16 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                             || crpgPeer.UserLoading
                             || crpgPeer.User == null);
         return isRelevant;
+    }
+
+    private CrpgCaptainFormation? GetFormationFromPeer(MissionPeer peer, int formationId)
+    {
+        var crpgPeer = peer.GetComponent<CrpgPeer>();
+        if (crpgPeer != null && crpgPeer.User != null)
+        {
+            return crpgPeer.User.Captain.Formations.Where(f => f.Number == formationId).FirstOrDefault();
+        }
+
+        return null;
     }
 }

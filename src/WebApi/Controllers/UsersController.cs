@@ -208,7 +208,7 @@ public class UsersController : BaseController
     /// <response code="404">Captain not found.</response>
     [HttpGet("self/captain/")]
     public Task<ActionResult<Result<CaptainViewModel>>> GetUserCaptain() =>
-        ResultToActionAsync(Mediator.Send(new GetUserCaptainQuery
+        ResultToActionAsync(Mediator.Send(new GetUserCaptainCommand
             { UserId = CurrentUser.User!.Id }));
 
     /// <summary>
@@ -231,7 +231,7 @@ public class UsersController : BaseController
     public Task<ActionResult<Result<CaptainFormationViewModel>>> AssignFormationCharacter([FromRoute] int id,
         [FromBody] AssignFormationCharacterCommand req)
     {
-        req = req with { CharacterId = req.CharacterId, FormationId = id, UserId = CurrentUser.User!.Id, Active = req.Active };
+        req = req with { CharacterId = req.CharacterId, Number = id, UserId = CurrentUser.User!.Id, Active = req.Active };
         return ResultToActionAsync(Mediator.Send(req));
     }
 
@@ -245,7 +245,7 @@ public class UsersController : BaseController
     public Task<ActionResult<Result<CaptainFormationViewModel>>> AssignFormationCharacter([FromRoute] int id,
         [FromBody] SetFormationWeightCommand req)
     {
-        req = req with { FormationId = id, UserId = CurrentUser.User!.Id, Weight = req.Weight };
+        req = req with { Number = id, UserId = CurrentUser.User!.Id, Weight = req.Weight };
         return ResultToActionAsync(Mediator.Send(req));
     }
 

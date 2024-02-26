@@ -1,10 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Threading;
+using AutoMapper;
+using Crpg.Application.Captains.Models;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Application.Games.Models;
 using Crpg.Domain.Entities;
+using Crpg.Domain.Entities.Captains;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
@@ -154,6 +157,8 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
             var user = await _db.Users
                 .Include(u => u.ActiveCharacter)
                 .Include(u => u.ClanMembership)
+                .Include(u => u.Captain)
+                    .ThenInclude(c => c!.Formations)
                 .FirstOrDefaultAsync(u => u.Platform == req.Platform && u.PlatformUserId == req.PlatformUserId,
                     cancellationToken);
 
@@ -211,6 +216,30 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                     .Query()
                     .Include(ei => ei.UserItem)
                     .LoadAsync(cancellationToken);
+            }
+
+            if (user.Captain == null)
+            {
+                user.Captain = CreateCaptain(user.Id);
+
+                _db.Captains.Add(user.Captain);
+                await _db.SaveChangesAsync(cancellationToken);
+            }
+            else
+            {
+                // Iterate over the formations to load each Character's EquippedItems separately
+/*                foreach (var formation in user.Captain.Formations)
+                {
+                    if (formation.Character != null)
+                    {
+                        var equippedItems = await _db.EquippedItems
+                            .Where(ei => ei.CharacterId == formation.Character.Id)
+                            .Include(ei => ei.UserItem)
+                            .ToListAsync(cancellationToken);
+
+                        formation.Character.EquippedItems = equippedItems;
+                    }
+                }*/
             }
 
             var gameUser = _mapper.Map<GameUserViewModel>(user);
@@ -337,6 +366,24 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
             }
 
             return equippedItems;
+        }
+
+        private Captain CreateCaptain(int userId)
+        {
+            Captain captain = new()
+            {
+                UserId = userId,
+                Formations = new List<CaptainFormation>()
+                {
+                    new() { Number = 1, Weight = 33 },
+                    new() { Number = 2, Weight = 33 },
+                    new() { Number = 3, Weight = 33 },
+                },
+            };
+
+
+
+            return captain;
         }
     }
 }

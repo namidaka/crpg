@@ -1493,20 +1493,20 @@ public record SeedDataCommand : IMediatorRequest
 
             Captain orleCaptain = new() { User = orle, Formations = new List<CaptainFormation>
                 {
-                    new() { CharacterId = 5, Weight = 33 },
-                    new() { Weight = 33 },
-                    new() { Weight = 33 },
+                    new() { Number = 1, CharacterId = 5, Weight = 33 },
+                    new() { Number = 2, Weight = 33 },
+                    new() { Number = 3, Weight = 33 },
                 },
             };
             Captain droobCaptain = new() { User = droob, Formations = new List<CaptainFormation>
                 {
-                    new() { CharacterId = 8, Weight = 33 },
-                    new() { Weight = 33 },
-                    new() { Weight = 33 },
+                    new() { Number = 1, CharacterId = 10, Weight = 33 },
+                    new() { Number = 2, CharacterId = 9, Weight = 33 },
+                    new() { Number = 3, CharacterId = 8, Weight = 33 },
                 },
             };
 
-            Captain[] newCaptains = { droobCaptain, orleCaptain };
+            Captain[] newCaptains = { orleCaptain };
             var existingCaptains =
                 await _db.Captains.ToDictionaryAsync(c => c.UserId);
             foreach (var newCaptain in newCaptains)

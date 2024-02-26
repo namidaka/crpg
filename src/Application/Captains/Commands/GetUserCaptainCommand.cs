@@ -35,20 +35,24 @@ public record GetUserCaptainCommand : IMediatorRequest<CaptainViewModel>
 
         public async Task<Result<CaptainViewModel>> Handle(GetUserCaptainCommand req, CancellationToken cancellationToken)
         {
-            var captain = await _db.Captains
-                .Where(c => c.UserId == req.UserId)
-                .FirstOrDefaultAsync(c => c.UserId == req.UserId,
-                    cancellationToken);
-
-            if (captain == null)
+            var user = await _db.Users
+                .Where(u => u.Id == req.UserId)
+                .Include(u => u.Captain)
+                .FirstOrDefaultAsync(cancellationToken);
+            if (user == null)
             {
-                captain = CreateCaptain(req.UserId);
-                _db.Captains.Add(captain);
+                return new(CommonErrors.UserNotFound(req.UserId));
+            }
+
+            if (user.Captain == null)
+            {
+                user.Captain = CreateCaptain(req.UserId);
+                _db.Captains.Add(user.Captain);
 
                 await _db.SaveChangesAsync(cancellationToken);
             }
 
-            var gameUser = _mapper.Map<CaptainViewModel>(captain);
+            var gameUser = _mapper.Map<CaptainViewModel>(user.Captain);
             return new(gameUser);
         }
 
@@ -59,9 +63,9 @@ public record GetUserCaptainCommand : IMediatorRequest<CaptainViewModel>
                 UserId = userId,
                 Formations = new List<CaptainFormation>()
                 {
-                    new() { UserId = userId, Weight = 33 },
-                    new() { UserId = userId, Weight = 33 },
-                    new() { UserId = userId, Weight = 33 },
+                    new() { Number = 1, Weight = 33 },
+                    new() { Number = 2, Weight = 33 },
+                    new() { Number = 3, Weight = 33 },
                 },
             };
 

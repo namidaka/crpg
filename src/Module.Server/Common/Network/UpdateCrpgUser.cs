@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using Crpg.Module.Api.Models.Captains;
 using Crpg.Module.Api.Models.Characters;
 using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Api.Models.Items;
@@ -73,8 +74,13 @@ internal sealed class UpdateCrpgUser : GameNetworkMessage
         };
     }
 
-    private void WriteCharacterToPacket(BinaryWriter writer, CrpgCharacter character)
+    private void WriteCharacterToPacket(BinaryWriter writer, CrpgCharacter? character)
     {
+        if (character == null)
+        {
+            return;
+        }
+
         writer.Write(character.Generation);
         writer.Write(character.Level);
         writer.Write(character.Experience);

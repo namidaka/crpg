@@ -1,4 +1,5 @@
 using Crpg.Domain.Entities.Users;
+using Crpg.Domain.Entities.Captains;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,6 +15,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasOne(u => u.ActiveCharacter)
             .WithOne()
             .HasForeignKey<User>(u => u.ActiveCharacterId);
+
+        builder.HasOne(u => u.Captain)
+            .WithOne(c => c.User)
+            .HasForeignKey<Captain>(c => c.UserId);
 
         builder.HasQueryFilter(u => u.DeletedAt == null);
 

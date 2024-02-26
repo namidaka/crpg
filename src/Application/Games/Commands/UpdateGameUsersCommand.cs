@@ -77,13 +77,26 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             int[] characterIds = updates.Select(u => u.CharacterId).ToArray();
             var charactersById = await _db.Characters
                 .Include(c => c.User!.ClanMembership)
+                .Include(c => c.User!.Captain!.Formations)
+                    .ThenInclude(f => f!.Character)
+
                 .Where(c => characterIds.Contains(c.Id))
                 .ToDictionaryAsync(c => c.Id, cancellationToken);
 
-            // Load items in a separate query to avoid cartesian explosion. The items will be automatically set
-            // to their respective character.
+            int[] primaryCharacterIds = charactersById.Keys.ToArray();
+
+            // Extract character IDs from formations
+            int[] formationCharacterIds = charactersById.Values
+                .SelectMany(c => c.User!.Captain!.Formations)
+                .Where(f => f.CharacterId.HasValue)
+                .Select(f => f.CharacterId!.Value)
+                .Distinct()
+                .ToArray();
+
+            int[] allCharacterIds = primaryCharacterIds.Concat(formationCharacterIds).Distinct().ToArray();
+
             await _db.EquippedItems
-                .Where(ei => characterIds.Contains(ei.CharacterId))
+                .Where(ei => allCharacterIds.Contains(ei.CharacterId))
                 .Include(ei => ei.UserItem)
                 .LoadAsync(cancellationToken);
 

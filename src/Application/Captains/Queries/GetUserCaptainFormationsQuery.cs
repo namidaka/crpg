@@ -25,14 +25,17 @@ public record GetUserCaptainFormationsQuery : IMediatorRequest<IList<CaptainForm
 
         public async Task<Result<IList<CaptainFormationViewModel>>> Handle(GetUserCaptainFormationsQuery req, CancellationToken cancellationToken)
         {
-            var formations = await _db.CaptainFormations
+            var captain = await _db.Captains
                 .Where(c => c.UserId == req.UserId)
-                .OrderByDescending(f => f.Id)
-                .ToListAsync(cancellationToken);
+                .Select(c => new
+                {
+                    c.Formations,
+                })
+                .FirstOrDefaultAsync(cancellationToken);
 
-            return formations == null
+            return captain == null
                 ? new(CommonErrors.CaptainNotFound(req.UserId))
-                : new(_mapper.Map<IList<CaptainFormationViewModel>>(formations));
+                : new(_mapper.Map<IList<CaptainFormationViewModel>>(captain.Formations));
         }
     }
 }

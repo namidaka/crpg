@@ -7,7 +7,6 @@ namespace Crpg.Application.Captains.Models;
 
 public record CaptainViewModel : IMapFrom<Captain>
 {
-    public int UserId { get; set; }
     public IList<CaptainFormationViewModel> Formations { get; set; } = new List<CaptainFormationViewModel>();
 
     public void Mapping(Profile profile)

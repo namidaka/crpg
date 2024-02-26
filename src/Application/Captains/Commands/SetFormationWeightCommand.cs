@@ -11,7 +11,7 @@ public record SetFormationWeightCommand : IMediatorRequest<CaptainFormationViewM
 {
     public int UserId { get; init; }
     public int Weight { get; init; }
-    public int FormationId { get; init; }
+    public int Number { get; init; }
 
     internal class Handler : IMediatorRequestHandler<SetFormationWeightCommand, CaptainFormationViewModel>
     {
@@ -28,14 +28,15 @@ public record SetFormationWeightCommand : IMediatorRequest<CaptainFormationViewM
         {
             var captain = await _db.Captains
                 .Where(c => c.UserId == req.UserId)
-                .Select(c => new 
+                .Select(c => new
                 {
-                    Formation = c.Formations.FirstOrDefault(f => f.Id == req.FormationId)
+                    Formation = c.Formations.FirstOrDefault(f => f.Number == req.Number),
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (captain?.Formation == null){
-                return new(CommonErrors.CaptainFormationNotFound(req.FormationId, req.UserId));
+            if (captain?.Formation == null)
+            {
+                return new(CommonErrors.CaptainFormationNotFound(req.Number, req.UserId));
             }
 
             captain.Formation.Weight = req.Weight;

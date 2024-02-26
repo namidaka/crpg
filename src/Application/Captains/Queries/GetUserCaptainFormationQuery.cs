@@ -10,7 +10,7 @@ namespace Crpg.Application.Captains.Queries;
 public record GetUserCaptainFormationQuery : IMediatorRequest<CaptainFormationViewModel>
 {
     public int UserId { get; init; }
-    public int FormationId { get; init; }
+    public int Number { get; init; }
 
     internal class Handler : IMediatorRequestHandler<GetUserCaptainFormationQuery, CaptainFormationViewModel>
     {
@@ -27,11 +27,11 @@ public record GetUserCaptainFormationQuery : IMediatorRequest<CaptainFormationVi
         {
             var formation = await _db.Captains
                 .Where(c => c.UserId == req.UserId)
-                .Include(c => c.Formations.Where(f => f.Id == req.FormationId))
+                .Include(c => c.Formations.Where(f => f.Number == req.Number))
                 .FirstOrDefaultAsync(cancellationToken);
 
             return formation == null
-                ? new(CommonErrors.CaptainFormationNotFound(req.FormationId, req.UserId))
+                ? new(CommonErrors.CaptainFormationNotFound(req.Number, req.UserId))
                 : new(_mapper.Map<CaptainFormationViewModel>(formation));
         }
     }
