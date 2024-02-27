@@ -1,5 +1,4 @@
-﻿using System;
-using Crpg.Module.Common;
+﻿using Crpg.Module.Common;
 using Crpg.Module.Common.Models;
 using Crpg.Module.Modes.Battle;
 using Crpg.Module.Modes.Conquest;
