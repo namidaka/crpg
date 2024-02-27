@@ -1099,13 +1099,6 @@ public record SeedDataCommand : IMediatorRequest
                             Assists = 90,
                             PlayTime = new TimeSpan(50, 4, 59, 0),
                             GameMode = GameMode.CRPGDTV,
-                            Rating = new()
-                            {
-                                Value = 800,
-                                Deviation = 100,
-                                Volatility = 100,
-                                CompetitiveValue = 800,
-                            },
                         }
                     },
                 },

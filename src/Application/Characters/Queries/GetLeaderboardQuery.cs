@@ -59,12 +59,12 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
                     Level = c.Level,
                     Class = c.Class,
                     User = _mapper.Map<UserPublicViewModel>(c.User),
-                    Rating = _mapper.Map<CharacterRatingViewModel>(c.Statistics.FirstOrDefault(s => s.GameMode == req.GameMode)?.Rating),
+                    Rating = _mapper.Map<CharacterRatingViewModel>(c.Statistics.FirstOrDefault()?.Rating ?? new CharacterRating { CompetitiveValue = 0 }),
                 }).ToArray();
 
                 // Todo: use DistinctBy here when EfCore implements it (does not work for now: https://github.com/dotnet/efcore/issues/27470 )
                 var topRatedCharactersByRegion = characterPublicViewModels
-                    .OrderByDescending(c => c.Rating!.CompetitiveValue)
+                    .OrderByDescending(c => c.Rating.CompetitiveValue)
                     .Take(500)
                     .ToArray();
 
