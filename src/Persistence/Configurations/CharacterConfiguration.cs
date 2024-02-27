@@ -14,7 +14,6 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         builder.Property(c => c.Version).IsRowVersion();
         builder.OwnsOne(c => c.Characteristics, ConfigureCharacterCharacteristics);
         builder.OwnsMany(c => c.Statistics, ConfigureCharacterStatistics);
-        builder.OwnsOne(c => c.Rating, ConfigureCharacterRating);
     }
 
     private static void ConfigureCharacterCharacteristics(OwnedNavigationBuilder<Character, CharacterCharacteristics> builder)
@@ -62,13 +61,15 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
     private static void ConfigureCharacterStatistics(OwnedNavigationBuilder<Character, CharacterStatistics> builder)
     {
         // Default names are prefixed with character_statistics.
+        builder.OwnsOne(s => s.Rating, ConfigureCharacterRating);
         builder.Property(s => s.Kills).HasColumnName("kills");
         builder.Property(s => s.Deaths).HasColumnName("deaths");
         builder.Property(s => s.Assists).HasColumnName("assists");
         builder.Property(s => s.PlayTime).HasColumnName("play_time");
+        builder.Property(s => s.GameMode).HasColumnName("game_mode");
     }
 
-    private void ConfigureCharacterRating(OwnedNavigationBuilder<Character, CharacterRating> builder)
+    private static void ConfigureCharacterRating(OwnedNavigationBuilder<CharacterStatistics, CharacterRating> builder)
     {
         builder.Property(r => r.Value).HasColumnName("rating");
         builder.Property(r => r.CompetitiveValue).HasColumnName("competitive_rating");

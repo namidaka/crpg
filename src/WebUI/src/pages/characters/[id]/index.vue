@@ -106,36 +106,19 @@ const onSetCharacterForTournament = async () => {
 
 const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
   ({ id }: { id: number }, { gameMode }: { gameMode: GameMode }) => getCharacterStatistics(id, gameMode),
-  { kills: 0, deaths: 0, assists: 0, playTime: 0 },
+  { kills: 0, deaths: 0, assists: 0, playTime: 0, rating: { value: 0, competitiveValue: 0, deviation: 0, volatility: 0 }},
   {
     immediate: false,
     resetOnExecute: false,
   }
 );
 
-const { state: characterRating, execute: loadCharacterRating } = useAsyncState(
-  ({ id }: { id: number }) => getCharacterRating(id),
-  {
-    value: 0,
-    deviation: 0,
-    volatility: 0,
-    competitiveValue: 0,
-  },
-  {
-    immediate: false,
-    resetOnExecute: false,
-  }
-);
+
 
 const { subscribe, unsubscribe } = usePollInterval();
-const loadCharacterRatingSymbol = Symbol('loadCharacterRating');
 
-onMounted(() => {
-  subscribe(loadCharacterRatingSymbol, () => loadCharacterRating(0, { id: character.value.id }));
-});
 
 onBeforeUnmount(() => {
-  unsubscribe(loadCharacterRatingSymbol);
 });
 
 const rankTable = computed(() => createRankTable());
@@ -163,7 +146,6 @@ const retireTableData = computed(() => getHeirloomPointByLevelAggregation());
 const fetchPageData = (characterId: number, selectedGameMode: GameMode) =>
   Promise.all([
     loadCharacterStatistics(0, { id: characterId }, {gameMode: selectedGameMode}),
-    loadCharacterRating(0, { id: characterId }),
     loadCharacterLimitations(0, { id: characterId }),
   ]);
 
@@ -246,14 +228,14 @@ await fetchPageData(character.value.id, gameModeModel.value);
               :title="$t('character.statistics.rank.tooltip.title')"
               :description="$t('character.statistics.rank.tooltip.desc')"
             >
-              <Rank :rankTable="rankTable" :competitiveValue="characterRating.competitiveValue" />
+              <Rank :rankTable="rankTable" :competitiveValue="characterStatistics!.rating.competitiveValue" />
             </Tooltip>
             <Modal closable>
               <Tag icon="popup" variant="primary" rounded size="sm" />
               <template #popper>
                 <RankTable
                   :rankTable="rankTable"
-                  :competitiveValue="characterRating.competitiveValue"
+                  :competitiveValue="characterStatistics!.rating.competitiveValue"
                 />
               </template>
             </Modal>

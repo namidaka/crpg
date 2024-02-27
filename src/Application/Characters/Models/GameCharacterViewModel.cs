@@ -14,6 +14,7 @@ public record GameCharacterViewModel : IMapFrom<Character>
     public CharacterClass Class { get; init; }
     public bool ForTournament { get; init; }
     public CharacterCharacteristicsViewModel Characteristics { get; init; } = new();
+
+    public IList<CharacterStatistics> Statistics { get; set; } = new List<CharacterStatistics>();
     public IList<GameEquippedItemViewModel> EquippedItems { get; init; } = Array.Empty<GameEquippedItemViewModel>();
-    public CharacterRatingViewModel Rating { get; init; } = new();
 }

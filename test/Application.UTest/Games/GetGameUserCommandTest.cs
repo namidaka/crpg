@@ -504,4 +504,56 @@ public class GetGameUserCommandTest : TestBase
             }
         });
     }
+
+    [Test]
+    public async Task ShouldGetStatisticsFromActiveCharacter()
+    {
+        var userService = Mock.Of<IUserService>();
+        var characterService = Mock.Of<ICharacterService>();
+        var activityLogService = Mock.Of<IActivityLogService>();
+
+        Character character = new()
+        {
+            Statistics = new List<CharacterStatistics>
+            {
+                new()
+                {
+                    Rating = new CharacterRating
+                    {
+                        Value = 1000,
+                        Deviation = 1,
+                        Volatility = 1,
+                        CompetitiveValue = 1000,
+                    },
+                },
+            },
+        };
+        User user = new()
+        {
+            Platform = Platform.Steam,
+            PlatformUserId = "1",
+            Region = Region.Eu,
+            ActiveCharacter = character,
+            Characters = new List<Character>
+            {
+                character,
+            },
+        };
+        ArrangeDb.Add(user);
+        await ArrangeDb.SaveChangesAsync();
+
+        GetGameUserCommand.Handler handler = new(ActDb, Mapper,
+            new MachineDateTime(), new ThreadSafeRandom(), userService, characterService, activityLogService);
+
+        var result = await handler.Handle(new GetGameUserCommand
+        {
+            Platform = user.Platform,
+            PlatformUserId = user.PlatformUserId,
+            Region = Region.Eu,
+        }, CancellationToken.None);
+
+        var gameUser = result.Data!;
+        Assert.That(gameUser.Character.Id, Is.EqualTo(character.Id));
+        Assert.That(gameUser.Character.Statistics, Is.Not.Empty);
+    }
 }

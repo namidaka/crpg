@@ -42,7 +42,7 @@ public record ResetCharacterRatingCommand : IMediatorRequest<CharacterViewModel>
                 return new(CommonErrors.CharacterNotFound(req.CharacterId, req.UserId));
             }
 
-            _characterService.ResetRating(character);
+            _characterService.ResetAllRatings(character);
 
             _db.ActivityLogs.Add(_activityLogService.CreateCharacterRatingResetLog(character.UserId, character.Id));
 

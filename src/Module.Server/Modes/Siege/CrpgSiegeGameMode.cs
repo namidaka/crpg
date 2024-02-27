@@ -6,6 +6,8 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Multiplayer;
 using TaleWorlds.MountAndBlade.Source.Missions;
+using Crpg.Domain.Entities.Servers;
+
 
 #if CRPG_SERVER
 using Crpg.Module.Api;
@@ -25,6 +27,7 @@ namespace Crpg.Module.Modes.Siege;
 internal class CrpgSiegeGameMode : MissionBasedMultiplayerGameMode
 {
     private const string GameName = "cRPGSiege";
+    private const GameMode Mode = GameMode.CRPGSiege;
 
     private static CrpgConstants _constants = default!; // Static so it's accessible from the views.
 
@@ -75,7 +78,7 @@ internal class CrpgSiegeGameMode : MissionBasedMultiplayerGameMode
     {
         CrpgNotificationComponent notificationsComponent = new();
         CrpgSiegeClient siegeClient = new();
-        CrpgScoreboardComponent scoreboardComponent = new(new CrpgBattleScoreboardData());
+        CrpgScoreboardComponent scoreboardComponent = new(new CrpgBattleScoreboardData(), Mode);
         var lobbyComponent = MissionLobbyComponent.CreateBehavior();
 
 #if CRPG_SERVER
@@ -83,7 +86,7 @@ internal class CrpgSiegeGameMode : MissionBasedMultiplayerGameMode
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent,
             () => (new SiegeSpawnFrameBehavior(), new CrpgSiegeSpawningBehavior(_constants)));
-        CrpgRewardServer rewardServer = new(crpgClient, _constants, warmupComponent, enableTeamHitCompensations: false, enableRating: false);
+        CrpgRewardServer rewardServer = new(crpgClient, Mode, _constants, warmupComponent, enableTeamHitCompensations: false, enableRating: false);
 #else
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, null);
 #endif
@@ -119,10 +122,10 @@ internal class CrpgSiegeGameMode : MissionBasedMultiplayerGameMode
 
 #if CRPG_SERVER
                 new CrpgSiegeServer(siegeClient, scoreboardComponent, rewardServer),
-                new CrpgUserManagerServer(crpgClient, _constants),
+                new CrpgUserManagerServer(crpgClient, _constants, Mode),
                 new KickInactiveBehavior(inactiveTimeLimit: 90, warmupComponent),
                 new MapPoolComponent(),
-                new ChatCommandsComponent(chatBox, crpgClient),
+                new ChatCommandsComponent(chatBox, crpgClient, Mode),
                 new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                 new ServerMetricsBehavior(),
                 new NotAllPlayersReadyComponent(),

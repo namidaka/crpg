@@ -122,7 +122,6 @@ internal class CrpgTeamDeathmatchServer : MissionMultiplayerGameModeBase
         {
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: _rewardTickTimer.GetTimerDuration(),
-                gameMode: GameMode.CRPGTeamDeathmatch,
                 constantMultiplier: 2);
         }
     }

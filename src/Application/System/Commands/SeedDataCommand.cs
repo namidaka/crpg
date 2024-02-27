@@ -1000,6 +1000,13 @@ public record SeedDataCommand : IMediatorRequest
                             Assists = 6,
                             PlayTime = new TimeSpan(365, 0, 0, 20),
                             GameMode = GameMode.CRPGBattle,
+                            Rating = new()
+                            {
+                                Value = 50,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1900,
+                            },
                         }
                     },
                 },
@@ -1008,13 +1015,7 @@ public record SeedDataCommand : IMediatorRequest
                     Attributes = new CharacterAttributes { Points = 100 },
                     Skills = new CharacterSkills { Points = 100 },
                 },
-                Rating = new()
-                {
-                    Value = 50,
-                    Deviation = 100,
-                    Volatility = 100,
-                    CompetitiveValue = 1900,
-                },
+
             };
             Character orleCharacter1 = new()
             {
@@ -1047,6 +1048,13 @@ public record SeedDataCommand : IMediatorRequest
                             Assists = 10,
                             PlayTime = new TimeSpan(10, 7, 5, 20),
                             GameMode = GameMode.CRPGBattle,
+                            Rating = new()
+                            {
+                                Value = 1400,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1400,
+                            },
                         }
                     },
                     {
@@ -1057,6 +1065,13 @@ public record SeedDataCommand : IMediatorRequest
                             Assists = 10,
                             PlayTime = new TimeSpan(100, 3, 50, 15),
                             GameMode = GameMode.CRPGConquest,
+                            Rating = new()
+                            {
+                                Value = 1200,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1200,
+                            },
                         }
                     },
                     {
@@ -1067,6 +1082,13 @@ public record SeedDataCommand : IMediatorRequest
                             Assists = 0,
                             PlayTime = new TimeSpan(0, 8, 1, 15),
                             GameMode = GameMode.CRPGDuel,
+                            Rating = new()
+                            {
+                                Value = 1900,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1900,
+                            },
                         }
                     },
                     {
@@ -1077,6 +1099,13 @@ public record SeedDataCommand : IMediatorRequest
                             Assists = 90,
                             PlayTime = new TimeSpan(50, 4, 59, 0),
                             GameMode = GameMode.CRPGDTV,
+                            Rating = new()
+                            {
+                                Value = 800,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 800,
+                            },
                         }
                     },
                 },
@@ -1084,13 +1113,6 @@ public record SeedDataCommand : IMediatorRequest
                 {
                     Attributes = new CharacterAttributes { Points = 100 },
                     Skills = new CharacterSkills { Points = 100 },
-                },
-                Rating = new()
-                {
-                    Value = 50,
-                    Deviation = 100,
-                    Volatility = 100,
-                    CompetitiveValue = 1900,
                 },
             };
             Character kadseCharacter0 = new()

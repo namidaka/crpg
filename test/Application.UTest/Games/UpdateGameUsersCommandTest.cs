@@ -58,6 +58,12 @@ public class UpdateGameUsersCommandTest : TestBase
                                 Assists = 3,
                                 PlayTime = TimeSpan.FromSeconds(4),
                                 GameMode = GameMode.CRPGBattle,
+                                Rating = new CharacterRating
+                                {
+                                    Value = 1,
+                                    Deviation = 2,
+                                    Volatility = 3,
+                                },
                             }
                         },
                         {
@@ -71,12 +77,6 @@ public class UpdateGameUsersCommandTest : TestBase
                             }
                         },
                     },
-                    Rating = new CharacterRating
-                    {
-                        Value = 1,
-                        Deviation = 2,
-                        Volatility = 3,
-                    },
                 },
             },
         };
@@ -88,7 +88,7 @@ public class UpdateGameUsersCommandTest : TestBase
             .Setup(cs => cs.GiveExperience(It.IsAny<Character>(), 10, true))
             .Callback((Character c, int xp, bool _) => c.Experience += xp);
         characterServiceMock
-            .Setup(cs => cs.UpdateRating(It.IsAny<Character>(), 4, 5, 6, true));
+            .Setup(cs => cs.UpdateRating(It.IsAny<Character>(), GameMode.CRPGBattle, 4, 5, 6, true));
 
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
         Mock<IGameModeService> gameModeServiceServiceMock = new();
@@ -116,12 +116,12 @@ public class UpdateGameUsersCommandTest : TestBase
                         Deaths = 6,
                         Assists = 7,
                         PlayTime = TimeSpan.FromSeconds(8),
-                    },
-                    Rating = new CharacterRatingViewModel
-                    {
-                        Value = 4,
-                        Deviation = 5,
-                        Volatility = 6,
+                        Rating = new CharacterRatingViewModel
+                        {
+                            Value = 4,
+                            Deviation = 5,
+                            Volatility = 6,
+                        },
                     },
                     Instance = "crpg01a",
                 },

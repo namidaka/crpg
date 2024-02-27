@@ -36,10 +36,13 @@ internal class CrpgRewardServer : MissionLogic
     private readonly bool _isRatingEnabled;
     private readonly bool _isLowPopulationUpkeepEnabled;
 
+    private readonly GameMode _gameMode;
+
     private bool _lastRewardDuringHappyHours;
 
     public CrpgRewardServer(
         ICrpgClient crpgClient,
+        GameMode gameMode,
         CrpgConstants constants,
         CrpgWarmupComponent? warmupComponent,
         bool enableTeamHitCompensations,
@@ -47,6 +50,7 @@ internal class CrpgRewardServer : MissionLogic
         bool enableLowPopulationUpkeep = false)
     {
         _crpgClient = crpgClient;
+        _gameMode = gameMode;
         _constants = constants;
         _warmupComponent = warmupComponent;
         _characterRatings = new Dictionary<int, CrpgPlayerRating>();
@@ -133,14 +137,14 @@ internal class CrpgRewardServer : MissionLogic
     /// <param name="updateUserStats">True if score and rating should be saved.</param>
     public async Task UpdateCrpgUsersAsync(
         float durationRewarded,
-        GameMode gameMode,
         float? durationUpkeep = null,
         int defenderMultiplierGain = 0,
         int attackerMultiplierGain = 0,
         BattleSideEnum? valourTeamSide = null,
         int? constantMultiplier = null,
         bool updateUserStats = true,
-        bool isDuel = false)
+        bool isDuel = false,
+        bool isWarmup = false)
     {
         var networkPeers = GameNetwork.NetworkPeers.ToArray();
         if (networkPeers.Length == 0)
@@ -187,8 +191,14 @@ internal class CrpgRewardServer : MissionLogic
                 UserId = crpgPeer.User.Id,
                 CharacterId = crpgPeer.User.Character.Id,
                 Reward = new CrpgUserReward { Experience = 0, Gold = 0 },
-                Statistics = new CrpgCharacterStatistics { Kills = 0, Deaths = 0, Assists = 0, PlayTime = TimeSpan.Zero },
-                Rating = crpgPeer.User.Character.Rating,
+                Statistics = new CrpgCharacterStatistics
+                {
+                    Kills = 0,
+                    Deaths = 0,
+                    Assists = 0,
+                    PlayTime = TimeSpan.Zero,
+                    Rating = crpgPeer.User.Character.Statistics.FirstOrDefault(s => s.GameMode == _gameMode).Rating,
+                },
                 BrokenItems = Array.Empty<CrpgUserDamagedItem>(),
                 Instance = CrpgServerConfiguration.Instance,
             };
@@ -199,9 +209,14 @@ internal class CrpgRewardServer : MissionLogic
                 continue;
             }
 
+            if (updateUserStats)
+            {
+                SetStatistics(userUpdate, networkPeer, periodStats);
+            }
+
             if (_isRatingEnabled && updateUserStats)
             {
-                userUpdate.Rating = GetNewRating(crpgPeer);
+                userUpdate.Statistics.Rating = GetNewRating(crpgPeer, _gameMode);
             }
 
             bool isPlayerInSpectator = missionPeer.Team?.Side == BattleSideEnum.None;
@@ -211,11 +226,6 @@ internal class CrpgRewardServer : MissionLogic
                 int compensationForCrpgUser = compensationByCrpgUserId.TryGetValue(crpgUserId, out int compensation) ? compensation : 0;
                 SetRewardForConnectedPlayer(userUpdate, crpgPeer, durationRewarded, compensationForCrpgUser, isValorousPlayer,
                     defenderMultiplierGain, attackerMultiplierGain, constantMultiplier);
-
-                if (updateUserStats)
-                {
-                    SetStatistics(userUpdate, networkPeer, periodStats);
-                }
 
                 if (brokenItems.TryGetValue(crpgUserId, out var userBrokenItems))
                 {
@@ -241,7 +251,7 @@ internal class CrpgRewardServer : MissionLogic
         try
         {
             SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
-            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates, GameMode = gameMode })).Data!;
+            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates, GameMode = isWarmup ? GameMode.CRPGWarmup : _gameMode })).Data!;
             SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
         }
         catch (Exception e)
@@ -374,7 +384,7 @@ internal class CrpgRewardServer : MissionLogic
                 return false;
             }
 
-            var characterRating = crpgPeer.User.Character.Rating;
+            var characterRating = crpgPeer.User.Character.Statistics.FirstOrDefault(s => s.GameMode == _gameMode).Rating;
             rating = new CrpgPlayerRating(characterRating.Value, characterRating.Deviation, characterRating.Volatility);
             _characterRatings[characterId] = rating;
             _ratingResults.AddParticipant(rating);
@@ -385,7 +395,7 @@ internal class CrpgRewardServer : MissionLogic
 
     private void OnWarmupEnded()
     {
-        _ = UpdateCrpgUsersAsync(durationRewarded: 0, GameMode.CRPGWarmup, updateUserStats: false);
+        _ = UpdateCrpgUsersAsync(durationRewarded: 0, updateUserStats: false, isWarmup: true);
     }
 
     private void SetRewardForConnectedPlayer(
@@ -493,13 +503,13 @@ internal class CrpgRewardServer : MissionLogic
             .ToHashSet();
     }
 
-    private CrpgCharacterRating GetNewRating(CrpgPeer crpgPeer)
+    private CrpgCharacterRating GetNewRating(CrpgPeer crpgPeer, GameMode gameMode)
     {
         int characterId = crpgPeer.User!.Character.Id;
 
         if (!_characterRatings.TryGetValue(characterId, out var rating))
         {
-            return crpgPeer.User!.Character.Rating;
+            return crpgPeer.User!.Character.Statistics.FirstOrDefault(s => s.GameMode == _gameMode).Rating;
         }
 
         // Values are clamped in case there is an issue in the rating algorithm.

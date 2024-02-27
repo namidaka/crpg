@@ -54,7 +54,10 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                     continue;
                 }
 
-                _characterService.UpdateRating(character, update.Rating.Value, update.Rating.Deviation, update.Rating.Volatility, isGameUserUpdate: true);
+                _characterService.UpdateRating(character, _gameModeService.GameModeByInstanceAlias(Enum.TryParse(update.Instance,
+                    ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.A), update.Statistics.Rating.Value,
+                    update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
+
                 var reward = GiveReward(character, update.Reward, update.Instance);
                 UpdateStatistics(req.GameMode, character, update.Statistics);
                 var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);

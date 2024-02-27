@@ -1,4 +1,5 @@
-﻿using Crpg.Application.Common.Mappings;
+﻿using AutoMapper;
+using Crpg.Application.Common.Mappings;
 using Crpg.Domain.Entities.Characters;
 
 namespace Crpg.Application.Characters.Models;

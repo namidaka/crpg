@@ -6,6 +6,9 @@ import { getLeaderBoard, createRankTable } from '@/services/leaderboard-service'
 import { characterClassToIcon } from '@/services/characters-service';
 import { useUserStore } from '@/stores/user';
 import { useRegion } from '@/composables/use-region';
+import { useGameMode } from '@/composables/use-gamemode';
+import { GameMode } from '@/models/game-mode';
+import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({
   meta: {
@@ -20,6 +23,7 @@ const router = useRouter();
 
 const userStore = useUserStore();
 
+const { gameModeModel, rankedGameModes } = useGameMode();
 const { regionModel, regions } = useRegion();
 
 const characterClassModel = computed({
@@ -44,7 +48,7 @@ const {
   execute: loadLeaderBoard,
   isLoading: leaderBoardLoading,
 } = useAsyncState(
-  () => getLeaderBoard({ region: regionModel.value, characterClass: characterClassModel.value }),
+  () => getLeaderBoard({ region: regionModel.value, characterClass: characterClassModel.value, gameMode: gameModeModel.value }),
   [],
   {}
 );
@@ -71,15 +75,19 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
         <div class="mb-5 flex justify-center">
           <OIcon icon="trophy-cup" size="5x" class="text-more-support" />
         </div>
-
         <Heading :title="$t('leaderboard.title')" />
       </div>
 
-      <div class="flex items-center justify-between gap-4">
-        <OTabs v-model="regionModel" contentClass="hidden" class="mb-6">
+      <div class="flex items-center justify-between gap-8">
+        <OTabs v-model="regionModel" contentClass="hidden" class="mb-2">
           <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
         </OTabs>
+      </div>
 
+      <div class="flex items-center justify-between gap-8">
+        <OTabs v-model="gameModeModel" contentClass="hidden" class="mb-2">
+          <OTabItem v-for="gamemode in rankedGameModes" :label="$t(`game-mode.${gamemode}`, 0)" :icon="gameModeToIcon[gamemode]" :value="gamemode" />
+        </OTabs>
         <Modal closable>
           <Tag icon="popup" variant="primary" rounded size="lg" />
           <template #popper>

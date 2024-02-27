@@ -23,9 +23,10 @@ internal interface ICharacterService
     /// <param name="respecialization">If the stats points should be redistributed.</param>
     void ResetCharacterCharacteristics(Character character, bool respecialization = false);
 
-    void UpdateRating(Character character, float value, float deviation, float volatility, bool isGameUserUpdate = false);
+    void UpdateRating(Character character, GameMode gamemode, float value, float deviation, float volatility, bool isGameUserUpdate = false);
 
-    void ResetRating(Character character);
+    void ResetAllRatings(Character character);
+    void ResetRating(Character character, GameMode gameMode);
 
     void ResetStatistics(Character character);
 
@@ -57,8 +58,8 @@ internal class CharacterService : ICharacterService
         character.Level = _constants.NewUserStartingCharacterLevel;
         character.Experience = _experienceTable.GetExperienceForLevel(character.Level);
         character.Class = CharacterClass.Infantry;
-        ResetRating(character);
         ResetStatistics(character);
+        ResetAllRatings(character);
     }
 
     public void SetDefaultValuesForCharacter(Character character)
@@ -67,9 +68,9 @@ internal class CharacterService : ICharacterService
         character.Level = _constants.MinimumLevel;
         character.Experience = _experienceTable.GetExperienceForLevel(character.Level);
         character.ForTournament = false;
-        ResetCharacterCharacteristics(character);
-        ResetRating(character);
         ResetStatistics(character);
+        ResetCharacterCharacteristics(character);
+        ResetAllRatings(character);
     }
 
     /// <inheritdoc />
@@ -97,6 +98,11 @@ internal class CharacterService : ICharacterService
 
     public void ResetStatistics(Character character)
     {
+        if (character.Statistics.Count == 0)
+        {
+            character.Statistics = new List<CharacterStatistics>() { new() { GameMode = GameMode.CRPGBattle }, new() { GameMode = GameMode.CRPGDuel } };
+        }
+
         foreach (CharacterStatistics modeStats in character.Statistics)
         {
             modeStats.Kills = 0;
@@ -106,27 +112,40 @@ internal class CharacterService : ICharacterService
         }
     }
 
-    public void UpdateRating(Character character, float value, float deviation, float volatility, bool isGameUserUpdate = false)
+    public void UpdateRating(Character character, GameMode gameMode, float value, float deviation, float volatility, bool isGameUserUpdate = false)
     {
-        if (character.Level == 1
-            && isGameUserUpdate == true)
+        if (character.Level == 1 && isGameUserUpdate)
         {
             return;
         }
 
-        character.Rating = new CharacterRating
+        var statistic = character.Statistics.FirstOrDefault(s => s.GameMode == gameMode);
+        if (statistic != null)
         {
-            Value = value,
-            Deviation = deviation,
-            Volatility = volatility,
-        };
-        character.Rating.CompetitiveValue = _competitiveRatingModel.ComputeCompetitiveRating(character.Rating);
+            statistic.Rating = new CharacterRating
+            {
+                Value = value,
+                Deviation = deviation,
+                Volatility = volatility,
+            };
+
+            statistic.Rating.CompetitiveValue = _competitiveRatingModel.ComputeCompetitiveRating(statistic.Rating);
+        }
     }
 
-    public void ResetRating(Character character)
+    public void ResetAllRatings(Character character)
     {
-        UpdateRating(character, _constants.DefaultRating, _constants.DefaultRatingDeviation,
+        foreach (GameMode gameMode in Enum.GetValues(typeof(GameMode)))
+        {
+            UpdateRating(character, gameMode, _constants.DefaultRating, _constants.DefaultRatingDeviation,
             _constants.DefaultRatingVolatility);
+        }
+    }
+
+    public void ResetRating(Character character, GameMode gameMode)
+    {
+        UpdateRating(character, gameMode, _constants.DefaultRating, _constants.DefaultRatingDeviation,
+        _constants.DefaultRatingVolatility);
     }
 
     public Error? Retire(Character character)

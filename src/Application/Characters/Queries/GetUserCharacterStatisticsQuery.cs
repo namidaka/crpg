@@ -41,6 +41,12 @@ public record GetUserCharacterStatisticsQuery : IMediatorRequest<CharacterStatis
                     Assists = 0,
                     PlayTime = TimeSpan.Zero,
                     GameMode = req.GameMode,
+                    Rating = new CharacterRatingViewModel
+                    {
+                        CompetitiveValue = 0,
+                        Value = 0,
+                        Deviation = 0,
+                    },
                 }
                 : character.Statistics.FirstOrDefault(cs => cs.GameMode == req.GameMode)));
         }

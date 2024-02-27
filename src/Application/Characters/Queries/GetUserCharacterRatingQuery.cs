@@ -6,6 +6,7 @@ using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
+using Crpg.Domain.Entities.Servers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Characters.Queries;
@@ -14,6 +15,7 @@ public record GetUserCharacterRatingQuery : IMediatorRequest<CharacterRatingView
 {
     public int CharacterId { get; init; }
     public int UserId { get; init; }
+    public GameMode GameMode { get; init; }
 
     internal class Handler : IMediatorRequestHandler<GetUserCharacterRatingQuery, CharacterRatingViewModel>
     {
@@ -30,7 +32,7 @@ public record GetUserCharacterRatingQuery : IMediatorRequest<CharacterRatingView
         {
             var characterRatingViewModel = await _db.Characters
                 .Where(c => c.Id == req.CharacterId && c.UserId == req.UserId)
-                .Select(c => c.Rating)
+                .Select(c => c.Statistics.Where(s => s.GameMode == req.GameMode).Select(s => s.Rating))
                 .ProjectTo<CharacterRatingViewModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken);
 

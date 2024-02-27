@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Module.Api;
 using Crpg.Module.Api.Exceptions;
 using Crpg.Module.Api.Models;
@@ -27,12 +28,14 @@ internal class CrpgUserManagerServer : MissionNetwork
     private readonly ICrpgClient _crpgClient;
     private readonly CrpgConstants _constants;
     private readonly Dictionary<int, Task<CrpgResult<CrpgClan>>> _clanTasks;
+    private readonly GameMode _gameMode;
 
-    public CrpgUserManagerServer(ICrpgClient crpgClient, CrpgConstants constants)
+    public CrpgUserManagerServer(ICrpgClient crpgClient, CrpgConstants constants, GameMode gameMode)
     {
         _crpgClient = crpgClient;
         _constants = constants;
         _clanTasks = new Dictionary<int, Task<CrpgResult<CrpgClan>>>();
+        _gameMode = gameMode;
     }
 
     public override void OnPlayerDisconnectedFromServer(NetworkCommunicator networkPeer)

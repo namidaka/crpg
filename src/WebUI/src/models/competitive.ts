@@ -1,4 +1,4 @@
-import { CharacterClass, type CharacterRating } from '@/models/character';
+import { CharacterClass, CharacterStatistics, type CharacterRating } from '@/models/character';
 import { type UserPublic } from '@/models/user';
 
 export interface CharacterCompetitive {

@@ -211,6 +211,13 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                     .Query()
                     .Include(ei => ei.UserItem)
                     .LoadAsync(cancellationToken);
+
+                await _db.Entry(user.ActiveCharacter)
+                    .Collection(c => c.Statistics)
+                    .Query()
+                    .Include(s => s.Rating)
+                    .AsNoTracking()
+                    .LoadAsync(cancellationToken);
             }
 
             var gameUser = _mapper.Map<GameUserViewModel>(user);

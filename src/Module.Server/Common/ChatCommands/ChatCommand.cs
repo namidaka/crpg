@@ -1,4 +1,5 @@
-﻿using TaleWorlds.Library;
+﻿using Crpg.Domain.Entities.Servers;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 namespace Crpg.Module.Common.ChatCommands;
@@ -15,6 +16,7 @@ internal abstract class ChatCommand
 #pragma warning restore SA1401
 
     public string Name { get; protected set; } = string.Empty;
+    public GameMode GameMode { get; protected set; } = default!;
 
     protected ChatCommand(ChatCommandsComponent chatComponent)
     {

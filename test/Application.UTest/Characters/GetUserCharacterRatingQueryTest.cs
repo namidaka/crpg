@@ -2,6 +2,7 @@
 using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Domain.Entities.Characters;
+using Crpg.Domain.Entities.Servers;
 using Moq;
 using NUnit.Framework;
 
@@ -29,12 +30,24 @@ public class GetUserCharacterRatingQueryTest : TestBase
         {
             Name = "toto",
             UserId = 2,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 100,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 2,
+                        Assists = 3,
+                        PlayTime = TimeSpan.FromSeconds(4),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new CharacterRating
+                        {
+                            Value = 1,
+                            Deviation = 2,
+                            Volatility = 3,
+                        },
+                    }
+                },
             },
         };
         ArrangeDb.Characters.Add(character);
@@ -45,6 +58,7 @@ public class GetUserCharacterRatingQueryTest : TestBase
         {
             CharacterId = character.Id,
             UserId = 2,
+            GameMode = GameMode.CRPGBattle,
         }, CancellationToken.None);
 
         Assert.That(result.Errors, Is.Null);

@@ -11,4 +11,5 @@ public record CharacterStatisticsViewModel : IMapFrom<CharacterStatistics>
     public int Assists { get; init; }
     public TimeSpan PlayTime { get; init; }
     public GameMode GameMode { get; init; }
+    public CharacterRatingViewModel Rating { get; init; } = new();
 }

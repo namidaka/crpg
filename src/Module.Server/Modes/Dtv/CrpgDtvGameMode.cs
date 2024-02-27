@@ -8,6 +8,8 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Multiplayer;
 using TaleWorlds.MountAndBlade.Source.Missions;
+using Crpg.Domain.Entities.Servers;
+
 
 #if CRPG_SERVER
 using Crpg.Module.Api;
@@ -30,6 +32,7 @@ namespace Crpg.Module.Modes.Dtv;
 internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
 {
     private const string GameName = "cRPGDTV";
+    private const GameMode Mode = GameMode.CRPGDTV;
 
     private static CrpgConstants _constants = default!; // Static so it's accessible from the views.
 
@@ -95,8 +98,8 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, () =>
             (new FlagDominationSpawnFrameBehavior(),
             new CrpgDtvSpawningBehavior(_constants)));
-        CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, null);
-        CrpgRewardServer rewardServer = new(crpgClient, _constants, warmupComponent, enableTeamHitCompensations: true, enableRating: false, enableLowPopulationUpkeep: true);
+        CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, null, Mode);
+        CrpgRewardServer rewardServer = new(crpgClient, Mode, _constants, warmupComponent, enableTeamHitCompensations: true, enableRating: false, enableLowPopulationUpkeep: true);
         CrpgDtvSpawningBehavior spawnBehaviour = new(_constants);
 #else
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, null);
@@ -125,7 +128,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new MultiplayerPollComponent(), // poll logic to kick player, ban player, change game
                 new CrpgCommanderPollComponent(),
                 new MissionOptionsComponent(),
-                new CrpgScoreboardComponent(new CrpgBattleScoreboardData()),
+                new CrpgScoreboardComponent(new CrpgBattleScoreboardData(), Mode),
                 new MissionAgentPanicHandler(),
                 new EquipmentControllerLeaveLogic(),
                 new MultiplayerPreloadHelper(),
@@ -139,10 +142,10 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new SpawnComponent(new BattleSpawnFrameBehavior(), spawnBehaviour),
                 new AgentHumanAILogic(), // bot intelligence
                 new MultiplayerAdminComponent(), // admin UI to kick player or restart game
-                new CrpgUserManagerServer(crpgClient, _constants),
+                new CrpgUserManagerServer(crpgClient, _constants, Mode),
                 new KickInactiveBehavior(inactiveTimeLimit: 120, warmupComponent),
                 new MapPoolComponent(),
-                new ChatCommandsComponent(chatBox, crpgClient),
+                new ChatCommandsComponent(chatBox, crpgClient, Mode),
                 new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                 new ServerMetricsBehavior(),
                 new NotAllPlayersReadyComponent(),

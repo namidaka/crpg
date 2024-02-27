@@ -6,6 +6,8 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Source.Missions;
 using TaleWorlds.MountAndBlade.Multiplayer;
+using Crpg.Domain.Entities.Servers;
+
 
 
 #if CRPG_SERVER
@@ -26,6 +28,7 @@ namespace Crpg.Module.Modes.TeamDeathmatch;
 internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
 {
     private const string GameName = "cRPGTeamDeathmatch";
+    private const GameMode Mode = GameMode.CRPGTeamDeathmatch;
 
     private static CrpgConstants _constants = default!; // Static so it's accessible from the views.
 
@@ -75,7 +78,7 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
     public override void StartMultiplayerGame(string scene)
     {
         CrpgNotificationComponent notificationsComponent = new();
-        CrpgScoreboardComponent scoreboardComponent = new(new CrpgBattleScoreboardData());
+        CrpgScoreboardComponent scoreboardComponent = new(new CrpgBattleScoreboardData(), Mode);
         var lobbyComponent = MissionLobbyComponent.CreateBehavior();
 
 #if CRPG_SERVER
@@ -83,7 +86,7 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent,
             () => (new TeamDeathmatchSpawnFrameBehavior(), new CrpgTeamDeathmatchSpawningBehavior(_constants)));
-        CrpgRewardServer rewardServer = new(crpgClient, _constants, warmupComponent, enableTeamHitCompensations: false, enableRating: false);
+        CrpgRewardServer rewardServer = new(crpgClient, Mode, _constants, warmupComponent, enableTeamHitCompensations: false, enableRating: false);
 #else
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, null);
 #endif
@@ -120,10 +123,10 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
 #if CRPG_SERVER
                 new CrpgTeamDeathmatchServer(scoreboardComponent, rewardServer),
                 new SpawnComponent(new TeamDeathmatchSpawnFrameBehavior(), new CrpgTeamDeathmatchSpawningBehavior(_constants)),
-                new CrpgUserManagerServer(crpgClient, _constants),
+                new CrpgUserManagerServer(crpgClient, _constants, Mode),
                 new KickInactiveBehavior(inactiveTimeLimit: 30, warmupComponent),
                 new MapPoolComponent(),
-                new ChatCommandsComponent(chatBox, crpgClient),
+                new ChatCommandsComponent(chatBox, crpgClient, Mode),
                 new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                 new ServerMetricsBehavior(),
                 new NotAllPlayersReadyComponent(),
