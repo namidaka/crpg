@@ -6,7 +6,6 @@ using Crpg.Module.Modes.Dtv;
 using Crpg.Module.Modes.Duel;
 using Crpg.Module.Modes.Siege;
 using Crpg.Module.Modes.TeamDeathmatch;
-
 using Newtonsoft.Json;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
