@@ -184,7 +184,6 @@ game-mode:
   CRPGSiege: 围困
   CRPGTeamDeathmatch: 团队死亡竞赛
   CRPGSkirmish: 小规模战斗
-  CRPGWarmup: 热身
 
 clanBalancingExplanation: '
   <h3>你不在任何宗族中</h3>

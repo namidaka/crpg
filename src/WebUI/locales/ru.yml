@@ -181,7 +181,6 @@ game-mode:
   CRPGSiege: Осада
   CRPGTeamDeathmatch: Командный смертельный бой
   CRPGSkirmish: Скирмиш
-  CRPGWarmup: Разминка
 
 clanBalancingExplanation: '
   <h3>Вы не в клане</h3>
