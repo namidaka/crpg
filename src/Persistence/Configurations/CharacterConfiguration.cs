@@ -1,6 +1,5 @@
 using System.Reflection.Emit;
 using Crpg.Domain.Entities.Characters;
-using Crpg.Domain.Entities.Servers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -66,6 +65,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         builder.Property(s => s.Deaths).HasColumnName("deaths");
         builder.Property(s => s.Assists).HasColumnName("assists");
         builder.Property(s => s.PlayTime).HasColumnName("play_time");
+        builder.Property(s => s.GameMode).HasColumnName("game_mode");
     }
 
     private void ConfigureCharacterRating(OwnedNavigationBuilder<Character, CharacterRating> builder)

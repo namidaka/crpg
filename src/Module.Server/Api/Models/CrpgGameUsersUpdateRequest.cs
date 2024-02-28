@@ -1,6 +1,4 @@
-﻿using Crpg.Domain.Entities.Servers;
-
-namespace Crpg.Module.Api.Models;
+﻿namespace Crpg.Module.Api.Models;
 
 // Copy of Crpg.Application.Games.Commands.UpdateGameUsersCommand
 internal class CrpgGameUsersUpdateRequest

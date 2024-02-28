@@ -1,5 +1,4 @@
-﻿using Crpg.Domain.Entities.Servers;
-using Crpg.Module.Rewards;
+﻿using Crpg.Module.Rewards;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 

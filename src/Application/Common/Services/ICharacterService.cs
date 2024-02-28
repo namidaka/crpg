@@ -3,7 +3,6 @@ using Crpg.Application.Common.Results;
 using Crpg.Common.Helpers;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Limitations;
-using Crpg.Domain.Entities.Servers;
 
 namespace Crpg.Application.Common.Services;
 
