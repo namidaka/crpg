@@ -367,7 +367,6 @@ public class UsersController : BaseController
     /// Get character statistics for the current user.
     /// </summary>
     /// <param name="id">Character id.</param>
-    /// <param name="gameMode">GameMode enum.</param>
     /// <returns>The character statistics.</returns>
     /// <response code="200">Ok.</response>
     [HttpGet("self/characters/{id}/statistics")]
