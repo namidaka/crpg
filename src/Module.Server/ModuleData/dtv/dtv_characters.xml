@@ -3287,7 +3287,7 @@
     </skills>
     <Equipments>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_goggled_helmet_over_mail_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_plated_noble_helmet_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
         <equipment slot="Body" id="Item.crpg_rus_armour_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
@@ -3297,7 +3297,7 @@
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
-        <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_le_bonke_v1_h0" />
@@ -3329,9 +3329,9 @@
     </skills>
     <Equipments>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_plated_noble_helmet_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_engraved_swadian_shoulders_h0" />
-        <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_tetsubo_v1_h3" />
@@ -3339,7 +3339,7 @@
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_engraved_swadian_shoulders_h0" />
-        <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h3" />
@@ -3371,8 +3371,8 @@
     </skills>
     <Equipments>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_western_crowned_plated_helmet_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_crowned_helmet_h0" />
+        <equipment slot="Cape" id="Item.crpg_pauldron_over_scale_armor_v2_h0" />
         <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
