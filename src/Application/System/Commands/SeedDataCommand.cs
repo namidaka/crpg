@@ -1069,16 +1069,6 @@ public record SeedDataCommand : IMediatorRequest
                             GameMode = GameMode.CRPGDuel,
                         }
                     },
-                    {
-                        new CharacterStatistics
-                        {
-                            Kills = 500,
-                            Deaths = 10,
-                            Assists = 90,
-                            PlayTime = new TimeSpan(50, 4, 59, 0),
-                            GameMode = GameMode.CRPGDTV,
-                        }
-                    },
                 },
                 Characteristics = new CharacterCharacteristics
                 {

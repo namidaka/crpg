@@ -38,6 +38,7 @@ import { usePollInterval } from '@/composables/use-poll-interval';
 import { useGameMode } from '@/composables/use-gamemode';
 import { Suspense } from 'vue';
 import { GameMode } from '@/models/game-mode';
+import { type CharacterStatistics } from '@/models/character';
 import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({
@@ -105,8 +106,8 @@ const onSetCharacterForTournament = async () => {
 };
 
 const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
-  ({ id }: { id: number }, { gameMode }: { gameMode: GameMode }) => getCharacterStatistics(id, gameMode),
-  { kills: 0, deaths: 0, assists: 0, playTime: 0 },
+  ({ id }: { id: number }) => getCharacterStatistics(id),
+  [ {kills: 0, deaths: 0, assists: 0, playTime:0, gameMode: GameMode.Battle} ] ,
   {
     immediate: false,
     resetOnExecute: false,
@@ -150,7 +151,7 @@ const { state: characterLimitations, execute: loadCharacterLimitations } = useAs
 );
 
 const kdaRatio = computed(() =>
-  characterStatistics.value.deaths === 0 ? '∞' : getCharacterKDARatio(characterStatistics.value)
+  selectedCharacterStatistics.value.deaths === 0 ? '∞' : getCharacterKDARatio(selectedCharacterStatistics.value)
 );
 
 const experienceMultiplierBonus = computed(() =>
@@ -160,16 +161,16 @@ const experienceMultiplierBonus = computed(() =>
 const heirloomPointByLevel = computed(() => getHeirloomPointByLevel(character.value.level));
 const retireTableData = computed(() => getHeirloomPointByLevelAggregation());
 
-const fetchPageData = (characterId: number, selectedGameMode: GameMode) =>
+const fetchPageData = (characterId: number) =>
   Promise.all([
-    loadCharacterStatistics(0, { id: characterId }, {gameMode: selectedGameMode}),
+    loadCharacterStatistics(0, { id: characterId }),
     loadCharacterRating(0, { id: characterId }),
     loadCharacterLimitations(0, { id: characterId }),
   ]);
 
 onBeforeRouteUpdate(async to => {
   const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
-  await fetchPageData(characterId, selectedGameModeModel.value);
+  await fetchPageData(characterId);
   return true;
 });
 
@@ -186,11 +187,27 @@ const selectedGameModeModel = computed({
 
     set(gameMode: GameMode) {
       currentGameMode.value = gameMode;
-      fetchPageData(character.value.id, gameMode)
     },
 });
 
-await fetchPageData(character.value.id, selectedGameModeModel.value);
+const selectedCharacterStatistics = computed({
+  get(): CharacterStatistics {
+    return characterStatistics.value.find(s=>s.gameMode === selectedGameModeModel.value) || 
+    {
+      kills: 0,
+      deaths: 0,
+      assists: 0,
+      playTime: 0,
+      gameMode: selectedGameModeModel.value,
+    };
+  },
+
+  set(value: CharacterStatistics) {
+    
+  }
+});
+
+await fetchPageData(character.value.id);
 </script>
 
 <template>
@@ -273,9 +290,9 @@ await fetchPageData(character.value.id, selectedGameModeModel.value);
             :label="$t('character.statistics.kda.title')"
             :value="
               $t('character.format.kda', {
-                kills: characterStatistics!.kills,
-                deaths: characterStatistics!.deaths,
-                assists: characterStatistics!.assists,
+                kills: selectedCharacterStatistics.kills,
+                deaths: selectedCharacterStatistics.deaths,
+                assists: selectedCharacterStatistics.assists,
                 ratio: kdaRatio,
               })
             "
@@ -286,7 +303,7 @@ await fetchPageData(character.value.id, selectedGameModeModel.value);
 
           <SimpleTableRow
             :label="$t('character.statistics.playTime.title')"
-            :value="$t('dateTimeFormat.hh', { hours: msToHours(characterStatistics.playTime) })"
+            :value="$t('dateTimeFormat.hh', { hours: msToHours(selectedCharacterStatistics.playTime) })"
           />
 
           <div class="col-span-2 mt-12 px-4 py-2.5">

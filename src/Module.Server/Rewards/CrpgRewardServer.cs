@@ -133,7 +133,6 @@ internal class CrpgRewardServer : MissionLogic
     /// <param name="updateUserStats">True if score and rating should be saved.</param>
     public async Task UpdateCrpgUsersAsync(
         float durationRewarded,
-        GameMode gameMode,
         float? durationUpkeep = null,
         int defenderMultiplierGain = 0,
         int attackerMultiplierGain = 0,
@@ -241,7 +240,7 @@ internal class CrpgRewardServer : MissionLogic
         try
         {
             SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
-            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates, GameMode = gameMode })).Data!;
+            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates })).Data!;
             SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
         }
         catch (Exception e)
@@ -385,7 +384,7 @@ internal class CrpgRewardServer : MissionLogic
 
     private void OnWarmupEnded()
     {
-        _ = UpdateCrpgUsersAsync(durationRewarded: 0, GameMode.CRPGWarmup, updateUserStats: false);
+        _ = UpdateCrpgUsersAsync(durationRewarded: 0, updateUserStats: false);
     }
 
     private void SetRewardForConnectedPlayer(

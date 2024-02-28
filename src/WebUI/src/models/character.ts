@@ -1,5 +1,6 @@
 import { type UserItem } from '@/models/user';
 import { type ItemSlot } from '@/models/item';
+import { GameMode } from '@/models/game-mode';
 
 export interface Character {
   id: number;
@@ -77,6 +78,7 @@ export interface CharacterStatistics {
   deaths: number;
   assists: number;
   playTime: number;
+  gameMode: GameMode;
 }
 
 export interface CharacterRating {

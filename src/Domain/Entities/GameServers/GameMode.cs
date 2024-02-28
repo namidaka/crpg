@@ -9,7 +9,7 @@ public enum GameMode
     CRPGSiege,
     CRPGTeamDeathmatch,
     CRPGSkirmish,
-    CRPGWarmup,
+    CRPGUnknownGameMode,
 }
 
 public enum GameModeAlias
@@ -19,4 +19,5 @@ public enum GameModeAlias
     C,
     D,
     E,
+    Z,
 }

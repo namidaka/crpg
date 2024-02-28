@@ -372,12 +372,10 @@ public class UsersController : BaseController
     /// <returns>The character statistics.</returns>
     /// <response code="200">Ok.</response>
     [HttpGet("self/characters/{id}/statistics")]
-    public Task<ActionResult<Result<CharacterStatisticsViewModel>>> GetCharacterStatistics([FromRoute] int id,
-        [FromQuery] GameMode gameMode)
+    public Task<ActionResult<Result<IList<CharacterStatisticsViewModel>>>> GetCharacterStatistics([FromRoute] int id)
     {
         return ResultToActionAsync(Mediator.Send(new GetUserCharacterStatisticsQuery
         {
-            GameMode = gameMode,
             UserId = CurrentUser.User!.Id,
             CharacterId = id,
         }));
