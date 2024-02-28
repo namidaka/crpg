@@ -370,7 +370,6 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         var roundWinner = RoundController.RoundWinner;
         _ = _rewardServer.UpdateCrpgUsersAsync(
             durationRewarded: roundDuration,
-            gameMode: GameMode.CRPGBattle,
             defenderMultiplierGain: roundWinner == BattleSideEnum.Defender ? 1 : -CrpgRewardServer.ExperienceMultiplierMax,
             attackerMultiplierGain: roundWinner == BattleSideEnum.Attacker ? 1 : -CrpgRewardServer.ExperienceMultiplierMax,
             valourTeamSide: roundWinner.GetOppositeSide());

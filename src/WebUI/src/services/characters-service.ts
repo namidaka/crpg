@@ -94,8 +94,8 @@ export const retireCharacter = (characterId: number) =>
 export const deleteCharacter = (characterId: number) =>
   del(`/users/self/characters/${characterId}`);
 
-export const getCharacterStatistics = (characterId: number, gameMode: GameMode) =>
-  get<CharacterStatistics>(`/users/self/characters/${characterId}/statistics?${qs.stringify({ gameMode })}`);
+export const getCharacterStatistics = (characterId: number) =>
+  get<CharacterStatistics[]>(`/users/self/characters/${characterId}/statistics`);
 
 export enum CharacterEarningType {
   'Exp' = 'Exp',

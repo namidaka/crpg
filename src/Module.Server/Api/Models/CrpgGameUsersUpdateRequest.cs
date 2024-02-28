@@ -6,5 +6,4 @@ namespace Crpg.Module.Api.Models;
 internal class CrpgGameUsersUpdateRequest
 {
     public IList<CrpgUserUpdate> Updates { get; set; } = Array.Empty<CrpgUserUpdate>();
-    public GameMode GameMode { get; set; } = default!;
 }

@@ -8,6 +8,7 @@
       "workingDirectory": "%MB_SERVER_PATH%\\bin\\Win64_Shipping_Server",
       "environmentVariables": {
         "CRPG_API_BASE_URL": "https://api.namidaka.fr"
+        "CRPG_INSTANCE": "A"
       }
     },
     "Conquest": {
@@ -17,6 +18,7 @@
       "workingDirectory": "%MB_SERVER_PATH%\\bin\\Win64_Shipping_Server",
       "environmentVariables": {
         "CRPG_API_BASE_URL": "https://api.namidaka.fr"
+        "CRPG_INSTANCE": "B"
       }
     },
     "Siege": {
@@ -44,6 +46,7 @@
       "workingDirectory": "%MB_SERVER_PATH%\\bin\\Win64_Shipping_Server",
       "environmentVariables": {
         "CRPG_API_BASE_URL": "https://api.namidaka.fr"
+        "CRPG_INSTANCE": "C"
       }
     },
     "DTV": {
@@ -53,7 +56,7 @@
       "workingDirectory": "%MB_SERVER_PATH%\\bin\\Win64_Shipping_Server",
       "environmentVariables": {
         "CRPG_API_BASE_URL": "https://api.namidaka.fr"
+        "CRPG_INSTANCE": "E"
       }
     }
-  }
 }

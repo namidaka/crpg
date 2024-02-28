@@ -72,7 +72,7 @@ internal class CrpgDuelServer : MissionMultiplayerDuel
         _rewardTickTimer ??= new MissionTimer(duration: 60);
         if (_rewardTickTimer.Check(reset: true))
         {
-            _ = _rewardServer.UpdateCrpgUsersAsync(durationRewarded: 0, gameMode: GameMode.CRPGDuel, updateUserStats: true);
+            _ = _rewardServer.UpdateCrpgUsersAsync(durationRewarded: 0, updateUserStats: true);
         }
     }
 

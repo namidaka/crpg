@@ -99,7 +99,6 @@ public class UpdateGameUsersCommandTest : TestBase
         UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object, gameModeServiceServiceMock.Object);
         var result = await handler.Handle(new UpdateGameUsersCommand
         {
-            GameMode = GameMode.CRPGBattle,
             Updates = new[]
             {
                 new GameUserUpdate
