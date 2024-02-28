@@ -1,4 +1,3 @@
-using Crpg.Domain.Entities.Servers;
 using Crpg.Module.Api;
 using Crpg.Module.Api.Models;
 using Crpg.Module.Api.Models.Characters;

@@ -18,7 +18,6 @@ using Crpg.Application.Users.Commands;
 using Crpg.Application.Users.Models;
 using Crpg.Application.Users.Queries;
 using Crpg.Domain.Entities.Users;
-using Crpg.Domain.Entities.Servers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
