@@ -169,7 +169,7 @@ const fetchPageData = (characterId: number, selectedGameMode: GameMode) =>
 
 onBeforeRouteUpdate(async to => {
   const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
-  const gameMode = (to.query.gameMode as GameMode) || 'CRPGBattle';
+  const gameMode = (to.query.gameMode as GameMode) || GameMode.Battle;
   
   await fetchPageData(characterId, gameMode);
   return true;

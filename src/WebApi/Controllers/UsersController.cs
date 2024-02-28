@@ -371,9 +371,9 @@ public class UsersController : BaseController
     /// <param name="gameMode">GameMode enum.</param>
     /// <returns>The character statistics.</returns>
     /// <response code="200">Ok.</response>
-    [HttpGet("self/characters/{id}/statistics/{gameMode}")]
+    [HttpGet("self/characters/{id}/statistics")]
     public Task<ActionResult<Result<CharacterStatisticsViewModel>>> GetCharacterStatistics([FromRoute] int id,
-        [FromRoute] GameMode gameMode)
+        [FromQuery] GameMode gameMode)
     {
         return ResultToActionAsync(Mediator.Send(new GetUserCharacterStatisticsQuery
         {
