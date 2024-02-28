@@ -3253,7 +3253,7 @@
         <equipment slot="Item0" id="Item.crpg_great_bardiche_v1_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_sa_barbute1_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
         <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
@@ -3295,7 +3295,7 @@
         <equipment slot="Item0" id="Item.crpg_le_bonke_v1_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_sa_barbute1_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
         <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
@@ -3329,7 +3329,7 @@
     </skills>
     <Equipments>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_sa_barbute4_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_engraved_swadian_shoulders_h0" />
         <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
@@ -3337,7 +3337,7 @@
         <equipment slot="Item0" id="Item.crpg_tetsubo_v1_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_sa_barbute4_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_engraved_swadian_shoulders_h0" />
         <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
