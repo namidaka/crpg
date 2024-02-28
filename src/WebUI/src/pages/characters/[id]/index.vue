@@ -49,7 +49,7 @@ definePage({
 
 const userStore = useUserStore();
 
-const { gameModeModel, gameModes } = useGameMode();
+const { gameModes } = useGameMode();
 
 const character = injectStrict(characterKey);
 const { loadCharacterCharacteristics } = injectStrict(characterCharacteristicsKey);
@@ -169,9 +169,7 @@ const fetchPageData = (characterId: number, selectedGameMode: GameMode) =>
 
 onBeforeRouteUpdate(async to => {
   const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
-  const gameMode = (to.query.gameMode as GameMode) || GameMode.Battle;
-  
-  await fetchPageData(characterId, gameMode);
+  await fetchPageData(characterId, selectedGameModeModel.value);
   return true;
 });
 
@@ -179,15 +177,27 @@ const LazyCharacterEarningChart = defineAsyncComponent({
   loader: () => import('@/components/character/CharacterEarningChart.vue'),
   suspensible: true,
 });
+const currentGameMode = ref(GameMode.Battle);
 
-await fetchPageData(character.value.id, gameModeModel.value);
+const selectedGameModeModel = computed({
+    get() {
+      return (currentGameMode.value as GameMode) || GameMode.Battle;
+    },
+
+    set(gameMode: GameMode) {
+      currentGameMode.value = gameMode;
+      fetchPageData(character.value.id, gameMode)
+    },
+});
+
+await fetchPageData(character.value.id, selectedGameModeModel.value);
 </script>
 
 <template>
   <div class="mx-auto max-w-2xl space-y-12 pb-12">
     <FormGroup :label="$t('character.settings.group.overview.title')" :collapsable="false">
     <div class="flex items-center justify-center">
-      <OTabs v-model="gameModeModel" contentClass="hidden">
+      <OTabs v-model="selectedGameModeModel" contentClass="hidden">
           <OTabItem v-for="gamemode in gameModes" :label="$t(`game-mode.${gamemode}`, 0)" :icon="gameModeToIcon[gamemode]" :value="gamemode" />
       </OTabs>
     </div>
