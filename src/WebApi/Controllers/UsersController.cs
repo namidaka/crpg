@@ -18,7 +18,6 @@ using Crpg.Application.Users.Commands;
 using Crpg.Application.Users.Models;
 using Crpg.Application.Users.Queries;
 using Crpg.Domain.Entities.Users;
-using Crpg.Domain.Entities.Servers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -368,16 +367,13 @@ public class UsersController : BaseController
     /// Get character statistics for the current user.
     /// </summary>
     /// <param name="id">Character id.</param>
-    /// <param name="gameMode">GameMode enum.</param>
     /// <returns>The character statistics.</returns>
     /// <response code="200">Ok.</response>
-    [HttpGet("self/characters/{id}/statistics/{gameMode}")]
-    public Task<ActionResult<Result<CharacterStatisticsViewModel>>> GetCharacterStatistics([FromRoute] int id,
-        [FromRoute] GameMode gameMode)
+    [HttpGet("self/characters/{id}/statistics")]
+    public Task<ActionResult<Result<IList<CharacterStatisticsViewModel>>>> GetCharacterStatistics([FromRoute] int id)
     {
         return ResultToActionAsync(Mediator.Send(new GetUserCharacterStatisticsQuery
         {
-            GameMode = gameMode,
             UserId = CurrentUser.User!.Id,
             CharacterId = id,
         }));

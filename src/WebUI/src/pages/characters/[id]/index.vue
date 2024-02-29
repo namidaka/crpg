@@ -38,6 +38,7 @@ import { usePollInterval } from '@/composables/use-poll-interval';
 import { useGameMode } from '@/composables/use-gamemode';
 import { Suspense } from 'vue';
 import { GameMode } from '@/models/game-mode';
+import { type CharacterStatistics } from '@/models/character';
 import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({
@@ -49,7 +50,7 @@ definePage({
 
 const userStore = useUserStore();
 
-const { gameModeModel, gameModes } = useGameMode();
+const { gameModes } = useGameMode();
 
 const character = injectStrict(characterKey);
 const { loadCharacterCharacteristics } = injectStrict(characterCharacteristicsKey);
@@ -105,8 +106,8 @@ const onSetCharacterForTournament = async () => {
 };
 
 const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
-  ({ id }: { id: number }, { gameMode }: { gameMode: GameMode }) => getCharacterStatistics(id, gameMode),
-  { kills: 0, deaths: 0, assists: 0, playTime: 0, rating: { value: 0, competitiveValue: 0, deviation: 0, volatility: 0 }},
+  ({ id }: { id: number }) => getCharacterStatistics(id),
+  [ {kills: 0, deaths: 0, assists: 0, playTime:0, gameMode: GameMode.Battle, rating: { value: 0, competitiveValue: 0, deviation: 0, volatility: 0 }}, ] ,
   {
     immediate: false,
     resetOnExecute: false,
@@ -133,7 +134,7 @@ const { state: characterLimitations, execute: loadCharacterLimitations } = useAs
 );
 
 const kdaRatio = computed(() =>
-  characterStatistics.value.deaths === 0 ? '∞' : getCharacterKDARatio(characterStatistics.value)
+  selectedCharacterStatistics.value.deaths === 0 ? '∞' : getCharacterKDARatio(selectedCharacterStatistics.value)
 );
 
 const experienceMultiplierBonus = computed(() =>
@@ -143,17 +144,15 @@ const experienceMultiplierBonus = computed(() =>
 const heirloomPointByLevel = computed(() => getHeirloomPointByLevel(character.value.level));
 const retireTableData = computed(() => getHeirloomPointByLevelAggregation());
 
-const fetchPageData = (characterId: number, selectedGameMode: GameMode) =>
+const fetchPageData = (characterId: number) =>
   Promise.all([
-    loadCharacterStatistics(0, { id: characterId }, {gameMode: selectedGameMode}),
+    loadCharacterStatistics(0, { id: characterId }),
     loadCharacterLimitations(0, { id: characterId }),
   ]);
 
 onBeforeRouteUpdate(async to => {
   const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
-  const gameMode = (to.query.gameMode as GameMode) || 'CRPGBattle';
-  
-  await fetchPageData(characterId, gameMode);
+  await fetchPageData(characterId);
   return true;
 });
 
@@ -161,15 +160,44 @@ const LazyCharacterEarningChart = defineAsyncComponent({
   loader: () => import('@/components/character/CharacterEarningChart.vue'),
   suspensible: true,
 });
+const currentGameMode = ref(GameMode.Battle);
 
-await fetchPageData(character.value.id, gameModeModel.value);
+const selectedGameModeModel = computed({
+    get() {
+      return (currentGameMode.value as GameMode) || GameMode.Battle;
+    },
+
+    set(gameMode: GameMode) {
+      currentGameMode.value = gameMode;
+    },
+});
+
+const selectedCharacterStatistics = computed({
+  get(): CharacterStatistics {
+    return characterStatistics.value.find(s=>s.gameMode === selectedGameModeModel.value) || 
+    {
+      kills: 0,
+      deaths: 0,
+      assists: 0,
+      playTime: 0,
+      gameMode: selectedGameModeModel.value,
+      rating: { value: 0, competitiveValue: 0, deviation: 0, volatility: 0 },
+    };
+  },
+
+  set(value: CharacterStatistics) {
+    
+  }
+});
+
+await fetchPageData(character.value.id);
 </script>
 
 <template>
   <div class="mx-auto max-w-2xl space-y-12 pb-12">
     <FormGroup :label="$t('character.settings.group.overview.title')" :collapsable="false">
     <div class="flex items-center justify-center">
-      <OTabs v-model="gameModeModel" contentClass="hidden">
+      <OTabs v-model="selectedGameModeModel" contentClass="hidden">
           <OTabItem v-for="gamemode in gameModes" :label="$t(`game-mode.${gamemode}`, 0)" :icon="gameModeToIcon[gamemode]" :value="gamemode" />
       </OTabs>
     </div>
@@ -228,14 +256,14 @@ await fetchPageData(character.value.id, gameModeModel.value);
               :title="$t('character.statistics.rank.tooltip.title')"
               :description="$t('character.statistics.rank.tooltip.desc')"
             >
-              <Rank :rankTable="rankTable" :competitiveValue="characterStatistics!.rating.competitiveValue" />
+              <Rank :rankTable="rankTable" :competitiveValue="selectedCharacterStatistics.rating.competitiveValue" />
             </Tooltip>
             <Modal closable>
               <Tag icon="popup" variant="primary" rounded size="sm" />
               <template #popper>
                 <RankTable
                   :rankTable="rankTable"
-                  :competitiveValue="characterStatistics!.rating.competitiveValue"
+                  :competitiveValue="selectedCharacterStatistics.rating.competitiveValue"
                 />
               </template>
             </Modal>
@@ -245,9 +273,9 @@ await fetchPageData(character.value.id, gameModeModel.value);
             :label="$t('character.statistics.kda.title')"
             :value="
               $t('character.format.kda', {
-                kills: characterStatistics!.kills,
-                deaths: characterStatistics!.deaths,
-                assists: characterStatistics!.assists,
+                kills: selectedCharacterStatistics.kills,
+                deaths: selectedCharacterStatistics.deaths,
+                assists: selectedCharacterStatistics.assists,
                 ratio: kdaRatio,
               })
             "
@@ -258,7 +286,7 @@ await fetchPageData(character.value.id, gameModeModel.value);
 
           <SimpleTableRow
             :label="$t('character.statistics.playTime.title')"
-            :value="$t('dateTimeFormat.hh', { hours: msToHours(characterStatistics.playTime) })"
+            :value="$t('dateTimeFormat.hh', { hours: msToHours(selectedCharacterStatistics.playTime) })"
           />
 
           <div class="col-span-2 mt-12 px-4 py-2.5">

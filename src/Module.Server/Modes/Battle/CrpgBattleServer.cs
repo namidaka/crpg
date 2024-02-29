@@ -1,5 +1,4 @@
-﻿using Crpg.Domain.Entities.Servers;
-using Crpg.Module.Modes.Battle.FlagSystems;
+﻿using Crpg.Module.Modes.Battle.FlagSystems;
 using Crpg.Module.Modes.Skirmish;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;

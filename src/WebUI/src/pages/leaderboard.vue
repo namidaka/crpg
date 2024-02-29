@@ -77,17 +77,7 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
         </div>
         <Heading :title="$t('leaderboard.title')" />
       </div>
-
-      <div class="flex items-center justify-between gap-8">
-        <OTabs v-model="regionModel" contentClass="hidden" class="mb-2">
-          <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
-        </OTabs>
-      </div>
-
-      <div class="flex items-center justify-between gap-8">
-        <OTabs v-model="gameModeModel" contentClass="hidden" class="mb-2">
-          <OTabItem v-for="gamemode in rankedGameModes" :label="$t(`game-mode.${gamemode}`, 0)" :icon="gameModeToIcon[gamemode]" :value="gamemode" />
-        </OTabs>
+      <div class="flex justify-end gap-8 mb-2">
         <Modal closable>
           <Tag icon="popup" variant="primary" rounded size="lg" />
           <template #popper>
@@ -95,7 +85,18 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
           </template>
         </Modal>
       </div>
-
+      <div class="flex justify-between gap-8">
+        <div class="flex items-center">
+          <OTabs v-model="regionModel" contentClass="hidden" class="mb-2">
+            <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
+          </OTabs>
+        </div>
+        <div class="flex items-right">
+          <OTabs v-model="gameModeModel" contentClass="hidden" class="mb-2">
+            <OTabItem v-for="gamemode in rankedGameModes" :label="$t(`game-mode.${gamemode}`, 0)" :icon="gameModeToIcon[gamemode]" :value="gamemode" />
+          </OTabs>
+        </div>
+      </div>
       <OTable
         :data="leaderboard"
         hoverable

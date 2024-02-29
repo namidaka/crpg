@@ -3,18 +3,16 @@ using Crpg.Application.Characters.Models;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
-using Crpg.Domain.Entities.Servers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Characters.Queries;
 
-public record GetUserCharacterStatisticsQuery : IMediatorRequest<CharacterStatisticsViewModel>
+public record GetUserCharacterStatisticsQuery : IMediatorRequest<IList<CharacterStatisticsViewModel>>
 {
     public int CharacterId { get; init; }
     public int UserId { get; init; }
-    public GameMode GameMode { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<GetUserCharacterStatisticsQuery, CharacterStatisticsViewModel>
+    internal class Handler : IMediatorRequestHandler<GetUserCharacterStatisticsQuery, IList<CharacterStatisticsViewModel>>
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -25,7 +23,7 @@ public record GetUserCharacterStatisticsQuery : IMediatorRequest<CharacterStatis
             _mapper = mapper;
         }
 
-        public async Task<Result<CharacterStatisticsViewModel>> Handle(GetUserCharacterStatisticsQuery req, CancellationToken cancellationToken)
+        public async Task<Result<IList<CharacterStatisticsViewModel>>> Handle(GetUserCharacterStatisticsQuery req, CancellationToken cancellationToken)
         {
             var character = await _db.Characters
                 .AsNoTracking()
@@ -33,22 +31,7 @@ public record GetUserCharacterStatisticsQuery : IMediatorRequest<CharacterStatis
 
             return character == null
                 ? new(CommonErrors.CharacterNotFound(req.CharacterId, req.UserId))
-                : new(_mapper.Map<CharacterStatisticsViewModel>(character.Statistics.FirstOrDefault(cs => cs.GameMode == req.GameMode) == null
-                ? new CharacterStatisticsViewModel
-                {
-                    Kills = 0,
-                    Deaths = 0,
-                    Assists = 0,
-                    PlayTime = TimeSpan.Zero,
-                    GameMode = req.GameMode,
-                    Rating = new CharacterRatingViewModel
-                    {
-                        CompetitiveValue = 0,
-                        Value = 0,
-                        Deviation = 0,
-                    },
-                }
-                : character.Statistics.FirstOrDefault(cs => cs.GameMode == req.GameMode)));
+                : new(_mapper.Map<IList<CharacterStatisticsViewModel>>(character.Statistics));
         }
     }
 }

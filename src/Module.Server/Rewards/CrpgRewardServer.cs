@@ -1,4 +1,3 @@
-using Crpg.Domain.Entities.Servers;
 using Crpg.Module.Api;
 using Crpg.Module.Api.Models;
 using Crpg.Module.Api.Models.Characters;
@@ -251,7 +250,7 @@ internal class CrpgRewardServer : MissionLogic
         try
         {
             SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
-            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates, GameMode = isWarmup ? GameMode.CRPGWarmup : _gameMode })).Data!;
+            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates })).Data!;
             SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
         }
         catch (Exception e)
@@ -395,7 +394,7 @@ internal class CrpgRewardServer : MissionLogic
 
     private void OnWarmupEnded()
     {
-        _ = UpdateCrpgUsersAsync(durationRewarded: 0, updateUserStats: false, isWarmup: true);
+        _ = UpdateCrpgUsersAsync(durationRewarded: 0, updateUserStats: false);
     }
 
     private void SetRewardForConnectedPlayer(

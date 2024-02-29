@@ -1,5 +1,4 @@
 ﻿using System.Xml.Serialization;
-using Crpg.Domain.Entities.Servers;
 using Crpg.Module.Common;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;

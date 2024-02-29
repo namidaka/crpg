@@ -1,7 +1,6 @@
 using Crpg.Domain.Common;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
-using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 
 namespace Crpg.Domain.Entities.Characters;

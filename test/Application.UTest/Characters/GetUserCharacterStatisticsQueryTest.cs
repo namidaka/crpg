@@ -36,7 +36,6 @@ public class GetUserCharacterStatisticsQueryTest : TestBase
         GetUserCharacterStatisticsQuery.Handler handler = new(ActDb, Mapper);
         var result = await handler.Handle(new GetUserCharacterStatisticsQuery
         {
-            GameMode = GameMode.CRPGBattle,
             CharacterId = character.Id,
             UserId = 2,
         }, CancellationToken.None);

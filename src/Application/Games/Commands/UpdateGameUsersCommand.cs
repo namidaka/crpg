@@ -20,7 +20,6 @@ namespace Crpg.Application.Games.Commands;
 public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 {
     public IList<GameUserUpdate> Updates { get; init; } = Array.Empty<GameUserUpdate>();
-    public GameMode GameMode { get; set; } = default!;
 
     internal class Handler : IMediatorRequestHandler<UpdateGameUsersCommand, UpdateGameUsersResult>
     {
@@ -48,18 +47,16 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             List<(User user, GameUserEffectiveReward reward, List<GameRepairedItem> repairedItems)> results = new(req.Updates.Count);
             foreach (var update in req.Updates)
             {
+                GameMode updateGameMode = _gameModeService.GameModeByInstanceAlias(Enum.TryParse(update.Instance, ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.Z);
                 if (!charactersById.TryGetValue(update.CharacterId, out Character? character))
                 {
                     Logger.LogWarning("Character with id '{0}' doesn't exist", update.CharacterId);
                     continue;
                 }
 
-                _characterService.UpdateRating(character, _gameModeService.GameModeByInstanceAlias(Enum.TryParse(update.Instance,
-                    ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.A), update.Statistics.Rating.Value,
-                    update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
-
-                var reward = GiveReward(character, update.Reward, update.Instance);
-                UpdateStatistics(req.GameMode, character, update.Statistics);
+                _characterService.UpdateRating(character, updateGameMode, update.Statistics.Rating.Value, update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
+                var reward = GiveReward(character, update.Reward, updateGameMode);
+                UpdateStatistics(updateGameMode, character, update.Statistics);
                 var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
                 results.Add((character.User!, reward, brokenItems));
             }
@@ -94,7 +91,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             return charactersById;
         }
 
-        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward, string instance)
+        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward, GameMode gameMode)
         {
             int level = character.Level;
             int experience = character.Experience;
@@ -102,7 +99,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             character.User!.Gold += reward.Gold;
             _characterService.GiveExperience(character, reward.Experience, useExperienceMultiplier: true);
 
-            _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, _gameModeService.GameModeByInstanceAlias(Enum.TryParse(instance, ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.A), reward.Experience, reward.Gold));
+            _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, gameMode, reward.Experience, reward.Gold));
 
             return new GameUserEffectiveReward
             {

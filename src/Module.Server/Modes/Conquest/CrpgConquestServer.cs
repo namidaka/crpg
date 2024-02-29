@@ -1,5 +1,4 @@
-﻿using Crpg.Domain.Entities.Servers;
-using Crpg.Module.Common;
+﻿using Crpg.Module.Common;
 using Crpg.Module.Notifications;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;

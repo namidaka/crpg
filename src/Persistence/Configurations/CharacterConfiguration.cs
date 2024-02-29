@@ -1,6 +1,5 @@
 using System.Reflection.Emit;
 using Crpg.Domain.Entities.Characters;
-using Crpg.Domain.Entities.Servers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
