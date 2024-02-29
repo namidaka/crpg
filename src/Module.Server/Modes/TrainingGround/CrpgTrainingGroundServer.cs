@@ -630,28 +630,16 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             component.OnDuelWon();
             if (challengeWinnerPeer.Peer.Communicator.IsConnectionActive)
             {
-                GameNetwork.BeginModuleEventAsServer(component.GetNetworkPeer());
-                GameNetwork.WriteMessage(new TrainingGroundDuelResultMessage { HasWonDuel = true, RatingChange = component.Rating - (int)newWinnerRating.CompetitiveValue });
-                GameNetwork.EndModuleEventAsServer();
-
-                component.Rating = (int)newWinnerRating.CompetitiveValue;
-
                 GameNetwork.BeginBroadcastModuleEvent();
-                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses, Rating = component.Rating });
+                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses, Rating = (int)newWinnerRating.CompetitiveValue });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
             }
 
             component2?.OnDuelLost();
             if (challengeLoserPeer != null && challengeLoserPeer.Peer.Communicator.IsConnectionActive && component2 != null)
             {
-                GameNetwork.BeginModuleEventAsServer(component2.GetNetworkPeer());
-                GameNetwork.WriteMessage(new TrainingGroundDuelResultMessage { HasWonDuel = false, RatingChange = component2.Rating - (int)newLoserRating.CompetitiveValue });
-                GameNetwork.EndModuleEventAsServer();
-
-                component2.Rating = (int)newLoserRating.CompetitiveValue;
-
                 GameNetwork.BeginBroadcastModuleEvent();
-                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component2.GetNetworkPeer(), NumberOfWins = component2!.NumberOfWins, NumberOfLosses = component2.NumberOfLosses, Rating = component2.Rating });
+                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component2.GetNetworkPeer(), NumberOfWins = component2!.NumberOfWins, NumberOfLosses = component2.NumberOfLosses, Rating = (int)newLoserRating.CompetitiveValue });
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
             }
         }

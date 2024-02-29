@@ -168,7 +168,7 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
 
     private void HandleServerEventDuelResult(TrainingGroundDuelResultMessage message)
     {
-        TextObject textObject = new("{=}You {RESULT} the duel! Your rating has changed by: {RATINGCHANGE}",
+        TextObject textObject = new("{=}You {RESULT} the duel! Your rating is now: {RATINGCHANGE}",
         new Dictionary<string, object>
         {
             ["RESULT"] = message.HasWonDuel ? new TextObject("{=}won").ToString() : new TextObject("{=}lost").ToString(),

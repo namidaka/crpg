@@ -4,6 +4,7 @@ using Crpg.Module.Api.Models.Characters;
 using Crpg.Module.Api.Models.Users;
 using Crpg.Module.Common;
 using Crpg.Module.Common.Network;
+using Crpg.Module.Modes.TrainingGround;
 using Crpg.Module.Modes.Warmup;
 using Crpg.Module.Rating;
 using TaleWorlds.Core;
@@ -190,6 +191,7 @@ internal class CrpgRewardServer : MissionLogic
         {
             SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
             var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates })).Data!;
+            SendDuelResultToPeers(res.UpdateResults, crpgPeerByCrpgUserId, winnerUpdate.UserId);
         }
         catch (Exception e)
         {
@@ -684,6 +686,31 @@ internal class CrpgRewardServer : MissionLogic
                 Compensation = compensationForCrpgUser,
                 BrokeItemIds = updateResult.RepairedItems.Where(r => r.Broke).Select(r => r.ItemId).ToList(),
             });
+            GameNetwork.EndModuleEventAsServer();
+        }
+    }
+
+    private void SendDuelResultToPeers(IList<UpdateCrpgUserResult> updateResults,
+        Dictionary<int, CrpgPeer> crpgPeerByCrpgUserId, int winnerUserId)
+    {
+        foreach (var updateResult in updateResults)
+        {
+            if (!crpgPeerByCrpgUserId.TryGetValue(updateResult.User.Id, out var crpgPeer))
+            {
+                Debug.Print($"Unknown user with id '{updateResult.User.Id}'");
+                continue;
+            }
+
+            var networkPeer = crpgPeer.GetNetworkPeer();
+            if (!networkPeer.IsConnectionActive)
+            {
+                return;
+            }
+
+            crpgPeer.User = updateResult.User;
+
+            GameNetwork.BeginModuleEventAsServer(crpgPeer.GetNetworkPeer());
+            GameNetwork.WriteMessage(new TrainingGroundDuelResultMessage { HasWonDuel = updateResult.User.Id == winnerUserId ? true : false, RatingChange = (int)crpgPeer.User.Character.Statistics.Rating.CompetitiveValue });
             GameNetwork.EndModuleEventAsServer();
         }
     }
