@@ -10,7 +10,6 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Source.Missions;
 using TaleWorlds.MountAndBlade.Multiplayer;
-using Crpg.Domain.Entities.Servers;
 
 
 
@@ -43,14 +42,12 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
     private static CrpgConstants _constants = default!; // Static so it's accessible from the views.
 
     private readonly bool _isSkirmish;
-    private GameMode _gameMode;
 
     public CrpgBattleGameMode(CrpgConstants constants, bool isSkirmish)
         : base(isSkirmish ? SkirmishGameName : BattleGameName)
     {
         _constants = constants;
         _isSkirmish = isSkirmish;
-        _gameMode = isSkirmish ? GameMode.CRPGSkirmish : GameMode.CRPGBattle;
     }
 
 #if CRPG_CLIENT
@@ -115,8 +112,8 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
             (new FlagDominationSpawnFrameBehavior(), _isSkirmish
                 ? new CrpgSkirmishSpawningBehavior(_constants, roundController)
                 : new CrpgBattleSpawningBehavior(_constants, roundController)));
-        CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, roundController, _gameMode);
-        CrpgRewardServer rewardServer = new(crpgClient, _gameMode, _constants, warmupComponent, enableTeamHitCompensations: true, enableRating: true);
+        CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, roundController);
+        CrpgRewardServer rewardServer = new(crpgClient, _constants, warmupComponent, enableTeamHitCompensations: true, enableRating: true);
 #else
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, null);
         CrpgTeamSelectClientComponent teamSelectComponent = new();
@@ -146,7 +143,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new MultiplayerPollComponent(), // poll logic to kick player, ban player, change game
                     new CrpgCommanderPollComponent(),
                     new MissionOptionsComponent(),
-                    new CrpgScoreboardComponent(_isSkirmish ? new CrpgSkirmishScoreboardData() : new CrpgBattleScoreboardData(), _gameMode),
+                    new CrpgScoreboardComponent(_isSkirmish ? new CrpgSkirmishScoreboardData() : new CrpgBattleScoreboardData()),
                     new MissionAgentPanicHandler(),
                     new EquipmentControllerLeaveLogic(),
                     new MultiplayerPreloadHelper(),
@@ -163,10 +160,10 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                         _isSkirmish ? new CrpgSkirmishSpawningBehavior(_constants, roundController) : new CrpgBattleSpawningBehavior(_constants, roundController)),
                     new AgentHumanAILogic(), // bot intelligence
                     new MultiplayerAdminComponent(), // admin UI to kick player or restart game
-                    new CrpgUserManagerServer(crpgClient, _constants, _gameMode),
+                    new CrpgUserManagerServer(crpgClient, _constants),
                     new KickInactiveBehavior(inactiveTimeLimit: 60, warmupComponent),
                     new MapPoolComponent(),
-                    new ChatCommandsComponent(chatBox, crpgClient, _gameMode),
+                    new ChatCommandsComponent(chatBox, crpgClient),
                     new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                     new ServerMetricsBehavior(),
                     new NotAllPlayersReadyComponent(),

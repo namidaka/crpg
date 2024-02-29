@@ -1,5 +1,4 @@
-﻿using Crpg.Domain.Entities.Servers;
-using TaleWorlds.MountAndBlade;
+﻿using TaleWorlds.MountAndBlade;
 
 namespace Crpg.Module.Common.ChatCommands.Admin;
 
@@ -15,8 +14,6 @@ internal class PlayerListCommand : AdminCommand
             new(new[] { ChatCommandParameterType.String }, Execute),
             new(Array.Empty<ChatCommandParameterType>(), Execute),
         };
-
-        GameMode = chatComponent.GameMode;
     }
 
     private void Execute(NetworkCommunicator fromPeer, object[] arguments)
@@ -35,7 +32,7 @@ internal class PlayerListCommand : AdminCommand
                 string message = $"{crpgPeer.User.Id}. {networkPeer.UserName}"
                                  + $" | lvl {crpgPeer.User.Character.Level}"
                                  + $" | gen {crpgPeer.User.Character.Generation}"
-                                 + $" | mmr {(int)crpgPeer.User.Character.Statistics.FirstOrDefault(s => s.GameMode == GameMode).Rating.CompetitiveValue}"
+                                 + $" | mmr {(int)crpgPeer.User.Character.Statistics.Rating.CompetitiveValue}"
                                  + $" | clan {crpgPeer.Clan?.Tag ?? "none"}";
                 ChatComponent.ServerSendMessageToPlayer(fromPeer, ColorWarning, message);
             }

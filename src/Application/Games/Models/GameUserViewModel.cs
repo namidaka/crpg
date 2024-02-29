@@ -23,7 +23,6 @@ public record GameUserViewModel : IMapFrom<User>
     public GameCharacterViewModel Character { get; init; } = default!;
     public IList<RestrictionViewModel> Restrictions { get; set; } = Array.Empty<RestrictionViewModel>();
     public GameClanMemberViewModel? ClanMembership { get; set; }
-    public CharacterRatingViewModel? Rating { get; set; }
 
     public void Mapping(Profile profile)
     {

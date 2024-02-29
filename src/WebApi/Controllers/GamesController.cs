@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Crpg.Application.ActivityLogs.Commands;
 using Crpg.Application.ActivityLogs.Models;
 using Crpg.Application.Clans.Models;
@@ -23,12 +24,13 @@ public class GamesController : BaseController
     /// </summary>
     [HttpGet("users")]
     public Task<ActionResult<Result<GameUserViewModel>>> GetUser(
-        [FromQuery] Platform platform, [FromQuery] string platformUserId, [FromQuery] Region region) =>
+        [FromQuery] Platform platform, [FromQuery] string platformUserId, [FromQuery] Region region, [FromQuery] string instance) =>
         ResultToActionAsync(Mediator.Send(new GetGameUserCommand
         {
             Platform = platform,
             PlatformUserId = platformUserId,
             Region = region,
+            Instance = instance,
         }));
 
     /// <summary>

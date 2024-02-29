@@ -4,7 +4,6 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Multiplayer;
 using TaleWorlds.MountAndBlade.Source.Missions;
-using Crpg.Domain.Entities.Servers;
 
 #if CRPG_SERVER
 using Crpg.Module.Api;
@@ -24,7 +23,6 @@ namespace Crpg.Module.Modes.Duel;
 internal class CrpgDuelGameMode : MissionBasedMultiplayerGameMode
 {
     public const string GameName = "cRPGDuel";
-    public const GameMode Mode = GameMode.CRPGDuel;
 
     private static CrpgConstants _constants = default!; // Static so it's accessible from the views.
 
@@ -79,7 +77,7 @@ internal class CrpgDuelGameMode : MissionBasedMultiplayerGameMode
 #if CRPG_SERVER
         ICrpgClient crpgClient = CrpgClient.Create();
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
-        CrpgRewardServer rewardServer = new(crpgClient, Mode, _constants, null, enableTeamHitCompensations: false, enableRating: false);
+        CrpgRewardServer rewardServer = new(crpgClient, _constants, null, enableTeamHitCompensations: false, enableRating: true);
         CrpgDuelServer duelServer = new(rewardServer);
 #endif
         CrpgDuelMissionMultiplayerClient duelClient = new();
@@ -105,7 +103,7 @@ internal class CrpgDuelGameMode : MissionBasedMultiplayerGameMode
                     new MissionBoundaryCrossingHandler(), // kills agent out of mission boundaries
                     new MultiplayerPollComponent(), // poll logic to kick player, ban player, change game
                     new MissionOptionsComponent(),
-                    new CrpgScoreboardComponent(new CrpgDuelScoreboardData(), Mode), // score board
+                    new CrpgScoreboardComponent(new CrpgDuelScoreboardData()), // score board
                     new MultiplayerPreloadHelper(),
 #if CRPG_SERVER
                     duelServer,
@@ -115,8 +113,8 @@ internal class CrpgDuelGameMode : MissionBasedMultiplayerGameMode
                     new MissionAgentPanicHandler(),
                     new AgentHumanAILogic(), // bot intelligence
                     new EquipmentControllerLeaveLogic(),
-                    new CrpgUserManagerServer(crpgClient, _constants, Mode),
-                    new ChatCommandsComponent(chatBox, crpgClient, Mode),
+                    new CrpgUserManagerServer(crpgClient, _constants),
+                    new ChatCommandsComponent(chatBox, crpgClient),
                     new CrpgActivityLogsBehavior(null, chatBox, crpgClient),
                     new ServerMetricsBehavior(),
                     new NotAllPlayersReadyComponent(),

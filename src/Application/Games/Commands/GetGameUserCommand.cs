@@ -8,11 +8,13 @@ using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Games.Commands;
@@ -25,6 +27,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
     public Platform Platform { get; init; }
     public string PlatformUserId { get; init; } = default!;
     public Region Region { get; init; }
+    public string Instance { get; init; } = string.Empty;
 
     public class Validator : AbstractValidator<GetGameUserCommand>
     {
@@ -135,10 +138,11 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
         private readonly IUserService _userService;
         private readonly ICharacterService _characterService;
         private readonly IActivityLogService _activityLogService;
+        private readonly IGameModeService _gameModeService;
 
         public Handler(ICrpgDbContext db, IMapper mapper, IDateTime dateTime,
             IRandom random, IUserService userService, ICharacterService characterService,
-            IActivityLogService activityLogService)
+            IActivityLogService activityLogService, IGameModeService gameModeService)
         {
             _db = db;
             _mapper = mapper;
@@ -147,6 +151,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
             _userService = userService;
             _characterService = characterService;
             _activityLogService = activityLogService;
+            _gameModeService = gameModeService;
         }
 
         public async Task<Result<GameUserViewModel>> Handle(GetGameUserCommand req, CancellationToken cancellationToken)
@@ -212,12 +217,19 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                     .Include(ei => ei.UserItem)
                     .LoadAsync(cancellationToken);
 
+                bool parseSuccess = Enum.TryParse(req.Instance, true, out GameModeAlias instanceAlias);
+                if (!parseSuccess)
+                {
+                    instanceAlias = GameModeAlias.Z; // Default value if parsing fails.
+                }
+
                 await _db.Entry(user.ActiveCharacter)
-                    .Collection(c => c.Statistics)
-                    .Query()
-                    .Include(s => s.Rating)
-                    .AsNoTracking()
-                    .LoadAsync(cancellationToken);
+                .Collection(c => c.Statistics)
+                .Query()
+                .Where(s => s.GameMode == _gameModeService.GameModeByInstanceAlias(instanceAlias))
+                .Include(s => s.Rating)
+                .AsNoTracking()
+                .LoadAsync(cancellationToken);
             }
 
             var gameUser = _mapper.Map<GameUserViewModel>(user);

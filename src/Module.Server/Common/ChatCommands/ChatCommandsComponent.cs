@@ -2,8 +2,6 @@
 using Crpg.Module.Common.Network;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
-using Crpg.Domain.Entities.Servers;
-
 
 #if CRPG_SERVER
 using Crpg.Module.Common.ChatCommands.Admin;
@@ -16,16 +14,14 @@ namespace Crpg.Module.Common.ChatCommands;
 internal class ChatCommandsComponent : MissionLogic
 {
     public const char CommandPrefix = '!';
-    public readonly GameMode GameMode;
 
     private readonly ChatBox _chatBox;
     private readonly List<QueuedMessageInfo> _queuedServerMessages;
     private readonly ChatCommand[] _commands;
 
-    public ChatCommandsComponent(ChatBox chatBox, ICrpgClient crpgClient, GameMode gameMode)
+    public ChatCommandsComponent(ChatBox chatBox, ICrpgClient crpgClient)
     {
         _chatBox = chatBox;
-        GameMode = gameMode;
         _queuedServerMessages = new List<QueuedMessageInfo>();
 #if CRPG_SERVER
         _commands = new ChatCommand[]

@@ -1,5 +1,3 @@
-using Crpg.Domain.Entities.Characters;
-using Crpg.Domain.Entities.Servers;
 using Crpg.Module.Api.Models;
 using Crpg.Module.Api.Models.ActivityLogs;
 using Crpg.Module.Api.Models.Characters;
@@ -78,21 +76,17 @@ internal class StubCrpgClient : ICrpgClient
                     GetRandomEquippedItem(CrpgItemSlot.Weapon2, ItemObject.ItemTypeEnum.Bolts),
                 },
                 Statistics =
-                new List<CrpgCharacterStatistics>
+                new()
                 {
-                    new()
+                    Kills = 0,
+                    Deaths = 0,
+                    Assists = 0,
+                    PlayTime = TimeSpan.FromSeconds(0),
+                    Rating = new CrpgCharacterRating
                     {
-                        Kills = 0,
-                        Deaths = 0,
-                        Assists = 0,
-                        PlayTime = TimeSpan.FromSeconds(0),
-                        GameMode = GameMode.CRPGBattle,
-                        Rating = new CrpgCharacterRating
-                        {
-                            Value = 0,
-                            Deviation = 0,
-                            Volatility = 0,
-                        },
+                        Value = 0,
+                        Deviation = 0,
+                        Volatility = 0,
                     },
                 },
             },

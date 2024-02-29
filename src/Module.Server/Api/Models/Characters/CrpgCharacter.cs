@@ -1,5 +1,4 @@
-﻿using Crpg.Domain.Entities.Characters;
-using Crpg.Module.Api.Models.Items;
+﻿using Crpg.Module.Api.Models.Items;
 
 namespace Crpg.Module.Api.Models.Characters;
 
@@ -15,7 +14,7 @@ internal class CrpgCharacter
 
     public bool ForTournament { get; set; }
     public CrpgCharacterCharacteristics Characteristics { get; set; } = new();
-    public IList<CrpgCharacterStatistics> Statistics { get; set; } = new List<CrpgCharacterStatistics>();
+    public CrpgCharacterStatistics Statistics { get; set; } = new();
 
     public IList<CrpgEquippedItem> EquippedItems { get; set; } = Array.Empty<CrpgEquippedItem>();
 }

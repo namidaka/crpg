@@ -1,11 +1,9 @@
-﻿using Crpg.Module.Common.Network;
+﻿using Crpg.Module.Api.Models.Characters;
+using Crpg.Module.Common.Network;
 using Crpg.Module.Helpers;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using Crpg.Domain.Entities.Servers;
-using Crpg.Module.Api.Models.Characters;
-
 
 
 #if CRPG_SERVER
@@ -16,11 +14,9 @@ namespace Crpg.Module.Common;
 
 internal class CrpgScoreboardComponent : MissionScoreboardComponent
 {
-    private readonly GameMode _gameMode;
-    public CrpgScoreboardComponent(IScoreboardData scoreboardData, GameMode gameMode)
+    public CrpgScoreboardComponent(IScoreboardData scoreboardData)
         : base(scoreboardData)
     {
-        _gameMode = gameMode;
     }
 
     public override void OnScoreHit(
@@ -57,7 +53,7 @@ internal class CrpgScoreboardComponent : MissionScoreboardComponent
         }
         else
         {
-            CrpgCharacterRating rating = affectedCrpgUser.Character.Statistics.FirstOrDefault(s => s.GameMode == _gameMode).Rating;
+            CrpgCharacterRating rating = affectedCrpgUser.Character.Statistics.Rating;
             double ratingWithUncertainty = 0.01 * (rating.Value - 2 * rating.Deviation);
             float competitiveRating = (float)(ratingWithUncertainty < 0
                 ? 0.03f * -Math.Pow(-ratingWithUncertainty, 3.98)

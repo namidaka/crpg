@@ -1,5 +1,4 @@
-﻿using Crpg.Domain.Entities.Servers;
-using Crpg.Module.Api.Models;
+﻿using Crpg.Module.Api.Models;
 using Crpg.Module.Api.Models.ActivityLogs;
 using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Api.Models.Restrictions;
