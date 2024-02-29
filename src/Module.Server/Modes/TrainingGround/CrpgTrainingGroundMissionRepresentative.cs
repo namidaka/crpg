@@ -23,8 +23,10 @@ public class CrpgTrainingGroundMissionRepresentative : MissionRepresentativeBase
 #if CRPG_SERVER
     private CrpgTrainingGroundServer _mission = default!;
 #endif
-    public int NumberOfWins { get; private set; }
-    public int NumberOfLosses { get; private set; }
+
+    public bool HasLoadedStats { get; set; } = false;
+    public int NumberOfWins { get; set; }
+    public int NumberOfLosses { get; set; }
     public int Rating { get; set; }
 
     private bool _isInDuel

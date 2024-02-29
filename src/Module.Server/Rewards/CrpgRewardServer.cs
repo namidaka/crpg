@@ -1,6 +1,7 @@
 using Crpg.Module.Api;
 using Crpg.Module.Api.Models;
 using Crpg.Module.Api.Models.Characters;
+using Crpg.Module.Api.Models.Users;
 using Crpg.Module.Common;
 using Crpg.Module.Common.Network;
 using Crpg.Module.Modes.Warmup;
@@ -118,6 +119,87 @@ internal class CrpgRewardServer : MissionLogic
 
         float inflictedRatio = MathF.Clamp(blow.InflictedDamage / affectedAgent.BaseHealthLimit, 0f, 1f);
         _ratingResults.AddResult(affectorRating!, affectedRating!, inflictedRatio);
+    }
+
+    public async Task OnDuelEnded(CrpgPeer winnerPeer, CrpgPeer loserPeer)
+    {
+        List<CrpgUserUpdate> userUpdates = new();
+        Dictionary<int, CrpgPeer> crpgPeerByCrpgUserId = new();
+        CrpgCharacterStatistics winnerStats = winnerPeer.User!.Character.Statistics;
+        CrpgCharacterStatistics loserStats = loserPeer.User!.Character.Statistics;
+        CrpgRatingPeriodResults duelResults = new();
+
+        CrpgPlayerRating winnerRating = new(winnerStats.Rating.Value, winnerStats.Rating.Deviation, winnerStats.Rating.Volatility);
+        CrpgPlayerRating loserRating = new(loserStats.Rating.Value, loserStats.Rating.Deviation, loserStats.Rating.Volatility);
+
+        CrpgUserUpdate winnerUpdate = new()
+        {
+            UserId = winnerPeer.User.Id,
+            CharacterId = winnerPeer.User.Character.Id,
+            Reward = new CrpgUserReward { Experience = 0, Gold = 0 },
+            Statistics = new CrpgCharacterStatistics
+            {
+                Kills = 1,
+                Deaths = 0,
+                Assists = 0,
+                PlayTime = TimeSpan.Zero,
+                Rating = winnerStats.Rating,
+            },
+            BrokenItems = Array.Empty<CrpgUserDamagedItem>(),
+            Instance = CrpgServerConfiguration.Instance,
+        };
+        crpgPeerByCrpgUserId[winnerUpdate.UserId] = winnerPeer;
+        _characterRatings[winnerUpdate.CharacterId] = winnerRating;
+        duelResults.AddParticipant(winnerRating);
+        userUpdates.Add(winnerUpdate);
+
+        CrpgUserUpdate loserUpdate = new()
+        {
+            UserId = loserPeer.User.Id,
+            CharacterId = loserPeer.User.Character.Id,
+            Reward = new CrpgUserReward { Experience = 0, Gold = 0 },
+            Statistics = new CrpgCharacterStatistics
+            {
+                Kills = 0,
+                Deaths = 1,
+                Assists = 0,
+                PlayTime = TimeSpan.Zero,
+                Rating = loserStats.Rating,
+            },
+            BrokenItems = Array.Empty<CrpgUserDamagedItem>(),
+            Instance = CrpgServerConfiguration.Instance,
+        };
+        crpgPeerByCrpgUserId[loserUpdate.UserId] = loserPeer;
+        _characterRatings[loserUpdate.CharacterId] = loserRating;
+        duelResults.AddParticipant(loserRating);
+        userUpdates.Add(loserUpdate);
+
+        duelResults.AddResult(winnerRating, loserRating, 100);
+        CrpgRatingCalculator.UpdateRatings(duelResults);
+
+        winnerUpdate.Statistics.Rating = GetNewRating(winnerPeer);
+        loserUpdate.Statistics.Rating = GetNewRating(loserPeer);
+
+        if (userUpdates.Count == 0)
+        {
+            return;
+        }
+
+        // TODO: add retry mechanism (the endpoint need to be idempotent though).
+        try
+        {
+            SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
+            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates })).Data!;
+        }
+        catch (Exception e)
+        {
+            Debug.Print("Couldn't update users: " + e);
+            SendErrorToPeers(crpgPeerByCrpgUserId);
+        }
+        finally
+        {
+            SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: false);
+        }
     }
 
     /// <summary>
@@ -548,6 +630,7 @@ internal class CrpgRewardServer : MissionLogic
                 Deaths = peerPeriodStats.Deaths,
                 Assists = peerPeriodStats.Assists,
                 PlayTime = peerPeriodStats.PlayTime,
+                Rating = userUpdate.Statistics.Rating,
             };
         }
     }
