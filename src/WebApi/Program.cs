@@ -43,6 +43,7 @@ if (appEnv.Environment == HostingEnvironment.Development)
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    .AddMemoryCache()
     .AddSdk(builder.Configuration, appEnv)
     .AddPersistence(builder.Configuration, appEnv)
     .AddApplication(builder.Configuration, appEnv)
@@ -114,7 +115,7 @@ builder.Services.AddOpenIddict()
 
         if (epicGamesClientId != null && epicGamesClientSecret != null)
         {
-            webIntegrationBuilder.UseEpicGames(epicGames =>
+            webIntegrationBuilder.AddEpicGames(epicGames =>
             {
                 epicGames
                     .SetClientId(epicGamesClientId)
@@ -129,7 +130,7 @@ builder.Services.AddOpenIddict()
 
         if (microsoftClientId != null && microsoftClientSecret != null)
         {
-            webIntegrationBuilder.UseMicrosoft(microsoft =>
+            webIntegrationBuilder.AddMicrosoft(microsoft =>
             {
                 microsoft.SetClientId(microsoftClientId)
                     .SetClientSecret(microsoftClientSecret)

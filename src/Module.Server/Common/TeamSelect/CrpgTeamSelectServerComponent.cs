@@ -332,7 +332,7 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
 
     private float ComputeRatingWeight(CrpgUser user)
     {
-        var rating = user.Character.Rating;
+        var rating = user.Character.Statistics.Rating;
         float regionPenalty = CrpgRatingHelper.ComputeRegionRatingPenalty(user.Region);
         // https://www.desmos.com/calculator/snynzhhoay
         return 6E-8f * (float)Math.Pow(rating.Value - 2 * rating.Deviation, 3.98f) * regionPenalty;
@@ -416,8 +416,8 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
                 Kills = 0,
                 Deaths = 0,
                 Assists = 0,
-                Rating = character.Rating.Value,
-                RatingDeviation = character.Rating.Deviation,
+                Rating = character.Statistics.Rating.Value,
+                RatingDeviation = character.Statistics.Rating.Deviation,
                 RatingWeight = ComputeRatingWeight(crpgPeer.User),
                 EquipmentCost = ComputeEquippedItemsPrice(character.EquippedItems),
                 EquipmentWeight = ComputeEquippedItemsWeight(character.EquippedItems),

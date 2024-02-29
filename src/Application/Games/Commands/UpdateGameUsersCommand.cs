@@ -6,6 +6,7 @@ using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Application.Games.Models;
 using Crpg.Domain.Entities.Characters;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -28,13 +29,15 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
         private readonly IMapper _mapper;
         private readonly ICharacterService _characterService;
         private readonly IActivityLogService _activityLogService;
+        private readonly IGameModeService _gameModeService;
 
-        public Handler(ICrpgDbContext db, IMapper mapper, ICharacterService characterService, IActivityLogService activityLogService)
+        public Handler(ICrpgDbContext db, IMapper mapper, ICharacterService characterService, IActivityLogService activityLogService, IGameModeService gameModeService)
         {
             _db = db;
             _mapper = mapper;
             _characterService = characterService;
             _activityLogService = activityLogService;
+            _gameModeService = gameModeService;
         }
 
         public async Task<Result<UpdateGameUsersResult>> Handle(UpdateGameUsersCommand req,
@@ -44,15 +47,16 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             List<(User user, GameUserEffectiveReward reward, List<GameRepairedItem> repairedItems)> results = new(req.Updates.Count);
             foreach (var update in req.Updates)
             {
+                GameMode updateGameMode = _gameModeService.GameModeByInstanceAlias(Enum.TryParse(update.Instance, ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.Z);
                 if (!charactersById.TryGetValue(update.CharacterId, out Character? character))
                 {
                     Logger.LogWarning("Character with id '{0}' doesn't exist", update.CharacterId);
                     continue;
                 }
 
-                var reward = GiveReward(character, update.Reward);
-                UpdateStatistics(character, update.Statistics);
-                _characterService.UpdateRating(character, update.Rating.Value, update.Rating.Deviation, update.Rating.Volatility);
+                _characterService.UpdateRating(character, updateGameMode, update.Statistics.Rating.Value, update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
+                var reward = GiveReward(character, update.Reward, updateGameMode);
+                UpdateStatistics(updateGameMode, character, update.Statistics);
                 var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
                 results.Add((character.User!, reward, brokenItems));
             }
@@ -87,13 +91,15 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             return charactersById;
         }
 
-        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward)
+        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward, GameMode gameMode)
         {
             int level = character.Level;
             int experience = character.Experience;
 
             character.User!.Gold += reward.Gold;
             _characterService.GiveExperience(character, reward.Experience, useExperienceMultiplier: true);
+
+            _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, gameMode, reward.Experience, reward.Gold));
 
             return new GameUserEffectiveReward
             {
@@ -103,12 +109,27 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             };
         }
 
-        private void UpdateStatistics(Character character, CharacterStatisticsViewModel statistics)
+        private void UpdateStatistics(GameMode gameMode, Character character, CharacterStatisticsViewModel statistics)
         {
-            character.Statistics.Kills += statistics.Kills;
-            character.Statistics.Deaths += statistics.Deaths;
-            character.Statistics.Assists += statistics.Assists;
-            character.Statistics.PlayTime += statistics.PlayTime;
+            CharacterStatistics? statisticsForGameMode = character.Statistics.FirstOrDefault(cs => cs.GameMode == gameMode);
+            if (statisticsForGameMode != null)
+            {
+                statisticsForGameMode.Kills += statistics.Kills;
+                statisticsForGameMode.Deaths += statistics.Deaths;
+                statisticsForGameMode.Assists += statistics.Assists;
+                statisticsForGameMode.PlayTime += statistics.PlayTime;
+            }
+            else
+            {
+                character.Statistics.Add(new CharacterStatistics
+                {
+                    Kills = statistics.Kills,
+                    Deaths = statistics.Deaths,
+                    Assists = statistics.Assists,
+                    PlayTime = statistics.PlayTime,
+                    GameMode = gameMode,
+                });
+            }
         }
 
         private async Task<List<GameRepairedItem>> RepairOrBreakItems(Character character,

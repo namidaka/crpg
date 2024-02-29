@@ -2,6 +2,7 @@
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using static TaleWorlds.MountAndBlade.Mission;
 
 namespace Crpg.Module.Common.Models;
 
@@ -45,7 +46,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         };
         float finalDamage = base.CalculateDamage(attackInformation, collisionData, weapon, baseDamage);
 
-        if (IsPlayerCharacterAttackingViscountBot(attackInformation))
+        if (IsPlayerCharacterAttackingVipBot(attackInformation))
         {
             return 0f;
         }
@@ -55,7 +56,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             // Increase fist damage with strength and glove armor.
             int strengthSkill = GetSkillValue(attackInformation.AttackerAgentOrigin, CrpgSkills.Strength);
             int glovearmor = GetGloveArmor(attackInformation.AttackerAgentOrigin);
-            if (collisionData.IsAlternativeAttack) //Kick
+            if (collisionData.IsAlternativeAttack) // Kick
             {
                 return finalDamage * 0.75f * (1 + 0.02f * strengthSkill);
             }
@@ -127,7 +128,19 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         return finalDamage;
     }
 
-    public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman,bool isMissile)
+    public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman, bool isMissile)
+    {
+        if (isMissile)
+        {
+            return isHuman ? CalculateRangedDamageMultiplierForHumanBodyPart(bodyPart, type) : CalculateRangedDamageMultiplierForNonHumanBodyPart(bodyPart, type);
+        }
+        else
+        {
+            return isHuman ? CalculateMeleeDamageMultiplierForHumanBodyPart(bodyPart, type) : CalculateMeleeDamageMultiplierForNonHumanBodyPart(bodyPart, type);
+        }
+    }
+
+    public float CalculateRangedDamageMultiplierForHumanBodyPart(BoneBodyPartType bodyPart, DamageTypes type)
     {
         float result = 1f;
         switch (bodyPart)
@@ -136,23 +149,6 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                 result = 1f;
                 break;
             case BoneBodyPartType.Head:
-                switch (type)
-                {
-                    case DamageTypes.Invalid:
-                        result = 2f;
-                        break;
-                    case DamageTypes.Cut:
-                        result = 1.2f;
-                        break;
-                    case DamageTypes.Pierce:
-                        result = !isHuman ? 1.2f : 1.6f;
-                        break;
-                    case DamageTypes.Blunt:
-                        result = 1.2f;
-                        break;
-                }
-
-                break;
             case BoneBodyPartType.Neck:
                 switch (type)
                 {
@@ -160,11 +156,48 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                         result = 2f;
                         break;
                     case DamageTypes.Cut:
+                    case DamageTypes.Blunt:
                         result = 1.2f;
                         break;
                     case DamageTypes.Pierce:
-                        result = !isHuman ? 1.2f : 1.6f;
+                        result = 1.7f;
                         break;
+                }
+
+                break;
+            case BoneBodyPartType.Chest:
+            case BoneBodyPartType.Abdomen:
+            case BoneBodyPartType.ShoulderLeft:
+            case BoneBodyPartType.ShoulderRight:
+                result = 0.9f;
+                break;
+            case BoneBodyPartType.ArmLeft:
+            case BoneBodyPartType.ArmRight:
+            case BoneBodyPartType.Legs:
+                result = 0.75f;
+                break;
+        }
+
+        return result;
+    }
+
+    public float CalculateRangedDamageMultiplierForNonHumanBodyPart(BoneBodyPartType bodyPart, DamageTypes type)
+    {
+        float result = 1f;
+        switch (bodyPart)
+        {
+            case BoneBodyPartType.None:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Head:
+            case BoneBodyPartType.Neck:
+                switch (type)
+                {
+                    case DamageTypes.Invalid:
+                        result = 2f;
+                        break;
+                    case DamageTypes.Cut:
+                    case DamageTypes.Pierce:
                     case DamageTypes.Blunt:
                         result = 1.2f;
                         break;
@@ -177,8 +210,86 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             case BoneBodyPartType.ShoulderRight:
             case BoneBodyPartType.ArmLeft:
             case BoneBodyPartType.ArmRight:
-                result = !isHuman ? 0.8f : 1f;
+            case BoneBodyPartType.Legs:
+                result = 0.8f;
                 break;
+        }
+
+        return result;
+    }
+
+    public float CalculateMeleeDamageMultiplierForHumanBodyPart(BoneBodyPartType bodyPart, DamageTypes type)
+    {
+        float result = 1f;
+        switch (bodyPart)
+        {
+            case BoneBodyPartType.None:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Head:
+            case BoneBodyPartType.Neck:
+                switch (type)
+                {
+                    case DamageTypes.Invalid:
+                        result = 2f;
+                        break;
+                    case DamageTypes.Cut:
+                    case DamageTypes.Blunt:
+                        result = 1.2f;
+                        break;
+                    case DamageTypes.Pierce:
+                        result = 1.3f;
+                        break;
+                }
+
+                break;
+            case BoneBodyPartType.Chest:
+            case BoneBodyPartType.Abdomen:
+            case BoneBodyPartType.ShoulderLeft:
+            case BoneBodyPartType.ShoulderRight:
+            case BoneBodyPartType.ArmLeft:
+            case BoneBodyPartType.ArmRight:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Legs:
+                result = 0.8f;
+                break;
+        }
+
+        return result;
+    }
+
+    public float CalculateMeleeDamageMultiplierForNonHumanBodyPart(BoneBodyPartType bodyPart, DamageTypes type)
+    {
+        float result = 1f;
+        switch (bodyPart)
+        {
+            case BoneBodyPartType.None:
+                result = 1f;
+                break;
+            case BoneBodyPartType.Head:
+            case BoneBodyPartType.Neck:
+                switch (type)
+                {
+                    case DamageTypes.Invalid:
+                        result = 2f;
+                        break;
+                    case DamageTypes.Cut:
+                    case DamageTypes.Blunt:
+                        result = 1.2f;
+                        break;
+                    case DamageTypes.Pierce:
+                        result = 1.3f;
+                        break;
+                }
+
+                break;
+            case BoneBodyPartType.Chest:
+            case BoneBodyPartType.Abdomen:
+            case BoneBodyPartType.ShoulderLeft:
+            case BoneBodyPartType.ShoulderRight:
+            case BoneBodyPartType.ArmLeft:
+            case BoneBodyPartType.ArmRight:
             case BoneBodyPartType.Legs:
                 result = 0.8f;
                 break;
@@ -262,15 +373,15 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         return 0;
     }
 
-    private bool IsPlayerCharacterAttackingViscountBot(AttackInformation attackInformation)
+    private bool IsPlayerCharacterAttackingVipBot(AttackInformation attackInformation)
     {
         if (attackInformation.AttackerAgentOrigin is CrpgBattleAgentOrigin)
         {
-            bool isVictimTheViscountBot = attackInformation.VictimAgentCharacter != null
-                ? attackInformation.VictimAgentCharacter.StringId.Equals("crpg_dtv_viscount")
+            bool isVictimTheVipBot = attackInformation.VictimAgentCharacter != null
+                ? attackInformation.VictimAgentCharacter.StringId.StartsWith("crpg_dtv_vip_")
                 : false;
 
-            return isVictimTheViscountBot;
+            return isVictimTheVipBot;
         }
 
         return false;

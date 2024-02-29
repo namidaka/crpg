@@ -9,9 +9,7 @@ import {
 import { getSearchResult } from '@/services/item-search-service';
 import { notify } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
-
 import { useUserStore } from '@/stores/user';
-
 import { useItemsFilter } from '@/composables/shop/use-filters';
 import { useItemsSort } from '@/composables/shop/use-sort';
 import { usePagination } from '@/composables/use-pagination';
@@ -27,7 +25,9 @@ definePage({
 });
 
 const userStore = useUserStore();
-const userItemsIds = computed(() => userStore.userItems.map(ui => ui.item.id));
+const { userItems, user } = toRefs(userStore);
+
+const userItemsIds = computed(() => userItems.value.map(ui => ui.item.id));
 
 const { state: items, execute: loadItems } = useAsyncState(() => getItems(), [], {
   immediate: false,
@@ -290,7 +290,7 @@ const newItemCount = computed(
                 :price="rawBuckets"
                 :upkeep="item.upkeep"
                 :inInventory="userItemsIds.includes(item.id)"
-                :notEnoughGold="userStore.user!.gold < item.price"
+                :notEnoughGold="user!.gold < item.price"
                 @buy="buyItem(item)"
               />
             </template>

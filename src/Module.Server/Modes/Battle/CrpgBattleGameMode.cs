@@ -1,4 +1,5 @@
 using Crpg.Module.Common;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.Common.HotConstants;
 using Crpg.Module.Common.TeamSelect;
 using Crpg.Module.Modes.Skirmish;
@@ -12,14 +13,17 @@ using TaleWorlds.MountAndBlade.Multiplayer;
 
 
 
+
 #if CRPG_SERVER
 using Crpg.Module.Api;
 using Crpg.Module.Common.ChatCommands;
 #else
-using Crpg.Module.GUI.Scoreboard;
+
 using Crpg.Module.GUI;
+using Crpg.Module.GUI.Commander;
 using Crpg.Module.GUI.EndOfRound;
 using Crpg.Module.GUI.HudExtension;
+using Crpg.Module.GUI.Scoreboard;
 using TaleWorlds.MountAndBlade.Multiplayer;
 using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
@@ -74,6 +78,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
             new CrpgEndOfRoundUiHandler(),
             new CrpgEndOfBattleUIHandler(),
             MultiplayerViewCreator.CreatePollProgressUIHandler(),
+            new CommanderPollingProgressUiHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
             MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
@@ -125,6 +130,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
 #if CRPG_CLIENT
                     new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
                     new MultiplayerMissionAgentVisualSpawnComponent(), // expose method to spawn an agent
+                    new CrpgCommanderBehaviorClient(),
 #endif
                     battleClient,
                     new MultiplayerTimerComponent(), // round timer
@@ -135,6 +141,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new AgentVictoryLogic(), // AI cheering when winning round
                     new MissionBoundaryCrossingHandler(), // kills agent out of mission boundaries
                     new MultiplayerPollComponent(), // poll logic to kick player, ban player, change game
+                    new CrpgCommanderPollComponent(),
                     new MissionOptionsComponent(),
                     new CrpgScoreboardComponent(_isSkirmish ? new CrpgSkirmishScoreboardData() : new CrpgBattleScoreboardData()),
                     new MissionAgentPanicHandler(),
@@ -164,6 +171,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
                     new BreakableWeaponsBehaviorServer(),
                     new CrpgCustomTeamBannersAndNamesServer(roundController),
+                    new CrpgCommanderBehaviorServer(),
 #else
                     new MultiplayerRoundComponent(),
                     new MultiplayerAchievementComponent(),

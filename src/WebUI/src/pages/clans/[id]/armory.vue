@@ -38,7 +38,7 @@ const userStore = useUserStore();
 const { clanId, loadClan } = useClan(props.id);
 const { clanArmory, loadClanArmory, isLoadingClanArmory, borrowItem, removeItem, returnItem } =
   useClanArmory(clanId.value);
-const { clanMembers, loadClanMembers } = useClanMembers(clanId.value);
+const { clanMembers, loadClanMembers } = useClanMembers();
 
 const onBorrowFromClanArmory = async (userItemId: number) => {
   await borrowItem(userItemId);
@@ -148,7 +148,7 @@ await Promise.all([
   userStore.fetchUserItems(),
   loadClan(0, { id: clanId.value }),
   loadClanArmory(),
-  loadClanMembers(),
+  loadClanMembers(0, { id: clanId.value }),
 ]);
 </script>
 
@@ -280,19 +280,19 @@ await Promise.all([
           :borrower="getClanArmoryItemBorrower(getClanArmoryItem(di.userItemId)!, clanMembers)"
           @borrow="
             id => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onBorrowFromClanArmory(id);
             }
           "
           @remove="
             id => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onRemoveFromClanArmory(id);
             }
           "
           @return="
             id => {
-              closeItemDetail(di.id);
+              closeItemDetail(di);
               onReturnFromClanArmory(id);
             }
           "

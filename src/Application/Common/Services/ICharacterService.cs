@@ -3,6 +3,7 @@ using Crpg.Application.Common.Results;
 using Crpg.Common.Helpers;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Limitations;
+using Crpg.Domain.Entities.Servers;
 
 namespace Crpg.Application.Common.Services;
 
@@ -22,9 +23,10 @@ internal interface ICharacterService
     /// <param name="respecialization">If the stats points should be redistributed.</param>
     void ResetCharacterCharacteristics(Character character, bool respecialization = false);
 
-    void UpdateRating(Character character, float value, float deviation, float volatility);
+    void UpdateRating(Character character, GameMode gamemode, float value, float deviation, float volatility, bool isGameUserUpdate = false);
 
-    void ResetRating(Character character);
+    void ResetAllRatings(Character character);
+    void ResetRating(Character character, GameMode gameMode);
 
     void ResetStatistics(Character character);
 
@@ -56,8 +58,8 @@ internal class CharacterService : ICharacterService
         character.Level = _constants.NewUserStartingCharacterLevel;
         character.Experience = _experienceTable.GetExperienceForLevel(character.Level);
         character.Class = CharacterClass.Infantry;
-        ResetRating(character);
         ResetStatistics(character);
+        ResetAllRatings(character);
     }
 
     public void SetDefaultValuesForCharacter(Character character)
@@ -66,9 +68,9 @@ internal class CharacterService : ICharacterService
         character.Level = _constants.MinimumLevel;
         character.Experience = _experienceTable.GetExperienceForLevel(character.Level);
         character.ForTournament = false;
-        ResetCharacterCharacteristics(character);
-        ResetRating(character);
         ResetStatistics(character);
+        ResetCharacterCharacteristics(character);
+        ResetAllRatings(character);
     }
 
     /// <inheritdoc />
@@ -96,30 +98,54 @@ internal class CharacterService : ICharacterService
 
     public void ResetStatistics(Character character)
     {
-        character.Statistics = new CharacterStatistics
+        if (character.Statistics.Count == 0)
         {
-            Kills = 0,
-            Deaths = 0,
-            Assists = 0,
-            PlayTime = TimeSpan.Zero,
-        };
+            character.Statistics = new List<CharacterStatistics>() { new() { GameMode = GameMode.CRPGBattle }, new() { GameMode = GameMode.CRPGDuel } };
+        }
+
+        foreach (CharacterStatistics modeStats in character.Statistics)
+        {
+            modeStats.Kills = 0;
+            modeStats.Deaths = 0;
+            modeStats.Assists = 0;
+            modeStats.PlayTime = TimeSpan.Zero;
+        }
     }
 
-    public void UpdateRating(Character character, float value, float deviation, float volatility)
+    public void UpdateRating(Character character, GameMode gameMode, float value, float deviation, float volatility, bool isGameUserUpdate = false)
     {
-        character.Rating = new CharacterRating
+        if (character.Level == 1 && isGameUserUpdate)
         {
-            Value = value,
-            Deviation = deviation,
-            Volatility = volatility,
-        };
-        character.Rating.CompetitiveValue = _competitiveRatingModel.ComputeCompetitiveRating(character.Rating);
+            return;
+        }
+
+        var statistic = character.Statistics.FirstOrDefault(s => s.GameMode == gameMode);
+        if (statistic != null)
+        {
+            statistic.Rating = new CharacterRating
+            {
+                Value = value,
+                Deviation = deviation,
+                Volatility = volatility,
+            };
+
+            statistic.Rating.CompetitiveValue = _competitiveRatingModel.ComputeCompetitiveRating(statistic.Rating);
+        }
     }
 
-    public void ResetRating(Character character)
+    public void ResetAllRatings(Character character)
     {
-        UpdateRating(character, _constants.DefaultRating, _constants.DefaultRatingDeviation,
+        foreach (GameMode gameMode in Enum.GetValues(typeof(GameMode)))
+        {
+            UpdateRating(character, gameMode, _constants.DefaultRating, _constants.DefaultRatingDeviation,
             _constants.DefaultRatingVolatility);
+        }
+    }
+
+    public void ResetRating(Character character, GameMode gameMode)
+    {
+        UpdateRating(character, gameMode, _constants.DefaultRating, _constants.DefaultRatingDeviation,
+        _constants.DefaultRatingVolatility);
     }
 
     public Error? Retire(Character character)

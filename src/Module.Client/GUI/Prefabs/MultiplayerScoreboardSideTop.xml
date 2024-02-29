@@ -56,6 +56,7 @@
             </ListPanel>
 
             <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" HorizontalAlignment="!PlayerCountTextAlignment" Text="@PlayersText"/>
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" HorizontalAlignment="!PlayerCountTextAlignment" Text="@CommanderText" IsVisible="@ShowCommanders"/>
           </Children>
         </ListPanel>
 
@@ -63,6 +64,7 @@
           <Children>
             <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="65"  MarginTop="20" Brush="MPScoreboard.FactionText" Text="@Name" ClipContents="false" />
             <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" Text="@PlayersText"/>
+            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPScoreboard.TitleText" Text="@CommanderText" IsVisible="@ShowCommanders"/>
           </Children>
         </ListPanel>
 
@@ -76,7 +78,7 @@
 
         <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="!ScoreText.HorizontalAlignment" PositionXOffset="!ScoreText.PositionXOffset" MarginTop="30" Brush="MPScoreboard.ScoreText" IntText="@RoundsWon" IsHidden="@IsSingleSide" />
 
-        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="103" >
+        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="108" >
           <Children>
             <Widget Id="TitleDividerTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="13" HorizontalAlignment="Center" PositionXOffset="-1" Sprite="scoreboard_top_divider_9" Color="#A18661FF" HorizontalFlip="@IsSecondSide" IsHidden="@IsSingleSide"/>
 

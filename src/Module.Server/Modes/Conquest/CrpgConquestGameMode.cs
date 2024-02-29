@@ -1,4 +1,5 @@
 ﻿using Crpg.Module.Common;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.Common.TeamSelect;
 using Crpg.Module.Modes.Siege;
 using Crpg.Module.Modes.Warmup;
@@ -9,12 +10,12 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Source.Missions;
 using TaleWorlds.MountAndBlade.Multiplayer;
 
-
 #if CRPG_SERVER
 using Crpg.Module.Api;
 using Crpg.Module.Common.ChatCommands;
 #else
 using Crpg.Module.GUI;
+using Crpg.Module.GUI.Commander;
 using Crpg.Module.GUI.Conquest;
 using Crpg.Module.GUI.Spectator;
 using Crpg.Module.GUI.Warmup;
@@ -59,6 +60,7 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
             MultiplayerViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
             MultiplayerViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
             MultiplayerViewCreator.CreatePollProgressUIHandler(),
+            new CommanderPollingProgressUiHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
             MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
@@ -105,6 +107,7 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
                 new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
                 // Shit that need to stay because BL code is extremely coupled to the visual spawning.
                 new MultiplayerMissionAgentVisualSpawnComponent(),
+                new CrpgCommanderBehaviorClient(),
 #endif
                 warmupComponent,
                 new CrpgConquestClient(),
@@ -115,6 +118,7 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
                 new MissionBoundaryPlacer(),
                 new MissionBoundaryCrossingHandler(),
                 new MultiplayerPollComponent(),
+                new CrpgCommanderPollComponent(),
                 new MultiplayerAdminComponent(),
                 notificationsComponent,
                 new MissionOptionsComponent(),
@@ -138,6 +142,7 @@ internal class CrpgConquestGameMode : MissionBasedMultiplayerGameMode
                 new NotAllPlayersReadyComponent(),
                 new DrowningBehavior(),
                 new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
+                new CrpgCommanderBehaviorServer(),
 #else
                 new MultiplayerAchievementComponent(),
                 MissionMatchHistoryComponent.CreateIfConditionsAreMet(),

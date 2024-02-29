@@ -1,9 +1,13 @@
+using System.Linq;
+using Crpg.Module.Common;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.Common.Network;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.ObjectSystem;
 
 namespace Crpg.Module.Notifications;
 
@@ -13,6 +17,16 @@ namespace Crpg.Module.Notifications;
 /// </summary>
 internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
 {
+    private CrpgCommanderBehaviorClient? _commanderClient;
+    public override void OnBehaviorInitialize()
+    {
+        base.OnBehaviorInitialize();
+        if (GameNetwork.IsClient)
+        {
+           _commanderClient = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorClient>();
+        }
+    }
+
     protected override void AddRemoveMessageHandlers(
         GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
     {
@@ -62,6 +76,21 @@ internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
         else if (type == CrpgNotificationType.Sound)
         {
             SoundEvent.CreateEventFromString(soundEvent, Mission.Scene).Play();
+        }
+        else if (type == CrpgNotificationType.Commander && _commanderClient != null) // Chatbox display message
+        {
+            BattleSideEnum side = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
+
+            InformationManager.DisplayMessage(new InformationMessage
+            {
+                Information = new TextObject("{=iERprCDU}(Commander) {NAME}: ",
+                new Dictionary<string, object> { ["NAME"] = _commanderClient.GetCommanderBySide(side)?.UserName ?? string.Empty }).ToString() + message,
+                Color = new Color(0.1f, 1f, 0f),
+                SoundEventPath = "event:/ui/mission/horns/attack",
+            });
+
+            BasicCharacterObject? commanderCharacterObject = _commanderClient.GetCommanderCharacterObjectBySide(side);
+            MBInformationManager.AddQuickInformation(new TextObject(message), 5000, commanderCharacterObject, soundEvent);
         }
     }
 }

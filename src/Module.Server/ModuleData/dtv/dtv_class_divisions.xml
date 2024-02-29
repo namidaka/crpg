@@ -1,8 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MPClassDivisions>
-  <MPClassDivision id="crpg_dtv_viscount"
-                   hero="crpg_dtv_viscount"
-                   troop="crpg_dtv_viscount"
+  <MPClassDivision id="crpg_dtv_vip_viscount_male"
+                   hero="crpg_dtv_vip_viscount_male"
+                   troop="crpg_dtv_vip_viscount_male"
+                   hero_idle_anim="act_vlandia_mp_voulgier_idle"
+                   troop_idle_anim="act_idle_spear_1_left_stance"
+                   multiplier="0"
+                   cost="0"
+                   icon="Special_Swordsman"
+                   melee_ai="100"
+                   ranged_ai="0"
+                   armor="0"
+                   movement_speed="0"
+                   combat_movement_speed="0"
+                   acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+  
+  <MPClassDivision id="crpg_dtv_vip_viscount_female"
+                   hero="crpg_dtv_vip_viscount_female"
+                   troop="crpg_dtv_vip_viscount_female"
                    hero_idle_anim="act_vlandia_mp_voulgier_idle"
                    troop_idle_anim="act_idle_spear_1_left_stance"
                    multiplier="0"
@@ -362,6 +386,174 @@
   <MPClassDivision id="crpg_dtv_fancy_boss"
                    hero="crpg_dtv_fancy_boss"
                    troop="crpg_dtv_fancy_boss"
+                   hero_idle_anim="act_vlandia_mp_voulgier_idle"
+                   troop_idle_anim="act_idle_spear_1_left_stance"
+                   multiplier="0"
+                   cost="0"
+                   icon="Special_Swordsman"
+                   melee_ai="100"
+                   ranged_ai="0"
+                   armor="0"
+                   movement_speed="0"
+                   combat_movement_speed="0"
+                   acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+  <MPClassDivision id="crpg_dtv_pirate_swabbie"
+                   hero="crpg_dtv_pirate_swabbie"
+                   troop="crpg_dtv_pirate_swabbie"
+                   hero_idle_anim="act_vlandia_mp_voulgier_idle"
+                   troop_idle_anim="act_idle_spear_1_left_stance"
+                   multiplier="0"
+                   cost="0"
+                   icon="Special_Swordsman"
+                   melee_ai="10"
+                   ranged_ai="10"
+                   armor="0"
+                   movement_speed="0"
+                   combat_movement_speed="0"
+                   acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+  <MPClassDivision id="crpg_dtv_pirate_deckhand"
+                   hero="crpg_dtv_pirate_deckhand"
+                   troop="crpg_dtv_pirate_deckhand"
+                   hero_mount_idle_anim="act_vlandia_mp_vanguard_mount_idle"
+                   troop_mount_idle_anim="act_horse_idle_1"
+                   multiplier="0"
+                   cost="0"
+                   icon="Special_Swordsman"
+                   melee_ai="10"
+                   ranged_ai="10"
+                   armor="0"
+                   movement_speed="0"
+                   combat_movement_speed="0"
+                   acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+<MPClassDivision id="crpg_dtv_pirate_male"
+                   hero="crpg_dtv_pirate_male"
+                   troop="crpg_dtv_pirate_male"
+                   hero_mount_idle_anim="act_vlandia_mp_vanguard_mount_idle"
+                   troop_mount_idle_anim="act_horse_idle_1"
+                   multiplier="0"
+                   cost="0"
+                   icon="Special_Swordsman"
+                   melee_ai="10"
+                   ranged_ai="10"
+                   armor="0"
+                   movement_speed="0"
+                   combat_movement_speed="0"
+                   acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+<MPClassDivision id="crpg_dtv_pirate_female"
+                   hero="crpg_dtv_pirate_female"
+                   troop="crpg_dtv_pirate_female"
+                   hero_mount_idle_anim="act_vlandia_mp_vanguard_mount_idle"
+                   troop_mount_idle_anim="act_horse_idle_1"
+                   multiplier="0"
+                   cost="0"
+                   icon="Special_Swordsman"
+                   melee_ai="10"
+                   ranged_ai="10"
+                   armor="0"
+                   movement_speed="0"
+                   combat_movement_speed="0"
+                   acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+  <MPClassDivision id="crpg_dtv_pirate_swashbuckler"
+                   hero="crpg_dtv_pirate_swashbuckler"
+                   troop="crpg_dtv_pirate_swashbuckler"
+                   hero_mount_idle_anim="act_vlandia_mp_vanguard_mount_idle"
+                   troop_mount_idle_anim="act_horse_idle_1"
+                   multiplier="0"
+                   cost="0"
+                   icon="Special_Swordsman"
+                   melee_ai="10"
+                   ranged_ai="10"
+                   armor="0"
+                   movement_speed="0"
+                   combat_movement_speed="0"
+                   acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+  <MPClassDivision id="crpg_dtv_pirate_lieutenant"
+                   hero="crpg_dtv_pirate_lieutenant"
+                   troop="crpg_dtv_pirate_lieutenant"
+                   hero_idle_anim="act_vlandia_mp_voulgier_idle"
+                   troop_idle_anim="act_idle_spear_1_left_stance"
+                   multiplier="0"
+                   cost="0"
+                   icon="Special_Swordsman"
+                   melee_ai="100"
+                   ranged_ai="0"
+                   armor="0"
+                   movement_speed="0"
+                   combat_movement_speed="0"
+                   acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+  <MPClassDivision id="crpg_dtv_pirate_boss"
+                   hero="crpg_dtv_pirate_boss"
+                   troop="crpg_dtv_pirate_boss"
                    hero_idle_anim="act_vlandia_mp_voulgier_idle"
                    troop_idle_anim="act_idle_spear_1_left_stance"
                    multiplier="0"

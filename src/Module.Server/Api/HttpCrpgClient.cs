@@ -7,6 +7,7 @@ using Crpg.Module.Api.Models.ActivityLogs;
 using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Api.Models.Restrictions;
 using Crpg.Module.Api.Models.Users;
+using Crpg.Module.Common;
 using Crpg.Module.Helpers.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -72,6 +73,7 @@ internal class HttpCrpgClient : ICrpgClient
             ["platform"] = platform.ToString(),
             ["platformUserId"] = platformUserId,
             ["region"] = region.ToString(),
+            ["instance"] = CrpgServerConfiguration.Instance.ToString(),
         };
         return Get<CrpgUser>("games/users", queryParameters, cancellationToken);
     }

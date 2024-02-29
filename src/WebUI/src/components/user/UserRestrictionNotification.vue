@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type RestrictionWithActive } from '@/models/restriction';
+import { type PublicRestriction } from '@/models/restriction';
 import { parseTimestamp, computeLeftMs } from '@/utils/date';
 
 const props = defineProps<{
-  restriction: RestrictionWithActive;
+  restriction: PublicRestriction;
 }>();
 
 const joinRestrictionRemainingDuration = computed(() =>
@@ -26,28 +26,76 @@ const joinRestrictionRemainingDuration = computed(() =>
     <div class="h-4 w-px select-none bg-base-600 bg-opacity-30" />
 
     <Modal closable>
-      <span class="cursor-pointer">{{ $t('action.readMore') }}</span>
+      <span class="cursor-pointer underline hover:no-underline">{{ $t('action.readMore') }}</span>
 
       <template #popper>
-        <div class="space-y-10 py-10">
-          <i18n-t
-            scope="global"
-            keypath="user.restriction.notification"
-            tag="div"
-            class="text-center text-lg text-status-danger"
-          >
-            <template #duration>
-              <div class="mt-2 text-xl">
+        <div class="max-w-xl space-y-6 overflow-y-auto py-10">
+          <div class="space-y-6 px-12">
+            <i18n-t
+              scope="global"
+              keypath="user.restriction.notification"
+              tag="div"
+              class="text-center text-lg font-bold text-status-danger"
+            >
+              <template #duration>
                 {{
                   $t('dateTimeFormat.dd:hh:mm', {
                     ...joinRestrictionRemainingDuration,
                   })
                 }}
-              </div>
-            </template>
-          </i18n-t>
+              </template>
+            </i18n-t>
 
-          <UserRestrictionGuide />
+            <Divider />
+
+            <div class="prose prose-invert">
+              <h5>Reason:</h5>
+              <p>
+                {{ restriction.reason }}
+              </p>
+            </div>
+          </div>
+
+          <Divider />
+
+          <div class="prose prose-invert px-12">
+            <p class="">
+              {{ $t('user.restriction.guide.intro') }}
+            </p>
+
+            <ol>
+              <i18n-t scope="global" keypath="user.restriction.guide.step.join" tag="li">
+                <template #discordLink>
+                  <a
+                    class="text-content-link hover:text-content-link-hover"
+                    target="_blank"
+                    href="https://discord.gg/c-rpg"
+                  >
+                    Discord
+                  </a>
+                </template>
+              </i18n-t>
+              <i18n-t scope="global" keypath="user.restriction.guide.step.navigate" tag="li">
+                <template #modMailLink>
+                  <!-- prettier-ignore -->
+                  <a
+              class="text-content-link hover:text-content-link-hover"
+              target="_blank"
+              href="https://discord.com/channels/279063743839862805/1034895358435799070"
+            >ModMail</a>
+                </template>
+              </i18n-t>
+              <li>{{ $t('user.restriction.guide.step.follow') }}</li>
+            </ol>
+          </div>
+
+          <Divider />
+
+          <div class="px-12">
+            <p class="text-content-400">
+              {{ $t('user.restriction.guide.outro') }}
+            </p>
+          </div>
         </div>
       </template>
     </Modal>

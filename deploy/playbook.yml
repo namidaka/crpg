@@ -5,9 +5,9 @@
     #- postgresql
     #- datadog
     #- geoip
-    #- dotnet
+    - dotnet
     #- crpg-web-ui
-    - crpg-launcher
+    #- crpg-launcher
     #- crpg-game-client
     #- crpg-game-server
     #- crpg-web-api

@@ -12,12 +12,10 @@ export const useItemReforge = (item: ItemFlat) => {
   const validation = computed(() => ({
     rank: item.rank !== 0,
     gold: userStore.user!.gold > reforgeCost.value,
-    exist: !userStore.userItems.some(ui => ui.item.baseId === item.baseId && ui.item.rank === 0),
+    // exist: !userStore.userItems.some(ui => ui.item.baseId === item.baseId && ui.item.rank === 0),
   }));
 
-  const canReforge = computed(
-    () => validation.value.rank && validation.value.gold && validation.value.exist
-  );
+  const canReforge = computed(() => validation.value.rank && validation.value.gold);
 
   return {
     reforgeCost,

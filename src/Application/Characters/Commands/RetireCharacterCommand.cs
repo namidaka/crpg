@@ -45,7 +45,7 @@ public record RetireCharacterCommand : IMediatorRequest<CharacterViewModel>
             }
 
             int oldCharacterLevel = character.Level;
-            _characterService.ResetRating(character);
+            _characterService.ResetAllRatings(character);
             var error = _characterService.Retire(character);
             if (error != null)
             {

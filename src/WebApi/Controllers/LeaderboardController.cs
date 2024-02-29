@@ -3,6 +3,7 @@ using Crpg.Application.Characters.Queries;
 using Crpg.Application.Common.Results;
 using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.Characters;
+using Crpg.Domain.Entities.Servers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +21,14 @@ public class LeaderboardController : BaseController
     [ResponseCache(Duration = 1 * 60 * 1)] // 1 minutes
     public Task<ActionResult<Result<IList<CharacterPublicViewModel>>>> GetLeaderboard(
         [FromQuery] Region? region,
-        [FromQuery] CharacterClass? characterClass)
+        [FromQuery] CharacterClass? characterClass,
+        [FromQuery] GameMode? gameMode)
     {
         return ResultToActionAsync(Mediator.Send(new GetLeaderboardQuery
         {
             Region = region,
             CharacterClass = characterClass,
+            GameMode = gameMode,
         }));
     }
 }

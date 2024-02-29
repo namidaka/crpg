@@ -36,15 +36,13 @@
 
             <Button x:Name="verifyButton"  Command="{Binding VerifyGameFilesActionCommand}"  Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Verify Game Files" HorizontalAlignment="Center" Margin="0,40,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="195"/>
 
-            <Button x:Name="updateButton" Command="{Binding UpdateGameFilesCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Check For Update" HorizontalAlignment="Center" Margin="0,70,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="195" Click="checkForUpdateButton_Click"/>
-
-            <Button x:Name="resetConfig" Command="{Binding ResetConfigCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Reset Config" HorizontalAlignment="Center" Margin="0,100,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="195" Click="checkForUpdateButton_Click"/>
+            <Button x:Name="resetConfig" Command="{Binding ResetConfigCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Reset Config" HorizontalAlignment="Center" Margin="0,70,0,0" Grid.Row="3" VerticalAlignment="Top" Height="25" Width="194"/>
 
             <Button x:Name="locationButton" Command="{Binding OpenFolderCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Change Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Height="24" Width="195" />
 
 
 
-            <Button x:Name="startButton" Command="{Binding StartCrpgCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="Launch cRPG" HorizontalAlignment="Center" VerticalAlignment="Top" Height="31" Width="195" Grid.Row="1"/>
+            <Button x:Name="startUpdateButton" Command="{Binding StartUpdateCrpgCommand}" Background="{StaticResource ComboBox.Static.Background}"  Grid.Column="1" Content="{Binding StartUpdateText}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="31" Width="195" Grid.Row="1"/>
 
             <ComboBox Style="{DynamicResource ComboBoxStyle1}" HorizontalContentAlignment="Center" ItemsSource="{Binding PlatformOptions}" SelectedItem="{Binding SelectedPlatform}"  DisplayMemberPath="."  x:Name="platformComboBox" Grid.Column="1" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Width="195" Height="24" Grid.Row="1" >
             </ComboBox>
@@ -62,6 +60,7 @@
             </TextBlock>
             <TextBlock Text="{Binding Version}"  Margin="0,0,0,0" Grid.Row="4" Grid.Column="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Width="60" Height="20" Panel.ZIndex="10"/>
             <ProgressBar Value="{Binding Progress, Mode=OneWay}" HorizontalAlignment="Center" Height="23" Margin="0,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="545"/>
+            <CheckBox x:Name="Beta" Content="Beta" HorizontalAlignment="Left" Height="17" Margin="155,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="51" IsChecked="{Binding IsBeta, Mode=TwoWay}" Command="{Binding CheckBeta}"/>
 
 
         </Grid>

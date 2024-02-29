@@ -12,6 +12,7 @@ using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
@@ -111,6 +112,18 @@ public record SeedDataCommand : IMediatorRequest
                 HeirloomPoints = 12,
                 ExperienceMultiplier = 1.09f,
                 Avatar = new Uri("https://avatars.akamai.steamstatic.com/d51d5155b1a564421c0b3fd5fb7eed7c4474e73d_full.jpg"),
+            };
+            User droob = new()
+            {
+                PlatformUserId = "76561198023558734",
+                Platform = Platform.Steam,
+                Name = "droob",
+                Role = Role.Moderator,
+                ActiveCharacterId = 8,
+                Gold = 1000000,
+                HeirloomPoints = 12,
+                ExperienceMultiplier = 1.09f,
+                Avatar = new Uri("https://avatars.cloudflare.steamstatic.com/2456d3a9f13512fb57d7b02bcf3b1249d662ad16_full.jpg"),
             };
             User kadse = new()
             {
@@ -495,7 +508,7 @@ public record SeedDataCommand : IMediatorRequest
 
             User[] newUsers =
             {
-                takeo, orle, baronCyborg, magnuclean, knitler, tjens, lerch, buddha, lancelot, bakhrat, distance,
+                takeo, orle, droob, baronCyborg, magnuclean, knitler, tjens, lerch, buddha, lancelot, bakhrat, distance,
                 victorhh888, schumetzq, bryggan, ikarooz, kiwi, brainfart, falcom, opset, leanir, sellka, firebat,
                 ecko, neostralie, zorguy, azuma, elmaryk, namidaka, laHire, manik, ajroselle, skrael, bedo, lambic,
                 sanasar, vlad007, canp0g, shark, noobAmphetamine, mundete, aroyFalconer, insanitoid, scarface,
@@ -809,6 +822,21 @@ public record SeedDataCommand : IMediatorRequest
                     new("userItemId", "1"),
                 },
             };
+
+            ActivityLog[] newActivityLogCharacterEarned =
+            {
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-1), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "122000"), new("gold", "1244") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-12), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "7000"), new("gold", "989") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-15), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "32000"), new("gold", "-900") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-25), Metadata = { new("characterId", "6"), new("gameMode", "CRPGDTV"), new("experience", "32000"), new("gold", "1989") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-35), Metadata = { new("characterId", "6"), new("gameMode", "CRPGDTV"), new("experience", "322000"), new("gold", "989") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-11), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "1400"), new("gold", "1244") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-23), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "200"), new("gold", "-12") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-17), Metadata = { new("characterId", "5"), new("gameMode", "CRPGBattle"), new("experience", "993310"), new("gold", "133") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-111), Metadata = { new("characterId", "5"), new("gameMode", "CRPGDTV"), new("experience", "122234"), new("gold", "-1222") } },
+                new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-112), Metadata = { new("characterId", "5"), new("gameMode", "CRPGDTV"), new("experience", "3111"), new("gold", "-122") } },
+            };
+
             ActivityLog[] newActivityLogs =
             {
                 activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserReward1, activityLogItemBought1,
@@ -818,7 +846,7 @@ public record SeedDataCommand : IMediatorRequest
             };
 
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());
-            _db.ActivityLogs.AddRange(newActivityLogs);
+            _db.ActivityLogs.AddRange(newActivityLogs.Concat(newActivityLogCharacterEarned));
 
             Restriction takeoRestriction0 = new()
             {
@@ -853,7 +881,8 @@ public record SeedDataCommand : IMediatorRequest
                 RestrictedByUser = takeo,
                 Duration = TimeSpan.Zero,
                 Type = RestrictionType.Join,
-                Reason = "Reason3",
+                Reason = "INTERNAL REASON: Reason3",
+                PublicReason = "PUBLIC REASON: Reason31",
                 CreatedAt = DateTime.UtcNow.AddDays(-1),
             };
             Restriction orleRestriction1 = new()
@@ -862,7 +891,8 @@ public record SeedDataCommand : IMediatorRequest
                 RestrictedByUser = takeo,
                 Duration = TimeSpan.FromDays(10),
                 Type = RestrictionType.Join,
-                Reason = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.z",
+                Reason = "INTERNAL REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.",
+                PublicReason = "PUBLIC REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate",
                 CreatedAt = DateTime.UtcNow,
             };
             Restriction orleRestriction2 = new()
@@ -890,12 +920,18 @@ public record SeedDataCommand : IMediatorRequest
                 Generation = 2,
                 Level = 23,
                 Experience = _experienceTable.GetExperienceForLevel(23),
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(0, 10, 50, 20),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(0, 10, 50, 20),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
                 },
             };
             Character takeoCharacter1 = new()
@@ -905,12 +941,18 @@ public record SeedDataCommand : IMediatorRequest
                 Generation = 0,
                 Level = 12,
                 Experience = _experienceTable.GetExperienceForLevel(12),
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(365, 0, 0, 2),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
                 },
             };
             Character takeoCharacter2 = new()
@@ -920,12 +962,18 @@ public record SeedDataCommand : IMediatorRequest
                 Generation = 0,
                 Level = 31,
                 Experience = _experienceTable.GetExperienceForLevel(31) + 100,
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(3, 7, 0, 29),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(3, 7, 0, 29),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
                 },
             };
             Character namidakaCharacter0 = new()
@@ -942,25 +990,32 @@ public record SeedDataCommand : IMediatorRequest
                 Level = 33,
                 Generation = 3,
                 Experience = _experienceTable.GetExperienceForLevel(33) + (_experienceTable.GetExperienceForLevel(34) - _experienceTable.GetExperienceForLevel(33)) / 2,
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(365, 0, 0, 20),
+                            GameMode = GameMode.CRPGBattle,
+                            Rating = new()
+                            {
+                                Value = 50,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1900,
+                            },
+                        }
+                    },
                 },
                 Characteristics = new CharacterCharacteristics
                 {
                     Attributes = new CharacterAttributes { Points = 100 },
                     Skills = new CharacterSkills { Points = 100 },
                 },
-                Rating = new()
-                {
-                    Value = 50,
-                    Deviation = 100,
-                    Volatility = 100,
-                    CompetitiveValue = 1900,
-                },
+
             };
             Character orleCharacter1 = new()
             {
@@ -976,6 +1031,73 @@ public record SeedDataCommand : IMediatorRequest
                 Level = 25,
                 Experience = _experienceTable.GetExperienceForLevel(25) + (_experienceTable.GetExperienceForLevel(26) - _experienceTable.GetExperienceForLevel(25)) / 2,
             };
+            Character droobCharacter0 = new()
+            {
+                User = droob,
+                Name = "Droob Soldier",
+                Level = 33,
+                Generation = 3,
+                Experience = _experienceTable.GetExperienceForLevel(33) + (_experienceTable.GetExperienceForLevel(34) - _experienceTable.GetExperienceForLevel(33)) / 2,
+                Statistics = new List<CharacterStatistics>
+                {
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 1,
+                            Deaths = 30,
+                            Assists = 10,
+                            PlayTime = new TimeSpan(10, 7, 5, 20),
+                            GameMode = GameMode.CRPGBattle,
+                            Rating = new()
+                            {
+                                Value = 1400,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1400,
+                            },
+                        }
+                    },
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 10,
+                            Deaths = 0,
+                            Assists = 10,
+                            PlayTime = new TimeSpan(100, 3, 50, 15),
+                            GameMode = GameMode.CRPGConquest,
+                            Rating = new()
+                            {
+                                Value = 1200,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1200,
+                            },
+                        }
+                    },
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 5,
+                            Deaths = 5,
+                            Assists = 0,
+                            PlayTime = new TimeSpan(0, 8, 1, 15),
+                            GameMode = GameMode.CRPGDuel,
+                            Rating = new()
+                            {
+                                Value = 1900,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1900,
+                            },
+                        }
+                    },
+                },
+                Characteristics = new CharacterCharacteristics
+                {
+                    Attributes = new CharacterAttributes { Points = 100 },
+                    Skills = new CharacterSkills { Points = 100 },
+                },
+            };
             Character kadseCharacter0 = new()
             {
                 User = kadse,
@@ -983,12 +1105,18 @@ public record SeedDataCommand : IMediatorRequest
                 Level = 33,
                 Generation = 3,
                 Experience = _experienceTable.GetExperienceForLevel(33) + (_experienceTable.GetExperienceForLevel(34) - _experienceTable.GetExperienceForLevel(33)) / 2,
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(365, 0, 0, 20),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
                 },
                 Characteristics = new CharacterCharacteristics
                 {
@@ -1028,7 +1156,7 @@ public record SeedDataCommand : IMediatorRequest
             };
             Character[] newCharacters =
             {
-                takeoCharacter0, takeoCharacter1, takeoCharacter2, namidakaCharacter0, orleCharacter0, orleCharacter1, orleCharacter2,
+                takeoCharacter0, takeoCharacter1, takeoCharacter2, namidakaCharacter0, orleCharacter0, orleCharacter1, orleCharacter2, droobCharacter0,
                 falcomCharacter0, victorhh888Character0, sellkaCharacter0, krogCharacter0, kadseCharacter0, noobAmphetamine0, baronCyborg0,
             };
 
@@ -1081,10 +1209,15 @@ public record SeedDataCommand : IMediatorRequest
                 Character = kadseCharacter0,
                 LastRespecializeAt = DateTime.UtcNow.AddDays(-8),
             };
+            CharacterLimitations droobCharacter0Limitations = new()
+            {
+                Character = droobCharacter0,
+                LastRespecializeAt = DateTime.UtcNow.AddDays(-8),
+            };
             CharacterLimitations[] newCharactersLimitations =
             {
                 takeoCharacter0Limitations, takeoCharacter1Limitations, takeoCharacter2Limitations, orleCharacter0Limitations,
-                orleCharacter2Limitations, kadseCharacter0Limitations,
+                orleCharacter2Limitations, kadseCharacter0Limitations, droobCharacter0Limitations,
             };
 
             var existingCharactersLimitations = await _db.CharacterLimitations.ToDictionaryAsync(l => l.CharacterId);
@@ -1111,6 +1244,18 @@ public record SeedDataCommand : IMediatorRequest
                 BannerKey = string.Empty,
                 Region = Region.Eu,
             };
+
+            Clan droobClan = new()
+            {
+                Tag = "DROO",
+                PrimaryColor = 4278190318,
+                SecondaryColor = 4294957414,
+                Name = "Droob clan",
+                BannerKey = string.Empty,
+                Region = Region.Eu,
+            };
+
+            ClanMember droobMember = new() { User = droob, Clan = droobClan, Role = ClanMemberRole.Leader, };
 
             ClanMember takeoMember = new() { User = takeo, Clan = pecores, Role = ClanMemberRole.Officer, };
             ClanMember orleMember = new() { User = orle, Clan = pecores, Role = ClanMemberRole.Leader, };
@@ -1277,7 +1422,7 @@ public record SeedDataCommand : IMediatorRequest
             Clan[] newClans =
             {
                 pecores, ats, legio, theGrey, ode, virginDefenders, randomClan, abcClan, defClan, ghiClan, jklClan,
-                mnoClan, pqrClan,
+                mnoClan, pqrClan, droobClan,
             };
 
             var existingClans = await _db.Clans.ToDictionaryAsync(c => c.Name);
@@ -1321,7 +1466,7 @@ public record SeedDataCommand : IMediatorRequest
                 eckoMember, firebatMember, sellkaMember, leanirMember, opsetMember,
                 falcomMember, brainfartMember, kiwiMember, ikaroozMember, brygganMember, schumetzqMember,
                 victorhh888Member, distanceMember, bakhratMember, lancelotMember,
-                buddhaMember, lerchMember, tjensMember, knitlerMember, magnucleanMember, baronCyborgMember, noobAmphetamineMember,
+                buddhaMember, lerchMember, tjensMember, knitlerMember, magnucleanMember, baronCyborgMember, noobAmphetamineMember, droobMember,
             };
             var existingClanMembers = await _db.ClanMembers.ToDictionaryAsync(cm => cm.UserId);
             foreach (var newClanMember in newClanMembers)

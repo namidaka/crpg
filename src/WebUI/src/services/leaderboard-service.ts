@@ -13,6 +13,7 @@ import { get } from '@/services/crpg-client';
 import { inRange } from '@/utils/math';
 import { getEntries } from '@/utils/object';
 import { mapClanResponse } from '@/services/clan-service';
+import { GameMode } from '@/models/game-mode';
 
 interface UserPublicRaw extends Omit<UserPublic, 'clan'> {
   clan: ClanEdition | null;
@@ -25,12 +26,14 @@ interface CharacterCompetitiveRaw extends Omit<CharacterCompetitive, 'user'> {
 export const getLeaderBoard = async ({
   region,
   characterClass,
+  gameMode,
 }: {
   region?: Region;
   characterClass?: CharacterClass;
+  gameMode?: GameMode;
 }): Promise<CharacterCompetitiveNumbered[]> => {
   const params = qs.stringify(
-    { region, characterClass },
+    { region, characterClass, gameMode },
     {
       strictNullHandling: true,
       arrayFormat: 'brackets',

@@ -14,7 +14,7 @@ import { characterKey, characterCharacteristicsKey } from '@/symbols/character';
 import { msToHours, parseTimestamp } from '@/utils/date';
 import { percentOf } from '@/utils/math';
 import { notify } from '@/services/notification-service';
-import { t, n } from '@/services/translate-service';
+import { t } from '@/services/translate-service';
 import {
   getExperienceForLevel,
   getCharacterStatistics,
@@ -35,6 +35,11 @@ import {
 } from '@/services/characters-service';
 import { createRankTable } from '@/services/leaderboard-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
+import { useGameMode } from '@/composables/use-gamemode';
+import { Suspense } from 'vue';
+import { GameMode } from '@/models/game-mode';
+import { type CharacterStatistics } from '@/models/character';
+import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({
   meta: {
@@ -44,6 +49,8 @@ definePage({
 });
 
 const userStore = useUserStore();
+
+const { gameModes } = useGameMode();
 
 const character = injectStrict(characterKey);
 const { loadCharacterCharacteristics } = injectStrict(characterCharacteristicsKey);
@@ -57,11 +64,6 @@ const experiencePercentToNextLEvel = computed(() =>
     nextLevelExperience.value - currentLevelExperience.value
   )
 );
-const experienceTooltipFormatter = (value: number) =>
-  t('character.statistics.experience.format', {
-    exp: n(value),
-    expPercent: n(experiencePercentToNextLEvel.value / 100, 'percent'),
-  });
 
 const respecCapability = computed(() =>
   getRespecCapability(
@@ -105,36 +107,19 @@ const onSetCharacterForTournament = async () => {
 
 const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
   ({ id }: { id: number }) => getCharacterStatistics(id),
-  { kills: 0, deaths: 0, assists: 0, playTime: 0 },
+  [ {kills: 0, deaths: 0, assists: 0, playTime:0, gameMode: GameMode.Battle, rating: { value: 0, competitiveValue: 0, deviation: 0, volatility: 0 }}, ] ,
   {
     immediate: false,
     resetOnExecute: false,
   }
 );
 
-const { state: characterRating, execute: loadCharacterRating } = useAsyncState(
-  ({ id }: { id: number }) => getCharacterRating(id),
-  {
-    value: 0,
-    deviation: 0,
-    volatility: 0,
-    competitiveValue: 0,
-  },
-  {
-    immediate: false,
-    resetOnExecute: false,
-  }
-);
+
 
 const { subscribe, unsubscribe } = usePollInterval();
-const loadCharacterRatingSymbol = Symbol('loadCharacterRating');
 
-onMounted(() => {
-  subscribe(loadCharacterRatingSymbol, () => loadCharacterRating(0, { id: character.value.id }));
-});
 
 onBeforeUnmount(() => {
-  unsubscribe(loadCharacterRatingSymbol);
 });
 
 const rankTable = computed(() => createRankTable());
@@ -149,7 +134,7 @@ const { state: characterLimitations, execute: loadCharacterLimitations } = useAs
 );
 
 const kdaRatio = computed(() =>
-  characterStatistics.value.deaths === 0 ? '∞' : getCharacterKDARatio(characterStatistics.value)
+  selectedCharacterStatistics.value.deaths === 0 ? '∞' : getCharacterKDARatio(selectedCharacterStatistics.value)
 );
 
 const experienceMultiplierBonus = computed(() =>
@@ -162,13 +147,47 @@ const retireTableData = computed(() => getHeirloomPointByLevelAggregation());
 const fetchPageData = (characterId: number) =>
   Promise.all([
     loadCharacterStatistics(0, { id: characterId }),
-    loadCharacterRating(0, { id: characterId }),
     loadCharacterLimitations(0, { id: characterId }),
   ]);
 
 onBeforeRouteUpdate(async to => {
-  await fetchPageData(Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string));
+  const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
+  await fetchPageData(characterId);
   return true;
+});
+
+const LazyCharacterEarningChart = defineAsyncComponent({
+  loader: () => import('@/components/character/CharacterEarningChart.vue'),
+  suspensible: true,
+});
+const currentGameMode = ref(GameMode.Battle);
+
+const selectedGameModeModel = computed({
+    get() {
+      return (currentGameMode.value as GameMode) || GameMode.Battle;
+    },
+
+    set(gameMode: GameMode) {
+      currentGameMode.value = gameMode;
+    },
+});
+
+const selectedCharacterStatistics = computed({
+  get(): CharacterStatistics {
+    return characterStatistics.value.find(s=>s.gameMode === selectedGameModeModel.value) || 
+    {
+      kills: 0,
+      deaths: 0,
+      assists: 0,
+      playTime: 0,
+      gameMode: selectedGameModeModel.value,
+      rating: { value: 0, competitiveValue: 0, deviation: 0, volatility: 0 },
+    };
+  },
+
+  set(value: CharacterStatistics) {
+    
+  }
 });
 
 await fetchPageData(character.value.id);
@@ -177,6 +196,11 @@ await fetchPageData(character.value.id);
 <template>
   <div class="mx-auto max-w-2xl space-y-12 pb-12">
     <FormGroup :label="$t('character.settings.group.overview.title')" :collapsable="false">
+    <div class="flex items-center justify-center">
+      <OTabs v-model="selectedGameModeModel" contentClass="hidden">
+          <OTabItem v-for="gamemode in gameModes" :label="$t(`game-mode.${gamemode}`, 0)" :icon="gameModeToIcon[gamemode]" :value="gamemode" />
+      </OTabs>
+    </div>
       <div class="grid grid-cols-2 gap-2 text-2xs">
         <SimpleTableRow
           :label="$t('character.statistics.level.title')"
@@ -232,14 +256,14 @@ await fetchPageData(character.value.id);
               :title="$t('character.statistics.rank.tooltip.title')"
               :description="$t('character.statistics.rank.tooltip.desc')"
             >
-              <Rank :rankTable="rankTable" :competitiveValue="characterRating.competitiveValue" />
+              <Rank :rankTable="rankTable" :competitiveValue="selectedCharacterStatistics.rating.competitiveValue" />
             </Tooltip>
             <Modal closable>
               <Tag icon="popup" variant="primary" rounded size="sm" />
               <template #popper>
                 <RankTable
                   :rankTable="rankTable"
-                  :competitiveValue="characterRating.competitiveValue"
+                  :competitiveValue="selectedCharacterStatistics.rating.competitiveValue"
                 />
               </template>
             </Modal>
@@ -249,9 +273,9 @@ await fetchPageData(character.value.id);
             :label="$t('character.statistics.kda.title')"
             :value="
               $t('character.format.kda', {
-                kills: characterStatistics!.kills,
-                deaths: characterStatistics!.deaths,
-                assists: characterStatistics!.assists,
+                kills: selectedCharacterStatistics.kills,
+                deaths: selectedCharacterStatistics.deaths,
+                assists: selectedCharacterStatistics.assists,
                 ratio: kdaRatio,
               })
             "
@@ -262,46 +286,74 @@ await fetchPageData(character.value.id);
 
           <SimpleTableRow
             :label="$t('character.statistics.playTime.title')"
-            :value="$t('dateTimeFormat.hh', { hours: msToHours(characterStatistics.playTime) })"
+            :value="$t('dateTimeFormat.hh', { hours: msToHours(selectedCharacterStatistics.playTime) })"
           />
 
           <div class="col-span-2 mt-12 px-4 py-2.5">
-            <VTooltip placement="bottom">
-              <VueSlider
-                :key="currentLevelExperience"
-                class="!cursor-default !opacity-100"
-                :modelValue="Number(animatedCharacterExperience.toFixed(0))"
-                disabled
-                tooltip="always"
-                :min="currentLevelExperience"
-                :max="nextLevelExperience"
-                :tooltipFormatter="experienceTooltipFormatter"
-                :marks="[currentLevelExperience, nextLevelExperience]"
-              >
-                <template #mark="{ pos, value, label }">
-                  <div
-                    class="absolute top-2.5 whitespace-nowrap"
-                    :class="{
-                      '-translate-x-full transform': value === nextLevelExperience,
-                    }"
-                    :style="{ left: `${pos}%` }"
-                  >
-                    {{ $n(label) }}
-                  </div>
-                </template>
-              </VueSlider>
-
-              <template #popper>
+            <VueSlider
+              :key="currentLevelExperience"
+              class="!cursor-default !opacity-100"
+              :modelValue="Number(animatedCharacterExperience.toFixed(0))"
+              disabled
+              tooltip="always"
+              :min="currentLevelExperience"
+              :max="nextLevelExperience"
+              :marks="[currentLevelExperience, nextLevelExperience]"
+            >
+              <template #mark="{ pos, value, label }">
                 <div
-                  class="prose prose-invert"
-                  v-html="
-                    $t('character.statistics.experience.tooltip', {
-                      remainExpToUp: $n(nextLevelExperience - character.experience),
-                    })
-                  "
-                ></div>
+                  class="absolute top-2.5 whitespace-nowrap"
+                  :class="{
+                    '-translate-x-full transform': value === nextLevelExperience,
+                  }"
+                  :style="{ left: `${pos}%` }"
+                >
+                  {{ $n(label) }}
+                </div>
               </template>
-            </VTooltip>
+              <template #tooltip="{ value }">
+                <div
+                  class="vue-slider-dot-tooltip-inner vue-slider-dot-tooltip-inner-top vue-slider-dot-tooltip-inner-disabled"
+                >
+                  <div class="flex items-center">
+                    <VTooltip placement="bottom">
+                      <div class="flex items-center gap-1 font-semibold text-primary">
+                        <OIcon icon="experience" size="xl" />
+                        {{
+                          t('character.statistics.experience.format', {
+                            exp: $n(value),
+                            expPercent: $n(experiencePercentToNextLEvel / 100, 'percent'),
+                          })
+                        }}
+                      </div>
+                      <template #popper>
+                        <div
+                          class="prose prose-invert"
+                          v-html="
+                            $t('character.statistics.experience.tooltip', {
+                              remainExpToUp: $n(nextLevelExperience - character.experience),
+                            })
+                          "
+                        />
+                      </template>
+                    </VTooltip>
+                    <Modal closable v-tooltip.bottom="$t('character.earningChart.title')">
+                      <OButton variant="primary" inverted size="xs" rounded iconLeft="chart" />
+                      <template #popper>
+                        <Suspense>
+                          <LazyCharacterEarningChart />
+                          <template #fallback>
+                            <div class="h-[30rem] min-w-[48rem]">
+                              <OLoading active iconSize="xl" />
+                            </div>
+                          </template>
+                        </Suspense>
+                      </template>
+                    </Modal>
+                  </div>
+                </div>
+              </template>
+            </VueSlider>
           </div>
         </template>
       </div>
@@ -357,7 +409,6 @@ await fetchPageData(character.value.id);
                     })
                   "
                 />
-                <Divider />
 
                 <div
                   v-if="respecCapability.freeRespecWindowRemain > 0"

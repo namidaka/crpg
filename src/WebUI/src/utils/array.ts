@@ -3,7 +3,7 @@ export const range = (start: number, end: number) =>
     .fill(null)
     .map((_, idx) => start + idx);
 
-// TODO:SPEC
+// TODO: SPEC
 export const groupBy = <T>(arr: T[], fn: (item: T) => any) =>
   arr.reduce<Record<string, T[]>>((prev, curr) => {
     const groupKey = fn(curr);

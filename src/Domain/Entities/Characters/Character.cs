@@ -33,8 +33,7 @@ public class Character : AuditableEntity
 
     public CharacterCharacteristics Characteristics { get; set; } = new();
     public IList<EquippedItem> EquippedItems { get; set; } = new List<EquippedItem>();
-    public CharacterStatistics Statistics { get; set; } = new();
-    public CharacterRating Rating { get; set; } = new();
+    public IList<CharacterStatistics> Statistics { get; set; } = new List<CharacterStatistics>();
 
     public User? User { get; set; }
     public CharacterLimitations? Limitations { get; set; }

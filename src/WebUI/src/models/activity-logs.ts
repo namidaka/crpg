@@ -13,6 +13,7 @@ export enum ActivityLogType {
   CharacterRespecialized = 'CharacterRespecialized',
   CharacterRetired = 'CharacterRetired',
   CharacterRewarded = 'CharacterRewarded',
+  CharacterEarned = 'CharacterEarned',
   ServerJoined = 'ServerJoined',
   ChatMessageSent = 'ChatMessageSent',
   TeamHit = 'TeamHit',
@@ -22,10 +23,17 @@ export enum ActivityLogType {
   ClanArmoryBorrowItem = 'ClanArmoryBorrowItem',
 }
 
-export interface ActivityLog {
+export type CharacterEarnedMetadata = {
+  characterId: string;
+  gameMode: string;
+  experience: string;
+  gold: string;
+};
+
+export type ActivityLog<T = { [key: string]: string }> = {
   id: number;
   type: ActivityLogType;
   userId: number;
-  metadata: Record<string, string>;
   createdAt: Date;
-}
+  metadata: T;
+};

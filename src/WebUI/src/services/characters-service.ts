@@ -1,4 +1,5 @@
 import { defu } from 'defu';
+import qs from 'qs';
 import { type PartialDeep } from 'type-fest';
 import {
   weaponProficiencyPointsForLevelCoefs,
@@ -47,14 +48,22 @@ import {
 } from '@/models/character';
 import { ItemSlot, ItemType, type Item, type ItemArmorComponent } from '@/models/item';
 import { type HumanDuration } from '@/models/datetime';
+import { type ActivityLog, type CharacterEarnedMetadata } from '@/models/activity-logs';
+import { type TimeSeries } from '@/models/timeseries';
 
 import { get, put, del } from '@/services/crpg-client';
 import { armorTypes, computeAverageRepairCostPerHour } from '@/services/item-service';
+import { t } from '@/services/translate-service';
+
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
 import { computeLeftMs, parseTimestamp } from '@/utils/date';
-import { range } from '@/utils/array';
+import { range, groupBy } from '@/utils/array';
+import { GameMode } from '@/models/game-mode';
 
 export const getCharacters = () => get<Character[]>('/users/self/characters');
+
+export const getCharactersByUserId = (userId: number) =>
+  get<Character[]>(`/users/${userId}/characters`);
 
 export const updateCharacter = (characterId: number, req: UpdateCharacterRequest) =>
   put<Character>(`/users/self/characters/${characterId}`, req);
@@ -86,7 +95,49 @@ export const deleteCharacter = (characterId: number) =>
   del(`/users/self/characters/${characterId}`);
 
 export const getCharacterStatistics = (characterId: number) =>
-  get<CharacterStatistics>(`/users/self/characters/${characterId}/statistics`);
+  get<CharacterStatistics[]>(`/users/self/characters/${characterId}/statistics`);
+
+export enum CharacterEarningType {
+  'Exp' = 'Exp',
+  'Gold' = 'Gold',
+}
+
+// TODO: spec
+export const getCharacterEarningStatistics = async (
+  characterId: number,
+  type: CharacterEarningType,
+  from: Date
+) => {
+  return (
+    await get<ActivityLog<CharacterEarnedMetadata>[]>(
+      `/users/self/characters/${characterId}/earning-statistics?${qs.stringify({ from })}`
+    )
+  ).reduce((out, l) => {
+    const currentEl = out.find(el => el.name === t(`game-mode.${l.metadata.gameMode}`));
+
+    if (currentEl) {
+      currentEl.data.push([
+        l.createdAt,
+        parseInt(type === CharacterEarningType.Exp ? l.metadata.experience : l.metadata.gold, 10),
+      ]);
+    } else {
+      out.push({
+        name: t(`game-mode.${l.metadata.gameMode}`),
+        data: [
+          [
+            l.createdAt,
+            parseInt(
+              type === CharacterEarningType.Exp ? l.metadata.experience : l.metadata.gold,
+              10
+            ),
+          ],
+        ],
+      });
+    }
+
+    return out;
+  }, [] as TimeSeries[]);
+};
 
 export const getCharacterRating = (characterId: number) =>
   get<CharacterRating>(`/users/self/characters/${characterId}/rating`);
@@ -250,7 +301,7 @@ export const computeSpeedStats = (
     1.5
   );
   const maxWeaponLength = Math.min(
-    45 + (strength - 3) * 9 + Math.pow(Math.min(strength - 3, 24) * 0.14677993, 12),
+    22 + (strength - 3) * 7.5 + Math.pow(Math.min(strength - 3, 24) * 0.133352143, 8),
     650
   );
   const timeToMaxSpeedWeaponLenghthTerm = Math.max(
@@ -386,7 +437,7 @@ export const getRespecCapability = (
   userGold: number,
   isRecentUser: boolean
 ): RespecCapability => {
-  if (isRecentUser) {
+  if (isRecentUser || character.forTournament) {
     return {
       enabled: true,
       price: 0,
@@ -418,13 +469,11 @@ export const getRespecCapability = (
 
   const decayDivider =
     (new Date().getTime() - lastRespecDate.getTime()) / (respecializePriceHalfLife * 1000 * 3600);
-  const price = character.forTournament
-    ? 0
-    : Math.floor(
-        Math.floor(
-          (character.experience / getExperienceForLevel(30)) * respecializePriceForLevel30
-        ) / Math.pow(2, decayDivider)
-      );
+
+  const price = Math.floor(
+    Math.floor((character.experience / getExperienceForLevel(30)) * respecializePriceForLevel30) /
+      Math.pow(2, decayDivider)
+  );
 
   return {
     enabled: price <= userGold,
