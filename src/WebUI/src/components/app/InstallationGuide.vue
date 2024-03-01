@@ -16,7 +16,7 @@ watch(
   () => platform.value,
   () => {
     tabsModel.value =
-      platform.value === Platform.Steam ? PossibleValues.Steam : PossibleValues.Other;
+      platform.value === Platform.Steam ? PossibleValues.Other : PossibleValues.Steam;
   },
   {
     immediate: true,
