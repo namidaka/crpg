@@ -51,6 +51,25 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             return 0f;
         }
 
+        if (IsPlayerCharacterAttackingDtvBot(attackInformation))
+        {
+            switch (weapon.CurrentUsageItem.WeaponClass)
+            {
+                case WeaponClass.Bolt:
+                    finalDamage *= 2.5f;
+                    break;
+                case WeaponClass.Arrow:
+                    finalDamage *= 1.5f;
+                    break;
+                case WeaponClass.Javelin:
+                case WeaponClass.ThrowingAxe:
+                case WeaponClass.ThrowingKnife:
+                case WeaponClass.Stone:
+                    finalDamage *= 2.0f;
+                    break;
+            }
+        }
+
         if (weapon.IsEmpty)
         {
             // Increase fist damage with strength and glove armor.
@@ -382,6 +401,20 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                 : false;
 
             return isVictimTheVipBot;
+        }
+
+        return false;
+    }
+
+    private bool IsPlayerCharacterAttackingDtvBot(AttackInformation attackInformation)
+    {
+        if (attackInformation.AttackerAgentOrigin is CrpgBattleAgentOrigin)
+        {
+            bool isVictimDtvBot = attackInformation.VictimAgentCharacter != null
+                ? attackInformation.VictimAgentCharacter.StringId.StartsWith("crpg_dtv_")
+                : false;
+
+            return isVictimDtvBot;
         }
 
         return false;

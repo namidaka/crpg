@@ -49,6 +49,7 @@ internal class BanCommand : AdminCommand
                 Duration = duration,
                 Type = CrpgRestrictionType.Join,
                 Reason = reason,
+                PublicReason = reason,
                 RestrictedByUserId = restrictedByUserId.Value,
             });
         }
