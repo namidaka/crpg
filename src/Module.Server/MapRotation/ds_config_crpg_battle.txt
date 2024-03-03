@@ -20,7 +20,7 @@ NumberOfBotsTeam1 20
 NumberOfBotsTeam2 20
 RoundTotal 10
 MapTimeLimit 8
-RoundTimeLimit 10000
+RoundTimeLimit 60
 WarmupTimeLimit 1
 crpg_happy_hours 19:00-23:00,Central European Standard Time
 start_game
