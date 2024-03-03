@@ -3360,7 +3360,7 @@
         <equipment slot="Item1" id="Item.crpg_decorated_elite_scimitar_v1_h0" />
         <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h0" />
       </EquipmentRoster>
-	  <EquipmentRoster>
+      <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
         <equipment slot="Cape" id="Item.crpg_bearskin_v2_h0" />
         <equipment slot="Body" id="Item.crpg_vlandia_chainmail_v2_h0" />
@@ -3368,7 +3368,7 @@
         <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h0" />
         <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h0" />
-    </EquipmentRoster>
+      </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_greyorder_kuyak_two_handed" name="{=}Grey Order Kuyak Hero" race="light_bot">
@@ -3479,7 +3479,7 @@
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
         <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
       </EquipmentRoster>
-	  <EquipmentRoster>
+      <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
         <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
         <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
@@ -3491,11 +3491,7 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_greyorder_heavy_polearm" name="{=}Grey Order Heavy Infantry" race="heavy_bot">
     <face>
-      <BodyProperties version="4"
-                      age="30"
-                      weight="0.8"
-                      build="0.8"
-                      key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+      <BodyProperties version="4" age="30" weight="0.8" build="0.8" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
     </face>
     <skills>
       <skill id="Strength" value="33" />
@@ -3525,7 +3521,7 @@
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
         <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v2_h0" />
       </EquipmentRoster>
-	  <EquipmentRoster>
+      <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
         <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
         <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
