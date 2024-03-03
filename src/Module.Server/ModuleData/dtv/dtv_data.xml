@@ -211,6 +211,31 @@
     </Wave>
   </Round>
 
+  <Round reward="380">
+    <Wave>
+      <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="1.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_explorer" count="0.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_champion" count="0.2" />
+      <Group classDivisionId="crpg_dtv_reconquista_lieutenant" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_reconquista_champion" count="1.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_knight" count="0.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_explorer" count="0.3" />
+      <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="0.3" />
+      <Group classDivisionId="crpg_dtv_reconquista_lieutenant_alvor" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="0.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_champion" count="1.0" />
+      <Group classDivisionId="crpg_dtv_reconquista_knight" count="0.8" />
+      <Group classDivisionId="crpg_dtv_reconquista_guard" count="0.6" />
+      <Group classDivisionId="crpg_dtv_reconquista_washerwoman" count="0.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_lieutenant_jimena" />
+      <Group classDivisionId="crpg_dtv_reconquista_boss" />
+    </Wave>
+  </Round>
+
   <Round reward="400">
     <Wave>
       <Group classDivisionId="crpg_dtv_aserai_warrior" count="1.3" />

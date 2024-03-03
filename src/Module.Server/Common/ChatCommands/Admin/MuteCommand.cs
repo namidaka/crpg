@@ -30,7 +30,7 @@ internal class MuteCommand : AdminCommand
             return;
         }
 
-        int duration = (int)arguments[1];
+        var duration = (TimeSpan)arguments[1];
         string reason = (string)arguments[2];
 
         arguments = new object[] { targetPeer!, duration, reason };
@@ -63,6 +63,7 @@ internal class MuteCommand : AdminCommand
                 Duration = duration,
                 Type = CrpgRestrictionType.Chat,
                 Reason = reason,
+                PublicReason = reason,
                 RestrictedByUserId = restrictedByUserId.Value,
             });
         }

@@ -6,5 +6,6 @@ internal class CrpgRestrictionRequest
     public TimeSpan Duration { get; set; }
     public CrpgRestrictionType Type { get; set; }
     public string Reason { get; set; } = default!;
+    public string PublicReason { get; set; } = default!;
     public int RestrictedByUserId { get; set; }
 }

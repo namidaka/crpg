@@ -17,7 +17,7 @@
   <SpriteCategories>
     <SpriteCategory>
       <Name>ui_mploading</Name>
-      <SpriteSheetCount>142</SpriteSheetCount>
+      <SpriteSheetCount>143</SpriteSheetCount>
       <SpriteSheetSize ID="1" Width="3840" Height="1935" />
       <SpriteSheetSize ID="2" Width="3840" Height="1935" />
       <SpriteSheetSize ID="3" Width="3383" Height="1902" />
@@ -148,6 +148,7 @@
       <SpriteSheetSize ID="140" Width="1920" Height="1080" />
       <SpriteSheetSize ID="141" Width="1920" Height="1080" />
       <SpriteSheetSize ID="142" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="143" Width="1920" Height="1080" />
       <AlwaysLoad />
     </SpriteCategory>
   </SpriteCategories>
@@ -1295,8 +1296,7 @@
       <SheetY>0</SheetY>
       <CategoryName>ui_mploading</CategoryName>
     </SpritePart>
-    </SpritePart>
-     <SpritePart>
+    <SpritePart>
       <SheetID>141</SheetID>
       <Name>crpg_conquest_fjallborn</Name>
       <Width>1920</Width>
@@ -1304,10 +1304,19 @@
       <SheetX>0</SheetX>
       <SheetY>0</SheetY>
       <CategoryName>ui_mploading</CategoryName>
-    </SpritePart> </SpritePart>
-     <SpritePart>
+    </SpritePart>
+    <SpritePart>
       <SheetID>142</SheetID>
       <Name>crpg_conquest_thewhitecity</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>143</SheetID>
+      <Name>crpg_conquest_bebbanburg</Name>
       <Width>1920</Width>
       <Height>1080</Height>
       <SheetX>0</SheetX>
@@ -1831,6 +1840,10 @@
     <GenericSprite>
       <Name>crpg_conquest_thewhitecity</Name>
       <SpritePartName>crpg_conquest_thewhitecity</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_bebbanburg</Name>
+      <SpritePartName>crpg_conquest_bebbanburg</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>
