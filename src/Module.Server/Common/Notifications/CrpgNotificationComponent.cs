@@ -83,7 +83,7 @@ internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
         }
         else if (type == CrpgNotificationType.Commander && _commanderClient != null) // Chatbox display message
         {
-            BattleSideEnum side = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
+            BattleSideEnum side = GameNetwork.MyPeer?.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
             NetworkCommunicator? myCommander = _commanderClient.GetCommanderBySide(side);
 
             if (myCommander != null && _chatBox != null)

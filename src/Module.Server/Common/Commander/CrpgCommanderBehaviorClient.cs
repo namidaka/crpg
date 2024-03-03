@@ -119,7 +119,7 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
 
     private void HandleUpdateCommander(UpdateCommander message)
     {
-        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
+        BattleSideEnum mySide = GameNetwork.MyPeer?.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
         _commanders[message.Side] = message.Commander;
         _commanderCharacters[message.Side] = BuildCommanderCharacterObject(message.Side);
         TextObject textObject;
@@ -163,7 +163,7 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
 
         BattleSideEnum commanderSide = commanderAgent.MissionPeer?.Team?.Side ?? BattleSideEnum.None;
         BattleSideEnum killerSide = killerAgent?.MissionPeer?.Team?.Side ?? BattleSideEnum.None;
-        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side;
+        BattleSideEnum mySide = GameNetwork.MyPeer?.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
 
         TextObject textObject;
 

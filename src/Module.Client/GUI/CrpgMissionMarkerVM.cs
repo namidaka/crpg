@@ -253,7 +253,7 @@ internal class CrpgMissionMarkerVm : ViewModel
 
     private void OnCommanderUpdated(BattleSideEnum side)
     {
-        BattleSideEnum myPeerSide = GameNetwork.MyPeer.ControlledAgent?.Team?.Side ?? BattleSideEnum.None;
+        BattleSideEnum myPeerSide = GameNetwork.MyPeer?.ControlledAgent?.Team?.Side ?? BattleSideEnum.None;
         if (side == myPeerSide)
         {
             _missionPeerMarkers.Clear();

@@ -98,7 +98,7 @@ public class CommanderPollingProgressUiHandler : MissionView
 
     private void OnPollUpdated(int votesAccepted, int votesRejected, BattleSideEnum side)
     {
-        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
+        BattleSideEnum mySide = GameNetwork.MyPeer?.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
         if (side == mySide)
         {
             _dataSource!.OnPollUpdated(votesAccepted, votesRejected);
