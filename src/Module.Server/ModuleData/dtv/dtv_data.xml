@@ -310,7 +310,7 @@
     </Wave>
   </Round>
 
-  <Round reward="540">
+  <Round reward="755">
     <Wave>
       <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.5" />
       <Group classDivisionId="crpg_dtv_greyorder_kuyak_two_handed" count="0.4" />
