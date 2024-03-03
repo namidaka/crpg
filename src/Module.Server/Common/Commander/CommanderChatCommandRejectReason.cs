@@ -5,4 +5,5 @@ public enum CommanderChatCommandRejectReason
     NotCommander,
     Cooldown,
     Dead,
+    Muted,
 }

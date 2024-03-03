@@ -58,6 +58,11 @@
     <string id="s894oFCj" text="指挥官 {COMMANDER} 死得惨烈。" />
     <string id="vu94iRTE" text="指挥官 {COMMANDER} 倒下了！" />
     <string id="sy9OJEOM" text="指挥官 {COMMANDER} 没有丝毫机会！" />
+    <string id="uD9I4mVt" text="{COMMANDER}指挥官被{AGENT}队友误杀！一个无心之过！" />
+    <string id="IXqXzFNt" text="{COMMANDER}指挥官被{AGENT}队友误杀！这肯定是个意外！" />
+    <string id="7lJdMRdX" text="{AGENT}叛变了，杀死了指挥官{COMMANDER}！" />
+    <string id="K14mdvO5" text="{AGENT}应该更加小心！他们误杀了指挥官{COMMANDER}！" />
+    <string id="NcM64S4W" text="{COMMANDER}指挥官被他们的盟友{AGENT}击倒了！" />
     <string id="8a5Icfba" text="指挥官 {COMMANDER} 已阵亡！" />
     <string id="wBRZQfd6" text="指挥官 {COMMANDER} 被 {AGENT} 击败了！" />
     <string id="sEkwjLWt" text="{AGENT} 击毙了指挥官 {COMMANDER}，表现不俗！" />
