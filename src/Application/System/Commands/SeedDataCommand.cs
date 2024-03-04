@@ -1050,10 +1050,10 @@ public record SeedDataCommand : IMediatorRequest
                             GameMode = GameMode.CRPGBattle,
                             Rating = new()
                             {
-                                Value = 1400,
-                                Deviation = 100,
-                                Volatility = 100,
-                                CompetitiveValue = 1400,
+                                Value = 1500,
+                                Deviation = 350,
+                                Volatility = 0.06f,
+                                CompetitiveValue = 118,
                             },
                         }
                     },
@@ -1084,10 +1084,10 @@ public record SeedDataCommand : IMediatorRequest
                             GameMode = GameMode.CRPGDuel,
                             Rating = new()
                             {
-                                Value = 1900,
-                                Deviation = 100,
-                                Volatility = 100,
-                                CompetitiveValue = 1900,
+                                Value = 1500,
+                                Deviation = 350,
+                                Volatility = 0.06f,
+                                CompetitiveValue = 118,
                             },
                         }
                     },
