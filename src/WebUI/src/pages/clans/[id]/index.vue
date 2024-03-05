@@ -369,7 +369,6 @@ await fetchPageData(clanId.value);
 
     <Modal
       :shown="clanMemberDetailModal"
-      :autoHide="false"
       data-aq-clan-member-detail-modal
       @apply-hide="selectedCLanMemberId = null"
       @hide="clanMemberDetailModal = false"

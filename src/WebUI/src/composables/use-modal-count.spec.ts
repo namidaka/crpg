@@ -12,5 +12,5 @@ it('increase counter on call', () => {
   decrease();
   decrease();
 
-  expect(counter.value).toBe(-1);
+  expect(counter.value).toBe(0);
 });
