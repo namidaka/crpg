@@ -68,9 +68,26 @@
                                 <Setter Property="Background" Value="{StaticResource LaunchBackground}" />
                             </DataTrigger>
                         </Style.Triggers>
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#55000000" TargetName="Border" />
+                                            <Setter Property="BorderBrush" Value="#FF000000" TargetName="Border" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </Button.Style>
             </Button>
+
 
 
             <ComboBox Style="{DynamicResource ComboBoxStyle1}" HorizontalContentAlignment="Center" ItemsSource="{Binding PlatformOptions}" SelectedItem="{Binding SelectedPlatform}"  DisplayMemberPath="."  x:Name="platformComboBox" Grid.Column="2" HorizontalAlignment="Center" Margin="0,218,0,0" VerticalAlignment="Top" Width="195" Height="24" Grid.Row="3" >
