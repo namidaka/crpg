@@ -113,8 +113,6 @@ public partial class MainViewModel : ObservableObject
         DetectCommand.NotifyCanExecuteChanged();
         ResetConfigCommand.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(StartUpdateCrpgCommand));
-        OnPropertyChanged(nameof(StartUpdateText));
-        OnPropertyChanged(nameof(StartUpdateBackground));
 
     }
 
@@ -149,8 +147,6 @@ public partial class MainViewModel : ObservableObject
     }
 
     public ICommand StartUpdateCrpgCommand => IsGameUpToDate ? StartCrpgCommand : UpdateGameFilesCommand;
-    public string StartUpdateText => IsGameUpToDate ? "Launch cRPG" : "Update cRPG";
-    public LinearGradientBrush StartUpdateBackground => IsGameUpToDate ? new LinearGradientBrush(Color.FromArgb(50, 148, 56, 55), Color.FromArgb(255, 148, 56, 55), 90) : new LinearGradientBrush(Color.FromArgb(50, 251, 214, 1), Color.FromArgb(255, 251, 214, 1), 90);
 
     [RelayCommand(CanExecute = nameof(CanStartCrpg))]
     private void StartCrpg()
