@@ -27,9 +27,6 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Shell;
 using System.Windows.Input;
-using System.Drawing.Drawing2D;
-using System.Windows.Media;
-using LinearGradientBrush = System.Windows.Media.LinearGradientBrush;
 
 namespace LauncherV3;
 
