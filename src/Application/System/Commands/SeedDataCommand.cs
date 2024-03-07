@@ -544,13 +544,13 @@ public record SeedDataCommand : IMediatorRequest
             UserItem orleItem7 = new() { User = orle, ItemId = "crpg_battania_fur_boots_v2_h3" };
             UserItem orleItem8 = new() { User = orle, ItemId = "crpg_nordic_leather_cap_v2_h3" };
             UserItem orleItem9 = new() { User = orle, ItemId = "crpg_eastern_wrapped_armguards_v2_h3" };
-            UserItem orleItem10 = new() { User = orle, ItemId = "crpg_blacksmith_hammer_v1_h0" };
+            UserItem orleItem10 = new() { User = orle, ItemId = "crpg_blacksmith_hammer_v2_h0" };
             UserItem orleItem11 = new() { User = orle, ItemId = "crpg_scythe_v1_h3" };
             UserItem orleItem12 = new() { User = orle, ItemId = "crpg_rondel_v2_h3" };
             UserItem orleItem13 = new() { User = orle, ItemId = "crpg_crossbow_j_v2_h3" };
             UserItem orleItem14 = new() { User = orle, ItemId = "crpg_helping_hand_v3_h2" };
             UserItem orleItem15 = new() { User = orle, ItemId = "crpg_bolt_c_v2_h2" };
-            UserItem orleItem16 = new() { User = orle, ItemId = "crpg_wooden_sword_v2_hv3" };
+            UserItem orleItem16 = new() { User = orle, ItemId = "crpg_wooden_sword_v2_h3" };
             UserItem orleItem17 = new() { User = orle, ItemId = "crpg_basic_imperial_leather_armor_v2_h3" };
             UserItem orleItem18 = new() { User = orle, ItemId = "crpg_wooden_twohander_v2_h3" };
             UserItem orleItem19 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0" };
@@ -558,7 +558,7 @@ public record SeedDataCommand : IMediatorRequest
             UserItem elmarykItem2 = new() { User = elmaryk, ItemId = "crpg_avalanche_v1_h2" };
             UserItem laHireItem1 = new() { User = laHire, ItemId = "crpg_iron_cavalry_sword_v1_h1" };
             UserItem laHirekItem2 = new() { User = laHire, ItemId = "crpg_simple_saber_v1_h2" };
-            UserItem laHirekItem3 = new() { User = laHire, ItemId = "crpg_steel_round_shield_v2_h0" };
+            UserItem laHirekItem3 = new() { User = laHire, ItemId = "crpg_steel_round_shield_v3_h0" };
 
             UserItem[] newUserItems =
             {
@@ -1488,32 +1488,6 @@ public record SeedDataCommand : IMediatorRequest
                 if (!existingClanInvitations.ContainsKey((newClanInvitation.Invitee!.Id, newClanInvitation.Inviter!.Id)))
                 {
                     _db.ClanInvitations.Add(newClanInvitation);
-                }
-            }
-
-            Captain orleCaptain = new() { User = orle, Formations = new List<CaptainFormation>
-                {
-                    new() { Number = 1, CharacterId = 5, Weight = 33 },
-                    new() { Number = 2, Weight = 33 },
-                    new() { Number = 3, Weight = 33 },
-                },
-            };
-            Captain droobCaptain = new() { User = droob, Formations = new List<CaptainFormation>
-                {
-                    new() { Number = 1, CharacterId = 10, Weight = 33 },
-                    new() { Number = 2, CharacterId = 9, Weight = 33 },
-                    new() { Number = 3, CharacterId = 8, Weight = 33 },
-                },
-            };
-
-            Captain[] newCaptains = { orleCaptain };
-            var existingCaptains =
-                await _db.Captains.ToDictionaryAsync(c => c.UserId);
-            foreach (var newCaptain in newCaptains)
-            {
-                if (!existingCaptains.ContainsKey(newCaptain.UserId))
-                {
-                    _db.Captains.Add(newCaptain);
                 }
             }
 

@@ -16,10 +16,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne()
             .HasForeignKey<User>(u => u.ActiveCharacterId);
 
-        builder.HasOne(u => u.Captain)
-            .WithOne(c => c.User)
-            .HasForeignKey<Captain>(c => c.UserId);
-
         builder.HasQueryFilter(u => u.DeletedAt == null);
 
         builder.Property(u => u.Version).IsRowVersion();
