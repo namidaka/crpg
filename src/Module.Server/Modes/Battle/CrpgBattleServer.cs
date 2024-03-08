@@ -14,7 +14,7 @@ namespace Crpg.Module.Modes.Battle;
 
 internal class CrpgBattleServer : MissionMultiplayerGameModeBase
 {
-    private const float BattleMoraleGainOnTick = 0.00350f;
+    private const float BattleMoraleGainOnTick = 0.01f;
     private const float BattleMoraleGainMultiplierLastFlag = 2f;
     private const float SkirmishMoraleGainOnTick = 0.00125f;
     private const float SkirmishMoraleGainMultiplierLastFlag = 2f;
@@ -26,6 +26,9 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
 
     /// <summary>A number between -1.0 and 1.0. Less than 0 means the defenders are winning. Greater than 0 for attackers.</summary>
     private float _morale;
+    private int _attackersSpawned;
+    private int _defendersSpawned;
+    private bool _hasSpawnDelayEnded = false;
 
     public override bool IsGameModeHidingAllAgentVisuals => true;
     public override bool IsGameModeUsingOpposingTeams => true;
@@ -60,7 +63,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             return;
         }
 
-        ((CrpgBattleFlagSystem)_flagSystem).CheckForDeadPlayerFlagSpawnThreshold();
+        ((CrpgBattleFlagSystem)_flagSystem).CheckForDeadPlayerFlagSpawnThreshold(_attackersSpawned, _defendersSpawned);
     }
 
     public override void OnBehaviorInitialize()
@@ -113,6 +116,13 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             || _flagSystem.HasNoFlags()) // Protection against scene with no flags.
         {
             return;
+        }
+
+        if (SpawnComponent.SpawningBehavior is CrpgBattleSpawningBehavior s && s.SpawnDelayEnded() && !_hasSpawnDelayEnded)
+        {
+            _hasSpawnDelayEnded = true;
+            _attackersSpawned = Mission.AttackerTeam.ActiveAgents.Count;
+            _defendersSpawned = Mission.DefenderTeam.ActiveAgents.Count;
         }
 
         _flagSystem.CheckForManipulationOfFlags();
