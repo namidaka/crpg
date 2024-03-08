@@ -90,6 +90,9 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         _morale = 0.0f;
         _flagSystem.SetCheckFlagRemovalTimer(null);
         _flagSystem.SetHasFlagCountChanged(false);
+        _attackersSpawned = 0;
+        _defendersSpawned = 0;
+        _hasSpawnDelayEnded = false;
     }
 
     public override bool CheckForWarmupEnd()
