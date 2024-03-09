@@ -44,7 +44,7 @@ internal class CrpgItemRequirementModel
     }
     private static int ComputeBowRequirement(ItemObject item)
     {
-        int strengthRequirementForTierTenBow = 27; // Tiers are calulated in CrpgValueModel. 0<Tier=<10 . By design the best is always at Ten.
+        int strengthRequirementForTierTenBow = 24; // Tiers are calulated in CrpgValueModel. 0<Tier=<10 . By design the best is always at Ten.
         if (item.ItemType != ItemObject.ItemTypeEnum.Bow)
         {
             throw new ArgumentException(item.Name.ToString() + " is not a bow");
