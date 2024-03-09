@@ -13,7 +13,7 @@ internal class CrpgItemRequirementModel
 
     public static int ComputeItemRequirement(ItemObject item)
     {
-        switch (item.ItemType)
+        switch (item.ItemType) //according to stackoverflow multiple cases in the switch will work but i have a feeling theres a better way to do this 
         {
             case ItemObject.ItemTypeEnum.Crossbow:
                 return ComputeCrossbowRequirement(item);
@@ -84,7 +84,7 @@ internal class CrpgItemRequirementModel
     }
     private static int ComputePolearmRequirement(ItemObject item)
     {
-        int strengthRequirementForTierTenPolearm = 24; // Tiers are calulated in CrpgValueModel. 0<Tier=<10 . By design the best is always at Ten.
+        int strengthRequirementForTierTenPolearm = 24; // may be overcompensating for agi pole
         if (item.ItemType != ItemObject.ItemTypeEnum.Polearm)
         {
             throw new ArgumentException(item.Name.ToString() + " is not a pole");
