@@ -1050,7 +1050,7 @@
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_sturgia_old_shield_a_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -1104,7 +1104,7 @@
         <equipment slot="Body" id="Item.crpg_northern_leather_tabard_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_viking_round_shield_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_raider_throwing_axe_v3_h0" />
       </EquipmentRoster>
