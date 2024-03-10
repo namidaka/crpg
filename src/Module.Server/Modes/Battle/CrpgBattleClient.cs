@@ -13,7 +13,8 @@ namespace Crpg.Module.Modes.Battle;
 
 internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommanderInfo
 {
-    private const int BattleFlagSpawnTime = 150;
+    private const int BattleFlagSpawnTime = 90;
+    private const int BattleFlagUnlockTime = 45;
     private const int SkirmishFlagsRemovalTime = 120;
 
     private readonly bool _isSkirmish;
@@ -44,6 +45,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
     public IEnumerable<FlagCapturePoint> AllCapturePoints => _flags;
     public bool AreMoralesIndependent => false;
     public float FlagManipulationTime => _isSkirmish ? SkirmishFlagsRemovalTime : BattleFlagSpawnTime;
+    public float FlagUnlockTime => _isSkirmish ? 0 : BattleFlagUnlockTime;
 
     public override void OnBehaviorInitialize()
     {
@@ -243,7 +245,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
     {
         if (!_isSkirmish)
         {
-            TextObject textObject = new("{=nbOZ9BNX}A flag will spawn in {TIMER} seconds.",
+            TextObject textObject = new("{=nbOZ9BNQ}A flag will spawn in {TIMER} seconds.",
             new Dictionary<string, object> { ["TIMER"] = 30 });
             string soundEventPath = "event:/ui/mission/multiplayer/pointwarning";
             MBInformationManager.AddQuickInformation(textObject, 0, null, soundEventPath);
@@ -304,15 +306,15 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
         if (_notifiedForFlagRemoval)
         {
             // TODO: This message also gets sent even if the whole warning hasn't passed. May need to consider that.
-            flagSpawnMessage = "{=nbOZ9BNX}Flag {NAME} has spawned.";
+            flagSpawnMessage = "{=nbOZ9BNX}Flag {NAME} has spawned. You can capture it in {TIME} seconds!";
         }
         else
         {
             _notifiedForFlagRemoval = true;
-            flagSpawnMessage = "{=fgOZ6GNZ}Flag {NAME} has spawned early.";
+            flagSpawnMessage = "{=fgOZ6GNZ}Flag {NAME} has spawned early. You can capture it in {TIME} seconds!";
         }
 
-        TextObject textObject = new(flagSpawnMessage, new Dictionary<string, object> { ["NAME"] = char.ConvertFromUtf32(message.FlagChar) });
+        TextObject textObject = new(flagSpawnMessage, new Dictionary<string, object> { ["NAME"] = char.ConvertFromUtf32(message.FlagChar), ["TIME"] = message.Time });
         string soundEventPath = "event:/ui/mission/multiplayer/pointsremoved";
         MBInformationManager.AddQuickInformation(textObject, 0, null, soundEventPath);
 

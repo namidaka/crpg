@@ -12,6 +12,9 @@ namespace Crpg.Module.Common;
 
 internal class CrpgScoreboardComponent : MissionScoreboardComponent
 {
+    private const int ProximityScoreRange = 8;
+    private const float ProximityScoreMultiplier = 0.15f;
+
     public CrpgScoreboardComponent(IScoreboardData scoreboardData)
         : base(scoreboardData)
     {
@@ -71,12 +74,17 @@ internal class CrpgScoreboardComponent : MissionScoreboardComponent
         }
         else if (affectedAgent.IsMount && affectedCharacterAgent != null)
         {
-            score = damagedHp / affectedAgent.BaseHealthLimit * 40f * ratingFactor;
+            score = damagedHp / affectedAgent.BaseHealthLimit * 60f * ratingFactor;
         }
 
         if (affectorCharacterAgent == affectedCharacterAgent)
         {
             return;
+        }
+
+        if (isSiegeEngineHit)
+        {
+            score *= 0.2f;
         }
 
         var affectorMissionPeer = affectorCharacterAgent?.MissionPeer;
@@ -93,6 +101,33 @@ internal class CrpgScoreboardComponent : MissionScoreboardComponent
                 null, affectorMissionPeer.KillCount, affectorMissionPeer.AssistCount, affectorMissionPeer.DeathCount,
                 affectorMissionPeer.Score));
             GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+
+            if (score > 0f)
+            {
+                foreach (var agent in EnumerateAgentsAroundScorer(affectorAgent))
+                {
+                    if (agent != affectorAgent)
+                    {
+                        if (agent?.Team == affectorAgent.Team)
+                        {
+                            var agentMissionPeer = agent?.MissionPeer;
+                            if (agentMissionPeer != null)
+                            {
+                                ReflectionHelper.SetProperty(
+                                    agentMissionPeer,
+                                    nameof(agentMissionPeer.Score),
+                                    (int)(agentMissionPeer.Score + (score * ProximityScoreMultiplier)));
+
+                                GameNetwork.BeginBroadcastModuleEvent();
+                                GameNetwork.WriteMessage(new KillDeathCountChange(agentMissionPeer.GetNetworkPeer(),
+                                    null, agentMissionPeer.KillCount, agentMissionPeer.AssistCount, agentMissionPeer.DeathCount,
+                                    agentMissionPeer.Score));
+                                GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+                            }
+                        }
+                    }
+                }
+            }
         }
 #endif
     }
@@ -113,6 +148,15 @@ internal class CrpgScoreboardComponent : MissionScoreboardComponent
         if (missionPeer != null)
         {
             missionPeer.SpawnCountThisRound = message.SpawnCount;
+        }
+    }
+
+    private IEnumerable<Agent> EnumerateAgentsAroundScorer(Agent agent)
+    {
+        var proximitySearch = AgentProximityMap.BeginSearch(Mission.Current, agent.Position.AsVec2, ProximityScoreRange);
+        for (; proximitySearch.LastFoundAgent != null; AgentProximityMap.FindNext(Mission.Current, ref proximitySearch))
+        {
+            yield return proximitySearch.LastFoundAgent;
         }
     }
 }
