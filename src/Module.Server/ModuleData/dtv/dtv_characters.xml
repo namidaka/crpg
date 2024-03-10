@@ -943,7 +943,7 @@
         <equipment slot="Body" id="Item.crpg_aserai_archer_armor_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_padded_vambrace_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_folded_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_fine_steel_paramerion_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_fine_steel_paramerion_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_buckler_v3_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -1049,7 +1049,7 @@
         <equipment slot="Body" id="Item.crpg_sturgian_chainmale_shortsleeve_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_viking_round_shield_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -1093,7 +1093,7 @@
         <equipment slot="Body" id="Item.crpg_nordic_sloven_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_viking_round_shield_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_raider_throwing_axe_v3_h0" />
       </EquipmentRoster>
@@ -1949,7 +1949,7 @@
         <equipment slot="Leg" id="Item.crpg_mail_cavalier_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_crossbow_d_v2_h2" />
         <equipment slot="Item1" id="Item.crpg_bolt_a_v2_h0" />
-        <equipment slot="Item2" id="Item.crpg_decorated_round_mace_v2_h2" />
+        <equipment slot="Item2" id="Item.crpg_decorated_round_mace_v1_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3927,8 +3927,8 @@
         <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_northern_plated_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_burgundian_poleaxe_v4_h0" />
-       </EquipmentRoster>
+        <equipment slot="Item0" id="Item.crpg_burgundian_poleaxe_v5_h0" />
+      </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandian_helm_with_visor_h0" />
         <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
@@ -4011,7 +4011,7 @@
         <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
-        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
@@ -4020,12 +4020,12 @@
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
         <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h0" />
-	   </EquipmentRoster>
+      </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_greyorder_lieutenant_varadin" name="{=}Varadin The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
     </face>
     <skills>
       <skill id="Strength" value="39" />
@@ -4059,7 +4059,7 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_greyorder_lieutenant_knitler" name="{=}Knitler The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
     </face>
     <skills>
       <skill id="Strength" value="30" />
@@ -4093,7 +4093,7 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_greyorder_lieutenant_harpag" name="{=}Harpag The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4" age="65" weight="0.7" build="0.7" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="65" weight="0.7" build="0.7" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
     </face>
     <skills>
       <skill id="Strength" value="24" />
@@ -4128,7 +4128,7 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_greyorder_lieutenant_pawiu" name="{=}Pawiu The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
     </face>
     <skills>
       <skill id="Strength" value="39" />
@@ -4160,10 +4160,9 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
- <NPCCharacter id="crpg_dtv_greyorder_boss_hetman"
-              name="{=}Hetman The Grey" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_greyorder_boss_hetman" name="{=}Hetman The Grey" race="heavy_bot">
     <face>
-      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006"  />
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
     </face>
     <skills>
       <skill id="Strength" value="36" />
@@ -4198,7 +4197,7 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_greyorder_boss_tamra" name="{=}Tamra The Grey" is_female="true" race="heavy_bot">
     <face>
-      <BodyProperties version="4" age="33" weight="0.1" build="0.1" key="00026C0F1300200298868A3266629726C05B7489548A1717769ACB537CAE17790270062407547366000000000000000000000000000000000000000066FC2003"  />
+      <BodyProperties version="4" age="33" weight="0.1" build="0.1" key="00026C0F1300200298868A3266629726C05B7489548A1717769ACB537CAE17790270062407547366000000000000000000000000000000000000000066FC2003" />
     </face>
     <skills>
       <skill id="Strength" value="45" />
@@ -4226,7 +4225,7 @@
         <equipment slot="Body" id="Item.crpg_imperial_scale_armor_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_german_halberd_v1_h3" />
+        <equipment slot="Item0" id="Item.crpg_german_halberd_v2_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -4268,7 +4267,7 @@
         <equipment slot="Body" id="Item.crpg_breastplate_shash1_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_sa_1ChurburghGauntlet_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_14_decor_paltedboots_noble1_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_sallet_base_v2_h0" />
