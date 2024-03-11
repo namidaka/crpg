@@ -61,6 +61,41 @@
   delegate_to: localhost
   register: converted_path
 
+- name: Get list of directories in SceneObj
+  ansible.builtin.shell:
+    cmd: 'ls -d "{{ crpg_game_client_local_path }}/Modules/cRPG/SceneObj/"*'
+  register: sceneobj_dirs
+  delegate_to: localhost
+
+- name: Ensure /tmp/AssetPackages directory exists
+  ansible.builtin.file:
+    path: /tmp/AssetPackages
+    state: directory
+  delegate_to: localhost
+  become: false
+
+- name: Ensure /tmp/SceneObj directory exists
+  ansible.builtin.file:
+    path: /tmp/SceneObj
+    state: directory
+  delegate_to: localhost
+  become: false
+
+
+- name: Tar subfolders of SceneObj with the folder name at the first level
+  ansible.builtin.shell:
+    cmd: "tar -cf /tmp/SceneObj/{{ item.split('/')[-1] }}.tar -C '{{ item | dirname }}' '{{ item | basename }}'"
+  loop: "{{ sceneobj_dirs.stdout_lines }}"
+  delegate_to: localhost
+  become: false
+
+- name: Tar files in AssetPackages
+  ansible.builtin.command:
+    cmd: "tar -cf /tmp/AssetPackages/{{ item | basename }}.tar -C '{{ crpg_game_client_local_path }}/Modules/cRPG/AssetPackages' {{ item | basename }}"
+  loop: "{{ lookup('ansible.builtin.fileglob', crpg_game_client_local_path + '/Modules/cRPG/AssetPackages/*', wantlist=True) }}"
+  delegate_to: localhost
+  become: false
+
 - name: Tar GUI, ModuleSounds, bin, ModuleData, and SubModule.xml
   ansible.builtin.command:
     cmd: "tar -cf /tmp/rest.tar -C '{{ crpg_game_client_local_path }}/Modules/cRPG' GUI ModuleSounds bin ModuleData SubModule.xml"
