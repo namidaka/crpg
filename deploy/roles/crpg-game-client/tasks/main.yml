@@ -102,6 +102,16 @@
   delegate_to: localhost
   become: false
 
+- name: Compress files in /tmp/AssetPackages with pigz
+  ansible.builtin.shell:
+    cmd: "pigz -f --recursive /tmp/AssetPackages/*.tar"
+  delegate_to: localhost
+
+- name: Compress files in /tmp/SceneObj with pigz
+  ansible.builtin.shell:
+    cmd: "pigz -f --recursive /tmp/SceneObj/*.tar"
+  delegate_to: localhost
+
 - name: Compress /tmp/rest.tar with pigz
   ansible.builtin.shell:
     cmd: "pigz -f /tmp/rest.tar"
@@ -124,6 +134,21 @@
 - name: Copy hash to destination
   ansible.builtin.copy:
     src: /tmp/hash.xml
+    dest: "{{ crpg_ui_path }}"
+    owner: nginx
+    group: nginx
+
+- name: Copy contents of SceneObj to destination
+  ansible.builtin.copy:
+    src: /tmp/SceneObj
+    dest: "{{ crpg_ui_path }}"
+    owner: nginx
+    group: nginx
+
+
+- name: Copy contents of AssetPackages to destination
+  ansible.builtin.copy:
+    src: /tmp/AssetPackages
     dest: "{{ crpg_ui_path }}"
     owner: nginx
     group: nginx
