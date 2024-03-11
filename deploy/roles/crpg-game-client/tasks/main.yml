@@ -61,56 +61,11 @@
   delegate_to: localhost
   register: converted_path
 
-- name: Get list of directories in SceneObj
-  ansible.builtin.shell:
-    cmd: 'ls -d "/mnt/c/Program Files (x86)/Steam/steamapps/common/Mount & Blade II Bannerlord/Modules/cRPG/SceneObj/"*'
-  register: sceneobj_dirs
-  delegate_to: localhost
-
-- name: Ensure /tmp/AssetPackages directory exists
-  ansible.builtin.file:
-    path: /tmp/AssetPackages
-    state: directory
-  delegate_to: localhost
-  become: false
-
-- name: Ensure /tmp/SceneObj directory exists
-  ansible.builtin.file:
-    path: /tmp/SceneObj
-    state: directory
-  delegate_to: localhost
-  become: false
-
-
-- name: Tar subfolders of SceneObj with the folder name at the first level
-  ansible.builtin.shell:
-    cmd: "tar -cf /tmp/SceneObj/{{ item.split('/')[-1] }}.tar -C '{{ item | dirname }}' '{{ item | basename }}'"
-  loop: "{{ sceneobj_dirs.stdout_lines }}"
-  delegate_to: localhost
-  become: false
-
-- name: Tar files in AssetPackages
-  ansible.builtin.command:
-    cmd: "tar -cf /tmp/AssetPackages/{{ item | basename }}.tar -C '{{ crpg_game_client_local_path }}/Modules/cRPG/AssetPackages' {{ item | basename }}"
-  loop: "{{ lookup('ansible.builtin.fileglob', crpg_game_client_local_path + '/Modules/cRPG/AssetPackages/*', wantlist=True) }}"
-  delegate_to: localhost
-  become: false
-
 - name: Tar GUI, ModuleSounds, bin, ModuleData, and SubModule.xml
   ansible.builtin.command:
     cmd: "tar -cf /tmp/rest.tar -C '{{ crpg_game_client_local_path }}/Modules/cRPG' GUI ModuleSounds bin ModuleData SubModule.xml"
   delegate_to: localhost
   become: false
-
-- name: Compress files in /tmp/AssetPackages with pigz
-  ansible.builtin.shell:
-    cmd: "pigz -f --recursive /tmp/AssetPackages/*.tar"
-  delegate_to: localhost
-
-- name: Compress files in /tmp/SceneObj with pigz
-  ansible.builtin.shell:
-    cmd: "pigz -f --recursive /tmp/SceneObj/*.tar"
-  delegate_to: localhost
 
 - name: Compress /tmp/rest.tar with pigz
   ansible.builtin.shell:
@@ -134,21 +89,6 @@
 - name: Copy hash to destination
   ansible.builtin.copy:
     src: /tmp/hash.xml
-    dest: "{{ crpg_ui_path }}"
-    owner: nginx
-    group: nginx
-
-- name: Copy contents of SceneObj to destination
-  ansible.builtin.copy:
-    src: /tmp/SceneObj
-    dest: "{{ crpg_ui_path }}"
-    owner: nginx
-    group: nginx
-
-
-- name: Copy contents of AssetPackages to destination
-  ansible.builtin.copy:
-    src: /tmp/AssetPackages
     dest: "{{ crpg_ui_path }}"
     owner: nginx
     group: nginx
