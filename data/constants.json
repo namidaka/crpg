@@ -60,7 +60,7 @@
   "clanDescriptionMinLength": 0,
   "clanDescriptionMaxLength": 1000,
   "clanColorMinValue": 4278190080, /* 0xFF000000, ARGB color with the alpha to 255 */
-  "clanBannerKeyMaxLength": 400,
+  "clanBannerKeyMaxLength": 100,
   "clanBannerKeyMaxIcons": 12,
   "clanBannerKeyRegex": "^(-?\\d+\\.)*-?\\d+$",
   "strategusMapWidth": 256,
