@@ -116,14 +116,6 @@ watch(
               </a>
             </template>
           </i18n-t>
-          <iframe
-            class="mx-auto block aspect-video w-full rounded-lg lg:w-8/9 xl:w-7/8"
-            src="https://www.youtube-nocookie.com/embed/MQnW_j6s1Jw"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          />
         </div>
       </div>
     </template>
