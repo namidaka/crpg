@@ -9,11 +9,12 @@ import { t } from '@/services/translate-service';
 const props = defineProps<{ userId: number }>();
 
 const emit = defineEmits<{
-  (e: 'restrictionCreated'): void;
+  restrictionCreated: [];
 }>();
 
 const newRestrictionModel = ref<Omit<RestrictionCreation, 'restrictedUserId'>>({
   reason: '',
+  publicReason: '',
   duration: 0,
   type: RestrictionType.Join,
 });
@@ -43,6 +44,7 @@ const addRestriction = async () => {
 
   newRestrictionModel.value = {
     reason: '',
+    publicReason: '',
     duration: 0,
     type: RestrictionType.Join,
   };
@@ -98,7 +100,18 @@ const addRestriction = async () => {
         class="w-96"
         required
         type="textarea"
-        rows="5"
+        rows="3"
+      />
+    </OField>
+
+    <OField :label="$t('restriction.create.form.field.publicReason.label')">
+      <OInput
+        placeholder=""
+        v-model="newRestrictionModel.publicReason"
+        size="lg"
+        class="w-96"
+        type="textarea"
+        rows="3"
       />
     </OField>
 

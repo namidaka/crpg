@@ -6,7 +6,9 @@ export const useModalCounter = () => {
   };
 
   const decrease = (): void => {
-    counter.value--;
+    if (counter.value > 0) {
+      counter.value--;
+    }
   };
 
   return { counter: readonly(counter), increase, decrease };

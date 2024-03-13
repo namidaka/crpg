@@ -8,6 +8,7 @@ using Timer = TaleWorlds.Core.Timer;
 namespace Crpg.Module.Modes.Battle.FlagSystems;
 internal class CrpgBattleFlagSystem : AbstractFlagSystem
 {
+    private bool _isDeadPlayerThresholdReached = false;
     public CrpgBattleFlagSystem(Mission mission, MultiplayerGameNotificationsComponent notificationsComponent, CrpgBattleClient battleClient)
         : base(mission, notificationsComponent, battleClient)
     {
@@ -27,14 +28,16 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
         }
 
         var randomFlag = GetRandomFlag();
+        float duration = _isDeadPlayerThresholdReached ? (GetBattleClient().FlagUnlockTime / 3) * 2 : GetBattleClient().FlagUnlockTime;
+        SetFlagUnlockTimer(duration);
         SpawnFlag(randomFlag);
-
         SetHasFlagCountChanged(true);
 
         GameNetwork.BeginBroadcastModuleEvent();
         GameNetwork.WriteMessage(new CrpgBattleSpawnFlagMessage
         {
             FlagChar = randomFlag.FlagChar,
+            Time = duration,
         });
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
 
@@ -42,7 +45,7 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
         Debug.Print("Random Flag has been spawned");
     }
 
-    public void CheckForDeadPlayerFlagSpawnThreshold()
+    public void CheckForDeadPlayerFlagSpawnThreshold(int attackersSpawned, int defendersSpawned)
     {
         float attackerCount = Mission.AttackerTeam.ActiveAgents.Count;
         float defenderCount = Mission.DefenderTeam.ActiveAgents.Count;
@@ -52,9 +55,10 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
         if (attackerCount == 1 || defenderCount == 1)
         {
             ResetFlagSpawnTimer();
+            _isDeadPlayerThresholdReached = true;
         }
 
-        if (Math.Min(attackerCount, defenderCount) > 7)
+        if (Math.Min(attackerCount / attackersSpawned, defenderCount / defendersSpawned) > 0.33f)
         {
             return;
         }
@@ -64,6 +68,7 @@ internal class CrpgBattleFlagSystem : AbstractFlagSystem
             return;
         }
 
+        _isDeadPlayerThresholdReached = true;
         ResetFlagSpawnTimer();
     }
 

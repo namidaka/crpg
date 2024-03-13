@@ -109,6 +109,11 @@ internal class CrpgRewardServer : MissionLogic
             return;
         }
 
+        if (isSiegeEngineHit)
+        {
+            return;
+        }
+
         if (!_isRatingEnabled
             || !TryGetRating(affectedAgent, out var affectedRating)
             || !TryGetRating(affectorAgent, out var affectorRating))
@@ -188,6 +193,7 @@ internal class CrpgRewardServer : MissionLogic
                 Statistics = new CrpgCharacterStatistics { Kills = 0, Deaths = 0, Assists = 0, PlayTime = TimeSpan.Zero },
                 Rating = crpgPeer.User.Character.Rating,
                 BrokenItems = Array.Empty<CrpgUserDamagedItem>(),
+                Instance = CrpgServerConfiguration.Instance,
             };
 
             if (CrpgFeatureFlags.IsEnabled(CrpgFeatureFlags.FeatureTournament))

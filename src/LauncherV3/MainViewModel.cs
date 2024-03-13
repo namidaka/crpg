@@ -26,6 +26,7 @@ using System.Windows.Resources;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Shell;
+using System.Windows.Input;
 
 namespace LauncherV3;
 
@@ -40,7 +41,8 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     public double _progress;
-
+    [ObservableProperty]
+    private bool isBeta;
     [ObservableProperty]
     private bool isUpdating;
     [ObservableProperty]
@@ -107,6 +109,8 @@ public partial class MainViewModel : ObservableObject
         StartCrpgCommand.NotifyCanExecuteChanged();
         DetectCommand.NotifyCanExecuteChanged();
         ResetConfigCommand.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(StartUpdateCrpgCommand));
+
     }
 
     partial void OnGameLocationChanged(GameInstallationInfo? value)
@@ -128,12 +132,18 @@ public partial class MainViewModel : ObservableObject
     {
         NotifyUI();
     }
-
+    partial void OnIsBetaChanged(bool oldValue, bool newValue)
+    {
+        IsGameUpToDate = false;
+        NotifyUI();
+    }
     private bool CanUpdate()
     {
         bool CanUpdate = !IsUpdating && !IsVerifying && GameLocation != null;
         return CanUpdate;
     }
+
+    public ICommand StartUpdateCrpgCommand => IsGameUpToDate ? StartCrpgCommand : UpdateGameFilesCommand;
 
     [RelayCommand(CanExecute = nameof(CanStartCrpg))]
     private void StartCrpg()
@@ -246,7 +256,7 @@ public partial class MainViewModel : ObservableObject
         XmlDocument doc = new XmlDocument();
         try
         {
-            string url = "https://c-rpg.eu/hash.xml"; // Replace with your XML URL
+            string url = isBeta ? "https://namidaka.fr/hash.xml" : "https://c-rpg.eu/hash.xml"; // Replace with your XML URL
             using (WebClient client = new WebClient())
             {
                 string xmlContent = client.DownloadString(url);
@@ -309,8 +319,6 @@ public partial class MainViewModel : ObservableObject
         {
             WriteToConsole("Your game is Up To Date");
             IsGameUpToDate = true;
-            Config.IsGameUpToDate = true;
-            WriteConfig();
             IsUpdating = false;
             return;
         }
@@ -403,7 +411,7 @@ public partial class MainViewModel : ObservableObject
                     // Download the file
                     WriteToConsole($"Downloading and extracting {assetToDownload.Key + ".tar.gz"} ");
                     string fileToDownload = assetToDownload.Key + ".tar.gz";
-                    var chunkedRequest = CrpgChunkedRequest.Create("https://c-rpg.eu/AssetPackages/" + assetToDownload.Key + ".tar.gz");
+                    var chunkedRequest = CrpgChunkedRequest.Create((isBeta ? "https://namidaka.fr/AssetPackages/" : "https://c-rpg.eu/AssetPackages/") + assetToDownload.Key + ".tar.gz");
                     string tempPath = Path.Combine(Path.GetTempPath(), fileToDownload);
                     IProgress<double> currentProgress = new Progress<double>(p =>
                     {
@@ -449,7 +457,7 @@ public partial class MainViewModel : ObservableObject
                     {
                         WriteToConsole($"Downloading and extracting {mapToDownload.Key + ".tar.gz"} ");
                         string fileToDownload = mapToDownload.Key + ".tar.gz";
-                        var chunkedRequest = CrpgChunkedRequest.Create("https://c-rpg.eu/SceneObj/" + fileToDownload);
+                        var chunkedRequest = CrpgChunkedRequest.Create((isBeta ? "https://namidaka.fr/SceneObj/" : "https://c-rpg.eu/SceneObj/") + fileToDownload);
                         string tempPath = Path.Combine(Path.GetTempPath(), fileToDownload);
 
                         progresses.TryAdd(localIndex, 0); // Initialize progress for this download
@@ -490,7 +498,7 @@ public partial class MainViewModel : ObservableObject
                     // Download the file
                     WriteToConsole($"Downloading and extracting the xmls files : rest.tar.gz");
                     string fileToDownload = "rest" + ".tar.gz";
-                    var chunkedRequest = CrpgChunkedRequest.Create("https://c-rpg.eu/" + fileToDownload);
+                    var chunkedRequest = CrpgChunkedRequest.Create((isBeta ? "https://namidaka.fr/" : "https://c-rpg.eu/") + fileToDownload);
                     string tempPath = Path.Combine(Path.GetTempPath(), fileToDownload);
                     IProgress<double> currentProgress = new Progress<double>(p =>
                     {
@@ -519,8 +527,6 @@ public partial class MainViewModel : ObservableObject
             doc.Save(Path.Combine(ProgramDataPath, HashFileName));
             WriteToConsole("Update Finished");
             IsGameUpToDate = true;
-            Config.IsGameUpToDate = true;
-            IsGameUpToDate = true;
             WriteConfig();
         }
         else
@@ -532,9 +538,7 @@ public partial class MainViewModel : ObservableObject
             await VerifyGameFilesAsync(false);
             WriteToConsole("It is possible that we are currently updating cRPG");
             WriteToConsole("If problem persist in an hour, please contact and moderator on discord");
-            Config.IsGameUpToDate = false;
             IsGameUpToDate = false;
-            WriteConfig();
         }
 
         IsUpdating = false;
@@ -686,7 +690,6 @@ public partial class MainViewModel : ObservableObject
                     WriteToConsole("cRPG is not Installed, Click on Install Mod to Install");
                     IsCrpgInstalled = false;
                     IsGameUpToDate = false;
-                    Config.IsGameUpToDate = false;
                 }
                 else
                 {
@@ -770,8 +773,9 @@ public partial class MainViewModel : ObservableObject
         {
             SelectedPlatform = Config.LastPlatform;
             GameLocation = Config.GameLocations.TryGetValue(SelectedPlatform, out var gameLocation) ? gameLocation : null;
-            IsGameUpToDate = Config.IsGameUpToDate;
+            IsGameUpToDate = false;
         }
+
         NotifyUI();
     }
 

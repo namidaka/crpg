@@ -31,6 +31,7 @@ public static class DependencyInjection
             .AddSingleton<ICompetitiveRatingModel, CompetitiveRatingModel>()
             .AddSingleton<IItemService, ItemService>()
             .AddSingleton<IClanService, ClanService>()
+            .AddSingleton<IGameModeService, GameModeService>()
             .AddSingleton<IActivityLogService, ActivityLogService>()
             .AddSingleton<IGameServerStatsService, DatadogGameServerStatsService>()
             .AddSingleton<IPatchNotesService, GithubPatchNotesService>()

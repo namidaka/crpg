@@ -35,7 +35,9 @@
     <string id="u2iBIkrl" text="因尔在战场上之勇敢面对逆境，尔已获得应得之奖赏。" />
     <string id="8eHDaW4v" text="无法加入 cRPG 主服务器。您的奖励已丢失。" />
     <string id="8ExjCVV8" text="第 {INDEX} 阶段开始！" />
-    <string id="nbOZ9BNX" text="防守者 {NAME} 已打开大门。" />
+    <string id="nbOZ9BNX" text="旗帜 {NAME} 已出现。你可以在 {TIME} 秒内捕获它！" />
+    <string id="nbOZ9BNQ" text="旗帜将在 {TIMER} 秒后出现。" />
+    <string id="fgOZ6GNZ" text="旗帜 {NAME} 提前出现了。你可以在 {TIME} 秒内捕获它！" />
     <string id="bbg3UpPX" text="第 {ROUND} 轮开始..." />
     <string id="1y04FNHB" text="第 {WAVE} 波开始！" />
     <string id="8KlA48nt" text="波次" />
@@ -51,6 +53,44 @@
     <string id="YFfWaWqk" text="{COUNT} 位新玩家加入了攻击方{newline}" />
     <string id="TWpiAeFe" text="现在是欢乐时光！经验获取增加了50%。" />
     <string id="KoqNpPLa" text="欢乐时光结束！" />
+    <string id="sXF7LsGO" text="晋升指挥官" />
+    <string id="JDAtTV9K" text="降职指挥官" />
+    <string id="1qdkTUv7" text="指挥官 {COMMANDER} 已阵亡！" />
+    <string id="Opm24MMd" text="指挥官 {COMMANDER} 居然自杀了……以某种方式。" />
+    <string id="s894oFCj" text="指挥官 {COMMANDER} 死得惨烈。" />
+    <string id="vu94iRTE" text="指挥官 {COMMANDER} 倒下了！" />
+    <string id="sy9OJEOM" text="指挥官 {COMMANDER} 没有丝毫机会！" />
+    <string id="uD9I4mVt" text="{COMMANDER}指挥官被{AGENT}队友误杀！一个无心之过！" />
+    <string id="IXqXzFNt" text="{COMMANDER}指挥官被{AGENT}队友误杀！这肯定是个意外！" />
+    <string id="7lJdMRdX" text="{AGENT}叛变了，杀死了指挥官{COMMANDER}！" />
+    <string id="K14mdvO5" text="{AGENT}应该更加小心！他们误杀了指挥官{COMMANDER}！" />
+    <string id="NcM64S4W" text="{COMMANDER}指挥官被他们的盟友{AGENT}击倒了！" />
+    <string id="8a5Icfba" text="指挥官 {COMMANDER} 已阵亡！" />
+    <string id="wBRZQfd6" text="指挥官 {COMMANDER} 被 {AGENT} 击败了！" />
+    <string id="sEkwjLWt" text="{AGENT} 击毙了指挥官 {COMMANDER}，表现不俗！" />
+    <string id="ZnefgOjm" text="指挥官 {COMMANDER} 被 {AGENT} 击败了，一场精彩的表现！" />
+    <string id="cUdNADKW" text="指挥官 {COMMANDER} 毫无还手之力！{AGENT} 确保了这一点。" />
+    <string id="X41TEG4i" text="{AGENT} 在一场公平的战斗中击败了指挥官 {COMMANDER}！" />
+    <string id="ITo28ACb" text="{AGENT} 在一场激战中击杀了指挥官 {COMMANDER}！" />
+    <string id="FnpBBZ95" text="{SIDE} 已晋升 {COMMANDER} 为他们的指挥官！" />
+    <string id="pFNbCPS7" text="你的队伍" />
+    <string id="uucWY8gP" text="敌方队伍" />
+    <string id="IvlgRIsN" text="{SIDE} 指挥官已辞职！" />
+    <string id="vq5Mzgl9" text="你的" />
+    <string id="0BZxL0rw" text="敌方" />
+    <string id="bxmFK80y" text="晋升" />
+    <string id="GibKsTHA" text="降职" />
+    <string id="wQOq8JIE" text="在热身期间无法为指挥官投票！" />
+    <string id="hZgASnWR" text="指挥官：{COMMANDER}" />
+    <string id="EKqqPsBk" text="未分配" />
+    <string id="czWaVzc1" text="你已被降职，不再担任指挥职务" />
+    <string id="dryVJbMN" text="你被选中担任指挥官！使用'!o 输入消息'来命令你的部队！" />
+    <string id="iERprCDU" text="(指挥官) {NAME}:" />
+    <string id="C7TYZ8s0" text="你无法在死亡状态下下达命令！" />
+    <string id="uRmpZM0q" text="请等待 {COOLDOWN} 秒再发出新的命令！" />
+    <string id="7WDWLbpV" text="你不是指挥官！" />
+
+    <!-- Notifications -->
     <string id="pCIKeing" text="你将在 {SECONDS} 秒后因长时间不活动而被移除！" />
     <string id="v1S1BAF4" text="骑兵将在 {SECONDS} 秒后出现！" />
     <string id="joWaOGco" text="到达时间限制，但仍有一些进攻者在旗帜周围。防守者需要消灭他们才能赢得游戏。" />

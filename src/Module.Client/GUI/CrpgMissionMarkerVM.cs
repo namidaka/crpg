@@ -1,4 +1,5 @@
 ﻿using Crpg.Module.Common;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.Helpers;
 using Crpg.Module.Modes.Duel;
 using Crpg.Module.Modes.Siege;
@@ -24,9 +25,11 @@ internal class CrpgMissionMarkerVm : ViewModel
     private static readonly uint DefaultColor = Color.ConvertStringToColor("#FFFFFFFF").ToUnsignedInteger(); // White
     private static readonly uint ClanMateColor = Color.ConvertStringToColor("#00FFFFFF").ToUnsignedInteger(); // Aqua
     private static readonly uint FriendColor = Color.ConvertStringToColor("#FFFF00FF").ToUnsignedInteger(); // Yellow
+    private static readonly uint CommanderColor = Color.ConvertStringToColor("#00FF00FF").ToUnsignedInteger(); // Green
 
     private readonly Camera _missionCamera;
     private readonly MissionMultiplayerGameModeBaseClient _gameModeClient;
+    private readonly CrpgCommanderBehaviorClient? _commanderBehaviorClient;
     private readonly Dictionary<MissionPeer, MissionPeerMarkerTargetVM> _missionPeerMarkers;
     private readonly MarkerDistanceComparer _distanceComparer;
     private readonly ICommanderInfo? _commanderInfo;
@@ -47,6 +50,7 @@ internal class CrpgMissionMarkerVm : ViewModel
         _missionPeerMarkers = new Dictionary<MissionPeer, MissionPeerMarkerTargetVM>();
         _distanceComparer = new MarkerDistanceComparer();
         _commanderInfo = Mission.Current.GetMissionBehavior<ICommanderInfo>();
+        _commanderBehaviorClient = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorClient>();
         FlagTargets = new MBBindingList<MissionFlagMarkerTargetVM>();
         PeerTargets = new MBBindingList<MissionPeerMarkerTargetVM>();
         SiegeEngineTargets = new MBBindingList<MissionSiegeEngineMarkerTargetVM>();
@@ -61,6 +65,11 @@ internal class CrpgMissionMarkerVm : ViewModel
             {
                 siegeClient.OnCapturePointRemainingMoraleGainsChangedEvent += OnCapturePointRemainingMoraleGainsChanged;
             }
+        }
+
+        if (_commanderBehaviorClient != null)
+        {
+            _commanderBehaviorClient.OnCommanderUpdated += OnCommanderUpdated;
         }
 
         MissionPeer.OnTeamChanged += OnTeamChanged;
@@ -156,6 +165,11 @@ internal class CrpgMissionMarkerVm : ViewModel
             }
         }
 
+        if (_commanderBehaviorClient != null)
+        {
+            _commanderBehaviorClient.OnCommanderUpdated -= OnCommanderUpdated;
+        }
+
         MissionPeer.OnTeamChanged -= OnTeamChanged;
     }
 
@@ -234,6 +248,16 @@ internal class CrpgMissionMarkerVm : ViewModel
             {
                 SiegeEngineTargets.Add(new MissionSiegeEngineMarkerTargetVM(firstScriptOfType));
             }
+        }
+    }
+
+    private void OnCommanderUpdated(BattleSideEnum side)
+    {
+        BattleSideEnum myPeerSide = GameNetwork.MyPeer?.ControlledAgent?.Team?.Side ?? BattleSideEnum.None;
+        if (side == myPeerSide)
+        {
+            _missionPeerMarkers.Clear();
+            PeerTargets.Clear();
         }
     }
 
@@ -389,7 +413,11 @@ internal class CrpgMissionMarkerVm : ViewModel
         {
             CrpgPeer myCrpgPeer = GameNetwork.MyPeer.GetComponent<CrpgPeer>();
             CrpgPeer? crpgPeer = missionPeer.GetNetworkPeer().GetComponent<CrpgPeer>() ?? null;
-            if (myCrpgPeer?.Clan != null && crpgPeer?.Clan != null && crpgPeer.Clan.Id == myCrpgPeer.Clan.Id)
+            if (_commanderBehaviorClient != null && _commanderBehaviorClient.IsPeerCommander(missionPeer))
+            {
+                color2 = CommanderColor;
+            }
+            else if (myCrpgPeer?.Clan != null && crpgPeer?.Clan != null && crpgPeer.Clan.Id == myCrpgPeer.Clan.Id)
             {
                 color2 = ClanMateColor;
             }

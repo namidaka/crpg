@@ -237,7 +237,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         int ridingSkill = agent.RiderAgent != null
             ? GetEffectiveSkill(agent.RiderAgent, DefaultSkills.Riding)
             : 100;
-        props.MountManeuver = mount.GetModifiedMountManeuver(in mountHarness) * (0.5f + ridingSkill * 0.0025f);
+        props.MountManeuver = mount.GetModifiedMountManeuver(in mountHarness) * (0.5f + ridingSkill * 0.0025f) * 1.15f;
         float harnessWeight = mountHarness.Item?.Weight ?? 0;
 
         const float maxHarnessWeight = 45f;
@@ -246,11 +246,16 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         float ridingImpactOnSpeed = (float)(0.7f
             + ridingSkill * 0.001f
             + 1 / (2.2f + Math.Pow(2, -0.08f * (ridingSkill - 70f))));
-        props.MountSpeed = (mount.GetModifiedMountSpeed(in mountHarness) + 1) * 0.22f * ridingImpactOnSpeed * weightImpactOnSpeed;
+        props.MountSpeed = (mount.GetModifiedMountSpeed(in mountHarness) + 1) * 0.209f * ridingImpactOnSpeed * weightImpactOnSpeed;
         props.TopSpeedReachDuration = Game.Current.BasicModels.RidingModel.CalculateAcceleration(in mount, in mountHarness, ridingSkill);
         props.MountDashAccelerationMultiplier = 1f / (2f + 8f * harnessWeightPercentage); // native between 1 and 0.1 . cRPG between 0.5 and 0.1
     }
 
+    // WARNING : for some reasone UpdateHumanAgentStats is called twice everytime there is a change (respawn or weapon switch)
+    // The first call will have crpgUser be null , and all resulting cRPG stats be null
+    // it is then overriden by the second call that will have crpgUser properly set
+    // if for some reason a calculation relies on str or agi being superior to 3 , the first call will have them set to 0 which can rely on dividing by zero
+    // if you're dividing by (str -3)
     private void UpdateHumanAgentStats(Agent agent, AgentDrivenProperties props)
     {
 
@@ -282,7 +287,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             ? equipment[wieldedItemIndex4].CurrentUsageItem
             : null;
 
-        int strengthSkill = GetEffectiveSkill(agent, CrpgSkills.Strength);
+        int strengthSkill = Math.Max(GetEffectiveSkill(agent, CrpgSkills.Strength), 3);
         int athleticsSkill = GetEffectiveSkill(agent, DefaultSkills.Athletics);
         const float awfulScaler = 3231477.548f;
         float[] weightReductionPolynomialFactor = { 30f / awfulScaler, 0.00005f / awfulScaler, 0.5f / awfulScaler, 1000000f / awfulScaler, 0f };
@@ -290,7 +295,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
         float totalEncumbrance = props.ArmorEncumbrance + props.WeaponsEncumbrance;
         float freeWeight = 2.5f * (1 + (strengthSkill - 3f) / 30f);
         float perceivedWeight = Math.Max(totalEncumbrance - freeWeight, 0f) * weightReductionFactor;
-        props.TopSpeedReachDuration = 0.8f * (1f + perceivedWeight / 15f) * (20f / (20f + (float)Math.Pow(athleticsSkill / 120f, 2f))) + ImpactofStrAndWeaponLengthOnTimeToMaxSpeed(equippedItem != null ? equippedItem.WeaponLength : 75, strengthSkill);
+        props.TopSpeedReachDuration = 0.8f * (1f + perceivedWeight / 15f) * (20f / (20f + (float)Math.Pow(athleticsSkill / 120f, 2f))) + ImpactofStrAndWeaponLengthOnTimeToMaxSpeed(equippedItem != null ? equippedItem.WeaponLength : 22, strengthSkill);
         float speed = 0.58f + 0.034f * athleticsSkill / 26f;
         props.MaxSpeedMultiplier = MBMath.ClampFloat(
             speed * (float)Math.Pow(361f / (361f + (float)Math.Pow(perceivedWeight, 5f)), 0.055f),
@@ -323,8 +328,16 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             if (agent.HasMount && !equippedItem.IsRangedWeapon)
             {
                 // SwingSpeed Nerf on Horseback
-                float swingSpeedFactor = 1f / Math.Max(equippedItem.WeaponLength / 125f, 1f);
-                props.SwingSpeedMultiplier *= HasSwingDamage(primaryItem) ? swingSpeedFactor : 1f;
+                static double Polynomial(float x)
+                {
+                    double y = x / 100f;
+                    return 0.1f * y + 0.01f * Math.Pow(y, 10);
+                }
+
+                double swingTimeFactor = 1 - Polynomial(125) + Polynomial(equippedItem.WeaponLength);
+
+                float cappedSwingSpeedFactor = MBMath.ClampFloat((float)(1 / swingTimeFactor), 0.25f, 1f);
+                props.SwingSpeedMultiplier *= HasSwingDamage(primaryItem) ? cappedSwingSpeedFactor : 1f;
                 // Thrustspeed Nerf on Horseback
                 props.ThrustOrRangedReadySpeedMultiplier *= 0.84f;
             }
@@ -378,7 +391,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                 else if (equippedItem.WeaponClass is WeaponClass.Javelin or WeaponClass.ThrowingAxe or WeaponClass.ThrowingKnife or WeaponClass.Stone)
                 {
                     float unsteadyAccuracyPenaltyScaler = MBMath.ClampFloat((equippedItem.ThrustSpeed - 89.0f) / 13.0f, 0.0f, 1f);
-                    props.WeaponMaxUnsteadyAccuracyPenalty = props.WeaponInaccuracy;
+                    props.WeaponMaxUnsteadyAccuracyPenalty = 0f;
                     props.WeaponMaxMovementAccuracyPenalty = props.WeaponInaccuracy * 1.3f;
                     int powerThrow = GetEffectiveSkill(agent, CrpgSkills.PowerThrow);
                     props.WeaponBestAccuracyWaitTime = 0.00001f;
@@ -545,7 +558,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
 
     private int MaxWeaponLengthForStrLevel(int strengthSkill)
     {
-        int uncappedMaxWeaponLength = (int)(45 + (strengthSkill - 3) * 9 + Math.Pow(Math.Min(strengthSkill - 3, 24) * 0.14677993f, 12));
+        int uncappedMaxWeaponLength = (int)(22 + (strengthSkill - 3) * 7.5 + Math.Pow(Math.Min(strengthSkill - 3, 24) * 0.133352143f, 8f));
         return Math.Min(uncappedMaxWeaponLength, 650);
     }
 

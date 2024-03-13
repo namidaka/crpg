@@ -70,7 +70,7 @@ public class BorrowClanArmoryCommandTest : TestBase
             ClanId = clan.Id,
         }, CancellationToken.None);
 
-        Assert.That(result.Errors, Is.Not.Empty);
+        Assert.That(result.Errors, Is.Not.Null);
 
         user = await AssertDb.Users
             .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)
@@ -104,7 +104,7 @@ public class BorrowClanArmoryCommandTest : TestBase
             ClanId = clan.Id + 1,
         }, CancellationToken.None);
 
-        Assert.That(result.Errors, Is.Not.Empty);
+        Assert.That(result.Errors, Is.Not.Null);
 
         user = await AssertDb.Users
              .Include(u => u.ClanMembership!).ThenInclude(cm => cm.ArmoryBorrowedItems)

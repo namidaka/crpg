@@ -35,7 +35,9 @@
     <string id="u2iBIkrl" text="За твою храбрость перед лицом невзгод на поле битвы, ты получил достояную награду." />
     <string id="8eHDaW4v" text="Не удалось присоединиться к основному серверу cRPG. Ваше вознаграждение было потеряно." />
     <string id="8ExjCVV8" text="Началась стадия {INDEX}!" />
-    <string id="nbOZ9BNX" text="Защитник {NAME} открыл ворота." />
+    <string id="nbOZ9BNX" text="Флаг {NAME} появился. Вы можете захватить его через {TIME} секунд!" />
+    <string id="nbOZ9BNQ" text="Флаг появится через {TIMER} секунд." />
+    <string id="fgOZ6GNZ" text="Флаг {NAME} появился ранее. Вы можете захватить его через {TIME} секунд!" />
     <string id="bbg3UpPX" text="Начался раунд {ROUND}..." />
     <string id="1y04FNHB" text="Началась волна {WAVE}!" />
     <string id="8KlA48nt" text="Волна" />
@@ -51,6 +53,42 @@
     <string id="YFfWaWqk" text="{COUNT} новых игроков присоединились к команде атакующих{newline}" />
     <string id="TWpiAeFe" text="Наступило счастливые часы! Опыт увеличен на 50%." />
     <string id="KoqNpPLa" text="Счастливые часы окончены!" />
+    <string id="sXF7LsGO" text="Назначить командира" />
+    <string id="JDAtTV9K" text="Отстранить командира" />
+    <string id="1qdkTUv7" text="Командир {COMMANDER} умер!" />
+    <string id="Opm24MMd" text="Командир {COMMANDER} умудрился покончить с собой... каким-то образом." />
+    <string id="s894oFCj" text="Командир {COMMANDER} погиб, причем очень эффектно." />
+    <string id="vu94iRTE" text="Командир {COMMANDER} пал!" />
+    <string id="sy9OJEOM" text="У командира {COMMANDER} не было ни единого шанса!" />
+    <string id="uD9I4mVt" text="Командир {COMMANDER} был убит союзником {AGENT}! Честная ошибка!" />
+    <string id="IXqXzFNt" text="Командир {COMMANDER} был убит союзником {AGENT}! Наверняка случайно!" />
+    <string id="7lJdMRdX" text="{AGENT} устроил мятеж, убив командира {COMMANDER}!" />
+    <string id="K14mdvO5" text="{AGENT} должен быть более осторожным! Они убили командира {COMMANDER}!" />
+    <string id="NcM64S4W" text="Командир {COMMANDER} был сражен своим союзником, {AGENT}!" />
+    <string id="8a5Icfba" text="Командир, {КОМАНДИР} погиб!" />
+    <string id="wBRZQfd6" text="Командир {COMMANDER} был убит {AGENT}!" />
+    <string id="sEkwjLWt" text="{AGENT} убил командира {COMMANDER}!" />
+    <string id="ZnefgOjm" text="Командир {COMMANDER} был побежден {AGENT}, прекрасная зрелище!" />
+    <string id="cUdNADKW" text="У командира {COMMANDER} не было ни единого шанса! {AGENT} убедился в этом." />
+    <string id="X41TEG4i" text="{AGENT} победил командира {AGENT} в честном бою!" />
+    <string id="ITo28ACb" text="{AGENT} убил командира {COMMANDER} в пылу сражения!" />
+    <string id="FnpBBZ95" text="{SIDE} выбрали {COMMANDER} своим командиром!" />
+    <string id="pFNbCPS7" text="Ваша команда" />
+    <string id="uucWY8gP" text="Вражеская команда" />
+    <string id="IvlgRIsN" text="Командир {SIDE} подал в отставку!" />
+    <string id="vq5Mzgl9" text="Ваш" />
+    <string id="0BZxL0rw" text="Враг" />
+    <string id="bxmFK80y" text="голосовать за" />
+    <string id="GibKsTHA" text="голосовать против" />
+    <string id="wQOq8JIE" text="Вы не можете голосовать за командира во время разминки!" />
+    <string id="hZgASnWR" text="Командир: {COMMANDER}" />
+    <string id="EKqqPsBk" text="Нераспределенно" />
+    <string id="czWaVzc1" text="Вы больше не командир!" />
+    <string id="dryVJbMN" text="Вы были выбраны в качестве командира! Используйте '!o сообщение', чтобы отдавать приказы!" />
+    <string id="iERprCDU" text="(Командир) {NAME}: " />
+    <string id="C7TYZ8s0" text="Вы не можете отдавать приказы когда мертвы!" />
+    <string id="uRmpZM0q" text="Подождите {COOLDOWN} секунд для отдачи нового приказа!" />
+    <string id="7WDWLbpV" text="Ты не Командир!" />
 
     <!-- Notifications -->
     <string id="pCIKeing" text="Вы будете удалены за бездействие через {SECONDS} секунд!" />

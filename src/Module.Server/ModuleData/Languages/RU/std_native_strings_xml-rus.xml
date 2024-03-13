@@ -39,6 +39,9 @@
     <string id="bp8JJZpG" text="·   Защищайте графа от волн врагов!{newline}·   Получайте награды за защиту!{newline}·   Улучшайте своего персонажа на c-rpg.eu" />
     <string id="3uoZAXxh" text="Защита графа" />
 
+    <!-- Intermission -->
+    <string id="OZYLgnQq" text="Пожалуйста, подождите:" />
+    
     <!-- Scoreboard -->
     <string id="fBDiQBrC" text="Жизнь" />
 
@@ -133,6 +136,12 @@
     <string id="TtprOazr" text= "Замок Джамейед" />
     <string id="Kgiopaqf" text= "Rytsarskiy gerb" />
     <string id="TBergyuj" text= "Тальмберг" />
+    <string id="V0lSkuLK" text= "Крепость Вольскуль" />
+    <string id="M0TT3BA1" text= "Мотте и Бейли" />
+    <string id="fallbj0r" text= "Фьялльборн" />
+    <string id="tw1tEC1t" text= "Белый город" />
+    <string id="B3BB4nB8" text= "Беббанбург" />
+    <string id="D43Kw00D" text= "Темное дерево" />
 
     <!-- DTV Maps -->
     <string id="ArnxGr8j1j" text="Лагерь" />
@@ -141,5 +150,7 @@
     <string id="AkdJDF58" text= "Замерзший берег" />
     <string id="UcsEXc5J" text= "Замок Розторн" />
     <string id="BreAK661" text= "Руины Рахиза" />
+    <string id="MUSA3oiT" text= "Муса Пойнт" />
+    <string id="T3MpL3OP" text= "храм Посейдона" />
   </strings>
 </base>

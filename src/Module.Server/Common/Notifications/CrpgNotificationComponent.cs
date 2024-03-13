@@ -1,9 +1,15 @@
+using System.Linq;
+using Crpg.Module.Common;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.Common.Network;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.Diamond;
+using TaleWorlds.ObjectSystem;
+using TaleWorlds.PlayerServices;
 
 namespace Crpg.Module.Notifications;
 
@@ -13,6 +19,18 @@ namespace Crpg.Module.Notifications;
 /// </summary>
 internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
 {
+    private CrpgCommanderBehaviorClient? _commanderClient;
+    private ChatBox? _chatBox;
+    public override void OnBehaviorInitialize()
+    {
+        base.OnBehaviorInitialize();
+        if (GameNetwork.IsClient)
+        {
+            _commanderClient = Mission.Current.GetMissionBehavior<CrpgCommanderBehaviorClient>();
+            _chatBox = Game.Current.GetGameHandler<ChatBox>();
+        }
+    }
+
     protected override void AddRemoveMessageHandlers(
         GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
     {
@@ -62,6 +80,31 @@ internal class CrpgNotificationComponent : MultiplayerGameNotificationsComponent
         else if (type == CrpgNotificationType.Sound)
         {
             SoundEvent.CreateEventFromString(soundEvent, Mission.Scene).Play();
+        }
+        else if (type == CrpgNotificationType.Commander && _commanderClient != null) // Chatbox display message
+        {
+            BattleSideEnum side = GameNetwork.MyPeer?.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
+            NetworkCommunicator? myCommander = _commanderClient.GetCommanderBySide(side);
+
+            if (myCommander != null && _chatBox != null)
+            {
+                PlayerId id = myCommander.VirtualPlayer.Id;
+                if (_chatBox.IsPlayerMutedFromGame(id) || PermaMuteList.IsPlayerMuted(id) || _chatBox.IsPlayerMutedFromPlatform(id))
+                {
+                    return;
+                }
+            }
+
+            InformationManager.DisplayMessage(new InformationMessage
+            {
+                Information = new TextObject("{=iERprCDU}(Commander) {NAME}: ",
+                new Dictionary<string, object> { ["NAME"] = myCommander?.UserName ?? string.Empty }).ToString() + message,
+                Color = new Color(0.1f, 1f, 0f),
+                SoundEventPath = "event:/ui/mission/horns/attack",
+            });
+
+            BasicCharacterObject? commanderCharacterObject = _commanderClient.GetCommanderCharacterObjectBySide(side);
+            MBInformationManager.AddQuickInformation(new TextObject(message), 5000, commanderCharacterObject, soundEvent);
         }
     }
 }

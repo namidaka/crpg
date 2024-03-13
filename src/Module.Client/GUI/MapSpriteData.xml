@@ -17,7 +17,7 @@
   <SpriteCategories>
     <SpriteCategory>
       <Name>ui_mploading</Name>
-      <SpriteSheetCount>136</SpriteSheetCount>
+      <SpriteSheetCount>144</SpriteSheetCount>
       <SpriteSheetSize ID="1" Width="3840" Height="1935" />
       <SpriteSheetSize ID="2" Width="3840" Height="1935" />
       <SpriteSheetSize ID="3" Width="3383" Height="1902" />
@@ -142,6 +142,14 @@
       <SpriteSheetSize ID="134" Width="1920" Height="1080" />
       <SpriteSheetSize ID="135" Width="1920" Height="1080" />
       <SpriteSheetSize ID="136" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="137" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="138" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="139" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="140" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="141" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="142" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="143" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="144" Width="1920" Height="1080" />
       <AlwaysLoad />
     </SpriteCategory>
   </SpriteCategories>
@@ -1253,6 +1261,78 @@
       <SheetY>0</SheetY>
       <CategoryName>ui_mploading</CategoryName>
     </SpritePart>
+    <SpritePart>
+      <SheetID>137</SheetID>
+      <Name>crpg_conquest_volskulkeep</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>138</SheetID>
+      <Name>crpg_dtv_musapoint</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>139</SheetID>
+      <Name>crpg_dtv_templeofposeidon</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+     <SpritePart>
+      <SheetID>140</SheetID>
+      <Name>crpg_conquest_motteandbailey</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>141</SheetID>
+      <Name>crpg_conquest_fjallborn</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>142</SheetID>
+      <Name>crpg_conquest_thewhitecity</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>143</SheetID>
+      <Name>crpg_conquest_bebbanburg</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>144</SheetID>
+      <Name>crpg_conquest_darkwood</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
   </SpriteParts>
   <Sprites>
     <GenericSprite>
@@ -1746,6 +1826,38 @@
     <GenericSprite>
       <Name>crpg_battle_frosthaven</Name>
       <SpritePartName>crpg_battle_frosthaven</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_volskulkeep</Name>
+      <SpritePartName>crpg_conquest_volskulkeep</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_dtv_musapoint</Name>
+      <SpritePartName>crpg_dtv_musapoint</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_dtv_templeofposeidon</Name>
+      <SpritePartName>crpg_dtv_templeofposeidon</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_motteandbailey</Name>
+      <SpritePartName>crpg_conquest_motteandbailey</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_fjallborn</Name>
+      <SpritePartName>crpg_conquest_fjallborn</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_thewhitecity</Name>
+      <SpritePartName>crpg_conquest_thewhitecity</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_bebbanburg</Name>
+      <SpritePartName>crpg_conquest_bebbanburg</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_darkwood</Name>
+      <SpritePartName>crpg_conquest_darkwood</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>

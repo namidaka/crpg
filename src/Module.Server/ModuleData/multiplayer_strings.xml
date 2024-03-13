@@ -12,7 +12,7 @@
 
   <!-- Conquest -->
   <string id="str_multiplayer_official_game_type_name.cRPGConquest" text="{=l5KJxufk}Conquest" />
-  <string id="str_multiplayer_official_game_type_explainer.cRPGConquest" text="{=JLGDB5T7}·   Capture all flags of a stage to advance to the next one{newline}·   Defenders' reward multipler increases over time and is reset on a new stage{newline}·   Attackers' reward multiplier decreases over time and is set to max on a new stage" />
+  <string id="str_multiplayer_official_game_type_explainer.cRPGConquest" text="{=JLGDB5T7}·   Capture all flags of a stage to advance to the next one{newline}·   Defenders' reward multiplier increases over time and is reset on a new stage{newline}·   Attackers' reward multiplier decreases over time and is set to max on a new stage" />
   <string id="str_multiplayer_game_type.cRPGConquest" text="{=PhKxWoxz}Conquest" />
 
   <!-- Siege -->
@@ -37,6 +37,8 @@
 
   <!-- Scoreboard -->
   <string id="str_scoreboard_header.life" text="{=fBDiQBrC}Life" />
+  <string id="str_mp_scoreboard_context_promote_commander" text="{=sXF7LsGO}Promote Commander" />
+  <string id="str_mp_scoreboard_context_demote_commander" text="{=JDAtTV9K}Demote Commander" />
 
   <!-- Kick reasons -->
   <string id="str_kick_reason.bad_player_height" text="{=gaC79g3U}Your character has a weird height. Fix it in the Bannerlord Armory to join a cRPG server." />
@@ -135,6 +137,12 @@
   <string id="str_multiplayer_scene_name.crpg_conquest_jameyyedcastle" text="{=TtprOazr}Jameyyed Castle" />
   <string id="str_multiplayer_scene_name.crpg_conquest_knightscrest" text="{=Kgiopaqf}Knights Crest" />
   <string id="str_multiplayer_scene_name.crpg_conquest_talmberg" text="{=TBergyuj}Talmberg" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_volskulkeep" text="{=V0lSkuLK}Volskul Keep" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_motteandbailey" text="{=M0TT3BA1}Motte and Bailey" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_fjallborn" text="{=fallbj0r}Fjallborn" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_motteandbailey" text="{=tw1tEC1t}The White City" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_bebbanburg" text="{=B3BB4nB8}Bebbanburg" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_darkwood" text="{=D43Kw00D}Darkwood" />
 
   <!-- DTV Maps -->
   <string id="str_multiplayer_scene_name.crpg_dtv_encampment" text="{=ArnxGr8j1j}Encampment" />
@@ -143,4 +151,6 @@
   <string id="str_multiplayer_scene_name.crpg_dtv_weepinghill" text="{=jKsuXc4Z}Weeping Hill" />
   <string id="str_multiplayer_scene_name.crpg_dtv_rosethornecastle" text="{=UcsEXc5J}Rosethorne Castle" />
   <string id="str_multiplayer_scene_name.crpg_dtv_ruinsofrahiz" text="{=BreAK661}Ruins of Rahiz" />
+  <string id="str_multiplayer_scene_name.crpg_dtv_musapoint" text="{=MUSA3oiT}Musa Point" />
+  <string id="str_multiplayer_scene_name.crpg_dtv_templeofposeidon" text="{=T3MpL3OP}Temple of Poseidon" />
 </strings>

@@ -33,6 +33,7 @@ namespace Crpg.Module;
 internal class CrpgSubModule : MBSubModuleBase
 {
 #if CRPG_SERVER
+    private static readonly Random Random = new();
     private static bool _mapPoolAdded;
     public static CrpgSubModule Instance = default!;
     public Dictionary<PlayerId, IAddress> WhitelistedIps = new();
@@ -121,22 +122,36 @@ internal class CrpgSubModule : MBSubModuleBase
             {
                 string[] maps = File.ReadAllLines(mapconfigfilepath);
 
-                foreach (string map in maps)
+                int startIndex = Random.Next(maps.Length); // Random start index between 0 and maps.Length - 1
+                for (int i = 0; i < maps.Length; i++)
                 {
+                    int currentIndex = (startIndex + i) % maps.Length;
+                    string map = maps[currentIndex];
+
                     if (map == string.Empty)
                     {
                         continue;
                     }
 
-                    ListedServerCommandManager.ServerSideIntermissionManager.AddMapToAutomatedBattlePool(map);
-
-                    Debug.Print($"added {map} to map pool");
+                    if (ServerSideIntermissionManager.Instance != null)
+                    {
+                        ServerSideIntermissionManager.Instance.AddMapToUsableMaps(map);
+                        ServerSideIntermissionManager.Instance.AddMapToAutomatedBattlePool(map);
+                        Debug.Print($"added {map} to map pool", color: Debug.DebugColor.Red);
+                    }
+                    else
+                    {
+                        for (int j = 0; j < 10; j++)
+                        {
+                            Debug.Print($"There's no instance of ServerSideIntermissionManager", color: Debug.DebugColor.Red);
+                        }
+                    }
                 }
             }
             catch (Exception e)
             {
-                Debug.Print($"could not read the map file {mapconfigfilepath}");
-                Debug.Print($"{e.Message}");
+                Debug.Print($"could not read the map file {mapconfigfilepath}", color: Debug.DebugColor.Red);
+                Debug.Print($"{e.Message}", color: Debug.DebugColor.Red);
             }
         }
         else

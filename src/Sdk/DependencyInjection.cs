@@ -15,9 +15,11 @@ public static class DependencyInjection
     public static IServiceCollection AddSdk(this IServiceCollection services,
         IConfiguration configuration, IApplicationEnvironment appEnv)
     {
+        services.AddOpenTelemetry()
+            .WithTracing(tracingBuilder => ConfigureOpenTelemetryTracing(tracingBuilder, appEnv))
+            .WithMetrics(metricsBuilder => ConfigureOpenTelemetryMetrics(metricsBuilder, appEnv));
+
         return services
-            .AddOpenTelemetryMetrics(opts => ConfigureOpenTelemetryMetrics(opts, appEnv))
-            .AddOpenTelemetryTracing(opts => ConfigureOpenTelemetryTracing(opts, appEnv))
             .AddSingleton(appEnv)
             .AddSingleton<IDateTime, MachineDateTime>()
             .AddSingleton<IRandom, ThreadSafeRandom>();

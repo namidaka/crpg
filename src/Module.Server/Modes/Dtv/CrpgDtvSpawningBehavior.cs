@@ -45,7 +45,7 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
 
         if (firstRound)
         {
-            SpawnViscount();
+            SpawnVip();
         }
     }
 
@@ -91,18 +91,22 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
         return true;
     }
 
-    private void SpawnViscount()
-    {
-        var viscountAgent = SpawnBotAgent("crpg_dtv_viscount", Mission.DefenderTeam);
-        var viscountSpawn = Mission.Scene.FindEntityWithTag("crpg_spawn_viscount");
-        if (viscountSpawn != null)
-        {
-            viscountAgent.TeleportToPosition(viscountSpawn.GetGlobalFrame().origin);
-        }
+    private void SpawnVip()
+{
+    MultiplayerClassDivisions.MPHeroClass vipClass = MultiplayerClassDivisions
+        .GetMPHeroClasses()
+        .GetRandomElementWithPredicate(x => x.StringId.StartsWith("crpg_dtv_vip_"));
 
-        // Prevent the viscount from moving.
-        viscountAgent.SetTargetPosition(viscountAgent.Position.AsVec2);
+    var vipAgent = SpawnBotAgent(vipClass.StringId, Mission.DefenderTeam);
+    var vipSpawn = Mission.Scene.FindEntityWithTag("crpg_spawn_vip");
+    if (vipSpawn != null)
+    {
+        vipAgent.TeleportToPosition(vipSpawn.GetGlobalFrame().origin);
     }
+
+    // Prevent the VIP from moving.
+    vipAgent.SetTargetPosition(vipAgent.Position.AsVec2);
+}
 
     private void SpawnAttackers(CrpgDtvWave wave, int defendersCount)
     {

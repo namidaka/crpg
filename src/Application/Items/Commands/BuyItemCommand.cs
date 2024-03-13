@@ -54,17 +54,7 @@ public record BuyItemCommand : IMediatorRequest<UserItemViewModel>
                 return new(CommonErrors.ItemDisabled(req.ItemId));
             }
 
-            if (item.Type == ItemType.Banner && user.Role == Role.User && !user.IsDonor)
-            {
-                return new(CommonErrors.ItemNotBuyable(req.ItemId));
-            }
-
-            if (user.Items.Any(ui => ui.ItemId == req.ItemId && ui.Item!.Rank == 0))
-            {
-                return new(CommonErrors.ItemAlreadyOwned(req.ItemId));
-            }
-
-            if (item.Rank > 0)
+            if ((item.Type == ItemType.Banner && user.Role == Role.User && !user.IsDonor) || item.Rank > 0)
             {
                 return new(CommonErrors.ItemNotBuyable(req.ItemId));
             }

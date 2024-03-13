@@ -48,25 +48,25 @@
       <Piece id="crpg_burgundian_glaive_handle_h3" Type="Handle" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_burgundian_poleaxe_v4_h0" name="{=kaikaikai}Burgundian Poleaxe" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_burgundian_poleaxe_v5_h0" name="{=kaikaikai}Burgundian Poleaxe" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_burgundian_poleaxe_blade_h0" Type="Blade" scale_factor="100" />
       <Piece id="crpg_burgundian_poleaxe_handle_h0" Type="Handle" scale_factor="125" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_burgundian_poleaxe_v4_h1" name="{=kaikaikai}Burgundian Poleaxe +1" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_burgundian_poleaxe_v5_h1" name="{=kaikaikai}Burgundian Poleaxe +1" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_burgundian_poleaxe_blade_h1" Type="Blade" scale_factor="100" />
       <Piece id="crpg_burgundian_poleaxe_handle_h1" Type="Handle" scale_factor="125" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_burgundian_poleaxe_v4_h2" name="{=kaikaikai}Burgundian Poleaxe +2" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_burgundian_poleaxe_v5_h2" name="{=kaikaikai}Burgundian Poleaxe +2" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_burgundian_poleaxe_blade_h2" Type="Blade" scale_factor="100" />
       <Piece id="crpg_burgundian_poleaxe_handle_h2" Type="Handle" scale_factor="125" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_burgundian_poleaxe_v4_h3" name="{=kaikaikai}Burgundian Poleaxe +3" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_burgundian_poleaxe_v5_h3" name="{=kaikaikai}Burgundian Poleaxe +3" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_burgundian_poleaxe_blade_h3" Type="Blade" scale_factor="100" />
       <Piece id="crpg_burgundian_poleaxe_handle_h3" Type="Handle" scale_factor="125" />
@@ -96,25 +96,25 @@
       <Piece id="crpg_simple_poleaxe_handle_h3" Type="Handle" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_bec_de_corbin_v2_h0" name="{=kaikaikai}Bec De Corbin" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_bec_de_corbin_v3_h0" name="{=kaikaikai}Bec De Corbin" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_bec_de_corbin_blade_h0" Type="Blade" scale_factor="98" />
       <Piece id="crpg_bec_de_corbin_handle_h0" Type="Handle" scale_factor="98" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_bec_de_corbin_v2_h1" name="{=kaikaikai}Bec De Corbin +1" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_bec_de_corbin_v3_h1" name="{=kaikaikai}Bec De Corbin +1" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_bec_de_corbin_blade_h1" Type="Blade" scale_factor="98" />
       <Piece id="crpg_bec_de_corbin_handle_h1" Type="Handle" scale_factor="98" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_bec_de_corbin_v2_h2" name="{=kaikaikai}Bec De Corbin +2" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_bec_de_corbin_v3_h2" name="{=kaikaikai}Bec De Corbin +2" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_bec_de_corbin_blade_h2" Type="Blade" scale_factor="98" />
       <Piece id="crpg_bec_de_corbin_handle_h2" Type="Handle" scale_factor="98" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_bec_de_corbin_v2_h3" name="{=kaikaikai}Bec De Corbin +3" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_bec_de_corbin_v3_h3" name="{=kaikaikai}Bec De Corbin +3" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_bec_de_corbin_blade_h3" Type="Blade" scale_factor="98" />
       <Piece id="crpg_bec_de_corbin_handle_h3" Type="Handle" scale_factor="98" />
@@ -424,7 +424,7 @@
       <Piece id="crpg_red_katana_pommel_h3" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <Item id="crpg_snowball_v3_h0" name="Snowball" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="snowball_holster" holster_mesh_with_weapon="snowball_holster" mesh="snowball" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="sword_back">
+  <Item id="snowball_v3_h0" name="Snowball" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="snowball_holster" holster_mesh_with_weapon="snowball_holster" mesh="snowball" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="sword_back">
     <ItemComponent>
       <Weapon weapon_class="Stone" ammo_class="Stone" stack_amount="10" physics_material="missile" accuracy="100" thrust_speed="102" speed_rating="102" missile_speed="40" weapon_length="10" thrust_damage="8" item_usage="stone" rotation="100,30,20" passby_sound_code="" rotation_speed="0, -3.0, 0">
         <WeaponFlags RangedWeapon="true" Consumable="true" AutoReload="true" UnloadWhenSheathed="true" UseHandAsThrowBase="true" />
@@ -432,7 +432,7 @@
     </ItemComponent>
     <Flags />
   </Item>
-  <Item id="crpg_snowball_v3_h1" name="Snowball +1" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="snowball_holster" holster_mesh_with_weapon="snowball_holster" mesh="snowball" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="sword_back">
+  <Item id="snowball_v3_h1" name="Snowball +1" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="snowball_holster" holster_mesh_with_weapon="snowball_holster" mesh="snowball" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="sword_back">
     <ItemComponent>
       <Weapon weapon_class="Stone" ammo_class="Stone" stack_amount="10" physics_material="missile" accuracy="100" thrust_speed="102" speed_rating="102" missile_speed="40" weapon_length="10" thrust_damage="8" item_usage="stone" rotation="100,30,20" passby_sound_code="" rotation_speed="0, -3.0, 0">
         <WeaponFlags RangedWeapon="true" Consumable="true" AutoReload="true" UnloadWhenSheathed="true" UseHandAsThrowBase="true" />
@@ -440,7 +440,7 @@
     </ItemComponent>
     <Flags />
   </Item>
-  <Item id="crpg_snowball_v3_h2" name="Snowball +2" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="snowball_holster" holster_mesh_with_weapon="snowball_holster" mesh="snowball" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="sword_back">
+  <Item id="snowball_v3_h2" name="Snowball +2" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="snowball_holster" holster_mesh_with_weapon="snowball_holster" mesh="snowball" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="sword_back">
     <ItemComponent>
       <Weapon weapon_class="Stone" ammo_class="Stone" stack_amount="10" physics_material="missile" accuracy="100" thrust_speed="102" speed_rating="102" missile_speed="40" weapon_length="10" thrust_damage="8" item_usage="stone" rotation="100,30,20" passby_sound_code="" rotation_speed="0, -3.0, 0">
         <WeaponFlags RangedWeapon="true" Consumable="true" AutoReload="true" UnloadWhenSheathed="true" UseHandAsThrowBase="true" />
@@ -448,7 +448,7 @@
     </ItemComponent>
     <Flags />
   </Item>
-  <Item id="crpg_snowball_v3_h3" name="Snowball +3" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="snowball_holster" holster_mesh_with_weapon="snowball_holster" mesh="snowball" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="sword_back">
+  <Item id="snowball_v3_h3" name="Snowball +3" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="snowball_holster" holster_mesh_with_weapon="snowball_holster" mesh="snowball" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="sword_back">
     <ItemComponent>
       <Weapon weapon_class="Stone" ammo_class="Stone" stack_amount="10" physics_material="missile" accuracy="100" thrust_speed="102" speed_rating="102" missile_speed="40" weapon_length="10" thrust_damage="8" item_usage="stone" rotation="100,30,20" passby_sound_code="" rotation_speed="0, -3.0, 0">
         <WeaponFlags RangedWeapon="true" Consumable="true" AutoReload="true" UnloadWhenSheathed="true" UseHandAsThrowBase="true" />
@@ -4248,28 +4248,28 @@
       <Piece id="crpg_bone_crusher_pommel_h3" Type="Pommel" scale_factor="90" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_decorated_round_mace_v2_h0" name="{=9EWN9SiT}Decorated Round Mace" crafting_template="crpg_Mace" culture="Culture.aserai" modifier_group="mace">
+  <CraftedItem id="crpg_decorated_round_mace_v1_h0" name="{=9EWN9SiT}Decorated Round Mace" crafting_template="crpg_Mace" culture="Culture.aserai" modifier_group="mace">
     <Pieces>
       <Piece id="crpg_decorated_round_mace_blade_h0" Type="Blade" scale_factor="107" />
       <Piece id="crpg_decorated_round_mace_handle_h0" Type="Handle" scale_factor="120" />
       <Piece id="crpg_decorated_round_mace_pommel_h0" Type="Pommel" scale_factor="90" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_decorated_round_mace_v2_h1" name="{=9EWN9SiT}Decorated Round Mace +1" crafting_template="crpg_Mace" culture="Culture.aserai" modifier_group="mace">
+  <CraftedItem id="crpg_decorated_round_mace_v1_h1" name="{=9EWN9SiT}Decorated Round Mace +1" crafting_template="crpg_Mace" culture="Culture.aserai" modifier_group="mace">
     <Pieces>
       <Piece id="crpg_decorated_round_mace_blade_h1" Type="Blade" scale_factor="107" />
       <Piece id="crpg_decorated_round_mace_handle_h1" Type="Handle" scale_factor="120" />
       <Piece id="crpg_decorated_round_mace_pommel_h1" Type="Pommel" scale_factor="90" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_decorated_round_mace_v2_h2" name="{=9EWN9SiT}Decorated Round Mace +2" crafting_template="crpg_Mace" culture="Culture.aserai" modifier_group="mace">
+  <CraftedItem id="crpg_decorated_round_mace_v1_h2" name="{=9EWN9SiT}Decorated Round Mace +2" crafting_template="crpg_Mace" culture="Culture.aserai" modifier_group="mace">
     <Pieces>
       <Piece id="crpg_decorated_round_mace_blade_h2" Type="Blade" scale_factor="107" />
       <Piece id="crpg_decorated_round_mace_handle_h2" Type="Handle" scale_factor="120" />
       <Piece id="crpg_decorated_round_mace_pommel_h2" Type="Pommel" scale_factor="90" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_decorated_round_mace_v2_h3" name="{=9EWN9SiT}Decorated Round Mace +3" crafting_template="crpg_Mace" culture="Culture.aserai" modifier_group="mace">
+  <CraftedItem id="crpg_decorated_round_mace_v1_h3" name="{=9EWN9SiT}Decorated Round Mace +3" crafting_template="crpg_Mace" culture="Culture.aserai" modifier_group="mace">
     <Pieces>
       <Piece id="crpg_decorated_round_mace_blade_h3" Type="Blade" scale_factor="107" />
       <Piece id="crpg_decorated_round_mace_handle_h3" Type="Handle" scale_factor="120" />
@@ -6784,35 +6784,35 @@
       <Piece id="crpg_fine_steel_long_kaskara_pommel_h3" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_fine_steel_paramerion_v1_h0" name="{=OLTUHPaD}Fine Steel Paramerion" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
+  <CraftedItem id="crpg_fine_steel_paramerion_v2_h0" name="{=OLTUHPaD}Fine Steel Paramerion" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
     <Pieces>
       <Piece id="crpg_fine_steel_paramerion_blade_h0" Type="Blade" scale_factor="93" />
       <Piece id="crpg_fine_steel_paramerion_guard_h0" Type="Guard" scale_factor="100" />
-      <Piece id="crpg_fine_steel_paramerion_handle_h0" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_fine_steel_paramerion_handle_h0" Type="Handle" scale_factor="99" />
       <Piece id="crpg_fine_steel_paramerion_pommel_h0" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_fine_steel_paramerion_v1_h1" name="{=OLTUHPaD}Fine Steel Paramerion +1" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
+  <CraftedItem id="crpg_fine_steel_paramerion_v2_h1" name="{=OLTUHPaD}Fine Steel Paramerion +1" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
     <Pieces>
       <Piece id="crpg_fine_steel_paramerion_blade_h1" Type="Blade" scale_factor="93" />
       <Piece id="crpg_fine_steel_paramerion_guard_h1" Type="Guard" scale_factor="100" />
-      <Piece id="crpg_fine_steel_paramerion_handle_h1" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_fine_steel_paramerion_handle_h1" Type="Handle" scale_factor="90" />
       <Piece id="crpg_fine_steel_paramerion_pommel_h1" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_fine_steel_paramerion_v1_h2" name="{=OLTUHPaD}Fine Steel Paramerion +2" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
+  <CraftedItem id="crpg_fine_steel_paramerion_v2_h2" name="{=OLTUHPaD}Fine Steel Paramerion +2" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
     <Pieces>
       <Piece id="crpg_fine_steel_paramerion_blade_h2" Type="Blade" scale_factor="93" />
       <Piece id="crpg_fine_steel_paramerion_guard_h2" Type="Guard" scale_factor="100" />
-      <Piece id="crpg_fine_steel_paramerion_handle_h2" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_fine_steel_paramerion_handle_h2" Type="Handle" scale_factor="90" />
       <Piece id="crpg_fine_steel_paramerion_pommel_h2" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_fine_steel_paramerion_v1_h3" name="{=OLTUHPaD}Fine Steel Paramerion +3" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
+  <CraftedItem id="crpg_fine_steel_paramerion_v2_h3" name="{=OLTUHPaD}Fine Steel Paramerion +3" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
     <Pieces>
       <Piece id="crpg_fine_steel_paramerion_blade_h3" Type="Blade" scale_factor="93" />
       <Piece id="crpg_fine_steel_paramerion_guard_h3" Type="Guard" scale_factor="100" />
-      <Piece id="crpg_fine_steel_paramerion_handle_h3" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_fine_steel_paramerion_handle_h3" Type="Handle" scale_factor="90" />
       <Piece id="crpg_fine_steel_paramerion_pommel_h3" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
@@ -9980,7 +9980,7 @@
       <Piece id="crpg_forester_axe_handle_h3" Type="Handle" scale_factor="111" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_steel_footman_axe_v1_h0" name="{=Diggles}Steel Footman Axe" crafting_template="crpg_OneHandedAxe" culture="Culture.vlandia" modifier_group="axe">
+  <CraftedItem id="crpg_steel_footman_axe_v2_h0" name="{=Diggles}Steel Footman Axe" crafting_template="crpg_OneHandedAxe" culture="Culture.vlandia" modifier_group="axe">
     <Pieces>
       <Piece id="crpg_steel_footman_axe_blade_h0" Type="Blade" scale_factor="115" />
       <Piece id="crpg_steel_footman_axe_handle_h0" Type="Handle" scale_factor="105" />
@@ -12756,7 +12756,7 @@
       <Piece id="crpg_ironrod_pommel_h3" Type="Pommel" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_german_halberd_v1_h0" name="{=kaikaikai}German Halberd" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_german_halberd_v2_h0" name="{=kaikaikai}German Halberd" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_german_halberd_blade_h0" Type="Blade" scale_factor="100" />
       <Piece id="crpg_german_halberd_handle_h0" Type="Handle" scale_factor="100" />
@@ -12764,7 +12764,7 @@
       <Piece id="crpg_german_halberd_pommel_h0" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_german_halberd_v1_h1" name="{=kaikaikai}German Halberd +1" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_german_halberd_v2_h1" name="{=kaikaikai}German Halberd +1" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_german_halberd_blade_h1" Type="Blade" scale_factor="100" />
       <Piece id="crpg_german_halberd_handle_h1" Type="Handle" scale_factor="100" />
@@ -12772,7 +12772,7 @@
       <Piece id="crpg_german_halberd_pommel_h1" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_german_halberd_v1_h2" name="{=kaikaikai}German Halberd +2" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_german_halberd_v2_h2" name="{=kaikaikai}German Halberd +2" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_german_halberd_blade_h2" Type="Blade" scale_factor="100" />
       <Piece id="crpg_german_halberd_handle_h2" Type="Handle" scale_factor="100" />
@@ -12780,7 +12780,7 @@
       <Piece id="crpg_german_halberd_pommel_h2" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_german_halberd_v1_h3" name="{=kaikaikai}German Halberd +3" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="crpg_german_halberd_v2_h3" name="{=kaikaikai}German Halberd +3" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_german_halberd_blade_h3" Type="Blade" scale_factor="100" />
       <Piece id="crpg_german_halberd_handle_h3" Type="Handle" scale_factor="100" />
@@ -12940,7 +12940,7 @@
       <Piece id="crpg_joustinglance_striped_ry_pommel_h3" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_pole_h0" name="{=BalanceMe}Candycane Polearm" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="candycane_pole_h0" name="{=BalanceMe}Candycane Polearm" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_candycane_pole_blade_h0" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_pole_handle_h0" Type="Handle" scale_factor="100" />
@@ -12948,7 +12948,7 @@
       <Piece id="crpg_candycane_pole_pommel_h0" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_pole_h1" name="{=BalanceMe}Candycane Polearm" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="candycane_pole_h1" name="{=BalanceMe}Candycane Polearm +1" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_candycane_pole_blade_h1" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_pole_handle_h1" Type="Handle" scale_factor="100" />
@@ -12956,7 +12956,7 @@
       <Piece id="crpg_candycane_pole_pommel_h1" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_pole_h2" name="{=BalanceMe}Candycane Polearm" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="candycane_pole_h2" name="{=BalanceMe}Candycane Polearm +2" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_candycane_pole_blade_h2" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_pole_handle_h2" Type="Handle" scale_factor="100" />
@@ -12964,7 +12964,7 @@
       <Piece id="crpg_candycane_pole_pommel_h2" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_pole_h3" name="{=BalanceMe}Candycane Polearm" crafting_template="crpg_TwoHandedPolearm">
+  <CraftedItem id="candycane_pole_h3" name="{=BalanceMe}Candycane Polearm +3" crafting_template="crpg_TwoHandedPolearm">
     <Pieces>
       <Piece id="crpg_candycane_pole_blade_h3" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_pole_handle_h3" Type="Handle" scale_factor="100" />
@@ -12972,7 +12972,7 @@
       <Piece id="crpg_candycane_pole_pommel_h3" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_2h_h0" name="{=BalanceMe}Candycane Twohanded Mace" crafting_template="crpg_TwoHandedMace">
+  <CraftedItem id="candycane_2h_h0" name="{=BalanceMe}Candycane Twohanded Mace" crafting_template="crpg_TwoHandedMace">
     <Pieces>
       <Piece id="crpg_candycane_2h_blade_h0" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_2h_handle_h0" Type="Handle" scale_factor="100" />
@@ -12980,7 +12980,7 @@
       <Piece id="crpg_candycane_2h_pommel_h0" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_2h_h1" name="{=BalanceMe}Candycane Twohanded Mace" crafting_template="crpg_TwoHandedMace">
+  <CraftedItem id="candycane_2h_h1" name="{=BalanceMe}Candycane Twohanded Mace +1" crafting_template="crpg_TwoHandedMace">
     <Pieces>
       <Piece id="crpg_candycane_2h_blade_h1" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_2h_handle_h1" Type="Handle" scale_factor="100" />
@@ -12988,7 +12988,7 @@
       <Piece id="crpg_candycane_2h_pommel_h1" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_2h_h2" name="{=BalanceMe}Candycane Twohanded Mace" crafting_template="crpg_TwoHandedMace">
+  <CraftedItem id="candycane_2h_h2" name="{=BalanceMe}Candycane Twohanded Mace +2" crafting_template="crpg_TwoHandedMace">
     <Pieces>
       <Piece id="crpg_candycane_2h_blade_h2" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_2h_handle_h2" Type="Handle" scale_factor="100" />
@@ -12996,7 +12996,7 @@
       <Piece id="crpg_candycane_2h_pommel_h2" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_2h_h3" name="{=BalanceMe}Candycane Twohanded Mace" crafting_template="crpg_TwoHandedMace">
+  <CraftedItem id="candycane_2h_h3" name="{=BalanceMe}Candycane Twohanded Mace +3" crafting_template="crpg_TwoHandedMace">
     <Pieces>
       <Piece id="crpg_candycane_2h_blade_h3" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_2h_handle_h3" Type="Handle" scale_factor="100" />
@@ -13004,7 +13004,7 @@
       <Piece id="crpg_candycane_2h_pommel_h3" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_1h_h0" name="{=BalanceMe}Candycane Onehanded Mace" crafting_template="crpg_Mace">
+  <CraftedItem id="candycane_1h_h0" name="{=BalanceMe}Candycane Onehanded Mace" crafting_template="crpg_Mace">
     <Pieces>
       <Piece id="crpg_candycane_1h_blade_h0" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_1h_handle_h0" Type="Handle" scale_factor="100" />
@@ -13012,7 +13012,7 @@
       <Piece id="crpg_candycane_1h_pommel_h0" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_1h_h1" name="{=BalanceMe}Candycane Onehanded Mace" crafting_template="crpg_Mace">
+  <CraftedItem id="candycane_1h_h1" name="{=BalanceMe}Candycane Onehanded Mace +1" crafting_template="crpg_Mace">
     <Pieces>
       <Piece id="crpg_candycane_1h_blade_h1" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_1h_handle_h1" Type="Handle" scale_factor="100" />
@@ -13020,7 +13020,7 @@
       <Piece id="crpg_candycane_1h_pommel_h1" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_1h_h2" name="{=BalanceMe}Candycane Onehanded Mace" crafting_template="crpg_Mace">
+  <CraftedItem id="candycane_1h_h2" name="{=BalanceMe}Candycane Onehanded Mace +2" crafting_template="crpg_Mace">
     <Pieces>
       <Piece id="crpg_candycane_1h_blade_h2" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_1h_handle_h2" Type="Handle" scale_factor="100" />
@@ -13028,7 +13028,7 @@
       <Piece id="crpg_candycane_1h_pommel_h2" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
-  <CraftedItem id="crpg_candycane_1h_h3" name="{=BalanceMe}Candycane Onehanded Mace" crafting_template="crpg_Mace">
+  <CraftedItem id="candycane_1h_h3" name="{=BalanceMe}Candycane Onehanded Mace +3" crafting_template="crpg_Mace">
     <Pieces>
       <Piece id="crpg_candycane_1h_blade_h3" Type="Blade" scale_factor="100" />
       <Piece id="crpg_candycane_1h_handle_h3" Type="Handle" scale_factor="100" />
@@ -13106,6 +13106,166 @@
     <Pieces>
       <Piece id="crpg_short_voulge_blade_h3" Type="Blade" scale_factor="150" />
       <Piece id="crpg_short_voulge_handle_h3" Type="Handle" scale_factor="70" />
+    </Pieces>
+  </CraftedItem>
+  <Item id="crpg_smokebomb_h0" name="{=Meow}Smokebomb" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="stone_holster" holster_mesh_with_weapon="stone_holster" mesh="torch_flame_base" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="throwing_stone:throwing_stone_2">
+    <ItemComponent>
+      <Weapon weapon_class="Stone" ammo_class="Stone" stack_amount="1" physics_material="smokebomb_h0" accuracy="100" thrust_speed="102" speed_rating="102" missile_speed="40" weapon_length="15" thrust_damage="7" item_usage="stone" rotation="100,30,20" trail_particle_name="smokebomb_h0" passby_sound_code="" rotation_speed="0, -3.0, 0">
+        <WeaponFlags RangedWeapon="true" Consumable="true" AutoReload="true" UnloadWhenSheathed="true" UseHandAsThrowBase="true" AmmoBreaksOnBounceBack="true" LeavesTrail="true" />
+      </Weapon>
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_smokebomb_h1" name="{=Meow}Smokebomb +1" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="stone_holster" holster_mesh_with_weapon="stone_holster" mesh="torch_flame_base" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="throwing_stone:throwing_stone_2">
+    <ItemComponent>
+      <Weapon weapon_class="Stone" ammo_class="Stone" stack_amount="1" physics_material="smokebomb_h1" accuracy="100" thrust_speed="102" speed_rating="102" missile_speed="40" weapon_length="16" thrust_damage="7" item_usage="stone" rotation="100,30,20" trail_particle_name="smokebomb_h1" passby_sound_code="" rotation_speed="0, -3.0, 0">
+        <WeaponFlags RangedWeapon="true" Consumable="true" AutoReload="true" UnloadWhenSheathed="true" UseHandAsThrowBase="true" AmmoBreaksOnBounceBack="true" LeavesTrail="true" />
+      </Weapon>
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_smokebomb_h2" name="{=Meow}Smokebomb +2" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="stone_holster" holster_mesh_with_weapon="stone_holster" mesh="torch_flame_base" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="throwing_stone:throwing_stone_2">
+    <ItemComponent>
+      <Weapon weapon_class="Stone" ammo_class="Stone" stack_amount="1" physics_material="smokebomb_h2" accuracy="100" thrust_speed="102" speed_rating="102" missile_speed="40" weapon_length="17" thrust_damage="7" item_usage="stone" rotation="100,30,20" trail_particle_name="smokebomb_h2" passby_sound_code="" rotation_speed="0, -3.0, 0">
+        <WeaponFlags RangedWeapon="true" Consumable="true" AutoReload="true" UnloadWhenSheathed="true" UseHandAsThrowBase="true" AmmoBreaksOnBounceBack="true" LeavesTrail="true" />
+      </Weapon>
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_smokebomb_h3" name="{=Meow}Smokebomb +3" is_merchandise="false" body_name="bo_throwing_stone" holster_body_name="bo_axe_short" holster_mesh="stone_holster" holster_mesh_with_weapon="stone_holster" mesh="torch_flame_base" weight="0.1" appearance="0.1" Type="Thrown" item_holsters="throwing_stone:throwing_stone_2">
+    <ItemComponent>
+      <Weapon weapon_class="Stone" ammo_class="Stone" stack_amount="1" physics_material="smokebomb_h3" accuracy="100" thrust_speed="102" speed_rating="102" missile_speed="40" weapon_length="18" thrust_damage="7" item_usage="stone" rotation="100,30,20" trail_particle_name="smokebomb_h3" passby_sound_code="" rotation_speed="0, -3.0, 0">
+        <WeaponFlags RangedWeapon="true" Consumable="true" AutoReload="true" UnloadWhenSheathed="true" UseHandAsThrowBase="true" AmmoBreaksOnBounceBack="true" LeavesTrail="true" />
+      </Weapon>
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <CraftedItem id="crpg_english_bill_h0" name="{=Salt}English Bill" crafting_template="crpg_TwoHandedPolearm">
+    <Pieces>
+      <Piece id="crpg_english_bill_blade_h0" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_english_bill_handle_h0" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_english_bill_guard_h0" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_english_bill_pommel_h0" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_english_bill_h1" name="{=Salt}English Bill +1" crafting_template="crpg_TwoHandedPolearm">
+    <Pieces>
+      <Piece id="crpg_english_bill_blade_h1" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_english_bill_handle_h1" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_english_bill_guard_h1" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_english_bill_pommel_h1" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_english_bill_h2" name="{=Salt}English Bill +2" crafting_template="crpg_TwoHandedPolearm">
+    <Pieces>
+      <Piece id="crpg_english_bill_blade_h2" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_english_bill_handle_h2" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_english_bill_guard_h2" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_english_bill_pommel_h2" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_english_bill_h3" name="{=Salt}English Bill +3" crafting_template="crpg_TwoHandedPolearm">
+    <Pieces>
+      <Piece id="crpg_english_bill_blade_h3" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_english_bill_handle_h3" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_english_bill_guard_h3" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_english_bill_pommel_h3" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_longseax_h0" name="{=Diggles}Long Seax" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
+    <Pieces>
+      <Piece id="crpg_longseax_blade_h0" Type="Blade" scale_factor="90" />
+      <Piece id="crpg_longseax_guard_h0" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_longseax_handle_h0" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_longseax_pommel_h0" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_longseax_h1" name="{=Diggles}Long Seax +1" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
+    <Pieces>
+      <Piece id="crpg_longseax_blade_h1" Type="Blade" scale_factor="90" />
+      <Piece id="crpg_longseax_guard_h1" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_longseax_handle_h1" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_longseax_pommel_h1" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_longseax_h2" name="{=Diggles}Long Seax +2" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
+    <Pieces>
+      <Piece id="crpg_longseax_blade_h2" Type="Blade" scale_factor="90" />
+      <Piece id="crpg_longseax_guard_h2" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_longseax_handle_h2" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_longseax_pommel_h2" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_longseax_h3" name="{=Diggles}Long Seax +3" crafting_template="crpg_OneHandedSword" culture="Culture.empire" modifier_group="sword">
+    <Pieces>
+      <Piece id="crpg_longseax_blade_h3" Type="Blade" scale_factor="90" />
+      <Piece id="crpg_longseax_guard_h3" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_longseax_handle_h3" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_longseax_pommel_h3" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_black_longdagger_h0" name="{=BalanceMe}Decorative Long Dagger" crafting_template="crpg_Dagger_Scabbard" culture="Culture.empire" modifier_group="sword">
+    <Pieces>
+      <Piece id="crpg_black_longdagger_blade_h0" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_guard_h0" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_handle_h0" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_pommel_h0" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_black_longdagger_h1" name="{=BalanceMe}Decorative Long Dagger +1" crafting_template="crpg_Dagger_Scabbard" culture="Culture.empire" modifier_group="sword">
+    <Pieces>
+      <Piece id="crpg_black_longdagger_blade_h1" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_guard_h1" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_handle_h1" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_pommel_h1" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_black_longdagger_h2" name="{=BalanceMe}Decorative Long Dagger +2" crafting_template="crpg_Dagger_Scabbard" culture="Culture.empire" modifier_group="sword">
+    <Pieces>
+      <Piece id="crpg_black_longdagger_blade_h2" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_guard_h2" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_handle_h2" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_pommel_h2" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_black_longdagger_h3" name="{=BalanceMe}Decorative Long Dagger +3" crafting_template="crpg_Dagger_Scabbard" culture="Culture.empire" modifier_group="sword">
+    <Pieces>
+      <Piece id="crpg_black_longdagger_blade_h3" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_guard_h3" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_handle_h3" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_black_longdagger_pommel_h3" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_swiss_halberd_h0" name="{=Salt}Swiss Halberd" crafting_template="crpg_TwoHandedPolearm">
+    <Pieces>
+      <Piece id="crpg_swiss_halberd_blade_h0" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_handle_h0" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_guard_h0" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_pommel_h0" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_swiss_halberd_h1" name="{=Salt}Swiss Halberd +1" crafting_template="crpg_TwoHandedPolearm">
+    <Pieces>
+      <Piece id="crpg_swiss_halberd_blade_h1" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_handle_h1" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_guard_h1" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_pommel_h1" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_swiss_halberd_h2" name="{=Salt}Swiss Halberd +2" crafting_template="crpg_TwoHandedPolearm">
+    <Pieces>
+      <Piece id="crpg_swiss_halberd_blade_h2" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_handle_h2" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_guard_h2" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_pommel_h2" Type="Pommel" scale_factor="100" />
+    </Pieces>
+  </CraftedItem>
+  <CraftedItem id="crpg_swiss_halberd_h3" name="{=Salt}Swiss Halberd +3" crafting_template="crpg_TwoHandedPolearm">
+    <Pieces>
+      <Piece id="crpg_swiss_halberd_blade_h3" Type="Blade" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_handle_h3" Type="Handle" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_guard_h3" Type="Guard" scale_factor="100" />
+      <Piece id="crpg_swiss_halberd_pommel_h3" Type="Pommel" scale_factor="100" />
     </Pieces>
   </CraftedItem>
 </Items>

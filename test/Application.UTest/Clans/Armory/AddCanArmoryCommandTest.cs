@@ -66,7 +66,7 @@ public class AddCanArmoryCommandTest : TestBase
             ClanId = user.ClanMembership!.ClanId,
         }, CancellationToken.None);
 
-        Assert.That(result.Errors, Is.Not.Empty);
+        Assert.That(result.Errors, Is.Not.Null);
         Assert.That(result.Errors!.First().Code, Is.Not.EqualTo(ErrorCode.InternalError));
 
         user = await AssertDb.Users
@@ -100,7 +100,7 @@ public class AddCanArmoryCommandTest : TestBase
             ClanId = user1.ClanMembership!.ClanId,
         }, CancellationToken.None);
 
-        Assert.That(result.Errors, Is.Not.Empty);
+        Assert.That(result.Errors, Is.Not.Null);
 
         var user = await AssertDb.Users
             .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
@@ -129,7 +129,7 @@ public class AddCanArmoryCommandTest : TestBase
             ClanId = user.ClanMembership!.ClanId + 1,
         }, CancellationToken.None);
 
-        Assert.That(result.Errors, Is.Not.Empty);
+        Assert.That(result.Errors, Is.Not.Null);
 
         user = await AssertDb.Users
             .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
@@ -140,7 +140,7 @@ public class AddCanArmoryCommandTest : TestBase
     }
 
     [Test]
-    public async Task ShouldNotAddEquippedItem()
+    public async Task ShouldUnequipEquippedItem()
     {
         await ClanArmoryTestHelper.CommonSetUp(ArrangeDb);
         var user = await ArrangeDb.Users
@@ -166,13 +166,15 @@ public class AddCanArmoryCommandTest : TestBase
             ClanId = user.ClanMembership!.ClanId,
         }, CancellationToken.None);
 
-        Assert.That(result.Errors, Is.Not.Empty);
+        Assert.That(result.Errors, Is.Null);
 
         user = await AssertDb.Users
             .Include(u => u.Items).ThenInclude(ui => ui.ClanArmoryItem)
             .FirstAsync(u => u.Id == user.Id);
 
-        Assert.That(user.Items.Count(ui => ui.ClanArmoryItem != null), Is.EqualTo(0));
-        Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(0));
+        Assert.That(user.Items.Count(ui => ui.ClanArmoryItem != null), Is.EqualTo(1));
+        Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(1));
+        Assert.That(AssertDb.EquippedItems.Count(), Is.EqualTo(0));
+
     }
 }

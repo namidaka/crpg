@@ -5,4 +5,5 @@ internal enum CrpgNotificationType
     Notification,
     Announcement,
     Sound,
+    Commander,
 }
