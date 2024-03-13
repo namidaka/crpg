@@ -59,7 +59,7 @@ watch(
                     <template #launcherLink>
                       <a
                         target="_blank"
-                        href="https://www.moddb.com/mods/crpg/downloads/crpg-launcher1"
+                        href="https://c-rpg.eu/LauncherV3.exe"
                       >
                         launcher
                       </a>
@@ -116,6 +116,14 @@ watch(
               </a>
             </template>
           </i18n-t>
+          <iframe
+            class="mx-auto block aspect-video w-full rounded-lg lg:w-8/9 xl:w-7/8"
+            src="https://www.youtube-nocookie.com/embed/MQnW_j6s1Jw"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          />
         </div>
       </div>
     </template>
