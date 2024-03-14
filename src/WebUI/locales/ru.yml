@@ -25,6 +25,7 @@ installation:
       startLauncher: Откройте Launcher и подождите, пока мод загрузится
       update: Для обновления мода достаточно перезапустить Launcher
   help: Если у вас возникли трудности с установкой модификации, пожалуйста, свяжитесь с нами с помощью {discordLink}
+  watchVideoGuide: Видео инструкция
 
 dateTime:
   days:

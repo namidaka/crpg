@@ -25,6 +25,7 @@ installation:
       startLauncher: Open the launcher and wait for the mod to download
       update: To update the mod simply press the 'Check For Update' button on the launcher
   help: Having issues getting the mod working or installing? Contact us on our {discordLink} Server!
+  watchVideoGuide: Watch video guide
 
 dateTime:
   days:

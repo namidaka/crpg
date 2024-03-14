@@ -25,6 +25,7 @@ installation:
       startLauncher: 打开启动器 等待MOD的下载
       update: 要更新 只需重新启动启动器即可
   help: 遇到安装问题？通过 {discordLink} 服务器联系我们
+  watchVideoGuide: 视频教学
 
 dateTime:
   days:
