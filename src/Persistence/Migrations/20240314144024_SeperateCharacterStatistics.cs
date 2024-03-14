@@ -1,4 +1,5 @@
 ﻿using System;
+using Crpg.Application.Characters.Models;
 using Crpg.Domain.Entities.Servers;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,6 +14,10 @@ namespace Crpg.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:gamemode", "crpgbattle, crpgconquest, crpgduel, crpgdtv, crpgsiege, crpgteamdeathmatch, crpgskirmish, crpgunknown");
+
             migrationBuilder.CreateTable(
                 name: "character_statistics",
                 columns: table => new
@@ -24,7 +29,7 @@ namespace Crpg.Persistence.Migrations
                     deaths = table.Column<int>(type: "integer", nullable: false),
                     assists = table.Column<int>(type: "integer", nullable: false),
                     play_time = table.Column<TimeSpan>(type: "interval", nullable: false),
-                    game_mode = table.Column<GameMode>(type: "real", nullable: false)
+                    game_mode = table.Column<GameMode>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +44,7 @@ namespace Crpg.Persistence.Migrations
 
             migrationBuilder.Sql($@"
                 INSERT INTO character_statistics (character_id, kills, deaths, assists, play_time, game_mode)
-                SELECT id, kills, deaths, assists, play_time, {GameMode.CRPGBattle}
+                SELECT id, kills, deaths, assists, play_time, 0
                 FROM characters");
 
             migrationBuilder.DropColumn(
@@ -110,6 +115,9 @@ namespace Crpg.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "character_statistics");
+
+            migrationBuilder.AlterDatabase()
+                .OldAnnotation("Npgsql:Enum:gamemode", "crpgbattle, crpgconquest, crpgduel, crpgdtv, crpgsiege, crpgteamdeathmatch, crpgskirmish, crpgunknown");
         }
     }
 }
