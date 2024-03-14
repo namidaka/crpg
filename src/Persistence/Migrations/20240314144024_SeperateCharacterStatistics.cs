@@ -103,7 +103,8 @@ namespace Crpg.Persistence.Migrations
                     assists = cs_aggregated.sum_assists,
                     play_time = cs_aggregated.sum_play_time
                 FROM (
-                    SELECT character_id,
+                    SELECT
+                        character_id,
                         SUM(kills) AS sum_kills,
                         SUM(deaths) AS sum_deaths,
                         SUM(assists) AS sum_assists,
