@@ -110,7 +110,6 @@ public partial class MainViewModel : ObservableObject
         DetectCommand.NotifyCanExecuteChanged();
         ResetConfigCommand.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(StartUpdateCrpgCommand));
-        OnPropertyChanged(nameof(StartUpdateText));
 
     }
 
@@ -145,7 +144,6 @@ public partial class MainViewModel : ObservableObject
     }
 
     public ICommand StartUpdateCrpgCommand => IsGameUpToDate ? StartCrpgCommand : UpdateGameFilesCommand;
-    public string StartUpdateText => IsGameUpToDate ? "Launch cRPG" : "Check For Update";
 
     [RelayCommand(CanExecute = nameof(CanStartCrpg))]
     private void StartCrpg()

@@ -288,7 +288,6 @@ internal class CrpgUserManagerServer : MissionNetwork
         }
 
         string[] array = bannerKey.Split('.');
-
         StringBuilder fixedBannerCode = new();
         // The maximum size of the banner is Banner.BannerFullSize. But apparently negative values do not cause crashes. Anyway added some checks with tolerance to parse the banner.
         const int maxX = 2 * Banner.BannerFullSize;
@@ -311,7 +310,7 @@ internal class CrpgUserManagerServer : MissionNetwork
          * mirror (0 or 1)
          * rotation (0-359)
          */
-        for (int i = 0; i + 10 <= array.Length; i += 10)
+        for (int i = 0; i + 10 <= Math.Min(array.Length, _constants.ClanBannerKeyMaxIcons * 10); i += 10)
         {
             if (!int.TryParse(array[i], out int iconId))
             {

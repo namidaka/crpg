@@ -66,7 +66,7 @@ module.exports = plugin(({ addBase, theme }) => {
         backgroundPosition: 'center',
       },
     },
-    [`[type = 'checkbox']:checked`]: {
+    [`[type='checkbox']:checked`]: {
       backgroundRepeat: 'no-repeat',
       backgroundSize: '75%',
       backgroundImage: `url("${svgToDataUri(

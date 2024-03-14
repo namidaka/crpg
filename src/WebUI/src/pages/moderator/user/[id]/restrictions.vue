@@ -4,7 +4,6 @@ import { getUserRestrictions } from '@/services/users-service';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     roles: ['Moderator', 'Admin'],
   },
 });

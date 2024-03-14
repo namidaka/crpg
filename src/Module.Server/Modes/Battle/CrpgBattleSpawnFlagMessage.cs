@@ -9,16 +9,19 @@ internal sealed class CrpgBattleSpawnFlagMessage : GameNetworkMessage
 {
     private static readonly CompressionInfo.Integer FlagCapturePointCharCompressionInfo = new(65, 5);
     public int FlagChar { get; set; } = default!;
+    public float Time { get; set; } = default!;
 
     protected override void OnWrite()
     {
         WriteIntToPacket(FlagChar, FlagCapturePointCharCompressionInfo);
+        WriteFloatToPacket(Time, CompressionInfo.Float.FullPrecision);
     }
 
     protected override bool OnRead()
     {
         bool bufferReadValid = true;
         FlagChar = GameNetworkMessage.ReadIntFromPacket(FlagCapturePointCharCompressionInfo, ref bufferReadValid);
+        Time = ReadFloatFromPacket(CompressionInfo.Float.FullPrecision, ref bufferReadValid);
         return bufferReadValid;
     }
 

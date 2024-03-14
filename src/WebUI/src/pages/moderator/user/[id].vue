@@ -5,7 +5,6 @@ import { moderationUserKey } from '@/symbols/moderator';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     roles: ['Moderator', 'Admin'],
   },
 });

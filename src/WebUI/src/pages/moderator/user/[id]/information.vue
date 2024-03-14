@@ -7,7 +7,6 @@ import { notify } from '@/services/notification-service';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     roles: ['Moderator', 'Admin'],
   },
 });

@@ -47,7 +47,6 @@ internal class KickCommand : AdminCommand
         }
 
         ChatComponent.ServerSendMessageToPlayer(fromPeer, ColorFatal, $"You have kicked {targetPeer.UserName}.");
-        ChatComponent.ServerSendServerMessageToEveryone(ColorFatal, $"{targetPeer.UserName} was kicked by {fromPeer.UserName}.{(reason != null ? $" Reason: {reason}" : string.Empty)}");
 
         KickHelper.Kick(targetPeer, DisconnectType.KickedByHost);
     }

@@ -142,8 +142,10 @@ export const getCharacterEarningStatistics = async (
 export const getCharacterRating = (characterId: number) =>
   get<CharacterRating>(`/users/self/characters/${characterId}/rating`);
 
-export const getCharacterLimitations = (characterId: number) =>
-  get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`);
+export const getCharacterLimitations = async (characterId: number) =>
+  (await get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`)) || {
+    lastRespecializeAt: new Date(),
+  };
 
 export const getCharacterCharacteristics = (characterId: number) =>
   get<CharacterCharacteristics>(`/users/self/characters/${characterId}/characteristics`);

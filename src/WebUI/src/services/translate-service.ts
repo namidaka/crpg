@@ -23,7 +23,7 @@ export const switchLanguage = async (locale: any) => {
 };
 
 const loadLocaleMessages = async (locale: any) => {
-  if (!i18n.global.availableLocales.includes(locale)) {
+  if (!i18n.global.availableLocales.includes(locale) && locale !== defaultLocale()) {
     const messages = await import(`../../locales/${locale}.yml`);
     i18n.global.setLocaleMessage(locale, messages.default);
   }

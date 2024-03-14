@@ -43,7 +43,6 @@ import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({
   meta: {
-    layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
 });
