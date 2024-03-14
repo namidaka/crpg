@@ -518,7 +518,7 @@ internal class ItemExporter : IDataExporter
                 }
                 foreach (var damageNode in bladeData)
                 {
-                    float scaler = 1 + 0.15f / (float)Math.Pow(damageNode.Attributes["damage_type"].Value switch
+                    float scaler = 1 - 0.03f / (float)Math.Pow(damageNode.Attributes["damage_type"].Value switch
                     {
                         "Blunt" => CrpgItemValueModel.CalculateDamageTypeFactor(DamageTypes.Blunt),
                         "Cut" => CrpgItemValueModel.CalculateDamageTypeFactor(DamageTypes.Cut),
