@@ -1,0 +1,87 @@
+﻿<Prefab>
+  <Constants>
+  </Constants>
+  <VisualDefinitions>
+    <VisualDefinition Name="PollExtension" EaseIn="true" TransitionDuration="0.9">
+      <VisualState PositionXOffset="0" State="Active" />
+      <VisualState PositionXOffset="-400" State="Inactive" />
+    </VisualDefinition>
+  </VisualDefinitions>
+  <Window>
+    <MultiplayerPollProgressionWidget DoNotAcceptEvents="true" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Center" PollExtension="PollExtension" HasOngoingPoll="@HasOngoingPoll" >
+      <Children>
+
+        <ListPanel Id="PollExtension" VisualDefinition="PollExtension" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="250" PositionXOffset="-400" StackLayout.LayoutMethod="VerticalBottomToTop">
+          <Children>
+
+            <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" ExtendTop="15" ExtendRight="25" ExtendBottom="15" Sprite="BlankWhiteSquare_9" Color="#000000FF" AlphaFactor="0.2" StackLayout.LayoutMethod="VerticalBottomToTop">
+              <Children>
+
+                <RichTextWidget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="230" HorizontalAlignment="Center" Brush="MPHUD.Poll.InitiatorNameText" MarginLeft="15" Text="@PollInitiatorName" />
+                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="MPHUD.Poll.DescriptionText" MarginLeft="15" MarginTop="5" Text="@PollDescription" />
+
+                <Widget DataSource="{TargetPlayer}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="15"  MarginLeft="15" HorizontalAlignment="Center">
+                  <Children>
+                    <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop">
+                      <Children>
+                        <ImageIdentifierWidget DataSource="{Avatar}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="60" SuggestedHeight="60" HorizontalAlignment="Center" VerticalAlignment="Center" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" MaterialAlphaFactor="0.7" />
+                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" Brush="MPHUD.Poll.InitiatorNameText" MarginTop="5" Text="@Name" />
+                      </Children>
+                    </ListPanel>
+                  </Children>
+                </Widget>
+
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="100" SuggestedHeight="2" Sprite="BlankWhiteSquare_9" MarginLeft="15" PositionYOffset="15" Color="#F4E1C4FF" HorizontalAlignment="Center"/>
+
+                <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginTop="15" >
+                  <Children>
+
+                    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" IsVisible="@AreKeysEnabled">
+                      <Children>
+                        <ListPanel DataSource="{Keys}" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center"  MarginLeft="15" StackLayout.LayoutMethod="HorizontalCentered">
+                          <ItemTemplate>
+                            <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="55" MarginRight="55" StackLayout.LayoutMethod="VerticalBottomToTop">
+                              <Children>
+                                <InputKeyVisualWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="70" SuggestedHeight="70" HorizontalAlignment="Center" VerticalAlignment="Center" KeyID="@KeyID"/>
+                                <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="MPHUD.Poll.DescriptionText" Brush.FontSize="22" PositionYOffset="-12" Text="@KeyName"/>
+                              </Children>
+                            </ListPanel>
+                          </ItemTemplate>
+                        </ListPanel>
+                      </Children>
+                    </Widget>
+
+                    <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginTop="15" MarginLeft="15" StackLayout.LayoutMethod="HorizontalCentered">
+                      <Children>
+                        
+                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="20" MarginRight="20" MarginTop="10" StackLayout.LayoutMethod="VerticalBottomToTop">
+                          <Children>
+                            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="18" SuggestedHeight="20" HorizontalAlignment="Center" VerticalAlignment="Center" Sprite="MPHud\thumb" Color="#71C013FF"/>
+                            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="MPHUD.Poll.Accepted.Text" IntText="@VotesAccepted" MarginTop="5" />
+                          </Children>
+                        </ListPanel>
+                      
+
+                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="20" MarginRight="20" MarginTop="10" StackLayout.LayoutMethod="VerticalBottomToTop">
+                          <Children>
+                            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="18" SuggestedHeight="20" HorizontalAlignment="Center" VerticalAlignment="Center" Sprite="MPHud\thumb" VerticalFlip="true" Color="#ED1C24FF"/>
+                            <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="5" Brush="MPHUD.Poll.Rejected.Text" IntText="@VotesRejected" />
+                          </Children>
+                        </ListPanel>
+
+                      </Children>
+                    </ListPanel>
+
+                  </Children>
+                </Widget>
+
+              </Children>
+            </ListPanel>
+
+          </Children>
+        </ListPanel>
+
+      </Children>
+    </MultiplayerPollProgressionWidget>
+  </Window>
+</Prefab>

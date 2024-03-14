@@ -12,7 +12,7 @@ namespace Crpg.Module.Common.Commander;
 internal class CrpgCommanderPollComponent : MissionNetwork
 {
     public const int MinimumParticipantCountRequired = 3;
-    private const int MaximumCommanderVotes = 3;
+    private const int MaximumCommanderVotes = 1;
     public event Action<MissionPeer, MissionPeer, bool> OnCommanderPollOpened = default!;
     public event Action<MultiplayerPollRejectReason> OnPollRejected = default!;
     public event Action<int, int, BattleSideEnum> OnPollUpdated = default!;
@@ -538,39 +538,19 @@ internal class CrpgCommanderPollComponent : MissionNetwork
             return AcceptedByMajority();
         }
 
-        private bool GotEnoughRejectVotesToEnd()
-        {
-            return RejectedByMajority();
-        }
-
-        private bool AcceptedByAllParticipants()
-        {
-            return AcceptedCount == GetPollParticipantCount();
-        }
-
         private bool AcceptedByMajority()
         {
             return (float)AcceptedCount / GetPollParticipantCount() > 0.50001f;
         }
 
-        private bool RejectedByAtLeastOneParticipant()
-        {
-            return RejectedCount > 0;
-        }
-
-        private bool RejectedByMajority()
-        {
-            return (float)RejectedCount / GetPollParticipantCount() > 0.50001f;
-        }
-
         private int GetPollParticipantCount()
         {
-            return ParticipantsToVote.Count + AcceptedCount + RejectedCount;
+            return AcceptedCount + RejectedCount;
         }
 
         private bool ResultsFinalized()
         {
-            return GotEnoughAcceptVotesToEnd() || GotEnoughRejectVotesToEnd() || ParticipantsToVote.Count == 0;
+            return ParticipantsToVote.Count == 0;
         }
 
     }

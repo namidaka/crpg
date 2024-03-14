@@ -178,7 +178,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
         {
             foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in crpgScoreboardSideVM.Players)
             {
-                if (missionScoreboardPlayerVM.Peer.Peer.Id.Equals(playerId))
+                if (missionScoreboardPlayerVM.Peer?.Peer?.Id.Equals(playerId) ?? false)
                 {
                     missionScoreboardPlayerVM.UpdateIsMuted();
                     return;
@@ -193,7 +193,7 @@ internal class CrpgMissionScoreboardVM : ViewModel
         {
             foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in crpgScoreboardSideVM.Players)
             {
-                if (missionScoreboardPlayerVM.Peer.Peer.Id.Equals(playerId))
+                if (missionScoreboardPlayerVM.Peer?.Peer?.Id.Equals(playerId) ?? false)
                 {
                     missionScoreboardPlayerVM.UpdateIsMuted();
                     return;

@@ -109,6 +109,11 @@ internal class CrpgRewardServer : MissionLogic
             return;
         }
 
+        if (isSiegeEngineHit)
+        {
+            return;
+        }
+
         if (!_isRatingEnabled
             || !TryGetRating(affectedAgent, out var affectedRating)
             || !TryGetRating(affectorAgent, out var affectorRating))

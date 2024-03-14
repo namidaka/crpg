@@ -64,6 +64,25 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             return finalDamage * 0.75f * (1 + 0.02f * strengthSkill + 0.04f * glovearmor);
         }
 
+        if (IsPlayerCharacterAttackingDtvBot(attackInformation))
+        {
+            switch (weapon.CurrentUsageItem.WeaponClass)
+            {
+                case WeaponClass.Bolt:
+                    finalDamage *= 2.5f;
+                    break;
+                case WeaponClass.Arrow:
+                    finalDamage *= 1.5f;
+                    break;
+                case WeaponClass.Javelin:
+                case WeaponClass.ThrowingAxe:
+                case WeaponClass.ThrowingKnife:
+                case WeaponClass.Stone:
+                    finalDamage *= 2.0f;
+                    break;
+            }
+        }
+
         // CalculateShieldDamage only has dmg as parameter. Therefore it cannot be used to get any Skill values.
         if (collisionData.AttackBlockedWithShield && finalDamage > 0)
         {
@@ -84,11 +103,11 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                 if (weapon.CurrentUsageItem.WeaponFlags.HasAnyFlag(WeaponFlags.BonusAgainstShield))
                 {
                     // this bonus is on top of the native x2 in MissionCombatMechanicsHelper
-                    // so the final bonus is 3.5 for axes and 3 for swords. We do this instead of nerfing the impact of shield skill so shield can stay virtually unbreakable against sword.
+                    // so the final bonus is 4.0 for axes and 3 for swords. We do this instead of nerfing the impact of shield skill so shield can stay virtually unbreakable against sword.
                     // it is the same logic as arrows not dealing a lot of damage to horse but spears dealing extra damage to horses
                     // As we want archer to fear cavs and cavs to fear spears, we want swords to fear shielders and shielders to fear axes.
 
-                    finalDamage *= swordClass.Contains(weapon.CurrentUsageItem.WeaponClass) ? 1.5f : 1.75f;
+                    finalDamage *= swordClass.Contains(weapon.CurrentUsageItem.WeaponClass) ? 1.5f : 2.0f;
                 }
             }
         }
@@ -382,6 +401,20 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                 : false;
 
             return isVictimTheVipBot;
+        }
+
+        return false;
+    }
+
+    private bool IsPlayerCharacterAttackingDtvBot(AttackInformation attackInformation)
+    {
+        if (attackInformation.AttackerAgentOrigin is CrpgBattleAgentOrigin)
+        {
+            bool isVictimDtvBot = attackInformation.VictimAgentCharacter != null
+                ? attackInformation.VictimAgentCharacter.StringId.StartsWith("crpg_dtv_")
+                : false;
+
+            return isVictimDtvBot;
         }
 
         return false;

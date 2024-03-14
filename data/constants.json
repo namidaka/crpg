@@ -41,7 +41,7 @@
   "damageFactorForPowerThrow": 0.1,
   "handlingFactorForWeaponMaster":  [0.7, 0.75, 0.8, 0.85, 0.95, 1.05, 1.20, 1.35, 1.45, 1.5, 1.55, 1.65, 1.7, 1.75],
   "durabilityFactorForShieldRecursiveCoefs": [1.0, 0.4, 0.1],
-  "infantryCoverageFactorForShieldCoef": 0.25,
+  "infantryCoverageFactorForShieldCoef": 0.20,
   "cavalryCoverageFactorForShieldCoef": 0.02,
   "mountedRangedSkillInaccuracy": [0.1, 0.15, 0.228, 0.334, 0.468, 0.63, 0.82, 1.038],
   "shieldDefendStunMultiplierForSkillRecursiveCoefs": [0.625, 0.18, 0.07],
@@ -60,7 +60,8 @@
   "clanDescriptionMinLength": 0,
   "clanDescriptionMaxLength": 1000,
   "clanColorMinValue": 4278190080, /* 0xFF000000, ARGB color with the alpha to 255 */
-  "clanBannerKeyMaxLength": 100,
+  "clanBannerKeyMaxLength": 400,
+  "clanBannerKeyMaxIcons": 12,
   "clanBannerKeyRegex": "^(-?\\d+\\.)*-?\\d+$",
   "strategusMapWidth": 256,
   "strategusMapHeight": 215,

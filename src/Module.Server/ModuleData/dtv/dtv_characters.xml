@@ -60,7 +60,7 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_vip_viscount_female" name="{=}The Viscountess" is_female="true">
     <face>
-      <BodyProperties version="4" age="40.01" weight="0.3765" build="0.6481"  key="0005140152FC3004467A86577841588481E9753384DA04044483648888BB1454005A6603056167B1000000000000000000000000000000000000000056B41004" />
+      <BodyProperties version="4" age="40.01" weight="0.3765" build="0.6481" key="0005140152FC3004467A86577841588481E9753384DA04044483648888BB1454005A6603056167B1000000000000000000000000000000000000000056B41004" />
     </face>
     <skills>
       <skill id="Strength" value="30" />
@@ -188,13 +188,13 @@
         <equipment slot="Head" id="Item.crpg_thinhide_coif_v2_h0" />
         <equipment slot="Body" id="Item.crpg_leather_tunic_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_wrapped_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_shepherd_axe_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_shepherd_axe_v2_h1" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_leather_cap_v2_h0" />
         <equipment slot="Body" id="Item.crpg_cloth_apron_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_d_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_scythe_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_scythe_v1_h1" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -386,13 +386,13 @@
         <equipment slot="Body" id="Item.crpg_woven_leather_vest_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_empire_cape_a_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_leather_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_onehanded_barmace_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_onehanded_barmace_v1_h1" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_segmented_skullcap_over_laced_coif_v2_h0" />
         <equipment slot="Body" id="Item.crpg_gambeson_b_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_leather_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_tetsubo_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_tetsubo_v1_h1" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -505,8 +505,8 @@
         <equipment slot="Cape" id="Item.crpg_battania_civil_cape_v2_h0" />
         <equipment slot="Body" id="Item.crpg_buckled_wildsman_armor_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_battania_woodland_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_saxon_bearded_axe_v2_h0" />
-        <equipment slot="Item1" id="Item.dtv_common_hunting_bow_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_saxon_bearded_axe_v2_h1" />
+        <equipment slot="Item1" id="Item.dtv_common_hunting_bow_v2_h1" />
         <equipment slot="Item2" id="Item.crpg_bodkin_arrows_v2_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -514,7 +514,7 @@
         <equipment slot="Cape" id="Item.crpg_battania_civil_cape_v2_h0" />
         <equipment slot="Body" id="Item.crpg_rough_fur_over_chain_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_battania_woodland_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_iron_cleaver_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_iron_cleaver_v1_h1" />
         <equipment slot="Item1" id="Item.crpg_northern_scouts_shield_v3_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -674,15 +674,15 @@
         <equipment slot="Head" id="Item.crpg_empire_crown_north_v2_h0" />
         <equipment slot="Body" id="Item.crpg_imperial_robes_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_fine_steel_arming_sword_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_throwing_spike_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_fine_steel_arming_sword_v1_h1" />
+        <equipment slot="Item1" id="Item.crpg_throwing_spike_v2_h1" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_empire_crown_north_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_wrapped_scarf_v2_h0" />
         <equipment slot="Body" id="Item.crpg_imperial_robes_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_ironrod_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_ironrod_v2_h1" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -723,13 +723,13 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_pirate_swabbie" name="{=}Swabbie" race="light_bot">
     <face>
-      <BodyProperties version="4" age="25" weight="0.5" build="0.5"  key="00087806C0FC001A495893C9B59C998B8AB296A4CA67EA874C87852887B686750177761307875B76000000000000000000000000000000000000000066F40145" />
+      <BodyProperties version="4" age="25" weight="0.5" build="0.5" key="00087806C0FC001A495893C9B59C998B8AB296A4CA67EA874C87852887B686750177761307875B76000000000000000000000000000000000000000066F40145" />
     </face>
     <skills>
       <skill id="Strength" value="15" />
       <skill id="Agility" value="15" />
-      <skill id="IronFlesh" value="4" />
-      <skill id="PowerStrike" value="3" />
+      <skill id="IronFlesh" value="2" />
+      <skill id="PowerStrike" value="2" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
       <skill id="Athletics" value="90" />
@@ -770,13 +770,13 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_pirate_deckhand" name="{=}Deckhand" race="light_bot">
     <face>
-      <BodyProperties version="4" age="37.88" weight="0.5" build="0.5"  key="001E840540FC1001AC3BA576865898CCCB46951B8579DD764C76B7478788769802877624086446A5000000000000000000000000000000000000000043042102" />
+      <BodyProperties version="4" age="37.88" weight="0.5" build="0.5" key="001E840540FC1001AC3BA576865898CCCB46951B8579DD764C76B7478788769802877624086446A5000000000000000000000000000000000000000043042102" />
     </face>
     <skills>
       <skill id="Strength" value="15" />
       <skill id="Agility" value="15" />
-      <skill id="IronFlesh" value="5" />
-      <skill id="PowerStrike" value="4" />
+      <skill id="IronFlesh" value="2" />
+      <skill id="PowerStrike" value="2" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="2" />
       <skill id="Athletics" value="90" />
@@ -816,12 +816,12 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_pirate_male" name="{=}Pirate" race="light_bot">
     <face>
-      <BodyProperties version="4" age="37.88" weight="0.5" build="0.5"  key="001EA408C0FC22D2455B6698A74396684768D754A458CAE0598566965226B766028776240833756C000000000000000000000000000000000000000043041142" />
+      <BodyProperties version="4" age="37.88" weight="0.5" build="0.5" key="001EA408C0FC22D2455B6698A74396684768D754A458CAE0598566965226B766028776240833756C000000000000000000000000000000000000000043041142" />
     </face>
     <skills>
       <skill id="Strength" value="18" />
       <skill id="Agility" value="15" />
-      <skill id="IronFlesh" value="4" />
+      <skill id="IronFlesh" value="3" />
       <skill id="PowerStrike" value="3" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
@@ -862,12 +862,12 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_pirate_female" name="{=}Pirate" is_female="true" race="light_bot">
     <face>
-      <BodyProperties version="4" age="41.37" weight="0.5" build="0.5"  key="0008AC0E40FC200DDDD5625A98A369CB8AB2BC666987B7564C87852887B686750387763508875B760000000000000000000000000000000000000000150C1104" />
+      <BodyProperties version="4" age="41.37" weight="0.5" build="0.5" key="0008AC0E40FC200DDDD5625A98A369CB8AB2BC666987B7564C87852887B686750387763508875B760000000000000000000000000000000000000000150C1104" />
     </face>
     <skills>
       <skill id="Strength" value="18" />
       <skill id="Agility" value="15" />
-      <skill id="IronFlesh" value="4" />
+      <skill id="IronFlesh" value="3" />
       <skill id="PowerStrike" value="3" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
@@ -908,13 +908,13 @@
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_pirate_swashbuckler" name="{=}Swashbuckler" race="light_bot">
     <face>
-      <BodyProperties version="4" age="37.88" weight="0.5" build="0.5"  key="0010200140FC31CE575265583AA7684A387659548E28978C6915A69AA475585602877624087D95B900000000000000000000000000000000000000005B0C0004" />
+      <BodyProperties version="4" age="37.88" weight="0.5" build="0.5" key="0010200140FC31CE575265583AA7684A387659548E28978C6915A69AA475585602877624087D95B900000000000000000000000000000000000000005B0C0004" />
     </face>
     <skills>
       <skill id="Strength" value="18" />
       <skill id="Agility" value="21" />
-      <skill id="IronFlesh" value="6" />
-      <skill id="PowerStrike" value="5" />
+      <skill id="IronFlesh" value="2" />
+      <skill id="PowerStrike" value="6" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
       <skill id="Athletics" value="95" />
@@ -943,14 +943,14 @@
         <equipment slot="Body" id="Item.crpg_aserai_archer_armor_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_padded_vambrace_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_folded_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_fine_steel_paramerion_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_fine_steel_paramerion_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_buckler_v3_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_pirate_lieutenant" name="{=}Quartermaster" race="light_bot">
     <face>
-      <BodyProperties version="4" age="54.72" weight="0.5" build="0.5"  key="001EF40C40FC01409489464571C37D884339149587B77A5859856696836554A8059776560933756C000000000000000000000000000000000000000001248146" />
+      <BodyProperties version="4" age="54.72" weight="0.5" build="0.5" key="001EF40C40FC01409489464571C37D884339149587B77A5859856696836554A8059776560933756C000000000000000000000000000000000000000001248146" />
     </face>
     <skills>
       <skill id="Strength" value="24" />
@@ -976,19 +976,19 @@
         <equipment slot="Body" id="Item.crpg_roughcloth_shortcoat_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_rough_tied_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_folded_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_scalpel_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_scalpel_v1_h1" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Cape" id="Item.crpg_eyepatch_1_v1_h2" />
         <equipment slot="Body" id="Item.crpg_khuzait_leather_stitched_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_langes_messer_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_langes_messer_v1_h1" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_pirate_boss" name="{=}Redbeard Frank" race="heavy_bot">
     <face>
-      <BodyProperties version="4" age="38.51" weight="0.5" build="0.5"  key="0010280780FC03D4ECB16DFA6587274146C97592E8448606598566965A53805502A776250A33756C000000000000000000000000000000000000000001443146" />
+      <BodyProperties version="4" age="38.51" weight="0.5" build="0.5" key="0010280780FC03D4ECB16DFA6587274146C97592E8448606598566965A53805502A776250A33756C000000000000000000000000000000000000000001443146" />
     </face>
     <skills>
       <skill id="Strength" value="30" />
@@ -1049,16 +1049,17 @@
         <equipment slot="Body" id="Item.crpg_sturgian_chainmale_shortsleeve_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_viking_round_shield_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_sturgia_old_shield_a_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_closed_goggled_helmet_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_mail_shoulders_v2_h0" />
-        <equipment slot="Body" id="Item.crpg_sturgian_chainmale_shortsleeve_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_decorated_nordic_hauberk_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_norse_huscarl_axe_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_simple_short_warsword_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_viking_round_shield_v3_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -1093,7 +1094,17 @@
         <equipment slot="Body" id="Item.crpg_nordic_sloven_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_viking_round_shield_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_raider_throwing_axe_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_nasal_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_northern_leather_tabard_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_footman_axe_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_viking_round_shield_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_raider_throwing_axe_v3_h0" />
       </EquipmentRoster>
@@ -1137,7 +1148,7 @@
         <equipment slot="Body" id="Item.crpg_sturgian_chainmale_longsleeve_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_engraved_thegn_blade_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_engraved_thegn_blade_v1_h1" />
         <equipment slot="Item1" id="Item.crpg_heavy_round_shield_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -1146,7 +1157,7 @@
         <equipment slot="Body" id="Item.crpg_sturgian_chainmale_longsleeve_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_b_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_runic_axe_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_runic_axe_v1_h1" />
         <equipment slot="Item1" id="Item.crpg_heavy_round_shield_v3_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -1343,7 +1354,7 @@
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard5_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_battania_noble_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_knightly_cavalry_sword_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_knightly_cavalry_sword_v1_h1" />
         <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -1352,7 +1363,7 @@
         <equipment slot="Body" id="Item.crpg_mail_with_tabbard6_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_battania_noble_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_horsemanspick_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_horsemanspick_v1_h1" />
         <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v3_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -1421,6 +1432,16 @@
         <equipment slot="Body" id="Item.crpg_khuzait_sturdy_armor_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_guarded_armwraps_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_yellow_katana_v2_h0" />
+        <equipment slot="Item1" id="Item.dtv_rokusun_yumi_v1_h0" />
+        <equipment slot="Item2" id="Item.crpg_rangers_arrows_v2_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_roningasa_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_lamellar_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_leather_lamellar_armor_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_guarded_armwraps_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_blue_katana_v2_h0" />
         <equipment slot="Item1" id="Item.dtv_rokusun_yumi_v1_h0" />
         <equipment slot="Item2" id="Item.crpg_rangers_arrows_v2_h0" />
@@ -1475,6 +1496,22 @@
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_war_scythe_v2_h0" />
       </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_roningasa_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_a_brass_lamellar_shoulder_a_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_studded_leather_over_aketon_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_guarded_armwraps_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_tetsubo_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_roningasa_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_a_brass_lamellar_shoulder_a_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_eastern_stitched_leather_coat_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_guarded_armwraps_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_black_katana_v2_h0" />
+      </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_samurai_lieutenant" name="{=}Shinobi" race="light_bot">
@@ -1507,16 +1544,16 @@
         <equipment slot="Body" id="Item.crpg_layered_robe_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_guarded_armwraps_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_strapped_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_kama_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_spiral_shuriken_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_kama_v1_h2" />
+        <equipment slot="Item1" id="Item.crpg_spiral_shuriken_v2_h2" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_cloth_headwrap_v2_h0" />
         <equipment slot="Body" id="Item.crpg_layered_robe_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_guarded_armwraps_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_strapped_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_black_wakizashi_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_spiral_shuriken_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_black_wakizashi_v1_h2" />
+        <equipment slot="Item1" id="Item.crpg_spiral_shuriken_v2_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -1550,7 +1587,7 @@
         <equipment slot="Body" id="Item.crpg_khuzait_lamellar_strapped_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_eastern_wrapped_armguards_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_blue_katana_v2_h1" />
+        <equipment slot="Item0" id="Item.crpg_blue_katana_v2_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -1674,7 +1711,7 @@
         <equipment slot="Body" id="Item.crpg_battania_brass_plate_armor_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_northern_brass_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_fine_steel_menavlion_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_fine_steel_menavlion_v3_h2" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_plumed_helmet_v2_h0" />
@@ -1682,7 +1719,7 @@
         <equipment slot="Body" id="Item.crpg_battania_brass_plate_armor_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_northern_brass_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_thamaskene_steel_claymore_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_thamaskene_steel_claymore_v1_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -1938,7 +1975,7 @@
         <equipment slot="Body" id="Item.crpg_coat_of_plates4_c_h0" />
         <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_cavalier_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h2" />
         <equipment slot="Item1" id="Item.crpg_tall_heater_shield_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -1947,9 +1984,9 @@
         <equipment slot="Body" id="Item.crpg_coat_of_plates12_c_h0" />
         <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_cavalier_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_crossbow_d_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_crossbow_d_v2_h2" />
         <equipment slot="Item1" id="Item.crpg_bolt_a_v2_h0" />
-        <equipment slot="Item2" id="Item.crpg_decorated_round_mace_v2_h0" />
+        <equipment slot="Item2" id="Item.crpg_decorated_round_mace_v1_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -1985,6 +2022,498 @@
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h2" />
         <equipment slot="Item1" id="Item.crpg_heavy_heater_shield_v3_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_skirmisher" name="{=}Infantería Morisca" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="25" weight="0.234" build="0.1222" key="0036400FC0A013CE573B666315CA8A993A7C38765A2D4D32194B974BD1577A750152461305D2B8A10000000000000000000000007AFC20C4000000003EAC9084" />
+    </face>
+    <skills>
+      <skill id="Strength" value="18" />
+      <skill id="Agility" value="15" />
+      <skill id="IronFlesh" value="5" />
+      <skill id="PowerStrike" value="4" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="4" />
+      <skill id="Athletics" value="150" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="2" />
+      <skill id="OneHanded" value="120" />
+      <skill id="TwoHanded" value="120" />
+      <skill id="Polearm" value="120" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="100" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_desert_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_light_chain_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_long_padded_robe_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_khuzait_heavy_armor_bracer_v1_h0" />
+        <equipment slot="Leg" id="Item.crpg_leather_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_long_warsword_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_decorated_steppe_shield_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_lowland_javelin_v4_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_loose_wrapped_desert_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_aserai_scale_shoulder_d_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_short_padded_robe_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_studded_leather_vambraces_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_turndown_leather_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_desert_longsword_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_pointed_skullcap_over_mail_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_aserai_horseman_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_ringed_desert_armor_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_guarded_padded_vambrace_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_rough_tied_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_long_hafted_spiked_mace_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_lowland_throwing_knife_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_tuareg_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_light_chain_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_desert_robe_over_mail_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_guarded_padded_vambrace_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_rough_tied_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_hooked_two_handed_axe_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_jagged_throwing_spear_v4_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_explorer" name="{=}Explorador Morisco" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="25" weight="0.025" build="0.0353" key="003C980E405814567835B96B98979855767B2344A7777B3891ED848C2297E87A01600613067B83960000000000000000000000007AFC20C40000000034C460C4" />
+    </face>
+    <skills>
+      <skill id="Strength" value="15" />
+      <skill id="Agility" value="21" />
+      <skill id="IronFlesh" value="3" />
+      <skill id="PowerStrike" value="5" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="3" />
+      <skill id="Athletics" value="162" />
+      <skill id="Riding" value="140" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="3" />
+      <skill id="Shield" value="2" />
+      <skill id="OneHanded" value="110" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="130" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="100" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_loose_wrapped_desert_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_aserai_horseman_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_aserai_horseman_armor_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_woven_leather_bracers_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_eastern_leather_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_maneuverable_12_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_desert_cloth_harness_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_knob_headed_spear_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_curved_round_shield_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_persian_steel_mace_v1_h0" />
+        <equipment slot="Item3" id="Item.crpg_horseman_javelin_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_closed_desert_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_a_aserai_scale_b_shoulder_b_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_aserai_brass_plate_b_v1_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount_rouncey_9_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_desert_cloth_harness_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_knob_headed_spear_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_light_royal_mace_v1_h0" />
+        <equipment slot="Item3" id="Item.crpg_horseman_javelin_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_brass_aserai_helmet_closed_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_aserai_scale_shoulder_c_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_aserai_cav_armor_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_eastern_leather_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_courser_12_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_desert_cloth_harness_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_knob_headed_spear_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_studded_round_shield_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_arabian_mace_v1_h0" />
+        <equipment slot="Item3" id="Item.crpg_horseman_javelin_v3_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_champion" name="{=}Campeone Cristiano" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="25" weight="0.2" build="0.99" key="0010D408C02C12C329ABB82C3675332785A77A636634168999A678266788EB58016A2613066867620000000000000000000000007AFC20C40000000046D42085" />
+    </face>
+    <skills>
+      <skill id="Strength" value="21" />
+      <skill id="Agility" value="15" />
+      <skill id="IronFlesh" value="8" />
+      <skill id="PowerStrike" value="6" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="150" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="6" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="2" />
+      <skill id="OneHanded" value="160" />
+      <skill id="TwoHanded" value="160" />
+      <skill id="Polearm" value="160" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_eba_es_ib_faceplate_1_h0" />
+        <equipment slot="Cape" id="Item.crpg_mail_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_surcoat_tableau_1_v1_h0" />
+        <equipment slot="Gloves" id="Item.crpg_mailgloves_1_v1_h0" />
+        <equipment slot="Leg" id="Item.crpg_mailchasseus_1_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_ancient_longsword_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_fullmailcoif1_v1_h0" />
+        <equipment slot="Cape" id="Item.crpg_mail_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_surcoat_tableau_1o_v1_h0" />
+        <equipment slot="Gloves" id="Item.crpg_mailgloves_1_v1_h0" />
+        <equipment slot="Leg" id="Item.crpg_mailchasseus_1_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_engraved_pointed_sword_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_western_kite_shield_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_nasalhelm_over_mail_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_mail_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_tab_gamb_2_v1_h0" />
+        <equipment slot="Gloves" id="Item.crpg_mailgloves_1_v1_h0" />
+        <equipment slot="Leg" id="Item.crpg_mailchasseus_1_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_short_bardiche_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_lieutenant" name="{=}Maestro de armas" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="25.64" weight="0.5" build="0.9" key="0008640F00B422CD958019710020144486C9868FB85F2678EFE4974B75F00006018776130811B1110000000000000000000000007CFC20C4000000007D0420C4" />
+    </face>
+    <skills>
+      <skill id="Strength" value="21" />
+      <skill id="Agility" value="21" />
+      <skill id="IronFlesh" value="6" />
+      <skill id="PowerStrike" value="5" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="208" />
+      <skill id="Riding" value="180" />
+      <skill id="WeaponMaster" value="6" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="3" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="160" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_feathered_spangenhelm_over_imperial_coif_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadgorget1_h0" />
+        <equipment slot="Body" id="Item.crpg_sturgian_fortified_armor_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_tapered_two-hander_v1_h2" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_lieutenant_alvor" name="{=}Álvor Fáñoz" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="25.64" weight="0.5" build="0.9" key="0008640F00B422CD958019710020144486C9868FB85F2678EFE4974B75F00006018776130811B1110000000000000000000000007CFC20C4000000007D0420C4" />
+    </face>
+    <skills>
+      <skill id="Strength" value="28" />
+      <skill id="Agility" value="24" />
+      <skill id="IronFlesh" value="10" />
+      <skill id="PowerStrike" value="7" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="208" />
+      <skill id="Riding" value="180" />
+      <skill id="WeaponMaster" value="8" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="3" />
+      <skill id="OneHanded" value="180" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="180" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_ba_openhelm2_h0" />
+        <equipment slot="Cape" id="Item.crpg_noble_pauldron_with_scarf_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_dark_cuir_bouilli_over_mail_h0" />
+        <equipment slot="Gloves" id="Item.crpg_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount_greathorse_14_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_chain_barding_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v1_h2" />
+        <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v3_h2" />
+        <equipment slot="Item2" id="Item.crpg_fine_steel_long_kaskara_v1_h2" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_knight" name="{=}Caballero Cristiano" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="25" weight="0.0185" build="0.69" key="000D9C0540CC068635AA78CCB99267967D7738538CE9B8A7A7A2977ACDD99EC8015E06130597A3930000000000000000000000007AFC20C40000000076AC2085" />
+    </face>
+    <skills>
+      <skill id="Strength" value="18" />
+      <skill id="Agility" value="21" />
+      <skill id="IronFlesh" value="6" />
+      <skill id="PowerStrike" value="6" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="142" />
+      <skill id="Riding" value="140" />
+      <skill id="WeaponMaster" value="6" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="3" />
+      <skill id="OneHanded" value="125" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="140" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_nasal_helmet_over_mail_coif_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_western_chain_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_vlandia_chainmail_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_charger_9_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_halfchain_barding_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_courser_lance_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_small_flat_heater_shield_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_knightly_cavalry_sword_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_nasal_cervelliere_over_padded_cap_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_padded_leather_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_tabard_over_mail_2_v1_h0" />
+        <equipment slot="Gloves" id="Item.crpg_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_charger_9_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_halfchain_barding_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_courser_lance_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_leather_bound_kite_shield_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_horsemanspick_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_nasal_helmet_over_padded_cloth_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_chainmail_shoulder_armor_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_mail_with_tabbard2_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_charger_9_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_halfchain_barding_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_courser_lance_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_small_flat_heater_shield_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_shepherd_axe_v2_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_washerwoman" name="{=}Lavandera Enfadada" is_female="true" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="25.64" weight="0.0432" build="0" key="002B640F13B4200D958016716120144F86C9868FB85FF678EFE4974B75F00006015016130511B1110000000000000000000000007AFC20C4000000007CAC20C4" />
+    </face>
+    <skills>
+      <skill id="Strength" value="18" />
+      <skill id="Agility" value="24" />
+      <skill id="IronFlesh" value="10" />
+      <skill id="PowerStrike" value="6" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="4" />
+      <skill id="Athletics" value="162" />
+      <skill id="Riding" value="220" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="3" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="180" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="180" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="180" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_womens_headwrap_b_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_gold_noble_cross_h0" />
+        <equipment slot="Body" id="Item.crpg_cut_dress_with_pouch_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_ladys_shoe_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_throwing_heavy_stone_v3_h0" />
+        <equipment slot="Item1" id="Item.crpg_bo_staff_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_womens_headwrap_c_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_steel_noble_cross_h0" />
+        <equipment slot="Body" id="Item.crpg_vlandian_woman_dress_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_southern_moccasins_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_throwing_heavy_stone_v3_h0" />
+        <equipment slot="Item1" id="Item.crpg_wooden_hammer_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_desert_headdress_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_wrapped_scarf_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_fine_southern_dress_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_sturgia_boots_c_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mule1_2_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_bandit_saddle_highland_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_scythe_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_helping_hand_v3_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_guard" name="{=}Guardia Equipaje" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="128" weight="0.9938" build="1" key="0023A80AC0A00940C7A833B9B5A549BE749529267DD48842868D367E75FFBC450F4FF6FF048A23250000000000000000000000006EFC4084000000006E7C4084" />
+    </face>
+    <skills>
+      <skill id="Strength" value="24" />
+      <skill id="Agility" value="15" />
+      <skill id="IronFlesh" value="10" />
+      <skill id="PowerStrike" value="7" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="4" />
+      <skill id="Athletics" value="150" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="6" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="3" />
+      <skill id="OneHanded" value="150" />
+      <skill id="TwoHanded" value="150" />
+      <skill id="Polearm" value="150" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="100" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_nasal_helmet_over_cloth_headwrap_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_hood_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_northern_padded_cloth_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_khuzait_heavy_armor_bracer_v1_h0" />
+        <equipment slot="Leg" id="Item.crpg_leather_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_boarding_axe_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_reinforced_flat_kite_shield_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_cervelliere_over_cloth_headwrap_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_padded_leather_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_nordic_sloven_over_mail_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_studded_leather_vambraces_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_turndown_leather_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_bone_breaker_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_pointed_skullcap_over_laced_coif_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_a_aserai_scale_b_shoulder_b_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_aserai_archer_armor_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_guarded_padded_vambrace_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_rough_tied_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_simple_commoner_spear_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_lowland_throwing_knife_v3_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_lieutenant_jimena" name="{=}Doña Xixona" is_female="true" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="25.64" weight="0.0247" build="0" key="0000640F13B4200D958019710020144486C9868FB85F2678EFE4974B75F00006014006130411B1110000000000000000000000007CFC20C4000000007C7C20C4" />
+    </face>
+    <skills>
+      <skill id="Strength" value="40" />
+      <skill id="Agility" value="38" />
+      <skill id="IronFlesh" value="16" />
+      <skill id="PowerStrike" value="8" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="216" />
+      <skill id="Riding" value="200" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="4" />
+      <skill id="OneHanded" value="200" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="200" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_aserai_lord_helmet_a_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3_h0" />
+        <equipment slot="Body" id="Item.crpg_aserai_robe_c_chain_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount_greathorse_14_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_chain_barding_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v1_h2" />
+        <equipment slot="Item1" id="Item.crpg_western_riders_kite_shield_v3_h2" />
+        <equipment slot="Item2" id="Item.crpg_dawnbreaker_v1_h2" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_reconquista_boss" name="{=}Er Sid Crampeador" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="64.04" weight="0.2" build="0.99" key="00109C0D805823821AA6B78958569A62937AB563E8877864CA55B449A555473806677668065579960000000000000000000000007AFC20C4000000003CC40004" />
+    </face>
+    <skills>
+      <skill id="Strength" value="40" />
+      <skill id="Agility" value="38" />
+      <skill id="IronFlesh" value="14" />
+      <skill id="PowerStrike" value="8" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="216" />
+      <skill id="Riding" value="200" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="4" />
+      <skill id="OneHanded" value="200" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="200" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_southern_noble_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadcape3_h0" />
+        <equipment slot="Body" id="Item.crpg_sa_coat1_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount_greathorse_14_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_chain_barding_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v1_h2" />
+        <equipment slot="Item1" id="Item.crpg_western_riders_kite_shield_v3_h2" />
+        <equipment slot="Item2" id="Item.crpg_dawnbreaker_v1_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2109,7 +2638,7 @@
         <equipment slot="Gloves" id="Item.crpg_guarded_padded_vambrace_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_camel_7_v1_h0" />
-        <equipment slot="HorseHarness" id="Item.crpg_camel_saddle_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_tv_camelarmor_h_h0" />
         <equipment slot="Item0" id="Item.crpg_sasanian_light_lance_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_iron_cavalry_scimitar_v1_h0" />
@@ -2121,7 +2650,19 @@
         <equipment slot="Gloves" id="Item.crpg_guarded_padded_vambrace_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_camel_8_v1_h0" />
-        <equipment slot="HorseHarness" id="Item.crpg_camel_saddle_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_tv_camelarmor_i_h0" />
+        <equipment slot="Item0" id="Item.crpg_sasanian_light_lance_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_iron_cavalry_scimitar_v1_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_loose_wrapped_desert_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_desert_leather_shoulderpad_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_aserai_civil_d_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_guarded_padded_vambrace_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_camel_8_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_tv_camelarmor_e_h0" />
         <equipment slot="Item0" id="Item.crpg_sasanian_light_lance_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_iron_cavalry_scimitar_v1_h0" />
@@ -2167,7 +2708,7 @@
         <equipment slot="Body" id="Item.crpg_aserai_cav_armor_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_decorated_imperial_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_warrazor_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_warrazor_v3_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2332,7 +2873,6 @@
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
         <equipment slot="Item0" id="Item.crpg_hoplite_spear_v3_h0" />
         <equipment slot="Item1" id="Item.crpg_emirs_oval_shield_v4_h0" />
-        <equipment slot="Item2" id="Item.crpg_spatha_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_helmet_with_faceguard_v2_h0" />
@@ -2459,7 +2999,7 @@
         <equipment slot="Body" id="Item.crpg_empire_legion_b_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_gladius_mainz_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_gladius_mainz_v1_h2" />
         <equipment slot="Item1" id="Item.crpg_emirs_oval_shield_v4_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -2469,7 +3009,7 @@
         <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
         <equipment slot="Item0" id="Item.crpg_emirs_oval_shield_v4_h0" />
-        <equipment slot="Item1" id="Item.crpg_long_thamaskene_tipped_spear_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_long_thamaskene_tipped_spear_v2_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2673,7 +3213,7 @@
         <equipment slot="Body" id="Item.crpg_kilt_over_plated_leather_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_battania_noble_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_turndown_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_broadshortsword_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_broadshortsword_v2_h3" />
         <equipment slot="Item1" id="Item.crpg_highland_riders_shield_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -2682,7 +3222,7 @@
         <equipment slot="Body" id="Item.crpg_kilt_over_plated_leather_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_battania_noble_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_turndown_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_rhomphaia_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_rhomphaia_v2_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2716,7 +3256,7 @@
         <equipment slot="Body" id="Item.crpg_battania_noble_armor_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_rough_tied_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_highland_leg_wrappings_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_claymore_v1_h2" />
+        <equipment slot="Item0" id="Item.crpg_claymore_v1_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2883,7 +3423,7 @@
         <equipment slot="Body" id="Item.crpg_rus_armour_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_long_greataxe_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_long_greataxe_v1_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vaegir_helm_v2_h0" />
@@ -2891,7 +3431,7 @@
         <equipment slot="Body" id="Item.crpg_rus_armour_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_great_bardiche_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_great_bardiche_v1_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2925,7 +3465,7 @@
         <equipment slot="Body" id="Item.crpg_imperial_scale_armor_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_thamaskene_steel_spathion_v1_h2" />
+        <equipment slot="Item0" id="Item.crpg_thamaskene_steel_spathion_v1_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2960,6 +3500,14 @@
         <equipment slot="Leg" id="Item.crpg_khuzait_curved_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_steppe_spiked_mace_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_decorated_steppe_shield_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_spiked_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_eastern_studded_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_eastern_plated_leather_v3_h0" />
+        <equipment slot="Leg" id="Item.crpg_khuzait_curved_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_knob_headed_spear_with_frills_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_footmans_wicker_shield_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_nomad_padded_hood_v2_h0" />
@@ -3064,8 +3612,8 @@
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_meowdao_v1_h0" />
-        <equipment slot="Item1" id="Item.dtv_noble_steppe_bow_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_meowdao_v1_h3" />
+        <equipment slot="Item1" id="Item.dtv_noble_steppe_bow_v1_h3" />
         <equipment slot="Item2" id="Item.crpg_simplesteppe_arrows_v1_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -3076,7 +3624,7 @@
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_podao_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_podao_v2_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3119,7 +3667,7 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_dwarven_engineer" name="{=}Dwarven Engineer" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_dwarven_engineer" name="{=}Dwarven Engineer" race="dwarf_bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.5" build="0.5" key="000A000FC0FC3A144EFFEFE0FFEFFFFF0F9C54564930CA46AABBBBAEBBAABCCE0147761304FCCBBA0000000000000000000000000000000000000000027C8004" />
     </face>
@@ -3130,7 +3678,7 @@
       <skill id="PowerStrike" value="7" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="156" />
+      <skill id="Athletics" value="78" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="5" />
       <skill id="MountedArchery" value="0" />
@@ -3165,7 +3713,7 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_dwarven_axelord" name="{=}Legendary Axedwarf" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_dwarven_axelord" name="{=}Legendary Axedwarf" race="dwarf_bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.5" build="0.5" key="000A000FC0FC3A144EFFEFE0FFEFFFFF0F9C54564930CA46AABBBBAEBBAABCCE0147761304FCCBBA0000000000000000000000000000000000000000027C8004" />
     </face>
@@ -3176,7 +3724,7 @@
       <skill id="PowerStrike" value="7" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="156" />
+      <skill id="Athletics" value="78" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="5" />
       <skill id="MountedArchery" value="0" />
@@ -3198,7 +3746,7 @@
         <equipment slot="Item0" id="Item.crpg_great_bardiche_v1_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_sa_barbute1_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
         <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
@@ -3207,7 +3755,7 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_dwarven_hammerlord" name="{=}Legendary Hammerdwarf" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_dwarven_hammerlord" name="{=}Legendary Hammerdwarf" race="dwarf_bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.5" build="0.5" key="000A000FC0FC3A144EFFEFE0FFEFFFFF0F9C54564930CA46AABBBBAEBBAABCCE0147761304FCCBBA0000000000000000000000000000000000000000027C8004" />
     </face>
@@ -3218,7 +3766,7 @@
       <skill id="PowerStrike" value="7" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="156" />
+      <skill id="Athletics" value="78" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="5" />
       <skill id="MountedArchery" value="0" />
@@ -3232,7 +3780,7 @@
     </skills>
     <Equipments>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_goggled_helmet_over_mail_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_plated_noble_helmet_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
         <equipment slot="Body" id="Item.crpg_rus_armour_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
@@ -3240,16 +3788,16 @@
         <equipment slot="Item0" id="Item.crpg_le_bonke_v1_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_sa_barbute1_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
-        <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_le_bonke_v1_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_dwarven_lieutenant" name="{=}Dwarven Brewmaster" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_dwarven_lieutenant" name="{=}Dwarven Brewmaster" race="dwarf_bot">
     <face>
       <BodyProperties version="4" age="30.03" weight="0.5" build="0.5" key="000A000FC0FC3A144EFFEFE0FFEFFFFF0F9C54564930CA46AABBBBAEBBAABCCE0147761304FCCBBA0000000000000000000000000000000000000000027C8004" />
     </face>
@@ -3274,24 +3822,24 @@
     </skills>
     <Equipments>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_sa_barbute4_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_plated_noble_helmet_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_engraved_swadian_shoulders_h0" />
-        <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_tetsubo_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_tetsubo_v1_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_sa_barbute4_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_engraved_swadian_shoulders_h0" />
-        <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h0" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_dwarven_boss" name="{=}Urist" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_dwarven_boss" name="{=}Urist" race="dwarf_bot">
     <face>
       <BodyProperties version="4" age="23" weight="0.5" build="0.5" key="000A000FC0FC3A144EFFEFE0FFEFFFFF0F9C54564930CA46AABBBBAEBBAABCCE0147761304FCCBBA0000000000000000000000000000000000000000027C8004" />
     </face>
@@ -3316,14 +3864,424 @@
     </skills>
     <Equipments>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_western_crowned_plated_helmet_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_battanian_crowned_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_pauldron_over_scale_armor_v2_h0" />
         <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_le_bonke_v1_h3" />
         <equipment slot="Item1" id="Item.crpg_crossbow_f_v2_h3" />
         <equipment slot="Item2" id="Item.crpg_bolt_c_v2_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_shielder" name="{=}Grey Order Shielder" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="30" weight="0.4" build="0.4" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503977635096699853444400000000000000000003EFC3002000000004F2C3004" />
+    </face>
+    <skills>
+      <skill id="Strength" value="21" />
+      <skill id="Agility" value="30" />
+      <skill id="IronFlesh" value="7" />
+      <skill id="PowerStrike" value="7" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="3" />
+      <skill id="OneHanded" value="220" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
+        <equipment slot="Cape" id="Item.crpg_bearskin_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_decorated_elite_scimitar_v1_h0" />
+        <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
+        <equipment slot="Cape" id="Item.crpg_bearskin_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_vlandia_chainmail_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h0" />
+        <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_kuyak_two_handed" name="{=}Grey Order Kuyak Hero" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="30" weight="0.1" build="0.1" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503777635076699853444400000000000000000003EFC3002000000004EDC3002" />
+    </face>
+    <skills>
+      <skill id="Strength" value="15" />
+      <skill id="Agility" value="33" />
+      <skill id="IronFlesh" value="5" />
+      <skill id="PowerStrike" value="5" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="11" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="220" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vaegir_helm_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_wide_fullered_broad_two_hander_v1_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_balanced_infantry" name="{=}Grey Order Infantry" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="30" weight="0.5" build="0.5" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503777635076699853444400000000000000000003EFC3002000000004EDC3002" />
+    </face>
+    <skills>
+      <skill id="Strength" value="27" />
+      <skill id="Agility" value="21" />
+      <skill id="IronFlesh" value="9" />
+      <skill id="PowerStrike" value="9" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="7" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="180" />
+      <skill id="Polearm" value="180" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vlandian_helm_with_visor_h0" />
+        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_northern_plated_boots_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_burgundian_poleaxe_v5_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vlandian_helm_with_visor_h0" />
+        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_northern_plated_boots_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_executioner_long_sword_v1_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_heavy_two_handed" name="{=}Grey Order Heavy Infantry" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="30" weight="0.8" build="0.8" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+    </face>
+    <skills>
+      <skill id="Strength" value="33" />
+      <skill id="Agility" value="15" />
+      <skill id="IronFlesh" value="11" />
+      <skill id="PowerStrike" value="11" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="150" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_morningstar_v2_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
+        <equipment slot="Item0" id="Item.crpg_le_bonke_v1_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_heavy_polearm" name="{=}Grey Order Heavy Infantry" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="30" weight="0.8" build="0.8" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+    </face>
+    <skills>
+      <skill id="Strength" value="33" />
+      <skill id="Agility" value="15" />
+      <skill id="IronFlesh" value="11" />
+      <skill id="PowerStrike" value="11" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="150" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
+        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldron_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_varadin" name="{=}Varadin The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+    </face>
+    <skills>
+      <skill id="Strength" value="39" />
+      <skill id="Agility" value="12" />
+      <skill id="IronFlesh" value="14" />
+      <skill id="PowerStrike" value="14" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="4" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="120" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_sa_bacinet_with_facemask_h0" />
+        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_cuir_bouilli_over_mail_h0" />
+        <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
+        <equipment slot="Item0" id="Item.crpg_great_bardiche_v1_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_knitler" name="{=}Knitler The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+    </face>
+    <skills>
+      <skill id="Strength" value="30" />
+      <skill id="Agility" value="30" />
+      <skill id="IronFlesh" value="10" />
+      <skill id="PowerStrike" value="10" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="300" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_sa_1ChurburghHelm_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_awlpike_v1_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_harpag" name="{=}Harpag The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="65" weight="0.7" build="0.7" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+    </face>
+    <skills>
+      <skill id="Strength" value="24" />
+      <skill id="Agility" value="33" />
+      <skill id="IronFlesh" value="8" />
+      <skill id="PowerStrike" value="8" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="5" />
+      <skill id="OneHanded" value="200" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
+        <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_steel_pick_v1_h3" />
+        <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_lieutenant_pawiu" name="{=}Pawiu The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+    </face>
+    <skills>
+      <skill id="Strength" value="39" />
+      <skill id="Agility" value="12" />
+      <skill id="IronFlesh" value="14" />
+      <skill id="PowerStrike" value="14" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="156" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="150" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_sallet_base_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_largepauldronclean_h0" />
+        <equipment slot="Body" id="Item.crpg_ba_platearmor_h0" />
+        <equipment slot="Gloves" id="Item.crpg_sa_ChurburghGauntlet_h0" />
+        <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_boss_hetman" name="{=}Hetman The Grey" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="30" weight="0.4" build="0.9" key="0020C80FDA00061B0776678E53648686588CA83378A87F2099667D788BC3324503B776350B6699853444400000000000000000003EFC3002000000001D7C3006" />
+    </face>
+    <skills>
+      <skill id="Strength" value="36" />
+      <skill id="Agility" value="30" />
+      <skill id="IronFlesh" value="13" />
+      <skill id="PowerStrike" value="13" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="10" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="300" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="0" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_rus_helm_regular_v3_h0" />
+        <equipment slot="Cape" id="Item.crpg_wolf_shoulder_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_decorated_elite_scimitar_v1_h3" />
+        <equipment slot="Item2" id="Item.crpg_heavy_heater_shield_v3_h3" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_greyorder_boss_tamra" name="{=}Tamra The Grey" is_female="true" race="heavy_bot">
+    <face>
+      <BodyProperties version="4" age="33" weight="0.1" build="0.1" key="00026C0F1300200298868A3266629726C05B7489548A1717769ACB537CAE17790270062407547366000000000000000000000000000000000000000066FC2003" />
+    </face>
+    <skills>
+      <skill id="Strength" value="45" />
+      <skill id="Agility" value="15" />
+      <skill id="IronFlesh" value="15" />
+      <skill id="PowerStrike" value="15" />
+      <skill id="PowerDraw" value="0" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="232" />
+      <skill id="Riding" value="0" />
+      <skill id="WeaponMaster" value="5" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="0" />
+      <skill id="OneHanded" value="0" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="180" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_plumed_helmet_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_female_hood_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_imperial_scale_armor_v3_h0" />
+        <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_german_halberd_v2_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3365,7 +4323,7 @@
         <equipment slot="Body" id="Item.crpg_breastplate_shash1_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_sa_1ChurburghGauntlet_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_14_decor_paltedboots_noble1_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_sallet_base_v2_h0" />
@@ -3492,7 +4450,7 @@
         <equipment slot="Body" id="Item.crpg_ba_heraldictabard3_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_blacksmith_hammer_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_blacksmith_hammer_v1_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_pigface_bascinet_tail_h0" />
@@ -3500,7 +4458,7 @@
         <equipment slot="Body" id="Item.crpg_ba_heraldictabard3_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
-        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h0" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>

@@ -139,6 +139,10 @@
   <string id="str_multiplayer_scene_name.crpg_conquest_talmberg" text="{=TBergyuj}Talmberg" />
   <string id="str_multiplayer_scene_name.crpg_conquest_volskulkeep" text="{=V0lSkuLK}Volskul Keep" />
   <string id="str_multiplayer_scene_name.crpg_conquest_motteandbailey" text="{=M0TT3BA1}Motte and Bailey" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_fjallborn" text="{=fallbj0r}Fjallborn" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_motteandbailey" text="{=tw1tEC1t}The White City" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_bebbanburg" text="{=B3BB4nB8}Bebbanburg" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_darkwood" text="{=D43Kw00D}Darkwood" />
 
   <!-- DTV Maps -->
   <string id="str_multiplayer_scene_name.crpg_dtv_encampment" text="{=ArnxGr8j1j}Encampment" />

@@ -248,11 +248,6 @@ const newItemCount = computed(
         v-for="field in Object.keys(aggregationsConfigVisible) as Array<keyof ItemFlat>"
         :field="field"
         :width="aggregationsConfigVisible[field]?.width ?? 140"
-        :thAttrs="
-          () => ({
-            style: `max-width: ${aggregationsConfigVisible[field]?.width ?? 140}px`,
-          })
-        "
       >
         <template #header>
           <div class="relative mr-2 flex items-center gap-1">
