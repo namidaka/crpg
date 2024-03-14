@@ -27,7 +27,9 @@
       "@intlify/vite-plugin-vue-i18n/client",
       "vi-fetch/matchers",
       "@types/body-scroll-lock",
-      "vite-plugin-svg-icons/client"
+      "vite-plugin-svg-icons/client",
+      "@vue-macros/reactivity-transform/macros-global",
+      "@oruga-ui/oruga-next/volar"
     ]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],

@@ -50,7 +50,6 @@ import { useClanMembers } from '@/composables/clan/use-clan-members';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
 });

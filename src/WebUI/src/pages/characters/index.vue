@@ -2,7 +2,6 @@
 definePage({
   meta: {
     bg: 'background-2.webp',
-    layout: 'default',
     middleware: 'activeCharacterRedirect',
     roles: ['User', 'Moderator', 'Admin'],
   },
