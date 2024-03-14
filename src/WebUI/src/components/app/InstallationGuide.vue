@@ -99,7 +99,7 @@ watch(
             target="_blank"
             outlined
             tag="a"
-            href="https://www.youtube.com/watch?v=MQnW_j6s1Jw"
+            href="https://www.youtube.com/watch?v=F2NMyFAAev0"
             :label="$t('installation.watchVideoGuide')"
           />
         </div>
