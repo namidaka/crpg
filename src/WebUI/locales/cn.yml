@@ -11,21 +11,23 @@ platform:
 installation:
   title: 安装
   common:
-    bannerlordLauncher: 启动Bannerlord
-    multiplayerModsTab: 导航到多人游戏Mods标签
-    activateMod: 点击选择cRPG Mod并启用它
-    launchMultiplayerGame: 在多人游戏中启动游戏!
+    watchVideoGuide: 视频教学
+    help: 遇到安装问题？通过 {discordLink} 服务器联系我们
   platform:
     steam:
       subscribe: 订阅{steamWorkshopsLink}
       update: 要更新 你可能需要在Steam Workshops中退订/订阅该MOD
+      bannerlordLauncher: 启动Bannerlord
+      multiplayerModsTab: 导航到多人游戏Mods标签
+      activateMod: 点击选择cRPG Mod并启用它
+      launchMultiplayerGame: 在多人游戏中启动游戏!
     other:
       title: 游戏启动器
       downloadLauncher: 下载我们的{launcherLink}
-      startLauncher: 打开启动器 等待MOD的下载
-      update: 要更新 只需重新启动启动器即可
-  help: 遇到安装问题？通过 {discordLink} 服务器联系我们
-  watchVideoGuide: 视频教学
+      startLauncher: 打开启动器并选择平台 (Steam/Epic/Xbox)
+      detectinstall: 单击 "检测安装 "自动检测安装位置，或通过 "更改位置 "手动设置
+      update: 单击 "更新 cRPG"，确保 cRPG 完全是最新版本
+      launch: 点击 "Start cRPG" (开始 cRPG) 启动 Mod
 
 dateTime:
   days:

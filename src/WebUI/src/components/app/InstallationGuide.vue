@@ -59,12 +59,10 @@ watch(
                 </template>
               </i18n-t>
               <li>{{ $t('installation.platform.other.startLauncher') }}</li>
-              <li>{{ $t('installation.common.bannerlordLauncher') }}</li>
-              <li>{{ $t('installation.common.multiplayerModsTab') }}</li>
-              <li>{{ $t('installation.common.activateMod') }}</li>
-              <li>{{ $t('installation.common.launchMultiplayerGame') }}</li>
+              <li>{{ $t('installation.platform.other.detectinstall') }}</li>
+              <li>{{ $t('installation.platform.other.update') }}</li>
+              <li>{{ $t('installation.platform.other.launch') }}</li>
             </ol>
-            <p class="text-primary">{{ $t('installation.platform.other.update') }}</p>
           </OTabItem>
 
           <OTabItem
@@ -79,13 +77,13 @@ watch(
                   <a
                     target="_blank"
                     href="steam://openurl/https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589"
-                  >Steam Workshops</a>
+                  >Steam Workshop</a>
                 </template>
               </i18n-t>
-              <li>{{ $t('installation.common.bannerlordLauncher') }}</li>
-              <li>{{ $t('installation.common.multiplayerModsTab') }}</li>
-              <li>{{ $t('installation.common.activateMod') }}</li>
-              <li>{{ $t('installation.common.launchMultiplayerGame') }}</li>
+              <li>{{ $t('installation.platform.steam.bannerlordLauncher') }}</li>
+              <li>{{ $t('installation.platform.steam.multiplayerModsTab') }}</li>
+              <li>{{ $t('installation.platform.steam.activateMod') }}</li>
+              <li>{{ $t('installation.platform.steam.launchMultiplayerGame') }}</li>
             </ol>
             <p class="text-primary">{{ $t('installation.platform.steam.update') }}</p>
           </OTabItem>
@@ -100,14 +98,14 @@ watch(
             outlined
             tag="a"
             href="https://www.youtube.com/watch?v=F2NMyFAAev0"
-            :label="$t('installation.watchVideoGuide')"
+            :label="$t('installation.common.watchVideoGuide')"
           />
         </div>
 
         <Divider />
 
         <div class="mt-6 space-y-6">
-          <i18n-t scope="global" keypath="installation.help" tag="p" class="text-content-400">
+          <i18n-t scope="global" keypath="installation.common.help" tag="p" class="text-content-400">
             <template #discordLink>
               <!-- prettier-ignore -->
               <a

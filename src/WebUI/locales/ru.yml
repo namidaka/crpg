@@ -11,21 +11,23 @@ platform:
 installation:
   title: Установка
   common:
-    bannerlordLauncher: Запустите Bannerlord
-    multiplayerModsTab: Перейдите на вкладку Многопользовательские моды
-    activateMod: Активируйте мод cRPG
-    launchMultiplayerGame: Запустите игру в многопользовательском режиме!
+    watchVideoGuide: Видео инструкция
+    help: Если y вас возникли трудности c установкой модификации, пожалуйста, свяжитесь c нами c помощью {discordLink}
   platform:
     steam:
       subscribe: Подпишитесь на {steamWorkshopsLink}
       update: Чтобы обновить мод, вам может потребоваться отписаться/подписаться в Steam Workshops
+      bannerlordLauncher: Запустите Bannerlord
+      multiplayerModsTab: Перейдите на вкладку Многопользовательские моды
+      activateMod: Активируйте мод cRPG
+      launchMultiplayerGame: Запустите игру в многопользовательском режиме!
     other:
       title: Лаунчер
       downloadLauncher: Загрузите наш {launcherLink}
       startLauncher: Откройте Launcher и подождите, пока мод загрузится
-      update: Для обновления мода достаточно перезапустить Launcher
-  help: Если у вас возникли трудности с установкой модификации, пожалуйста, свяжитесь с нами с помощью {discordLink}
-  watchVideoGuide: Видео инструкция
+      detectinstall: Нажмите "Определить установку", чтобы автоматически найти место установки, или задайте ero вручную c помощью "Изменить место".
+      update: Нажмите "Обновить cRPG", чтобы убедиться, что cRPG полностью обновлена
+      launch: Нажмите "Запустить cRPG", чтобы запустить мод.
 
 dateTime:
   days:

@@ -11,21 +11,23 @@ platform:
 installation:
   title: Installation
   common:
-    bannerlordLauncher: Launch Bannerlord
-    multiplayerModsTab: Navigate to the Multiplayer Mods tab
-    activateMod: Click to select the cRPG Mod and enable it
-    launchMultiplayerGame: Launch the game in Multiplayer!
+        watchVideoGuide: Watch video guide
+        help: Having issues getting the mod working or installing? Contact us on our {discordLink} Server!
   platform:
     steam:
       subscribe: Subscribe to the {steamWorkshopsLink}
       update: To update the mod, you may need to unsub/sub to the mod on the Steam Workshop
+      bannerlordLauncher: Launch Bannerlord
+      multiplayerModsTab: Navigate to the Multiplayer Mods tab
+      activateMod: Click to select the cRPG Mod and enable it
+      launchMultiplayerGame: Launch the game in Multiplayer!
     other:
       title: Launcher
       downloadLauncher: Download our {launcherLink}
-      startLauncher: Open the launcher and wait for the mod to download
-      update: To update the mod simply press the 'Check For Update' button on the launcher
-  help: Having issues getting the mod working or installing? Contact us on our {discordLink} Server!
-  watchVideoGuide: Watch video guide
+      startLauncher: Open the launcher and select your Platform (Steam/Epic/Xbox)
+      detectinstall: Click 'Detect install' to automatically detect your install location, or set manually via 'Change Location'
+      update: Click 'Update cRPG' to ensure cRPG is fully up-to-date
+      launch: Click 'Launch cRPG' to start the Mod
 
 dateTime:
   days:
