@@ -121,8 +121,8 @@ const extractTSName = (ts: TimeSeries) => ts.name;
 const legend = ref<string[]>(characterEarningStatistics.value.map(extractTSName));
 const activeSeries = ref<string[]>(characterEarningStatistics.value.map(extractTSName));
 
-const onUpdate = async () => {
-  await loadCharacterEarningStatistics(0, { id: character.value.id });
+const onUpdate = async (characterId: number) => {
+  await loadCharacterEarningStatistics(0, { id: characterId });
   option.value = {
     ...option.value,
     series: characterEarningStatistics.value.map(toBarSeries),
@@ -133,10 +133,11 @@ const onUpdate = async () => {
   };
   activeSeries.value = characterEarningStatistics.value.map(extractTSName);
 };
-watch(statTypeModel, onUpdate);
+
+watch(statTypeModel, () => onUpdate(character.value.id));
 watch(zoomModel, () => {
   setZoom();
-  onUpdate();
+  onUpdate(character.value.id);
 });
 
 const total = computed(() =>
@@ -212,8 +213,7 @@ const onLegendSelectChanged = (e: LegendSelectEvent) => {
     .map(([legend, _status]) => legend);
 };
 
-const fetchPageData = (characterId: number) =>
-  Promise.all([loadCharacterEarningStatistics(0, { id: characterId })]);
+const fetchPageData = (characterId: number) => Promise.all([onUpdate(characterId)]);
 
 onBeforeRouteUpdate(async (to, from) => {
   if (to.name === from.name && to.name === 'CharactersIdStats') {
