@@ -365,10 +365,14 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
                 }
             }
 
+            // https://www.desmos.com/calculator/9dbcvybhez
+            int networkPeerCount = GameNetwork.NetworkPeerCount;
+            float captureSpeed = (float)(0.5f - (0.4f * (Math.Log(Math.Max(1, networkPeerCount - 11)) / Math.Log(Math.Max(1, 150)))));
+            captureSpeed = Math.Max(captureSpeed, 0.1f);
             CaptureTheFlagFlagDirection flagDirection = ComputeFlagDirection(flag, flagOwner, agentDiffNumber);
             if (flagDirection != CaptureTheFlagFlagDirection.None)
             {
-                flag.SetMoveFlag(flagDirection, speedMultiplier: (float)(0.2f * Math.Max(1, Math.Abs(agentDiffNumber))));
+                flag.SetMoveFlag(flagDirection, speedMultiplier: (float)(captureSpeed * Math.Max(1, Math.Abs(agentDiffNumber))));
             }
 
             if (flag.IsContested) // reward players who are sucessfully capturing the flag
