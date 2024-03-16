@@ -215,6 +215,7 @@ character:
     overview: Overview
     inventory: Inventory
     characteristic: Characteristic
+    stats: Stats
 
   format:
     kda: '{kills}/{deaths}/{assists} ({ratio})'

@@ -213,6 +213,7 @@ character:
     overview: Обзор
     inventory: Инвентарь
     characteristic: Характеристики
+    stats: Статистика
 
   format:
     kda: '{kills}/{deaths}/{assists} ({ratio})'

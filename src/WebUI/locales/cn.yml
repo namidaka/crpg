@@ -216,6 +216,7 @@ character:
     overview: 概述
     inventory: 物品栏
     characteristic: 角色属性
+    stats: 统计资料
 
   format:
     kda: '{kills}/{deaths}/{assists} ({ratio})'
