@@ -25,9 +25,9 @@ installation:
       title: Лаунчер
       downloadLauncher: Загрузите наш {launcherLink}
       startLauncher: Откройте Launcher и подождите, пока мод загрузится
-      detectinstall: Нажмите "Определить установку", чтобы автоматически найти место установки, или задайте ero вручную c помощью "Изменить место".
-      update: Нажмите "Обновить cRPG", чтобы убедиться, что cRPG полностью обновлена
-      launch: Нажмите "Запустить cRPG", чтобы запустить мод.
+      detectinstall: Нажмите 'Detect Install', чтобы автоматически найти место установки, или задайте вручную c помощью 'Change Location'.
+      update: Нажмите 'Update cRPG', чтобы убедиться, что cRPG полностью обновлена
+      launch: Нажмите 'Launch cRPG', чтобы запустить мод.
 
 dateTime:
   days:

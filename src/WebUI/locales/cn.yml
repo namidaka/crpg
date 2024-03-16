@@ -25,9 +25,9 @@ installation:
       title: 游戏启动器
       downloadLauncher: 下载我们的{launcherLink}
       startLauncher: 打开启动器并选择平台 (Steam/Epic/Xbox)
-      detectinstall: 单击 "检测安装 "自动检测安装位置，或通过 "更改位置 "手动设置
-      update: 单击 "更新 cRPG"，确保 cRPG 完全是最新版本
-      launch: 点击 "Start cRPG" (开始 cRPG) 启动 Mod
+      detectinstall: 单击 'Detect Install' 自动检测安装位置，或通过 'Change Location' 手动设置
+      update: 单击 'Update cRPG'，确保 cRPG 完全是最新版本
+      launch: 点击 'Launch cRPG' (开始 cRPG) 启动 Mod
 
 dateTime:
   days:
