@@ -171,7 +171,7 @@ internal class CrpgItemValueModel : ItemValueModel
                 WeaponClass.TwoHandedSword => 27.5f,
                 WeaponClass.TwoHandedMace => 28.5f,
                 WeaponClass.TwoHandedAxe => 36f,
-                WeaponClass.TwoHandedPolearm => 34f,
+                WeaponClass.TwoHandedPolearm => 31f,
                 WeaponClass.OneHandedPolearm => 25f,
                 _ => float.MaxValue,
             };
@@ -267,7 +267,7 @@ internal class CrpgItemValueModel : ItemValueModel
                     break;
                 case WeaponClass.OneHandedPolearm:
                 case WeaponClass.TwoHandedPolearm:
-                    swingLengthTier = 1.775f * (float)Math.Pow(0.43f + weapon.WeaponLength * 0.00409f, 3 * (200 + weapon.WeaponLength) / (200 + 3f * weapon.WeaponLength));
+                    swingLengthTier = 1.775f * (float)Math.Pow(0.43f + weapon.WeaponLength * 0.00409f, 3.5f * (200 + weapon.WeaponLength) / (150 + 2.5f * weapon.WeaponLength));
                     break;
                 case WeaponClass.LowGripPolearm:
                 case WeaponClass.Pick:
