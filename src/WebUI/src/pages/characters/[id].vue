@@ -160,6 +160,15 @@ await fetchPageData(character.value.id);
             :label="$t('character.nav.characteristic')"
           />
         </RouterLink>
+
+        <RouterLink :to="{ name: 'CharactersIdStats', params: { id } }" v-slot="{ isActive }">
+          <!-- TODO: FIXME: i18n -->
+          <OButton
+            :variant="isActive ? 'transparent-active' : 'transparent'"
+            size="lg"
+            :label="'Stats'"
+          />
+        </RouterLink>
       </div>
 
       <div class="order-3 flex items-center gap-2 place-self-end">
