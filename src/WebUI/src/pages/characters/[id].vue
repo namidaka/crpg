@@ -105,7 +105,7 @@ onBeforeUnmount(() => {
   unsubscribe(loadUserItemsSymbol);
 });
 
-const fetchPageData = async (characterId: number) =>
+const fetchPageData = (characterId: number) =>
   Promise.all([
     loadCharacterCharacteristics(0, { id: characterId }),
     loadCharacterItems(0, { id: characterId }),
