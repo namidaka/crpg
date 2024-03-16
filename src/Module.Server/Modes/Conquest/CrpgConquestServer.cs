@@ -4,6 +4,7 @@ using Crpg.Module.Notifications;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
+using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.MissionRepresentatives;
@@ -60,6 +61,7 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
         AddTeams();
         ResetDoors(true);
         ResetFlags();
+        SetDestructableComponents();
     }
 
     public override void OnMissionTick(float dt)
@@ -287,6 +289,19 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
         _flagStages = stagesFlags.Select(s => s.ToArray()).ToArray();
         _currentStage = 0;
         _flagTickTimer = new MissionTimer(0.25f);
+    }
+
+    private void SetDestructableComponents()
+    {
+        int playerCount = GameNetwork.NetworkPeerCount;
+        foreach (GameEntity entity in Mission.Scene.FindEntitiesWithTag("crpg_scale_with_playercount"))
+        {
+            DestructableComponent? destructableCompononent = entity.GetScriptComponents<DestructableComponent>().FirstOrDefault();
+            if (destructableCompononent != null)
+            {
+                destructableCompononent.MaxHitPoint *= playerCount;
+            }
+        }
     }
 
     private int ResolveFlagStage(FlagCapturePoint flag)
