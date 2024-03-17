@@ -17,6 +17,7 @@ using Crpg.Application.Restrictions.Queries;
 using Crpg.Application.Users.Commands;
 using Crpg.Application.Users.Models;
 using Crpg.Application.Users.Queries;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -370,7 +371,7 @@ public class UsersController : BaseController
     /// <returns>The character statistics.</returns>
     /// <response code="200">Ok.</response>
     [HttpGet("self/characters/{id}/statistics")]
-    public Task<ActionResult<Result<IList<CharacterStatisticsViewModel>>>> GetCharacterStatistics([FromRoute] int id)
+    public Task<ActionResult<Result<Dictionary<GameMode, CharacterStatisticsViewModel>>>> GetCharacterStatistics([FromRoute] int id)
     {
         return ResultToActionAsync(Mediator.Send(new GetUserCharacterStatisticsQuery
         {
