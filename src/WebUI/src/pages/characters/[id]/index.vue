@@ -166,16 +166,13 @@ const fetchPageData = (characterId: number) =>
     loadCharacterLimitations(0, { id: characterId }),
   ]);
 
-onBeforeRouteUpdate(async to => {
-  const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
-  await fetchPageData(characterId);
+  onBeforeRouteUpdate(async to => {
+  if (to.name === 'CharactersId') {
+    await fetchPageData(Number(to.params.id));
+  }
   return true;
 });
 
-const LazyCharacterEarningChart = defineAsyncComponent({
-  loader: () => import('@/components/character/CharacterEarningChart.vue'),
-  suspensible: true,
-});
 const currentGameMode = ref(GameMode.Battle);
 
 const selectedGameModeModel = computed({
