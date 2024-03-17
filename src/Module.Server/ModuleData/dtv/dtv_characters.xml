@@ -3439,6 +3439,54 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
+  <NPCCharacter id="crpg_dtv_varangian_cavalry" name="{=}Varangian Horseman" race="light_bot">
+    <face>
+      <BodyProperties version="4" age="22.14" weight="0.518" build="0.4181" key="0005B8098F2C2445B5D51913A4B87897C899D3E5AA588985C722285C44E5998500B686030B9D69AA0000000000000000000000000000000000000000057C3106" />
+    </face>
+    <skills>
+      <skill id="Strength" value="24" />
+      <skill id="Agility" value="24" />
+      <skill id="IronFlesh" value="4" />
+      <skill id="PowerStrike" value="4" />
+      <skill id="PowerDraw" value="4" />
+      <skill id="PowerThrow" value="0" />
+      <skill id="Athletics" value="95" />
+      <skill id="Riding" value="180" />
+      <skill id="WeaponMaster" value="8" />
+      <skill id="MountedArchery" value="0" />
+      <skill id="Shield" value="5" />
+      <skill id="OneHanded" value="120" />
+      <skill id="TwoHanded" value="0" />
+      <skill id="Polearm" value="120" />
+      <skill id="Bow" value="0" />
+      <skill id="Crossbow" value="0" />
+      <skill id="Throwing" value="0" />
+    </skills>
+    <Equipments>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vaegir_helm_open_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_imperial_lamellar_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_empire_plate_vest_armor_v1_h0" />
+        <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_charger_11_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_chain_horse_harness_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_fine_steel_paramerion_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_vaegir_helm_open_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_imperial_lamellar_shoulders_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_empire_plate_vest_armor_v1_h0" />
+        <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_decorated_imperial_boots_v2_h0" />
+        <equipment slot="Horse" id="Item.crpg_mount1_charger_11_v1_h0" />
+        <equipment slot="HorseHarness" id="Item.crpg_chain_horse_harness_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_fine_steel_leaf_spear_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v3_h0" />
+      </EquipmentRoster>
+    </Equipments>
+  </NPCCharacter>
   <NPCCharacter id="crpg_dtv_varangian_lieutenant" name="{=}Varangian Berserker" race="light_bot">
     <face>
       <BodyProperties version="4" age="22.14" weight="0.4833" build="0.6799" key="0010B809972C2786B5D51913A4B87897C899D3E5AA588985C722285C44E5998500AA76030A9D69AA000000000000000000000000000000000000000013543102" />
