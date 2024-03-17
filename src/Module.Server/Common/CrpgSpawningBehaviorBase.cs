@@ -13,6 +13,25 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 {
     private readonly CrpgConstants _constants;
 
+    List<WeaponClass> allowedSpawnWeaponClass = new()
+        {
+            WeaponClass.Dagger,
+            WeaponClass.Mace,
+            WeaponClass.TwoHandedMace,
+            WeaponClass.OneHandedSword,
+            WeaponClass.TwoHandedSword,
+            WeaponClass.OneHandedAxe,
+            WeaponClass.TwoHandedAxe,
+            WeaponClass.Pick,
+            WeaponClass.LowGripPolearm,
+            WeaponClass.OneHandedPolearm,
+            WeaponClass.TwoHandedPolearm,
+            WeaponClass.Javelin,
+            WeaponClass.Stone,
+            WeaponClass.ThrowingAxe,
+            WeaponClass.ThrowingKnife,
+        };
+
     public CrpgSpawningBehaviorBase(CrpgConstants constants)
     {
         _constants = constants;
@@ -236,15 +255,10 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 
     protected bool DoesEquipmentContainWeapon(Equipment equipment)
     {
-        for (var i = EquipmentIndex.Weapon0; i <= EquipmentIndex.ExtraWeaponSlot; i += 1)
-        {
-            if (!equipment[i].IsEmpty)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return Enumerable.Range((int)EquipmentIndex.Weapon0, (int)EquipmentIndex.ExtraWeaponSlot - (int)EquipmentIndex.Weapon0 + 1)
+                         .Select(index => equipment[index])
+                         .Where(slot => !slot.IsEmpty)
+                         .Any(slot => allowedSpawnWeaponClass.Contains(slot.Item.PrimaryWeapon.WeaponClass));
     }
 
     private void ResetSpawnTeams()
