@@ -83,6 +83,14 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             }
         }
 
+        if (IsPlayerCharacterAttackingDtvBoss(attackInformation))
+        {
+            if (weapon.Item.StringId.Contains("ballista_projectile"))
+            {
+                finalDamage *= 0.05f;
+            }
+        }
+
         // CalculateShieldDamage only has dmg as parameter. Therefore it cannot be used to get any Skill values.
         if (collisionData.AttackBlockedWithShield && finalDamage > 0)
         {
@@ -412,6 +420,20 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
         {
             bool isVictimDtvBot = attackInformation.VictimAgentCharacter != null
                 ? attackInformation.VictimAgentCharacter.StringId.StartsWith("crpg_dtv_")
+                : false;
+
+            return isVictimDtvBot;
+        }
+
+        return false;
+    }
+
+    private bool IsPlayerCharacterAttackingDtvBoss(AttackInformation attackInformation)
+    {
+        if (attackInformation.AttackerAgentOrigin is CrpgBattleAgentOrigin)
+        {
+            bool isVictimDtvBot = attackInformation.VictimAgentCharacter != null
+                ? attackInformation.VictimAgentCharacter.StringId.EndsWith("_boss")
                 : false;
 
             return isVictimDtvBot;

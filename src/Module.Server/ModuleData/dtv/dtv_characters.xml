@@ -2036,7 +2036,7 @@
       <skill id="PowerStrike" value="4" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="4" />
-      <skill id="Athletics" value="150" />
+      <skill id="Athletics" value="120" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="5" />
       <skill id="MountedArchery" value="0" />
@@ -2098,7 +2098,7 @@
       <skill id="PowerStrike" value="5" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="3" />
-      <skill id="Athletics" value="162" />
+      <skill id="Athletics" value="125" />
       <skill id="Riding" value="140" />
       <skill id="WeaponMaster" value="5" />
       <skill id="MountedArchery" value="3" />
@@ -2163,7 +2163,7 @@
       <skill id="PowerStrike" value="6" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="130" />
+      <skill id="Athletics" value="110" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="6" />
       <skill id="MountedArchery" value="0" />
@@ -2286,7 +2286,7 @@
       <skill id="PowerStrike" value="6" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="120" />
+      <skill id="Athletics" value="110" />
       <skill id="Riding" value="140" />
       <skill id="WeaponMaster" value="6" />
       <skill id="MountedArchery" value="0" />
@@ -2348,7 +2348,7 @@
       <skill id="PowerStrike" value="6" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="4" />
-      <skill id="Athletics" value="162" />
+      <skill id="Athletics" value="100" />
       <skill id="Riding" value="220" />
       <skill id="WeaponMaster" value="5" />
       <skill id="MountedArchery" value="3" />
@@ -2400,7 +2400,7 @@
       <skill id="PowerStrike" value="7" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="4" />
-      <skill id="Athletics" value="140" />
+      <skill id="Athletics" value="120" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="6" />
       <skill id="MountedArchery" value="0" />
@@ -3739,7 +3739,7 @@
     <Equipments>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_goggled_helmet_over_mail_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_pauldron_over_scale_armor_v2_h0" />
         <equipment slot="Body" id="Item.crpg_rus_armour_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
@@ -3747,7 +3747,7 @@
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_pauldron_over_scale_armor_v2_h0" />
         <equipment slot="Body" id="Item.crpg_sa_1ChurburghTorso_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
@@ -3789,7 +3789,7 @@
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_swadian_shoulders_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_pauldron_over_scale_armor_v2_h0" />
         <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
@@ -3831,7 +3831,7 @@
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_battanian_noble_helmet_with_feather_v2_h0" />
-        <equipment slot="Cape" id="Item.crpg_engraved_swadian_shoulders_h0" />
+        <equipment slot="Cape" id="Item.crpg_pauldron_over_scale_armor_v2_h0" />
         <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
