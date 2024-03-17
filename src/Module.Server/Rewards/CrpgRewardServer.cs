@@ -241,10 +241,13 @@ internal class CrpgRewardServer : MissionLogic
         }
 
         // TODO: add retry mechanism (the endpoint need to be idempotent though).
+        Guid idempotencyKey = Guid.NewGuid();
+
+
         try
         {
             SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
-            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates })).Data!;
+            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates, Key = idempotencyKey})).Data!;
             SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
         }
         catch (Exception e)
