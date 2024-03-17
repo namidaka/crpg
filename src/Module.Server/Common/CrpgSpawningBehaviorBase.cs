@@ -13,24 +13,24 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 {
     private readonly CrpgConstants _constants;
 
-    List<WeaponClass> allowedSpawnWeaponClass = new()
-        {
-            WeaponClass.Dagger,
-            WeaponClass.Mace,
-            WeaponClass.TwoHandedMace,
-            WeaponClass.OneHandedSword,
-            WeaponClass.TwoHandedSword,
-            WeaponClass.OneHandedAxe,
-            WeaponClass.TwoHandedAxe,
-            WeaponClass.Pick,
-            WeaponClass.LowGripPolearm,
-            WeaponClass.OneHandedPolearm,
-            WeaponClass.TwoHandedPolearm,
-            WeaponClass.Javelin,
-            WeaponClass.Stone,
-            WeaponClass.ThrowingAxe,
-            WeaponClass.ThrowingKnife,
-        };
+    private readonly List<WeaponClass> allowedSpawnWeaponClass = new()
+    {
+        WeaponClass.Dagger,
+        WeaponClass.Mace,
+        WeaponClass.TwoHandedMace,
+        WeaponClass.OneHandedSword,
+        WeaponClass.TwoHandedSword,
+        WeaponClass.OneHandedAxe,
+        WeaponClass.TwoHandedAxe,
+        WeaponClass.Pick,
+        WeaponClass.LowGripPolearm,
+        WeaponClass.OneHandedPolearm,
+        WeaponClass.TwoHandedPolearm,
+        WeaponClass.Javelin,
+        WeaponClass.Stone,
+        WeaponClass.ThrowingAxe,
+        WeaponClass.ThrowingKnife,
+    };
 
     public CrpgSpawningBehaviorBase(CrpgConstants constants)
     {
@@ -255,10 +255,15 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 
     protected bool DoesEquipmentContainWeapon(Equipment equipment)
     {
-        return Enumerable.Range((int)EquipmentIndex.Weapon0, (int)EquipmentIndex.ExtraWeaponSlot - (int)EquipmentIndex.Weapon0 + 1)
-                         .Select(index => equipment[index])
-                         .Where(slot => !slot.IsEmpty)
-                         .Any(slot => allowedSpawnWeaponClass.Contains(slot.Item.PrimaryWeapon.WeaponClass));
+        foreach (var weaponClass in allowedSpawnWeaponClass)
+        {
+            if (equipment.HasWeaponOfClass(weaponClass))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void ResetSpawnTeams()
