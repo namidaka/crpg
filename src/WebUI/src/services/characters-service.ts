@@ -47,7 +47,6 @@ import {
   type CharacteristicKey,
 } from '@/models/character';
 import { ItemSlot, ItemType, type Item, type ItemArmorComponent } from '@/models/item';
-import { type HumanDuration } from '@/models/datetime';
 import { type ActivityLog, type CharacterEarnedMetadata } from '@/models/activity-logs';
 import { type TimeSeries } from '@/models/timeseries';
 
@@ -56,8 +55,8 @@ import { armorTypes, computeAverageRepairCostPerHour } from '@/services/item-ser
 import { t } from '@/services/translate-service';
 
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
-import { computeLeftMs, parseTimestamp } from '@/utils/date';
-import { range, groupBy } from '@/utils/array';
+import { computeLeftMs } from '@/utils/date';
+import { range } from '@/utils/array';
 import { GameMode } from '@/models/game-mode';
 
 export const getCharacters = () => get<Character[]>('/users/self/characters');
@@ -95,7 +94,16 @@ export const deleteCharacter = (characterId: number) =>
   del(`/users/self/characters/${characterId}`);
 
 export const getCharacterStatistics = (characterId: number) =>
-  get<CharacterStatistics[]>(`/users/self/characters/${characterId}/statistics`);
+  get<Partial<Record<GameMode, CharacterStatistics>>>(
+    `/users/self/characters/${characterId}/statistics`
+  );
+
+export const getDefaultCharacterStatistics = (): CharacterStatistics => ({
+  kills: 0,
+  deaths: 0,
+  assists: 0,
+  playTime: 0,
+});
 
 export enum CharacterEarningType {
   'Exp' = 'Exp',

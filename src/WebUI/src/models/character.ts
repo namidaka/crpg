@@ -78,7 +78,6 @@ export interface CharacterStatistics {
   deaths: number;
   assists: number;
   playTime: number;
-  gameMode: GameMode;
 }
 
 export interface CharacterRating {
