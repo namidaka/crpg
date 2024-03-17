@@ -4508,9 +4508,9 @@
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
-  <NPCCharacter id="crpg_dtv_tincan_boss" name="{=}The Can Opener" race="heavy_bot">
+  <NPCCharacter id="crpg_dtv_tincan_boss" name="{=}The Grumbler" race="heavy_bot">
     <face>
-      <BodyProperties version="4" age="23" weight="0.5" build="0.5" key="0015DC008070040F7995296A66AC7A488E743843A9A6871A5ADDC44BC559596701B776130BBD58E300000000000000000000000002FC800400000000317C3144" />
+      <BodyProperties version="4" age="69.11" weight="0.9745" build="0.0347"  key="00000C008058314C0F71F00FF0E1FFE0E000E0FF38FF00FE700F11F070F11F0E0741F67804F0E10000000000000000000000000078FC40C600000000787C40C6"  />
     </face>
     <skills>
       <skill id="Strength" value="60" />
@@ -4533,12 +4533,12 @@
     </skills>
     <Equipments>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_bl_winged_helmet1_v1_h0" />
-        <equipment slot="Cape" id="Item.crpg_pauldron_over_scale_armor_v2_h0" />
+        <equipment slot="Head" id="Item.crpg_ba_opensalletclean_h0" />
+        <equipment slot="Cape" id="Item.crpg_ba_knightpadgorget_gold1_h0" />
         <equipment slot="Body" id="Item.crpg_sa_2ChurburghTorso_h0" />
-        <equipment slot="Gloves" id="Item.crpg_sa_2ChurburghGauntlet_h0" />
-        <equipment slot="Leg" id="Item.crpg_sa_2ChurburghBoots_h0" />
-        <equipment slot="Item0" id="Item.crpg_le_bonke_v1_h3" />
+        <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_decorated_imperial_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_burgundian_poleaxe_v5_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
