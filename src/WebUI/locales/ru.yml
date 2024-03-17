@@ -16,7 +16,7 @@ installation:
   platform:
     steam:
       subscribe: Подпишитесь на {steamWorkshopsLink}
-      update: Чтобы обновить мод, вам может потребоваться отписаться/подписаться в Steam Workshops
+      update: Чтобы обновить мод, вам может потребоваться отписаться/подписаться в Steam Workshop
       bannerlordLauncher: Запустите Bannerlord
       multiplayerModsTab: Перейдите на вкладку Многопользовательские моды
       activateMod: Активируйте мод cRPG
@@ -24,10 +24,10 @@ installation:
     other:
       title: Лаунчер
       downloadLauncher: Загрузите наш {launcherLink}
-      startLauncher: Откройте Launcher и подождите, пока мод загрузится
-      detectinstall: Нажмите 'Detect Install', чтобы автоматически найти место установки, или задайте вручную c помощью 'Change Location'.
-      update: Нажмите 'Update cRPG', чтобы убедиться, что cRPG полностью обновлена
-      launch: Нажмите 'Launch cRPG', чтобы запустить мод.
+      startLauncher: Откройте Launcher и выберите свою платформу (Steam/Epic/Xbox)
+      detectinstall: Нажмите "Detect Install", чтобы автоматически найти место установки, или задайте вручную c помощью "Change Location"
+      update: Нажмите "Update cRPG", чтобы убедиться, что cRPG полностью обновлен
+      launch: Нажмите "Launch cRPG", чтобы запустить модификацию
 
 dateTime:
   days:
