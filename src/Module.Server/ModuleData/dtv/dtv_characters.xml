@@ -3443,7 +3443,8 @@
     <face>
       <BodyProperties version="4" age="22.14" weight="0.518" build="0.4181" key="0005B8098F2C2445B5D51913A4B87897C899D3E5AA588985C722285C44E5998500B686030B9D69AA0000000000000000000000000000000000000000057C3106" />
     </face>
-    <skill id="Strength" value="24" />
+    <skills>
+      <skill id="Strength" value="24" />
       <skill id="Agility" value="24" />
       <skill id="IronFlesh" value="4" />
       <skill id="PowerStrike" value="4" />
