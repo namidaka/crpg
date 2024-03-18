@@ -20,7 +20,7 @@ const isNew = computed(() => !isGraceTimeExpired(getItemGraceTimeEnd(userItem)))
 </script>
 
 <template>
-  <ItemCard :item="userItem.item">
+  <ItemCard :item="userItem.item" :class="{ 'bg-primary-hover/15 ': userItem.isPersonal }">
     <template #badges-top-right>
       <Tag
         v-if="userItem.isBroken"
