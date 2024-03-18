@@ -46,6 +46,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         NpgsqlConnection.GlobalTypeMapper.MapEnum<BattleMercenaryApplicationStatus>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<Region>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<ActivityLogType>();
+        NpgsqlConnection.GlobalTypeMapper.MapEnum<UserUpdateStatus>();
 #pragma warning restore CS0618
     }
 
