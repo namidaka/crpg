@@ -8,6 +8,7 @@ using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Persistence;
@@ -23,7 +24,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crpg.Persistence.Migrations
 {
     [DbContext(typeof(CrpgDbContext))]
-    [Migration("20240318084240_AddGamemodeStatistics")]
+    [Migration("20240318115855_AddGamemodeStatistics")]
     partial class AddGamemodeStatistics
     {
         /// <inheritdoc />
@@ -45,6 +46,7 @@ namespace Crpg.Persistence.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "clan_member_role", new[] { "member", "officer", "leader" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "culture", new[] { "neutral", "aserai", "battania", "empire", "khuzait", "looters", "sturgia", "vlandia" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "damage_type", new[] { "undefined", "cut", "pierce", "blunt" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "game_mode", new[] { "crpg_battle", "crpg_conquest", "crpgdtv", "crpg_duel", "crpg_siege", "crpg_team_deathmatch", "crpg_skirmish", "crpg_unknown_game_mode" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_slot", new[] { "head", "shoulder", "body", "hand", "leg", "mount_harness", "mount", "weapon0", "weapon1", "weapon2", "weapon3", "weapon_extra" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_type", new[] { "undefined", "head_armor", "shoulder_armor", "body_armor", "hand_armor", "leg_armor", "mount_harness", "mount", "shield", "bow", "crossbow", "one_handed_weapon", "two_handed_weapon", "polearm", "thrown", "arrows", "bolts", "pistol", "musket", "bullets", "banner" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "languages", new[] { "en", "zh", "ru", "de", "fr", "it", "es", "pl", "uk", "ro", "nl", "tr", "el", "hu", "sv", "cs", "pt", "sr", "bg", "hr", "da", "fi", "no", "be", "lv" });
@@ -1467,8 +1469,8 @@ namespace Crpg.Persistence.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("deaths");
 
-                            b1.Property<int>("GameMode")
-                                .HasColumnType("integer")
+                            b1.Property<GameMode>("GameMode")
+                                .HasColumnType("game_mode")
                                 .HasColumnName("game_mode");
 
                             b1.Property<int>("Kills")
