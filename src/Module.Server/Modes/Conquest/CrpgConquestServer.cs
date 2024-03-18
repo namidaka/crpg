@@ -1,5 +1,6 @@
 using Crpg.Module.Common;
 using Crpg.Module.Notifications;
+using Crpg.Module.Helpers;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
