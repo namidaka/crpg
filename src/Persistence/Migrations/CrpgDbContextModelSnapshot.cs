@@ -760,6 +760,41 @@ namespace Crpg.Persistence.Migrations
                     b.ToTable("items", (string)null);
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Items.PersonalItem", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("ItemId")
+                        .HasColumnType("text")
+                        .HasColumnName("item_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("UserId", "ItemId")
+                        .HasName("pk_personal_items");
+
+                    b.HasIndex("ItemId")
+                        .HasDatabaseName("ix_personal_items_item_id");
+
+                    b.HasIndex("UserId", "ItemId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_personal_items_user_id_item_id");
+
+                    b.ToTable("personal_items", (string)null);
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Items.UserItem", b =>
                 {
                     b.Property<int>("Id")
@@ -1995,6 +2030,27 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("TertiaryWeapon");
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Items.PersonalItem", b =>
+                {
+                    b.HasOne("Crpg.Domain.Entities.Items.Item", "Item")
+                        .WithMany("PersonalItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_personal_items_items_item_id");
+
+                    b.HasOne("Crpg.Domain.Entities.Users.User", "User")
+                        .WithMany("PersonalItems")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_personal_items_users_user_id");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Items.UserItem", b =>
                 {
                     b.HasOne("Crpg.Domain.Entities.Items.Item", "Item")
@@ -2185,6 +2241,8 @@ namespace Crpg.Persistence.Migrations
 
             modelBuilder.Entity("Crpg.Domain.Entities.Items.Item", b =>
                 {
+                    b.Navigation("PersonalItems");
+
                     b.Navigation("UserItems");
                 });
 
@@ -2218,6 +2276,8 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("Items");
 
                     b.Navigation("Party");
+
+                    b.Navigation("PersonalItems");
 
                     b.Navigation("Restrictions");
                 });

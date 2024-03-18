@@ -73,10 +73,13 @@ public record UpdateCharacterItemsCommand : IMediatorRequest<IList<EquippedItemV
                 .Where(ei => ei.UserItemId != null)
                 .Select(ei => ei.UserItemId!.Value)
                 .ToArray();
+
             Dictionary<int, UserItem> userItemsById = await _db.UserItems
-                .Include(ui => ui.Item)
+                .Include(ui => ui.Item).ThenInclude(i => i!.PersonalItems)
                 .Include(ui => ui.ClanArmoryItem)
-                .Where(ui => (ui.ClanArmoryBorrowedItem!.BorrowerUserId == req.UserId || (ui.UserId == req.UserId && ui.ClanArmoryItem == null)) && newUserItemIds.Contains(ui.Id))
+                .Where(ui =>
+                    (ui.ClanArmoryBorrowedItem!.BorrowerUserId == req.UserId || (ui.UserId == req.UserId && ui.ClanArmoryItem == null))
+                    && newUserItemIds.Contains(ui.Id))
                 .ToDictionaryAsync(ui => ui.Id, cancellationToken);
 
             Dictionary<ItemSlot, EquippedItem> oldItemsBySlot = character.EquippedItems.ToDictionary(c => c.Slot);
@@ -99,7 +102,7 @@ public record UpdateCharacterItemsCommand : IMediatorRequest<IList<EquippedItemV
                     return new(CommonErrors.UserItemNotFound(newEquippedItem.UserItemId.Value));
                 }
 
-                if (!userItem.Item!.Enabled)
+                if (!userItem.Item!.Enabled && !userItem.Item.PersonalItems.Any(pi => pi.UserId == req.UserId))
                 {
                     return new(CommonErrors.ItemDisabled(userItem.ItemId));
                 }

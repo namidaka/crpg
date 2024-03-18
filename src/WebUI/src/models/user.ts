@@ -43,6 +43,7 @@ export interface UserItem {
   item: Item;
   isBroken: boolean;
   isArmoryItem: boolean;
+  isPersonal: boolean;
 }
 
 export interface UserItemsByType {

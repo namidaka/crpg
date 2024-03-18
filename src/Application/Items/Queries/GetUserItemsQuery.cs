@@ -2,6 +2,7 @@ using AutoMapper;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
+using Crpg.Application.Common.Services;
 using Crpg.Application.Items.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,17 +17,23 @@ public record GetUserItemsQuery : IMediatorRequest<IList<UserItemViewModel>>
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
 
-        public Handler(ICrpgDbContext db, IMapper mapper)
+        private readonly IItemService _itemService;
+
+
+        public Handler(ICrpgDbContext db, IMapper mapper, IItemService itemService)
         {
             _db = db;
             _mapper = mapper;
+            _itemService = itemService;
         }
 
         public async Task<Result<IList<UserItemViewModel>>> Handle(GetUserItemsQuery req, CancellationToken cancellationToken)
         {
             var userItems = await _db.UserItems
-                .Where(ui => ui.Item!.Enabled && (ui.UserId == req.UserId || ui.ClanArmoryBorrowedItem!.BorrowerUserId == req.UserId))
-                .Include(ui => ui.Item)
+                .Include(ui => ui.Item).ThenInclude(i => i!.PersonalItems)
+                .Where(ui =>
+                    (ui.Item!.Enabled || ui.Item.PersonalItems.Any(pi => pi.UserId == req.UserId))
+                    && (ui.UserId == req.UserId || ui.ClanArmoryBorrowedItem!.BorrowerUserId == req.UserId))
                 .Include(ui => ui.ClanArmoryItem)
                 .Include(ui => ui.ClanArmoryBorrowedItem)
                 .ToArrayAsync(cancellationToken);
