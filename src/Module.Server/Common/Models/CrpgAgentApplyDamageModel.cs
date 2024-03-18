@@ -432,11 +432,11 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
     {
         if (attackInformation.AttackerAgentOrigin is CrpgBattleAgentOrigin)
         {
-            bool isVictimDtvBot = attackInformation.VictimAgentCharacter != null
+            bool isVictimDtvBoss = attackInformation.VictimAgentCharacter != null
                 ? attackInformation.VictimAgentCharacter.StringId.EndsWith("_boss")
                 : false;
 
-            return isVictimDtvBot;
+            return isVictimDtvBoss;
         }
 
         return false;
