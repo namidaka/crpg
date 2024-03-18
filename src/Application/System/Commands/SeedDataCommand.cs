@@ -530,10 +530,15 @@ public record SeedDataCommand : IMediatorRequest
                 }
             }
 
-            //
+            PersonalItem takeoPItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
+            PersonalItem orlePItem1 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
+
+            _db.PersonalItems.Add(takeoPItem1);
+            _db.PersonalItems.Add(orlePItem1);
+
             UserItem takeoItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
             UserItem takeoItem2 = new() { User = takeo, ItemId = "crpg_winds_fury_v1_h2" };
-            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_lion_imprinted_saber_v1_h1" };
+            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
             UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0" };
             UserItem orleItem3 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_v1_h2" };
             UserItem orleItem4 = new() { User = orle, ItemId = "crpg_decorated_short_spatha_v1_h1" };
@@ -1212,7 +1217,9 @@ public record SeedDataCommand : IMediatorRequest
 
             ClanArmoryItem[] newClanArmoryItems =
             {
-                takeoClanArmoryItem1, takeoClanArmoryItem2, orleClanArmoryItem1, orleClanArmoryItem2, orleClanArmoryItem3,  orleClanArmoryItem4,  orleClanArmoryItem5,  orleClanArmoryItem6,  orleClanArmoryItem7,  orleClanArmoryItem8,  orleClanArmoryItem9,  orleClanArmoryItem10, orleClanArmoryItem11, orleClanArmoryItem12, orleClanArmoryItem13, orleClanArmoryItem14, orleClanArmoryItem15, orleClanArmoryItem16, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
+                takeoClanArmoryItem1, takeoClanArmoryItem2,
+                // orleClanArmoryItem1,
+                orleClanArmoryItem2, orleClanArmoryItem3,  orleClanArmoryItem4,  orleClanArmoryItem5,  orleClanArmoryItem6,  orleClanArmoryItem7,  orleClanArmoryItem8,  orleClanArmoryItem9,  orleClanArmoryItem10, orleClanArmoryItem11, orleClanArmoryItem12, orleClanArmoryItem13, orleClanArmoryItem14, orleClanArmoryItem15, orleClanArmoryItem16, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
             };
             foreach (var newClanArmoryItem in newClanArmoryItems)
             {
@@ -2148,6 +2155,11 @@ public record SeedDataCommand : IMediatorRequest
             }
             else
             {
+                if (item.Id == "crpg_thamaskene_steel_spatha_v1_h3")
+                {
+                    item.Enabled = false;
+                }
+
                 _db.Items.Add(item);
             }
         }

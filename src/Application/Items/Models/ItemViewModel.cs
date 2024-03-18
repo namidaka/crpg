@@ -20,6 +20,8 @@ public record ItemViewModel : IMapFrom<Item>
     public ItemFlags Flags { get; init; }
     public DateTime CreatedAt { get; init; }
 
+    public bool Enabled { get; init; }
+
     public ItemArmorComponentViewModel? Armor { get; init; }
     public ItemMountComponentViewModel? Mount { get; init; }
     public IList<ItemWeaponComponentViewModel> Weapons { get; init; } = Array.Empty<ItemWeaponComponentViewModel>();
