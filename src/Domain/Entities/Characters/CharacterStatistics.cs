@@ -9,4 +9,5 @@ public class CharacterStatistics
     public int Assists { get; set; }
     public TimeSpan PlayTime { get; set; }
     public GameMode GameMode { get; set; }
+    public Character? Character { get; set; }
 }

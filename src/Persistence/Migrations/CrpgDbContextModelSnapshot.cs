@@ -1481,9 +1481,11 @@ namespace Crpg.Persistence.Migrations
 
                             b1.ToTable("character_statistics", (string)null);
 
-                            b1.WithOwner()
+                            b1.WithOwner("Character")
                                 .HasForeignKey("CharacterId")
                                 .HasConstraintName("fk_character_statistics_characters_character_id");
+
+                            b1.Navigation("Character");
                         });
 
                     b.Navigation("Characteristics")

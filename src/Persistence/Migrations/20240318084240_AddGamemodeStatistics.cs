@@ -1,6 +1,4 @@
 ﻿using System;
-using Crpg.Application.Characters.Models;
-using Crpg.Domain.Entities.Servers;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -9,14 +7,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crpg.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class SeperateCharacterStatistics : Migration
+    public partial class AddGamemodeStatistics : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:gamemode", "crpgbattle, crpgconquest, crpgduel, crpgdtv, crpgsiege, crpgteamdeathmatch, crpgskirmish, crpgunknown");
+            .Annotation("Npgsql:Enum:gamemode", "crpgbattle, crpgconquest, crpgduel, crpgdtv, crpgsiege, crpgteamdeathmatch, crpgskirmish, crpgunknown");
 
             migrationBuilder.CreateTable(
                 name: "character_statistics",
@@ -29,7 +26,7 @@ namespace Crpg.Persistence.Migrations
                     deaths = table.Column<int>(type: "integer", nullable: false),
                     assists = table.Column<int>(type: "integer", nullable: false),
                     play_time = table.Column<TimeSpan>(type: "interval", nullable: false),
-                    game_mode = table.Column<GameMode>(type: "integer", nullable: false)
+                    game_mode = table.Column<int>(type: "integer", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -62,6 +59,7 @@ namespace Crpg.Persistence.Migrations
             migrationBuilder.DropColumn(
                 name: "play_time",
                 table: "characters");
+
         }
 
         /// <inheritdoc />
@@ -96,7 +94,7 @@ namespace Crpg.Persistence.Migrations
                 defaultValue: new TimeSpan(0, 0, 0, 0, 0));
 
             migrationBuilder.Sql(
-                @"UPDATE characters
+            @"UPDATE characters
                 SET
                     kills = cs_aggregated.sum_kills,
                     deaths = cs_aggregated.sum_deaths,
@@ -118,7 +116,7 @@ namespace Crpg.Persistence.Migrations
                 name: "character_statistics");
 
             migrationBuilder.AlterDatabase()
-                .OldAnnotation("Npgsql:Enum:gamemode", "crpgbattle, crpgconquest, crpgduel, crpgdtv, crpgsiege, crpgteamdeathmatch, crpgskirmish, crpgunknown");
+            .OldAnnotation("Npgsql:Enum:gamemode", "crpgbattle, crpgconquest, crpgduel, crpgdtv, crpgsiege, crpgteamdeathmatch, crpgskirmish, crpgunknown");
         }
     }
 }
