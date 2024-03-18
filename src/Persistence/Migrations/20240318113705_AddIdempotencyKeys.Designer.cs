@@ -24,7 +24,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crpg.Persistence.Migrations
 {
     [DbContext(typeof(CrpgDbContext))]
-    [Migration("20240318110240_AddIdempotencyKeys")]
+    [Migration("20240318113705_AddIdempotencyKeys")]
     partial class AddIdempotencyKeys
     {
         /// <inheritdoc />
@@ -54,6 +54,7 @@ namespace Crpg.Persistence.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "restriction_type", new[] { "all", "join", "chat" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "user", "moderator", "game_admin", "admin" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "settlement_type", new[] { "village", "castle", "town" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_update_status", new[] { "started", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "weapon_class", new[] { "undefined", "dagger", "one_handed_sword", "two_handed_sword", "one_handed_axe", "two_handed_axe", "mace", "pick", "two_handed_mace", "one_handed_polearm", "two_handed_polearm", "low_grip_polearm", "arrow", "bolt", "cartridge", "bow", "crossbow", "stone", "boulder", "throwing_axe", "throwing_knife", "javelin", "pistol", "musket", "small_shield", "large_shield", "banner" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
