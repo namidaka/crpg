@@ -240,24 +240,44 @@ internal class CrpgRewardServer : MissionLogic
             return;
         }
 
-        // TODO: add retry mechanism (the endpoint need to be idempotent though).
         Guid idempotencyKey = Guid.NewGuid();
+        int maxRetries = 3;
+        int retryCount = 0;
+        TimeSpan delay = TimeSpan.FromSeconds(5);
 
+        while (retryCount < maxRetries)
+        {
+            try
+            {
+                var request = new CrpgGameUsersUpdateRequest
+                {
+                    Updates = userUpdates,
+                    Key = idempotencyKey.ToString(),
+                };
 
-        try
-        {
-            SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
-            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates, Key = idempotencyKey})).Data!;
-            SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
-        }
-        catch (Exception e)
-        {
-            Debug.Print("Couldn't update users: " + e);
-            SendErrorToPeers(crpgPeerByCrpgUserId);
-        }
-        finally
-        {
-            SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: false);
+                SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, true);
+                var res = (await _crpgClient.UpdateUsersAsync(request)).Data!;
+                SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
+                break;
+            }
+            catch (Exception e)
+            {
+                Debug.Print($"Attempt {retryCount + 1}: Couldn't update users - {e}");
+                retryCount++;
+
+                if (retryCount >= maxRetries)
+                {
+                    SendErrorToPeers(crpgPeerByCrpgUserId);
+                    break;
+                }
+
+                await Task.Delay(delay);
+                delay *= 2; // Exponential backoff
+            }
+            finally
+            {
+                SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, false);
+            }
         }
     }
 

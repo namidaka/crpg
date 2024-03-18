@@ -4,5 +4,5 @@
 internal class CrpgGameUsersUpdateRequest
 {
     public IList<CrpgUserUpdate> Updates { get; set; } = Array.Empty<CrpgUserUpdate>();
-    public Guid Key { get; set; }
+    public string Key { get; set; } = string.Empty;
 }
