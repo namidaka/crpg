@@ -86,7 +86,7 @@ namespace Crpg.Persistence.Migrations
 
             migrationBuilder.Sql($@"
                 INSERT INTO character_statistics (character_id, kills, deaths, assists, play_time, game_mode)
-                SELECT id, kills, deaths, assists, play_time, crpg_battle
+                SELECT id, kills, deaths, assists, play_time, 'crpg_battle'
                 FROM characters");
 
             migrationBuilder.DropColumn(
