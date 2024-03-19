@@ -3812,7 +3812,7 @@
       <BodyProperties version="4" age="23" weight="0.5" build="0.5" key="000A000FC0FC3A144EFFEFE0FFEFFFFF0F9C54564930CA46AABBBBAEBBAABCCE0147761304FCCBBA0000000000000000000000000000000000000000027C8004" />
     </face>
     <skills>
-      <skill id="Strength" value="21" />
+      <skill id="Strength" value="27" />
       <skill id="Agility" value="18" />
       <skill id="IronFlesh" value="12" />
       <skill id="PowerStrike" value="7" />
@@ -3854,7 +3854,7 @@
       <BodyProperties version="4" age="23" weight="0.5" build="0.5" key="000A000FC0FC3A144EFFEFE0FFEFFFFF0F9C54564930CA46AABBBBAEBBAABCCE0147761304FCCBBA0000000000000000000000000000000000000000027C8004" />
     </face>
     <skills>
-      <skill id="Strength" value="21" />
+      <skill id="Strength" value="33" />
       <skill id="Agility" value="18" />
       <skill id="IronFlesh" value="12" />
       <skill id="PowerStrike" value="7" />
