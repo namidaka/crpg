@@ -10,7 +10,6 @@ declare module 'vue' {
     ActivityLogItem: typeof import('./../components/moderator/ActivityLogItem.vue')['default']
     Bg: typeof import('./../components/app/Bg.vue')['default']
     CharacterCreateModal: typeof import('./../components/character/CharacterCreateModal.vue')['default']
-    CharacterEarningChart: typeof import('./../components/character/CharacterEarningChart.vue')['default']
     CharacterEditForm: typeof import('./../components/character/CharacterEditForm.vue')['default']
     CharacterInventoryDoll: typeof import('./../components/character/inventory/CharacterInventoryDoll.vue')['default']
     CharacterInventoryDollSlot: typeof import('./../components/character/inventory/CharacterInventoryDollSlot.vue')['default']
