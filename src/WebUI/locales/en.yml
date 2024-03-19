@@ -7,7 +7,6 @@ platform:
   Steam: Steam
   EpicGames: Epic Games
   Microsoft: Xbox
-  SteamWorkshop: Steam Workshop
 
 installation:
   title: Installation
