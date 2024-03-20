@@ -49,15 +49,17 @@ const userStore = useUserStore();
         />
       </InstallationGuide>
 
+    <Help>
       <OButton
         variant="primary"
         size="sm"
         inverted
         rounded
         icon-left="help-circle"
-        v-tooltip.bottom="`Help. Soon...`"
+        v-tooltip.bottom="`Help!`"
       />
-    </div>
+  </Help>
+</div>
 
     <RouterLink
       :to="{ name: 'Characters' }"

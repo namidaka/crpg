@@ -29,6 +29,81 @@ installation:
       update: Click 'Update cRPG' to ensure cRPG is fully up-to-date
       launch: Click 'Launch cRPG' to start the Mod
 
+help:
+  title: Help Hub
+  tabs:
+    overview: Overview
+    buildSupport: Build Support
+    joinClan: Joining a Clan
+    faq: FAQ
+  contentoverview:
+    title2: "Welcome to cRPG!"
+    welcomeText: |
+
+      If you're new you've probably found this page looking for some help, you've come to the right place! This will serve as a 'welcome pack' of sorts to help you out with basic questions.
+
+      We recommend checking out 'Build Support' to start with, it's the best way to learn our building system and to get started in being creative with your character!
+
+  contentbuildSupport:
+    title3: "Build Support"
+    buildSupport: |
+
+      Establishing a good build for your character is a fundamental tool in being able to dominate the field in cRPG, being new to the game, you're going to want something simple, easy and clean to get involved in combat as much as possible.
+
+      The most fundamental rule to learn about building is that Attribute increases (That's Strength, and Agility) should always be done in multiples of three.
+
+      The reason this is the case is that for each multiple of three you put into either Strength, or Agility, you gain the ability to put +1 point into the Skill related to that Attribute. 
+      
+      For example, at level 3 Agility you can put 1 point into your Athletics skill, add 3 points and bring it to level 6 and you can now put in 2 points, rinse and repeat until you reach your desired level!
+
+      Here's some good terminology to know when building:
+      
+      XY/YX = STR/AGI
+
+      IRONFLESH = IF
+
+      POWER STRIKE = PS
+
+      POWER DRAW = PD
+
+      POWER THROW = PT
+
+      ATHLETICS = ATH
+
+      RIDING = RID
+
+      WEAPON MASTER = WM
+
+      MOUNTED ARCHERY = MA
+
+      SHIELD = SHLD
+
+  contentjoinClan:
+    title4: "Joining a Clan"
+    joinClan: |
+      It's a good idea to get involved in a clan in cRPG, for two simple reasons:
+
+      It gets you involved more in the community - You can learn from more experienced players and use it to improve your skills!
+
+      It gets you access to their Clan Armoury - Containing items that you can borrow from other players! This is a massive resource early on when gold is tight!
+
+  contentfaq:
+    title5: "Frequently Asked Questions"
+    faq: "You'll find a list of common questions here"
+    q1: "How do strength requirements work?"
+    a1: "You can wear whatever you like, however, if you do not hold the requirement to wield said item you will face penalties."
+    q2: "How do I earn XP and Gold?"
+    a2: "Simple! By playing the game! As your team wins rounds you gain multi, which multiplies your XP and gold rate by the amount shown in the bottom right have side of the screen denoted by (x1, x2, x3, x4, x5) - You can increase income by using worse gear, as gear is what costs you money."
+    q3: "Everyone is so strong, why do I feel so weak?"
+    a3: "cRPG has a lot of experienced, well seasoned players that have been playing the game for a long time; as a result, the average skill level is much higher than that of native players. You may find that you will find the combat here much tougher to start out with, especially if you are new!"
+    q4: "What is retiring and heirloom points?"
+    a4: "Retiring is a feature of cRPG which enables you to roll your character back to level 1, in exchange you gain a 'Generation' which increases your XP rate, you also gain an Heirloom Point which can be used to upgrade and improve the stats on your equipment."
+    q5: "Why Retire 16 times?"
+    a5: "We recommend 16 times as this will put you at the maximum Experience multiplier which will then help you to level up faster once you get beyond level 31"
+
+discordfooter: 
+    discord: "Need more info? Check out our {discordLink} Community!"
+
 dateTime:
   days:
     short: d
