@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Crpg.Module.Modes.Battle.FlagSystems;
+using Crpg.Module.Modes.Captain;
 using Crpg.Module.Modes.Skirmish;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
@@ -167,6 +168,11 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         }
 
         if (SpawnComponent.SpawningBehavior is CrpgBattleSpawningBehavior s && !s.SpawnDelayEnded())
+        {
+            return false;
+        }
+
+        if (SpawnComponent.SpawningBehavior is CrpgCaptainSpawningBehavior c && !c.SpawnDelayEnded())
         {
             return false;
         }
