@@ -458,7 +458,7 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         float defendersScale;
         if (_currentRoundDefendersCount <= 10)
         {
-            defendersScale = 1 + (_currentRoundDefendersCount - 1) * 0.02f;
+            defendersScale = 1 + (_currentRoundDefendersCount - 1) * 0.0125f;
         }
         else
         {
