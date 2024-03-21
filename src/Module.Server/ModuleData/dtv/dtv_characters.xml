@@ -2605,7 +2605,7 @@
         <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
-        <equipment slot="Head" id="Item.crpg_open_desert_helmet_v22_h0" />
+        <equipment slot="Head" id="Item.crpg_open_desert_helmet_v2_h0" />
         <equipment slot="Cape" id="Item.crpg_leopard_pelt_v2_h0" />
         <equipment slot="Body" id="Item.crpg_aserai_robe_c_chain_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_guarded_padded_vambrace_v2_h0" />
