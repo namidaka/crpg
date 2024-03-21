@@ -455,15 +455,9 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
 
     private float ComputeRoundReward(CrpgDtvRound data, int wavesWon)
     {
-        float defendersScale;
-        if (_currentRoundDefendersCount <= 10)
-        {
-            defendersScale = 1 + (_currentRoundDefendersCount - 1) * 0.0125f;
-        }
-        else
-        {
-            defendersScale = 1 + (9 * 0.02f) + (_currentRoundDefendersCount - 10) * 0.0035f;
-        }
+        float defendersScale = _currentRoundDefendersCount <= 10
+            ? 1 + (_currentRoundDefendersCount - 1) * 0.0125f
+            : 1 + (9 * 0.0125f) + (_currentRoundDefendersCount - 10) * 0.0035f;
 
         float lostRoundPenalty = (float)wavesWon / data.Waves.Count;
         return data.Reward * defendersScale * lostRoundPenalty;
