@@ -1,3 +1,4 @@
+using System.Data;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -221,8 +222,12 @@ using (IServiceScope scope = app.Services.CreateScope())
         {
             await db.Database.MigrateAsync();
             var conn = (NpgsqlConnection)db.Database.GetDbConnection(); // Don't dispose!
-            conn.Open();
-            conn.ReloadTypes();
+
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+                conn.ReloadTypes();
+            }
         }
         catch (Exception ex)
         {

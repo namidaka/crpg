@@ -107,7 +107,7 @@
 }
 
 .o-tabs__content {
-  @apply mt-8;
+  @apply mt-3;
 }
 
 .o-tabs__content--transitioning {

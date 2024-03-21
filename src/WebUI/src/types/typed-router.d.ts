@@ -27,6 +27,7 @@ declare module 'vue-router/auto-routes' {
     'CharactersId': RouteRecordInfo<'CharactersId', '/characters/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'CharactersIdCharacteristic': RouteRecordInfo<'CharactersIdCharacteristic', '/characters/:id/characteristic', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'CharactersIdInventory': RouteRecordInfo<'CharactersIdInventory', '/characters/:id/inventory', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    'CharactersIdStats': RouteRecordInfo<'CharactersIdStats', '/characters/:id/stats', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'Clans': RouteRecordInfo<'Clans', '/clans', Record<never, never>, Record<never, never>>,
     'ClansId': RouteRecordInfo<'ClansId', '/clans/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'ClansIdApplications': RouteRecordInfo<'ClansIdApplications', '/clans/:id/applications', { id: ParamValue<true> }, { id: ParamValue<false> }>,

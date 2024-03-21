@@ -105,7 +105,7 @@ onBeforeUnmount(() => {
   unsubscribe(loadUserItemsSymbol);
 });
 
-const fetchPageData = async (characterId: number) =>
+const fetchPageData = (characterId: number) =>
   Promise.all([
     loadCharacterCharacteristics(0, { id: characterId }),
     loadCharacterItems(0, { id: characterId }),
@@ -158,6 +158,14 @@ await fetchPageData(character.value.id);
             :variant="isActive ? 'transparent-active' : 'transparent'"
             size="lg"
             :label="$t('character.nav.characteristic')"
+          />
+        </RouterLink>
+
+        <RouterLink :to="{ name: 'CharactersIdStats', params: { id } }" v-slot="{ isActive }">
+          <OButton
+            :variant="isActive ? 'transparent-active' : 'transparent'"
+            size="lg"
+            :label="$t('character.nav.stats')"
           />
         </RouterLink>
       </div>

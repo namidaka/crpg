@@ -29,7 +29,8 @@
       "@types/body-scroll-lock",
       "vite-plugin-svg-icons/client",
       "@vue-macros/reactivity-transform/macros-global",
-      "@oruga-ui/oruga-next/volar"
+      "@oruga-ui/oruga-next/volar",
+      "unplugin-vue-router/client"
     ]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],

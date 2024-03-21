@@ -45,7 +45,7 @@
   <string id="str_kick_reason.banned" text="{=qoYQE5yX}You were banned from cRPG servers." />
   <string id="str_kick_reason.character_recently_created" text="{=SppKtXbt}You've reached the limit of characters created. Enable an existing character on the website or wait 1 hour." />
   <string id="str_kick_reason.empty_name" text="{=nNXfXYHE}Empty names are not allowed on cRPG servers." />
-  <string id="str_kick_reason.no_weapon" text="{=mWWXmIE5}You should have at least one weapon equipped to spawn!" />
+  <string id="str_kick_reason.no_weapon" text="{=mWWXmIE5}You should have at least one melee or throwing weapon equipped to spawn!" />
   <string id="str_kick_reason.tournament_only" text="{=rOhUOWX6}Only tournament characters can join this server." />
   <string id="str_kick_reason.unreachable_server" text="{=OsPW0okL}The cRPG main server is unreachable. Try again later." />
   <string id="str_kick_reason.unsupported_platform" text="{=hU3flm9q}cRPG servers only support Steam, Epic Games and Xbox." />
