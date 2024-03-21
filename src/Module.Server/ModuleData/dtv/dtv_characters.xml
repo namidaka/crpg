@@ -1770,7 +1770,7 @@
       <skill id="PowerStrike" value="2" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="110" />
+      <skill id="Athletics" value="100" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="7" />
       <skill id="MountedArchery" value="0" />
@@ -1789,7 +1789,7 @@
         <equipment slot="Body" id="Item.crpg_hauberk_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_padded_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_cavalier_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_billhook_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_english_bill_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_peaked_helmet_over_mail_coif_v2_h0" />
@@ -1797,7 +1797,7 @@
         <equipment slot="Body" id="Item.crpg_hauberk_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_padded_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_cavalier_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_billhook_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_english_bill_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2579,7 +2579,7 @@
       <skill id="MountedArchery" value="0" />
       <skill id="Shield" value="3" />
       <skill id="OneHanded" value="130" />
-      <skill id="TwoHanded" value="0" />
+      <skill id="TwoHanded" value="130" />
       <skill id="Polearm" value="0" />
       <skill id="Bow" value="0" />
       <skill id="Crossbow" value="0" />
@@ -2603,6 +2603,23 @@
         <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_simple_scimitar_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_open_desert_helmet_v22_h0" />
+        <equipment slot="Cape" id="Item.crpg_leopard_pelt_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_aserai_robe_c_chain_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_guarded_padded_vambrace_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_fine_steel_long_kaskara_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
+      </EquipmentRoster>
+      <EquipmentRoster>
+        <equipment slot="Head" id="Item.crpg_brass_aserai_helmet_leather_v2_h0" />
+        <equipment slot="Cape" id="Item.crpg_leopard_pelt_v2_h0" />
+        <equipment slot="Body" id="Item.crpg_aserai_robe_c_chain_v2_h0" />
+        <equipment slot="Gloves" id="Item.crpg_northern_brass_bracers_v2_h0" />
+        <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_ridged_long_kaskara_v1_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2744,8 +2761,8 @@
         <equipment slot="Body" id="Item.crpg_aserai_cav_armor_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_decorated_imperial_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_decorated_elite_scimitar_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_studded_round_shield_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_decorated_elite_scimitar_v1_h3" />
+        <equipment slot="Item1" id="Item.crpg_studded_round_shield_v3_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_aserai_crown_v2_h0" />
@@ -2753,7 +2770,7 @@
         <equipment slot="Body" id="Item.crpg_aserai_cav_armor_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_decorated_imperial_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_warrazor_v3_h2" />
+        <equipment slot="Item0" id="Item.crpg_warrazor_v3_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2790,8 +2807,8 @@
         <equipment slot="Horse" id="Item.crpg_mount1_camel_10_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_tv_camelarmor_d_h0" />
         <equipment slot="Item0" id="Item.crpg_fine_steel_menavlion_v3_h2" />
-        <equipment slot="Item1" id="Item.crpg_noyans_shield_v3_h2" />
-        <equipment slot="Item2" id="Item.crpg_heavy_horsemans_mace_v1_h2" />
+        <equipment slot="Item1" id="Item.crpg_noyans_shield_v3_h3" />
+        <equipment slot="Item2" id="Item.crpg_heavy_horsemans_mace_v1_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3044,8 +3061,8 @@
         <equipment slot="Body" id="Item.crpg_empire_legion_b_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_gladius_mainz_v1_h2" />
-        <equipment slot="Item1" id="Item.crpg_emirs_oval_shield_v4_h0" />
+        <equipment slot="Item0" id="Item.crpg_gladius_mainz_v1_h3" />
+        <equipment slot="Item1" id="Item.crpg_emirs_oval_shield_v4_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_tc_empire_battle_crown_west_h0" />
@@ -3053,8 +3070,8 @@
         <equipment slot="Body" id="Item.crpg_empire_legion_b_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_emirs_oval_shield_v4_h0" />
-        <equipment slot="Item1" id="Item.crpg_long_thamaskene_tipped_spear_v2_h2" />
+        <equipment slot="Item0" id="Item.crpg_emirs_oval_shield_v4_h3" />
+        <equipment slot="Item1" id="Item.crpg_long_thamaskene_tipped_spear_v2_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3090,9 +3107,9 @@
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_15_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_imperial_scale_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_emirs_oval_shield_v4_h1" />
-        <equipment slot="Item1" id="Item.crpg_decorated_demilance_v1_h2" />
-        <equipment slot="Item2" id="Item.crpg_thamaskene_steel_spathion_v1_h2" />
+        <equipment slot="Item0" id="Item.crpg_emirs_oval_shield_v4_h3" />
+        <equipment slot="Item1" id="Item.crpg_decorated_demilance_v1_h3" />
+        <equipment slot="Item2" id="Item.crpg_thamaskene_steel_spathion_v1_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3259,7 +3276,7 @@
         <equipment slot="Gloves" id="Item.crpg_battania_noble_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_turndown_leather_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_broadshortsword_v2_h3" />
-        <equipment slot="Item1" id="Item.crpg_highland_riders_shield_v3_h0" />
+        <equipment slot="Item1" id="Item.crpg_highland_riders_shield_v3_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_battanian_plated_noble_helmet_v2_h0" />
@@ -3539,7 +3556,7 @@
       <skill id="PowerStrike" value="10" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="160" />
+      <skill id="Athletics" value="150" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="8" />
       <skill id="MountedArchery" value="0" />
@@ -4076,7 +4093,7 @@
         <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_northern_plated_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_burgundian_poleaxe_v5_h0" />
+        <equipment slot="Item0" id="Item.crpg_early_halberd_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandian_helm_with_visor_h0" />
@@ -4320,12 +4337,12 @@
       <skill id="PowerStrike" value="10" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="232" />
+      <skill id="Athletics" value="200" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="10" />
       <skill id="MountedArchery" value="0" />
-      <skill id="Shield" value="0" />
-      <skill id="OneHanded" value="300" />
+      <skill id="Shield" value="3" />
+      <skill id="OneHanded" value="200" />
       <skill id="TwoHanded" value="0" />
       <skill id="Polearm" value="0" />
       <skill id="Bow" value="0" />

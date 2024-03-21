@@ -98,12 +98,12 @@
       <Group classDivisionId="crpg_dtv_viking_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_viking_huscarl" count="1.0" />
+      <Group classDivisionId="crpg_dtv_viking_huscarl" count="1.2" />
       <Group classDivisionId="crpg_dtv_viking_raider" count="1.4" />
       <Group classDivisionId="crpg_dtv_viking_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_viking_huscarl" count="1.0" />
+      <Group classDivisionId="crpg_dtv_viking_huscarl" count="1.4" />
       <Group classDivisionId="crpg_dtv_viking_raider" count="1.6" />
       <Group classDivisionId="crpg_dtv_viking_boss" />
     </Wave>
@@ -111,7 +111,7 @@
 
   <Round reward="290">
     <Wave>
-      <Group classDivisionId="crpg_dtv_templar_scholar" count="2.5" />
+      <Group classDivisionId="crpg_dtv_templar_scholar" count="2.8" />
       <Group classDivisionId="crpg_dtv_templar_initiate" count="0.4" />
       <Group classDivisionId="crpg_dtv_templar_soldier" count="0.2" />
       <Group classDivisionId="crpg_dtv_templar_lieutenant" />
@@ -228,11 +228,11 @@
       <Group classDivisionId="crpg_dtv_reconquista_lieutenant_alvor" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="0.6" />
+      <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="0.8" />
       <Group classDivisionId="crpg_dtv_reconquista_champion" count="0.8" />
       <Group classDivisionId="crpg_dtv_reconquista_knight" count="0.6" />
       <Group classDivisionId="crpg_dtv_reconquista_guard" count="0.5" />
-      <Group classDivisionId="crpg_dtv_reconquista_washerwoman" count="0.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_washerwoman" count="0.3" />
       <Group classDivisionId="crpg_dtv_reconquista_lieutenant_jimena" />
       <Group classDivisionId="crpg_dtv_reconquista_boss" />
     </Wave>
@@ -342,7 +342,7 @@
 
   <Round reward="870">
     <Wave>
-      <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.5" />
+      <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.4" />
       <Group classDivisionId="crpg_dtv_greyorder_kuyak_two_handed" count="0.4" />
       <Group classDivisionId="crpg_dtv_greyorder_balanced_infantry" count="1.0" />
       <Group classDivisionId="crpg_dtv_greyorder_lieutenant_varadin" />
