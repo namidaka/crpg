@@ -3977,9 +3977,9 @@
       <skill id="Strength" value="21" />
       <skill id="Agility" value="30" />
       <skill id="IronFlesh" value="7" />
-      <skill id="PowerStrike" value="7" />
+      <skill id="PowerStrike" value="6" />
       <skill id="PowerDraw" value="0" />
-      <skill id="Athletics" value="232" />
+      <skill id="Athletics" value="120" />
       <skill id="PowerThrow" value="0" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="10" />
@@ -4023,7 +4023,7 @@
       <skill id="IronFlesh" value="5" />
       <skill id="PowerStrike" value="5" />
       <skill id="PowerDraw" value="0" />
-      <skill id="Athletics" value="232" />
+      <skill id="Athletics" value="180" />
       <skill id="PowerThrow" value="0" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="11" />
@@ -4055,9 +4055,9 @@
       <skill id="Strength" value="27" />
       <skill id="Agility" value="21" />
       <skill id="IronFlesh" value="9" />
-      <skill id="PowerStrike" value="9" />
+      <skill id="PowerStrike" value="7" />
       <skill id="PowerDraw" value="0" />
-      <skill id="Athletics" value="232" />
+      <skill id="Athletics" value="120" />
       <skill id="PowerThrow" value="0" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="7" />
@@ -4097,9 +4097,9 @@
       <skill id="Strength" value="33" />
       <skill id="Agility" value="15" />
       <skill id="IronFlesh" value="11" />
-      <skill id="PowerStrike" value="11" />
+      <skill id="PowerStrike" value="8" />
       <skill id="PowerDraw" value="0" />
-      <skill id="Athletics" value="156" />
+      <skill id="Athletics" value="90" />
       <skill id="PowerThrow" value="0" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="5" />
@@ -4139,9 +4139,9 @@
       <skill id="Strength" value="33" />
       <skill id="Agility" value="15" />
       <skill id="IronFlesh" value="11" />
-      <skill id="PowerStrike" value="11" />
+      <skill id="PowerStrike" value="8" />
       <skill id="PowerDraw" value="0" />
-      <skill id="Athletics" value="156" />
+      <skill id="Athletics" value="90" />
       <skill id="PowerThrow" value="0" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="5" />
@@ -4218,7 +4218,7 @@
       <skill id="PowerStrike" value="10" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="232" />
+      <skill id="Athletics" value="156" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="10" />
       <skill id="MountedArchery" value="0" />
@@ -4356,7 +4356,7 @@
       <skill id="PowerStrike" value="15" />
       <skill id="PowerDraw" value="0" />
       <skill id="PowerThrow" value="0" />
-      <skill id="Athletics" value="232" />
+      <skill id="Athletics" value="180" />
       <skill id="Riding" value="0" />
       <skill id="WeaponMaster" value="5" />
       <skill id="MountedArchery" value="0" />
