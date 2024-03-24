@@ -1,30 +1,33 @@
 locale:
   en: English
-  ru: Russian
-  cn: Chinese
+  ru: Русский
+  cn: 中文
 
 platform:
-  Steam: Steam
+  Steam: Steam Workshop
   EpicGames: Epic Games
   Microsoft: Xbox
 
 installation:
   title: Installation
   common:
-    bannerlordLauncher: Launch Bannerlord
-    multiplayerModsTab: Navigate to the Multiplayer Mods tab
-    activateMod: Click to select the cRPG Mod and enable it
-    launchMultiplayerGame: Launch the game in Multiplayer!
+        watchVideoGuide: Watch video guide
+        help: Having issues getting the mod working or installing? Contact us on our {discordLink} Server!
   platform:
     steam:
       subscribe: Subscribe to the {steamWorkshopsLink}
-      update: To update the mod, you may need to unsub/sub to the mod in Steam Workshops
+      update: To update the mod, you may need to unsub/sub to the mod on the Steam Workshop
+      bannerlordLauncher: Launch Bannerlord
+      multiplayerModsTab: Navigate to the Multiplayer Mods tab
+      activateMod: Click to select the cRPG Mod and enable it
+      launchMultiplayerGame: Launch the game in Multiplayer!
     other:
-      title: Other
+      title: Launcher
       downloadLauncher: Download our {launcherLink}
-      startLauncher: Open the launcher and wait for the mod to download
-      update: To update the mod it is enough to restart the launcher
-  help: If you have difficulty installing the modification, please contact us on {discordLink}
+      startLauncher: Open the launcher and select your Platform (Steam/Epic/Xbox)
+      detectinstall: Click 'Detect install' to automatically detect your install location, or set manually via 'Change Location'
+      update: Click 'Update cRPG' to ensure cRPG is fully up-to-date
+      launch: Click 'Launch cRPG' to start the Mod
 
 dateTime:
   days:
@@ -169,8 +172,34 @@ region:
   Na: North America
   As: Asia
   Oc: Oceania
-
 region-title: Region
+
+language:
+  En: English
+  Fr: Français
+  Ru: Русский
+  Zh: 中文
+  De: Deutsch
+  It: Italiano
+  Es: Español
+  Pl: Polski
+  Uk: Українська
+  Ro: Română
+  Nl: Nederlands
+  Tr: Türkçe
+  El: Ελληνικά
+  Hu: Magyar
+  Sv: Svenska
+  Cs: Čeština
+  Pt: Português
+  Sr: Srpski
+  Bg: Български
+  Hr: Hrvatski
+  Da: Dansk
+  Fi: Suomi
+  No: Norsk
+  Be: Беларуская
+  Lv: Latviešu
 
 game-mode:
   CRPGBattle: Battle
@@ -215,6 +244,7 @@ character:
     overview: Overview
     inventory: Inventory
     characteristic: Characteristic
+    stats: Stats
 
   format:
     kda: '{kills}/{deaths}/{assists} ({ratio})'
@@ -723,6 +753,7 @@ clan:
     column:
       tag: Tag
       region: Region
+      languages: Language
       members: Members
       name: Name
       memberName: Name
@@ -746,6 +777,7 @@ clan:
         secondaryColor: Secondary
         bannerKey: Banner key
         discord: Discord server
+        languages: Language
       group:
         armory:
           label: Armory

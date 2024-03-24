@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useTransition } from '@vueuse/core';
-import { type RouteLocationNormalized } from 'vue-router/auto';
 import {
   experienceMultiplierByGeneration,
   maxExperienceMultiplierForGeneration,
@@ -35,7 +34,6 @@ import {
 } from '@/services/characters-service';
 import { createRankTable } from '@/services/leaderboard-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
-import { Suspense } from 'vue';
 
 definePage({
   meta: {
@@ -162,13 +160,10 @@ const fetchPageData = (characterId: number) =>
   ]);
 
 onBeforeRouteUpdate(async to => {
-  await fetchPageData(Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string));
+  if (to.name === 'CharactersId') {
+    await fetchPageData(Number(to.params.id));
+  }
   return true;
-});
-
-const LazyCharacterEarningChart = defineAsyncComponent({
-  loader: () => import('@/components/character/CharacterEarningChart.vue'),
-  suspensible: true,
 });
 
 await fetchPageData(character.value.id);
@@ -313,19 +308,6 @@ await fetchPageData(character.value.id);
                         />
                       </template>
                     </VTooltip>
-                    <Modal closable v-tooltip.bottom="$t('character.earningChart.title')">
-                      <OButton variant="primary" inverted size="xs" rounded iconLeft="chart" />
-                      <template #popper>
-                        <Suspense>
-                          <LazyCharacterEarningChart />
-                          <template #fallback>
-                            <div class="h-[30rem] min-w-[48rem]">
-                              <OLoading active iconSize="xl" />
-                            </div>
-                          </template>
-                        </Suspense>
-                      </template>
-                    </Modal>
                   </div>
                 </div>
               </template>

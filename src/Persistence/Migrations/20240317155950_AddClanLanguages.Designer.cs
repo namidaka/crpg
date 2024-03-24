@@ -5,7 +5,6 @@ using Crpg.Domain.Entities.ActivityLogs;
 using Crpg.Domain.Entities.Battles;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
-using Crpg.Domain.Entities.GameServers;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
@@ -14,6 +13,7 @@ using Crpg.Domain.Entities.Users;
 using Crpg.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -23,9 +23,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crpg.Persistence.Migrations
 {
     [DbContext(typeof(CrpgDbContext))]
-    partial class CrpgDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240317155950_AddClanLanguages")]
+    partial class AddClanLanguages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,6 @@ namespace Crpg.Persistence.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "restriction_type", new[] { "all", "join", "chat" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "user", "moderator", "game_admin", "admin" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "settlement_type", new[] { "village", "castle", "town" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_update_status", new[] { "started", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "weapon_class", new[] { "undefined", "dagger", "one_handed_sword", "two_handed_sword", "one_handed_axe", "two_handed_axe", "mace", "pick", "two_handed_mace", "one_handed_polearm", "two_handed_polearm", "low_grip_polearm", "arrow", "bolt", "cartridge", "bow", "crossbow", "stone", "boulder", "throwing_axe", "throwing_knife", "javelin", "pistol", "musket", "small_shield", "large_shield", "banner" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -605,26 +606,6 @@ namespace Crpg.Persistence.Migrations
                         .HasDatabaseName("ix_clan_members_clan_id");
 
                     b.ToTable("clan_members", (string)null);
-                });
-
-            modelBuilder.Entity("Crpg.Domain.Entities.GameServers.IdempotencyKey", b =>
-                {
-                    b.Property<string>("Key")
-                        .HasColumnType("text")
-                        .HasColumnName("key");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<UserUpdateStatus>("Status")
-                        .HasColumnType("user_update_status")
-                        .HasColumnName("status");
-
-                    b.HasKey("Key")
-                        .HasName("pk_idempotency_keys");
-
-                    b.ToTable("idempotency_keys", (string)null);
                 });
 
             modelBuilder.Entity("Crpg.Domain.Entities.Items.ClanArmoryItem", b =>

@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const modelValue = defineModel<number[]>({ default: () => [] });
 
-// TODO: FIXME: SPEC
+// TODO: SPEC
 const localValue = computed({
   get() {
     const [from, to] = modelValue.value;
