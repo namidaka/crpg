@@ -201,7 +201,7 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
                 var formation = GetFormationFromPeer(peer, formationId);
 
                 var formationCharacter = formation?.Character ?? crpgPeer.User.Character;
-                string characterClass = $"crpg_class_division_{peerId}_{formation?.Number}" ?? $"crpg_class_division_{peerId}";
+                string characterClass = formation != null ? $"crpg_class_division_{peerId}_{formation.Number}" : $"crpg_class_division_{peerId}";
                 botClass = MultiplayerClassDivisions
                     .GetMPHeroClasses()
                     .First(h => h.StringId == characterClass);
