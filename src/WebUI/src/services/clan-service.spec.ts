@@ -2,6 +2,7 @@ import { PartialDeep } from 'type-fest';
 import { mockGet, mockPost, mockPut, mockDelete } from 'vi-fetch';
 import { response } from '@/__mocks__/crpg-client';
 import { Region } from '@/models/region';
+import { Language } from '@/models/language';
 import {
   type ClanInvitation,
   ClanInvitationStatus,
@@ -95,22 +96,28 @@ it('getClans', async () => {
   expect(mockedArgbIntToRgbHexColor).toBeCalledTimes(2);
 });
 
-it.each<[Region, string, number[]]>([
-  [Region.Eu, '', [1, 3]],
-  [Region.Na, '', [2]],
-  [Region.Na, 'UNI', [2]],
-  [Region.Na, 'FOAL', []],
-  [Region.Eu, 'Unicorns', []],
-  [Region.Eu, 'Po', [3]],
-])('getFilteredClans - region: %s, searchQuery: %s', (region, searchQuery, expectation) => {
-  const clans = [
-    { clan: { id: 1, region: Region.Eu, tag: 'FOAL', name: 'Foals' } },
-    { clan: { id: 2, region: Region.Na, tag: 'UNIC', name: 'Unicorns' } },
-    { clan: { id: 3, region: Region.Eu, tag: 'PONY', name: 'Ponies' } },
-  ] as ClanWithMemberCount<Clan>[];
+it.each<[Region, Language[], string, number[]]>([
+  [Region.Eu, [], '', [1, 3]],
+  [Region.Na, [], '', [2]],
+  [Region.Na, [], 'UNI', [2]],
+  [Region.Na, [], 'FOAL', []],
+  [Region.Eu, [], 'Unicorns', []],
+  [Region.Eu, [], 'Po', [3]],
+  [Region.Eu, [Language.Fr], 'Po', [3]],
+])(
+  'getFilteredClans - region: %s, searchQuery: %s',
+  (region, languages, searchQuery, expectation) => {
+    const clans = [
+      { clan: { id: 1, region: Region.Eu, tag: 'FOAL', name: 'Foals' } },
+      { clan: { id: 2, region: Region.Na, tag: 'UNIC', name: 'Unicorns' } },
+      { clan: { id: 3, region: Region.Eu, tag: 'PONY', name: 'Ponies', languages: [Language.Fr] } },
+    ] as ClanWithMemberCount<Clan>[];
 
-  expect(getFilteredClans(clans, region, searchQuery).map(c => c.clan.id)).toEqual(expectation);
-});
+    expect(getFilteredClans(clans, region, languages, searchQuery).map(c => c.clan.id)).toEqual(
+      expectation
+    );
+  }
+);
 
 it('createClan', async () => {
   const newClan = {

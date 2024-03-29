@@ -5,6 +5,7 @@ import { usePagination } from '@/composables/use-pagination';
 import { useSearchDebounced } from '@/composables/use-search-debounce';
 import { useUserStore } from '@/stores/user';
 import { useRegion } from '@/composables/use-region';
+import { useLanguages } from '@/composables/use-language';
 
 definePage({
   meta: {
@@ -25,9 +26,16 @@ const { state: clans, execute: loadClans } = useAsyncState(() => getClans(), [],
 });
 
 const { regionModel, regions } = useRegion();
+const { languagesModel, languages } = useLanguages();
+const aggregatedLanguages = computed(() =>
+  languages.filter(l => clans.value.some(c => c.clan.languages.includes(l)))
+);
+watch(regionModel, () => {
+  languagesModel.value = [];
+});
 
 const filteredClans = computed(() =>
-  getFilteredClans(clans.value, regionModel.value, searchModel.value)
+  getFilteredClans(clans.value, regionModel.value, languagesModel.value, searchModel.value)
 );
 
 const rowClass = (clan: ClanWithMemberCount<Clan>) =>
@@ -41,7 +49,7 @@ await loadClans();
 
 <template>
   <div class="container">
-    <div class="mx-auto max-w-3xl py-8 md:py-16">
+    <div class="mx-auto max-w-4xl py-8 md:py-16">
       <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
         <OTabs v-model="regionModel" contentClass="hidden">
           <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
@@ -124,15 +132,34 @@ await loadClans();
           </span>
         </OTableColumn>
 
-        <OTableColumn
-          #default="{ row: clan }: { row: ClanWithMemberCount<Clan> }"
-          field="clan.region"
-          :label="$t('clan.table.column.region')"
-          :width="220"
-        >
-          <span :class="userStore.clan?.id === clan.clan.id ? 'text-primary' : 'text-content-300'">
-            {{ $t(`region.${clan.clan.region}`, 0) }}
-          </span>
+        <OTableColumn field="clan.languages" :width="220">
+          <template #header>
+            <THDropdown
+              :label="$t('clan.table.column.languages')"
+              :shownReset="Boolean(languagesModel.length)"
+              @reset="languagesModel = []"
+            >
+              <DropdownItem v-for="l in aggregatedLanguages">
+                <OCheckbox
+                  v-model="languagesModel"
+                  :nativeValue="l"
+                  class="items-center"
+                  :label="$t(`language.${l}`) + ` - ${l}`"
+                />
+              </DropdownItem>
+            </THDropdown>
+          </template>
+
+          <template #default="{ row: clan }: { row: ClanWithMemberCount<Clan> }">
+            <div class="flex items-center gap-1.5">
+              <Tag
+                v-for="l in clan.clan.languages"
+                :label="l"
+                v-tooltip="$t(`language.${l}`)"
+                variant="primary"
+              />
+            </div>
+          </template>
         </OTableColumn>
 
         <OTableColumn
