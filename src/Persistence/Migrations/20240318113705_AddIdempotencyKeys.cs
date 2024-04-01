@@ -10,7 +10,6 @@ public partial class AddIdempotencyKeys : Migration
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
-
         migrationBuilder.AlterDatabase()
             .Annotation("Npgsql:Enum:user_update_status", "started,completed");
 

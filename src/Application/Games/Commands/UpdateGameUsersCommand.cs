@@ -45,7 +45,9 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
         public async Task<Result<UpdateGameUsersResult>> Handle(UpdateGameUsersCommand req,
             CancellationToken cancellationToken)
         {
-            var idempotencyKey = await LoadIdempotencyKey(req.Key, cancellationToken);
+            var idempotencyKey = await _db.IdempotencyKeys
+                .Where(ik => ik.Key == req.Key.ToString())
+                .FirstOrDefaultAsync(cancellationToken);
 
             if (idempotencyKey == null || idempotencyKey.Status != UserUpdateStatus.Completed)
             {
@@ -109,17 +111,6 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 
             return charactersById;
         }
-
-        private async Task<IdempotencyKey?> LoadIdempotencyKey(Guid key, CancellationToken cancellationToken)
-        {
-            var idempotencyKey = await _db.IdempotencyKeys
-                .Where(ik => ik.Key == key.ToString())
-                .FirstOrDefaultAsync(cancellationToken);
-
-            return idempotencyKey;
-        }
-
-
 
         private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward, string instance)
         {
