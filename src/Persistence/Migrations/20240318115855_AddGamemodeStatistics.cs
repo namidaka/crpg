@@ -115,6 +115,5 @@ public partial class AddGamemodeStatistics : Migration
 
         migrationBuilder.AlterDatabase()
             .OldAnnotation("Npgsql:Enum:game_mode", "crpg_battle,crpg_conquest,crpgdtv,crpg_duel,crpg_siege,crpg_team_deathmatch,crpg_skirmish,crpg_unknown_game_mode");
-
     }
 }
