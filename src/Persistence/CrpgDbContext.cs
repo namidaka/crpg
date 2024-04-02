@@ -6,6 +6,7 @@ using Crpg.Domain.Entities.ActivityLogs;
 using Crpg.Domain.Entities.Battles;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
+using Crpg.Domain.Entities.GameServers;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
@@ -46,6 +47,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         NpgsqlConnection.GlobalTypeMapper.MapEnum<Region>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<Languages>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<ActivityLogType>();
+        NpgsqlConnection.GlobalTypeMapper.MapEnum<UserUpdateStatus>();
 #pragma warning restore CS0618
     }
 
@@ -85,6 +87,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<BattleMercenaryApplication> BattleMercenaryApplications { get; set; } = default!;
     public DbSet<ActivityLog> ActivityLogs { get; set; } = default!;
     public DbSet<ActivityLogMetadata> ActivityLogMetadata { get; set; } = default!;
+    public DbSet<IdempotencyKey> IdempotencyKeys { get; set; } = default!;
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -147,6 +150,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         modelBuilder.HasPostgresEnum<Region>();
         modelBuilder.HasPostgresEnum<Languages>();
         modelBuilder.HasPostgresEnum<ActivityLogType>();
+        modelBuilder.HasPostgresEnum<UserUpdateStatus>();
 
         // Ensure that the PostGIS extension is installed.
         modelBuilder.HasPostgresExtension("postgis");

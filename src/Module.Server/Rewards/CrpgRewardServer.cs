@@ -5,6 +5,8 @@ using Crpg.Module.Common;
 using Crpg.Module.Common.Network;
 using Crpg.Module.Modes.Warmup;
 using Crpg.Module.Rating;
+using Polly;
+using Polly.Retry;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -35,6 +37,7 @@ internal class CrpgRewardServer : MissionLogic
     private readonly bool _isRatingEnabled;
     private readonly bool _isLowPopulationUpkeepEnabled;
 
+    private ResiliencePipeline _pipeline = default!;
     private bool _lastRewardDuringHappyHours;
 
     public CrpgRewardServer(
@@ -64,7 +67,7 @@ internal class CrpgRewardServer : MissionLogic
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
-
+        BuildResiliencePipeline();
         if (_warmupComponent != null)
         {
             _warmupComponent.OnWarmupEnded += OnWarmupEnded;
@@ -240,21 +243,33 @@ internal class CrpgRewardServer : MissionLogic
             return;
         }
 
-        // TODO: add retry mechanism (the endpoint need to be idempotent though).
+        Guid idempotencyKey = Guid.NewGuid();
+
         try
         {
-            SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
-            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates })).Data!;
-            SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
+            await _pipeline.ExecuteAsync(async cancellationToken =>
+            {
+                var request = new CrpgGameUsersUpdateRequest
+                {
+                    Updates = userUpdates,
+                    Key = idempotencyKey.ToString(),
+                };
+
+                SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, true);
+                var res = (await _crpgClient.UpdateUsersAsync(request)).Data!;
+                SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
+            });
         }
         catch (Exception e)
         {
-            Debug.Print("Couldn't update users: " + e);
+            Debug.Print($"Couldn't update users - {e}");
+
             SendErrorToPeers(crpgPeerByCrpgUserId);
+
         }
         finally
         {
-            SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: false);
+            SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, false);
         }
     }
 
@@ -612,5 +627,18 @@ internal class CrpgRewardServer : MissionLogic
             GameNetwork.WriteMessage(new CrpgRewardError());
             GameNetwork.EndModuleEventAsServer();
         }
+    }
+
+    private void BuildResiliencePipeline()
+    {
+        _pipeline = new ResiliencePipelineBuilder()
+        .AddRetry(new RetryStrategyOptions
+        {
+            MaxRetryAttempts = 3,
+            Delay = TimeSpan.FromSeconds(2),
+            BackoffType = DelayBackoffType.Exponential,
+            UseJitter = true,
+        })
+        .Build();
     }
 }
