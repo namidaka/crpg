@@ -7,7 +7,7 @@ platform:
   Steam: Steam
   EpicGames: Epic Games
   Microsoft: Xbox
-  
+
 installation:
   title: 安装
   common:
@@ -28,81 +28,6 @@ installation:
       detectinstall: 单击 'Detect Install' 自动检测安装位置，或通过 'Change Location' 手动设置
       update: 单击 'Update cRPG'，确保 cRPG 完全是最新版本
       launch: 点击 'Launch cRPG' (开始 cRPG) 启动 Mod
-
-help:
-  title: 帮助中心
-  tabs:
-    overview: 概述
-    buildSupport: 构建支持
-    joinClan: 加入帮派
-    faq: 常见问题
-  contentoverview:
-    title2: "欢迎来到 cRPG!"
-    welcomeText: |
-
-      如果你是新用户, 你可能会找到这个页面寻求帮助, 那么你来对地方了! 这将作为一个 "欢迎包", 帮助您解决一些基本问题.
-
-      我们建议您从 '构建支持' 开始, 这是了解我们的构建系统和开始创造您的角色的最佳途径!
-
-  contentbuildSupport:
-    title3: "构建支持"
-    buildSupport: |
-
-      在 cRPG 游戏中, 为自己的角色建立一个良好的构筑是称霸战场的基本工具. 作为游戏新手, 你会希望自己的角色简单, 轻松、干净, 以便尽可能多地参与战斗.
-
-      要学习的最基本的建筑规则是, 属性增加 (即力量和敏捷) 应始终以三的倍数进行.
-
-      这样做的原因是, 在力量或敏捷上每增加一个三的倍数, 就能在与该属性相关的技能上增加 +1 点. 
-      
-      例如, 在敏捷 3 级时, 你可以为你的 运动 技能投入 1 点, 然后再增加 3 点, 使其达到 6 级, 现在你可以投入 2 点, 如此反复, 直到你达到所需的等级!
-
-      下面是一些建筑时需要了解的术语:
-      
-      XY/YX = STR/AGI
-
-      IRONFLESH = IF
-
-      POWER STRIKE = PS
-
-      POWER DRAW = PD
-
-      POWER THROW = PT
-
-      ATHLETICS = ATH
-
-      RIDING = RID
-
-      WEAPON MASTER = WM
-
-      MOUNTED ARCHERY = MA
-
-      SHIELD = SHLD
-
-  contentjoinClan:
-    title4: "加入一个氏族"
-    joinClan: |
-      在 cRPG 中加入一个氏族是个好主意, 原因很简单:
-
-      它能让你更多地参与社区活动 - 你可以向更有经验的玩家学习, 并借此提高自己的技能!
-
-      它能让你进入氏族军械库 - 里面有你可以从其他玩家那里借来的物品! 在金币紧张的初期, 这是一个巨大的资源!
-
-  contentfaq:
-    title5: "常见问题"
-    faq: "您将在此找到常见问题列表"
-    q1: "力量要求如何操作?"
-    a1: "你可以穿任何你喜欢的衣服, 但是, 如果你不具备挥舞所述物品的要求, 你将面临惩罚."
-    q2: "如何获得 XP 和金币?"
-    a2: "很简单! 通过玩游戏! 当你的团队赢得比赛时, 你就会获得多倍经验, 这将使你的 XP 和金币率乘以屏幕右下方显示的金额 (x1, x2, x3, x4, x5) - 你可以通过使用更差的装备来增加收入, 因为装备是要花钱的."
-    q3: "每个人都那么强, 为什么我觉得自己那么弱?"
-    a3: "cRPG 有很多经验丰富的老玩家, 他们已经玩了很长时间的游戏; 因此, 平均技能水平要比本地玩家高得多. 您可能会发现, 这里的战斗一开始会更难打, 尤其是如果您是新手的话!"
-    q4: "什么是退役和传家宝点数?"
-    a4: "退役是 cRPG 的一项功能, 它可以让你的角色滚回 1 级, 作为交换, 你会获得一个 '世代', 它可以提高你的 XP 率, 你还会获得一个传家宝点数, 它可以用来升级和提高装备的属性."
-    q5: "为什么要退休 16 次?"
-    a5: "我们推荐 16 次, 因为这将使您获得最大的经验倍率, 从而帮助您在超过 31 级后更快地提升等级."
-
-discordfooter: 
-    discord: "需要更多信息? 查看我们的 {discordLink} 社区 社区!"
 
 dateTime:
   days:

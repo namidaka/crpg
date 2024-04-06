@@ -11,8 +11,8 @@ platform:
 installation:
   title: Installation
   common:
-        watchVideoGuide: Watch video guide
-        help: Having issues getting the mod working or installing? Contact us on our {discordLink} Server!
+    watchVideoGuide: Watch video guide
+    help: Having issues getting the mod working or installing? Contact us on our {discordLink} Server!
   platform:
     steam:
       subscribe: Subscribe to the {steamWorkshopsLink}
@@ -31,78 +31,55 @@ installation:
 
 help:
   title: Help Hub
-  tabs:
-    overview: Overview
-    buildSupport: Build Support
-    joinClan: Joining a Clan
-    faq: FAQ
-  contentoverview:
-    title2: "Welcome to cRPG!"
-    welcomeText: |
 
-      If you're new you've probably found this page looking for some help, you've come to the right place! This will serve as a 'welcome pack' of sorts to help you out with basic questions.
+  overview:
+    navTitle: Overview
+    title: 'Welcome to cRPG!'
+    intro: "
+      <p>If you're new you've probably found this page looking for some help, you've come to the right place! This will serve as a 'welcome pack' of sorts to help you out with basic questions.</p>
+      <p>We recommend checking out <a href='/help/build-support'>Build Support</a> to start with, it's the best way to learn our building system and to get started in being creative with your character!</p>"
 
-      We recommend checking out 'Build Support' to start with, it's the best way to learn our building system and to get started in being creative with your character!
+  buildSupport:
+    navTitle: Build support
+    title: "Create your character's build"
+    content: "
+      <p>Establishing a good build for your character is a fundamental tool in being able to dominate the field in cRPG, being new to the game, you're going to want something simple, easy and clean to get involved in combat as much as possible.</p>
+      <p>The most fundamental rule to learn about building is that Attribute increases (That's Strength, and Agility) should always be done in <strong>multiples of three</strong>.</p>
+      <p>The reason this is the case is that for each multiple of three you put into either Strength, or Agility, you gain the ability to put <strong>+1 point into the Skill</strong> related to that Attribute.</p>
+      <p>For example:</p>
+      <ul>
+      <li>at level 3 Agility you can put 1 point into your Athletics skill</li>
+      <li>add 3 points and bring it to level 6 and you can now put in 2 points</li>
+      <li>rinse and repeat until you reach your desired level!</li>
+      </ul>
+      <p>You can experiment with the build with the help of <a href='/builder' target='_blank'>this tool</a> and also ask questions in the <a href='https://discord.com/channels/279063743839862805/1036085650849550376' target='_blank'>specialized Discord chat</a></p>"
 
-  contentbuildSupport:
-    title3: "Build Support"
-    buildSupport: |
+  joinClan:
+    title: 'Joining a Clan'
+    navTitle: Join clan
+    content: "
+      <p>It's a good idea to get involved in a clan in cRPG, for two simple reasons:</p>
+      <ul>
+      <li>It gets you involved more in the community - You can learn from more experienced players and use it to improve your skills!</li>
+      <li>It gets you access to their <strong>Clan Armoury</strong> - Containing items that you can borrow from other players! This is a massive resource early on when gold is tight!</li>
+      </ul>"
 
-      Establishing a good build for your character is a fundamental tool in being able to dominate the field in cRPG, being new to the game, you're going to want something simple, easy and clean to get involved in combat as much as possible.
-
-      The most fundamental rule to learn about building is that Attribute increases (That's Strength, and Agility) should always be done in multiples of three.
-
-      The reason this is the case is that for each multiple of three you put into either Strength, or Agility, you gain the ability to put +1 point into the Skill related to that Attribute. 
-      
-      For example, at level 3 Agility you can put 1 point into your Athletics skill, add 3 points and bring it to level 6 and you can now put in 2 points, rinse and repeat until you reach your desired level!
-
-      Here's some good terminology to know when building:
-      
-      XY/YX = STR/AGI
-
-      IRONFLESH = IF
-
-      POWER STRIKE = PS
-
-      POWER DRAW = PD
-
-      POWER THROW = PT
-
-      ATHLETICS = ATH
-
-      RIDING = RID
-
-      WEAPON MASTER = WM
-
-      MOUNTED ARCHERY = MA
-
-      SHIELD = SHLD
-
-  contentjoinClan:
-    title4: "Joining a Clan"
-    joinClan: |
-      It's a good idea to get involved in a clan in cRPG, for two simple reasons:
-
-      It gets you involved more in the community - You can learn from more experienced players and use it to improve your skills!
-
-      It gets you access to their Clan Armoury - Containing items that you can borrow from other players! This is a massive resource early on when gold is tight!
-
-  contentfaq:
-    title5: "Frequently Asked Questions"
-    faq: "You'll find a list of common questions here"
-    q1: "How do strength requirements work?"
-    a1: "You can wear whatever you like, however, if you do not hold the requirement to wield said item you will face penalties."
-    q2: "How do I earn XP and Gold?"
-    a2: "Simple! By playing the game! As your team wins rounds you gain multi, which multiplies your XP and gold rate by the amount shown in the bottom right have side of the screen denoted by (x1, x2, x3, x4, x5) - You can increase income by using worse gear, as gear is what costs you money."
-    q3: "Everyone is so strong, why do I feel so weak?"
-    a3: "cRPG has a lot of experienced, well seasoned players that have been playing the game for a long time; as a result, the average skill level is much higher than that of native players. You may find that you will find the combat here much tougher to start out with, especially if you are new!"
-    q4: "What is retiring and heirloom points?"
-    a4: "Retiring is a feature of cRPG which enables you to roll your character back to level 1, in exchange you gain a 'Generation' which increases your XP rate, you also gain an Heirloom Point which can be used to upgrade and improve the stats on your equipment."
-    q5: "Why Retire 16 times?"
-    a5: "We recommend 16 times as this will put you at the maximum Experience multiplier which will then help you to level up faster once you get beyond level 31"
-
-discordfooter: 
-    discord: "Need more info? Check out our {discordLink} Community!"
+  FAQ:
+    title: 'Frequently Asked Questions'
+    navTitle: FAQ
+    intro: "
+      <p>You'll find a list of common questions here. Ask your question <a href='https://discord.com/channels/279063743839862805/1044686358066778112' target='_blank'>in our Discord</a>!</p>"
+    list:
+      - q: How do strength requirements work?
+        a: You can wear whatever you like, however, if you do not hold the requirement to wield said item you will face <strong>penalties</strong>.
+      - q: How do I earn XP and Gold?
+        a: Simple! By playing the game! As your team wins rounds you gain <strong>multi</strong>, which multiplies your XP and gold rate by the amount shown in the bottom right have side of the screen denoted by (x1, x2, x3, x4, x5) - You can <strong>increase income</strong> by using worse gear, as gear is what costs you money.
+      - q: Everyone is so strong, why do I feel so weak?
+        a: cRPG has a lot of experienced, well seasoned players that have been playing the game for a long time; as a result, the average skill level is much higher than that of Native players. You may find that you will find the combat here much tougher to start out with, especially if you are new!
+      - q: What is retiring and heirloom points?
+        a: Retiring is a feature of cRPG which enables you to roll your character back to level 1, in exchange you gain a <strong>Generation</strong> which increases your XP rate, you also gain an <strong>Heirloom Point</strong> which can be used to upgrade and improve the stats on your equipment.
+      - q: Why Retire 16 times?
+        a: We recommend 16 times as this will put you at the maximum Experience multiplier which will then help you to level up faster once you get beyond level 31
 
 dateTime:
   days:
@@ -206,10 +183,10 @@ validations:
   required: Value is required
   url: The value is not a valid URL address
   sameAs: Value should be equal to the {value} value
-  integer: "The number must be an integer"
+  integer: 'The number must be an integer'
   minLength: Value should be at least {min} characters long
   maxLength: The maximum length allowed is {max}
-  minValue: "The minimum value allowed is {min}"
+  minValue: 'The minimum value allowed is {min}'
   clanTagPattern: Value should contain only integer and alphabetical
   clanBannerKeyPattern: Value should contain only integer and dots
   discordLinkPattern: Value must be a valid Discord link
@@ -297,10 +274,10 @@ welcome:
   bonusHint: '* bonus is active until reaching {level} level (~1-2 weeks of play)'
   bonus:
     gold: "
-     <h5>Starting gold</h5>
-     <p>Gold is needed to <strong>buy</strong>, <strong>upkeep</strong>, and <strong>reforge</strong> items, as well as to reset character skills</p>
-     <p>For gold to accumulate, keep track of the cost of upkeep your gear on your <strong>character's @:character.nav.inventory page</strong></p>
-     <p>While the starting bonus is in effect, resetting your character's skills is <strong>free</strong> for you</p>"
+      <h5>Starting gold</h5>
+      <p>Gold is needed to <strong>buy</strong>, <strong>upkeep</strong>, and <strong>reforge</strong> items, as well as to reset character skills</p>
+      <p>For gold to accumulate, keep track of the cost of upkeep your gear on your <strong>character's @:character.nav.inventory page</strong></p>
+      <p>While the starting bonus is in effect, resetting your character's skills is <strong>free</strong> for you</p>"
     newUserStartingCharacter: "
       <h5>Starting character</h5>
       <p>You get a starting character: a warrior with a <strong>{level} level</strong> one-handed sword and shield and <strong>medium equipment</strong><p>
@@ -440,11 +417,11 @@ character:
         desc: "
           <p>You can reset a character's skills for free within <strong>{freeRespecPostWindow}</strong> of the last reset, and after <strong>{freeRespecInterval}</strong>.</p>
           <p>The rest of the time resetting skills is paid, the cost decreases over time.</p>"
-        freeRespecPostWindowRemaining: "
-          <p>Remaining free skill reset time: <strong>{remainingTime}</strong></p>"
+        freeRespecPostWindowRemaining: '
+          <p>Remaining free skill reset time: <strong>{remainingTime}</strong></p>'
         paidRespec: Reset the character's skills for {respecPrice}
-        freeRespecIntervalNext: "
-          <p>The next free skill reset via: <strong>{nextFreeAt}</strong></p>"
+        freeRespecIntervalNext: '
+          <p>The next free skill reset via: <strong>{nextFreeAt}</strong></p>'
       dialog:
         title: Respecialize character
         desc: Are you sure you want to respecialize your character for {respecializationPrice}? This action cannot be undone
