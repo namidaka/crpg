@@ -58,13 +58,7 @@ export const useInventoryQuickEquip = (equippedItemsBySlot: Ref<EquippedItemsByS
 
   const getTargetSlot = (slots: ItemSlot[]): ItemSlot | undefined => {
     return slots
-      .filter(slot => {
-        if (isMainWeaponSlot(slot)) {
-          return !equippedItemsBySlot.value[slot];
-        }
-
-        return true;
-      })
+      .filter(slot => isMainWeaponSlot(slot) ? !equippedItemsBySlot.value[slot] : true)
       .at(0);
   };
 
