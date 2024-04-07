@@ -36,6 +36,7 @@ import { scrollToTop } from '@/utils/scroll';
 import { useItemDetail } from '@/composables/character/use-item-detail';
 import { useStickySidebar } from '@/composables/use-sticky-sidebar';
 import { useInventoryDnD } from '@/composables/character/use-inventory-dnd';
+import { useInventoryQuickEquip } from '@/composables/character/use-inventory-quick-equip';
 import {
   characterKey,
   characterCharacteristicsKey,
@@ -161,6 +162,19 @@ const onRemoveFromClanArmory = async (userItemId: number) => {
   notify(t('clan.armory.item.remove.notify.success'));
 };
 
+const onClickInventoryItem = async (e: PointerEvent, userItem: UserItem) => {
+  if (e.ctrlKey) {
+    if (!equippedItemsIds.value.includes(userItem.id)) {
+      await onQuickEquip(userItem);
+    }
+  } else {
+    toggleItemDetail(e.target as HTMLElement, {
+      id: userItem.item.id,
+      userItemId: userItem.id,
+    });
+  }
+};
+
 const hideInArmoryItemsModel = useStorage<boolean>('character-inventory-in-armory-items', true);
 const hasArmoryItems = computed(() => userItems.value.some(ui => ui.isArmoryItem));
 
@@ -254,6 +268,8 @@ const equippedItemsBySlot = computed(() =>
 provide(equippedItemsBySlotKey, equippedItemsBySlot);
 
 const { onDragStart, onDragEnd } = useInventoryDnD(equippedItemsBySlot);
+
+const { onQuickEquip } = useInventoryQuickEquip(equippedItemsBySlot);
 
 const { openedItems, toggleItemDetail, closeItemDetail, getUniqueId } = useItemDetail();
 
@@ -364,13 +380,7 @@ await Promise.all(promises);
                 draggable="true"
                 @dragstart="onDragStart(userItem)"
                 @dragend="onDragEnd"
-                @click="
-                  e =>
-                    toggleItemDetail(e.target as HTMLElement, {
-                      id: userItem.item.id,
-                      userItemId: userItem.id,
-                    })
-                "
+                @click="e => onClickInventoryItem(e, userItem)"
               />
             </div>
           </div>
