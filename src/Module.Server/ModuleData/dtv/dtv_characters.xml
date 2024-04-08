@@ -150,7 +150,7 @@
       <EquipmentRoster>
         <equipment slot="Body" id="Item.crpg_cloth_tunic_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_leather_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_pitchfork_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_pitchfork_v2_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_nordic_leather_cap_v2_h0" />
@@ -194,7 +194,7 @@
         <equipment slot="Head" id="Item.crpg_leather_cap_v2_h0" />
         <equipment slot="Body" id="Item.crpg_cloth_apron_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_d_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_scythe_v1_h1" />
+        <equipment slot="Item0" id="Item.crpg_scythe_v2_h1" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -228,7 +228,7 @@
         <equipment slot="Body" id="Item.crpg_hemp_tunic_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_leather_shoes_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mule1_2_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_iron_pitchfork_v1_h1" />
+        <equipment slot="Item0" id="Item.crpg_iron_pitchfork_v2_h1" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -353,7 +353,7 @@
         <equipment slot="Leg" id="Item.crpg_leather_shoes_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_saddlehorse_5_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_light_harness_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_iron_cavalry_sword_v1_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -507,7 +507,7 @@
         <equipment slot="Leg" id="Item.crpg_battania_woodland_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_saxon_bearded_axe_v2_h1" />
         <equipment slot="Item1" id="Item.dtv_common_hunting_bow_v2_h1" />
-        <equipment slot="Item2" id="Item.crpg_bodkin_arrows_v2_h0" />
+        <equipment slot="Item2" id="Item.crpg_bodkin_arrows_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_roughscale_helmet_v2_h0" />
@@ -641,7 +641,7 @@
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_saddlehorse_9_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_steppe_fur_harness_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_decorated_demilance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_decorated_demilance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_decorated_cavalry_saber_v1_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -682,7 +682,7 @@
         <equipment slot="Cape" id="Item.crpg_wrapped_scarf_v2_h0" />
         <equipment slot="Body" id="Item.crpg_imperial_robes_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_ironrod_v2_h1" />
+        <equipment slot="Item0" id="Item.crpg_ironrod_v3_h1" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -1225,13 +1225,13 @@
         <equipment slot="Cape" id="Item.crpg_steel_noble_cross_h0" />
         <equipment slot="Body" id="Item.crpg_monk_robe_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_leather_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_bo_staff_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_bo_staff_v2_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Cape" id="Item.crpg_steel_noble_cross_h0" />
         <equipment slot="Body" id="Item.crpg_monk_robe_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_leather_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_iron_pitchfork_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_iron_pitchfork_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_throwing_heavy_stone_v3_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -1275,7 +1275,7 @@
         <equipment slot="Body" id="Item.crpg_gambeson_b_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_padded_vambrace_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_tapered_two-hander_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_tapered_two-hander_v2_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -1397,7 +1397,7 @@
         <equipment slot="Body" id="Item.crpg_coat_of_plates_over_mail_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_battania_noble_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_fine_town_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_burgundian_glaive_v3_h1" />
+        <equipment slot="Item0" id="Item.crpg_burgundian_glaive_v4_h1" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -1493,7 +1493,7 @@
         <equipment slot="Body" id="Item.crpg_reinforced_suede_armor_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_guarded_armwraps_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_war_scythe_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_war_scythe_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_roningasa_v2_h0" />
@@ -1620,7 +1620,7 @@
         <equipment slot="Body" id="Item.crpg_battania_brass_plate_armor_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_northern_brass_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_hoplite_spear_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_hoplite_spear_v4_h0" />
         <equipment slot="Item1" id="Item.crpg_iron_spatha_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_steel_round_shield_v3_h0" />
       </EquipmentRoster>
@@ -1710,7 +1710,7 @@
         <equipment slot="Body" id="Item.crpg_battania_brass_plate_armor_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_northern_brass_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_fine_steel_menavlion_v3_h2" />
+        <equipment slot="Item0" id="Item.crpg_fine_steel_menavlion_v4_h2" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_plumed_helmet_v2_h0" />
@@ -1754,7 +1754,7 @@
         <equipment slot="Leg" id="Item.crpg_steppe_leather_boots_v2_h0" />
         <equipment slot="Item0" id="Item.dtv_steppe_war_bow_v1_h2" />
         <equipment slot="Item1" id="Item.crpg_long_tzikourion_axe_v2_h2" />
-        <equipment slot="Item2" id="Item.crpg_bodkin_arrows_v2_h0" />
+        <equipment slot="Item2" id="Item.crpg_bodkin_arrows_v3_h0" />
         <equipment slot="Item3" id="Item.crpg_steel_round_shield_v3_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -1789,7 +1789,7 @@
         <equipment slot="Body" id="Item.crpg_hauberk_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_padded_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_cavalier_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_english_bill_h0" />
+        <equipment slot="Item0" id="Item.crpg_english_bill_v2_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_peaked_helmet_over_mail_coif_v2_h0" />
@@ -1797,7 +1797,7 @@
         <equipment slot="Body" id="Item.crpg_hauberk_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_padded_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_cavalier_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_english_bill_h0" />
+        <equipment slot="Item0" id="Item.crpg_english_bill_v2_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -1930,9 +1930,9 @@
         <equipment slot="Body" id="Item.crpg_banded_leather_over_mail_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_wrapped_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_crossbow_d_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_crossbow_d_v3_h0" />
         <equipment slot="Item1" id="Item.crpg_iron_hand_axe_v2_h0" />
-        <equipment slot="Item2" id="Item.crpg_bolt_a_v2_h0" />
+        <equipment slot="Item2" id="Item.crpg_bolt_a_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_kettle_helmet_with_mail_v2_h0" />
@@ -1940,9 +1940,9 @@
         <equipment slot="Body" id="Item.crpg_plated_leather_coat_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_leather_gloves_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_wrapped_shoes_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_crossbow_d_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_crossbow_d_v3_h0" />
         <equipment slot="Item1" id="Item.crpg_iron_pointed_sword_v1_h0" />
-        <equipment slot="Item2" id="Item.crpg_bolt_a_v2_h0" />
+        <equipment slot="Item2" id="Item.crpg_bolt_a_v3_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2029,8 +2029,8 @@
         <equipment slot="Body" id="Item.crpg_coat_of_plates12_c_h0" />
         <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_cavalier_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_crossbow_d_v2_h2" />
-        <equipment slot="Item1" id="Item.crpg_bolt_a_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_crossbow_d_v3_h2" />
+        <equipment slot="Item1" id="Item.crpg_bolt_a_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_decorated_round_mace_v1_h2" />
       </EquipmentRoster>
     </Equipments>
@@ -2110,7 +2110,7 @@
         <equipment slot="Body" id="Item.crpg_short_padded_robe_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_studded_leather_vambraces_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_turndown_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_desert_longsword_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_desert_longsword_v2_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_pointed_skullcap_over_mail_v2_h0" />
@@ -2118,7 +2118,7 @@
         <equipment slot="Body" id="Item.crpg_ringed_desert_armor_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_guarded_padded_vambrace_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_rough_tied_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_long_hafted_spiked_mace_v2_h0" />
+        <equipment slot="Item0" id="Item.crpg_long_hafted_spiked_mace_v3_h0" />
         <equipment slot="Item1" id="Item.crpg_lowland_throwing_knife_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -2244,7 +2244,7 @@
         <equipment slot="Body" id="Item.crpg_tab_gamb_2_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_mailgloves_1_v1_h0" />
         <equipment slot="Leg" id="Item.crpg_mailchasseus_1_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_short_bardiche_h0" />
+        <equipment slot="Item0" id="Item.crpg_short_bardiche_v1_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2278,7 +2278,7 @@
         <equipment slot="Body" id="Item.crpg_sturgian_fortified_armor_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_tapered_two-hander_v1_h2" />
+        <equipment slot="Item0" id="Item.crpg_tapered_two-hander_v2_h2" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2314,7 +2314,7 @@
         <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_chain_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v1_h2" />
+        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v2_h2" />
         <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v3_h2" />
         <equipment slot="Item2" id="Item.crpg_fine_steel_long_kaskara_v1_h2" />
       </EquipmentRoster>
@@ -2352,7 +2352,7 @@
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_charger_9_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_halfchain_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_courser_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_courser_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_small_flat_heater_shield_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_knightly_cavalry_sword_v1_h0" />
       </EquipmentRoster>
@@ -2364,7 +2364,7 @@
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_charger_9_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_halfchain_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_courser_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_courser_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_leather_bound_kite_shield_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_horsemanspick_v1_h0" />
       </EquipmentRoster>
@@ -2376,7 +2376,7 @@
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_charger_9_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_halfchain_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_courser_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_courser_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_small_flat_heater_shield_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_shepherd_axe_v2_h0" />
       </EquipmentRoster>
@@ -2412,7 +2412,7 @@
         <equipment slot="Body" id="Item.crpg_cut_dress_with_pouch_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_ladys_shoe_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_throwing_heavy_stone_v3_h0" />
-        <equipment slot="Item1" id="Item.crpg_bo_staff_v1_h0" />
+        <equipment slot="Item1" id="Item.crpg_bo_staff_v2_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_womens_headwrap_c_v2_h0" />
@@ -2429,7 +2429,7 @@
         <equipment slot="Leg" id="Item.crpg_sturgia_boots_c_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mule1_2_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_bandit_saddle_highland_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_scythe_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_scythe_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_helping_hand_v3_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -2518,7 +2518,7 @@
         <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_chain_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v1_h2" />
+        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v2_h2" />
         <equipment slot="Item1" id="Item.crpg_western_riders_kite_shield_v3_h2" />
         <equipment slot="Item2" id="Item.crpg_dawnbreaker_v1_h2" />
       </EquipmentRoster>
@@ -2556,7 +2556,7 @@
         <equipment slot="Leg" id="Item.crpg_strapped_mail_chausses_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_chain_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v1_h2" />
+        <equipment slot="Item0" id="Item.crpg_long_cavalry_lance_v2_h2" />
         <equipment slot="Item1" id="Item.crpg_western_riders_kite_shield_v3_h2" />
         <equipment slot="Item2" id="Item.crpg_dawnbreaker_v1_h2" />
       </EquipmentRoster>
@@ -2701,7 +2701,7 @@
         <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_camel_7_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_tv_camelarmor_h_h0" />
-        <equipment slot="Item0" id="Item.crpg_sasanian_light_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_sasanian_light_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_iron_cavalry_scimitar_v1_h0" />
       </EquipmentRoster>
@@ -2713,7 +2713,7 @@
         <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_camel_8_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_tv_camelarmor_i_h0" />
-        <equipment slot="Item0" id="Item.crpg_sasanian_light_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_sasanian_light_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_iron_cavalry_scimitar_v1_h0" />
       </EquipmentRoster>
@@ -2725,7 +2725,7 @@
         <equipment slot="Leg" id="Item.crpg_leather_cavalier_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_camel_8_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_tv_camelarmor_e_h0" />
-        <equipment slot="Item0" id="Item.crpg_sasanian_light_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_sasanian_light_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_large_adarga_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_iron_cavalry_scimitar_v1_h0" />
       </EquipmentRoster>
@@ -2770,7 +2770,7 @@
         <equipment slot="Body" id="Item.crpg_aserai_cav_armor_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_decorated_imperial_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_warrazor_v3_h3" />
+        <equipment slot="Item0" id="Item.crpg_warrazor_v4_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -2806,7 +2806,7 @@
         <equipment slot="Leg" id="Item.crpg_decorated_imperial_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_camel_10_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_tv_camelarmor_d_h0" />
-        <equipment slot="Item0" id="Item.crpg_fine_steel_menavlion_v3_h2" />
+        <equipment slot="Item0" id="Item.crpg_fine_steel_menavlion_v4_h2" />
         <equipment slot="Item1" id="Item.crpg_noyans_shield_v3_h3" />
         <equipment slot="Item2" id="Item.crpg_heavy_horsemans_mace_v1_h3" />
       </EquipmentRoster>
@@ -2933,7 +2933,7 @@
         <equipment slot="Body" id="Item.crpg_imperial_mail_vest_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_reinforced_padded_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_hoplite_spear_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_hoplite_spear_v4_h0" />
         <equipment slot="Item1" id="Item.crpg_emirs_oval_shield_v4_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
@@ -3026,7 +3026,7 @@
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_courser_8_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_half_scale_barding_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_cataphract_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_cataphract_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_decorated_short_spatha_v1_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -3108,7 +3108,7 @@
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_15_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_imperial_scale_barding_v1_h0" />
         <equipment slot="Item0" id="Item.crpg_emirs_oval_shield_v4_h3" />
-        <equipment slot="Item1" id="Item.crpg_decorated_demilance_v1_h3" />
+        <equipment slot="Item1" id="Item.crpg_decorated_demilance_v2_h3" />
         <equipment slot="Item2" id="Item.crpg_thamaskene_steel_spathion_v1_h3" />
       </EquipmentRoster>
     </Equipments>
@@ -3284,7 +3284,7 @@
         <equipment slot="Body" id="Item.crpg_kilt_over_plated_leather_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_battania_noble_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_turndown_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_rhomphaia_v2_h3" />
+        <equipment slot="Item0" id="Item.crpg_rhomphaia_v3_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3660,7 +3660,7 @@
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_courser_10_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_cavalry_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_cavalry_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_decorated_steppe_shield_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_iron_saber_v1_h0" />
       </EquipmentRoster>
@@ -3672,7 +3672,7 @@
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_courser_10_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_steppe_fur_harness_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_cavalry_lance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_cavalry_lance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_decorated_steppe_shield_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_iron_saber_v1_h0" />
       </EquipmentRoster>
@@ -3734,7 +3734,7 @@
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_podao_v2_h3" />
+        <equipment slot="Item0" id="Item.crpg_podao_v3_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3770,10 +3770,10 @@
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
         <equipment slot="Horse" id="Item.crpg_mount1_courser_14_v1_h3" />
         <equipment slot="HorseHarness" id="Item.crpg_studded_steppe_barding_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_glaive_v2_h3" />
+        <equipment slot="Item0" id="Item.crpg_glaive_v3_h3" />
         <equipment slot="Item1" id="Item.dtv_heavy_hunting_bow_v2_h3" />
-        <equipment slot="Item2" id="Item.crpg_bodkin_arrows_v2_h0" />
-        <equipment slot="Item3" id="Item.crpg_bodkin_arrows_v2_h0" />
+        <equipment slot="Item2" id="Item.crpg_bodkin_arrows_v3_h0" />
+        <equipment slot="Item3" id="Item.crpg_bodkin_arrows_v3_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3808,8 +3808,8 @@
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_blacksmith_warhammer_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_crossbow_j_v2_h0" />
-        <equipment slot="Item2" id="Item.crpg_bolt_a_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_crossbow_j_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_bolt_a_v3_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_sallet_no_visor_nochin_v2_h0" />
@@ -3818,8 +3818,8 @@
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_blacksmith_warhammer_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_crossbow_j_v2_h0" />
-        <equipment slot="Item2" id="Item.crpg_bolt_a_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_crossbow_j_v3_h0" />
+        <equipment slot="Item2" id="Item.crpg_bolt_a_v3_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3945,7 +3945,7 @@
         <equipment slot="Body" id="Item.crpg_sturgian_lamellar_fortified_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h3" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v5_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -3980,8 +3980,8 @@
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_le_bonke_v1_h3" />
-        <equipment slot="Item1" id="Item.crpg_crossbow_f_v2_h3" />
-        <equipment slot="Item2" id="Item.crpg_bolt_c_v2_h0" />
+        <equipment slot="Item1" id="Item.crpg_crossbow_f_v3_h3" />
+        <equipment slot="Item2" id="Item.crpg_bolt_c_v3_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -4059,7 +4059,7 @@
         <equipment slot="Body" id="Item.crpg_battania_woodland_chainmail_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_plated_strip_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_wide_fullered_broad_two_hander_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_wide_fullered_broad_two_hander_v2_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -4093,7 +4093,7 @@
         <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_northern_plated_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_early_halberd_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_early_halberd_v4_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_vlandian_helm_with_visor_h0" />
@@ -4101,7 +4101,7 @@
         <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_northern_plated_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_executioner_long_sword_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_heavy_executioner_long_sword_v2_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -4177,7 +4177,7 @@
         <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
-        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v4_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_ba_closedsallet_h0" />
@@ -4185,7 +4185,7 @@
         <equipment slot="Body" id="Item.crpg_ba_platearmor2worn_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
-        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h0" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v5_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -4253,7 +4253,7 @@
         <equipment slot="Body" id="Item.crpg_northern_coat_of_plates_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_reinforced_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_plated_strip_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_awlpike_v1_h3" />
+        <equipment slot="Item0" id="Item.crpg_awlpike_v2_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -4322,7 +4322,7 @@
         <equipment slot="Body" id="Item.crpg_ba_platearmor_h0" />
         <equipment slot="Gloves" id="Item.crpg_sa_ChurburghGauntlet_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreaves_h0" />
-        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h3" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v5_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -4391,7 +4391,7 @@
         <equipment slot="Body" id="Item.crpg_imperial_scale_armor_v3_h0" />
         <equipment slot="Gloves" id="Item.crpg_lamellar_plate_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_lamellar_plate_boots_v3_h0" />
-        <equipment slot="Item0" id="Item.crpg_german_halberd_v2_h3" />
+        <equipment slot="Item0" id="Item.crpg_german_halberd_v3_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
@@ -4433,7 +4433,7 @@
         <equipment slot="Body" id="Item.crpg_breastplate_shash1_v1_h0" />
         <equipment slot="Gloves" id="Item.crpg_sa_1ChurburghGauntlet_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_14_decor_paltedboots_noble1_v1_h0" />
-        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_bec_de_corbin_v4_h0" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_sallet_base_v2_h0" />
@@ -4524,7 +4524,7 @@
         <equipment slot="Leg" id="Item.crpg_sa_1ChurburghBoots_v2_h0" />
         <equipment slot="Horse" id="Item.crpg_mount_greathorse_15_v1_h0" />
         <equipment slot="HorseHarness" id="Item.crpg_whussar_horsearmor_h0" />
-        <equipment slot="Item0" id="Item.crpg_decorated_demilance_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_decorated_demilance_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_fortified_kite_shield_v3_h0" />
         <equipment slot="Item2" id="Item.crpg_knightly_cavalry_sword_v1_h0" />
       </EquipmentRoster>
@@ -4560,7 +4560,7 @@
         <equipment slot="Body" id="Item.crpg_ba_heraldictabard3_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
-        <equipment slot="Item0" id="Item.crpg_heavy_blacksmith_hammer_v1_h3" />
+        <equipment slot="Item0" id="Item.crpg_heavy_blacksmith_hammer_v2_h3" />
       </EquipmentRoster>
       <EquipmentRoster>
         <equipment slot="Head" id="Item.crpg_pigface_bascinet_tail_h0" />
@@ -4568,13 +4568,13 @@
         <equipment slot="Body" id="Item.crpg_ba_heraldictabard3_h0" />
         <equipment slot="Gloves" id="Item.crpg_ba_plategauntletworn_h0" />
         <equipment slot="Leg" id="Item.crpg_ba_plategreavesworn_h0" />
-        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v4_h3" />
+        <equipment slot="Item0" id="Item.crpg_spiked_polehammer_v5_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
   <NPCCharacter id="crpg_dtv_tincan_boss" name="{=}The Grumbler" race="heavy_bot">
     <face>
-      <BodyProperties version="4" age="69.11" weight="0.9745" build="0.0347"  key="00000C008058314C0F71F00FF0E1FFE0E000E0FF38FF00FE700F11F070F11F0E0741F67804F0E10000000000000000000000000078FC40C600000000787C40C6"  />
+      <BodyProperties version="4" age="69.11" weight="0.9745" build="0.0347" key="00000C008058314C0F71F00FF0E1FFE0E000E0FF38FF00FE700F11F070F11F0E0741F67804F0E10000000000000000000000000078FC40C600000000787C40C6" />
     </face>
     <skills>
       <skill id="Strength" value="60" />
@@ -4602,7 +4602,7 @@
         <equipment slot="Body" id="Item.crpg_sa_2ChurburghTorso_h0" />
         <equipment slot="Gloves" id="Item.crpg_decorated_imperial_gauntlets_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_decorated_imperial_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_burgundian_poleaxe_v5_h3" />
+        <equipment slot="Item0" id="Item.crpg_burgundian_poleaxe_v6_h3" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
