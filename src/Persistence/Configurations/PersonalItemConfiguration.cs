@@ -11,15 +11,5 @@ public class PersonalItemConfiguration : IEntityTypeConfiguration<PersonalItem>
         builder.HasIndex(pi => new { pi.UserId, pi.ItemId }).IsUnique();
 
         builder.HasKey(pi => new { pi.UserId, pi.ItemId });
-
-        // builder.HasOne(pi => pi.User)
-        //     .WithMany(u => u.Items)
-        //     .HasForeignKey(pi => pi.UserId)
-        //     .IsRequired();
-
-        // builder.HasOne(pi => pi.Item)
-        //     .WithMany(i => i.PersonalItems)
-        //     .HasForeignKey(pi => pi.ItemId)
-        //     .IsRequired();
     }
 }

@@ -56,7 +56,7 @@ public class Item : AuditableEntity, ICloneable
 
     public List<UserItem> UserItems { get; set; } = new();
 
-    public List<PersonalItem> PersonalItems { get; set; } = new();
+    public List<PersonalItem> PersonalItems { get; set; } = new List<PersonalItem>();
 
     public IEnumerable<ItemWeaponComponent> GetWeapons()
     {

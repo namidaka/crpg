@@ -30,9 +30,9 @@ public record GetUserItemsQuery : IMediatorRequest<IList<UserItemViewModel>>
         public async Task<Result<IList<UserItemViewModel>>> Handle(GetUserItemsQuery req, CancellationToken cancellationToken)
         {
             var userItems = await _db.UserItems
-                .Include(ui => ui.Item)
+                .Include(ui => ui.Item).ThenInclude(i => i!.PersonalItems)
                 .Where(ui =>
-                    (ui.Item!.Enabled || ui!.Item.PersonalItems.Any(pi => pi.UserId == req.UserId))
+                    (ui.Item!.Enabled || ui.Item.PersonalItems.Any(pi => pi.UserId == req.UserId))
                     && (ui.UserId == req.UserId || ui.ClanArmoryBorrowedItem!.BorrowerUserId == req.UserId))
                 .Include(ui => ui.ClanArmoryItem)
                 .Include(ui => ui.ClanArmoryBorrowedItem)

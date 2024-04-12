@@ -13,10 +13,12 @@ public record UserItemViewModel : IMapFrom<UserItem>
     public DateTime CreatedAt { get; init; }
 
     public bool IsArmoryItem { get; init; }
+    public bool IsPersonal { get; init; }
 
     public void Mapping(Profile profile)
     {
         profile.CreateMap<UserItem, UserItemViewModel>()
-            .ForMember(ui => ui.IsArmoryItem, config => config.MapFrom(ui => ui.ClanArmoryItem != null));
+            .ForMember(ui => ui.IsArmoryItem, config => config.MapFrom(ui => ui.ClanArmoryItem != null))
+            .ForMember(i => i.IsPersonal, opt => opt.MapFrom(ui => ui.Item!.PersonalItems.Any(pi => pi.UserId == ui.UserId)));
     }
 }
