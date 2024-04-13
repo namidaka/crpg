@@ -11,6 +11,8 @@ public record UserPrivateViewModel : IMapFrom<User>
     public int Id { get; init; }
     public Platform Platform { get; init; }
     public int Gold { get; set; }
+    public int HeirloomPoints { get; set; }
+    public float ExperienceMultiplier { get; set; }
     public string PlatformUserId { get; init; } = string.Empty;
     public string Name { get; init; } = string.Empty;
     public Uri? Avatar { get; init; }

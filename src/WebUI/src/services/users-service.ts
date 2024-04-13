@@ -59,6 +59,9 @@ export const upgradeUserItem = (userItemId: number) =>
 export const reforgeUserItem = (userItemId: number) =>
   put<UserItem>(`/users/self/items/${userItemId}/reforge`);
 
+export const rewardUser = (userId: number, payload: { gold: number; heirloomPoints: number }) =>
+  put(`/users/${userId}/rewards`, payload);
+
 export const sellUserItem = (userItemId: number) => del(`/users/self/items/${userItemId}`);
 
 export const groupUserItemsByType = (items: UserItem[]) =>
