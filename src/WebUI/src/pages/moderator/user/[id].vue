@@ -20,8 +20,6 @@ const { state: user, execute: loadUser } = await useAsyncState(
 );
 
 provide(moderationUserKey, user);
-
-await loadUser();
 </script>
 
 <template>

@@ -57,7 +57,7 @@ import { t } from '@/services/translate-service';
 
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
 import { computeLeftMs, parseTimestamp } from '@/utils/date';
-import { range, groupBy } from '@/utils/array';
+import { range, groupBy, getIndexToIns } from '@/utils/array';
 
 export const getCharacters = () => get<Character[]>('/users/self/characters');
 
@@ -89,6 +89,12 @@ export const canRetireValidate = (level: number) => level >= minimumRetirementLe
 
 export const retireCharacter = (characterId: number) =>
   put<Character>(`/users/self/characters/${characterId}/retire`);
+
+export const rewardCharacter = (
+  userId: number,
+  characterId: number,
+  payload: { experience: number; autoRetire: boolean }
+) => put(`/users/${userId}/characters/${characterId}/rewards`, payload);
 
 export const deleteCharacter = (characterId: number) =>
   del(`/users/self/characters/${characterId}`);
@@ -167,11 +173,12 @@ const computeExperienceDistribution = (level: number): number => {
   return Math.pow(level - 1, a) + Math.pow(b, a / 2.0) * (level - 1);
 };
 
+const experienceForLevel30 = 4420824;
+
 export const getExperienceForLevel = (level: number): number => {
   if (level <= 0) return 0;
 
   if (level <= 30) {
-    const experienceForLevel30 = 4420824;
     return Math.trunc(
       (experienceForLevel30 * computeExperienceDistribution(level)) /
         computeExperienceDistribution(30)
@@ -180,6 +187,67 @@ export const getExperienceForLevel = (level: number): number => {
 
   return getExperienceForLevel(30) * Math.pow(2, level - 30);
 };
+
+const computeExperienceTable = () => {
+  const table: number[] = [maximumLevel - minimumLevel + 1];
+
+  for (let lvl = minimumLevel; lvl <= 30; lvl += 1) {
+    table[lvl - minimumLevel] = Math.trunc(
+      (experienceForLevel30 * computeExperienceDistribution(lvl)) /
+        computeExperienceDistribution(30)
+    );
+  }
+
+  for (let lvl = 31; lvl <= maximumLevel; lvl += 1) {
+    table[lvl - minimumLevel] = table[lvl - minimumLevel - 1] * 2; // changing this require to change how much heirloompoint you get above level 31
+  }
+
+  return table;
+};
+
+const experienceTable = computeExperienceTable();
+
+// TODO: SPEC
+export const getLevelByExperience = (exp: number, expTable: number[] = experienceTable): number => {
+  return getIndexToIns(expTable, exp);
+};
+
+// TODO: spec
+// from: src/Application/Characters/Commands/RewardCharacterCommand.cs:67
+export const getAutoRetireCount = (exp: number, characterExperience: number) => {
+  let retireCount = 0;
+  let remainingExperienceToGive = exp;
+  let remainExperience = characterExperience;
+
+  const totalExperienceForRetirementLevel = getExperienceForLevel(minimumRetirementLevel);
+
+  while (remainingExperienceToGive > 0) {
+    const experienceNeededToRetirementLevel = Math.max(
+      totalExperienceForRetirementLevel - remainExperience,
+      0
+    );
+
+    const [experienceToGive, retirementLevelReached] =
+      remainingExperienceToGive >= experienceNeededToRetirementLevel
+        ? [experienceNeededToRetirementLevel, true]
+        : [remainingExperienceToGive, false];
+
+    remainExperience += experienceToGive;
+    if (retirementLevelReached) {
+      retireCount++;
+      remainExperience = 0;
+    }
+
+    remainingExperienceToGive -= experienceToGive;
+  }
+
+  return {
+    retireCount,
+    remainExperience,
+  };
+};
+
+export const getMaximumExperience = () => getExperienceForLevel(maximumLevel);
 
 export const attributePointsForLevel = (level: number): number => {
   if (level <= 0) level = minimumLevel;
@@ -423,6 +491,23 @@ export const getExperienceMultiplierBonus = (multiplier: number) => {
   }
 
   return 0;
+};
+
+// TODO: Spec
+export const getExperienceMultiplierBonusByRetireCount = (retireCount: number) => {
+  let out = 0;
+
+  while (retireCount > 0) {
+    out += experienceMultiplierByGeneration;
+    retireCount--;
+  }
+
+  return out;
+};
+
+// TODO: Spec
+export const sumExperienceMultiplierBonus = (multiplierA: number, multiplierB: number) => {
+  return clamp(multiplierA + multiplierB, 0, maxExperienceMultiplierForGeneration);
 };
 
 export interface RespecCapability {

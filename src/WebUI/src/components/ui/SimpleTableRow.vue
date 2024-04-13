@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { label, value, tooltip } = defineProps<{
-  label: string;
+  label?: string;
   value?: string;
   tooltip?: { title: string; description?: string };
 }>();
@@ -10,7 +10,9 @@ const { label, value, tooltip } = defineProps<{
   <Tooltip v-bind="tooltip" :disabled="tooltip === undefined">
     <div class="flex flex-wrap items-center justify-between gap-3 px-3 py-2.5 hover:bg-base-200">
       <div class="flex-1 text-2xs">
-        {{ label }}
+        <slot name="label">
+          {{ label }}
+        </slot>
       </div>
 
       <slot v-if="$slots.default" />

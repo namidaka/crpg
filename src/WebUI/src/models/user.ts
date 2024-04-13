@@ -29,6 +29,8 @@ export interface UserPrivate extends UserPublic {
   createdAt: Date;
   updatedAt: Date;
   gold: number;
+  heirloomPoints: number;
+  experienceMultiplier: number;
   note: string;
   activeCharacterId: number | null;
 }
