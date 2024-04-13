@@ -26,6 +26,24 @@ const onSubmitNoteForm = async () => {
     emit('update');
   }
 };
+
+interface RewardForm {
+  gold: number;
+  heirloomPoints: number;
+  characterId?: number;
+  experience: number;
+}
+
+const rewardFormModel = ref<RewardForm>({
+  gold: 0,
+  heirloomPoints: 0,
+  characterId: characters.value[0].id,
+  experience: 0,
+});
+
+const selectedCharacter = computed(() =>
+  characters.value.find(c => c.id === rewardFormModel.value.characterId)
+);
 </script>
 
 <template>
@@ -71,6 +89,84 @@ const onSubmitNoteForm = async () => {
           :isActive="character.id === user?.activeCharacterId"
         />
       </div>
+    </FormGroup>
+
+    <FormGroup :collapsable="false">
+      <template #label>
+        <SvgSpriteImg name="coin" viewBox="0 0 18 18" class="w-5" />
+        Rewards
+      </template>
+      <form @submit.prevent="onSubmitNoteForm" class="space-y-8">
+        <div class="grid grid-cols-2 gap-4">
+          <OField label="Gold">
+            <OInput
+              placeholder="Gold"
+              v-model="rewardFormModel.gold"
+              size="lg"
+              type="number"
+              expanded
+            >
+              <template #le></template>
+            </OInput>
+          </OField>
+
+          <OField label="Heirloom points">
+            <OInput
+              placeholder="Heirloom points"
+              v-model="rewardFormModel.heirloomPoints"
+              size="lg"
+              expanded
+            />
+          </OField>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <OField class="col-span-2">
+            <VDropdown :triggers="['click']">
+              <template #default="{ shown }">
+                <OButton variant="secondary" outlined size="lg">
+                  <CharacterMedia :character="selectedCharacter!" />
+                  <Divider inline />
+                  <OIcon
+                    icon="chevron-down"
+                    size="lg"
+                    :rotation="shown ? 180 : 0"
+                    class="text-content-400"
+                  />
+                </OButton>
+              </template>
+
+              <template #popper="{ hide }">
+                <div class="max-h-64 max-w-md overflow-y-auto">
+                  <DropdownItem v-for="character in characters">
+                    <CharacterMedia
+                      :character="character"
+                      :isActive="character.id === user?.activeCharacterId"
+                      @click="
+                        () => {
+                          rewardFormModel.characterId = character.id;
+                          hide();
+                        }
+                      "
+                    />
+                  </DropdownItem>
+                </div>
+              </template>
+            </VDropdown>
+          </OField>
+
+          <OField class="col-span-1" label="Experience">
+            <OInput
+              placeholder="Experience"
+              v-model="rewardFormModel.experience"
+              size="lg"
+              expanded
+            />
+          </OField>
+        </div>
+
+        <OButton native-type="submit" variant="primary" size="lg" :label="`Submit`" />
+      </form>
     </FormGroup>
 
     <FormGroup :label="'Note'" :collapsable="false">
