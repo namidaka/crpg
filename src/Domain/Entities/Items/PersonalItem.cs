@@ -4,7 +4,7 @@ using Crpg.Domain.Entities.Users;
 namespace Crpg.Domain.Entities.Items;
 
 /// <summary>
-/// TODO:.
+/// Personal Item owned by a <see cref="User"/>.
 /// </summary>
 public class PersonalItem : AuditableEntity
 {
