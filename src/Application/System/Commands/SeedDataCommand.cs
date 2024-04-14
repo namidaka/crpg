@@ -537,11 +537,18 @@ public record SeedDataCommand : IMediatorRequest
             PersonalItem orlePItem3 = new() { User = orle, ItemId = "crpg_armet_h2" };
             PersonalItem orlePItem4 = new() { User = orle, ItemId = "crpg_armet_h3" };
 
-            _db.PersonalItems.Add(takeoPItem1);
-            _db.PersonalItems.Add(orlePItem1);
-            _db.PersonalItems.Add(orlePItem2);
-            _db.PersonalItems.Add(orlePItem3);
-            _db.PersonalItems.Add(orlePItem4);
+            PersonalItem[] newPersonalItems =
+            {
+                takeoPItem1, orlePItem1, orlePItem2, orlePItem3, orlePItem4,
+            };
+            var existingPersonalItems = await _db.PersonalItems.ToDictionaryAsync(pi => pi.ItemId);
+            foreach (var newPersonalItem in newPersonalItems)
+            {
+                if (!existingPersonalItems.ContainsKey(newPersonalItem.ItemId))
+                {
+                    _db.PersonalItems.Add(newPersonalItem);
+                }
+            }
 
             UserItem takeoItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
             UserItem takeoItem2 = new() { User = takeo, ItemId = "crpg_winds_fury_v1_h2" };
@@ -600,9 +607,13 @@ public record SeedDataCommand : IMediatorRequest
                 laHirekItem3,
             };
 
+            var existingUserItems = await _db.UserItems.ToDictionaryAsync(pi => pi.ItemId);
             foreach (var newUserItem in newUserItems)
             {
-                _db.UserItems.Add(newUserItem);
+                if (!existingUserItems.ContainsKey(newUserItem.ItemId))
+                {
+                    _db.UserItems.Add(newUserItem);
+                }
             }
 
             Restriction takeoRestriction0 = new()
@@ -1286,9 +1297,9 @@ public record SeedDataCommand : IMediatorRequest
             ClanArmoryItem[] newClanArmoryItems =
             {
                 takeoClanArmoryItem1, takeoClanArmoryItem2,
-                // orleClanArmoryItem1,
-                orleClanArmoryItem2, orleClanArmoryItem3,  orleClanArmoryItem4,  orleClanArmoryItem5,  orleClanArmoryItem6,  orleClanArmoryItem7,  orleClanArmoryItem8,  orleClanArmoryItem9,  orleClanArmoryItem10, orleClanArmoryItem11, orleClanArmoryItem12, orleClanArmoryItem13, orleClanArmoryItem14, orleClanArmoryItem15, orleClanArmoryItem16, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
+                orleClanArmoryItem2, orleClanArmoryItem3, orleClanArmoryItem4, orleClanArmoryItem5, orleClanArmoryItem6, orleClanArmoryItem7,  orleClanArmoryItem8, orleClanArmoryItem9, orleClanArmoryItem10, orleClanArmoryItem11, orleClanArmoryItem12, orleClanArmoryItem13, orleClanArmoryItem14, orleClanArmoryItem15, orleClanArmoryItem16, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
             };
+
             foreach (var newClanArmoryItem in newClanArmoryItems)
             {
                 pecores.ArmoryItems.Add(newClanArmoryItem);
