@@ -1019,6 +1019,7 @@ public record SeedDataCommand : IMediatorRequest
                 {
                     new("gold", "120000"),
                     new("heirloomPoints", "3"),
+                    new("itemId", "crpg_ba_bolzanogreathelmet_h2"),
                 },
             };
             ActivityLog activityLogItemBought1 = new()
