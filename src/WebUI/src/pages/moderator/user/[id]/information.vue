@@ -55,6 +55,7 @@ interface RewardForm {
   characterId?: number;
   autoRetire: boolean;
   experience: number;
+  itemId: string;
 }
 
 const defaultRewardForm = computed<RewardForm>(() => ({
@@ -63,6 +64,7 @@ const defaultRewardForm = computed<RewardForm>(() => ({
   characterId: characters.value[0].id,
   autoRetire: false,
   experience: 0,
+  itemId: '',
 }));
 
 const rewardFormModel = ref<RewardForm>({ ...defaultRewardForm.value });
@@ -99,34 +101,6 @@ const goldModel = computed({
   },
 });
 
-const onSubmitRewardForm = async () => {
-  if (!canReward.value) return;
-
-  if (rewardFormModel.value.gold !== 0 || rewardFormModel.value.heirloomPoints !== 0) {
-    await rewardUser(user.value!.id, {
-      gold: rewardFormModel.value.gold,
-      heirloomPoints: rewardFormModel.value.heirloomPoints,
-    });
-    notify('The user has been rewarded');
-  }
-
-  if (rewardFormModel.value.characterId && rewardFormModel.value.experience !== 0) {
-    await rewardCharacter(user.value!.id, rewardFormModel.value.characterId!, {
-      experience: rewardFormModel.value.experience,
-      autoRetire: rewardFormModel.value.autoRetire,
-    });
-    notify('The character has been rewarded');
-  }
-
-  rewardFormModel.value = {
-    ...defaultRewardForm.value,
-    characterId: rewardFormModel.value.characterId,
-  };
-
-  await loadCharacters();
-  emit('update');
-};
-
 const totalRewardValues = computed(() => {
   const gold = user.value!.gold + rewardFormModel.value.gold;
   const heirloomPoints = user.value!.heirloomPoints + rewardFormModel.value.heirloomPoints;
@@ -159,6 +133,39 @@ const totalRewardValues = computed(() => {
     experienceMultiplier: user.value!.experienceMultiplier,
   };
 });
+
+const onSubmitRewardForm = async () => {
+  if (!canReward.value) return;
+
+  if (
+    rewardFormModel.value.gold !== 0 ||
+    rewardFormModel.value.heirloomPoints !== 0 ||
+    rewardFormModel.value.itemId !== ''
+  ) {
+    await rewardUser(user.value!.id, {
+      gold: rewardFormModel.value.gold,
+      heirloomPoints: rewardFormModel.value.heirloomPoints,
+      itemId: rewardFormModel.value.itemId,
+    });
+    notify('The user has been rewarded');
+  }
+
+  if (rewardFormModel.value.characterId && rewardFormModel.value.experience !== 0) {
+    await rewardCharacter(user.value!.id, rewardFormModel.value.characterId!, {
+      experience: rewardFormModel.value.experience,
+      autoRetire: rewardFormModel.value.autoRetire,
+    });
+    notify('The character has been rewarded');
+  }
+
+  rewardFormModel.value = {
+    ...defaultRewardForm.value,
+    characterId: rewardFormModel.value.characterId,
+  };
+
+  await loadCharacters();
+  emit('update');
+};
 </script>
 
 <template>
@@ -237,6 +244,13 @@ const totalRewardValues = computed(() => {
               type="number"
               expanded
             />
+          </OField>
+
+          <OField message="ex: crpg_ba_bolzanogreathelmet_h2">
+            <template #label>
+              <div class="flex items-center gap-1.5">Item</div>
+            </template>
+            <OInput placeholder="Item id" v-model="rewardFormModel.itemId" size="lg" expanded />
           </OField>
         </div>
 

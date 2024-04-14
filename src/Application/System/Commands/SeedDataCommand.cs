@@ -2164,7 +2164,12 @@ public record SeedDataCommand : IMediatorRequest
                 if (item.Id == "crpg_armet_h0"
                     || item.Id == "crpg_armet_h1"
                     || item.Id == "crpg_armet_h2"
-                    || item.Id == "crpg_armet_h3")
+                    || item.Id == "crpg_armet_h3"
+
+                    || item.Id == "crpg_ba_bolzanogreathelmet_h0"
+                    || item.Id == "crpg_ba_bolzanogreathelmet_h1"
+                    || item.Id == "crpg_ba_bolzanogreathelmet_h2"
+                    || item.Id == "crpg_ba_bolzanogreathelmet_h3")
                 {
                     item.Enabled = false;
                 }
