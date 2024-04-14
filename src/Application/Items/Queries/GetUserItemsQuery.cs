@@ -2,7 +2,6 @@ using AutoMapper;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
-using Crpg.Application.Common.Services;
 using Crpg.Application.Items.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,14 +16,10 @@ public record GetUserItemsQuery : IMediatorRequest<IList<UserItemViewModel>>
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
 
-        private readonly IItemService _itemService;
-
-
-        public Handler(ICrpgDbContext db, IMapper mapper, IItemService itemService)
+        public Handler(ICrpgDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
-            _itemService = itemService;
         }
 
         public async Task<Result<IList<UserItemViewModel>>> Handle(GetUserItemsQuery req, CancellationToken cancellationToken)
