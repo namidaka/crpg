@@ -454,3 +454,4 @@ src/WebUI/public/items/
 
 # cRPG Launcher
 !src/cRPGUpdater/Properties/PublishProfiles/FolderProfile.pubxml
+.mono
