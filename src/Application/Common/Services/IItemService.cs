@@ -1,7 +1,6 @@
 ﻿using Crpg.Application.Common.Interfaces;
 using Crpg.Domain.Entities.Items;
 using Crpg.Sdk.Abstractions;
-using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Common.Services;
 
@@ -9,9 +8,6 @@ internal interface IItemService
 {
     /// <summary>Sells a user item. <see cref="UserItem.Item"/> and <see cref="UserItem.EquippedItems"/> should be loaded.</summary>
     int SellUserItem(ICrpgDbContext db, UserItem userItem);
-
-    /// <summary>TODO:.</summary>
-    Task<bool> IsItemEnabledForUser(ICrpgDbContext db, int userId, Item item);
 }
 
 internal class ItemService : IItemService
@@ -38,11 +34,5 @@ internal class ItemService : IItemService
         db.UserItems.Remove(userItem);
 
         return sellPrice;
-    }
-
-    public async Task<bool> IsItemEnabledForUser(ICrpgDbContext db, int userId, Item item)
-    {
-        bool isPersonalItem = await db.PersonalItems.Where(pi => pi.ItemId == item.Id && pi.UserId == userId).AnyAsync();
-        return item.Enabled || isPersonalItem;
     }
 }
