@@ -44,8 +44,6 @@ public record RewardUserCommand : IMediatorRequest<UserViewModel>
             user.Gold = Math.Max(user.Gold + req.Gold, 0);
             user.HeirloomPoints = Math.Max(user.HeirloomPoints + req.HeirloomPoints, 0);
 
-            _db.ActivityLogs.Add(_activityLogService.CreateUserRewardedLog(req.UserId, req.Gold, req.HeirloomPoints));
-
             if (req.ItemId != string.Empty)
             {
                 var currentItem = await _db.Items.FirstOrDefaultAsync(i => i.Id == req.ItemId, cancellationToken);
@@ -81,6 +79,8 @@ public record RewardUserCommand : IMediatorRequest<UserViewModel>
                 };
                 user.Items.Add(userItem);
             }
+
+            _db.ActivityLogs.Add(_activityLogService.CreateUserRewardedLog(req.UserId, req.Gold, req.HeirloomPoints, req.ItemId));
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' rewarded", req.UserId);

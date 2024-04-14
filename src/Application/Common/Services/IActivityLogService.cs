@@ -8,7 +8,7 @@ internal interface IActivityLogService
     ActivityLog CreateUserCreatedLog(int userId);
     ActivityLog CreateUserDeletedLog(int userId);
     ActivityLog CreateUserRenamedLog(int userId, string oldName, string newName);
-    ActivityLog CreateUserRewardedLog(int userId, int gold, int heirloomPoints);
+    ActivityLog CreateUserRewardedLog(int userId, int gold, int heirloomPoints, string itemId);
     ActivityLog CreateItemBoughtLog(int userId, string itemId, int price);
     ActivityLog CreateItemSoldLog(int userId, string itemId, int price);
     ActivityLog CreateItemBrokeLog(int userId, string itemId);
@@ -49,12 +49,13 @@ internal class ActivityLogService : IActivityLogService
         });
     }
 
-    public ActivityLog CreateUserRewardedLog(int userId, int gold, int heirloomPoints)
+    public ActivityLog CreateUserRewardedLog(int userId, int gold, int heirloomPoints, string itemId)
     {
         return CreateLog(ActivityLogType.UserRewarded, userId, new ActivityLogMetadata[]
         {
             new("gold", gold.ToString()),
             new("heirloomPoints", heirloomPoints.ToString()),
+            new("itemId", itemId),
         });
     }
 
