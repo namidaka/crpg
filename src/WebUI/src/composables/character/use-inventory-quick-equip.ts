@@ -1,33 +1,20 @@
-import { EquippedItemId, EquippedItemsBySlot } from '@/models/character';
+import { type EquippedItemId, type EquippedItemsBySlot } from '@/models/character';
 import { ItemSlot } from '@/models/item';
-import { UserItem } from '@/models/user';
+import { type UserItem } from '@/models/user';
 import { updateCharacterItems } from '@/services/characters-service';
-import { getAvailableSlotsByItem, getLinkedSlots } from '@/services/item-service';
-import { NotificationType, notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
+import { getAvailableSlotsByItem, weaponSlots } from '@/services/item-service';
 import { useUserStore } from '@/stores/user';
 import { characterKey, characterItemsKey } from '@/symbols/character';
+import { useInventoryEquipment } from '@/composables/character/use-inventory-equipment';
 
 export const useInventoryQuickEquip = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) => {
   const { user } = toRefs(useUserStore());
   const character = injectStrict(characterKey);
   const { loadCharacterItems } = injectStrict(characterItemsKey);
+  const { isEquipItemAllowed, getUnequipItemsLinked } = useInventoryEquipment();
 
   const onQuickEquip = async (item: UserItem) => {
-    if (!item) return;
-
-    if (item.isBroken) {
-      notify(t('character.inventory.item.broken.notify.warning'), NotificationType.Warning);
-      return;
-    }
-
-    if (item.isArmoryItem && user.value!.id === item.userId) {
-      notify(
-        t('character.inventory.item.clanArmory.inArmory.notify.warning'),
-        NotificationType.Warning
-      );
-      return;
-    }
+    if (!item || !isEquipItemAllowed(item, user.value!.id)) return;
 
     const availableSlots = getAvailableSlotsByItem(item.item, equippedItemsBySlot.value);
     const targetSlot = getTargetSlot(availableSlots);
@@ -40,13 +27,7 @@ export const useInventoryQuickEquip = (equippedItemsBySlot: Ref<EquippedItemsByS
   };
 
   const onQuickUnequip = async (slot: ItemSlot) => {
-    const items: EquippedItemId[] = [
-      { userItemId: null, slot },
-      ...getLinkedSlots(slot, equippedItemsBySlot.value).map(ls => ({
-        userItemId: null,
-        slot: ls,
-      })),
-    ];
+    const items: EquippedItemId[] = getUnequipItemsLinked(slot, equippedItemsBySlot.value);
 
     await updateItems(items);
   };
@@ -58,12 +39,8 @@ export const useInventoryQuickEquip = (equippedItemsBySlot: Ref<EquippedItemsByS
 
   const getTargetSlot = (slots: ItemSlot[]): ItemSlot | undefined => {
     return slots
-      .filter(slot => isMainWeaponSlot(slot) ? !equippedItemsBySlot.value[slot] : true)
+      .filter(slot => weaponSlots.includes(slot) ? !equippedItemsBySlot.value[slot] : true)
       .at(0);
-  };
-
-  const isMainWeaponSlot = (slot: ItemSlot): boolean => {
-    return /^Weapon[0-9]{1}$/.test(slot);
   };
 
   return {

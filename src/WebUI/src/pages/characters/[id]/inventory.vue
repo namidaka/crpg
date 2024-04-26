@@ -431,7 +431,14 @@ await Promise.all(promises);
 
     <div class="sticky left-0 col-span-5 self-start" :style="{ top: `${mainHeaderHeight + 16}px` }">
       <CharacterInventoryDoll @change="onChangeEquippedItems" />
+      <div
+        class="flex mt-3 w-full justify-center rounded-lg bg-base-200 p-4 backdrop-blur-lg"
+        style="grid-area: footer"
+      >
+        <KbdCombination :keys="['CTRL', 'LMB']" :label="$t('character.doll.equipShortcutHint')" />
+      </div>
     </div>
+
 
     <div
       class="sticky col-span-2 grid grid-cols-1 items-start gap-2 self-start rounded-lg border border-border-200 py-2 text-2xs"

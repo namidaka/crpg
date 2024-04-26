@@ -141,7 +141,7 @@ export const itemTypesBySlot: Record<ItemSlot, ItemType[]> = {
   [ItemSlot.WeaponExtra]: [ItemType.Banner],
 };
 
-const weaponSlots: ItemSlot[] = [
+export const weaponSlots: ItemSlot[] = [
   ItemSlot.Weapon0,
   ItemSlot.Weapon1,
   ItemSlot.Weapon2,
