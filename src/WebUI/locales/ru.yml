@@ -7,7 +7,7 @@ platform:
   Steam: Steam
   EpicGames: Epic Games
   Microsoft: Xbox
-  
+
 installation:
   title: Установка
   common:
@@ -119,6 +119,12 @@ you: Вы
 here: здесь
 not-found: Не найдено
 results-not-found: Результаты не найдены...
+
+shortcuts:
+  keys:
+    lmb: ЛКМ
+  hints:
+    equip: экипировать/снять
 
 setting:
   language: Язык

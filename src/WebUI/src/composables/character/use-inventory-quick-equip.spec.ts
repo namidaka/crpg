@@ -13,6 +13,7 @@ const {
   mockedGetAvailableSlotsByItem,
   mockedUpdateCharacterItems,
   mockedInjectStrict,
+  mockedCheckIsWeaponBySlot
 } = vi.hoisted(() => ({
   mockedEmit: vi.fn(),
   mockedUseInventoryEquipment: vi.fn().mockReturnValue({
@@ -33,6 +34,7 @@ const {
       };
     }
   }),
+  mockedCheckIsWeaponBySlot: vi.fn(),
 }));
 
 vi.mock('@/composables/character/use-inventory-equipment', () => ({
@@ -40,7 +42,7 @@ vi.mock('@/composables/character/use-inventory-equipment', () => ({
 }));
 
 vi.mock('@/services/item-service', () => ({
-  weaponSlots: [ItemSlot.Weapon0, ItemSlot.Weapon1, ItemSlot.Weapon2, ItemSlot.Weapon3],
+  checkIsWeaponBySlot: mockedCheckIsWeaponBySlot,
   getAvailableSlotsByItem: mockedGetAvailableSlotsByItem,
 }));
 
@@ -65,6 +67,7 @@ describe('useInventoryQuickEquip', () => {
       const AVAILABLE_SLOTS = [ItemSlot.Body];
 
       mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS);
+      mockedCheckIsWeaponBySlot.mockReturnValue(false);
 
       const { onQuickEquip } = useInventoryQuickEquip(ref({} as UserItemsBySlot));
 
@@ -90,6 +93,7 @@ describe('useInventoryQuickEquip', () => {
       const AVAILABLE_SLOTS = [ItemSlot.Body];
 
       mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS);
+      mockedCheckIsWeaponBySlot.mockReturnValue(false);
 
       const userItemsBySlot: PartialDeep<UserItemsBySlot> = {
         [ItemSlot.Body]: {
@@ -129,6 +133,7 @@ describe('useInventoryQuickEquip', () => {
       ];
 
       mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS);
+      mockedCheckIsWeaponBySlot.mockReturnValue(true);
 
       const userItemsBySlot: PartialDeep<UserItemsBySlot> = {
         [ItemSlot.Weapon0]: {
@@ -168,6 +173,7 @@ describe('useInventoryQuickEquip', () => {
       ];
 
       mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS);
+      mockedCheckIsWeaponBySlot.mockReturnValue(true);
 
       const userItemsBySlot: PartialDeep<UserItemsBySlot> = {
         [ItemSlot.Weapon0]: {

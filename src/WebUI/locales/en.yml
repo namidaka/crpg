@@ -122,6 +122,13 @@ here: here
 not-found: Not found
 results-not-found: Results not found...
 
+shortcuts:
+  keys:
+    ctrl: CTRL
+    lmb: LMB
+  hints:
+    equip: to equip/unequip item
+
 setting:
   language: Language
   settings: Settings
@@ -687,7 +694,6 @@ character:
       HeadArmor: Head armor
       LegArmor: Leg armor
       MountArmor: Mount armor
-    equipShortcutHint: to equip or unequip item
 
 builder:
   title: cRPG Character Builder

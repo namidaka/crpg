@@ -141,7 +141,7 @@ export const itemTypesBySlot: Record<ItemSlot, ItemType[]> = {
   [ItemSlot.WeaponExtra]: [ItemType.Banner],
 };
 
-export const weaponSlots: ItemSlot[] = [
+const weaponSlots: ItemSlot[] = [
   ItemSlot.Weapon0,
   ItemSlot.Weapon1,
   ItemSlot.Weapon2,
@@ -740,3 +740,5 @@ export const reforgeCostByRank: Record<ItemRank, number> = {
 };
 
 export const itemIsNewDays = 1;
+
+export const checkIsWeaponBySlot = (slot: ItemSlot) => weaponSlots.includes(slot);

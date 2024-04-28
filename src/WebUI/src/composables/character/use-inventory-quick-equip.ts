@@ -2,7 +2,7 @@ import { type EquippedItemId, type EquippedItemsBySlot } from '@/models/characte
 import { ItemSlot } from '@/models/item';
 import { type UserItem } from '@/models/user';
 import { updateCharacterItems } from '@/services/characters-service';
-import { getAvailableSlotsByItem, weaponSlots } from '@/services/item-service';
+import { getAvailableSlotsByItem, checkIsWeaponBySlot } from '@/services/item-service';
 import { useUserStore } from '@/stores/user';
 import { characterKey, characterItemsKey } from '@/symbols/character';
 import { useInventoryEquipment } from '@/composables/character/use-inventory-equipment';
@@ -39,7 +39,7 @@ export const useInventoryQuickEquip = (equippedItemsBySlot: Ref<EquippedItemsByS
 
   const getTargetSlot = (slots: ItemSlot[]): ItemSlot | undefined => {
     return slots
-      .filter(slot => weaponSlots.includes(slot) ? !equippedItemsBySlot.value[slot] : true)
+      .filter(slot => checkIsWeaponBySlot(slot) ? !equippedItemsBySlot.value[slot] : true)
       .at(0);
   };
 
