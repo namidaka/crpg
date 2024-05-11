@@ -325,7 +325,7 @@ internal class CrpgItemValueModel : ItemValueModel
         };
     }
 
-    private float CalculateDamageTypeFactorForThrown(DamageTypes damageType)
+    public static float CalculateDamageTypeFactorForThrown(DamageTypes damageType)
     {
         return damageType switch
         {
