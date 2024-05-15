@@ -164,9 +164,7 @@ const onRemoveFromClanArmory = async (userItemId: number) => {
 
 const onClickInventoryItem = async (e: PointerEvent, userItem: UserItem) => {
   if (e.ctrlKey) {
-    if (!equippedItemsIds.value.includes(userItem.id)) {
-      await onQuickEquip(userItem);
-    }
+    await onQuickEquip(userItem);
   } else {
     toggleItemDetail(e.target as HTMLElement, {
       id: userItem.item.id,

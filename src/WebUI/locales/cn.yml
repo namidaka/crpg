@@ -127,7 +127,6 @@ shortcuts:
   keys:
     ctrl: CTRL
     lmb: 鼠标左键
-    rmb: 鼠标右键
   hints:
     equip: 装备或卸下物品
 
