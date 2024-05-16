@@ -31,6 +31,7 @@ internal class ChatCommandsComponent : MissionLogic
             new PlayerListCommand(this),
             new KickCommand(this),
             new KillCommand(this),
+            new KillAllCommand(this),
             new TeleportCommand(this),
             new AnnouncementCommand(this),
             new MuteCommand(this, crpgClient),
