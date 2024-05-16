@@ -49,6 +49,7 @@ declare module 'vue' {
     FormGroup: typeof import('./../components/ui/FormGroup.vue')['default']
     Heading: typeof import('./../components/ui/Heading.vue')['default']
     Heirloom: typeof import('./../components/app/Heirloom.vue')['default']
+    Help: typeof import('./../components/app/Help.vue')['default']
     HHHeaderNotification: typeof import('./../components/app/HHHeaderNotification.vue')['default']
     HHTooltip: typeof import('./../components/app/HHTooltip.vue')['default']
     InstallationGuide: typeof import('./../components/app/InstallationGuide.vue')['default']
