@@ -75,8 +75,8 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
         <Heading :title="$t('leaderboard.title')" />
       </div>
 
-      <div class="flex items-center justify-between gap-4">
-        <OTabs v-model="regionModel" contentClass="hidden" class="mb-6">
+      <div class="mb-6 flex items-center justify-between gap-4">
+        <OTabs v-model="regionModel" contentClass="hidden">
           <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
         </OTabs>
 

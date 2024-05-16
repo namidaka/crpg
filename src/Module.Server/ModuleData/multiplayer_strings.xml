@@ -122,6 +122,7 @@
   <string id="str_multiplayer_scene_name.crpg_battle_lighthouse" text="{=LHuikjha}Lighthouse" />
   <string id="str_multiplayer_scene_name.crpg_battle_vritannis" text="{=B3Rsk3r6}Vritannis" />
   <string id="str_multiplayer_scene_name.crpg_battle_frosthaven" text="{=FrStHv3N}Frosthaven" />
+  <string id="str_multiplayer_scene_name.crpg_battle_westveen" text="{=W3stV33N}Westveen" />
 
   <!-- Conquest Maps -->
   <string id="str_multiplayer_scene_name.crpg_conquest_acre" text="{=9Mpawm9h}Acre" />
@@ -140,7 +141,7 @@
   <string id="str_multiplayer_scene_name.crpg_conquest_volskulkeep" text="{=V0lSkuLK}Volskul Keep" />
   <string id="str_multiplayer_scene_name.crpg_conquest_motteandbailey" text="{=M0TT3BA1}Motte and Bailey" />
   <string id="str_multiplayer_scene_name.crpg_conquest_fjallborn" text="{=fallbj0r}Fjallborn" />
-  <string id="str_multiplayer_scene_name.crpg_conquest_motteandbailey" text="{=tw1tEC1t}The White City" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_thewhitecity" text="{=tw1tEC1t}The White City" />
   <string id="str_multiplayer_scene_name.crpg_conquest_bebbanburg" text="{=B3BB4nB8}Bebbanburg" />
   <string id="str_multiplayer_scene_name.crpg_conquest_darkwood" text="{=D43Kw00D}Darkwood" />
 

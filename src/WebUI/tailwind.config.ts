@@ -166,7 +166,7 @@ export default {
             css: {
               '--tw-prose-invert-counters': theme('colors.content.200'),
               fontSize: theme('fontSize.xs[0]'),
-              lineHeight: theme('fontSize.xs[1]'),
+              lineHeight: theme('fontSize.sm[1]'),
               li: {
                 marginTop: theme('spacing')['0'],
                 marginBottom: theme('spacing')['2.5'],
