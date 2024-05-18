@@ -28,7 +28,7 @@ internal class HelpCommand : ChatCommand
         }
 
         string fullMessage = arguments.Length > 0 ? string.Join(" ", arguments) : "Help request sent with no additional message.";
-        string userMessage = $"[HELP REQUEST] Message from {crpgUser.Name}: {fullMessage}";
+        string userMessage = $"[HELP REQUEST] Message from {fromPeer.UserName}: {fullMessage}";
         ChatComponent.ServerSendMessageToAdmins(ColorAdmin, userMessage);
         ChatComponent.ServerSendMessageToPlayer(fromPeer, ColorSuccess, "Admins have received your message!");
     }
