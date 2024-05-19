@@ -172,6 +172,13 @@ here: здесь
 not-found: Не найдено
 results-not-found: Результаты не найдены...
 
+shortcuts:
+  keys:
+    ctrl: CTRL
+    lmb: ЛКМ
+  hints:
+    equip: экипировать/снять
+
 setting:
   language: Язык
   settings: Настройки
