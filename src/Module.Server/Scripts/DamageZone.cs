@@ -9,7 +9,6 @@ namespace Crpg.Module.Scripts;
 /// <summary>A script that damages agents inside the entity it is attached to.</summary>
 internal class DamageZone : ScriptComponentBehavior
 {
-    //private const int TicksPerSecond = 2;
 
 #pragma warning disable SA1401 // Bannerlord editor expects fields
 #pragma warning disable SA1202
