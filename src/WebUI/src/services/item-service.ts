@@ -740,3 +740,5 @@ export const reforgeCostByRank: Record<ItemRank, number> = {
 };
 
 export const itemIsNewDays = 1;
+
+export const checkIsWeaponBySlot = (slot: ItemSlot) => weaponSlots.includes(slot);

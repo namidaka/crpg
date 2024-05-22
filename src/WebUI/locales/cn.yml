@@ -7,7 +7,7 @@ platform:
   Steam: Steam
   EpicGames: Epic Games
   Microsoft: Xbox
-  
+
 installation:
   title: 安装
   common:
@@ -122,6 +122,13 @@ you: 你
 here: 这里
 not-found: 未找到
 results-not-found: 结果未找到...
+
+shortcuts:
+  keys:
+    ctrl: CTRL
+    lmb: 鼠标左键
+  hints:
+    equip: 装备或卸下物品
 
 setting:
   language: 语言
