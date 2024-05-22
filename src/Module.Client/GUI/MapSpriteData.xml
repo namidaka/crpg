@@ -17,7 +17,7 @@
   <SpriteCategories>
     <SpriteCategory>
       <Name>ui_mploading</Name>
-      <SpriteSheetCount>144</SpriteSheetCount>
+      <SpriteSheetCount>145</SpriteSheetCount>
       <SpriteSheetSize ID="1" Width="3840" Height="1935" />
       <SpriteSheetSize ID="2" Width="3840" Height="1935" />
       <SpriteSheetSize ID="3" Width="3383" Height="1902" />
@@ -150,6 +150,7 @@
       <SpriteSheetSize ID="142" Width="1920" Height="1080" />
       <SpriteSheetSize ID="143" Width="1920" Height="1080" />
       <SpriteSheetSize ID="144" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="145" Width="1920" Height="1080" />
       <AlwaysLoad />
     </SpriteCategory>
   </SpriteCategories>
@@ -1333,6 +1334,15 @@
       <SheetY>0</SheetY>
       <CategoryName>ui_mploading</CategoryName>
     </SpritePart>
+    <SpritePart>
+      <SheetID>145</SheetID>
+      <Name>crpg_battle_westveen</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
   </SpriteParts>
   <Sprites>
     <GenericSprite>
@@ -1858,6 +1868,10 @@
     <GenericSprite>
       <Name>crpg_conquest_darkwood</Name>
       <SpritePartName>crpg_conquest_darkwood</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_battle_westveen</Name>
+      <SpritePartName>crpg_battle_westveen</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>
