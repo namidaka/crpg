@@ -984,12 +984,6 @@ internal class ItemExporter : IDataExporter
             {
                 int heirloomLevel = IdToHeirloomLevel(node1.Attributes!["id"].Value);
                 string baseId = node1.Attributes!["id"].Value.Remove(node1.Attributes!["id"].Value.Length - 2);
-                // Remove the price attribute so it is recomputed using our model.
-                var valueAttr = node1.Attributes["value"];
-                if (valueAttr != null)
-                {
-                    node1.Attributes.Remove(valueAttr);
-                }
 
                 var nonHeirloomNode = baseItem[baseId];
                 var type = (ItemObject.ItemTypeEnum)Enum.Parse(typeof(ItemObject.ItemTypeEnum), node1.Attributes!["Type"].Value);
