@@ -7,6 +7,7 @@ import {
   validateItemNotMeetRequirement,
 } from '@/services/characters-service';
 import { useInventoryDnD } from '@/composables/character/use-inventory-dnd';
+import { useInventoryQuickEquip } from '@/composables/character/use-inventory-quick-equip';
 import { useItemDetail } from '@/composables/character/use-item-detail';
 import {
   equippedItemsBySlotKey,
@@ -29,6 +30,21 @@ const onUnEquipItem = (slot: ItemSlot) => {
   emit('change', [{ userItemId: null, slot }]);
 };
 
+const onClickInventoryDollSlot = (e: PointerEvent, slot: ItemSlot) => {
+  if (equippedItemsBySlot.value[slot] === undefined) {
+    return;
+  }
+
+  if (e.ctrlKey) {
+    onQuickUnequip(slot);
+  } else {
+    toggleItemDetail(e.target as HTMLElement, {
+      id: equippedItemsBySlot.value[slot].item.id,
+      userItemId: equippedItemsBySlot.value[slot].id,
+    });
+  }
+};
+
 const {
   availableSlots,
   fromSlot,
@@ -39,6 +55,8 @@ const {
   onDragLeave,
   onDrop,
 } = useInventoryDnD(equippedItemsBySlot);
+
+const { onQuickUnequip } = useInventoryQuickEquip(equippedItemsBySlot);
 
 const { toggleItemDetail } = useItemDetail();
 </script>
@@ -83,14 +101,7 @@ const { toggleItemDetail } = useItemDetail();
         @dragenter.prevent
         @dragstart="onDragStart(equippedItemsBySlot[slot.key], slot.key)"
         @unEquip="onUnEquipItem(slot.key)"
-        @click="
-          e =>
-            equippedItemsBySlot[slot.key] !== undefined &&
-            toggleItemDetail(e.target as HTMLElement, {
-              id: equippedItemsBySlot[slot.key].item.id,
-              userItemId: equippedItemsBySlot[slot.key].id,
-            })
-        "
+        @click="e => onClickInventoryDollSlot(e, slot.key)"
       />
     </div>
   </div>
