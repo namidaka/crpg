@@ -762,7 +762,7 @@
       <EquipmentRoster>
         <equipment slot="Body" id="Item.crpg_baggy_trunks_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_belted_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_longdagger_v1_h0" />
+        <equipment slot="Item0" id="Item.crpg_longdagger_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_francesca_v3_h0" />
       </EquipmentRoster>
     </Equipments>
