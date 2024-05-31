@@ -185,7 +185,7 @@ public class UsersController : BaseController
     [HttpPut("{id}/rewards")]
     public Task<ActionResult<Result<UserViewModel>>> RewardUser([FromRoute] int id, [FromBody] RewardUserCommand req)
     {
-        req = req with { UserId = id };
+        req = req with { UserId = id, ActorUserId = CurrentUser.User!.Id };
         return ResultToActionAsync(Mediator.Send(req));
     }
 
@@ -481,7 +481,7 @@ public class UsersController : BaseController
     public Task<ActionResult<Result<CharacterViewModel>>> RewardCharacter([FromRoute] int userId,
         [FromRoute] int characterId, [FromBody] RewardCharacterCommand req)
     {
-        req = req with { CharacterId = characterId, UserId = userId };
+        req = req with { CharacterId = characterId, UserId = userId, ActorUserId = CurrentUser.User!.Id };
         return ResultToActionAsync(Mediator.Send(req));
     }
 
