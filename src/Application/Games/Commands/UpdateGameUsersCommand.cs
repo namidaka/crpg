@@ -51,7 +51,6 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 
             if (idempotencyKey == null || idempotencyKey.Status != UserUpdateStatus.Completed)
             {
-                GameMode updateGameMode = _gameModeService.GameModeByInstanceAlias(Enum.TryParse(update.Instance, ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.Z);
                 IdempotencyKey key = new() { Key = req.Key.ToString(), CreatedAt = DateTime.UtcNow, Status = UserUpdateStatus.Started };
                 _db.IdempotencyKeys.Add(key);
                 await _db.SaveChangesAsync(cancellationToken);
@@ -60,6 +59,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                 List<(User user, GameUserEffectiveReward reward, List<GameRepairedItem> repairedItems)> results = new(req.Updates.Count);
                 foreach (var update in req.Updates)
                 {
+                    GameMode updateGameMode = _gameModeService.GameModeByInstanceAlias(Enum.TryParse(update.Instance, ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.Z);
                     if (!charactersById.TryGetValue(update.CharacterId, out Character? character))
                     {
                         Logger.LogWarning("Character with id '{0}' doesn't exist", update.CharacterId);
@@ -72,7 +72,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                     var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
                     results.Add((character.User!, reward, brokenItems));
                 }
-                
+
                 key.Status = UserUpdateStatus.Completed;
                 _db.IdempotencyKeys.Update(key);
                 await _db.SaveChangesAsync(cancellationToken);
