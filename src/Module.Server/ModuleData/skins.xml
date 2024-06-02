@@ -8387,7 +8387,7 @@
 			morph_key="0"
 			uses_stitching="true"
 			body_mesh_suffix=""
-			min_scale="0.85"
+			min_scale="0.90"
 			skeleton="human_skeleton"
 			body_meta_mesh="body_male_a"
 			body_meta_mesh_shoulders="body_male_a_sh"

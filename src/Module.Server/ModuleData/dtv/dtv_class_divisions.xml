@@ -1055,6 +1055,30 @@
     </Perks>
   </MPClassDivision>
 
+  <MPClassDivision id="crpg_dtv_english_arbalist"
+                 hero="crpg_dtv_english_arbalist"
+                 troop="crpg_dtv_english_arbalist"
+                 hero_idle_anim="act_vlandia_mp_voulgier_idle"
+                 troop_idle_anim="act_idle_spear_1_left_stance"
+                 multiplier="0"
+                 cost="0"
+                 icon="Special_Swordsman"
+                 melee_ai="15"
+                 ranged_ai="15"
+                 armor="0"
+                 movement_speed="0"
+                 combat_movement_speed="0"
+                 acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
   <MPClassDivision id="crpg_dtv_english_knight"
                    hero="crpg_dtv_english_knight"
                    troop="crpg_dtv_english_knight"
@@ -1837,6 +1861,30 @@
                    movement_speed="0"
                    combat_movement_speed="0"
                    acceleration="0">
+    <Perks>
+      <Perk game_mode="all"
+            name="{=}None"
+            description="{=}None."
+            icon="PerkToughness"
+            perk_list="1">
+      </Perk>
+    </Perks>
+  </MPClassDivision>
+
+  <MPClassDivision id="crpg_dtv_varangian_cavalry"
+                 hero="crpg_dtv_varangian_cavalry"
+                 troop="crpg_dtv_varangian_cavalry"
+                 hero_mount_idle_anim="act_vlandia_mp_vanguard_mount_idle"
+                 troop_mount_idle_anim="act_horse_idle_1"
+                 multiplier="0"
+                 cost="0"
+                 icon="Cavalry_Light"
+                 melee_ai="25"
+                 ranged_ai="0"
+                 armor="0"
+                 movement_speed="0"
+                 combat_movement_speed="0"
+                 acceleration="0">
     <Perks>
       <Perk game_mode="all"
             name="{=}None"

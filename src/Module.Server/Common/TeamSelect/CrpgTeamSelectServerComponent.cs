@@ -117,6 +117,13 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
                     ChangeTeamServer(peer, teamBeforeSpectator);
                     _playerTeamsBeforeJoiningSpectator.Remove(peer.VirtualPlayer.Id);
                 }
+                else if (missionPeer.Team.TeamIndex == Mission.SpectatorTeam.TeamIndex)
+                {
+                    // If the player's original team was spectator, auto-assign their team so that they can play
+                    // the round. They will be considered for balancing at the end of the round.
+                    AutoAssignTeam(peer);
+                    _playersWaitingForTeam.Add(peer.VirtualPlayer.Id);
+                }
                 else
                 {
                     _playersWaitingForTeam.Add(peer.VirtualPlayer.Id);

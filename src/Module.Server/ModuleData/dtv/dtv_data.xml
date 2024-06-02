@@ -1,59 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DtvData>
   
-  <Round reward="90">
+  <Round reward="100">
     <Wave>
-      <Group classDivisionId="crpg_dtv_peasant" count="2.0" />
-      <Group classDivisionId="crpg_dtv_peasant_lieutenant"/>
-    </Wave>
-    <Wave>
-      <Group classDivisionId="crpg_dtv_peasant" count="2.8" />
+      <Group classDivisionId="crpg_dtv_peasant" count="2.5" />
       <Group classDivisionId="crpg_dtv_peasant_lieutenant"/>
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_peasant" count="3.2" />
+      <Group classDivisionId="crpg_dtv_peasant_lieutenant"/>
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_peasant" count="3.8" />
       <Group classDivisionId="crpg_dtv_peasant_boss" />
     </Wave>
   </Round>
 
-  <Round reward="110">
+  <Round reward="125">
     <Wave>
-      <Group classDivisionId="crpg_dtv_recruit_squire" count="1.4" />
+      <Group classDivisionId="crpg_dtv_recruit_squire" count="1.8" />
       <Group classDivisionId="crpg_dtv_recruit_archer" count="0.6" />
       <Group classDivisionId="crpg_dtv_recruit_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_recruit_squire" count="1.4" />
+      <Group classDivisionId="crpg_dtv_recruit_squire" count="1.6" />
       <Group classDivisionId="crpg_dtv_recruit_archer" count="0.8" />
       <Group classDivisionId="crpg_dtv_recruit_cavalry" count="0.3" />
       <Group classDivisionId="crpg_dtv_recruit_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_recruit_squire" count="1.4" />
+      <Group classDivisionId="crpg_dtv_recruit_squire" count="1.6" />
       <Group classDivisionId="crpg_dtv_recruit_archer" count="1.0" />
       <Group classDivisionId="crpg_dtv_recruit_cavalry" count="0.5" />
       <Group classDivisionId="crpg_dtv_recruit_boss" />
     </Wave>
   </Round>
 
-  <Round reward="130">
-    <Wave>
-      <Group classDivisionId="crpg_dtv_looter" count="2.0" />
-      <Group classDivisionId="crpg_dtv_looter_lieutenant" />
-    </Wave>
+  <Round reward="150">
     <Wave>
       <Group classDivisionId="crpg_dtv_looter" count="2.2" />
       <Group classDivisionId="crpg_dtv_looter_lieutenant" />
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_looter" count="2.4" />
+      <Group classDivisionId="crpg_dtv_looter_lieutenant" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_looter" count="2.6" />
       <Group classDivisionId="crpg_dtv_looter_boss" />
     </Wave>
   </Round>
 
-  <Round reward="150">
+  <Round reward="170">
     <Wave>
-      <Group classDivisionId="crpg_dtv_fancy_lad" count="1.7" />
+      <Group classDivisionId="crpg_dtv_fancy_lad" count="2.0" />
       <Group classDivisionId="crpg_dtv_fancy_lieutenant" />
     </Wave>
     <Wave>
@@ -62,28 +62,28 @@
       <Group classDivisionId="crpg_dtv_fancy_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_fancy_lad" count="1.9" />
-      <Group classDivisionId="crpg_dtv_fancy_cavalry" count="0.3" />
+      <Group classDivisionId="crpg_dtv_fancy_lad" count="2.0" />
+      <Group classDivisionId="crpg_dtv_fancy_cavalry" count="0.4" />
       <Group classDivisionId="crpg_dtv_fancy_boss" />
     </Wave>
   </Round>
 
-  <Round reward="180">
+  <Round reward="210">
     <Wave>
-      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="1.0" />
+      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="2.0" />
       <Group classDivisionId="crpg_dtv_pirate_deckhand" count="1.0" />
       <Group classDivisionId="crpg_dtv_pirate_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="0.3" />
-      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="0.2" />
+      <Group classDivisionId="crpg_dtv_pirate_swabbie" count="1.0" />
+      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="0.5" />
       <Group classDivisionId="crpg_dtv_pirate_male" count="0.7" />
       <Group classDivisionId="crpg_dtv_pirate_female" count="0.3" />
       <Group classDivisionId="crpg_dtv_pirate_swashbuckler" count="0.5" />
       <Group classDivisionId="crpg_dtv_pirate_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="0.2" />
+      <Group classDivisionId="crpg_dtv_pirate_deckhand" count="1.2" />
       <Group classDivisionId="crpg_dtv_pirate_male" count="0.7" />
       <Group classDivisionId="crpg_dtv_pirate_female" count="0.6" />
       <Group classDivisionId="crpg_dtv_pirate_swashbuckler" count="0.5" />
@@ -91,127 +91,129 @@
     </Wave>
   </Round>
 
-  <Round reward="210">
-    <Wave>
-      <Group classDivisionId="crpg_dtv_viking_huscarl" count="0.8" />
-      <Group classDivisionId="crpg_dtv_viking_raider" count="1.2" />
-      <Group classDivisionId="crpg_dtv_viking_lieutenant" />
-    </Wave>
-    <Wave>
-      <Group classDivisionId="crpg_dtv_viking_huscarl" count="0.8" />
-      <Group classDivisionId="crpg_dtv_viking_raider" count="1.2" />
-      <Group classDivisionId="crpg_dtv_viking_lieutenant" />
-    </Wave>
+  <Round reward="240">
     <Wave>
       <Group classDivisionId="crpg_dtv_viking_huscarl" count="1.0" />
-      <Group classDivisionId="crpg_dtv_viking_raider" count="1.0" />
+      <Group classDivisionId="crpg_dtv_viking_raider" count="1.2" />
+      <Group classDivisionId="crpg_dtv_viking_lieutenant" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_viking_huscarl" count="1.2" />
+      <Group classDivisionId="crpg_dtv_viking_raider" count="1.4" />
+      <Group classDivisionId="crpg_dtv_viking_lieutenant" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_viking_huscarl" count="1.4" />
+      <Group classDivisionId="crpg_dtv_viking_raider" count="1.6" />
       <Group classDivisionId="crpg_dtv_viking_boss" />
     </Wave>
   </Round>  
 
-  <Round reward="250">
+  <Round reward="290">
     <Wave>
-      <Group classDivisionId="crpg_dtv_templar_scholar" count="1.4" />
+      <Group classDivisionId="crpg_dtv_templar_scholar" count="2.8" />
       <Group classDivisionId="crpg_dtv_templar_initiate" count="0.4" />
       <Group classDivisionId="crpg_dtv_templar_soldier" count="0.2" />
       <Group classDivisionId="crpg_dtv_templar_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_templar_initiate" count="0.8" />
-      <Group classDivisionId="crpg_dtv_templar_soldier" count="1.2" />
+      <Group classDivisionId="crpg_dtv_templar_initiate" count="1.5" />
+      <Group classDivisionId="crpg_dtv_templar_soldier" count="1.0" />
       <Group classDivisionId="crpg_dtv_templar_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_templar_initiate" count="1.0" />
-      <Group classDivisionId="crpg_dtv_templar_soldier" count="1.0" />
+      <Group classDivisionId="crpg_dtv_templar_initiate" count="1.5" />
+      <Group classDivisionId="crpg_dtv_templar_soldier" count="1.5" />
       <Group classDivisionId="crpg_dtv_templar_boss" />
     </Wave>
   </Round>
 
-  <Round reward="290">
-    <Wave>
-      <Group classDivisionId="crpg_dtv_amazon_archer" count="0.5" />
-      <Group classDivisionId="crpg_dtv_amazon_warrior" count="1.5" />
-      <Group classDivisionId="crpg_dtv_amazon_lieutenant" />
-    </Wave>
+  <Round reward="335">
     <Wave>
       <Group classDivisionId="crpg_dtv_amazon_archer" count="0.6" />
-      <Group classDivisionId="crpg_dtv_amazon_warrior" count="1.4" />
+      <Group classDivisionId="crpg_dtv_amazon_warrior" count="1.8" />
       <Group classDivisionId="crpg_dtv_amazon_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_amazon_archer" count="0.8" />
-      <Group classDivisionId="crpg_dtv_amazon_warrior" count="1.4" />
+      <Group classDivisionId="crpg_dtv_amazon_archer" count="0.7" />
+      <Group classDivisionId="crpg_dtv_amazon_warrior" count="2.0" />
+      <Group classDivisionId="crpg_dtv_amazon_lieutenant" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_amazon_archer" count="0.9" />
+      <Group classDivisionId="crpg_dtv_amazon_warrior" count="2.1" />
       <Group classDivisionId="crpg_dtv_amazon_boss" />
     </Wave>
   </Round>
 
-  <Round reward="330">
+  <Round reward="380">
     <Wave>
       <Group classDivisionId="crpg_dtv_english_billman" count="0.65" />
-      <Group classDivisionId="crpg_dtv_english_manatarms" count="0.65" />
+      <Group classDivisionId="crpg_dtv_english_manatarms" count="0.85" />
       <Group classDivisionId="crpg_dtv_english_archer" count="0.5" />
       <Group classDivisionId="crpg_dtv_english_lieutenant" />
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_english_billman" count="0.65" />
       <Group classDivisionId="crpg_dtv_english_manatarms" count="0.75" />
-      <Group classDivisionId="crpg_dtv_english_archer" count="0.5" />
+      <Group classDivisionId="crpg_dtv_english_archer" count="0.4" />
+      <Group classDivisionId="crpg_dtv_english_arbalist" count="0.2" />
       <Group classDivisionId="crpg_dtv_english_knight" count="0.5" />
       <Group classDivisionId="crpg_dtv_english_lieutenant" />
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_english_billman" count="0.8" />
       <Group classDivisionId="crpg_dtv_english_manatarms" count="1.0" />
-      <Group classDivisionId="crpg_dtv_english_archer" count="0.5" />
+      <Group classDivisionId="crpg_dtv_english_archer" count="0.4" />
+      <Group classDivisionId="crpg_dtv_english_arbalist" count="0.4" />
       <Group classDivisionId="crpg_dtv_english_knight" count="0.9" />
       <Group classDivisionId="crpg_dtv_english_boss" />
     </Wave>
   </Round>
 
-  <Round reward="370">
+  <Round reward="425">
     <Wave>
       <Group classDivisionId="crpg_dtv_samurai_warrior" count="1.0" />
-      <Group classDivisionId="crpg_dtv_samurai_ashigaru" count="1.0" />
+      <Group classDivisionId="crpg_dtv_samurai_ashigaru" count="1.5" />
       <Group classDivisionId="crpg_dtv_samurai_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_samurai_warrior" count="1.0" />
-      <Group classDivisionId="crpg_dtv_samurai_ashigaru" count="1.2" />
+      <Group classDivisionId="crpg_dtv_samurai_warrior" count="1.2" />
+      <Group classDivisionId="crpg_dtv_samurai_ashigaru" count="1.5" />
       <Group classDivisionId="crpg_dtv_samurai_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_samurai_warrior" count="1.0" />
-      <Group classDivisionId="crpg_dtv_samurai_ashigaru" count="1.4" />
+      <Group classDivisionId="crpg_dtv_samurai_warrior" count="1.5" />
+      <Group classDivisionId="crpg_dtv_samurai_ashigaru" count="1.8" />
       <Group classDivisionId="crpg_dtv_samurai_boss" />
     </Wave>
   </Round>
 
-  <Round reward="410">
+  <Round reward="470">
     <Wave>
-      <Group classDivisionId="crpg_dtv_legion_soldier" count="1.6" />
-      <Group classDivisionId="crpg_dtv_legion_archer" count="0.6" />
-      <Group classDivisionId="crpg_dtv_legion_centurion" count="0.3" />
+      <Group classDivisionId="crpg_dtv_legion_soldier" count="1.7" />
+      <Group classDivisionId="crpg_dtv_legion_archer" count="0.7" />
+      <Group classDivisionId="crpg_dtv_legion_centurion" count="0.4" />
       <Group classDivisionId="crpg_dtv_legion_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_legion_soldier" count="1.6" />
-      <Group classDivisionId="crpg_dtv_legion_centurion" count="0.3" />
-      <Group classDivisionId="crpg_dtv_legion_archer" count="0.6" />
+      <Group classDivisionId="crpg_dtv_legion_soldier" count="1.7" />
+      <Group classDivisionId="crpg_dtv_legion_centurion" count="0.4" />
+      <Group classDivisionId="crpg_dtv_legion_archer" count="0.7" />
       <Group classDivisionId="crpg_dtv_legion_veles" count="0.5" />
       <Group classDivisionId="crpg_dtv_legion_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_legion_soldier" count="1.6" />
-      <Group classDivisionId="crpg_dtv_legion_centurion" count="0.3" />
-      <Group classDivisionId="crpg_dtv_legion_archer" count="0.6" />
-      <Group classDivisionId="crpg_dtv_legion_veles" count="0.8" />
+      <Group classDivisionId="crpg_dtv_legion_soldier" count="1.7" />
+      <Group classDivisionId="crpg_dtv_legion_centurion" count="0.4" />
+      <Group classDivisionId="crpg_dtv_legion_archer" count="0.7" />
+      <Group classDivisionId="crpg_dtv_legion_veles" count="1.0" />
       <Group classDivisionId="crpg_dtv_legion_cavalry" count="0.5" />
       <Group classDivisionId="crpg_dtv_legion_boss" />
     </Wave>
   </Round>
 
-  <Round reward="430">
+  <Round reward="495">
     <Wave>
       <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="1.5" />
       <Group classDivisionId="crpg_dtv_reconquista_explorer" count="0.5" />
@@ -219,84 +221,87 @@
       <Group classDivisionId="crpg_dtv_reconquista_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_reconquista_champion" count="1.5" />
-      <Group classDivisionId="crpg_dtv_reconquista_knight" count="0.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_champion" count="1.2" />
+      <Group classDivisionId="crpg_dtv_reconquista_knight" count="0.4" />
       <Group classDivisionId="crpg_dtv_reconquista_explorer" count="0.3" />
-      <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="0.3" />
+      <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="0.5" />
       <Group classDivisionId="crpg_dtv_reconquista_lieutenant_alvor" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="0.5" />
-      <Group classDivisionId="crpg_dtv_reconquista_champion" count="1.0" />
-      <Group classDivisionId="crpg_dtv_reconquista_knight" count="0.8" />
-      <Group classDivisionId="crpg_dtv_reconquista_guard" count="0.6" />
-      <Group classDivisionId="crpg_dtv_reconquista_washerwoman" count="0.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_skirmisher" count="0.8" />
+      <Group classDivisionId="crpg_dtv_reconquista_champion" count="0.8" />
+      <Group classDivisionId="crpg_dtv_reconquista_knight" count="0.6" />
+      <Group classDivisionId="crpg_dtv_reconquista_guard" count="0.5" />
+      <Group classDivisionId="crpg_dtv_reconquista_washerwoman" count="0.3" />
       <Group classDivisionId="crpg_dtv_reconquista_lieutenant_jimena" />
       <Group classDivisionId="crpg_dtv_reconquista_boss" />
     </Wave>
   </Round>
 
-  <Round reward="450">
+  <Round reward="520">
     <Wave>
-      <Group classDivisionId="crpg_dtv_aserai_warrior" count="1.3" />
+      <Group classDivisionId="crpg_dtv_aserai_warrior" count="1.8" />
       <Group classDivisionId="crpg_dtv_aserai_archer" count="0.5" />
       <Group classDivisionId="crpg_dtv_aserai_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_aserai_warrior" count="1.5" />
+      <Group classDivisionId="crpg_dtv_aserai_warrior" count="1.8" />
       <Group classDivisionId="crpg_dtv_aserai_archer" count="0.6" />
       <Group classDivisionId="crpg_dtv_aserai_camelry" count="0.5" />
       <Group classDivisionId="crpg_dtv_aserai_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_aserai_warrior" count="1.5" />
+      <Group classDivisionId="crpg_dtv_aserai_warrior" count="2.0" />
       <Group classDivisionId="crpg_dtv_aserai_archer" count="0.6" />
-      <Group classDivisionId="crpg_dtv_aserai_camelry" count="1.4" />
+      <Group classDivisionId="crpg_dtv_aserai_camelry" count="2.0" />
       <Group classDivisionId="crpg_dtv_aserai_boss" />
     </Wave>
   </Round>
 
-  <Round reward="490">
+  <Round reward="565">
     <Wave>
-      <Group classDivisionId="crpg_dtv_highland_ranger" count="0.5" />
+      <Group classDivisionId="crpg_dtv_highland_ranger" count="0.8" />
       <Group classDivisionId="crpg_dtv_highland_soldier" count="1.5" />
       <Group classDivisionId="crpg_dtv_highland_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_highland_ranger" count="0.5" />
+      <Group classDivisionId="crpg_dtv_highland_ranger" count="1.0" />
       <Group classDivisionId="crpg_dtv_highland_warrior" count="0.5" />
       <Group classDivisionId="crpg_dtv_highland_soldier" count="1.5" />
       <Group classDivisionId="crpg_dtv_highland_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_highland_ranger" count="0.6" />
+      <Group classDivisionId="crpg_dtv_highland_ranger" count="1.3" />
       <Group classDivisionId="crpg_dtv_highland_warrior" count="1.3" />
       <Group classDivisionId="crpg_dtv_highland_soldier" count="1.3" />
       <Group classDivisionId="crpg_dtv_highland_boss" />
     </Wave>
   </Round>
   
-  <Round reward="540">
+  <Round reward="620">
     <Wave>
       <Group classDivisionId="crpg_dtv_varangian_recruit" count="1.5" />
       <Group classDivisionId="crpg_dtv_varangian_guard" count="0.5" />
+      <Group classDivisionId="crpg_dtv_varangian_cavalry" count="0.3" />
       <Group classDivisionId="crpg_dtv_varangian_lieutenant" />
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_varangian_recruit" count="1.0" />
       <Group classDivisionId="crpg_dtv_varangian_longbowman" count="0.5" />
       <Group classDivisionId="crpg_dtv_varangian_guard" count="1.0" />
+      <Group classDivisionId="crpg_dtv_varangian_cavalry" count="0.8" />
       <Group classDivisionId="crpg_dtv_varangian_lieutenant" />
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_varangian_recruit" count="1.0" />
       <Group classDivisionId="crpg_dtv_varangian_longbowman" count="0.7" />
       <Group classDivisionId="crpg_dtv_varangian_guard" count="1.5" />
+      <Group classDivisionId="crpg_dtv_varangian_cavalry" count="1.0" />
       <Group classDivisionId="crpg_dtv_varangian_boss" />
     </Wave>
   </Round>
 
-  <Round reward="610">
+  <Round reward="700">
     <Wave>
       <Group classDivisionId="crpg_dtv_khuzait_soldier" count="1.5" />
       <Group classDivisionId="crpg_dtv_khuzait_horseman" count="0.5" />
@@ -314,7 +319,7 @@
     </Wave>
   </Round>
 
-  <Round reward="700">
+  <Round reward="805">
     <Wave>
       <Group classDivisionId="crpg_dtv_dwarven_engineer" count="0.8" />
       <Group classDivisionId="crpg_dtv_dwarven_axelord" count="0.7" />
@@ -323,34 +328,32 @@
     </Wave>
     <Wave>
       <Group classDivisionId="crpg_dtv_dwarven_engineer" count="1.0" />
-      <Group classDivisionId="crpg_dtv_dwarven_axelord" count="1.0" />
-      <Group classDivisionId="crpg_dtv_dwarven_hammerlord" count="1.0" />
+      <Group classDivisionId="crpg_dtv_dwarven_axelord" count="1.2" />
+      <Group classDivisionId="crpg_dtv_dwarven_hammerlord" count="1.2" />
       <Group classDivisionId="crpg_dtv_dwarven_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_dwarven_engineer" count="1.0" />
-      <Group classDivisionId="crpg_dtv_dwarven_axelord" count="1.25" />
-      <Group classDivisionId="crpg_dtv_dwarven_hammerlord" count="1.25" />
+      <Group classDivisionId="crpg_dtv_dwarven_engineer" count="1.2" />
+      <Group classDivisionId="crpg_dtv_dwarven_axelord" count="1.4" />
+      <Group classDivisionId="crpg_dtv_dwarven_hammerlord" count="1.4" />
       <Group classDivisionId="crpg_dtv_dwarven_boss" />
     </Wave>
   </Round>
 
-  <Round reward="755">
+  <Round reward="870">
     <Wave>
-      <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.5" />
+      <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.4" />
       <Group classDivisionId="crpg_dtv_greyorder_kuyak_two_handed" count="0.4" />
-      <Group classDivisionId="crpg_dtv_greyorder_balanced_infantry" count="0.8" />
-      <Group classDivisionId="crpg_dtv_greyorder_heavy_two_handed" count="0.2" />
-      <Group classDivisionId="crpg_dtv_greyorder_heavy_polearm" count="0.2" />
+      <Group classDivisionId="crpg_dtv_greyorder_balanced_infantry" count="1.0" />
       <Group classDivisionId="crpg_dtv_greyorder_lieutenant_varadin" />
       <Group classDivisionId="crpg_dtv_greyorder_lieutenant_knitler" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.2" />
-      <Group classDivisionId="crpg_dtv_greyorder_kuyak_two_handed" count="1.2" />
-      <Group classDivisionId="crpg_dtv_greyorder_balanced_infantry" count="1.2" />
-      <Group classDivisionId="crpg_dtv_greyorder_heavy_two_handed" count="0.8" />
-      <Group classDivisionId="crpg_dtv_greyorder_heavy_polearm" count="0.8" />
+      <Group classDivisionId="crpg_dtv_greyorder_shielder" count="1.0" />
+      <Group classDivisionId="crpg_dtv_greyorder_kuyak_two_handed" count="0.4" />
+      <Group classDivisionId="crpg_dtv_greyorder_balanced_infantry" count="1.0" />
+      <Group classDivisionId="crpg_dtv_greyorder_heavy_two_handed" count="0.5" />
+      <Group classDivisionId="crpg_dtv_greyorder_heavy_polearm" count="0.5" />
       <Group classDivisionId="crpg_dtv_greyorder_lieutenant_harpag" />
       <Group classDivisionId="crpg_dtv_greyorder_lieutenant_pawiu" />
     </Wave>
@@ -362,21 +365,21 @@
     </Wave>
   </Round>
 
-  <Round reward="810">
-    <Wave>
-      <Group classDivisionId="crpg_dtv_tincan_soldier" count="1.7" />
-      <Group classDivisionId="crpg_dtv_tincan_archer" count="0.8" />
-      <Group classDivisionId="crpg_dtv_tincan_lieutenant" />
-    </Wave>
+  <Round reward="930">
     <Wave>
       <Group classDivisionId="crpg_dtv_tincan_soldier" count="2.0" />
       <Group classDivisionId="crpg_dtv_tincan_archer" count="1.0" />
-      <Group classDivisionId="crpg_dtv_tincan_cavalry" count="0.8" />
       <Group classDivisionId="crpg_dtv_tincan_lieutenant" />
     </Wave>
     <Wave>
-      <Group classDivisionId="crpg_dtv_tincan_soldier" count="2.0" />
-      <Group classDivisionId="crpg_dtv_tincan_archer" count="1.0" />
+      <Group classDivisionId="crpg_dtv_tincan_soldier" count="2.2" />
+      <Group classDivisionId="crpg_dtv_tincan_archer" count="1.2" />
+      <Group classDivisionId="crpg_dtv_tincan_cavalry" count="1.0" />
+      <Group classDivisionId="crpg_dtv_tincan_lieutenant" />
+    </Wave>
+    <Wave>
+      <Group classDivisionId="crpg_dtv_tincan_soldier" count="2.4" />
+      <Group classDivisionId="crpg_dtv_tincan_archer" count="1.5" />
       <Group classDivisionId="crpg_dtv_tincan_cavalry" count="1.2" />
       <Group classDivisionId="crpg_dtv_tincan_boss" />
     </Wave>

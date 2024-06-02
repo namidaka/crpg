@@ -66,7 +66,7 @@ watch(
           </OTabItem>
 
           <OTabItem
-            :label="$t(`platform.${Platform.Steam}`)"
+            label="Steam Workshop"
             :icon="platformToIcon[Platform.Steam]"
             :value="PossibleValues.Steam"
           >
