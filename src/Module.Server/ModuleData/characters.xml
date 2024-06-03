@@ -315,8 +315,8 @@
         <equipment slot="Body" id="Item.crpg_studded_leather_waistcoat_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_roughtied_leather_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_southern_moccasins_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_crossbow_f_v3_h0" />
-        <equipment slot="Item1" id="Item.crpg_bolt_c_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_crossbow_f_v4_h0" />
+        <equipment slot="Item1" id="Item.crpg_bolt_c_v4_h0" />
         <equipment slot="Item2" id="Item.crpg_heavy_goedendag_v2_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -697,9 +697,9 @@
         <equipment slot="Body" id="Item.crpg_padded_cloth_with_strips_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_woven_leather_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_strapped_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_crossbow_j_v3_h0" />
-        <equipment slot="Item1" id="Item.crpg_bolt_c_v3_h0" />
-        <equipment slot="Item2" id="Item.crpg_bolt_c_v3_h0" />
+        <equipment slot="Item0" id="Item.crpg_crossbow_j_v4_h0" />
+        <equipment slot="Item1" id="Item.crpg_bolt_c_v4_h0" />
+        <equipment slot="Item2" id="Item.crpg_bolt_c_v4_h0" />
         <equipment slot="Item3" id="Item.crpg_iron_spatha_v3_h0" />
       </EquipmentRoster>
     </Equipments>
