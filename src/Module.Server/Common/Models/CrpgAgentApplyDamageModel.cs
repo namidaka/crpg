@@ -160,6 +160,10 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                         case WeaponClass.TwoHandedPolearm:
                             finalDamage *= 1.5f;
                             break;
+
+                        default:
+                            finalDamage *= 1.5f;
+                            break;
                     }
                 }
             }
