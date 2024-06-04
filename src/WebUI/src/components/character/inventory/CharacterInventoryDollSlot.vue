@@ -44,6 +44,7 @@ const {
       v-if="userItem !== undefined"
       :item="userItem.item"
       class="h-full cursor-grab !ring-0"
+      :class="{ 'bg-primary-hover/15': userItem.isPersonal }"
       data-aq-character-slot-item-thumb
     >
       <template #badges-top-right>

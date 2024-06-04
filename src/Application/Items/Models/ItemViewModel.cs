@@ -19,10 +19,10 @@ public record ItemViewModel : IMapFrom<Item>
     public float Weight { get; init; }
     public ItemFlags Flags { get; init; }
     public DateTime CreatedAt { get; init; }
-
     public ItemArmorComponentViewModel? Armor { get; init; }
     public ItemMountComponentViewModel? Mount { get; init; }
     public IList<ItemWeaponComponentViewModel> Weapons { get; init; } = Array.Empty<ItemWeaponComponentViewModel>();
+    public bool Enabled { get; init; }
 
     public void Mapping(Profile profile)
     {
