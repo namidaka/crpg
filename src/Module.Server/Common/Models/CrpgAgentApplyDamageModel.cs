@@ -111,11 +111,56 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                 if (weapon.CurrentUsageItem.WeaponFlags.HasAnyFlag(WeaponFlags.BonusAgainstShield))
                 {
                     // this bonus is on top of the native x2 in MissionCombatMechanicsHelper
-                    // so the final bonus is 4.0 for axes and 3 for swords. We do this instead of nerfing the impact of shield skill so shield can stay virtually unbreakable against sword.
+                    // so the final bonus is 4.0 for one- and two- handed axes and 3.0 for everything else. We do this instead of nerfing the impact of shield skill so shield can stay virtually unbreakable against sword.
                     // it is the same logic as arrows not dealing a lot of damage to horse but spears dealing extra damage to horses
                     // As we want archer to fear cavs and cavs to fear spears, we want swords to fear shielders and shielders to fear axes.
 
-                    finalDamage *= swordClass.Contains(weapon.CurrentUsageItem.WeaponClass) ? 1.5f : 2.0f;
+                    switch (weapon.CurrentUsageItem.WeaponClass)
+                    {
+                        case WeaponClass.Dagger:
+                            finalDamage *= 1.5f;
+                            break;
+
+                        case WeaponClass.Mace:
+                            finalDamage *= 1.5f;
+                            break;
+
+                        case WeaponClass.TwoHandedMace:
+                            finalDamage *= 1.5f;
+                            break;
+                            
+                        case WeaponClass.OneHandedSword:
+                            finalDamage *= 1.5f;
+                            break;
+                            
+                        case WeaponClass.TwoHandedSword:
+                            finalDamage *= 1.5f;
+                            break;
+                            
+                        case WeaponClass.OneHandedAxe:
+                            finalDamage *= 2.0f;
+                            break;
+                            
+                        case WeaponClass.TwoHandedAxe:
+                            finalDamage *= 2.0f;
+                            break;
+                            
+                        case WeaponClass.Pick:
+                            finalDamage *= 1.5f;
+                            break;
+                            
+                        case WeaponClass.LowGripPolearm:
+                            finalDamage *= 1.5f;
+                            break;
+                            
+                        case WeaponClass.OneHandedPolearm:
+                            finalDamage *= 1.5f;
+                            break;
+                            
+                        case WeaponClass.TwoHandedPolearm:
+                            finalDamage *= 1.5f;
+                            break;
+                    }
                 }
             }
         }
