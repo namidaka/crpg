@@ -120,7 +120,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                     // it is the same logic as arrows not dealing a lot of damage to horse but spears dealing extra damage to horses
                     // As we want archer to fear cavs and cavs to fear spears, we want swords to fear shielders and shielders to fear axes.
 
-                    finalDamage *= axeClass.Contains(weapon.CurrentUsageItem.WeaponClass) ? 1.5f : 2.0f;
+                    finalDamage *= axeClass.Contains(weapon.CurrentUsageItem.WeaponClass) ? 2.0f : 1.5f;
                 }
             }
         }
