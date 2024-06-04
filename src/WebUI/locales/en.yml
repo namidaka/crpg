@@ -194,6 +194,7 @@ validations:
   minLength: Value should be at least {min} characters long
   maxLength: The maximum length allowed is {max}
   minValue: 'The minimum value allowed is {min}'
+  maxValue: "The maximum value allowed is {max}"
   clanTagPattern: Value should contain only integer and alphabetical
   clanBannerKeyPattern: Value should contain only integer and dots
   discordLinkPattern: Value must be a valid Discord link
@@ -1433,7 +1434,7 @@ activityLog:
     UserCreated: 'The user was created'
     UserDeleted: 'The user was deleted'
     UserRenamed: 'The user {oldName} was renamed to {newName}'
-    UserRewarded: 'The user was rewarded with {gold} {heirloomPoints}'
+    UserRewarded: 'The user was rewarded with {gold} {heirloomPoints} by user {actorUserId}'
     ItemBought: 'User bought {itemId} for {price}'
     ItemSold: 'User sold item {itemId} for {price}'
     ItemBroke: 'The item {itemId} was broken'
@@ -1444,7 +1445,7 @@ activityLog:
     CharacterDeleted: 'The character {characterId}, level {level}, generation {generation}, was deleted'
     CharacterRespecialized: 'The character {characterId} was respecialized for {price}'
     CharacterRetired: 'The character {characterId} was retired at level {level}'
-    CharacterRewarded: 'The character {characterId} was rewarded {experience} experience'
+    CharacterRewarded: 'The character {characterId} was rewarded {experience} experience by user {actorUserId}'
     ServerJoined: 'The user has joined the server'
     ChatMessageSent: 'Wrote a message: {message} {instance}'
     TeamHit: 'Dealt {damage} damage to {targetUserId} {instance}'
@@ -1452,6 +1453,7 @@ activityLog:
     ClanArmoryRemoveItem: 'Item {userItemId} removed from clan {clanId} armory'
     ClanArmoryReturnItem: 'Item {userItemId} was returned from clan {clanId} armory'
     ClanArmoryBorrowItem: 'Item {userItemId} was borrowed from clan {clanId} armory'
+    CharacterEarned: 'The character {characterId} earned {experience} experience and {gold} gold in the {gameMode} game mode'
 
 leaderboard:
   title: Leaderboard

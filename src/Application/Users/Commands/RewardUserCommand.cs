@@ -13,6 +13,7 @@ namespace Crpg.Application.Users.Commands;
 public record RewardUserCommand : IMediatorRequest<UserViewModel>
 {
     public int UserId { get; init; }
+    public int ActorUserId { get; init; }
     public int Gold { get; init; }
     public int HeirloomPoints { get; init; }
 
@@ -42,7 +43,7 @@ public record RewardUserCommand : IMediatorRequest<UserViewModel>
             user.Gold = Math.Max(user.Gold + req.Gold, 0);
             user.HeirloomPoints = Math.Max(user.HeirloomPoints + req.HeirloomPoints, 0);
 
-            _db.ActivityLogs.Add(_activityLogService.CreateUserRewardedLog(req.UserId, req.Gold, req.HeirloomPoints));
+            _db.ActivityLogs.Add(_activityLogService.CreateUserRewardedLog(req.UserId, req.ActorUserId, req.Gold, req.HeirloomPoints));
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' rewarded", req.UserId);

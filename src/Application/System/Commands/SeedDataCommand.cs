@@ -106,7 +106,7 @@ public record SeedDataCommand : IMediatorRequest
                 PlatformUserId = "76561198016876889",
                 Platform = Platform.Steam,
                 Name = "orle",
-                Role = Role.Moderator,
+                Role = Role.Admin,
                 Gold = 1000000,
                 HeirloomPoints = 12,
                 ExperienceMultiplier = 1.09f,
