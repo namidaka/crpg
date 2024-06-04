@@ -154,4 +154,5 @@
   <string id="str_multiplayer_scene_name.crpg_dtv_ruinsofrahiz" text="{=BreAK661}Ruins of Rahiz" />
   <string id="str_multiplayer_scene_name.crpg_dtv_musapoint" text="{=MUSA3oiT}Musa Point" />
   <string id="str_multiplayer_scene_name.crpg_dtv_templeofposeidon" text="{=T3MpL3OP}Temple of Poseidon" />
+  <string id="str_multiplayer_scene_name.crpg_dtv_monolith" text="{=M0n0L1tH}Monolith" />
 </strings>
