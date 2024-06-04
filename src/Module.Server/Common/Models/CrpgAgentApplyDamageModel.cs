@@ -44,6 +44,11 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
             WeaponClass.OneHandedSword,
             WeaponClass.TwoHandedSword,
         };
+        List<WeaponClass> axeClass = new()
+        {
+            WeaponClass.OneHandedAxe,
+            WeaponClass.TwoHandedAxe,
+        };
         float finalDamage = base.CalculateDamage(attackInformation, collisionData, weapon, baseDamage);
 
         if (IsPlayerCharacterAttackingVipBot(attackInformation))
@@ -115,56 +120,7 @@ internal class CrpgAgentApplyDamageModel : MultiplayerAgentApplyDamageModel
                     // it is the same logic as arrows not dealing a lot of damage to horse but spears dealing extra damage to horses
                     // As we want archer to fear cavs and cavs to fear spears, we want swords to fear shielders and shielders to fear axes.
 
-                    switch (weapon.CurrentUsageItem.WeaponClass)
-                    {
-                        case WeaponClass.Dagger:
-                            finalDamage *= 1.5f;
-                            break;
-
-                        case WeaponClass.Mace:
-                            finalDamage *= 1.5f;
-                            break;
-
-                        case WeaponClass.TwoHandedMace:
-                            finalDamage *= 1.5f;
-                            break;
-                            
-                        case WeaponClass.OneHandedSword:
-                            finalDamage *= 1.5f;
-                            break;
-                            
-                        case WeaponClass.TwoHandedSword:
-                            finalDamage *= 1.5f;
-                            break;
-                            
-                        case WeaponClass.OneHandedAxe:
-                            finalDamage *= 2.0f;
-                            break;
-                            
-                        case WeaponClass.TwoHandedAxe:
-                            finalDamage *= 2.0f;
-                            break;
-                            
-                        case WeaponClass.Pick:
-                            finalDamage *= 1.5f;
-                            break;
-                            
-                        case WeaponClass.LowGripPolearm:
-                            finalDamage *= 1.5f;
-                            break;
-                            
-                        case WeaponClass.OneHandedPolearm:
-                            finalDamage *= 1.5f;
-                            break;
-                            
-                        case WeaponClass.TwoHandedPolearm:
-                            finalDamage *= 1.5f;
-                            break;
-
-                        default:
-                            finalDamage *= 1.5f;
-                            break;
-                    }
+                    finalDamage *= axeClass.Contains(weapon.CurrentUsageItem.WeaponClass) ? 1.5f : 2.0f;
                 }
             }
         }
