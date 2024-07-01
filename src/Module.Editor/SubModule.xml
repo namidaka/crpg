@@ -2,7 +2,7 @@
 <Module>
   <Name value="cRPG Editor"/>
   <Id value="cRPG Editor"/>
-  <Version value="v1.2.9.106"/>
+  <Version value="v1.2.9.107"/>
   <ModuleCategory value="Singleplayer"/>
   <DependedModules>
     <DependedModule Id="Native" DependentVersion="v1.2.9" Optional="false"/>
