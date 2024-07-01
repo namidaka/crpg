@@ -390,17 +390,30 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                 // Throwing
                 else if (equippedItem.WeaponClass is WeaponClass.Javelin or WeaponClass.ThrowingAxe or WeaponClass.ThrowingKnife or WeaponClass.Stone)
                 {
-                    float unsteadyAccuracyPenaltyScaler = MBMath.ClampFloat((equippedItem.ThrustSpeed - 89.0f) / 13.0f, 0.0f, 1f);
-                    props.WeaponMaxUnsteadyAccuracyPenalty = 0f;
-                    props.WeaponMaxMovementAccuracyPenalty = props.WeaponInaccuracy * 1.3f;
                     int powerThrow = GetEffectiveSkill(agent, CrpgSkills.PowerThrow);
-                    props.WeaponBestAccuracyWaitTime = 0.00001f;
-                    props.WeaponUnsteadyBeginTime = 1.0f + weaponSkill * 0.006f + powerThrow * powerThrow / 10f * 0.4f;
-                    props.WeaponUnsteadyEndTime = 10f + props.WeaponUnsteadyBeginTime;
-                    props.WeaponRotationalAccuracyPenaltyInRadians = 0.025f;
-                    props.ThrustOrRangedReadySpeedMultiplier = MBMath.Lerp(0.2f, 0.3f, (float)Math.Pow(itemSkill / 160f, 3f) * 40f / equippedItem.ThrustDamage);
-                    props.CombatMaxSpeedMultiplier *= 0.85f;
-                    props.ReloadSpeed *= MBMath.Lerp(0.6f, 1.4f, itemSkill / 200f);
+
+                    // tweak me here
+                    float wpfImpactOnWindUp = 160f; // lower is better
+                    float wpfImpactOnReloadSpeed = 200f; // lower is better
+
+                    float DamageImpactOnWindUp = equippedItem.ThrustDamage * CrpgItemValueModel.CalculateDamageTypeFactorForThrown(equippedItem.ThrustDamageType) / CrpgItemValueModel.CalculateDamageTypeFactorForThrown(DamageTypes.Cut);
+
+                    props.WeaponMaxUnsteadyAccuracyPenalty = 0f;
+                    // CHANGE ME CHANGE ME CHANGE ME CHANGE ME
+                    props.WeaponMaxMovementAccuracyPenalty = CHANGEMECHANGEMECHANGEME; // This has no penalty now. Needs to be set to something above 0 and tested. Then remove this comment please
+
+                    props.WeaponRotationalAccuracyPenaltyInRadians = 0.025f; // this is accuracy loss when turning lower is better
+
+                    props.WeaponBestAccuracyWaitTime = 0.00001f; // set to extremely low because as soon as windup is finished , thrower is accurate
+
+                    props.ThrustOrRangedReadySpeedMultiplier = MBMath.Lerp(0.2f, 0.3f, (float)Math.Pow(itemSkill / wpfImpactOnWindUp, 3f) * 40f / DamageImpactOnWindUp); // WindupSpeed
+                    props.ReloadSpeed *= MBMath.Lerp(0.6f, 1.4f, itemSkill / wpfImpactOnReloadSpeed); // this only affect picking a new axe
+
+                    props.CombatMaxSpeedMultiplier *= 0.85f; // this is slowdown when ready to throw. Higher is better , do not go above 1.0
+
+                    // These do not matter if props.WeaponMaxUnsteadyAccuracyPenalty is set to 0f
+                    props.WeaponUnsteadyBeginTime = 1.0f + weaponSkill * 0.006f + powerThrow * powerThrow / 10f * 0.4f; // Time at which your character becomes tired and the accuracy declines
+                    props.WeaponUnsteadyEndTime = 10f + props.WeaponUnsteadyBeginTime; // time at which your character is completely tired.
                 }
 
                 // Rest? Will not touch. It may affect other mechanics like Catapults etc...
