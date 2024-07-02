@@ -111,7 +111,7 @@ const fetchPageData = (characterId: number) =>
   ]);
 
 onBeforeRouteUpdate(async (to, from) => {
-  if (to.name === from.name && to.name === 'CharactersId') {
+  if (to.name === from.name) {
     // if character changed
     unsubscribe(loadCharacterItemsSymbol);
 
