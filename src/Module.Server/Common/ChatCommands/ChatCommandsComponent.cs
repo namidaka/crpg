@@ -2,6 +2,8 @@
 using Crpg.Module.Common.Network;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using Crpg.Module.Api.Models.Users;
+
 
 #if CRPG_SERVER
 using Crpg.Module.Common.ChatCommands.Admin;
@@ -39,11 +41,24 @@ internal class ChatCommandsComponent : MissionLogic
             new MapCommand(this),
             new HotConstantUpdateCommand(this),
             new OrderCommand(this),
+            new HelpCommand(this),
         };
 #else
         _commands = Array.Empty<ChatCommand>();
 #endif
     }
+
+    public void ServerSendMessageToAdmins(Color color, string message)
+{
+    foreach (var peer in GameNetwork.NetworkPeers)
+    {
+        var user = peer.GetComponent<CrpgPeer>()?.User;
+        if (user != null && (user.Role == CrpgUserRole.Admin || user.Role == CrpgUserRole.Moderator))
+        {
+            ServerSendMessageToPlayer(peer, color, message);
+        }
+    }
+}
 
     public void ServerSendMessageToPlayer(NetworkCommunicator targetPlayer, Color color, string message)
     {
