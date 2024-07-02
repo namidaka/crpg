@@ -77,11 +77,7 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
         </div>
         <Heading :title="$t('leaderboard.title')" />
       </div>
-      <div class="mb-6 flex items-center justify-between gap-4">
-        <OTabs v-model="regionModel" contentClass="hidden">
-          <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
-        </OTabs>
-
+      <div class="mb-2">
         <Modal closable>
           <Tag icon="popup" variant="primary" rounded size="lg" />
           <template #popper>

@@ -26,8 +26,7 @@ public record UpdateEveryCharacterCompetitiveRatingCommand : IMediatorRequest
 
             foreach (var character in characters)
             {
-                var stats = character.Statistics.ToArray();
-                foreach (CharacterStatistics stat in stats)
+                foreach (CharacterStatistics stat in character.Statistics)
                 {
                     stat.Rating.CompetitiveValue = _competitiveRatingModel.ComputeCompetitiveRating(stat.Rating);
                 }

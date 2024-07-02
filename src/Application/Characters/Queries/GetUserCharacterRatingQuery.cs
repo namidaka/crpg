@@ -32,7 +32,7 @@ public record GetUserCharacterRatingQuery : IMediatorRequest<CharacterRatingView
         {
             var characterRatingViewModel = await _db.Characters
                 .Where(c => c.Id == req.CharacterId && c.UserId == req.UserId)
-                .Select(c => c.Statistics.Where(s => s.GameMode == req.GameMode).Select(s => s.Rating))
+                .Select(c => c.Statistics.Where(s => s.GameMode == req.GameMode).Select(s => s.Rating).First())
                 .ProjectTo<CharacterRatingViewModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken);
 

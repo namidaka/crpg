@@ -800,7 +800,7 @@ public record SeedDataCommand : IMediatorRequest
                                 Value = 1500,
                                 Deviation = 350,
                                 Volatility = 0.06f,
-                                CompetitiveValue = 118,
+                                CompetitiveValue = 600,
                             },
 
                         }
@@ -835,7 +835,7 @@ public record SeedDataCommand : IMediatorRequest
                                 Value = 1500,
                                 Deviation = 350,
                                 Volatility = 0.06f,
-                                CompetitiveValue = 118,
+                                CompetitiveValue = 1000,
                             },
                         }
                     },

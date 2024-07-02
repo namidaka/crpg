@@ -167,6 +167,91 @@ public class GetLeaderboardQueryTest : TestBase
     }
 
     [Test]
+    public async Task OtherGameModeLeaderboardTest()
+    {
+        User orle = new()
+        {
+            Name = "Orle",
+            Region = Domain.Entities.Region.Eu,
+        };
+
+        User droob = new()
+        {
+            Name = "Droob",
+            Region = Domain.Entities.Region.Eu,
+        };
+
+        Character orleCharacter = new()
+        {
+            Name = "shielder",
+            UserId = orle.Id,
+            User = orle,
+            Class = CharacterClass.Infantry,
+            Statistics = new List<CharacterStatistics>
+            {
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGDuel,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1800,
+                        },
+                    }
+                },
+            },
+        };
+        Character droobCharacter = new()
+        {
+            Name = "2h",
+            UserId = droob.Id,
+            User = droob,
+            Class = CharacterClass.ShockInfantry,
+            Statistics = new List<CharacterStatistics>
+            {
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGDuel,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1500,
+                        },
+                    }
+                },
+            },
+        };
+
+        ArrangeDb.Users.Add(orle);
+        ArrangeDb.Users.Add(droob);
+        ArrangeDb.Characters.Add(droobCharacter);
+        ArrangeDb.Characters.Add(orleCharacter);
+        await ArrangeDb.SaveChangesAsync();
+
+        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper, new MemoryCache(new MemoryCacheOptions()));
+        var result = await handler.Handle(new GetLeaderboardQuery { GameMode = GameMode.CRPGDuel }, CancellationToken.None);
+
+        Assert.That(result.Errors, Is.Null);
+        Assert.That(result.Data, Is.Not.Null);
+        Assert.That(result.Data!.First().Class, Is.EqualTo(CharacterClass.Infantry));
+        Assert.That(result.Data!.Last().Class, Is.EqualTo(CharacterClass.ShockInfantry));
+    }
+
+    [Test]
     public async Task RegionalLeaderboardTest()
     {
         User orle = new()

@@ -38,7 +38,6 @@ import { createRankTable } from '@/services/leaderboard-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
 import { useGameMode } from '@/composables/use-gamemode';
 import { Suspense } from 'vue';
-import { GameMode } from '@/models/game-mode';
 import { type CharacterStatistics } from '@/models/character';
 import { gameModeToIcon } from '@/services/game-mode-service';
 
@@ -305,14 +304,14 @@ await fetchPageData(character.value.id);
                 :title="$t('character.statistics.rank.tooltip.title')"
                 :description="$t('character.statistics.rank.tooltip.desc')"
               >
-                <Rank :rankTable="rankTable" :competitiveValue="characterRating.competitiveValue" />
+                <Rank :rankTable="rankTable" :competitiveValue="selectedCharacterStatistics.rating.competitiveValue" />
               </Tooltip>
               <Modal closable>
                 <Tag icon="popup" variant="primary" rounded size="sm" />
                 <template #popper>
                   <RankTable
                     :rankTable="rankTable"
-                    :competitiveValue="characterRating.competitiveValue"
+                    :competitiveValue="selectedCharacterStatistics.rating.competitiveValue"
                   />
                 </template>
               </Modal>

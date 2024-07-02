@@ -9,7 +9,8 @@ using TaleWorlds.MountAndBlade.Source.Missions;
 #if CRPG_SERVER
 using Crpg.Module.Api;
 using Crpg.Module.Common.ChatCommands;
-#else
+#endif
+#if CRPG_CLIENT
 using Crpg.Module.GUI;
 using Crpg.Module.GUI.TrainingGround;
 using TaleWorlds.MountAndBlade.Multiplayer;

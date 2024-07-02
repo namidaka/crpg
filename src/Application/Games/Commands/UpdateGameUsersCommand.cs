@@ -66,7 +66,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                         continue;
                     }
 
-                    _characterService.UpdateRating(character, update.Rating.Value, update.Rating.Deviation, update.Rating.Volatility, isGameUserUpdate: true);
+                    _characterService.UpdateRating(character, updateGameMode, update.Statistics.Rating.Value, update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
                     var reward = GiveReward(character, update.Reward, updateGameMode);
                     UpdateStatistics(updateGameMode, character, update.Statistics);
                     var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
@@ -76,7 +76,6 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                 key.Status = UserUpdateStatus.Completed;
                 _db.IdempotencyKeys.Update(key);
                 await _db.SaveChangesAsync(cancellationToken);
-                
                 return new(new UpdateGameUsersResult
                 {
                     UpdateResults = results.Select(r => new UpdateGameUserResult

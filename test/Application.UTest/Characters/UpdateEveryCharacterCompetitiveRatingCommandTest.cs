@@ -12,7 +12,9 @@ public class UpdateEveryCharacterCompetitiveRatingCommandTest : TestBase
     public async Task Basic()
     {
         Character character0 = new();
+        character0.Statistics.Add(new CharacterStatistics { Rating = new CharacterRating { CompetitiveValue = 10, Value = 1, Deviation = 1, Volatility = 1 } });
         Character character1 = new();
+        character1.Statistics.Add(new CharacterStatistics { Rating = new CharacterRating { CompetitiveValue = 10, Value = 1, Deviation = 1, Volatility = 1 } });
         ArrangeDb.Characters.AddRange(character0, character1);
         await ArrangeDb.SaveChangesAsync();
 

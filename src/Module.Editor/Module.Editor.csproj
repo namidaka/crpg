@@ -27,6 +27,7 @@
     <Compile Include="..\Module.Server\**\*$(DefaultLanguageSourceExtension)" />
     <Compile Include="..\Module.Client\**\*$(DefaultLanguageSourceExtension)" />
     <Compile Remove="..\Module.Client\obj\Debug\**" />
+    <Compile Remove="..\Module.Client\GUI\TrainingGround\**" />
     <Compile Remove="..\Module.Server\$(BaseIntermediateOutputPath)\**;..\Module.Server\$(BaseOutputPath)\**" />
     <Compile Remove="..\Module.Server\Rating\**" />
     <Compile Remove="..\Module.Server\Api\*Client.cs" />
@@ -41,6 +42,9 @@
     <Compile Remove="..\Module.Server\Modes\DTV\CrpgDtvServer.cs" />
     <Compile Remove="..\Module.Server\Modes\DTV\CrpgDtvSpawningBehavior.cs" />
     <Compile Remove="..\Module.Server\Modes\TeamDeathmatch\CrpgTeamDeathmatchServer.cs" />
+    <Compile Remove="..\Module.Server\Modes\TrainingGround\CrpgTrainingGroundServer.cs" />
+    <Compile Remove="..\Module.Server\Modes\TrainingGround\CrpgTrainingGroundSpawningBehavior.cs" />
+    <Compile Remove="..\Module.Server\Modes\TrainingGround\CrpgTrainingGroundSpawnFrameBehavior.cs" />
     <Compile Remove="..\Module.Server\Balancing\**\*" />
     <Compile Remove="..\Module.Server\Common\TeamSelect\CrpgTeamSelectServerComponent.cs" />
     <Compile Remove="..\Module.Server\Common\CrpgActivityLogsBehavior.cs" />

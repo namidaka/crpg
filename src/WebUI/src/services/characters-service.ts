@@ -109,7 +109,9 @@ export const getDefaultCharacterStatistics = (): CharacterStatistics => ({
   kills: 0,
   deaths: 0,
   assists: 0,
-  playTime: 0
+  playTime: 0,
+  gameMode: GameMode.Battle,
+  rating: { competitiveValue: 0, value: 0, deviation: 0, volatility: 0 },
 });
 
 export enum CharacterEarningType {
