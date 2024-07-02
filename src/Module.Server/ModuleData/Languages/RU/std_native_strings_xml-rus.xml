@@ -50,7 +50,7 @@
     <string id="qoYQE5yX" text="Вы были забанены на серверах cRPG." />
     <string id="SppKtXbt" text="Вы достигли лимита созданных персонажей. Активируйте существующего персонажа на веб-сайте или подождите 1 час." />
     <string id="nNXfXYHE" text="Пустые имена не разрешены на серверах cRPG." />
-    <string id="mWWXmIE5" text="У вас должно быть экипировано хотя бы одно оружие чтобы возродиться!" />
+    <string id="mWWXmIE5" text="Чтобы играть, вы должны быть оснащены оружием ближнего боя или метательным оружием!" />
     <string id="rOhUOWX6" text="На этот сервер могут присоединиться только турнирые персонажи." />
     <string id="OsPW0okL" text="Основной сервер cRPG недоступен. Попробуйте позже." />
     <string id="hU3flm9q" text="Серверы cRPG поддерживают только Steam, Epic Games и Xbox." />
@@ -122,6 +122,7 @@
     <string id="LHuikjha" text= "маяк" />
     <string id="B3Rsk3r6" text= "вританнис" />
     <string id="FrStHv3N" text= "Фростхейвен" />
+    <string id="W3stV33N" text= "Вествин" />
 
     <string id="9Mpawm9h" text="Акра" />
     <string id="6KypSnaa" text="Ардуму" />
@@ -140,6 +141,8 @@
     <string id="M0TT3BA1" text= "Мотте и Бейли" />
     <string id="fallbj0r" text= "Фьялльборн" />
     <string id="tw1tEC1t" text= "Белый город" />
+    <string id="B3BB4nB8" text= "Беббанбург" />
+    <string id="D43Kw00D" text= "Темное дерево" />
 
     <!-- DTV Maps -->
     <string id="ArnxGr8j1j" text="Лагерь" />

@@ -13,9 +13,12 @@
   @apply flex flex-shrink-0 flex-grow items-center justify-start gap-2;
   @apply m-0 select-none;
 }
+.o-tabs--vertical {
+  @apply flex;
+}
 
 .o-tabs--vertical .o-tabs__nav {
-  @apply flex-col;
+  @apply grow-0 flex-col items-stretch;
 }
 
 .o-tabs__nav--default {
@@ -28,7 +31,7 @@
 .o-tabs__nav-item {
   @apply flex items-center justify-center gap-2;
   @apply w-full cursor-pointer appearance-none leading-none outline-none;
-  @apply rounded-full py-2.5 px-4;
+  @apply rounded-full px-4 py-2.5;
 }
 
 /*  */
@@ -107,7 +110,7 @@
 }
 
 .o-tabs__content {
-  @apply mt-8;
+  @apply mt-3;
 }
 
 .o-tabs__content--transitioning {

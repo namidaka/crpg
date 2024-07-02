@@ -200,6 +200,7 @@ public class UpdateGameUsersCommandTest : TestBase
             {
                 new GameUserUpdate
                 {
+                    Instance = "crpg99a",
                     CharacterId = user.Characters[0].Id,
                     BrokenItems = new[]
                     {
@@ -291,6 +292,7 @@ public class UpdateGameUsersCommandTest : TestBase
             {
                 new GameUserUpdate
                 {
+                    Instance = "crpg99a",
                     CharacterId = user.Characters[0].Id,
                     BrokenItems = new[]
                     {

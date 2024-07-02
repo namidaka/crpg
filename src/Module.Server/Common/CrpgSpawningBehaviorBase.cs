@@ -13,6 +13,25 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 {
     private readonly CrpgConstants _constants;
 
+    private readonly List<WeaponClass> allowedSpawnWeaponClass = new()
+    {
+        WeaponClass.Dagger,
+        WeaponClass.Mace,
+        WeaponClass.TwoHandedMace,
+        WeaponClass.OneHandedSword,
+        WeaponClass.TwoHandedSword,
+        WeaponClass.OneHandedAxe,
+        WeaponClass.TwoHandedAxe,
+        WeaponClass.Pick,
+        WeaponClass.LowGripPolearm,
+        WeaponClass.OneHandedPolearm,
+        WeaponClass.TwoHandedPolearm,
+        WeaponClass.Javelin,
+        WeaponClass.Stone,
+        WeaponClass.ThrowingAxe,
+        WeaponClass.ThrowingKnife,
+    };
+
     public CrpgSpawningBehaviorBase(CrpgConstants constants)
     {
         _constants = constants;
@@ -236,9 +255,9 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 
     protected bool DoesEquipmentContainWeapon(Equipment equipment)
     {
-        for (var i = EquipmentIndex.Weapon0; i <= EquipmentIndex.ExtraWeaponSlot; i += 1)
+        foreach (var weaponClass in allowedSpawnWeaponClass)
         {
-            if (!equipment[i].IsEmpty)
+            if (equipment.HasWeaponOfClass(weaponClass))
             {
                 return true;
             }

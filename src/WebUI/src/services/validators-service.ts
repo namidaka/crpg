@@ -18,6 +18,8 @@ export const integer = withI18nMessage(validators.integer, { withArguments: true
 
 export const minValue = withI18nMessage(validators.minValue, { withArguments: true });
 
+export const maxValue = withI18nMessage(validators.maxValue, { withArguments: true });
+
 export const clanTagPattern = withI18nMessage(validators.helpers.regex(new RegExp(clanTagRegex)));
 
 export const clanBannerKeyPattern = withI18nMessage(

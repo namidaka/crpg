@@ -1,5 +1,6 @@
-﻿using Crpg.Module.Common;
+using Crpg.Module.Common;
 using Crpg.Module.Notifications;
+using Crpg.Module.Helpers;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
@@ -15,6 +16,8 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
 {
     private const float FlagCaptureRange = 8f;
     private const float FlagCaptureRangeSquared = FlagCaptureRange * FlagCaptureRange;
+    private const int FlagCaptureScoreBonus = 50;
+    private const int FlagCaptureTickScore = 1;
     private const int StageDuration = 2 * 60;
     private const int FirstStageDuration = 9 * 60;
 
@@ -343,33 +346,66 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
                 continue;
             }
 
+            int agentDiffNumber = 0;
             Team? flagOwner = GetFlagOwnerTeam(flag);
-            Agent? closestAgentToFlag = null;
-            float closestAgentDistanceToFlagSquared = float.MaxValue;
             foreach (var agent in EnumerateAgentsAroundFlag(flag))
             {
-                if (agent.IsMount || !agent.IsActive())
+                if (agent.IsMount || !agent.IsActive() || agent.Position.DistanceSquared(flag.Position) > FlagCaptureRangeSquared)
                 {
                     continue;
                 }
 
-                float agentDistanceToFlagSquared = agent.Position.DistanceSquared(flag.Position);
-                if (agentDistanceToFlagSquared <= FlagCaptureRangeSquared
-                    && agentDistanceToFlagSquared < closestAgentDistanceToFlagSquared)
+                if (agent.Team == flagOwner)
                 {
-                    closestAgentToFlag = agent;
-                    closestAgentDistanceToFlagSquared = agentDistanceToFlagSquared;
+                    agentDiffNumber++;
+                }
+                else
+                {
+                    agentDiffNumber--;
                 }
             }
 
-            CaptureTheFlagFlagDirection flagDirection = ComputeFlagDirection(flag, flagOwner, closestAgentToFlag);
+            // https://www.desmos.com/calculator/9dbcvybhez
+            int networkPeerCount = GameNetwork.NetworkPeerCount;
+            float captureSpeed = (float)(0.5f - (0.4f * (Math.Log(Math.Max(1, networkPeerCount - 11)) / Math.Log(Math.Max(1, 150)))));
+            captureSpeed = Math.Max(captureSpeed, 0.1f);
+            CaptureTheFlagFlagDirection flagDirection = ComputeFlagDirection(flag, flagOwner, agentDiffNumber);
             if (flagDirection != CaptureTheFlagFlagDirection.None)
             {
-                flag.SetMoveFlag(flagDirection, speedMultiplier: 0.4f);
+                flag.SetMoveFlag(flagDirection, speedMultiplier: (float)(captureSpeed * Math.Max(1, Math.Abs(agentDiffNumber))));
             }
 
-            flag.OnAfterTick(closestAgentToFlag != null, out bool flagOwnerChanged);
-            Team? flagNewOwner = closestAgentToFlag?.Team;
+            if (flag.IsContested) // reward players who are sucessfully capturing the flag
+            {
+                foreach (var agent in EnumerateAgentsAroundFlag(flag))
+                {
+                    if (agent.IsMount || !agent.IsActive() || agent.Position.DistanceSquared(flag.Position) > FlagCaptureRangeSquared)
+                    {
+                        continue;
+                    }
+
+                    if (agent.Team != flagOwner)
+                    {
+                        var agentMissionPeer = agent?.MissionPeer;
+                        if (agentMissionPeer != null)
+                        {
+                            ReflectionHelper.SetProperty(
+                                agentMissionPeer,
+                                nameof(agentMissionPeer.Score),
+                                (int)(agentMissionPeer.Score + FlagCaptureTickScore));
+
+                            GameNetwork.BeginBroadcastModuleEvent();
+                            GameNetwork.WriteMessage(new KillDeathCountChange(agentMissionPeer.GetNetworkPeer(),
+                                null, agentMissionPeer.KillCount, agentMissionPeer.AssistCount, agentMissionPeer.DeathCount,
+                                agentMissionPeer.Score));
+                            GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+                        }
+                    }
+                }
+            }
+
+            flag.OnAfterTick(agentDiffNumber < 0, out bool flagOwnerChanged);
+            Team? flagNewOwner = flagOwner!.IsAttacker ? Mission.Teams.Defender : Mission.Teams.Attacker;
             if (flagOwnerChanged && flagNewOwner != null)
             {
                 OnFlagCaptured(flag, flagNewOwner);
@@ -384,6 +420,32 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
         GameNetwork.BeginBroadcastModuleEvent();
         GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flag.FlagIndex, flagNewOwner.TeamIndex));
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+
+        foreach (var agent in EnumerateAgentsAroundFlag(flag)) // reward players who have captured the flag
+        {
+            if (agent.IsMount || !agent.IsActive() || agent.Position.DistanceSquared(flag.Position) > FlagCaptureRangeSquared)
+            {
+                continue;
+            }
+
+            if (agent.Team == flagNewOwner)
+            {
+                var agentMissionPeer = agent?.MissionPeer;
+                if (agentMissionPeer != null)
+                {
+                    ReflectionHelper.SetProperty(
+                        agentMissionPeer,
+                        nameof(agentMissionPeer.Score),
+                        (int)(agentMissionPeer.Score + FlagCaptureScoreBonus));
+
+                    GameNetwork.BeginBroadcastModuleEvent();
+                    GameNetwork.WriteMessage(new KillDeathCountChange(agentMissionPeer.GetNetworkPeer(),
+                        null, agentMissionPeer.KillCount, agentMissionPeer.AssistCount, agentMissionPeer.DeathCount,
+                        agentMissionPeer.Score));
+                    GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
+                }
+            }
+        }
 
         bool stageEnded = _flagStages[_currentStage].All(f =>
             _flagOwners[f.FlagIndex] == Mission.AttackerTeam);
@@ -434,36 +496,17 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
     private CaptureTheFlagFlagDirection ComputeFlagDirection(
         FlagCapturePoint flag,
         Team? flagOwner,
-        Agent? closestAgentToFlag)
+        int agentDiffNumber)
     {
         bool isContested = flag.IsContested;
-        if (flagOwner == null)
-        {
-            if (!isContested && closestAgentToFlag != null)
-            {
-                return CaptureTheFlagFlagDirection.Down;
-            }
 
-            if (closestAgentToFlag == null & isContested)
-            {
-                return CaptureTheFlagFlagDirection.Up;
-            }
-        }
-        else if (closestAgentToFlag != null)
-        {
-            if (closestAgentToFlag.Team != flagOwner && !isContested)
-            {
-                return CaptureTheFlagFlagDirection.Down;
-            }
-
-            if (closestAgentToFlag.Team == flagOwner && isContested)
-            {
-                return CaptureTheFlagFlagDirection.Up;
-            }
-        }
-        else if (isContested)
+        if (agentDiffNumber >= 0 && isContested)
         {
             return CaptureTheFlagFlagDirection.Up;
+        }
+        else if (((flagOwner == null && agentDiffNumber != 0) || agentDiffNumber < 0) && !isContested)
+        {
+            return CaptureTheFlagFlagDirection.Down;
         }
 
         return CaptureTheFlagFlagDirection.None;
@@ -475,6 +518,7 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
         {
             int defenderMultiplierGain;
             int attackerMultiplierGain;
+            BattleSideEnum? valourSide = null;
             if (_isOddRewardTick)
             {
                 defenderMultiplierGain = 0;
@@ -485,13 +529,15 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
             {
                 defenderMultiplierGain = 1;
                 attackerMultiplierGain = -1;
+                valourSide = BattleSideEnum.Attacker;
                 _isOddRewardTick = true;
             }
 
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: _rewardTickTimer.GetTimerDuration(),
                 defenderMultiplierGain: defenderMultiplierGain,
-                attackerMultiplierGain: attackerMultiplierGain);
+                attackerMultiplierGain: attackerMultiplierGain,
+                valourTeamSide: valourSide);
         }
     }
 

@@ -328,8 +328,16 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
             if (agent.HasMount && !equippedItem.IsRangedWeapon)
             {
                 // SwingSpeed Nerf on Horseback
-                float swingSpeedFactor = 1f / Math.Max(equippedItem.WeaponLength / 125f, 1f);
-                props.SwingSpeedMultiplier *= HasSwingDamage(primaryItem) ? swingSpeedFactor : 1f;
+                static double Polynomial(float x)
+                {
+                    double y = x / 100f;
+                    return 0.1f * y + 0.01f * Math.Pow(y, 10);
+                }
+
+                double swingTimeFactor = 1 - Polynomial(125) + Polynomial(equippedItem.WeaponLength);
+
+                float cappedSwingSpeedFactor = MBMath.ClampFloat((float)(1 / swingTimeFactor), 0.25f, 1f);
+                props.SwingSpeedMultiplier *= HasSwingDamage(primaryItem) ? cappedSwingSpeedFactor : 1f;
                 // Thrustspeed Nerf on Horseback
                 props.ThrustOrRangedReadySpeedMultiplier *= 0.84f;
             }
@@ -430,7 +438,7 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
 
                 if (equippedItem.WeaponClass is WeaponClass.Mace or WeaponClass.OneHandedAxe or WeaponClass.OneHandedSword or WeaponClass.Dagger)
                 {
-                    props.ThrustOrRangedReadySpeedMultiplier *= 0.75f;
+                    props.ThrustOrRangedReadySpeedMultiplier *= 0.70f;
                 }
 
                 if (equippedItem.WeaponClass is WeaponClass.TwoHandedPolearm)

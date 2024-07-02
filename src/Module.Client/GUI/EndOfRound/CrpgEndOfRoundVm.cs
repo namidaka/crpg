@@ -66,8 +66,8 @@ public class CrpgEndOfRoundVm : ViewModel
         }
         else
         {
-            _roundEndReasonAllyTeamGameModeSpecificEndedTextObject = TextObject.Empty;
-            _roundEndReasonEnemyTeamGameModeSpecificEndedTextObject = TextObject.Empty;
+            _roundEndReasonAllyTeamGameModeSpecificEndedTextObject = new TextObject();
+            _roundEndReasonEnemyTeamGameModeSpecificEndedTextObject = new TextObject();
         }
 
         AttackerSide = new MultiplayerEndOfRoundSideVM();

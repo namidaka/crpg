@@ -40,6 +40,7 @@ namespace Crpg.Module;
 internal class CrpgSubModule : MBSubModuleBase
 {
 #if CRPG_SERVER
+    private static readonly Random Random = new();
     private static bool _mapPoolAdded;
     public static CrpgSubModule Instance = default!;
     public Dictionary<PlayerId, IAddress> WhitelistedIps = new();
@@ -128,8 +129,12 @@ internal class CrpgSubModule : MBSubModuleBase
             {
                 string[] maps = File.ReadAllLines(mapconfigfilepath);
 
-                foreach (string map in maps)
+                int startIndex = Random.Next(maps.Length); // Random start index between 0 and maps.Length - 1
+                for (int i = 0; i < maps.Length; i++)
                 {
+                    int currentIndex = (startIndex + i) % maps.Length;
+                    string map = maps[currentIndex];
+
                     if (map == string.Empty)
                     {
                         continue;
@@ -143,7 +148,7 @@ internal class CrpgSubModule : MBSubModuleBase
                     }
                     else
                     {
-                        for (int i = 0; i < 10; i++)
+                        for (int j = 0; j < 10; j++)
                         {
                             Debug.Print($"There's no instance of ServerSideIntermissionManager", color: Debug.DebugColor.Red);
                         }

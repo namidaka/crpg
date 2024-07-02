@@ -154,6 +154,10 @@ export default {
         ping: 'ping 1s linear infinite',
       },
 
+      textUnderlineOffset: {
+        6: '6px',
+      },
+
       // ref: https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js
       typography: ({ theme }) => {
         // console.log(theme('spacing'));
@@ -162,7 +166,7 @@ export default {
             css: {
               '--tw-prose-invert-counters': theme('colors.content.200'),
               fontSize: theme('fontSize.xs[0]'),
-              lineHeight: theme('fontSize.xs[1]'),
+              lineHeight: theme('fontSize.sm[1]'),
               li: {
                 marginTop: theme('spacing')['0'],
                 marginBottom: theme('spacing')['2.5'],

@@ -12,7 +12,7 @@ import VueRouter from 'unplugin-vue-router/vite';
 import Visualizer from 'rollup-plugin-visualizer';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import viteCompression from 'vite-plugin-compression';
-import topLevelAwait from 'vite-plugin-top-level-await';
+import ReactivityTransform from '@vue-macros/reactivity-transform/vite';
 import json5 from 'json5';
 
 // TODO: to libs
@@ -51,31 +51,36 @@ if (process.env.NODE_ENV !== 'test') {
 export default defineConfig({
   server: {
     port: 8080,
+    host: '127.0.0.1',
     watch: {
       usePolling: true,
       ignored: watchIgnored,
     },
   },
 
-  plugins: [
-    // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
-    Layouts(),
+  build: {
+    target: 'esnext',
+  },
 
+  plugins: [
     // https://github.com/posva/unplugin-vue-router
     VueRouter({
       extensions: ['.vue'],
       exclude: ['**/*.spec*'],
       dts: 'src/types/typed-router.d.ts',
-      routeBlockLang: 'yaml',
       getRouteName: getPascalCaseRouteName,
     }),
 
     Vue({
-      reactivityTransform: true,
       script: {
         defineModel: true,
       },
     }),
+
+    ReactivityTransform(),
+
+    // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
+    Layouts(),
 
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
@@ -127,10 +132,6 @@ export default defineConfig({
       algorithm: 'gzip',
       filter: /\.(js|css|woff2|html)$/i,
     }),
-
-    // this is to avoid using build.target = esnext,
-    // which makes the app not work in Steam (<87 Chromium)
-    topLevelAwait(),
   ],
 
   // https://vitest.dev/api/

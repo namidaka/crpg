@@ -1,10 +1,9 @@
 import type { EquippedItemsBySlot, EquippedItemId } from '@/models/character';
 import { ItemSlot } from '@/models/item';
 import { type UserItem } from '@/models/user';
-import { getAvailableSlotsByItem, getLinkedSlots } from '@/services/item-service';
-import { notify, NotificationType } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
+import { getAvailableSlotsByItem } from '@/services/item-service';
 import { useUserStore } from '@/stores/user';
+import { useInventoryEquipment } from '@/composables/character/use-inventory-equipment';
 
 // Shared state
 const focusedItemId = ref<number | null>(null);
@@ -15,22 +14,10 @@ const toSlot = ref<ItemSlot | null>(null);
 export const useInventoryDnD = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) => {
   const { user } = toRefs(useUserStore());
   const { emit } = getCurrentInstance() as NonNullable<ReturnType<typeof getCurrentInstance>>;
+  const { isEquipItemAllowed, getUnequipItemsLinked } = useInventoryEquipment();
 
   const onDragStart = (item: UserItem | null = null, slot: ItemSlot | null = null) => {
-    if (!item) return;
-
-    if (item.isBroken) {
-      notify(t('character.inventory.item.broken.notify.warning'), NotificationType.Warning);
-      return;
-    }
-
-    if (item.isArmoryItem && user.value!.id === item.userId) {
-      notify(
-        t('character.inventory.item.clanArmory.inArmory.notify.warning'),
-        NotificationType.Warning
-      );
-      return;
-    }
+    if (!item || !isEquipItemAllowed(item, user.value!.id)) return;
 
     focusedItemId.value = item.id;
     availableSlots.value = getAvailableSlotsByItem(item.item, equippedItemsBySlot.value);
@@ -50,13 +37,7 @@ export const useInventoryDnD = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) =
 
   const onDragEnd = (_e: DragEvent | null = null, slot: ItemSlot | null = null) => {
     if (slot && !toSlot.value) {
-      const items: EquippedItemId[] = [
-        { userItemId: null, slot },
-        ...getLinkedSlots(slot, equippedItemsBySlot.value).map(ls => ({
-          userItemId: null,
-          slot: ls,
-        })),
-      ];
+      const items: EquippedItemId[] = getUnequipItemsLinked(slot, equippedItemsBySlot.value);
 
       emit('change', items); // drop outside
     }

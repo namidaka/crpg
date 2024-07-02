@@ -450,6 +450,7 @@ src/WebUI/public/items/
 *.webp
 *.ico
 *.zip
+*.ttf
 
 # cRPG Launcher
 !src/cRPGUpdater/Properties/PublishProfiles/FolderProfile.pubxml

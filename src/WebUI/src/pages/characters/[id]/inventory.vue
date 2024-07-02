@@ -36,6 +36,7 @@ import { scrollToTop } from '@/utils/scroll';
 import { useItemDetail } from '@/composables/character/use-item-detail';
 import { useStickySidebar } from '@/composables/use-sticky-sidebar';
 import { useInventoryDnD } from '@/composables/character/use-inventory-dnd';
+import { useInventoryQuickEquip } from '@/composables/character/use-inventory-quick-equip';
 import {
   characterKey,
   characterCharacteristicsKey,
@@ -50,7 +51,6 @@ import { useClanMembers } from '@/composables/clan/use-clan-members';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
 });
@@ -162,6 +162,17 @@ const onRemoveFromClanArmory = async (userItemId: number) => {
   notify(t('clan.armory.item.remove.notify.success'));
 };
 
+const onClickInventoryItem = async (e: PointerEvent, userItem: UserItem) => {
+  if (e.ctrlKey) {
+    await onQuickEquip(userItem);
+  } else {
+    toggleItemDetail(e.target as HTMLElement, {
+      id: userItem.item.id,
+      userItemId: userItem.id,
+    });
+  }
+};
+
 const hideInArmoryItemsModel = useStorage<boolean>('character-inventory-in-armory-items', true);
 const hasArmoryItems = computed(() => userItems.value.some(ui => ui.isArmoryItem));
 
@@ -255,6 +266,8 @@ const equippedItemsBySlot = computed(() =>
 provide(equippedItemsBySlotKey, equippedItemsBySlot);
 
 const { onDragStart, onDragEnd } = useInventoryDnD(equippedItemsBySlot);
+
+const { onQuickEquip } = useInventoryQuickEquip(equippedItemsBySlot);
 
 const { openedItems, toggleItemDetail, closeItemDetail, getUniqueId } = useItemDetail();
 
@@ -365,13 +378,7 @@ await Promise.all(promises);
                 draggable="true"
                 @dragstart="onDragStart(userItem)"
                 @dragend="onDragEnd"
-                @click="
-                  e =>
-                    toggleItemDetail(e.target as HTMLElement, {
-                      id: userItem.item.id,
-                      userItemId: userItem.id,
-                    })
-                "
+                @click="e => onClickInventoryItem(e, userItem)"
               />
             </div>
           </div>
@@ -422,6 +429,15 @@ await Promise.all(promises);
 
     <div class="sticky left-0 col-span-5 self-start" :style="{ top: `${mainHeaderHeight + 16}px` }">
       <CharacterInventoryDoll @change="onChangeEquippedItems" />
+      <div
+        class="mt-3 flex w-full justify-center rounded-lg bg-base-200 p-4 backdrop-blur-lg"
+        style="grid-area: footer"
+      >
+        <KbdCombination
+          :keys="[$t('shortcuts.keys.ctrl'), $t('shortcuts.keys.lmb')]"
+          :label="$t('shortcuts.hints.equip')"
+        />
+      </div>
     </div>
 
     <div

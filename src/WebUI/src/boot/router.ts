@@ -4,6 +4,7 @@ import {
   type RouteRecordRaw,
   type NavigationGuard,
 } from 'vue-router/auto';
+import { routes } from 'vue-router/auto-routes';
 import { setupLayouts } from 'virtual:generated-layouts';
 import { type BootModule } from '@/types/boot-module';
 import { RouteMiddleware } from '@/types/vue-router';
@@ -63,6 +64,7 @@ export const install: BootModule = app => {
     spec: src/WebUI/src/utils/router.spec.ts */
     parseQuery,
     stringifyQuery,
+    routes,
   });
 
   router.beforeEach(authRouterMiddleware);

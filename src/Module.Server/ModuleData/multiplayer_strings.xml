@@ -53,7 +53,7 @@
   <string id="str_kick_reason.banned" text="{=qoYQE5yX}You were banned from cRPG servers." />
   <string id="str_kick_reason.character_recently_created" text="{=SppKtXbt}You've reached the limit of characters created. Enable an existing character on the website or wait 1 hour." />
   <string id="str_kick_reason.empty_name" text="{=nNXfXYHE}Empty names are not allowed on cRPG servers." />
-  <string id="str_kick_reason.no_weapon" text="{=mWWXmIE5}You should have at least one weapon equipped to spawn!" />
+  <string id="str_kick_reason.no_weapon" text="{=mWWXmIE5}You should have at least one melee or throwing weapon equipped to spawn!" />
   <string id="str_kick_reason.tournament_only" text="{=rOhUOWX6}Only tournament characters can join this server." />
   <string id="str_kick_reason.unreachable_server" text="{=OsPW0okL}The cRPG main server is unreachable. Try again later." />
   <string id="str_kick_reason.unsupported_platform" text="{=hU3flm9q}cRPG servers only support Steam, Epic Games and Xbox." />
@@ -130,6 +130,7 @@
   <string id="str_multiplayer_scene_name.crpg_battle_lighthouse" text="{=LHuikjha}Lighthouse" />
   <string id="str_multiplayer_scene_name.crpg_battle_vritannis" text="{=B3Rsk3r6}Vritannis" />
   <string id="str_multiplayer_scene_name.crpg_battle_frosthaven" text="{=FrStHv3N}Frosthaven" />
+  <string id="str_multiplayer_scene_name.crpg_battle_westveen" text="{=W3stV33N}Westveen" />
 
   <!-- Conquest Maps -->
   <string id="str_multiplayer_scene_name.crpg_conquest_acre" text="{=9Mpawm9h}Acre" />
@@ -148,7 +149,9 @@
   <string id="str_multiplayer_scene_name.crpg_conquest_volskulkeep" text="{=V0lSkuLK}Volskul Keep" />
   <string id="str_multiplayer_scene_name.crpg_conquest_motteandbailey" text="{=M0TT3BA1}Motte and Bailey" />
   <string id="str_multiplayer_scene_name.crpg_conquest_fjallborn" text="{=fallbj0r}Fjallborn" />
-  <string id="str_multiplayer_scene_name.crpg_conquest_motteandbailey" text="{=tw1tEC1t}The White City" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_thewhitecity" text="{=tw1tEC1t}The White City" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_bebbanburg" text="{=B3BB4nB8}Bebbanburg" />
+  <string id="str_multiplayer_scene_name.crpg_conquest_darkwood" text="{=D43Kw00D}Darkwood" />
 
   <!-- DTV Maps -->
   <string id="str_multiplayer_scene_name.crpg_dtv_encampment" text="{=ArnxGr8j1j}Encampment" />

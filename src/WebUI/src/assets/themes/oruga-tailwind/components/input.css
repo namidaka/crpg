@@ -1,12 +1,12 @@
-.o-ctrl-input {
+.o-input__wrapper {
   @apply relative block;
 }
 
-.o-ctrl-input--expanded {
+.o-input__wrapper--expanded {
   @apply w-full;
 }
 
-.o-ctrl-input--expanded .o-input {
+.o-input__wrapper--expanded .o-input {
   @apply w-full;
 }
 
@@ -23,11 +23,11 @@
   @apply py-2 px-3 text-2xs;
 }
 
-.o-input--xs.o-input-iconspace-left {
+.o-input--xs.o-input--iconspace-left {
   @apply pl-7;
 }
 
-.o-input--xs.o-input-iconspace-right {
+.o-input--xs.o-input--iconspace-right {
   @apply pr-7;
 }
 
@@ -35,11 +35,11 @@
   @apply py-3 px-4.5 text-2xs;
 }
 
-.o-input--sm.o-input-iconspace-left {
+.o-input--sm.o-input--iconspace-left {
   @apply pl-8;
 }
 
-.o-input--sm.o-input-iconspace-right {
+.o-input--sm.o-input--iconspace-right {
   @apply pr-8;
 }
 
@@ -47,11 +47,11 @@
   @apply py-3.5 px-4 text-sm;
 }
 
-.o-input--lg.o-input-iconspace-left {
+.o-input--lg.o-input--iconspace-left {
   @apply pl-12;
 }
 
-.o-input--lg.o-input-iconspace-right {
+.o-input--lg.o-input--iconspace-right {
   @apply pr-12;
 }
 

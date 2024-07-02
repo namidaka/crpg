@@ -3,7 +3,7 @@
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
@@ -24,10 +24,12 @@
       "vite/client",
       "vitest/globals",
       "vite-plugin-vue-layouts/client",
-      "@intlify/vite-plugin-vue-i18n/client",
       "vi-fetch/matchers",
       "@types/body-scroll-lock",
-      "vite-plugin-svg-icons/client"
+      "vite-plugin-svg-icons/client",
+      "@vue-macros/reactivity-transform/macros-global",
+      "@oruga-ui/oruga-next/volar",
+      "unplugin-vue-router/client",
     ]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],

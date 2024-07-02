@@ -5,7 +5,6 @@ import { moderationUserKey } from '@/symbols/moderator';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     roles: ['Moderator', 'Admin'],
   },
 });
@@ -21,8 +20,6 @@ const { state: user, execute: loadUser } = await useAsyncState(
 );
 
 provide(moderationUserKey, user);
-
-await loadUser();
 </script>
 
 <template>

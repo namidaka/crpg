@@ -13,10 +13,10 @@ enum PossibleValues {
 const tabsModel = ref<PossibleValues>(PossibleValues.Steam);
 
 watch(
-  () => platform.value,
+  platform,
   () => {
     tabsModel.value =
-      platform.value === Platform.Steam ? PossibleValues.Steam : PossibleValues.Other;
+      platform.value === Platform.Steam ? PossibleValues.Other : PossibleValues.Steam;
   },
   {
     immediate: true,
@@ -37,82 +37,81 @@ watch(
     </slot>
 
     <template #popper>
-      <div class="space-y-10 py-10">
-        <div class="prose prose-invert space-y-10 px-12">
-          <h3 class="text-center">{{ $t('installation.title') }}</h3>
+      <div class="prose prose-invert space-y-6 px-12 py-10">
+        <h3 class="text-center">{{ $t('installation.title') }}</h3>
 
-          <OTabs v-model="tabsModel" size="xl" :animated="false">
-            <OTabItem
-              :label="$t(`platform.${Platform.Steam}`)"
-              :icon="platformToIcon[Platform.Steam]"
-              :value="PossibleValues.Steam"
-            >
-              <div class="space-y-6">
-                <ol>
-                  <i18n-t scope="global" keypath="installation.platform.steam.subscribe" tag="li">
-                    <template #steamWorkshopsLink>
-                      <a
-                        target="_blank"
-                        href="steam://openurl/https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589"
-                      >
-                        Steam Workshops
-                      </a>
-                    </template>
-                  </i18n-t>
-                  <li>{{ $t('installation.common.bannerlordLauncher') }}</li>
-                  <li>{{ $t('installation.common.multiplayerModsTab') }}</li>
-                  <li>{{ $t('installation.common.activateMod') }}</li>
-                  <li>{{ $t('installation.common.launchMultiplayerGame') }}</li>
-                </ol>
-                <p class="text-content-400">{{ $t('installation.platform.steam.update') }}</p>
-              </div>
-            </OTabItem>
+        <OTabs v-model="tabsModel" size="xl" :animation="['fade', 'fade']">
+          <OTabItem :value="PossibleValues.Other">
+            <template #header>
+              <OIcon :icon="platformToIcon[Platform.Steam]" size="xl" />
+              <OIcon :icon="platformToIcon[Platform.Microsoft]" size="xl" />
+              <OIcon :icon="platformToIcon[Platform.EpicGames]" size="xl" />
+              {{ $t('installation.platform.other.title') }}
+            </template>
+            <ol>
+              <i18n-t
+                scope="global"
+                keypath="installation.platform.other.downloadLauncher"
+                tag="li"
+              >
+                <template #launcherLink>
+                  <a target="_blank" href="https://c-rpg.eu/LauncherV3.exe">Launcher</a>
+                </template>
+              </i18n-t>
+              <li>{{ $t('installation.platform.other.startLauncher') }}</li>
+              <li>{{ $t('installation.platform.other.detectinstall') }}</li>
+              <li>{{ $t('installation.platform.other.update') }}</li>
+              <li>{{ $t('installation.platform.other.launch') }}</li>
+            </ol>
+          </OTabItem>
 
-            <OTabItem :value="PossibleValues.Other">
-              <template #header>
-                <OIcon :icon="platformToIcon[Platform.Microsoft]" size="xl" />
-                <OIcon :icon="platformToIcon[Platform.EpicGames]" size="xl" />
-                {{ $t('installation.platform.other.title') }}
-              </template>
-              <div>
-                <ol>
-                  <i18n-t
-                    scope="global"
-                    keypath="installation.platform.other.downloadLauncher"
-                    tag="li"
-                  >
-                    <template #launcherLink>
-                      <a
-                        target="_blank"
-                        href="https://www.moddb.com/mods/crpg/downloads/crpg-launcher1"
-                      >
-                        launcher
-                      </a>
-                    </template>
-                  </i18n-t>
-                  <li>{{ $t('installation.platform.other.startLauncher') }}</li>
-                  <li>{{ $t('installation.common.bannerlordLauncher') }}</li>
-                  <li>{{ $t('installation.common.multiplayerModsTab') }}</li>
-                  <li>{{ $t('installation.common.activateMod') }}</li>
-                  <li>{{ $t('installation.common.launchMultiplayerGame') }}</li>
-                </ol>
-                <p class="text-content-400">{{ $t('installation.platform.other.update') }}</p>
-              </div>
-            </OTabItem>
-          </OTabs>
+          <OTabItem
+            label="Steam Workshop"
+            :icon="platformToIcon[Platform.Steam]"
+            :value="PossibleValues.Steam"
+          >
+            <ol>
+              <i18n-t scope="global" keypath="installation.platform.steam.subscribe" tag="li">
+                <template #steamWorkshopsLink>
+                  <!-- prettier-ignore -->
+                  <a
+                    target="_blank"
+                    href="steam://openurl/https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589"
+                  >Steam Workshop</a>
+                </template>
+              </i18n-t>
+              <li>{{ $t('installation.platform.steam.bannerlordLauncher') }}</li>
+              <li>{{ $t('installation.platform.steam.multiplayerModsTab') }}</li>
+              <li>{{ $t('installation.platform.steam.activateMod') }}</li>
+              <li>{{ $t('installation.platform.steam.launchMultiplayerGame') }}</li>
+            </ol>
+            <p class="text-primary">{{ $t('installation.platform.steam.update') }}</p>
+          </OTabItem>
+        </OTabs>
+
+        <div class="flex justify-center">
+          <OButton
+            variant="primary"
+            size="xl"
+            iconLeft="youtube"
+            target="_blank"
+            outlined
+            tag="a"
+            href="https://www.youtube.com/watch?v=F2NMyFAAev0"
+            :label="$t('installation.common.watchVideoGuide')"
+          />
         </div>
 
         <Divider />
 
-        <div class="prose prose-invert px-12">
-          <i18n-t scope="global" keypath="installation.help" tag="p" class="text-content-400">
+        <div class="mt-6 space-y-6">
+          <i18n-t scope="global" keypath="installation.common.help" tag="p" class="text-content-400">
             <template #discordLink>
+              <!-- prettier-ignore -->
               <a
                 target="_blank"
                 href="https://discord.com/channels/279063743839862805/761283333840699392"
-              >
-                Discord
-              </a>
+              >Discord</a>
             </template>
           </i18n-t>
         </div>

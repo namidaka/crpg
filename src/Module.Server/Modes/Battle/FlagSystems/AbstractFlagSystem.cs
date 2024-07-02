@@ -23,6 +23,7 @@ internal abstract class AbstractFlagSystem
     /// <summary>True if a random flag has been spawned.</summary>
     private bool _hasFlagCountChanged;
     private Timer? _checkFlagRemovalTimer;
+    private MissionTimer _flagUnlockTimer = default!;
 
     private FlagCapturePoint[] _flags = Array.Empty<FlagCapturePoint>();
     private Team?[] _flagOwners = Array.Empty<Team>();
@@ -33,6 +34,7 @@ internal abstract class AbstractFlagSystem
         Mission = mission;
         _battleClient = battleClient;
         _notificationsComponent = notificationsComponent;
+        _flagUnlockTimer = new(0);
     }
 
     public virtual void ResetFlags()
@@ -50,6 +52,11 @@ internal abstract class AbstractFlagSystem
     public FlagCapturePoint[] GetAllFlags()
     {
         return _flags;
+    }
+
+    public void SetFlagUnlockTimer(float duration)
+    {
+        _flagUnlockTimer = new(duration);
     }
 
     public FlagCapturePoint[] GetCapturedFlags()
@@ -76,6 +83,11 @@ internal abstract class AbstractFlagSystem
 
     public void TickFlags()
     {
+        if (!_flagUnlockTimer.Check()) // Prevent flags being captured before unlock time
+        {
+            return;
+        }
+
         foreach (var flag in _flags)
         {
             if (flag.IsDeactivated)

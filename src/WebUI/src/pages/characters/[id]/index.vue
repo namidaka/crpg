@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useTransition } from '@vueuse/core';
-import { type RouteLocationNormalized } from 'vue-router/auto';
 import {
   experienceMultiplierByGeneration,
   maxExperienceMultiplierForGeneration,
@@ -13,11 +12,13 @@ import { useUserStore } from '@/stores/user';
 import { characterKey, characterCharacteristicsKey } from '@/symbols/character';
 import { msToHours, parseTimestamp } from '@/utils/date';
 import { percentOf } from '@/utils/math';
+import { GameMode } from '@/models/game-mode';
 import { notify } from '@/services/notification-service';
 import { t } from '@/services/translate-service';
 import {
   getExperienceForLevel,
   getCharacterStatistics,
+  getDefaultCharacterStatistics,
   getCharacterRating,
   getCharacterLimitations,
   respecializeCharacter,
@@ -43,7 +44,6 @@ import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({
   meta: {
-    layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
 });
@@ -107,7 +107,9 @@ const onSetCharacterForTournament = async () => {
 
 const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
   ({ id }: { id: number }) => getCharacterStatistics(id),
-  [ {kills: 0, deaths: 0, assists: 0, playTime:0, gameMode: GameMode.Battle, rating: { value: 0, competitiveValue: 0, deviation: 0, volatility: 0 }}, ] ,
+  {
+    [GameMode.Battle]: getDefaultCharacterStatistics(),
+  },
   {
     immediate: false,
     resetOnExecute: false,
@@ -133,8 +135,15 @@ const { state: characterLimitations, execute: loadCharacterLimitations } = useAs
   }
 );
 
+const currentGameMode = ref<GameMode>(GameMode.Battle);
+const selectedCharacterStatistics = computed(
+  () => characterStatistics.value[currentGameMode.value] || getDefaultCharacterStatistics()
+);
+
 const kdaRatio = computed(() =>
-  selectedCharacterStatistics.value.deaths === 0 ? '∞' : getCharacterKDARatio(selectedCharacterStatistics.value)
+  selectedCharacterStatistics.value.deaths === 0
+    ? '∞'
+    : getCharacterKDARatio(selectedCharacterStatistics.value)
 );
 
 const experienceMultiplierBonus = computed(() =>
@@ -150,44 +159,11 @@ const fetchPageData = (characterId: number) =>
     loadCharacterLimitations(0, { id: characterId }),
   ]);
 
-onBeforeRouteUpdate(async to => {
-  const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
-  await fetchPageData(characterId);
-  return true;
-});
-
-const LazyCharacterEarningChart = defineAsyncComponent({
-  loader: () => import('@/components/character/CharacterEarningChart.vue'),
-  suspensible: true,
-});
-const currentGameMode = ref(GameMode.Battle);
-
-const selectedGameModeModel = computed({
-    get() {
-      return (currentGameMode.value as GameMode) || GameMode.Battle;
-    },
-
-    set(gameMode: GameMode) {
-      currentGameMode.value = gameMode;
-    },
-});
-
-const selectedCharacterStatistics = computed({
-  get(): CharacterStatistics {
-    return characterStatistics.value.find(s=>s.gameMode === selectedGameModeModel.value) || 
-    {
-      kills: 0,
-      deaths: 0,
-      assists: 0,
-      playTime: 0,
-      gameMode: selectedGameModeModel.value,
-      rating: { value: 0, competitiveValue: 0, deviation: 0, volatility: 0 },
-    };
-  },
-
-  set(value: CharacterStatistics) {
-    
+onBeforeRouteUpdate(async (to, from) => {
+  if (to.name === from.name && to.name === 'CharactersId') {
+    await fetchPageData(Number(to.params.id));
   }
+  return true;
 });
 
 await fetchPageData(character.value.id);
@@ -196,171 +172,182 @@ await fetchPageData(character.value.id);
 <template>
   <div class="mx-auto max-w-2xl space-y-12 pb-12">
     <FormGroup :label="$t('character.settings.group.overview.title')" :collapsable="false">
-    <div class="flex items-center justify-center">
-      <OTabs v-model="selectedGameModeModel" contentClass="hidden">
-          <OTabItem v-for="gamemode in gameModes" :label="$t(`game-mode.${gamemode}`, 0)" :icon="gameModeToIcon[gamemode]" :value="gamemode" />
-      </OTabs>
-    </div>
-      <div class="grid grid-cols-2 gap-2 text-2xs">
-        <SimpleTableRow
-          :label="$t('character.statistics.level.title')"
-          :tooltip="
-            character.forTournament
-              ? {
-                  title: $t('character.statistics.level.lockedTooltip.title', {
-                    maxLevel: maximumLevel,
-                  }),
-                }
-              : {
-                  title: $t('character.statistics.level.tooltip.title', { maxLevel: maximumLevel }),
-                }
-          "
-        >
-          <div
-            class="flex gap-1.5"
-            :class="[character.forTournament ? 'text-status-warning' : 'text-content-100']"
-          >
-            {{ character.level }}
-            <OIcon v-if="character.forTournament" icon="lock" size="sm" />
-          </div>
-        </SimpleTableRow>
-
-        <template v-if="!character.forTournament">
+      <div class="space-y-6">
+        <div class="grid grid-cols-2 gap-2 text-2xs">
+          <!-- LEVEL -->
           <SimpleTableRow
-            :label="$t('character.statistics.generation.title')"
-            :value="String(character.generation)"
-            :tooltip="{
-              title: $t('character.statistics.generation.tooltip.title'),
-            }"
-          />
-
-          <SimpleTableRow
-            :label="$t('character.statistics.expMultiplier.title')"
-            :value="
-              $t('character.format.expMultiplier', {
-                multiplier: $n(userStore.user!.experienceMultiplier),
-              })
+            :label="$t('character.statistics.level.title')"
+            :tooltip="
+              character.forTournament
+                ? {
+                    title: $t('character.statistics.level.lockedTooltip.title', {
+                      maxLevel: maximumLevel,
+                    }),
+                  }
+                : {
+                    title: $t('character.statistics.level.tooltip.title', {
+                      maxLevel: maximumLevel,
+                    }),
+                  }
             "
-            :tooltip="{
-              title: $t('character.statistics.expMultiplier.tooltip.title', {
-                maxExpMulti: $t('character.format.expMultiplier', {
-                  multiplier: $n(maxExperienceMultiplierForGeneration),
-                }),
-              }),
-              description: $t('character.statistics.expMultiplier.tooltip.desc'),
-            }"
-          />
-
-          <SimpleTableRow :label="$t('character.statistics.rank.title')">
-            <Tooltip
-              :title="$t('character.statistics.rank.tooltip.title')"
-              :description="$t('character.statistics.rank.tooltip.desc')"
+          >
+            <div
+              class="flex gap-1.5"
+              :class="[character.forTournament ? 'text-status-warning' : 'text-content-100']"
             >
-              <Rank :rankTable="rankTable" :competitiveValue="selectedCharacterStatistics.rating.competitiveValue" />
-            </Tooltip>
-            <Modal closable>
-              <Tag icon="popup" variant="primary" rounded size="sm" />
-              <template #popper>
-                <RankTable
-                  :rankTable="rankTable"
-                  :competitiveValue="selectedCharacterStatistics.rating.competitiveValue"
-                />
-              </template>
-            </Modal>
+              {{ character.level }}
+              <OIcon v-if="character.forTournament" icon="lock" size="sm" />
+            </div>
           </SimpleTableRow>
 
-          <SimpleTableRow
-            :label="$t('character.statistics.kda.title')"
-            :value="
-              $t('character.format.kda', {
-                kills: selectedCharacterStatistics.kills,
-                deaths: selectedCharacterStatistics.deaths,
-                assists: selectedCharacterStatistics.assists,
-                ratio: kdaRatio,
-              })
-            "
-            :tooltip="{
-              title: $t('character.statistics.kda.tooltip.title'),
-            }"
-          />
+          <template v-if="!character.forTournament">
+            <!-- GENERATION -->
+            <SimpleTableRow
+              :label="$t('character.statistics.generation.title')"
+              :value="String(character.generation)"
+              :tooltip="{
+                title: $t('character.statistics.generation.tooltip.title'),
+              }"
+            />
 
-          <SimpleTableRow
-            :label="$t('character.statistics.playTime.title')"
-            :value="$t('dateTimeFormat.hh', { hours: msToHours(selectedCharacterStatistics.playTime) })"
-          />
+            <!-- EXP. MULTI -->
+            <SimpleTableRow
+              :label="$t('character.statistics.expMultiplier.title')"
+              :value="
+                $t('character.format.expMultiplier', {
+                  multiplier: $n(userStore.user!.experienceMultiplier),
+                })
+              "
+              :tooltip="{
+                title: $t('character.statistics.expMultiplier.tooltip.title', {
+                  maxExpMulti: $t('character.format.expMultiplier', {
+                    multiplier: $n(maxExperienceMultiplierForGeneration),
+                  }),
+                }),
+                description: $t('character.statistics.expMultiplier.tooltip.desc'),
+              }"
+            />
 
-          <div class="col-span-2 mt-12 px-4 py-2.5">
-            <VueSlider
-              :key="currentLevelExperience"
-              class="!cursor-default !opacity-100"
-              :modelValue="Number(animatedCharacterExperience.toFixed(0))"
-              disabled
-              tooltip="always"
-              :min="currentLevelExperience"
-              :max="nextLevelExperience"
-              :marks="[currentLevelExperience, nextLevelExperience]"
-            >
-              <template #mark="{ pos, value, label }">
-                <div
-                  class="absolute top-2.5 whitespace-nowrap"
-                  :class="{
-                    '-translate-x-full transform': value === nextLevelExperience,
-                  }"
-                  :style="{ left: `${pos}%` }"
-                >
-                  {{ $n(label) }}
-                </div>
-              </template>
-              <template #tooltip="{ value }">
-                <div
-                  class="vue-slider-dot-tooltip-inner vue-slider-dot-tooltip-inner-top vue-slider-dot-tooltip-inner-disabled"
-                >
-                  <div class="flex items-center">
-                    <VTooltip placement="bottom">
-                      <div class="flex items-center gap-1 font-semibold text-primary">
-                        <OIcon icon="experience" size="xl" />
-                        {{
-                          t('character.statistics.experience.format', {
-                            exp: $n(value),
-                            expPercent: $n(experiencePercentToNextLEvel / 100, 'percent'),
-                          })
-                        }}
-                      </div>
-                      <template #popper>
-                        <div
-                          class="prose prose-invert"
-                          v-html="
-                            $t('character.statistics.experience.tooltip', {
-                              remainExpToUp: $n(nextLevelExperience - character.experience),
-                            })
-                          "
-                        />
-                      </template>
-                    </VTooltip>
-                    <Modal closable v-tooltip.bottom="$t('character.earningChart.title')">
-                      <OButton variant="primary" inverted size="xs" rounded iconLeft="chart" />
-                      <template #popper>
-                        <Suspense>
-                          <LazyCharacterEarningChart />
-                          <template #fallback>
-                            <div class="h-[30rem] min-w-[48rem]">
-                              <OLoading active iconSize="xl" />
-                            </div>
-                          </template>
-                        </Suspense>
-                      </template>
-                    </Modal>
+            <div class="col-span-2 mt-12 px-4 py-2.5">
+              <VueSlider
+                :key="currentLevelExperience"
+                class="!cursor-default !opacity-100"
+                :modelValue="Number(animatedCharacterExperience.toFixed(0))"
+                disabled
+                tooltip="always"
+                :min="currentLevelExperience"
+                :max="nextLevelExperience"
+                :marks="[currentLevelExperience, nextLevelExperience]"
+              >
+                <template #mark="{ pos, value, label }">
+                  <div
+                    class="absolute top-2.5 whitespace-nowrap"
+                    :class="{
+                      '-translate-x-full transform': value === nextLevelExperience,
+                    }"
+                    :style="{ left: `${pos}%` }"
+                  >
+                    {{ $n(label) }}
                   </div>
-                </div>
-              </template>
-            </VueSlider>
+                </template>
+                <template #tooltip="{ value }">
+                  <div
+                    class="vue-slider-dot-tooltip-inner vue-slider-dot-tooltip-inner-top vue-slider-dot-tooltip-inner-disabled"
+                  >
+                    <div class="flex items-center">
+                      <VTooltip placement="bottom">
+                        <div class="flex items-center gap-1 font-semibold text-primary">
+                          <OIcon icon="experience" size="xl" />
+                          {{
+                            t('character.statistics.experience.format', {
+                              exp: $n(value),
+                              expPercent: $n(experiencePercentToNextLEvel / 100, 'percent'),
+                            })
+                          }}
+                        </div>
+                        <template #popper>
+                          <div
+                            class="prose prose-invert"
+                            v-html="
+                              $t('character.statistics.experience.tooltip', {
+                                remainExpToUp: $n(nextLevelExperience - character.experience),
+                              })
+                            "
+                          />
+                        </template>
+                      </VTooltip>
+                    </div>
+                  </div>
+                </template>
+              </VueSlider>
+            </div>
+          </template>
+        </div>
+
+        <Divider />
+
+        <template v-if="!character.forTournament">
+          <div class="flex justify-center">
+            <OTabs v-model="currentGameMode" contentClass="hidden">
+              <OTabItem
+                v-for="gm in gameModes"
+                :label="$t(`game-mode.${gm}`, 0)"
+                :icon="gameModeToIcon[gm]"
+                :value="gm"
+              />
+            </OTabs>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-2xs">
+            <!-- COMPETITIVE RANK -->
+            <SimpleTableRow :label="$t('character.statistics.rank.title')">
+              <Tooltip
+                :title="$t('character.statistics.rank.tooltip.title')"
+                :description="$t('character.statistics.rank.tooltip.desc')"
+              >
+                <Rank :rankTable="rankTable" :competitiveValue="characterRating.competitiveValue" />
+              </Tooltip>
+              <Modal closable>
+                <Tag icon="popup" variant="primary" rounded size="sm" />
+                <template #popper>
+                  <RankTable
+                    :rankTable="rankTable"
+                    :competitiveValue="characterRating.competitiveValue"
+                  />
+                </template>
+              </Modal>
+            </SimpleTableRow>
+
+            <!-- K/D/A -->
+            <SimpleTableRow
+              :label="$t('character.statistics.kda.title')"
+              :value="
+                $t('character.format.kda', {
+                  kills: selectedCharacterStatistics.kills,
+                  deaths: selectedCharacterStatistics.deaths,
+                  assists: selectedCharacterStatistics.assists,
+                  ratio: kdaRatio,
+                })
+              "
+              :tooltip="{
+                title: $t('character.statistics.kda.tooltip.title'),
+              }"
+            />
+
+            <!-- PLAY TIME -->
+            <SimpleTableRow
+              :label="$t('character.statistics.playTime.title')"
+              :value="
+                $t('dateTimeFormat.hh', { hours: msToHours(selectedCharacterStatistics.playTime) })
+              "
+            />
           </div>
         </template>
       </div>
     </FormGroup>
 
     <FormGroup
-      class="mb-16"
+      class="sticky bottom-0 bg-bg-main/50 backdrop-blur-sm"
       icon="settings"
       :label="$t('character.settings.group.actions.title')"
       :collapsable="false"

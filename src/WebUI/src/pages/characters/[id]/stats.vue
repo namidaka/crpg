@@ -1,4 +1,5 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+// TODO: FIXME: composition + components
 import { DateTime, type DurationLike } from 'luxon';
 import { use, registerTheme, type ComposeOption } from 'echarts/core';
 import { BarChart, type BarSeriesOption } from 'echarts/charts';
@@ -14,11 +15,11 @@ import {
 } from 'echarts/components';
 import { SVGRenderer } from 'echarts/renderers';
 import VChart from 'vue-echarts';
-import { type TimeSeries } from '@/models/timeseries';
 import theme from '@/assets/themes/oruga-tailwind/echart-theme.json';
 import { d } from '@/services/translate-service';
 import { getCharacterEarningStatistics, CharacterEarningType } from '@/services/characters-service';
 import { characterKey } from '@/symbols/character';
+import { TimeSeries } from '@/models/timeseries';
 
 use([ToolboxComponent, BarChart, TooltipComponent, LegendComponent, GridComponent, SVGRenderer]);
 registerTheme('crpg', theme);
@@ -29,6 +30,15 @@ type EChartsOption = ComposeOption<
   | GridComponentOption
   | BarSeriesOption
 >;
+
+definePage({
+  props: true,
+  meta: {
+    roles: ['User', 'Moderator', 'Admin'],
+  },
+});
+
+const character = injectStrict(characterKey);
 
 enum Zoom {
   '1h' = '1h',
@@ -44,8 +54,6 @@ interface LegendSelectEvent {
   type: 'legendselectchanged';
   selected: Record<string, boolean>;
 }
-
-const character = injectStrict(characterKey);
 
 const loading = ref(false);
 const loadingOptions = {
@@ -98,35 +106,38 @@ const start = computed(() => getStart(zoomModel.value));
 
 const statTypeModel = ref<CharacterEarningType>(CharacterEarningType.Exp);
 const { state: characterEarningStatistics, execute: loadCharacterEarningStatistics } =
-  await useAsyncState<TimeSeries[]>(
-    () => getCharacterEarningStatistics(character.value.id, statTypeModel.value, start.value),
+  await useAsyncState(
+    ({ id }: { id: number }) => getCharacterEarningStatistics(id, statTypeModel.value, start.value),
     [],
     {
       resetOnExecute: false,
+      immediate: false,
     }
   );
 
-const legend = ref<string[]>(characterEarningStatistics.value.map(ts => ts.name));
-const activeSeries = ref<string[]>(characterEarningStatistics.value.map(ts => ts.name));
+const toBarSeries = (ts: TimeSeries): BarSeriesOption => ({ ...ts, type: 'bar' });
+const extractTSName = (ts: TimeSeries) => ts.name;
 
-const onUpdate = async () => {
-  await loadCharacterEarningStatistics();
+const legend = ref<string[]>(characterEarningStatistics.value.map(extractTSName));
+const activeSeries = ref<string[]>(characterEarningStatistics.value.map(extractTSName));
+
+const onUpdate = async (characterId: number) => {
+  await loadCharacterEarningStatistics(0, { id: characterId });
   option.value = {
     ...option.value,
-    series: characterEarningStatistics.value.map(ts => ({ ...ts, type: 'bar' })),
+    series: characterEarningStatistics.value.map(toBarSeries),
     legend: {
       ...option.value.legend,
-      data: characterEarningStatistics.value.map(ts => ts.name),
+      data: characterEarningStatistics.value.map(extractTSName),
     },
   };
-  activeSeries.value = characterEarningStatistics.value.map(ts => ts.name);
+  activeSeries.value = characterEarningStatistics.value.map(extractTSName);
 };
-watch(statTypeModel, async () => {
-  await onUpdate();
-});
-watch(zoomModel, async () => {
+
+watch(statTypeModel, () => onUpdate(character.value.id));
+watch(zoomModel, () => {
   setZoom();
-  await onUpdate();
+  onUpdate(character.value.id);
 });
 
 const total = computed(() =>
@@ -181,7 +192,7 @@ const option = shallowRef<EChartsOption>({
       },
     },
   },
-  series: characterEarningStatistics.value.map(ts => ({ ...ts, type: 'bar' })),
+  series: characterEarningStatistics.value.map(toBarSeries),
 });
 
 const setZoom = () => {
@@ -201,54 +212,69 @@ const onLegendSelectChanged = (e: LegendSelectEvent) => {
     .filter(([_legend, status]) => Boolean(status))
     .map(([legend, _status]) => legend);
 };
+
+const fetchPageData = (characterId: number) => Promise.all([onUpdate(characterId)]);
+
+onBeforeRouteUpdate(async (to, from) => {
+  if (to.name === from.name && to.name === 'CharactersIdStats') {
+    const characterId = Number(to.params.id);
+    await fetchPageData(characterId);
+  }
+
+  return true;
+});
+
+await fetchPageData(character.value.id);
 </script>
 
 <template>
-  <div class="flex max-h-[90vh] min-w-[48rem] flex-col pl-5 pr-10 pt-8">
-    <div class="flex items-center gap-4">
-      <OTabs v-model="statTypeModel" type="fill-rounded" contentClass="hidden">
-        <OTabItem
-          :value="CharacterEarningType.Exp"
-          :label="$t('character.earningChart.type.experience')"
-        />
-        <OTabItem
-          :value="CharacterEarningType.Gold"
-          :label="$t('character.earningChart.type.gold')"
-        />
-      </OTabs>
-      <OTabs v-model="zoomModel" type="fill-rounded" contentClass="hidden">
-        <OTabItem
-          v-for="(zoomValue, zoomKey) in durationByZoom"
-          :value="zoomKey"
-          :label="
-            $t(
-              `dateTimeFormat.${Object.keys(zoomValue).includes('days') ? 'dd' : 'hh'}`,
-              zoomValue as any
-            )
-          "
-        />
-      </OTabs>
-      <div class="flex-1 text-lg font-semibold">
-        <Coin
-          v-if="statTypeModel === CharacterEarningType.Gold"
-          :value="total"
-          :class="total < 0 ? 'text-status-danger' : 'text-status-success'"
-        />
-        <div v-else class="flex items-center gap-1.5 align-text-bottom font-bold text-primary">
-          <OIcon icon="experience" size="2xl" />
-          <span class="leading-none">{{ $n(total) }}</span>
+  <div class="mx-auto max-w-2xl space-y-12 pb-12">
+    <div class="flex max-h-[90vh] min-w-[48rem] flex-col pl-5 pr-10 pt-8">
+      <div class="flex items-center gap-4">
+        <OTabs v-model="statTypeModel" type="fill-rounded" contentClass="hidden">
+          <OTabItem
+            :value="CharacterEarningType.Exp"
+            :label="$t('character.earningChart.type.experience')"
+          />
+          <OTabItem
+            :value="CharacterEarningType.Gold"
+            :label="$t('character.earningChart.type.gold')"
+          />
+        </OTabs>
+        <OTabs v-model="zoomModel" type="fill-rounded" contentClass="hidden">
+          <OTabItem
+            v-for="(zoomValue, zoomKey) in durationByZoom"
+            :value="zoomKey"
+            :label="
+              $t(
+                `dateTimeFormat.${Object.keys(zoomValue).includes('days') ? 'dd' : 'hh'}`,
+                zoomValue as any
+              )
+            "
+          />
+        </OTabs>
+        <div class="flex-1 text-lg font-semibold">
+          <Coin
+            v-if="statTypeModel === CharacterEarningType.Gold"
+            :value="total"
+            :class="total < 0 ? 'text-status-danger' : 'text-status-success'"
+          />
+          <div v-else class="flex items-center gap-1.5 align-text-bottom font-bold text-primary">
+            <OIcon icon="experience" size="2xl" />
+            <span class="leading-none">{{ $n(total) }}</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <VChart
-      class="h-[30rem]"
-      ref="chart"
-      theme="crpg"
-      :option="option"
-      :loading="loading"
-      :loadingOptions="loadingOptions"
-      @legendselectchanged="onLegendSelectChanged"
-    />
+      <VChart
+        class="h-[30rem]"
+        ref="chart"
+        theme="crpg"
+        :option="option"
+        :loading="loading"
+        :loadingOptions="loadingOptions"
+        @legendselectchanged="onLegendSelectChanged"
+      />
+    </div>
   </div>
 </template>

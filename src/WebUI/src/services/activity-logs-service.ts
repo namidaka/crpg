@@ -26,11 +26,16 @@ const extractUsersFromLogs = (logs: ActivityLog[]) =>
       out.push(Number(l.metadata.targetUserId));
     }
 
+    if ('actorUserId' in l.metadata) {
+      out.push(Number(l.metadata.actorUserId));
+    }
+
     return [...new Set(out)];
   }, [] as number[]);
 
 export const getActivityLogsWithUsers = async (payload: ActivityLogsPayload) => {
   const logs = await getActivityLogs(payload);
+
   const users = (
     await getUsersByIds([...new Set([...payload.userId, ...extractUsersFromLogs(logs)])])
   ).reduce(

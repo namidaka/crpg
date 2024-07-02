@@ -1,6 +1,6 @@
 locale:
-  en: 英语
-  ru: 俄语
+  en: English
+  ru: Русский
   cn: 中文
 
 platform:
@@ -11,20 +11,23 @@ platform:
 installation:
   title: 安装
   common:
-    bannerlordLauncher: 启动Bannerlord
-    multiplayerModsTab: 导航到多人游戏Mods标签
-    activateMod: 点击选择cRPG Mod并启用它
-    launchMultiplayerGame: 在多人游戏中启动游戏!
+    watchVideoGuide: 视频教学
+    help: 遇到安装问题？通过 {discordLink} 服务器联系我们
   platform:
     steam:
       subscribe: 订阅{steamWorkshopsLink}
       update: 要更新 你可能需要在Steam Workshops中退订/订阅该MOD
+      bannerlordLauncher: 启动Bannerlord
+      multiplayerModsTab: 导航到多人游戏Mods标签
+      activateMod: 点击选择cRPG Mod并启用它
+      launchMultiplayerGame: 在多人游戏中启动游戏!
     other:
-      title: 其他
+      title: 游戏启动器
       downloadLauncher: 下载我们的{launcherLink}
-      startLauncher: 打开启动器 等待MOD的下载
-      update: 要更新 只需重新启动启动器即可
-  help: 如果你在安装修改时遇到困难，请通过{discordLink}联系我们。
+      startLauncher: 打开启动器并选择平台 (Steam/Epic/Xbox)
+      detectinstall: 单击 'Detect Install' 自动检测安装位置，或通过 'Change Location' 手动设置
+      update: 单击 'Update cRPG'，确保 cRPG 完全是最新版本
+      launch: 点击 'Launch cRPG' (开始 cRPG) 启动 Mod
 
 dateTime:
   days:
@@ -119,6 +122,13 @@ you: 你
 here: 这里
 not-found: 未找到
 results-not-found: 结果未找到...
+
+shortcuts:
+  keys:
+    ctrl: CTRL
+    lmb: 鼠标左键
+  hints:
+    equip: 装备或卸下物品
 
 setting:
   language: 语言
@@ -219,6 +229,7 @@ character:
     overview: 概述
     inventory: 物品栏
     characteristic: 角色属性
+    stats: 统计资料
 
   format:
     kda: '{kills}/{deaths}/{assists} ({ratio})'
@@ -722,6 +733,7 @@ clan:
     column:
       tag: 标签
       region: 地区
+      languages: 语言
       members: 成员
       name: 名称
       memberName: 名称
@@ -745,6 +757,7 @@ clan:
         secondaryColor: 次要颜色
         bannerKey: 横幅关键字
         discord: Discord 服务器
+        languages: 语言
       group:
         armory:
           label: 部族军械库

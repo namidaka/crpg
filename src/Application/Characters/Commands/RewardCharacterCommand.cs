@@ -16,6 +16,7 @@ public record RewardCharacterCommand : IMediatorRequest<CharacterViewModel>
 {
     public int CharacterId { get; init; }
     public int UserId { get; init; }
+    public int ActorUserId { get; init; }
     public int Experience { get; init; }
     public bool AutoRetire { get; init; }
 
@@ -89,7 +90,7 @@ public record RewardCharacterCommand : IMediatorRequest<CharacterViewModel>
                 _characterService.GiveExperience(character, req.Experience, useExperienceMultiplier: false);
             }
 
-            _db.ActivityLogs.Add(_activityLogService.CreateCharacterRewardedLog(req.UserId, req.CharacterId, req.Experience));
+            _db.ActivityLogs.Add(_activityLogService.CreateCharacterRewardedLog(req.UserId, req.ActorUserId, req.CharacterId, req.Experience));
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("Character '{0}' rewarded", req.CharacterId);

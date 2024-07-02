@@ -80,7 +80,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 ("crpg_leather_apron_v2_h0", ItemSlot.Body),
                 ("crpg_leather_gloves_v2_h0", ItemSlot.Hand),
                 ("crpg_leather_shoes_v2_h0", ItemSlot.Leg),
-                ("crpg_iron_pitchfork_v1_h0", ItemSlot.Weapon0),
+                ("crpg_iron_pitchfork_v2_h0", ItemSlot.Weapon0),
                 ("crpg_throwing_stone_v3_h0", ItemSlot.Weapon1),
             },
             // empire
@@ -89,7 +89,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                 ("crpg_pilgrim_hood_v2_h0", ItemSlot.Head),
                 ("crpg_tied_cloth_tunic_v2_h0", ItemSlot.Body),
                 ("crpg_leather_shoes_v2_h0", ItemSlot.Leg),
-                ("crpg_iron_pitchfork_v1_h0", ItemSlot.Weapon0),
+                ("crpg_iron_pitchfork_v2_h0", ItemSlot.Weapon0),
                 ("crpg_throwing_stone_v3_h0", ItemSlot.Weapon1),
             },
             // sturgia

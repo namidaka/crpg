@@ -17,6 +17,15 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         "{=sy9OJEOM}Commander {COMMANDER} didn't stand a chance!",
     };
 
+    private static readonly string[] CommanderTeamKilledStrings =
+    {
+        "{=uD9I4mVt}Commander {COMMANDER} has been team-killed by {AGENT}! An honest mistake!",
+        "{=IXqXzFNt}Commander {COMMANDER} has been team-killed by {AGENT}! Surely an accident!",
+        "{=7lJdMRdX}{AGENT} has mutinied, killing Commander {COMMANDER}!",
+        "{=K14mdvO5}{AGENT} should be more careful! They killed Commander {COMMANDER}!",
+        "{=NcM64S4W}Commander {COMMANDER} has been struck down by their ally, {AGENT}!",
+    };
+
     private static readonly string[] CommanderKilledStrings =
     {
         "{=8a5Icfba}The Commander, {COMMANDER} has died!",
@@ -90,6 +99,10 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         {
             textObject = new("{=C7TYZ8s0}You cannot order troops when you are dead!");
         }
+        else if (message.RejectReason == CommanderChatCommandRejectReason.Muted)
+        {
+            textObject = new("{=sisK3HPI}You are muted.");
+        }
         else
         {
             textObject = new("{=uRmpZM0q}Please wait {COOLDOWN} seconds before issuing a new order!",
@@ -106,7 +119,7 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
 
     private void HandleUpdateCommander(UpdateCommander message)
     {
-        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
+        BattleSideEnum mySide = GameNetwork.MyPeer?.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
         _commanders[message.Side] = message.Commander;
         _commanderCharacters[message.Side] = BuildCommanderCharacterObject(message.Side);
         TextObject textObject;
@@ -142,20 +155,32 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
     {
         var killerAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentKillerIndex, true);
         var commanderAgent = Mission.MissionNetworkHelper.GetAgentFromIndex(message.AgentCommanderIndex, true);
-        BattleSideEnum commanderSide = commanderAgent.MissionPeer.Team.Side;
-        BattleSideEnum mySide = GameNetwork.MyPeer.GetComponent<MissionPeer>().Team.Side;
+
+        if (commanderAgent == null)
+        {
+            return;
+        }
+
+        BattleSideEnum commanderSide = commanderAgent.MissionPeer?.Team?.Side ?? BattleSideEnum.None;
+        BattleSideEnum killerSide = killerAgent?.MissionPeer?.Team?.Side ?? BattleSideEnum.None;
+        BattleSideEnum mySide = GameNetwork.MyPeer?.GetComponent<MissionPeer>()?.Team?.Side ?? BattleSideEnum.None;
 
         TextObject textObject;
 
         if (message.AgentKillerIndex == message.AgentCommanderIndex)
         {
             textObject = new(CommanderSuicideStrings.GetRandomElement(),
-            new Dictionary<string, object> { ["COMMANDER"] = commanderAgent?.Name ?? string.Empty });
+            new Dictionary<string, object> { ["COMMANDER"] = commanderAgent.Name });
+        }
+        else if (commanderSide == killerSide)
+        {
+            textObject = new(CommanderTeamKilledStrings.GetRandomElement(),
+            new Dictionary<string, object> { ["AGENT"] = killerAgent?.Name ?? string.Empty, ["COMMANDER"] = commanderAgent.Name });
         }
         else
         {
             textObject = new(CommanderKilledStrings.GetRandomElement(),
-            new Dictionary<string, object> { ["AGENT"] = killerAgent?.Name ?? string.Empty, ["COMMANDER"] = commanderAgent?.Name ?? string.Empty });
+            new Dictionary<string, object> { ["AGENT"] = killerAgent?.Name ?? string.Empty, ["COMMANDER"] = commanderAgent.Name });
         }
 
         InformationManager.DisplayMessage(new InformationMessage

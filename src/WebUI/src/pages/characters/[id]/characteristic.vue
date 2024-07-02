@@ -19,7 +19,6 @@ import { t } from '@/services/translate-service';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
 });
@@ -186,12 +185,19 @@ onBeforeRouteUpdate(() => {
             <VTooltip>
               <div
                 class="flex items-center gap-1 text-2xs"
-                :class="{ 'text-status-danger': fieldsGroup.key === 'skills' && !currentSkillRequirementsSatisfied(field.key as SkillKey) }"
+                :class="{
+                  'text-status-danger':
+                    fieldsGroup.key === 'skills' &&
+                    !currentSkillRequirementsSatisfied(field.key as SkillKey),
+                }"
               >
                 {{ $t(`character.characteristic.${fieldsGroup.key}.children.${field.key}.title`) }}
 
                 <OIcon
-                  v-if="fieldsGroup.key === 'skills' && !currentSkillRequirementsSatisfied(field.key as SkillKey)"
+                  v-if="
+                    fieldsGroup.key === 'skills' &&
+                    !currentSkillRequirementsSatisfied(field.key as SkillKey)
+                  "
                   icon="alert-circle"
                   size="xs"
                 />

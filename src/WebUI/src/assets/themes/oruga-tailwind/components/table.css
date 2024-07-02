@@ -142,6 +142,7 @@
   @apply hidden;
 }
 
+/* TODO: */
 .o-table__wrapper--sticky-header thead {
   @apply sticky left-0 top-0 z-50 bg-base-100;
 }

@@ -77,7 +77,11 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
         </div>
         <Heading :title="$t('leaderboard.title')" />
       </div>
-      <div class="flex justify-end gap-8 mb-2">
+      <div class="mb-6 flex items-center justify-between gap-4">
+        <OTabs v-model="regionModel" contentClass="hidden">
+          <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
+        </OTabs>
+
         <Modal closable>
           <Tag icon="popup" variant="primary" rounded size="lg" />
           <template #popper>
@@ -136,41 +140,27 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
 
         <OTableColumn field="class" :width="80">
           <template #header>
-            <div class="relative flex items-center gap-1">
-              <OIcon
-                v-if="characterClassModel"
-                class="absolute -left-5 top-1/2 -translate-y-1/2 transform cursor-pointer hover:text-status-danger"
-                v-tooltip.bottom="$t('action.reset')"
-                icon="close"
-                size="xs"
-                @click="characterClassModel = undefined"
-              />
-              <VDropdown :triggers="['click']">
-                <div
-                  class="max-w-[90px] cursor-pointer overflow-x-hidden text-ellipsis whitespace-nowrap border-b-2 border-dashed border-border-300 pb-0.5 text-2xs hover:text-content-100 2xl:max-w-[120px]"
+            <THDropdown
+              :label="$t('leaderboard.table.cols.class')"
+              :shownReset="Boolean(characterClassModel)"
+              @reset="characterClassModel = undefined"
+            >
+              <template #default="{ hide }">
+                <DropdownItem
+                  v-for="characterClass in characterClasses"
+                  :checked="characterClass === characterClassModel"
+                  @click="
+                    () => {
+                      characterClassModel = characterClass;
+                      hide();
+                    }
+                  "
                 >
-                  {{ $t('leaderboard.table.cols.class') }}
-                </div>
-
-                <template #popper="{ hide }">
-                  <div class="max-w-md">
-                    <DropdownItem
-                      v-for="characterClass in characterClasses"
-                      :checked="characterClass === characterClassModel"
-                      @click="
-                        () => {
-                          characterClassModel = characterClass;
-                          hide();
-                        }
-                      "
-                    >
-                      <OIcon :icon="characterClassToIcon[characterClass]" size="lg" />
-                      {{ $t(`character.class.${characterClass}`) }}
-                    </DropdownItem>
-                  </div>
-                </template>
-              </VDropdown>
-            </div>
+                  <OIcon :icon="characterClassToIcon[characterClass]" size="lg" />
+                  {{ $t(`character.class.${characterClass}`) }}
+                </DropdownItem>
+              </template>
+            </THDropdown>
           </template>
 
           <template #default="{ row }: { row: CharacterCompetitiveNumbered }">

@@ -12,7 +12,6 @@ const { thumb } = useItem(toRef(() => item));
 <template>
   <article
     class="min-h-[5rem] items-center justify-center space-y-1 rounded-lg bg-base-200 ring ring-transparent hover:ring-border-200"
-    v-tooltip="item.name"
   >
     <div class="relative h-full">
       <img :src="thumb" :alt="item.name" class="h-full select-none object-contain" />

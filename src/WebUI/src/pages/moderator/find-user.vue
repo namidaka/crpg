@@ -1,7 +1,6 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    layout: 'default',
     roles: ['Moderator', 'Admin'],
   },
 });

@@ -36,9 +36,8 @@ public record GetUserCharacterEarningStatisticsQuery : IMediatorRequest<IList<Ac
                 .Where(l =>
                     l.UserId == req.UserId
                     && l.Type == ActivityLogType.CharacterEarned
-                    && l.CreatedAt >= req.From
-                    && l.CreatedAt <= _dateTime.UtcNow
-                    && int.Parse(l.Metadata.First(m => m.Key == "characterId").Value) == req.CharacterId)
+                    && l.CreatedAt >= req.From && l.CreatedAt <= _dateTime.UtcNow
+                    && Convert.ToInt32(l.Metadata.First(m => m.Key == "characterId").Value) == req.CharacterId)
                 .ToArrayAsync(cancellationToken);
 
             return new(_mapper.Map<IList<ActivityLogViewModel>>(activityLogs));

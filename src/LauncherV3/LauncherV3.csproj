@@ -29,7 +29,9 @@
   <ItemGroup>
     <Resource Include="background.png" />
     <Resource Include="discord.png" />
+    <Resource Include="website.png" />
     <Resource Include="LauncherVersion.txt" />
+    <Resource Include="Catwalzhari.ttf" />
   </ItemGroup>
 
 </Project>

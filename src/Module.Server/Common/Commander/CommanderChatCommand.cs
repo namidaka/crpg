@@ -29,6 +29,6 @@ internal sealed class CommanderChatCommand : GameNetworkMessage
 
     protected override string OnGetLogFormat()
     {
-        return "cRPG Commander Killed!";
+        return "cRPG Commander chat command rejected!";
     }
 }

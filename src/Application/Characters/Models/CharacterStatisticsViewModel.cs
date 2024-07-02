@@ -1,4 +1,4 @@
-﻿using Crpg.Application.Common.Mappings;
+using Crpg.Application.Common.Mappings;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Servers;
 

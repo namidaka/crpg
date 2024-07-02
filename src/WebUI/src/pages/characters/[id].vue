@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { type RouteLocationNormalized } from 'vue-router/auto';
 import { type CharacterCharacteristics, type CharacterOverallItemsStats } from '@/models/character';
 import { useUserStore } from '@/stores/user';
 import {
@@ -26,7 +25,6 @@ import { useWelcome } from '@/composables/use-welcome';
 definePage({
   props: true,
   meta: {
-    layout: 'default',
     middleware: 'characterValidate',
     roles: ['User', 'Moderator', 'Admin'],
   },
@@ -106,18 +104,18 @@ onBeforeUnmount(() => {
   unsubscribe(loadUserItemsSymbol);
 });
 
-const fetchPageData = async (characterId: number) =>
+const fetchPageData = (characterId: number) =>
   Promise.all([
     loadCharacterCharacteristics(0, { id: characterId }),
     loadCharacterItems(0, { id: characterId }),
   ]);
 
 onBeforeRouteUpdate(async (to, from) => {
-  if (to.name === from.name) {
+  if (to.name === from.name && to.name === 'CharactersId') {
     // if character changed
     unsubscribe(loadCharacterItemsSymbol);
 
-    const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
+    const characterId = Number(to.params.id);
     await fetchPageData(characterId);
 
     subscribe(loadCharacterItemsSymbol, () => loadCharacterItems(0, { id: characterId }));
@@ -159,6 +157,14 @@ await fetchPageData(character.value.id);
             :variant="isActive ? 'transparent-active' : 'transparent'"
             size="lg"
             :label="$t('character.nav.characteristic')"
+          />
+        </RouterLink>
+
+        <RouterLink :to="{ name: 'CharactersIdStats', params: { id } }" v-slot="{ isActive }">
+          <OButton
+            :variant="isActive ? 'transparent-active' : 'transparent'"
+            size="lg"
+            :label="$t('character.nav.stats')"
           />
         </RouterLink>
       </div>

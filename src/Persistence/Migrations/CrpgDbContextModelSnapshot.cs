@@ -5,9 +5,11 @@ using Crpg.Domain.Entities.ActivityLogs;
 using Crpg.Domain.Entities.Battles;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
+using Crpg.Domain.Entities.GameServers;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Persistence;
@@ -42,14 +44,17 @@ namespace Crpg.Persistence.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "clan_member_role", new[] { "member", "officer", "leader" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "culture", new[] { "neutral", "aserai", "battania", "empire", "khuzait", "looters", "sturgia", "vlandia" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "damage_type", new[] { "undefined", "cut", "pierce", "blunt" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "game_mode", new[] { "crpg_battle", "crpg_conquest", "crpgdtv", "crpg_duel", "crpg_siege", "crpg_team_deathmatch", "crpg_skirmish", "crpg_unknown_game_mode" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_slot", new[] { "head", "shoulder", "body", "hand", "leg", "mount_harness", "mount", "weapon0", "weapon1", "weapon2", "weapon3", "weapon_extra" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_type", new[] { "undefined", "head_armor", "shoulder_armor", "body_armor", "hand_armor", "leg_armor", "mount_harness", "mount", "shield", "bow", "crossbow", "one_handed_weapon", "two_handed_weapon", "polearm", "thrown", "arrows", "bolts", "pistol", "musket", "bullets", "banner" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "languages", new[] { "en", "zh", "ru", "de", "fr", "it", "es", "pl", "uk", "ro", "nl", "tr", "el", "hu", "sv", "cs", "pt", "sr", "bg", "hr", "da", "fi", "no", "be", "lv" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "party_status", new[] { "idle", "idle_in_settlement", "recruiting_in_settlement", "moving_to_point", "following_party", "moving_to_settlement", "moving_to_attack_party", "moving_to_attack_settlement", "in_battle" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "platform", new[] { "steam", "epic_games", "microsoft" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "region", new[] { "eu", "na", "as", "oc" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "restriction_type", new[] { "all", "join", "chat" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "user", "moderator", "game_admin", "admin" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "settlement_type", new[] { "village", "castle", "town" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_update_status", new[] { "started", "completed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "weapon_class", new[] { "undefined", "dagger", "one_handed_sword", "two_handed_sword", "one_handed_axe", "two_handed_axe", "mace", "pick", "two_handed_mace", "one_handed_polearm", "two_handed_polearm", "low_grip_polearm", "arrow", "bolt", "cartridge", "bow", "crossbow", "stone", "boulder", "throwing_axe", "throwing_knife", "javelin", "pistol", "musket", "small_shield", "large_shield", "banner" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -442,6 +447,11 @@ namespace Crpg.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("discord");
 
+                    b.Property<Languages[]>("Languages")
+                        .IsRequired()
+                        .HasColumnType("languages[]")
+                        .HasColumnName("languages");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
@@ -597,6 +607,26 @@ namespace Crpg.Persistence.Migrations
                         .HasDatabaseName("ix_clan_members_clan_id");
 
                     b.ToTable("clan_members", (string)null);
+                });
+
+            modelBuilder.Entity("Crpg.Domain.Entities.GameServers.IdempotencyKey", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasColumnType("text")
+                        .HasColumnName("key");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<UserUpdateStatus>("Status")
+                        .HasColumnType("user_update_status")
+                        .HasColumnName("status");
+
+                    b.HasKey("Key")
+                        .HasName("pk_idempotency_keys");
+
+                    b.ToTable("idempotency_keys", (string)null);
                 });
 
             modelBuilder.Entity("Crpg.Domain.Entities.Items.ClanArmoryItem", b =>
@@ -1437,11 +1467,18 @@ namespace Crpg.Persistence.Migrations
                                 .HasConstraintName("fk_characters_characters_id");
                         });
 
-                    b.OwnsOne("Crpg.Domain.Entities.Characters.CharacterStatistics", "Statistics", b1 =>
+                    b.OwnsMany("Crpg.Domain.Entities.Characters.CharacterStatistics", "Statistics", b1 =>
                         {
                             b1.Property<int>("CharacterId")
                                 .HasColumnType("integer")
+                                .HasColumnName("character_id");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer")
                                 .HasColumnName("id");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
 
                             b1.Property<int>("Assists")
                                 .HasColumnType("integer")
@@ -1451,6 +1488,10 @@ namespace Crpg.Persistence.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("deaths");
 
+                            b1.Property<GameMode>("GameMode")
+                                .HasColumnType("game_mode")
+                                .HasColumnName("game_mode");
+
                             b1.Property<int>("Kills")
                                 .HasColumnType("integer")
                                 .HasColumnName("kills");
@@ -1459,13 +1500,16 @@ namespace Crpg.Persistence.Migrations
                                 .HasColumnType("interval")
                                 .HasColumnName("play_time");
 
-                            b1.HasKey("CharacterId");
+                            b1.HasKey("CharacterId", "Id")
+                                .HasName("pk_character_statistics");
 
-                            b1.ToTable("characters");
+                            b1.ToTable("character_statistics", (string)null);
 
-                            b1.WithOwner()
+                            b1.WithOwner("Character")
                                 .HasForeignKey("CharacterId")
-                                .HasConstraintName("fk_characters_characters_id");
+                                .HasConstraintName("fk_character_statistics_characters_character_id");
+
+                            b1.Navigation("Character");
                         });
 
                     b.Navigation("Characteristics")
@@ -1474,8 +1518,7 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("Rating")
                         .IsRequired();
 
-                    b.Navigation("Statistics")
-                        .IsRequired();
+                    b.Navigation("Statistics");
 
                     b.Navigation("User");
                 });

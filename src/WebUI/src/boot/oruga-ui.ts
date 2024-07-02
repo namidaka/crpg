@@ -5,7 +5,7 @@ import {
 } from '@fortawesome/vue-fontawesome';
 import { library, type IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
-  Config,
+  ConfigPlugin,
   OButton,
   OField,
   OCheckbox,
@@ -19,7 +19,6 @@ import {
   OTabItem,
   OIcon,
   OPagination,
-  OPaginationButton,
   ONotification,
   OCollapse,
   ODatetimepicker,
@@ -52,15 +51,14 @@ export const install: BootModule = app => {
     .component('OTabItem', OTabItem)
     .component('OLoading', OLoading)
     .component('OPagination', OPagination)
-    .component('OPaginationButton', OPaginationButton)
-    .component('FontAwesomeIcon', FontAwesomeIcon)
-    .component('FontAwesomeLayers', FontAwesomeLayers)
-    .component('FontAwesomeLayersText', FontAwesomeLayersText)
     .component('ONotification', ONotification)
     .component('OCollapse', OCollapse)
     .component('ODateTimePicker', ODatetimepicker)
+    .component('FontAwesomeIcon', FontAwesomeIcon)
+    .component('FontAwesomeLayers', FontAwesomeLayers)
+    .component('FontAwesomeLayersText', FontAwesomeLayersText)
     .component('VueSlider', VueSlider)
-    .use(Config, {
+    .use(ConfigPlugin, {
       // https://oruga.io/components/Icon.html
       iconComponent: 'FontAwesomeIcon',
       iconPack: 'crpg',
