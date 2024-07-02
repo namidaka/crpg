@@ -5,7 +5,7 @@ export interface CharacterCompetitive {
   id: number;
   level: number;
   class: CharacterClass;
-  rating: CharacterRating;
+  statistics: CharacterStatistics[];
   user: UserPublic;
 }
 

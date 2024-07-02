@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type CharacterCompetitiveNumbered } from '@/models/competitive';
-import { CharacterClass } from '@/models/character';
+import { CharacterClass, CharacterStatistics } from '@/models/character';
 
 import { getLeaderBoard, createRankTable } from '@/services/leaderboard-service';
 import { characterClassToIcon } from '@/services/characters-service';
@@ -66,6 +66,13 @@ const isSelfUser = (row: CharacterCompetitiveNumbered) => row.user.id === userSt
 
 const rowClass = (row: CharacterCompetitiveNumbered) =>
   isSelfUser(row) ? 'text-primary' : 'text-content-100';
+
+const getCompetitiveValueByGameMode = (statistics: CharacterStatistics[], gameMode: GameMode) =>
+  {
+    const stat = statistics.find(s => s.gameMode === gameMode);
+    return stat ? stat.rating.competitiveValue : 0;
+  }
+
 </script>
 
 <template>
@@ -123,7 +130,7 @@ const rowClass = (row: CharacterCompetitiveNumbered) =>
           :label="$t('leaderboard.table.cols.rank')"
           :width="230"
         >
-          <Rank :rankTable="rankTable" :competitiveValue="row.rating.competitiveValue" />
+          <Rank :rankTable="rankTable" :competitiveValue="getCompetitiveValueByGameMode(row.statistics, gameModeModel)" />
         </OTableColumn>
 
         <OTableColumn

@@ -39,9 +39,10 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
             {
                 // Todo: use DistinctBy here when EfCore implements it (does not work for now: https://github.com/dotnet/efcore/issues/27470 )
                 var topRatedCharactersByRegion = await _db.Characters
-                .OrderByDescending(c => c.Statistics.First(s => s.GameMode == (req.GameMode ?? Domain.Entities.Servers.GameMode.CRPGBattle)).Rating.CompetitiveValue)
                 .Where(c => (req.Region == null || req.Region == c.User!.Region)
-                            && (req.CharacterClass == null || req.CharacterClass == c.Class))
+                            && (req.CharacterClass == null || req.CharacterClass == c.Class)
+                            && c.Statistics.First(s => s.GameMode == req.GameMode) != null)
+                .OrderByDescending(c => c.Statistics.First(s => s.GameMode == req.GameMode).Rating.CompetitiveValue)
                 .Take(500)
                 .ProjectTo<CharacterPublicViewModel>(_mapper.ConfigurationProvider)
                 .ToArrayAsync(cancellationToken);
@@ -70,6 +71,11 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
             if (req.CharacterClass != null)
             {
                 keys.Add(req.CharacterClass.ToString()!);
+            }
+
+            if (req.GameMode != null)
+            {
+                keys.Add(req.GameMode.ToString()!);
             }
 
             return string.Join("::", keys);
