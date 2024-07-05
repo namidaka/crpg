@@ -2,6 +2,12 @@
 import { getSettlementGarrisonItems } from '@/services/strategus-service/settlement';
 import { settlementKey } from '@/symbols/strategus/settlement';
 
+definePage({
+  meta: {
+    roles: ['User', 'Moderator', 'Admin'],
+  },
+});
+
 const route = useRoute<'StrategusSettlementIdGarrison'>();
 
 const settlement = injectStrict(settlementKey);

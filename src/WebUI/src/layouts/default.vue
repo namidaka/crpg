@@ -23,9 +23,9 @@ const promises: Array<Promise<any>> = [
   userStore.fetchUserClanAndRole(),
 ];
 
-if (userStore.clan === null) {
-  promises.push(userStore.getUserClanAndRole());
-}
+// if (userStore.clan === null) {
+//   promises.push(userStore.getUserClanAndRole());
+// }
 
 const mainHeader = ref<HTMLDivElement | null>(null);
 const { height: mainHeaderHeight } = useElementSize(
@@ -55,7 +55,7 @@ await Promise.all(promises);
   >
     <Bg v-if="route.meta?.bg" :bg="route.meta.bg" />
 
-    <!-- <header
+    <header
       ref="mainHeader"
       class="z-20 border-b border-solid border-border-200 bg-bg-main"
       :class="{ 'sticky top-0 bg-opacity-10 backdrop-blur-sm': !route.meta?.noStickyHeader }"
@@ -82,7 +82,7 @@ await Promise.all(promises);
 
         <UserHeaderToolbar />
       </div>
-    </header> -->
+    </header>
 
     <main class="relative flex-1">
       <RouterView />

@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { settlementKey } from '@/symbols/strategus/settlement';
 
+definePage({
+  meta: {
+    roles: ['User', 'Moderator', 'Admin'],
+  },
+});
+
 const settlement = injectStrict(settlementKey);
 </script>
 
