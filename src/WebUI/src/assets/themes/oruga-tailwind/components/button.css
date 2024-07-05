@@ -91,7 +91,7 @@
 }
 
 .o-btn--rounded.o-btn--lg {
-  @apply p-4;
+  @apply p-4 h-11 w-11;
 }
 
 .o-btn--rounded.o-btn--sm {

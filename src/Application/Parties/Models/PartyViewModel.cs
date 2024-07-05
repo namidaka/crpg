@@ -19,12 +19,12 @@ public record PartyViewModel : IMapFrom<Party>
     public PartyVisibleViewModel? TargetedParty { get; init; }
     public SettlementPublicViewModel? TargetedSettlement { get; init; }
     public UserViewModel User { get; init; } = default!;
-    public ClanPublicViewModel? Clan { get; init; }
+    public UserClanViewModel? Clan { get; init; }
 
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Party, PartyViewModel>()
             .ForMember(h => h.Troops, opt => opt.MapFrom(u => (int)u.Troops))
-            .ForMember(u => u.Clan, opt => opt.MapFrom(u => u.User!.ClanMembership!.Clan));
+            .ForMember(h => h.Clan, opt => opt.MapFrom(u => u.User!.ClanMembership));
     }
 }
