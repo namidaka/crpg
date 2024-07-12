@@ -357,4 +357,10 @@ internal static class CommonErrors
         Title = "User is not in a clan",
         Detail = $"User with id '{userId}' is not in a clan",
     };
+
+    public static Error PersonalItemAlreadyExist(int userId, string itemId) => new(ErrorType.Validation, ErrorCode.PersonalItemAlreadyExist)
+    {
+        Title = "Personal item already exist",
+        Detail = $"User with id '{userId}' is already the owner of a personal item '{itemId}'",
+    };
 }

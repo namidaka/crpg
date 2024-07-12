@@ -65,4 +65,5 @@ public enum ErrorCode
     UserNotFound,
     UserNotInAClan,
     UserRoleNotMet,
+    PersonalItemAlreadyExist,
 }

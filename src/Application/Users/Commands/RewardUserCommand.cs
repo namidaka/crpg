@@ -45,41 +45,33 @@ public record RewardUserCommand : IMediatorRequest<UserViewModel>
             user.Gold = Math.Max(user.Gold + req.Gold, 0);
             user.HeirloomPoints = Math.Max(user.HeirloomPoints + req.HeirloomPoints, 0);
 
-
             if (req.ItemId != string.Empty)
             {
-                var currentItem = await _db.Items.FirstOrDefaultAsync(i => i.Id == req.ItemId, cancellationToken);
-                if (currentItem == null)
+                var item = await _db.Items.FirstOrDefaultAsync(i => i.Id == req.ItemId, cancellationToken);
+                if (item == null)
                 {
                     return new(CommonErrors.ItemNotFound(req.ItemId));
                 }
-
-                var items = await _db.Items.Where(i => i.BaseId == currentItem.BaseId).ToArrayAsync(cancellationToken);
 
                 var existingPersonalItems = await _db.PersonalItems
                     .Where(pi => pi.UserId == req.UserId)
                     .ToDictionaryAsync(i => i.ItemId, cancellationToken);
 
-                foreach (var item in items)
+                if (existingPersonalItems.ContainsKey(item.Id))
                 {
-                    var personalItem = new PersonalItem
-                    {
-                        UserId = req.UserId,
-                        Item = item,
-                    };
-
-                    if (!existingPersonalItems.ContainsKey(item.Id))
-                    {
-                        user.PersonalItems.Add(personalItem);
-                    }
+                    return new(CommonErrors.PersonalItemAlreadyExist(req.UserId, req.ItemId));
                 }
 
-                var userItem = new UserItem
+                user.PersonalItems.Add(new PersonalItem
                 {
                     UserId = req.UserId,
-                    Item = currentItem,
-                };
-                user.Items.Add(userItem);
+                    Item = item,
+                });
+                user.Items.Add(new UserItem
+                {
+                    UserId = req.UserId,
+                    Item = item,
+                });
             }
 
             _db.ActivityLogs.Add(_activityLogService.CreateUserRewardedLog(req.UserId, req.ActorUserId, req.Gold, req.HeirloomPoints, req.ItemId));
