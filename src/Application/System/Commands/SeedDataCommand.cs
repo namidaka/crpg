@@ -533,7 +533,7 @@ public record SeedDataCommand : IMediatorRequest
 
             UserItem takeoItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
             UserItem takeoItem2 = new() { User = takeo, ItemId = "crpg_winds_fury_v1_h2" };
-            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_armet_h1", PersonalItem = new() };
+            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_disabled_armet_h1", PersonalItem = new() };
             UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0", };
             UserItem orleItem3 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_v1_h2" };
             UserItem orleItem4 = new() { User = orle, ItemId = "crpg_decorated_short_spatha_v1_h1" };
@@ -2218,15 +2218,8 @@ public record SeedDataCommand : IMediatorRequest
             }
             else
             {
-                if (item.Id == "crpg_armet_h0"
-                    || item.Id == "crpg_armet_h1"
-                    || item.Id == "crpg_armet_h2"
-                    || item.Id == "crpg_armet_h3"
-
-                    || item.Id == "crpg_ba_bolzanogreathelmet_h0"
-                    || item.Id == "crpg_ba_bolzanogreathelmet_h1"
-                    || item.Id == "crpg_ba_bolzanogreathelmet_h2"
-                    || item.Id == "crpg_ba_bolzanogreathelmet_h3")
+                // auto disable item
+                if (item.Id.StartsWith("crpg_disabled_"))
                 {
                     item.Enabled = false;
                 }
