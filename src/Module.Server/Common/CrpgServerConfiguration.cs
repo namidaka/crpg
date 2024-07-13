@@ -14,7 +14,6 @@ internal static class CrpgServerConfiguration
         string? regionStr = Environment.GetEnvironmentVariable("CRPG_REGION");
         Region = Enum.TryParse(regionStr, ignoreCase: true, out CrpgRegion region) ? region : CrpgRegion.Eu;
         Service = Environment.GetEnvironmentVariable("CRPG_SERVICE") ?? "unknown-service";
-        Instance = Environment.GetEnvironmentVariable("CRPG_INSTANCE") ?? "unknown-instance";
     }
 
     public static void Init()
@@ -24,11 +23,19 @@ internal static class CrpgServerConfiguration
 
     public static CrpgRegion Region { get; }
     public static string Service { get; }
-    public static string Instance { get; }
+    public static string Instance
+    {
+        get
+        {
+            return Environment.GetEnvironmentVariable("CRPG_INSTANCE") ?? "unknown-instance";
+        }
+    }
+
     public static float TeamBalancerClanGroupSizePenalty { get; private set; } = 0f;
     public static float ServerExperienceMultiplier { get; private set; } = 1.0f;
     public static int RewardTick { get; private set; } = 60;
     public static bool TeamBalanceOnce { get; private set; }
+    public static bool ShuffleGameMode { get; private set; }
     public static bool FrozenBots { get; private set; } = false;
     public static Tuple<TimeSpan, TimeSpan, TimeZoneInfo>? HappyHours { get; private set; }
 
@@ -109,6 +116,22 @@ internal static class CrpgServerConfiguration
         FrozenBots = frozenBots;
         Debug.Print($"Set team balance once to {frozenBots}");
     }
+
+    [UsedImplicitly]
+    [ConsoleCommandMethod("crpg_shuffle_gamemode", "Enables gamemode shuffling")]
+    private static void SetGameModeShuffle(string? gamemodeShuffleString)
+    {
+        if (gamemodeShuffleString == null
+            || !bool.TryParse(gamemodeShuffleString, out bool shuffle))
+        {
+            Debug.Print($"Invalid string, must be true or false: {gamemodeShuffleString}");
+            return;
+        }
+
+        ShuffleGameMode = shuffle;
+        Debug.Print($"Shuffling gamemodes: {ShuffleGameMode}");
+    }
+
     [UsedImplicitly]
     [ConsoleCommandMethod("crpg_happy_hours", "Sets the happy hours. Format: HH:MM-HH:MM,TZ")]
     private static void SetHappyHours(string? happHoursStr)

@@ -17,7 +17,7 @@ namespace Crpg.Module.Common;
 internal class MapPoolComponent : MissionLogic
 {
     private static int nextMapId;
-
+    private string _nextMode = string.Empty;
     private string? _forcedNextMap;
 
     public void ForceNextMap(string map)
@@ -29,11 +29,26 @@ internal class MapPoolComponent : MissionLogic
 
         _forcedNextMap = map;
     }
+
     protected override void OnEndMission()
     {
-        nextMapId = (nextMapId + 1) % ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool.Count;
-        string nextMap = _forcedNextMap ?? ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool[nextMapId];
-        MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.NextMapOptions);
-        _forcedNextMap = null;
+        if (CrpgServerConfiguration.ShuffleGameMode)
+        {
+            _nextMode = MultiplayerOptions.OptionType.GameType.GetStrValue() == "cRPGBattle" ? "cRPGConquest" : "cRPGBattle";
+            CrpgMapManager.MapCounter[_nextMode] = (CrpgMapManager.MapCounter[_nextMode] + 1) % CrpgMapManager.Maps[_nextMode].Count;
+            string nextMap = _forcedNextMap ?? CrpgMapManager.Maps[_nextMode][CrpgMapManager.MapCounter[_nextMode]];
+
+            MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.NextMapOptions);
+            MultiplayerOptions.OptionType.GameType.SetValue(_nextMode, MultiplayerOptions.MultiplayerOptionsAccessMode.NextMapOptions);
+            Environment.SetEnvironmentVariable("CRPG_INSTANCE", CrpgMapManager.Modes[_nextMode][0].ToString());
+            _forcedNextMap = null;
+        }
+        else
+        {
+            nextMapId = (nextMapId + 1) % ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool.Count;
+            string nextMap = _forcedNextMap ?? ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool[nextMapId];
+            MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.NextMapOptions);
+            _forcedNextMap = null;
+        }
     }
 }
