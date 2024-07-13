@@ -57,14 +57,13 @@ public record SeedDataCommand : IMediatorRequest
         {
             await CreateOrUpdateItems(cancellationToken);
             await CreateOrUpdateSettlements(cancellationToken);
-            await _db.SaveChangesAsync(cancellationToken);
 
             if (_appEnv.Environment == HostingEnvironment.Development)
             {
                 await AddDevelopmentData();
-                await _db.SaveChangesAsync(cancellationToken);
             }
 
+            await _db.SaveChangesAsync(cancellationToken);
             return Result.NoErrors;
         }
 
@@ -2216,6 +2215,7 @@ public record SeedDataCommand : IMediatorRequest
             }
             else
             {
+                // TODO: to delete
                 if (item.Id == "crpg_armet_h0"
                     || item.Id == "crpg_armet_h1"
                     || item.Id == "crpg_armet_h2"
