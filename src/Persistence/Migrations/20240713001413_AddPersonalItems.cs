@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Crpg.Persistence.Migrations;
+
 public partial class AddPersonalItems : Migration
 {
     /// <inheritdoc />
@@ -80,7 +82,7 @@ public partial class AddPersonalItems : Migration
             table: "personal_items",
             type: "text",
             nullable: false,
-            defaultValue: "");
+            defaultValue: string.Empty);
 
         migrationBuilder.AddPrimaryKey(
             name: "pk_personal_items",
