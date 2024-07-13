@@ -60,7 +60,6 @@ internal class CrpgRewardServer : MissionLogic
         _isTeamHitCompensationsEnabled = enableTeamHitCompensations;
         _isRatingEnabled = enableRating;
         _isLowPopulationUpkeepEnabled = enableLowPopulationUpkeep;
-        BuildResiliencePipeline();
     }
 
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;

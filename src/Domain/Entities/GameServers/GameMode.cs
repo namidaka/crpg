@@ -7,7 +7,6 @@ public enum GameMode
     CRPGDTV,
     CRPGDuel,
     CRPGSiege,
-    CRPGTeamDeathmatch,
     CRPGSkirmish,
     CRPGTeamDeathmatch,
     CRPGUnknownGameMode,
