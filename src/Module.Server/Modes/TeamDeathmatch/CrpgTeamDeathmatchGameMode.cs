@@ -1,4 +1,5 @@
 using Crpg.Module.Common;
+using Crpg.Module.Common.Commander;
 using Crpg.Module.Modes.Warmup;
 using Crpg.Module.Notifications;
 using Crpg.Module.Rewards;
@@ -7,13 +8,15 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Source.Missions;
 using TaleWorlds.MountAndBlade.Multiplayer;
 
-
 #if CRPG_SERVER
 using Crpg.Module.Api;
 using Crpg.Module.Common.ChatCommands;
 #else
 using Crpg.Module.GUI;
+using Crpg.Module.GUI.Commander;
+using Crpg.Module.GUI.EndOfRound;
 using Crpg.Module.GUI.HudExtension;
+using Crpg.Module.GUI.Scoreboard;
 using TaleWorlds.MountAndBlade.Multiplayer;
 using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
@@ -47,14 +50,14 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
             MultiplayerViewCreator.CreateMissionServerStatusUIHandler(),
             ViewCreator.CreateMissionAgentStatusUIHandler(mission),
             ViewCreator.CreateMissionMainAgentEquipmentController(mission), // Pick/drop items.
-            ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
+            new CrpgMissionGauntletMainAgentCheerControllerView(),
             ViewCreatorManager.CreateMissionView<CrpgMissionMultiplayerEscapeMenu>(isNetwork: false, null, "TeamDeathmatch", gameModeClient),
             ViewCreator.CreateMissionAgentLabelUIHandler(mission),
             MultiplayerViewCreator.CreateMultiplayerTeamSelectUIHandler(),
-            MultiplayerViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
-            MultiplayerViewCreator.CreateMultiplayerEndOfRoundUIHandler(),
+            new CrpgMissionScoreboardUIHandler(false),
             MultiplayerViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
             MultiplayerViewCreator.CreatePollProgressUIHandler(),
+            new CommanderPollingProgressUiHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
             MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
@@ -81,6 +84,7 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
 #if CRPG_SERVER
         ICrpgClient crpgClient = CrpgClient.Create();
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
+        MultiplayerRoundController roundController = new(); // starts/stops round, ends match
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent,
             () => (new TeamDeathmatchSpawnFrameBehavior(), new CrpgTeamDeathmatchSpawningBehavior(_constants)));
         CrpgRewardServer rewardServer = new(crpgClient, _constants, warmupComponent, enableTeamHitCompensations: false, enableRating: false);
@@ -95,6 +99,8 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
                 lobbyComponent,
 #if CRPG_CLIENT
                 new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
+                new MultiplayerMissionAgentVisualSpawnComponent(), // expose method to spawn an agent
+                new CrpgCommanderBehaviorClient(),
 #endif
                 warmupComponent,
                 new CrpgTeamDeathmatchClient(),
@@ -104,7 +110,7 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
                 new MissionBoundaryPlacer(),
                 new MissionBoundaryCrossingHandler(),
                 new MultiplayerPollComponent(),
-                new MultiplayerAdminComponent(),
+                new CrpgCommanderPollComponent(),
                 notificationsComponent,
                 new MissionOptionsComponent(),
                 scoreboardComponent,
@@ -118,8 +124,10 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
                 // new MultiplayerMissionAgentVisualSpawnComponent(),
                 new MissionLobbyEquipmentNetworkComponent(),
 #if CRPG_SERVER
+                roundController,
                 new CrpgTeamDeathmatchServer(scoreboardComponent, rewardServer),
                 new SpawnComponent(new TeamDeathmatchSpawnFrameBehavior(), new CrpgTeamDeathmatchSpawningBehavior(_constants)),
+                new MultiplayerAdminComponent(),
                 new CrpgUserManagerServer(crpgClient, _constants),
                 new KickInactiveBehavior(inactiveTimeLimit: 30, warmupComponent),
                 new MapPoolComponent(),
@@ -129,7 +137,10 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
                 new NotAllPlayersReadyComponent(),
                 new DrowningBehavior(),
                 new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
+                new CrpgCommanderBehaviorServer(),
+                new BreakableWeaponsBehaviorServer(),
 #else
+                new MultiplayerRoundComponent(),
                 new MultiplayerAchievementComponent(),
                 MissionMatchHistoryComponent.CreateIfConditionsAreMet(),
                 new MissionRecentPlayersComponent(),

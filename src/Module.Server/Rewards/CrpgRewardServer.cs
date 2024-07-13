@@ -60,6 +60,7 @@ internal class CrpgRewardServer : MissionLogic
         _isTeamHitCompensationsEnabled = enableTeamHitCompensations;
         _isRatingEnabled = enableRating;
         _isLowPopulationUpkeepEnabled = enableLowPopulationUpkeep;
+        BuildResiliencePipeline();
     }
 
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
@@ -67,7 +68,6 @@ internal class CrpgRewardServer : MissionLogic
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
-        BuildResiliencePipeline();
         if (_warmupComponent != null)
         {
             _warmupComponent.OnWarmupEnded += OnWarmupEnded;
