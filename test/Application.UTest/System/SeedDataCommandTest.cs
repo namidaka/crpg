@@ -137,6 +137,25 @@ public class SeedDataCommandTest : TestBase
     }
 
     [Test]
+    public async Task ShouldAddDisabledItem()
+    {
+        Mock<IItemsSource> itemsSource = new();
+        itemsSource.Setup(s => s.LoadItems())
+            .ReturnsAsync(new[]
+            {
+                new ItemCreation { Id = "crpg_disabled_a", Type = ItemType.HeadArmor, Armor = new ItemArmorComponentViewModel { HeadArmor = 9 } },
+            });
+
+        SeedDataCommand.Handler seedDataCommandHandler = new(ActDb, itemsSource.Object, CreateAppEnv(),
+            CharacterService, ExperienceTable, StrategusMap, Mock.Of<ISettlementsSource>());
+        await seedDataCommandHandler.Handle(new SeedDataCommand(), CancellationToken.None);
+
+        var items = await AssertDb.Items.ToArrayAsync();
+        Assert.That(items.Length, Is.EqualTo(1));
+        Assert.That(items[0].Enabled, Is.False, "items with the prefix `crpg_disabled` must be added disabled");
+    }
+
+    [Test]
     public async Task ShouldAddSettlementIfDoesntExistsInDb()
     {
         Mock<ISettlementsSource> settlementsSource = new();
