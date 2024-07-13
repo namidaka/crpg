@@ -68,6 +68,7 @@ internal class CrpgRewardServer : MissionLogic
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
+        BuildResiliencePipeline();
         if (_warmupComponent != null)
         {
             _warmupComponent.OnWarmupEnded += OnWarmupEnded;

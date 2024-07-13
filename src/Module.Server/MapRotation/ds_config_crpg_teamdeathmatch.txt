@@ -1,17 +1,15 @@
 ServerName cRPG Test
 GameType cRPGTeamDeathmatch
 GamePassword yoyo
-add_map_to_automated_battle_pool mp_tdm_map_001_spring
-add_map_to_automated_battle_pool mp_tdm_map_004a
-add_map_to_automated_battle_pool mp_tdm_map_003
 AllowPollsToKickPlayers True
 AllowPollsToChangeMaps True
 disable_culture_voting
+disable_map_voting
 CultureTeam1 vlandia
 CultureTeam2 battania
 RoundPreparationTimeLimit 2
 MaxNumberOfPlayers 120
-AutoTeamBalanceThreshold 2
+AutoTeamBalanceThreshold 0
 FriendlyFireDamageMeleeFriendPercent 50
 FriendlyFireDamageMeleeSelfPercent 0
 FriendlyFireDamageRangedFriendPercent 50
@@ -19,7 +17,7 @@ FriendlyFireDamageRangedSelfPercent 0
 MinNumberOfPlayersForMatchStart 0
 NumberOfBotsTeam1 10
 NumberOfBotsTeam2 10
-MapTimeLimit 15
+MapTimeLimit 1
 MinScoreToWinMatch 3500
 RespawnPeriodTeam1 5
 RespawnPeriodTeam1 5
@@ -28,3 +26,4 @@ crpg_happy_hours 19:00-23:00,Central European Standard Time
 start_game
 set_automated_battle_count -1
 enable_automated_battle_switching
+crpg_apply_harmony_patches
