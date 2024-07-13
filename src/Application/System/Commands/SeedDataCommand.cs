@@ -531,29 +531,10 @@ public record SeedDataCommand : IMediatorRequest
                 }
             }
 
-            PersonalItem takeoPItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
-            PersonalItem orlePItem1 = new() { User = orle, ItemId = "crpg_armet_h0" };
-            PersonalItem orlePItem2 = new() { User = orle, ItemId = "crpg_armet_h1" };
-            PersonalItem orlePItem3 = new() { User = orle, ItemId = "crpg_armet_h2" };
-            PersonalItem orlePItem4 = new() { User = orle, ItemId = "crpg_armet_h3" };
-
-            PersonalItem[] newPersonalItems =
-            {
-                takeoPItem1, orlePItem1, orlePItem2, orlePItem3, orlePItem4,
-            };
-            var existingPersonalItems = await _db.PersonalItems.ToDictionaryAsync(pi => pi.ItemId);
-            foreach (var newPersonalItem in newPersonalItems)
-            {
-                if (!existingPersonalItems.ContainsKey(newPersonalItem.ItemId))
-                {
-                    _db.PersonalItems.Add(newPersonalItem);
-                }
-            }
-
             UserItem takeoItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
             UserItem takeoItem2 = new() { User = takeo, ItemId = "crpg_winds_fury_v1_h2" };
-            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_armet_h0" };
-            UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0" };
+            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_armet_h1", PersonalItem = new() };
+            UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0", };
             UserItem orleItem3 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_v1_h2" };
             UserItem orleItem4 = new() { User = orle, ItemId = "crpg_decorated_short_spatha_v1_h1" };
             UserItem orleItem5 = new() { User = orle, ItemId = "crpg_scalpel_v1_h0" };

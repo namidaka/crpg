@@ -55,6 +55,7 @@ interface RewardForm {
   characterId?: number;
   autoRetire: boolean;
   experience: number;
+  itemId: string;
 }
 
 const defaultRewardForm = computed<RewardForm>(() => ({
@@ -63,6 +64,7 @@ const defaultRewardForm = computed<RewardForm>(() => ({
   characterId: characters.value[0].id,
   autoRetire: false,
   experience: 0,
+  itemId: '',
 }));
 
 const rewardFormModel = ref<RewardForm>({ ...defaultRewardForm.value });
@@ -102,10 +104,15 @@ const goldModel = computed({
 const onSubmitRewardForm = async () => {
   if (!canReward.value) return;
 
-  if (rewardFormModel.value.gold !== 0 || rewardFormModel.value.heirloomPoints !== 0) {
+  if (
+    rewardFormModel.value.gold !== 0 ||
+    rewardFormModel.value.heirloomPoints !== 0 ||
+    rewardFormModel.value.itemId !== ''
+  ) {
     await rewardUser(user.value!.id, {
       gold: rewardFormModel.value.gold,
       heirloomPoints: rewardFormModel.value.heirloomPoints,
+      itemId: rewardFormModel.value.itemId,
     });
     notify('The user has been rewarded');
   }
@@ -237,6 +244,10 @@ const totalRewardValues = computed(() => {
               type="number"
               expanded
             />
+          </OField>
+
+          <OField label="Personal item">
+            <OInput placeholder="crpg_" v-model="rewardFormModel.itemId" size="lg" expanded />
           </OField>
         </div>
 

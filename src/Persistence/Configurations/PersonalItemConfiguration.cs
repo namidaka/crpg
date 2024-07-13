@@ -8,8 +8,11 @@ public class PersonalItemConfiguration : IEntityTypeConfiguration<PersonalItem>
 {
     public void Configure(EntityTypeBuilder<PersonalItem> builder)
     {
-        builder.HasIndex(pi => new { pi.UserId, pi.ItemId }).IsUnique();
+        builder.HasKey(pi => pi.UserItemId);
 
-        builder.HasKey(pi => new { pi.UserId, pi.ItemId });
+        builder.HasOne(pi => pi.UserItem)
+            .WithOne(ui => ui.PersonalItem)
+            .HasForeignKey<PersonalItem>(ci => ci.UserItemId)
+            .IsRequired();
     }
 }

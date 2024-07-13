@@ -1,6 +1,7 @@
 ﻿using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Application.Users.Commands;
+using Crpg.Domain.Entities.GameServers;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
@@ -57,10 +58,7 @@ public class RewardUserCommandTest : TestBase
     [Test]
     public async Task PersonalItemAlreadyExist()
     {
-        ArrangeDb.Users.Add(new() { });
-        ArrangeDb.Items.Add(new() { Id = "crpg_personal_item_1" });
-        ArrangeDb.PersonalItems.Add(new() { ItemId = "crpg_personal_item_1", UserId = 1 });
-
+        ArrangeDb.Users.Add(new() { Items = { new() { Item = new() { Id = "crpg_personal_item_1" }, PersonalItem = new() } } });
         await ArrangeDb.SaveChangesAsync();
 
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
@@ -87,9 +85,7 @@ public class RewardUserCommandTest : TestBase
             HeirloomPoints = 1,
         };
         ArrangeDb.Users.Add(user);
-
-        Item item1 = new() { Id = "crpg_personal_item_1" };
-        ArrangeDb.Items.Add(item1);
+        ArrangeDb.Items.Add(new() { Id = "crpg_personal_item_1" });
         await ArrangeDb.SaveChangesAsync();
 
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
@@ -106,9 +102,9 @@ public class RewardUserCommandTest : TestBase
         Assert.That(res.Errors, Is.Null);
         Assert.That(res.Data!.Gold, Is.EqualTo(300));
         Assert.That(res.Data.HeirloomPoints, Is.EqualTo(3));
-
         var userDb = await AssertDb.Users
+            .Include(u => u.Items)
             .FirstAsync(u => u.Id == user.Id);
-        Assert.That(userDb.PersonalItems.Count, Is.EqualTo(1));
+        Assert.That(userDb.Items.Count, Is.EqualTo(1));
     }
 }

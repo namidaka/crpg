@@ -11,7 +11,6 @@ public record UserItemViewModel : IMapFrom<UserItem>
     public ItemViewModel Item { get; init; } = default!;
     public bool IsBroken { get; init; }
     public DateTime CreatedAt { get; init; }
-
     public bool IsArmoryItem { get; init; }
     public bool IsPersonal { get; init; }
 
@@ -19,6 +18,6 @@ public record UserItemViewModel : IMapFrom<UserItem>
     {
         profile.CreateMap<UserItem, UserItemViewModel>()
             .ForMember(ui => ui.IsArmoryItem, config => config.MapFrom(ui => ui.ClanArmoryItem != null))
-            .ForMember(i => i.IsPersonal, opt => opt.MapFrom(ui => ui.Item!.PersonalItems.Any(pi => pi.UserId == ui.UserId)));
+            .ForMember(ui => ui.IsPersonal, config => config.MapFrom(ui => ui.PersonalItem != null));
     }
 }

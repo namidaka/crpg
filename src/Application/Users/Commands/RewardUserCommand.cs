@@ -54,23 +54,21 @@ public record RewardUserCommand : IMediatorRequest<UserViewModel>
                 }
 
                 var existingPersonalItems = await _db.PersonalItems
-                    .Where(pi => pi.UserId == req.UserId)
-                    .ToDictionaryAsync(i => i.ItemId, cancellationToken);
+                    .Include(pi => pi.UserItem)
+                        .ThenInclude(ui => ui!.Item)
+                    .Where(pi => pi.UserItem!.UserId == req.UserId)
+                    .ToDictionaryAsync(pi => pi.UserItem!.Item!.Id, cancellationToken);
 
                 if (existingPersonalItems.ContainsKey(item.Id))
                 {
                     return new(CommonErrors.PersonalItemAlreadyExist(req.UserId, req.ItemId));
                 }
 
-                user.PersonalItems.Add(new PersonalItem
-                {
-                    UserId = req.UserId,
-                    Item = item,
-                });
                 user.Items.Add(new UserItem
                 {
                     UserId = req.UserId,
                     Item = item,
+                    PersonalItem = new(),
                 });
             }
 

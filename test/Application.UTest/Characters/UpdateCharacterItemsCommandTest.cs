@@ -266,13 +266,10 @@ public class UpdateCharacterItemsCommandTest : TestBase
     {
         Item item = new() { Type = ItemType.HeadArmor, Enabled = false };
         Character character = new();
-        UserItem userItem = new() { Item = item };
+        UserItem userItem = new() { Item = item, PersonalItem = new() };
         User user = new() { Characters = { character }, Items = { userItem } };
         ArrangeDb.Characters.Add(character);
         ArrangeDb.Users.Add(user);
-        await ArrangeDb.SaveChangesAsync();
-        PersonalItem personalItem = new() { ItemId = item.Id, UserId = user.Id };
-        ArrangeDb.PersonalItems.Add(personalItem);
         await ArrangeDb.SaveChangesAsync();
 
         UpdateCharacterItemsCommand.Handler handler = new(ActDb, Mapper);

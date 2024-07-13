@@ -75,8 +75,9 @@ public record UpdateCharacterItemsCommand : IMediatorRequest<IList<EquippedItemV
                 .ToArray();
 
             Dictionary<int, UserItem> userItemsById = await _db.UserItems
-                .Include(ui => ui.Item).ThenInclude(i => i!.PersonalItems)
+                .Include(ui => ui.Item)
                 .Include(ui => ui.ClanArmoryItem)
+                .Include(ui => ui.PersonalItem)
                 .Where(ui =>
                     (ui.ClanArmoryBorrowedItem!.BorrowerUserId == req.UserId || (ui.UserId == req.UserId && ui.ClanArmoryItem == null))
                     && newUserItemIds.Contains(ui.Id))
@@ -102,7 +103,7 @@ public record UpdateCharacterItemsCommand : IMediatorRequest<IList<EquippedItemV
                     return new(CommonErrors.UserItemNotFound(newEquippedItem.UserItemId.Value));
                 }
 
-                if (!userItem.Item!.Enabled && !userItem.Item.PersonalItems.Any(pi => pi.UserId == req.UserId))
+                if (!userItem.Item!.Enabled && userItem.PersonalItem == null)
                 {
                     return new(CommonErrors.ItemDisabled(userItem.ItemId));
                 }
