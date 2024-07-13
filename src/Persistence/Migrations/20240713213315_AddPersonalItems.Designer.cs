@@ -20,10 +20,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Crpg.Persistence.Migrations;
 
+namespace Crpg.Persistence.Migrations;
 [DbContext(typeof(CrpgDbContext))]
-[Migration("20240713001413_AddPersonalItems")]
+[Migration("20240713213315_AddPersonalItems")]
 partial class AddPersonalItems
 {
     /// <inheritdoc />

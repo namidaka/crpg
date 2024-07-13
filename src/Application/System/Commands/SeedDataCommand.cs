@@ -57,13 +57,14 @@ public record SeedDataCommand : IMediatorRequest
         {
             await CreateOrUpdateItems(cancellationToken);
             await CreateOrUpdateSettlements(cancellationToken);
+            await _db.SaveChangesAsync(cancellationToken);
 
             if (_appEnv.Environment == HostingEnvironment.Development)
             {
                 await AddDevelopmentData();
+                await _db.SaveChangesAsync(cancellationToken);
             }
 
-            await _db.SaveChangesAsync(cancellationToken);
             return Result.NoErrors;
         }
 
@@ -542,11 +543,11 @@ public record SeedDataCommand : IMediatorRequest
             UserItem orleItem8 = new() { User = orle, ItemId = "crpg_nordic_leather_cap_v2_h3" };
             UserItem orleItem9 = new() { User = orle, ItemId = "crpg_eastern_wrapped_armguards_v2_h3" };
             UserItem orleItem10 = new() { User = orle, ItemId = "crpg_blacksmith_hammer_v2_h0" };
-            UserItem orleItem11 = new() { User = orle, ItemId = "crpg_scythe_v1_h3" };
+            UserItem orleItem11 = new() { User = orle, ItemId = "crpg_scythe_v2_h3" };
             UserItem orleItem12 = new() { User = orle, ItemId = "crpg_rondel_v2_h3" };
-            UserItem orleItem13 = new() { User = orle, ItemId = "crpg_crossbow_j_v2_h3" };
+            UserItem orleItem13 = new() { User = orle, ItemId = "crpg_crossbow_j_v4_h3" };
             UserItem orleItem14 = new() { User = orle, ItemId = "crpg_helping_hand_v3_h2" };
-            UserItem orleItem15 = new() { User = orle, ItemId = "crpg_bolt_c_v2_h2" };
+            UserItem orleItem15 = new() { User = orle, ItemId = "crpg_bolt_c_v4_h0" };
             UserItem orleItem16 = new() { User = orle, ItemId = "crpg_wooden_sword_v2_h3" };
             UserItem orleItem17 = new() { User = orle, ItemId = "crpg_basic_imperial_leather_armor_v2_h3" };
             UserItem orleItem18 = new() { User = orle, ItemId = "crpg_wooden_twohander_v2_h3" };
@@ -1283,7 +1284,8 @@ public record SeedDataCommand : IMediatorRequest
 
             foreach (var newClanArmoryItem in newClanArmoryItems)
             {
-                pecores.ArmoryItems.Add(newClanArmoryItem);
+                // TODO: check if exist
+                // pecores.ArmoryItems.Add(newClanArmoryItem);
             }
 
             ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHirekItem2, Borrower = orleMember, };
@@ -1299,7 +1301,8 @@ public record SeedDataCommand : IMediatorRequest
 
             foreach (var newClanArmoryBorrowedItem in newClanArmoryBorrowedItems)
             {
-                pecores.ArmoryBorrowedItems.Add(newClanArmoryBorrowedItem);
+                // TODO: check if exist
+                // pecores.ArmoryBorrowedItems.Add(newClanArmoryBorrowedItem);
             }
 
             Clan ats = new()
@@ -2215,7 +2218,6 @@ public record SeedDataCommand : IMediatorRequest
             }
             else
             {
-                // TODO: to delete
                 if (item.Id == "crpg_armet_h0"
                     || item.Id == "crpg_armet_h1"
                     || item.Id == "crpg_armet_h2"
