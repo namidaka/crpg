@@ -1,15 +1,18 @@
-import type { GameMode } from '~/models/game-mode'
 import type { ItemSlot } from '~/models/item'
 import type { UserItem } from '~/models/user'
 
-export interface Character {
+export interface CharacterPublic {
   id: number
   name: string
   level: number
+  class: CharacterClass
+}
+
+export interface Character extends CharacterPublic {
   generation: number
   experience: number
-  class: CharacterClass
   forTournament: boolean
+  class: CharacterClass
 }
 
 export enum CharacterClass {
