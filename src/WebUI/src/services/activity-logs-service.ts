@@ -1,8 +1,10 @@
 import qs from 'qs';
-import { UserPublic } from '@/models/user';
-import { ActivityLogType, type ActivityLog } from '@/models/activity-logs';
+import {
+  ActivityLogMetadataDicts,
+  ActivityLogType,
+  type ActivityLog,
+} from '@/models/activity-logs';
 import { get } from '@/services/crpg-client';
-import { getUsersByIds } from '@/services/users-service';
 
 export interface ActivityLogsPayload {
   from: Date;
@@ -12,42 +14,10 @@ export interface ActivityLogsPayload {
 }
 
 export const getActivityLogs = async (payload: ActivityLogsPayload) =>
-  get<ActivityLog[]>(
+  get<{ activityLogs: ActivityLog[]; dict: ActivityLogMetadataDicts }>(
     `/activity-logs?${qs.stringify(payload, {
       strictNullHandling: true,
       arrayFormat: 'brackets',
       skipNulls: true,
     })}`
   );
-
-const extractUsersFromLogs = (logs: ActivityLog[]) =>
-  logs.reduce((out, l) => {
-    if ('targetUserId' in l.metadata) {
-      out.push(Number(l.metadata.targetUserId));
-    }
-
-    if ('actorUserId' in l.metadata) {
-      out.push(Number(l.metadata.actorUserId));
-    }
-
-    return [...new Set(out)];
-  }, [] as number[]);
-
-export const getActivityLogsWithUsers = async (payload: ActivityLogsPayload) => {
-  const logs = await getActivityLogs(payload);
-
-  const users = (
-    await getUsersByIds([...new Set([...payload.userId, ...extractUsersFromLogs(logs)])])
-  ).reduce(
-    (out, user) => {
-      out[user.id] = user;
-      return out;
-    },
-    {} as Record<number, UserPublic>
-  );
-
-  return {
-    logs,
-    users,
-  };
-};

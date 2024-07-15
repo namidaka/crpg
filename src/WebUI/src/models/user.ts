@@ -3,6 +3,9 @@ import Role from './role';
 import { Region } from './region';
 import { ItemSlot, ItemType, type Item } from './item';
 import { type Clan } from './clan';
+import { NotificationState, NotificationType } from './notificatios';
+import { ActivityLog, ActivityLogMetadataDicts } from './activity-logs';
+import { CharacterCompetitive } from './competitive';
 
 export interface User {
   id: number;
@@ -17,6 +20,7 @@ export interface User {
   region: Region;
   experienceMultiplier: number;
   isDonor: boolean;
+  unreadNotificationsCount: number;
 }
 
 export interface UserPublic
@@ -52,3 +56,16 @@ export interface UserItemsByType {
 }
 
 export type UserItemsBySlot = Record<ItemSlot, UserItem>;
+
+export interface UserNotification {
+  id: number;
+  createdAt: Date;
+  type: NotificationType;
+  state: NotificationState;
+  activityLog: ActivityLog;
+}
+
+export interface UserNotificationsWithDicts {
+  notifications: UserNotification[];
+  dict: ActivityLogMetadataDicts;
+}
