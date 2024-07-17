@@ -35,12 +35,12 @@ internal class MapPoolComponent : MissionLogic
         if (CrpgServerConfiguration.ShuffleGameMode)
         {
             _nextMode = MultiplayerOptions.OptionType.GameType.GetStrValue() == "cRPGBattle" ? "cRPGConquest" : "cRPGBattle";
-            CrpgMapManager.MapCounter[_nextMode] = (CrpgMapManager.MapCounter[_nextMode] + 1) % CrpgMapManager.Maps[_nextMode].Count;
-            string nextMap = _forcedNextMap ?? CrpgMapManager.Maps[_nextMode][CrpgMapManager.MapCounter[_nextMode]];
+            CrpgGamemodeManager.LoadGameConfig(_nextMode);
+            CrpgGamemodeManager.MapCounter[_nextMode] = (CrpgGamemodeManager.MapCounter[_nextMode] + 1) % CrpgGamemodeManager.Maps[_nextMode].Count;
+            string nextMap = _forcedNextMap ?? CrpgGamemodeManager.Maps[_nextMode][CrpgGamemodeManager.MapCounter[_nextMode]];
 
-            MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.NextMapOptions);
-            MultiplayerOptions.OptionType.GameType.SetValue(_nextMode, MultiplayerOptions.MultiplayerOptionsAccessMode.NextMapOptions);
-            Environment.SetEnvironmentVariable("CRPG_INSTANCE", CrpgMapManager.Modes[_nextMode][0].ToString());
+            MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
+            Environment.SetEnvironmentVariable("CRPG_INSTANCE", CrpgGamemodeManager.Modes[_nextMode][0].ToString());
             _forcedNextMap = null;
         }
         else

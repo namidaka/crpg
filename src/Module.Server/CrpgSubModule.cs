@@ -105,7 +105,7 @@ internal class CrpgSubModule : MBSubModuleBase
         base.OnGameInitializationFinished(game);
         AddMaps();
         Debug.Print($"Now Adding Maps", color: Debug.DebugColor.Cyan);
-        CrpgMapManager.AddMaps();
+        CrpgGamemodeManager.AddMaps();
     }
 
     private static void AddMaps()

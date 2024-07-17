@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.Text;
 using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
+using TaleWorlds.MountAndBlade;
 
 namespace Crpg.Module.Common;
-internal static class CrpgMapManager
+internal static class CrpgGamemodeManager
 {
     public static readonly Dictionary<string, string> Modes = new()
     {
-        { "cRPGBattle", "a_maps.txt" },
-        { "cRPGConquest", "b_maps.txt" },
-        { "cRPGTeamDeathmatch", "f_maps.txt" },
+        { "cRPGBattle", "a" },
+        { "cRPGConquest", "b" },
+        { "cRPGTeamDeathmatch", "f" },
     };
+
+    public static string InstanceByGameMode(string gameMode)
+    {
+        return Modes[gameMode];
+    }
 
     public static Dictionary<string, List<string>> Maps { get; private set; } = new()
     {
@@ -30,11 +36,19 @@ internal static class CrpgMapManager
 
     private static readonly Random Random = new();
 
+    public static void LoadGameConfig(string configName)
+    {
+        string newConfigFilePath = Path.Combine(Directory.GetCurrentDirectory(), ModuleHelper.GetModuleFullPath("cRPG"), InstanceByGameMode(configName) + "_rotation.txt");
+        string[] commands = File.ReadAllLines(newConfigFilePath);
+        MultiplayerOptions.Instance.InitializeFromCommandList(commands.ToList());
+        MultiplayerOptions.Instance.InitializeNextAndDefaultOptionContainers();
+    }
+
     public static void AddMaps()
     {
         foreach (KeyValuePair<string, string> mode in Modes)
         {
-            string mapconfigfilepath = Path.Combine(Directory.GetCurrentDirectory(), ModuleHelper.GetModuleFullPath("cRPG"), mode.Value);
+            string mapconfigfilepath = Path.Combine(Directory.GetCurrentDirectory(), ModuleHelper.GetModuleFullPath("cRPG"), mode.Value + "_maps.txt");
             if (File.Exists(mapconfigfilepath))
             {
                 try
