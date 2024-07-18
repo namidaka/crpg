@@ -56,7 +56,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                 await _db.SaveChangesAsync(cancellationToken);
 
                 var charactersById = await LoadCharacters(req.Updates, cancellationToken);
-                List<(User user, GameUserEffectiveReward reward, List<GameRepairedItem> repairedItems, GameMode gamemode)> results = new(req.Updates.Count);
+                List<(User user, GameUserEffectiveReward reward, List<GameRepairedItem> repairedItems, GameMode gameMode)> results = new(req.Updates.Count);
                 foreach (var update in req.Updates)
                 {
                     GameMode updateGameMode = _gameModeService.GameModeByInstanceAlias(Enum.TryParse(update.Instance[^1..], ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.Z);
@@ -84,7 +84,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                         var gameUserViewModel = _mapper.Map<GameUserViewModel>(r.user);
 
                         // Only include relevant statistic in response
-                        var relevantStatistic = r.user.ActiveCharacter?.Statistics.FirstOrDefault(s => s.GameMode == r.gamemode);
+                        var relevantStatistic = r.user.ActiveCharacter?.Statistics.FirstOrDefault(s => s.GameMode == r.gameMode);
                         if (relevantStatistic != null)
                         {
                             gameUserViewModel.Character.Statistics = _mapper.Map<CharacterStatisticsViewModel>(relevantStatistic);

@@ -242,7 +242,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                     statistic = user.ActiveCharacter.Statistics.First(s => s.GameMode == currentGameMode);
                 }
 
-                // Only load the relevant statistic for the gamemode
+                // Only load the relevant statistic for the gameMode
                 user.ActiveCharacter.Statistics = new List<CharacterStatistics> { statistic };
             }
 

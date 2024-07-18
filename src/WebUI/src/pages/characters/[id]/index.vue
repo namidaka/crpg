@@ -39,7 +39,7 @@ import {
 } from '@/services/characters-service';
 import { createRankTable } from '@/services/leaderboard-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
-import { useGameMode } from '@/composables/use-gamemode';
+import { useGameMode } from '@/composables/use-game-mode';
 import { gameModeToIcon, checkIsRankedGameMode } from '@/services/game-mode-service';
 
 definePage({

@@ -6,7 +6,7 @@ import { getLeaderBoard, createRankTable } from '@/services/leaderboard-service'
 import { characterClassToIcon, getCompetitiveValueByGameMode } from '@/services/characters-service';
 import { useUserStore } from '@/stores/user';
 import { useRegion } from '@/composables/use-region';
-import { useGameMode } from '@/composables/use-gamemode';
+import { useGameMode } from '@/composables/use-game-mode';
 import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({

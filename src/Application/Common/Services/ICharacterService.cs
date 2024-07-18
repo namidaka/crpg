@@ -23,7 +23,7 @@ internal interface ICharacterService
     /// <param name="respecialization">If the stats points should be redistributed.</param>
     void ResetCharacterCharacteristics(Character character, bool respecialization = false);
 
-    void UpdateRating(Character character, GameMode gamemode, float value, float deviation, float volatility, bool isGameUserUpdate = false);
+    void UpdateRating(Character character, GameMode gameMode, float value, float deviation, float volatility, bool isGameUserUpdate = false);
 
     void ResetAllRatings(Character character);
 
