@@ -83,7 +83,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                         var gameUserViewModel = _mapper.Map<GameUserViewModel>(r.user);
 
                         // Only include relevant statistic in response
-                        var relevantStatistic = r.user.ActiveCharacter!.Statistics.FirstOrDefault(s => s.GameMode == r.gamemode);
+                        var relevantStatistic = r.user.ActiveCharacter?.Statistics.FirstOrDefault(s => s.GameMode == r.gamemode);
                         if (relevantStatistic != null)
                         {
                             gameUserViewModel.Character.Statistics = _mapper.Map<CharacterStatisticsViewModel>(relevantStatistic);
