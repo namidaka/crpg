@@ -34,7 +34,7 @@ internal class MapPoolComponent : MissionLogic
     {
         if (CrpgServerConfiguration.ShuffleGameMode)
         {
-            _nextMode = MultiplayerOptions.OptionType.GameType.GetStrValue() == "cRPGBattle" ? "cRPGConquest" : "cRPGBattle";
+            _nextMode = MultiplayerOptions.OptionType.GameType.GetStrValue() == "cRPGBattle" ? "cRPGTeamDeathmatch" : "cRPGBattle";
             CrpgGamemodeManager.LoadGameConfig(_nextMode);
             CrpgGamemodeManager.MapCounter[_nextMode] = (CrpgGamemodeManager.MapCounter[_nextMode] + 1) % CrpgGamemodeManager.Maps[_nextMode].Count;
             string nextMap = _forcedNextMap ?? CrpgGamemodeManager.Maps[_nextMode][CrpgGamemodeManager.MapCounter[_nextMode]];

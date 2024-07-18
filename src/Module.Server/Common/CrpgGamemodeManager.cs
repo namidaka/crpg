@@ -38,7 +38,7 @@ internal static class CrpgGamemodeManager
 
     public static void LoadGameConfig(string configName)
     {
-        string newConfigFilePath = Path.Combine(Directory.GetCurrentDirectory(), ModuleHelper.GetModuleFullPath("cRPG"), InstanceByGameMode(configName) + "_rotation.txt");
+        string newConfigFilePath = Path.Combine(Directory.GetCurrentDirectory(), ModuleHelper.GetModuleFullPath("cRPG"), InstanceByGameMode(configName) + ".txt");
         string[] commands = File.ReadAllLines(newConfigFilePath);
         MultiplayerOptions.Instance.InitializeFromCommandList(commands.ToList());
         MultiplayerOptions.Instance.InitializeNextAndDefaultOptionContainers();
