@@ -9,7 +9,11 @@ import {
   freeRespecializePostWindowHours,
 } from '@root/data/constants.json';
 import { useUserStore } from '@/stores/user';
-import { characterKey, characterCharacteristicsKey } from '@/symbols/character';
+import {
+  characterKey,
+  characterCharacteristicsKey,
+  loadCharacterStatisticsKey,
+} from '@/symbols/character';
 import { msToHours, parseTimestamp } from '@/utils/date';
 import { percentOf } from '@/utils/math';
 import { GameMode } from '@/models/game-mode';
@@ -19,7 +23,6 @@ import {
   getExperienceForLevel,
   getCharacterStatistics,
   getDefaultCharacterStatistics,
-  getCharacterRating,
   getCharacterLimitations,
   respecializeCharacter,
   canRetireValidate,
@@ -37,9 +40,7 @@ import {
 import { createRankTable } from '@/services/leaderboard-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
 import { useGameMode } from '@/composables/use-gamemode';
-import { Suspense } from 'vue';
-import { type CharacterStatistics } from '@/models/character';
-import { gameModeToIcon } from '@/services/game-mode-service';
+import { gameModeToIcon, checkIsRankedGameMode } from '@/services/game-mode-service';
 
 definePage({
   meta: {
@@ -106,21 +107,23 @@ const onSetCharacterForTournament = async () => {
 
 const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
   ({ id }: { id: number }) => getCharacterStatistics(id),
-  {
-    [GameMode.Battle]: getDefaultCharacterStatistics(),
-  },
+  {},
   {
     immediate: false,
     resetOnExecute: false,
   }
 );
 
-
-
 const { subscribe, unsubscribe } = usePollInterval();
 
+onMounted(() => {
+  subscribe(loadCharacterStatisticsKey, () =>
+    loadCharacterStatistics(0, { id: character.value.id })
+  );
+});
 
 onBeforeUnmount(() => {
+  unsubscribe(loadCharacterStatisticsKey);
 });
 
 const rankTable = computed(() => createRankTable());
@@ -135,6 +138,8 @@ const { state: characterLimitations, execute: loadCharacterLimitations } = useAs
 );
 
 const currentGameMode = ref<GameMode>(GameMode.Battle);
+const isRankedGameMode = computed(() => checkIsRankedGameMode(currentGameMode.value));
+
 const selectedCharacterStatistics = computed(
   () => characterStatistics.value[currentGameMode.value] || getDefaultCharacterStatistics()
 );
@@ -299,15 +304,18 @@ await fetchPageData(character.value.id);
 
           <div class="grid grid-cols-2 gap-2 text-2xs">
             <!-- COMPETITIVE RANK -->
-            <SimpleTableRow :label="$t('character.statistics.rank.title')">
+            <SimpleTableRow v-if="isRankedGameMode" :label="$t('character.statistics.rank.title')">
               <Tooltip
                 :title="$t('character.statistics.rank.tooltip.title')"
                 :description="$t('character.statistics.rank.tooltip.desc')"
               >
-                <Rank :rankTable="rankTable" :competitiveValue="selectedCharacterStatistics.rating.competitiveValue" />
+                <Rank
+                  :rankTable="rankTable"
+                  :competitiveValue="selectedCharacterStatistics.rating.competitiveValue"
+                />
               </Tooltip>
               <Modal closable>
-                <Tag icon="popup" variant="primary" rounded size="sm" />
+                <Tag icon="help-circle" rounded size="lg" variant="primary" />
                 <template #popper>
                   <RankTable
                     :rankTable="rankTable"

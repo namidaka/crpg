@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { type CharacterCompetitiveNumbered } from '@/models/competitive';
-import { CharacterClass, CharacterStatistics } from '@/models/character';
+import { CharacterClass } from '@/models/character';
 
 import { getLeaderBoard, createRankTable } from '@/services/leaderboard-service';
-import { characterClassToIcon } from '@/services/characters-service';
+import { characterClassToIcon, getCompetitiveValueByGameMode } from '@/services/characters-service';
 import { useUserStore } from '@/stores/user';
 import { useRegion } from '@/composables/use-region';
 import { useGameMode } from '@/composables/use-gamemode';
-import { GameMode } from '@/models/game-mode';
 import { gameModeToIcon } from '@/services/game-mode-service';
 
 definePage({
@@ -48,7 +47,12 @@ const {
   execute: loadLeaderBoard,
   isLoading: leaderBoardLoading,
 } = useAsyncState(
-  () => getLeaderBoard({ region: regionModel.value, characterClass: characterClassModel.value, gameMode: gameModeModel.value }),
+  () =>
+    getLeaderBoard({
+      region: regionModel.value,
+      characterClass: characterClassModel.value,
+      gameMode: gameModeModel.value,
+    }),
   [],
   {}
 );
@@ -64,15 +68,8 @@ const rankTable = computed(() => createRankTable());
 
 const isSelfUser = (row: CharacterCompetitiveNumbered) => row.user.id === userStore.user!.id;
 
-const rowClass = (row: CharacterCompetitiveNumbered) =>
+const rowClass = (row: CharacterCompetitiveNumbered): string =>
   isSelfUser(row) ? 'text-primary' : 'text-content-100';
-
-const getCompetitiveValueByGameMode = (statistics: CharacterStatistics[], gameMode: GameMode) =>
-  {
-    const stat = statistics.find(s => s.gameMode === gameMode);
-    return stat ? stat.rating.competitiveValue : 0;
-  }
-
 </script>
 
 <template>
@@ -84,26 +81,30 @@ const getCompetitiveValueByGameMode = (statistics: CharacterStatistics[], gameMo
         </div>
         <Heading :title="$t('leaderboard.title')" />
       </div>
-      <div class="mb-2">
-        <Modal closable>
-          <Tag icon="popup" variant="primary" rounded size="lg" />
-          <template #popper>
-            <RankTable :rankTable="rankTable" />
-          </template>
-        </Modal>
-      </div>
-      <div class="flex justify-between gap-8">
+
+      <div class="mb-4 flex items-center gap-6">
         <div class="flex items-center">
-          <OTabs v-model="regionModel" contentClass="hidden" class="mb-2">
-            <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
+          <OTabs v-model="regionModel" contentClass="hidden">
+            <OTabItem
+              v-for="region in regions"
+              :label="$t(`region.${region}`, 0)"
+              :value="region"
+            />
           </OTabs>
         </div>
-        <div class="flex items-right">
-          <OTabs v-model="gameModeModel" contentClass="hidden" class="mb-2">
-            <OTabItem v-for="gamemode in rankedGameModes" :label="$t(`game-mode.${gamemode}`, 0)" :icon="gameModeToIcon[gamemode]" :value="gamemode" />
+        <Divider inline />
+        <div class="items-right flex">
+          <OTabs v-model="gameModeModel" contentClass="hidden">
+            <OTabItem
+              v-for="gameMode in rankedGameModes"
+              :label="$t(`game-mode.${gameMode}`, 0)"
+              :icon="gameModeToIcon[gameMode]"
+              :value="gameMode"
+            />
           </OTabs>
         </div>
       </div>
+
       <OTable
         :data="leaderboard"
         hoverable
@@ -111,7 +112,7 @@ const getCompetitiveValueByGameMode = (statistics: CharacterStatistics[], gameMo
         sortIcon="chevron-up"
         sortIconSize="xs"
         :loading="leaderBoardLoading"
-        :rowClass="rowClass"
+        :rowClass="row => rowClass(row as CharacterCompetitiveNumbered)"
         :defaultSort="['position', 'asc']"
       >
         <OTableColumn
@@ -124,13 +125,25 @@ const getCompetitiveValueByGameMode = (statistics: CharacterStatistics[], gameMo
           {{ row.position }}
         </OTableColumn>
 
-        <OTableColumn
-          #default="{ row }: { row: CharacterCompetitiveNumbered }"
-          field="rating.competitiveValue"
-          :label="$t('leaderboard.table.cols.rank')"
-          :width="230"
-        >
-          <Rank :rankTable="rankTable" :competitiveValue="getCompetitiveValueByGameMode(row.statistics, gameModeModel)" />
+        <OTableColumn field="rating.competitiveValue" :width="230">
+          <template #header>
+            <div class="flex items-center gap-2">
+              <span>{{ $t('leaderboard.table.cols.rank') }}</span>
+              <Modal closable>
+                <Tag icon="help-circle" rounded size="lg" variant="primary" />
+                <template #popper>
+                  <RankTable :rankTable="rankTable" />
+                </template>
+              </Modal>
+            </div>
+          </template>
+
+          <template #default="{ row }: { row: CharacterCompetitiveNumbered }">
+            <Rank
+              :rankTable="rankTable"
+              :competitiveValue="getCompetitiveValueByGameMode(row.statistics, gameModeModel)"
+            />
+          </template>
         </OTableColumn>
 
         <OTableColumn

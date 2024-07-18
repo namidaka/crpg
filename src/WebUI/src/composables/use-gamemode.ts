@@ -1,7 +1,5 @@
 import { GameMode } from '@/models/game-mode';
-
-
-
+import { rankedGameModes } from '@/services/game-mode-service';
 
 export const useGameMode = () => {
   const route = useRoute();
@@ -23,7 +21,6 @@ export const useGameMode = () => {
   });
 
   const gameModes = Object.values(GameMode);
-  const rankedGameModes = [ GameMode.Battle, GameMode.Duel];
 
   return {
     gameModeModel,
