@@ -79,7 +79,8 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 
                 return new(new UpdateGameUsersResult
                 {
-                    UpdateResults = results.Select(r => {
+                    UpdateResults = results.Select(r =>
+                    {
                         var gameUserViewModel = _mapper.Map<GameUserViewModel>(r.user);
 
                         // Only include relevant statistic in response
