@@ -43,7 +43,6 @@ import {
   type CharacterArmorOverall,
   CharacterArmorOverallKey,
   type CharacterLimitations,
-  type CharacterRating,
   type CharacteristicKey,
 } from '@/models/character';
 import { ItemSlot, ItemType, type Item, type ItemArmorComponent } from '@/models/item';
@@ -55,8 +54,8 @@ import { armorTypes, computeAverageRepairCostPerHour } from '@/services/item-ser
 import { t } from '@/services/translate-service';
 
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
-import { computeLeftMs, parseTimestamp } from '@/utils/date';
-import { range, groupBy, getIndexToIns } from '@/utils/array';
+import { computeLeftMs } from '@/utils/date';
+import { range, getIndexToIns } from '@/utils/array';
 import { GameMode } from '@/models/game-mode';
 
 export const getCharacters = () => get<Character[]>('/users/self/characters');
@@ -162,9 +161,6 @@ export const getCharacterEarningStatistics = async (
     return out;
   }, [] as TimeSeries[]);
 };
-
-export const getCharacterRating = (characterId: number) =>
-  get<CharacterRating>(`/users/self/characters/${characterId}/rating`);
 
 export const getCharacterLimitations = async (characterId: number) =>
   (await get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`)) || {

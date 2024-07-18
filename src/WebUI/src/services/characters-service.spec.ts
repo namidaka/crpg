@@ -50,6 +50,7 @@ import {
   computeOverallWeight,
   getCharacterLimitations,
 } from './characters-service';
+import { GameMode } from '@/models/game-mode';
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -130,10 +131,12 @@ it('activateCharacter', async () => {
 
 it('getCharacterStatistics', async () => {
   mockGet('/users/self/characters/12/statistics').willResolve(
-    response<CharacterStatistics>(mockCharacterStatistics)
+    response<Partial<Record<GameMode, CharacterStatistics>>>({
+      [GameMode.Battle]: mockCharacterStatistics as CharacterStatistics,
+    })
   );
 
-  expect(await getCharacterStatistics(12)).toEqual(mockCharacterStatistics);
+  expect(await getCharacterStatistics(12)).toEqual({ [GameMode.Battle]: mockCharacterStatistics });
 });
 
 it('getCharacterCharacteristics', async () => {
