@@ -117,8 +117,8 @@ public record SeedDataCommand : IMediatorRequest
                 PlatformUserId = "76561198023558734",
                 Platform = Platform.Steam,
                 Name = "droob",
-                Role = Role.Moderator,
                 ActiveCharacterId = 8,
+                Role = Role.Admin,
                 Gold = 1000000,
                 HeirloomPoints = 12,
                 ExperienceMultiplier = 1.09f,
@@ -782,9 +782,9 @@ public record SeedDataCommand : IMediatorRequest
             {
                 User = droob,
                 Name = "Droob Soldier",
-                Level = 33,
+                Level = 38,
                 Generation = 3,
-                Experience = _experienceTable.GetExperienceForLevel(33) + (_experienceTable.GetExperienceForLevel(34) - _experienceTable.GetExperienceForLevel(33)) / 2,
+                Experience = _experienceTable.GetExperienceForLevel(38),
                 Statistics = new List<CharacterStatistics>
                 {
                     {

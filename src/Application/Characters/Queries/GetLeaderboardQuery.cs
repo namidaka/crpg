@@ -40,15 +40,16 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
                 var requestGameMode = req.GameMode ?? Domain.Entities.Servers.GameMode.CRPGBattle;
                 // Todo: use DistinctBy here when EfCore implements it (does not work for now: https://github.com/dotnet/efcore/issues/27470 )
                 var topRatedCharactersByRegion = await _db.Characters
-                .Where(c => (req.Region == null || req.Region == c.User!.Region)
-                            && (req.CharacterClass == null || req.CharacterClass == c.Class)
-                            && c.Statistics.First(s => s.GameMode == requestGameMode) != null)
-                .OrderByDescending(c => c.Statistics.First(s => s.GameMode == requestGameMode).Rating.CompetitiveValue)
-                .Take(500)
-                .ProjectTo<CharacterPublicViewModel>(_mapper.ConfigurationProvider)
-                .ToArrayAsync(cancellationToken);
+                 .Include(c => c.User)
+                 .Where(c => (req.Region == null || req.Region == c.User!.Region)
+                             && (req.CharacterClass == null || req.CharacterClass == c.Class)
+                             && c.Statistics.First(s => s.GameMode == requestGameMode) != null)
+                 .OrderByDescending(c => c.Statistics.First(s => s.GameMode == requestGameMode).Rating.CompetitiveValue)
+                 .Take(500)
+                 .ProjectTo<CharacterPublicViewModel>(_mapper.ConfigurationProvider)
+                 .ToArrayAsync(cancellationToken);
 
-                IList<CharacterPublicViewModel> data = topRatedCharactersByRegion.DistinctBy(c => c.User).Take(50).ToList();
+                IList<CharacterPublicViewModel> data = topRatedCharactersByRegion.DistinctBy(c => c.User.Id).Take(50).ToList();
 
                 var cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
