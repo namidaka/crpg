@@ -534,8 +534,8 @@ public record SeedDataCommand : IMediatorRequest
 
             UserItem takeoItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
             UserItem takeoItem2 = new() { User = takeo, ItemId = "crpg_winds_fury_v1_h2" };
-            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_lion_imprinted_saber_v1_h1" };
-            UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0" };
+            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_armet_h1", PersonalItem = new() };
+            UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0", };
             UserItem orleItem3 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_v1_h2" };
             UserItem orleItem4 = new() { User = orle, ItemId = "crpg_decorated_short_spatha_v1_h1" };
             UserItem orleItem5 = new() { User = orle, ItemId = "crpg_scalpel_v1_h0" };
@@ -544,11 +544,11 @@ public record SeedDataCommand : IMediatorRequest
             UserItem orleItem8 = new() { User = orle, ItemId = "crpg_nordic_leather_cap_v2_h3" };
             UserItem orleItem9 = new() { User = orle, ItemId = "crpg_eastern_wrapped_armguards_v2_h3" };
             UserItem orleItem10 = new() { User = orle, ItemId = "crpg_blacksmith_hammer_v2_h0" };
-            UserItem orleItem11 = new() { User = orle, ItemId = "crpg_scythe_v1_h3" };
+            UserItem orleItem11 = new() { User = orle, ItemId = "crpg_scythe_v2_h3" };
             UserItem orleItem12 = new() { User = orle, ItemId = "crpg_rondel_v2_h3" };
-            UserItem orleItem13 = new() { User = orle, ItemId = "crpg_crossbow_j_v2_h3" };
+            UserItem orleItem13 = new() { User = orle, ItemId = "crpg_crossbow_j_v4_h3" };
             UserItem orleItem14 = new() { User = orle, ItemId = "crpg_helping_hand_v3_h2" };
-            UserItem orleItem15 = new() { User = orle, ItemId = "crpg_bolt_c_v2_h2" };
+            UserItem orleItem15 = new() { User = orle, ItemId = "crpg_bolt_c_v4_h0" };
             UserItem orleItem16 = new() { User = orle, ItemId = "crpg_wooden_sword_v2_h3" };
             UserItem orleItem17 = new() { User = orle, ItemId = "crpg_basic_imperial_leather_armor_v2_h3" };
             UserItem orleItem18 = new() { User = orle, ItemId = "crpg_wooden_twohander_v2_h3" };
@@ -589,9 +589,13 @@ public record SeedDataCommand : IMediatorRequest
                 laHirekItem3,
             };
 
+            var existingUserItems = await _db.UserItems.ToDictionaryAsync(pi => pi.ItemId);
             foreach (var newUserItem in newUserItems)
             {
-                _db.UserItems.Add(newUserItem);
+                if (!existingUserItems.ContainsKey(newUserItem.ItemId))
+                {
+                    _db.UserItems.Add(newUserItem);
+                }
             }
 
             Restriction takeoRestriction0 = new()
@@ -1045,6 +1049,7 @@ public record SeedDataCommand : IMediatorRequest
                 {
                     new("gold", "120000"),
                     new("heirloomPoints", "3"),
+                    new("itemId", "crpg_ba_bolzanogreathelmet_h2"),
                 },
             };
             ActivityLog activityLogItemBought1 = new()
@@ -1322,11 +1327,14 @@ public record SeedDataCommand : IMediatorRequest
 
             ClanArmoryItem[] newClanArmoryItems =
             {
-                takeoClanArmoryItem1, takeoClanArmoryItem2, orleClanArmoryItem1, orleClanArmoryItem2, orleClanArmoryItem3,  orleClanArmoryItem4,  orleClanArmoryItem5,  orleClanArmoryItem6,  orleClanArmoryItem7,  orleClanArmoryItem8,  orleClanArmoryItem9,  orleClanArmoryItem10, orleClanArmoryItem11, orleClanArmoryItem12, orleClanArmoryItem13, orleClanArmoryItem14, orleClanArmoryItem15, orleClanArmoryItem16, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
+                takeoClanArmoryItem1, takeoClanArmoryItem2,
+                orleClanArmoryItem2, orleClanArmoryItem3, orleClanArmoryItem4, orleClanArmoryItem5, orleClanArmoryItem6, orleClanArmoryItem7,  orleClanArmoryItem8, orleClanArmoryItem9, orleClanArmoryItem10, orleClanArmoryItem11, orleClanArmoryItem12, orleClanArmoryItem13, orleClanArmoryItem14, orleClanArmoryItem15, orleClanArmoryItem16, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
             };
+
             foreach (var newClanArmoryItem in newClanArmoryItems)
             {
-                pecores.ArmoryItems.Add(newClanArmoryItem);
+                // TODO: check if exist
+                // pecores.ArmoryItems.Add(newClanArmoryItem);
             }
 
             ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHirekItem2, Borrower = orleMember, };
@@ -1342,7 +1350,8 @@ public record SeedDataCommand : IMediatorRequest
 
             foreach (var newClanArmoryBorrowedItem in newClanArmoryBorrowedItems)
             {
-                pecores.ArmoryBorrowedItems.Add(newClanArmoryBorrowedItem);
+                // TODO: check if exist
+                // pecores.ArmoryBorrowedItems.Add(newClanArmoryBorrowedItem);
             }
 
             Clan ats = new()
@@ -2258,6 +2267,12 @@ public record SeedDataCommand : IMediatorRequest
             }
             else
             {
+                // auto disable item
+                if (item.Id.StartsWith("crpg_disabled_"))
+                {
+                    item.Enabled = false;
+                }
+
                 _db.Items.Add(item);
             }
         }

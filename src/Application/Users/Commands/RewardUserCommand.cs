@@ -4,6 +4,7 @@ using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Application.Users.Models;
+using Crpg.Domain.Entities.Items;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using LoggerFactory = Crpg.Logging.LoggerFactory;
@@ -16,6 +17,7 @@ public record RewardUserCommand : IMediatorRequest<UserViewModel>
     public int ActorUserId { get; init; }
     public int Gold { get; init; }
     public int HeirloomPoints { get; init; }
+    public string ItemId { get; init; } = string.Empty;
 
     internal class Handler : IMediatorRequestHandler<RewardUserCommand, UserViewModel>
     {
@@ -43,7 +45,34 @@ public record RewardUserCommand : IMediatorRequest<UserViewModel>
             user.Gold = Math.Max(user.Gold + req.Gold, 0);
             user.HeirloomPoints = Math.Max(user.HeirloomPoints + req.HeirloomPoints, 0);
 
-            _db.ActivityLogs.Add(_activityLogService.CreateUserRewardedLog(req.UserId, req.ActorUserId, req.Gold, req.HeirloomPoints));
+            if (req.ItemId != string.Empty)
+            {
+                var item = await _db.Items.FirstOrDefaultAsync(i => i.Id == req.ItemId, cancellationToken);
+                if (item == null)
+                {
+                    return new(CommonErrors.ItemNotFound(req.ItemId));
+                }
+
+                var existingPersonalItems = await _db.PersonalItems
+                    .Include(pi => pi.UserItem)
+                        .ThenInclude(ui => ui!.Item)
+                    .Where(pi => pi.UserItem!.UserId == req.UserId)
+                    .ToDictionaryAsync(pi => pi.UserItem!.Item!.Id, cancellationToken);
+
+                if (existingPersonalItems.ContainsKey(item.Id))
+                {
+                    return new(CommonErrors.PersonalItemAlreadyExist(req.UserId, req.ItemId));
+                }
+
+                user.Items.Add(new UserItem
+                {
+                    UserId = req.UserId,
+                    Item = item,
+                    PersonalItem = new(),
+                });
+            }
+
+            _db.ActivityLogs.Add(_activityLogService.CreateUserRewardedLog(req.UserId, req.ActorUserId, req.Gold, req.HeirloomPoints, req.ItemId));
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' rewarded", req.UserId);

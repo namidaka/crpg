@@ -1434,7 +1434,7 @@ activityLog:
     UserCreated: 'The user was created'
     UserDeleted: 'The user was deleted'
     UserRenamed: 'The user {oldName} was renamed to {newName}'
-    UserRewarded: 'The user was rewarded with {gold} {heirloomPoints} by user {actorUserId}'
+    UserRewarded: 'The user was rewarded with {gold} {heirloomPoints} {itemId} by user {actorUserId}'
     ItemBought: 'User bought {itemId} for {price}'
     ItemSold: 'User sold item {itemId} for {price}'
     ItemBroke: 'The item {itemId} was broken'
