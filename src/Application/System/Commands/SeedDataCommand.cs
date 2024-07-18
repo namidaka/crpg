@@ -822,23 +822,6 @@ public record SeedDataCommand : IMediatorRequest
                             },
                         }
                     },
-                    {
-                        new CharacterStatistics
-                        {
-                            Kills = 5,
-                            Deaths = 5,
-                            Assists = 0,
-                            PlayTime = new TimeSpan(0, 8, 1, 15),
-                            GameMode = GameMode.CRPGDuel,
-                            Rating = new()
-                            {
-                                Value = 1500,
-                                Deviation = 350,
-                                Volatility = 0.06f,
-                                CompetitiveValue = 1000,
-                            },
-                        }
-                    },
                 },
                 Characteristics = new CharacterCharacteristics
                 {

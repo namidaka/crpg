@@ -223,13 +223,29 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                     instanceAlias = GameModeAlias.Z; // Default value if parsing fails.
                 }
 
-                await _db.Entry(user.ActiveCharacter)
-                .Collection(c => c.Statistics)
-                .Query()
-                .Where(s => s.GameMode == _gameModeService.GameModeByInstanceAlias(instanceAlias))
-                .Include(s => s.Rating)
-                .AsNoTracking()
-                .LoadAsync(cancellationToken);
+                GameMode currentGameMode = _gameModeService.GameModeByInstanceAlias(instanceAlias);
+
+                var statistics = await _db.Entry(user.ActiveCharacter)
+                    .Collection(c => c.Statistics)
+                    .Query()
+                    .Where(s => s.GameMode == currentGameMode)
+                    .Include(s => s.Rating)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken);
+
+                var statistic = statistics.FirstOrDefault();
+
+                if (statistic == null)
+                {
+                    user.ActiveCharacter.Statistics.Add(new CharacterStatistics { GameMode = currentGameMode });
+                    _characterService.ResetRating(user.ActiveCharacter, currentGameMode);
+                    await _db.SaveChangesAsync(cancellationToken);
+
+                    statistic = user.ActiveCharacter.Statistics.First(s => s.GameMode == currentGameMode);
+                }
+
+                // Only load the relevant statistic for the gamemode
+                user.ActiveCharacter.Statistics = new List<CharacterStatistics> { statistic };
             }
 
             var gameUser = _mapper.Map<GameUserViewModel>(user);

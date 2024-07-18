@@ -109,6 +109,7 @@ internal class CrpgTrainingGroundGameMode : MissionBasedMultiplayerGameMode
                     new MultiplayerPreloadHelper(),
 #if CRPG_SERVER
                     duelServer,
+                    rewardServer,
                     // SpawnFrameBehaviour: where to spawn, SpawningBehaviour: when to spawn
                     new SpawnComponent(new CrpgTrainingGroundSpawnFrameBehavior(), new CrpgTrainingGroundSpawningBehavior(_constants, duelServer)),
                     new MultiplayerAdminComponent(), // admin UI to kick player or restart game

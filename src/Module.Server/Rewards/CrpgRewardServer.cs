@@ -183,7 +183,7 @@ internal class CrpgRewardServer : MissionLogic
         duelResults.AddParticipant(loserRating);
         userUpdates.Add(loserUpdate);
 
-        duelResults.AddResult(winnerRating, loserRating, 100);
+        duelResults.AddResult(winnerRating, loserRating, 1);
         CrpgRatingCalculator.UpdateRatings(duelResults);
 
         winnerUpdate.Statistics.Rating = GetNewRating(winnerPeer);
@@ -194,16 +194,27 @@ internal class CrpgRewardServer : MissionLogic
             return;
         }
 
-        // TODO: add retry mechanism (the endpoint need to be idempotent though).
+        Guid idempotencyKey = Guid.NewGuid();
+
         try
         {
-            SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
-            var res = (await _crpgClient.UpdateUsersAsync(new CrpgGameUsersUpdateRequest { Updates = userUpdates })).Data!;
-            SendDuelResultToPeers(res.UpdateResults, crpgPeerByCrpgUserId, winnerUpdate.UserId);
+            await _pipeline.ExecuteAsync(async cancellationToken =>
+            {
+                var request = new CrpgGameUsersUpdateRequest
+                {
+                    Updates = userUpdates,
+                    Key = idempotencyKey.ToString(),
+                };
+
+                SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
+                var res = (await _crpgClient.UpdateUsersAsync(request)).Data!;
+                SendDuelResultToPeers(res.UpdateResults, crpgPeerByCrpgUserId, winnerUpdate.UserId);
+            });
         }
         catch (Exception e)
         {
-            Debug.Print("Couldn't update users: " + e);
+            Debug.Print($"Couldn't update users - {e}");
+
             SendErrorToPeers(crpgPeerByCrpgUserId);
         }
         finally

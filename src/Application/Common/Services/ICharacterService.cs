@@ -98,17 +98,18 @@ internal class CharacterService : ICharacterService
 
     public void ResetStatistics(Character character)
     {
-        if (character.Statistics.Count == 0)
-        {
-            character.Statistics = new List<CharacterStatistics>() { new() { GameMode = GameMode.CRPGBattle }, new() { GameMode = GameMode.CRPGDuel } };
-        }
+        character.Statistics = new List<CharacterStatistics>();
 
-        foreach (CharacterStatistics modeStats in character.Statistics)
+        foreach (GameMode gameMode in Enum.GetValues(typeof(GameMode)))
         {
-            modeStats.Kills = 0;
-            modeStats.Deaths = 0;
-            modeStats.Assists = 0;
-            modeStats.PlayTime = TimeSpan.Zero;
+            character.Statistics.Add(new CharacterStatistics
+            {
+                GameMode = gameMode,
+                Kills = 0,
+                Deaths = 0,
+                Assists = 0,
+                PlayTime = TimeSpan.Zero,
+            });
         }
     }
 

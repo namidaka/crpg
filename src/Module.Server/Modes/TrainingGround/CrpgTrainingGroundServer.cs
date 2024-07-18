@@ -604,20 +604,20 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
         }
     }
 
-    private void HandleEndedChallenge(DuelInfo duel)
+    private async void HandleEndedChallenge(DuelInfo duel)
     {
         MissionPeer? challengeWinnerPeer = duel.ChallengeWinnerPeer;
         MissionPeer? challengeLoserPeer = duel.ChallengeLoserPeer;
-        if (challengeWinnerPeer != null)
+        if (challengeWinnerPeer != null && challengeLoserPeer != null)
         {
             CrpgTrainingGroundMissionRepresentative component = challengeWinnerPeer.GetComponent<CrpgTrainingGroundMissionRepresentative>();
-            CrpgTrainingGroundMissionRepresentative? component2 = challengeLoserPeer?.GetComponent<CrpgTrainingGroundMissionRepresentative>();
+            CrpgTrainingGroundMissionRepresentative component2 = challengeLoserPeer.GetComponent<CrpgTrainingGroundMissionRepresentative>();
             CrpgPeer? winnerCrpgPeer = challengeWinnerPeer.GetComponent<CrpgPeer>();
-            CrpgPeer? loserCrpgPeer = challengeLoserPeer?.GetComponent<CrpgPeer>();
+            CrpgPeer? loserCrpgPeer = challengeLoserPeer.GetComponent<CrpgPeer>();
 
             if (winnerCrpgPeer != null && loserCrpgPeer != null)
             {
-                _ = _rewardServer.OnDuelEnded(winnerCrpgPeer, loserCrpgPeer);
+                await _rewardServer.OnDuelEnded(winnerCrpgPeer, loserCrpgPeer);
             }
             else
             {
@@ -636,16 +636,13 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
                 GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
             }
 
-            if (component2 != null)
+            component2.OnDuelLost();
+            component2.Rating = (int)newLoserRating.CompetitiveValue;
+            if (challengeLoserPeer.Peer.Communicator.IsConnectionActive)
             {
-                component2.OnDuelLost();
-                component2.Rating = (int)newLoserRating.CompetitiveValue;
-                if (challengeLoserPeer != null && challengeLoserPeer.Peer.Communicator.IsConnectionActive)
-                {
-                    GameNetwork.BeginBroadcastModuleEvent();
-                    GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component2.GetNetworkPeer(), NumberOfWins = component2.NumberOfWins, NumberOfLosses = component2.NumberOfLosses, Rating = component2.Rating });
-                    GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
-                }
+                GameNetwork.BeginBroadcastModuleEvent();
+                GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component2.GetNetworkPeer(), NumberOfWins = component2.NumberOfWins, NumberOfLosses = component2.NumberOfLosses, Rating = component2.Rating });
+                GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
             }
         }
 
