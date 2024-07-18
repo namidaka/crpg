@@ -14,10 +14,10 @@ public enum GameMode
 
 public enum GameModeAlias
 {
-    A,
-    B,
-    C,
-    D,
-    E,
-    Z,
+    A, // CRPGBattle
+    B, // CRPGConquest
+    C, // CRPGDuel
+    D, // CRPGSkirmish
+    E, // CRPGDTV
+    Z, // CRPGUnknownGameMode
 }

@@ -137,17 +137,17 @@ const { state: characterLimitations, execute: loadCharacterLimitations } = useAs
   }
 );
 
-const currentGameMode = ref<GameMode>(GameMode.Battle);
-const isRankedGameMode = computed(() => checkIsRankedGameMode(currentGameMode.value));
+const gameMode = ref<GameMode>(GameMode.Battle);
+const isRankedGameMode = computed(() => checkIsRankedGameMode(gameMode.value));
 
-const selectedCharacterStatistics = computed(
-  () => characterStatistics.value[currentGameMode.value] || getDefaultCharacterStatistics()
+const gameModeCharacterStatistics = computed(
+  () => characterStatistics.value[gameMode.value] || getDefaultCharacterStatistics()
 );
 
 const kdaRatio = computed(() =>
-  selectedCharacterStatistics.value.deaths === 0
+  gameModeCharacterStatistics.value.deaths === 0
     ? '∞'
-    : getCharacterKDARatio(selectedCharacterStatistics.value)
+    : getCharacterKDARatio(gameModeCharacterStatistics.value)
 );
 
 const experienceMultiplierBonus = computed(() =>
@@ -165,6 +165,7 @@ const fetchPageData = (characterId: number) =>
 
 onBeforeRouteUpdate(async (to, from) => {
   if (to.name === from.name) {
+    // @ts-expect-error
     await fetchPageData(Number(to.params.id));
   }
   return true;
@@ -292,7 +293,7 @@ await fetchPageData(character.value.id);
 
         <template v-if="!character.forTournament">
           <div class="flex justify-center">
-            <OTabs v-model="currentGameMode" contentClass="hidden">
+            <OTabs v-model="gameMode" contentClass="hidden">
               <OTabItem
                 v-for="gm in gameModes"
                 :label="$t(`game-mode.${gm}`, 0)"
@@ -311,7 +312,7 @@ await fetchPageData(character.value.id);
               >
                 <Rank
                   :rankTable="rankTable"
-                  :competitiveValue="selectedCharacterStatistics.rating.competitiveValue"
+                  :competitiveValue="gameModeCharacterStatistics.rating.competitiveValue"
                 />
               </Tooltip>
               <Modal closable>
@@ -319,7 +320,7 @@ await fetchPageData(character.value.id);
                 <template #popper>
                   <RankTable
                     :rankTable="rankTable"
-                    :competitiveValue="selectedCharacterStatistics.rating.competitiveValue"
+                    :competitiveValue="gameModeCharacterStatistics.rating.competitiveValue"
                   />
                 </template>
               </Modal>
@@ -330,9 +331,9 @@ await fetchPageData(character.value.id);
               :label="$t('character.statistics.kda.title')"
               :value="
                 $t('character.format.kda', {
-                  kills: selectedCharacterStatistics.kills,
-                  deaths: selectedCharacterStatistics.deaths,
-                  assists: selectedCharacterStatistics.assists,
+                  kills: gameModeCharacterStatistics.kills,
+                  deaths: gameModeCharacterStatistics.deaths,
+                  assists: gameModeCharacterStatistics.assists,
                   ratio: kdaRatio,
                 })
               "
@@ -345,7 +346,7 @@ await fetchPageData(character.value.id);
             <SimpleTableRow
               :label="$t('character.statistics.playTime.title')"
               :value="
-                $t('dateTimeFormat.hh', { hours: msToHours(selectedCharacterStatistics.playTime) })
+                $t('dateTimeFormat.hh', { hours: msToHours(gameModeCharacterStatistics.playTime) })
               "
             />
           </div>

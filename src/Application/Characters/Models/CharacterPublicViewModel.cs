@@ -1,9 +1,6 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Crpg.Application.Common.Mappings;
 using Crpg.Application.Users.Models;
 using Crpg.Domain.Entities.Characters;
-using Crpg.Domain.Entities.Servers;
 
 namespace Crpg.Application.Characters.Models;
 

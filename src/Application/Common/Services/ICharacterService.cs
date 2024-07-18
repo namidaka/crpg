@@ -26,6 +26,7 @@ internal interface ICharacterService
     void UpdateRating(Character character, GameMode gamemode, float value, float deviation, float volatility, bool isGameUserUpdate = false);
 
     void ResetAllRatings(Character character);
+
     void ResetRating(Character character, GameMode gameMode);
 
     void ResetStatistics(Character character);
@@ -138,8 +139,7 @@ internal class CharacterService : ICharacterService
     {
         foreach (GameMode gameMode in Enum.GetValues(typeof(GameMode)))
         {
-            UpdateRating(character, gameMode, _constants.DefaultRating, _constants.DefaultRatingDeviation,
-            _constants.DefaultRatingVolatility);
+            ResetRating(character, gameMode);
         }
     }
 

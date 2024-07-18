@@ -12,7 +12,7 @@ public record GetUserCharacterStatisticsQuery : IMediatorRequest<Dictionary<Game
 {
     public int CharacterId { get; init; }
     public int UserId { get; init; }
-    
+
     internal class Handler : IMediatorRequestHandler<GetUserCharacterStatisticsQuery, Dictionary<GameMode, CharacterStatisticsViewModel>>
     {
         private readonly ICrpgDbContext _db;

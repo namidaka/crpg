@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Crpg.Application.Common.Files;
+﻿using Crpg.Application.Common.Files;
 using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Application.Games.Commands;
@@ -560,6 +559,45 @@ public class GetGameUserCommandTest : TestBase
                 },
             },
         };
+        User user = new()
+        {
+            Platform = Platform.Steam,
+            PlatformUserId = "1",
+            Region = Region.Eu,
+            ActiveCharacter = character,
+            Characters = new List<Character>
+            {
+                character,
+            },
+        };
+        ArrangeDb.Add(user);
+        await ArrangeDb.SaveChangesAsync();
+
+        GetGameUserCommand.Handler handler = new(ActDb, Mapper,
+            new MachineDateTime(), new ThreadSafeRandom(), userService, characterService, activityLogService, gameModeServiceMock.Object);
+
+        var result = await handler.Handle(new GetGameUserCommand
+        {
+            Platform = user.Platform,
+            PlatformUserId = user.PlatformUserId,
+            Region = Region.Eu,
+            Instance = "crpg01a",
+        }, CancellationToken.None);
+
+        var gameUser = result.Data!;
+        Assert.That(gameUser.Character.Id, Is.EqualTo(character.Id));
+        Assert.That(gameUser.Character.Statistics.GameMode, Is.EqualTo(GameMode.CRPGBattle));
+    }
+
+    [Test]
+    public async Task ShouldCreateStatisticsByGameModeIfNotExist()
+    {
+        var userService = Mock.Of<IUserService>();
+        var characterService = Mock.Of<ICharacterService>();
+        var activityLogService = Mock.Of<IActivityLogService>();
+        Mock<IGameModeService> gameModeServiceMock = new();
+
+        Character character = new();
         User user = new()
         {
             Platform = Platform.Steam,

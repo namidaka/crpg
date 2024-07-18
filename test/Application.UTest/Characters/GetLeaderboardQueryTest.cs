@@ -1,5 +1,4 @@
 ﻿using Crpg.Application.Characters.Queries;
-using Crpg.Application.Common.Results;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Servers;
