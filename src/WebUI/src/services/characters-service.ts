@@ -61,7 +61,6 @@ import { range, groupBy, getIndexToIns } from '@/utils/array';
 
 import { GameMode } from '@/models/game-mode';
 
-
 export const getCharacters = () => get<Character[]>('/users/self/characters');
 
 export const getCharactersByUserId = (userId: number) =>
@@ -264,16 +263,15 @@ export const getMaximumExperience = () => getExperienceForLevel(maximumLevel);
 export const attributePointsForLevel = (level: number): number => {
   if (level <= 0) level = minimumLevel;
 
-  const points = defaultAttributePoints;
-  let totalPoints = points;
+  let points = defaultAttributePoints;
 
   for (let i = 1; i < level; i++) {
     if (i < highLevelCutoff) {
-      totalPoints += attributePointsPerLevel;
+      points += attributePointsPerLevel;
     }
   }
 
-  return totalPoints;
+  return points;
 };
 
 export const skillPointsForLevel = (level: number): number => {
