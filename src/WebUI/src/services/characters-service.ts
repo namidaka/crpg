@@ -6,6 +6,7 @@ import {
   weaponProficiencyPointsForAgility,
   weaponProficiencyPointsForWeaponMasterCoefs,
   experienceForLevelCoefs,
+  highLevelCutoff,
   defaultStrength,
   defaultAgility,
   defaultHealthPoints,
@@ -262,7 +263,17 @@ export const getMaximumExperience = () => getExperienceForLevel(maximumLevel);
 
 export const attributePointsForLevel = (level: number): number => {
   if (level <= 0) level = minimumLevel;
-  return defaultAttributePoints + (level - 1) * attributePointsPerLevel;
+
+  const points = defaultAttributePoints;
+  let totalPoints = points;
+
+  for (let i = 1; i < level; i++) {
+    if (i < highLevelCutoff) {
+      totalPoints += attributePointsPerLevel;
+    }
+  }
+
+  return totalPoints;
 };
 
 export const skillPointsForLevel = (level: number): number => {
