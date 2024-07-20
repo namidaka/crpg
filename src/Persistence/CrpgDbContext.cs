@@ -9,6 +9,7 @@ using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.GameServers;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
+using Crpg.Domain.Entities.Notification;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
 using Crpg.Domain.Entities.Servers;
@@ -70,6 +71,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<Character> Characters { get; set; } = default!;
     public DbSet<Item> Items { get; set; } = default!;
     public DbSet<UserItem> UserItems { get; set; } = default!;
+    public DbSet<UserNotification> UserNotifications { get; set; } = default!;
     public DbSet<PersonalItem> PersonalItems { get; set; } = default!;
     public DbSet<EquippedItem> EquippedItems { get; set; } = default!;
     public DbSet<CharacterLimitations> CharacterLimitations { get; set; } = default!;
@@ -91,6 +93,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<ActivityLog> ActivityLogs { get; set; } = default!;
     public DbSet<ActivityLogMetadata> ActivityLogMetadata { get; set; } = default!;
     public DbSet<IdempotencyKey> IdempotencyKeys { get; set; } = default!;
+
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

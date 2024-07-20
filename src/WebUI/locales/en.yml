@@ -1455,6 +1455,12 @@ activityLog:
     ClanArmoryBorrowItem: 'Item {userItemId} was borrowed from clan {clanId} armory'
     CharacterEarned: 'The character {characterId} earned {experience} experience and {gold} gold in the {gameMode} game mode'
 
+# TODO: to user.notifications
+notification:
+  tpl:
+    UserRewarded: '111 {gold} {heirloomPoints} {itemId} by user {actorUserId}'
+
+
 leaderboard:
   title: Leaderboard
   table:

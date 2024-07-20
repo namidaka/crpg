@@ -1,11 +1,12 @@
 import qs from 'qs';
 import { type Item } from '@/models/item';
-import {
-  type User,
-  type UserPublic,
-  type UserItem,
-  type UserItemsByType,
-  type UserPrivate,
+import type {
+  User,
+  UserPublic,
+  UserItem,
+  UserItemsByType,
+  UserPrivate,
+  UserNotification,
 } from '@/models/user';
 import { Platform } from '@/models/platform';
 import { type Clan, type ClanEdition, type ClanMemberRole } from '@/models/clan';
@@ -14,6 +15,8 @@ import { get, post, put, del } from '@/services/crpg-client';
 import { mapRestrictions } from '@/services/restriction-service';
 import { mapClanResponse } from '@/services/clan-service';
 import { pick } from '@/utils/object';
+
+export const getUserNotifications = () => get<UserNotification[]>('/users/self/notifications');
 
 export const getUser = () => get<User>('/users/self');
 

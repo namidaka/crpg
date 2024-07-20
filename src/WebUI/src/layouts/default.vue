@@ -21,6 +21,7 @@ const promises: Array<Promise<any>> = [
   loadGameServerStats(),
   userStore.fetchUserRestriction(),
   userStore.fetchUserClanAndRole(),
+  userStore.fetchUserNotifications(),
 ];
 
 const mainHeader = ref<HTMLDivElement | null>(null);

@@ -10,6 +10,7 @@ using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
+using Crpg.Domain.Entities.Notification;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
 using Crpg.Domain.Entities.Servers;
@@ -1003,6 +1004,17 @@ public record SeedDataCommand : IMediatorRequest
                     new("itemId", "crpg_ba_bolzanogreathelmet_h2"),
                 },
             };
+            ActivityLog activityLogUserReward2 = new()
+            {
+                Type = ActivityLogType.UserRewarded,
+                User = orle,
+                Metadata =
+                {
+                    new("gold", "120000"),
+                    new("heirloomPoints", "3"),
+                    new("itemId", "crpg_ba_bolzanogreathelmet_h2"),
+                },
+            };
             ActivityLog activityLogItemBought1 = new()
             {
                 Type = ActivityLogType.ItemBought,
@@ -1223,6 +1235,17 @@ public record SeedDataCommand : IMediatorRequest
 
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());
             _db.ActivityLogs.AddRange(newActivityLogs.Concat(newActivityLogCharacterEarned));
+
+            UserNotification orleNotification1 = new() { User = orle, ActivityLog = newActivityLogCharacterEarned.ElementAt(0) };
+            UserNotification orleNotification2 = new() { User = orle, ActivityLog = newActivityLogCharacterEarned.ElementAt(1) };
+            UserNotification orleNotification3 = new() { User = orle, ActivityLog = activityLogUserReward2 };
+
+            _db.UserNotifications.RemoveRange(await _db.UserNotifications.ToArrayAsync());
+            UserNotification[] userNotifications =
+            {
+                orleNotification1, orleNotification2, orleNotification3,
+            };
+            _db.UserNotifications.AddRange(userNotifications);
 
             Clan pecores = new()
             {

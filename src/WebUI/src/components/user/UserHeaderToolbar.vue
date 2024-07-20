@@ -38,7 +38,7 @@ const animatedUserGold = useTransition(toRef(() => userStore.user!.gold));
         <OButton :variant="shown ? 'transparent-active' : 'transparent'" size="sm" rounded>
           <FontAwesomeLayers full-width class="fa-2x">
             <FontAwesomeIcon :icon="['crpg', 'carillon']" />
-            <!-- v-if="active" -->
+            <!-- v-if="active" - has unread -->
             <FontAwesomeLayersText
               counter
               value="●"
@@ -49,51 +49,22 @@ const animatedUserGold = useTransition(toRef(() => userStore.user!.gold));
         </OButton>
       </template>
 
+      <!-- TODO: BaseCard/Island component -->
       <template #popper="{ hide }">
-        <!-- TODO: merge with activity log card -->
-        <DropdownItem>
-          <div class="flex max-w-xl flex-col space-y-2">
-            <div class="flex items-center gap-2">
-              <!-- TODO: create System User cmp -->
-              <div class="flex items-center gap-1.5 text-content-100">
-                <SvgSpriteImg name="logo" viewBox="0 0 162 124" class="w-6" />
-                System
-              </div>
-
-              <div class="text-2xs text-content-300">
-                {{ $d(new Date('2024-07-15T20:26:06.2775662Z'), 'short') }}
-              </div>
-              <Tag variant="primary" :label="'CharacterEarned'" />
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur tempore at,
-              ullam unde nobis vitae atque mollitia dolore laboriosam cum ipsam incidunt saepe odit
-              aperiam obcaecati, maxime eum. Aliquid inventore cum culpa!
-            </div>
+        <div class="w-[26rem]">
+          <div class="prose prose-invert px-5 py-3">
+            <h5 class="mb-0">Notifications</h5>
           </div>
-        </DropdownItem>
 
-        <Divider />
+          <Divider class="stroke-current text-base-500" />
 
-        <DropdownItem>
-          <div class="flex max-w-xl flex-col space-y-2">
-            <div class="flex items-center gap-2">
-              <div class="flex items-center gap-1.5 text-content-100">
-                <SvgSpriteImg name="logo" viewBox="0 0 162 124" class="w-6" />
-                System
-              </div>
-              <div class="text-2xs text-content-300">
-                {{ $d(new Date('2024-07-15T20:26:06.2775662Z'), 'long') }}
-              </div>
-              <Tag variant="primary" :label="'CharacterEarned'" />
-            </div>
-            <div>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur tempore at,
-              ullam unde nobis vitae atque mollitia dolore laboriosam cum ipsam incidunt saepe odit
-              aperiam obcaecati, maxime eum. Aliquid inventore cum culpa!
-            </div>
-          </div>
-        </DropdownItem>
+          <NotificationCard
+            v-if="Boolean(userStore.notifications.length)"
+            v-for="notification in userStore.notifications"
+            :notification="notification"
+          />
+          <div v-else class="px-5 py-3">У вас еще нет уведомлений.</div>
+        </div>
       </template>
     </VDropdown>
 

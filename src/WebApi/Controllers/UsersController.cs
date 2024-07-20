@@ -11,6 +11,7 @@ using Crpg.Application.Items.Models;
 using Crpg.Application.Items.Queries;
 using Crpg.Application.Limitations.Models;
 using Crpg.Application.Limitations.Queries;
+using Crpg.Application.Notifications.Queries;
 using Crpg.Application.Parties.Commands;
 using Crpg.Application.Restrictions.Models;
 using Crpg.Application.Restrictions.Queries;
@@ -584,5 +585,15 @@ public class UsersController : BaseController
     public Task<ActionResult> RewardRecently()
     {
         return ResultToActionAsync(Mediator.Send(new RewardRecentUserCommand { }));
+    }
+
+    /// <summary>
+    /// Gets user's notifications.
+    /// </summary>
+    [HttpGet("self/notifications")]
+    public Task<ActionResult<Result<IList<UserNotificationViewModel>>>> GetUserNotifications()
+    {
+        GetUserNotificationsQuery req = new() { UserId = CurrentUser.User!.Id };
+        return ResultToActionAsync(Mediator.Send(req));
     }
 }
