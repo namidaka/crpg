@@ -52,18 +52,16 @@ const animatedUserGold = useTransition(toRef(() => userStore.user!.gold));
       <!-- TODO: BaseCard/Island component -->
       <template #popper="{ hide }">
         <div class="w-[26rem]">
-          <div class="prose prose-invert px-5 py-3">
-            <h5 class="mb-0">Notifications</h5>
-          </div>
-
-          <Divider class="stroke-current text-base-500" />
-
+          <!-- TODO: last 5 -->
           <NotificationCard
             v-if="Boolean(userStore.notifications.length)"
             v-for="notification in userStore.notifications"
             :notification="notification"
           />
-          <div v-else class="px-5 py-3">У вас еще нет уведомлений.</div>
+          <div v-else class="px-5 py-3">TODO: У вас еще нет уведомлений.</div>
+
+          <Divider />
+          <div class="px-5 py-3">TODO:Все уведомления</div>
         </div>
       </template>
     </VDropdown>

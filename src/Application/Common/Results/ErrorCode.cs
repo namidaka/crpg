@@ -63,6 +63,7 @@ public enum ErrorCode
     UserItemNotFound,
     UserNotAClanMember,
     UserNotFound,
+    UserNotificationNotFound,
     UserNotInAClan,
     UserRoleNotMet,
     PersonalItemAlreadyExist,

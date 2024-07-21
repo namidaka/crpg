@@ -363,4 +363,10 @@ internal static class CommonErrors
         Title = "Personal item already exist",
         Detail = $"User with id '{userId}' is already the owner of a personal item '{itemId}'",
     };
+
+    public static Error UserNotificationNotFound(int userId, int userNotificationId) => new(ErrorType.NotFound, ErrorCode.UserNotificationNotFound)
+    {
+        Title = "User notification was not found",
+        Detail = $"User notification with id '{userNotificationId}' was not found",
+    };
 }
