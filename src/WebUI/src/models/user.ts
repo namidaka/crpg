@@ -3,7 +3,7 @@ import Role from './role';
 import { Region } from './region';
 import { ItemSlot, ItemType, type Item } from './item';
 import { type Clan } from './clan';
-import { NotificationState } from './notificatios';
+import { NotificationState, NotificationType } from './notificatios';
 import { ActivityLog } from './activity-logs';
 
 export interface User {
@@ -57,6 +57,8 @@ export type UserItemsBySlot = Record<ItemSlot, UserItem>;
 
 export interface UserNotification {
   id: number;
-  notification: ActivityLog;
+  createdAt: Date;
+  type: NotificationType;
   state: NotificationState;
+  activityLog: ActivityLog;
 }

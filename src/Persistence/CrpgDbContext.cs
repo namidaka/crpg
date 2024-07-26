@@ -50,6 +50,8 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         NpgsqlConnection.GlobalTypeMapper.MapEnum<Languages>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<GameMode>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<ActivityLogType>();
+        NpgsqlConnection.GlobalTypeMapper.MapEnum<NotificationType>();
+        NpgsqlConnection.GlobalTypeMapper.MapEnum<NotificationState>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<UserUpdateStatus>();
 #pragma warning restore CS0618
     }
@@ -93,7 +95,6 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<ActivityLog> ActivityLogs { get; set; } = default!;
     public DbSet<ActivityLogMetadata> ActivityLogMetadata { get; set; } = default!;
     public DbSet<IdempotencyKey> IdempotencyKeys { get; set; } = default!;
-
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -157,6 +158,8 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         modelBuilder.HasPostgresEnum<Languages>();
         modelBuilder.HasPostgresEnum<GameMode>();
         modelBuilder.HasPostgresEnum<ActivityLogType>();
+        modelBuilder.HasPostgresEnum<NotificationType>();
+        modelBuilder.HasPostgresEnum<NotificationState>();
         modelBuilder.HasPostgresEnum<UserUpdateStatus>();
 
         // Ensure that the PostGIS extension is installed.

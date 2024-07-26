@@ -9,6 +9,7 @@ import { mainHeaderHeightKey } from '@/symbols/common';
 
 const userStore = useUserStore();
 const fetchUserPollId = Symbol('fetchUser');
+const fetchUserNotificationsId = Symbol('fetchUserNotifications');
 
 const route = useRoute();
 
@@ -36,10 +37,12 @@ const { subscribe, unsubscribe } = usePollInterval();
 
 subscribe(fetchUserPollId, userStore.fetchUser);
 subscribe(HHPollId, HHEvent.trigger);
+subscribe(fetchUserNotificationsId, userStore.fetchUserNotifications);
 
 onBeforeUnmount(() => {
   unsubscribe(fetchUserPollId);
   unsubscribe(HHPollId);
+  unsubscribe(fetchUserNotificationsId);
 });
 
 await Promise.all(promises);

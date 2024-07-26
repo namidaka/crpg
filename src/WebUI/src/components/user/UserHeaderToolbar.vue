@@ -51,17 +51,28 @@ const animatedUserGold = useTransition(toRef(() => userStore.user!.gold));
 
       <!-- TODO: BaseCard/Island component -->
       <template #popper="{ hide }">
-        <div class="w-[26rem]">
+        <div class="w-[26rem] pt-2">
           <!-- TODO: last 5 -->
-          <NotificationCard
-            v-if="Boolean(userStore.notifications.length)"
-            v-for="notification in userStore.notifications"
-            :notification="notification"
-          />
-          <div v-else class="px-5 py-3">TODO: У вас еще нет уведомлений.</div>
+          <div v-if="Boolean(userStore.notifications.length)" class="flex flex-col flex-wrap gap-4">
+            <NotificationCard
+              v-for="notification in userStore.notifications"
+              :notification="notification"
+            />
+          </div>
 
-          <Divider />
-          <div class="px-5 py-3">TODO:Все уведомления</div>
+          <div v-else class="px-5 py-3">{{ $t('user.notifications.empty') }}</div>
+
+          <Divider class="mt-4 stroke-current text-content-400" />
+
+          <div class="px-5 py-3 pb-5">
+            <RouterLink
+              :to="{ name: 'Notifications' }"
+              class="select-none leading-loose underline underline-offset-6 hover:text-content-100 hover:no-underline"
+              @click="hide"
+            >
+              {{ $t('user.notifications.toAll') }}
+            </RouterLink>
+          </div>
         </div>
       </template>
     </VDropdown>

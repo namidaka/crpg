@@ -28,12 +28,16 @@ public record InviteClanMemberCommand : IMediatorRequest<ClanInvitationViewModel
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
         private readonly IClanService _clanService;
+        private readonly IActivityLogService _activityLogService;
+        private readonly IUserNotificationService _userNotificationService;
 
-        public Handler(ICrpgDbContext db, IMapper mapper, IClanService clanService)
+        public Handler(ICrpgDbContext db, IMapper mapper, IClanService clanService, IActivityLogService activityLogService, IUserNotificationService userNotificationService)
         {
             _db = db;
             _mapper = mapper;
             _clanService = clanService;
+            _activityLogService = activityLogService;
+            _userNotificationService = userNotificationService;
         }
 
         public async Task<Result<ClanInvitationViewModel>> Handle(InviteClanMemberCommand req, CancellationToken cancellationToken)
@@ -81,7 +85,24 @@ public record InviteClanMemberCommand : IMediatorRequest<ClanInvitationViewModel
                 Status = ClanInvitationStatus.Pending,
             };
             _db.ClanInvitations.Add(invitation);
+
+            var activityLog = _activityLogService.CreateClanInvitationCreatedLog(user.Id, clanId);
+            _db.ActivityLogs.Add(activityLog);
+
+            ClanMemberRole[] officersRoles = { ClanMemberRole.Officer, ClanMemberRole.Leader };
+            var clanOfficers = await _db.ClanMembers
+                .Where(cm => cm.ClanId == clanId && officersRoles.Contains(cm.Role))
+                .ToArrayAsync(cancellationToken);
+
+            _db.UserNotifications.Add(_userNotificationService.CreateClanInvitationCreatedToUser(user.Id, activityLog.Id));
+
+            foreach (var officer in clanOfficers)
+            {
+                _db.UserNotifications.Add(_userNotificationService.CreateClanInvitationCreatedToOfficers(officer.UserId, activityLog.Id));
+            }
+
             await _db.SaveChangesAsync(cancellationToken);
+
             Logger.LogInformation("User '{0}' requested to join clan '{1}'", user.Id, clanId);
             return new(_mapper.Map<ClanInvitationViewModel>(invitation));
         }

@@ -38,12 +38,14 @@ public record SeedDataCommand : IMediatorRequest
         private readonly IApplicationEnvironment _appEnv;
         private readonly ICharacterService _characterService;
         private readonly IExperienceTable _experienceTable;
+        private readonly IActivityLogService _activityLogService;
+        private readonly IUserNotificationService _userNotificationService;
         private readonly IStrategusMap _strategusMap;
         private readonly ISettlementsSource _settlementsSource;
 
         public Handler(ICrpgDbContext db, IItemsSource itemsSource, IApplicationEnvironment appEnv,
             ICharacterService characterService, IExperienceTable experienceTable, IStrategusMap strategusMap,
-            ISettlementsSource settlementsSource)
+            ISettlementsSource settlementsSource, IActivityLogService activityLogService, IUserNotificationService userNotificationService)
         {
             _db = db;
             _itemsSource = itemsSource;
@@ -52,6 +54,8 @@ public record SeedDataCommand : IMediatorRequest
             _experienceTable = experienceTable;
             _strategusMap = strategusMap;
             _settlementsSource = settlementsSource;
+            _activityLogService = activityLogService;
+            _userNotificationService = userNotificationService;
         }
 
         public async Task<Result> Handle(SeedDataCommand request, CancellationToken cancellationToken)
@@ -1014,6 +1018,7 @@ public record SeedDataCommand : IMediatorRequest
                     new("heirloomPoints", "3"),
                     new("itemId", "crpg_ba_bolzanogreathelmet_h2"),
                 },
+                CreatedAt = DateTime.UtcNow.AddDays(-1),
             };
             ActivityLog activityLogItemBought1 = new()
             {
@@ -1225,26 +1230,26 @@ public record SeedDataCommand : IMediatorRequest
                 new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-112), Metadata = { new("characterId", orleCharacter0.Id.ToString()), new("gameMode", "CRPGDTV"), new("experience", "3111"), new("gold", "-122") } },
             };
 
+            var activityLogClanInvitationCreated1 = _activityLogService.CreateClanInvitationCreatedLog(takeo.Id, 2);
+
             ActivityLog[] newActivityLogs =
             {
                 activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserReward1, activityLogItemBought1,
                 activityLogItemSold1, activityLogItemBroke1, activityLogItemUpgraded1, activityLogCharacterCreated1, activityLogCharacterDeleted1,
                 activityLogCharacterRespecialized1, activityLogCharacterRetired1, activityLogCharacterRewarded1, activityLogServerJoined1,
-                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem, activityLogClanArmoryRemoveItem, activityLogClanArmoryReturnItem, activityLogClanArmoryBorrowItem,
+                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem, activityLogClanArmoryRemoveItem, activityLogClanArmoryReturnItem, activityLogClanArmoryBorrowItem, activityLogClanInvitationCreated1,
             };
 
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());
             _db.ActivityLogs.AddRange(newActivityLogs.Concat(newActivityLogCharacterEarned));
 
-            UserNotification orleNotification1 = new() { User = orle, ActivityLog = newActivityLogCharacterEarned.ElementAt(0) };
-            UserNotification orleNotification2 = new() { User = orle, ActivityLog = newActivityLogCharacterEarned.ElementAt(1) };
-            UserNotification orleNotification3 = new() { User = orle, ActivityLog = activityLogUserReward2 };
+            var orleNotification1 = _userNotificationService.CreateClanInvitationCreatedToOfficers(orle.Id, activityLogClanInvitationCreated1.Id);
 
-            _db.UserNotifications.RemoveRange(await _db.UserNotifications.ToArrayAsync());
             UserNotification[] userNotifications =
             {
-                orleNotification1, orleNotification2, orleNotification3,
+                orleNotification1,
             };
+            _db.UserNotifications.RemoveRange(await _db.UserNotifications.ToArrayAsync());
             _db.UserNotifications.AddRange(userNotifications);
 
             Clan pecores = new()

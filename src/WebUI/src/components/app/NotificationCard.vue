@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { type ActivityLog, ActivityLogType } from '@/models/activity-logs';
 import { NotificationState } from '@/models/notificatios';
 import { UserNotification } from '@/models/user';
-import { getItemImage } from '@/services/item-service';
 
 const { notification } = defineProps<{
   notification: UserNotification;
@@ -10,7 +8,7 @@ const { notification } = defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col space-y-2 bg-base-200 px-5 py-3 text-content-200">
+  <div class="flex flex-col space-y-2 rounded-lg bg-base-200 px-5 py-3 text-content-200">
     <div class="flex items-center gap-2">
       <!-- TODO: create System User cmp -->
       <div class="flex items-center gap-1.5 text-content-100">
@@ -19,40 +17,40 @@ const { notification } = defineProps<{
       </div>
 
       <div class="text-2xs text-content-300">
-        {{ $d(new Date(notification.notification.createdAt), 'short') }}
+        {{ $d(new Date(notification.createdAt), 'short') }}
       </div>
 
-      <Tag variant="primary" :label="notification.notification.type" />
+      <!-- <Tag variant="primary" :label="notification.notification.type" /> -->
     </div>
 
     <div>{{ notification.state }}</div>
 
     <i18n-t
-      :keypath="`notification.tpl.${notification.notification.type}`"
+      :keypath="`notification.tpl.${notification.activityLog.type}`"
       tag="div"
       scope="global"
     >
-      <template #price v-if="'price' in notification.notification.metadata">
+      <template #price v-if="'price' in notification.activityLog.metadata">
         <Coin
-          :value="Number(notification.notification.metadata.price)"
+          :value="Number(notification.activityLog.metadata.price)"
           data-aq-addLogItem-tpl-goldPrice
         />
       </template>
 
-      <template #gold v-if="'gold' in notification.notification.metadata">
+      <template #gold v-if="'gold' in notification.activityLog.metadata">
         <Coin
-          :value="Number(notification.notification.metadata.gold)"
+          :value="Number(notification.activityLog.metadata.gold)"
           data-aq-addLogItem-tpl-goldPrice
         />
       </template>
 
-      <template #heirloomPoints v-if="'heirloomPoints' in notification.notification.metadata">
+      <template #heirloomPoints v-if="'heirloomPoints' in notification.activityLog.metadata">
         <span
           class="inline-flex gap-1.5 align-text-bottom font-bold text-primary"
           data-aq-addLogItem-tpl-heirloomPoints
         >
           <OIcon icon="blacksmith" size="lg" />
-          {{ $n(Number(notification.notification.metadata.heirloomPoints)) }}
+          {{ $n(Number(notification.activityLog.metadata.heirloomPoints)) }}
         </span>
       </template>
     </i18n-t>

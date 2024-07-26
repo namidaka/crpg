@@ -591,7 +591,7 @@ public class UsersController : BaseController
     /// Gets user's notifications.
     /// </summary>
     [HttpGet("self/notifications")]
-    public Task<ActionResult<Result<IList<UserNotificationViewModel>>>> GetUserNotifications()
+    public Task<ActionResult<Result<UserNotificationsWithDictViewModel>>> GetUserNotifications()
     {
         GetUserNotificationsQuery req = new() { UserId = CurrentUser.User!.Id };
         return ResultToActionAsync(Mediator.Send(req));
