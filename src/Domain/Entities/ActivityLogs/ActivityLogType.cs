@@ -22,6 +22,18 @@ public enum ActivityLogType
     ServerJoined,
     ChatMessageSent,
     TeamHit,
+    //
+    //
+    //
+
+    ClanInvitationCreated,
+    ClanInvitationDeclined,
+    ClanInvitationAccepted,
+
+    //
+    //
+    //
+
     ClanArmoryAddItem,
     ClanArmoryRemoveItem,
     ClanArmoryReturnItem,

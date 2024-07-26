@@ -21,6 +21,20 @@ internal interface IActivityLogService
     ActivityLog CreateCharacterRespecializedLog(int userId, int characterId, int price);
     ActivityLog CreateCharacterRetiredLog(int userId, int characterId, int level);
     ActivityLog CreateCharacterRewardedLog(int userId, int actorUserId, int characterId, int experience);
+
+
+    //
+    //
+    //
+
+    ActivityLog CreateClanInvitationCreatedLog(int userId, int clanId);
+    ActivityLog CreateClanInvitationDeclinedLog(int userId, int clanId);
+    ActivityLog CreateClanInvitationAcceptedLog(int userId, int clanId);
+
+
+    //
+    //
+    //
     ActivityLog CreateAddItemToClanArmory(int userId, int clanId, int userItemId);
     ActivityLog CreateRemoveItemFromClanArmory(int userId, int clanId, int userItemId);
     ActivityLog CreateBorrowItemFromClanArmory(int userId, int clanId, int userItemId);
@@ -167,6 +181,49 @@ internal class ActivityLogService : IActivityLogService
             new("actorUserId", actorUserId.ToString()),
         });
     }
+
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
+    public ActivityLog CreateClanInvitationCreatedLog(int userId, int clanId)
+    {
+        return CreateLog(ActivityLogType.ClanInvitationCreated, userId, new ActivityLogMetadata[]
+        {
+                new("clanId", clanId.ToString()),
+        });
+    }
+
+    public ActivityLog CreateClanInvitationDeclinedLog(int userId, int clanId)
+    {
+        return CreateLog(ActivityLogType.ClanInvitationDeclined, userId, new ActivityLogMetadata[]
+        {
+                new("clanId", clanId.ToString()),
+        });
+    }
+
+    public ActivityLog CreateClanInvitationAcceptedLog(int userId, int clanId)
+    {
+        return CreateLog(ActivityLogType.ClanInvitationAccepted, userId, new ActivityLogMetadata[]
+        {
+                new("clanId", clanId.ToString()),
+        });
+    }
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
 
     public ActivityLog CreateAddItemToClanArmory(int userId, int clanId, int userItemId)
     {
