@@ -1230,24 +1230,28 @@ public record SeedDataCommand : IMediatorRequest
                 new() { Type = ActivityLogType.CharacterEarned, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(-112), Metadata = { new("characterId", orleCharacter0.Id.ToString()), new("gameMode", "CRPGDTV"), new("experience", "3111"), new("gold", "-122") } },
             };
 
-            var activityLogClanInvitationCreated1 = _activityLogService.CreateClanInvitationCreatedLog(takeo.Id, 2);
+            var activityLogClanInvitationCreated1 = _activityLogService.CreateClanInvitationCreatedLog(takeo.Id, 1);
+            var activityLogClanInvitationCreated2 = _activityLogService.CreateClanInvitationCreatedLog(namidaka.Id, 1);
+            var activityLogClanInvitationCreated3 = _activityLogService.CreateClanInvitationCreatedLog(elmaryk.Id, 1);
 
             ActivityLog[] newActivityLogs =
             {
                 activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserReward1, activityLogItemBought1,
                 activityLogItemSold1, activityLogItemBroke1, activityLogItemUpgraded1, activityLogCharacterCreated1, activityLogCharacterDeleted1,
                 activityLogCharacterRespecialized1, activityLogCharacterRetired1, activityLogCharacterRewarded1, activityLogServerJoined1,
-                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem, activityLogClanArmoryRemoveItem, activityLogClanArmoryReturnItem, activityLogClanArmoryBorrowItem, activityLogClanInvitationCreated1,
+                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem, activityLogClanArmoryRemoveItem, activityLogClanArmoryReturnItem, activityLogClanArmoryBorrowItem, activityLogClanInvitationCreated1, activityLogClanInvitationCreated2, activityLogClanInvitationCreated3,
             };
 
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());
             _db.ActivityLogs.AddRange(newActivityLogs.Concat(newActivityLogCharacterEarned));
 
             var orleNotification1 = _userNotificationService.CreateClanInvitationCreatedToOfficers(orle.Id, activityLogClanInvitationCreated1.Id);
-
+            var orleNotification2 = _userNotificationService.CreateClanInvitationCreatedToOfficers(orle.Id, activityLogClanInvitationCreated2.Id);
+            orleNotification2.State = NotificationState.Read;
+            var orleNotification3 = _userNotificationService.CreateClanInvitationCreatedToOfficers(orle.Id, activityLogClanInvitationCreated3.Id);
             UserNotification[] userNotifications =
             {
-                orleNotification1,
+                orleNotification1, orleNotification2, orleNotification3,
             };
             _db.UserNotifications.RemoveRange(await _db.UserNotifications.ToArrayAsync());
             _db.UserNotifications.AddRange(userNotifications);

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Crpg.Application.ActivityLogs.Models;
 using Crpg.Application.Clans.Models;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
+using Crpg.Application.Notifications.Models;
 using Crpg.Application.Users.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +12,7 @@ namespace Crpg.Application.Notifications.Queries;
 
 public record GetUserNotificationsQuery : IMediatorRequest<UserNotificationsWithDictViewModel>
 {
-    // public DateTime From { get; init; }
-    // public DateTime To { get; init; }
     public int UserId { get; init; }
-    // public ActivityLogType[] Types { get; init; } = Array.Empty<ActivityLogType>();
-
-    // public class Validator : AbstractValidator<GetUserNotificationsQuery>
-    // {
-    //     public Validator()
-    //     {
-    //         RuleFor(l => l.From).LessThan(l => l.To);
-    //     }
-    // }
 
     internal class Handler : IMediatorRequestHandler<GetUserNotificationsQuery, UserNotificationsWithDictViewModel>
     {
@@ -45,8 +34,6 @@ public record GetUserNotificationsQuery : IMediatorRequest<UserNotificationsWith
                 .Include(un => un.ActivityLog)
                     .ThenInclude(al => al!.Metadata)
                 .Where(un => un.UserId == req.UserId)
-                // l.CreatedAt >= req.From
-                // && l.CreatedAt <= req.To
                 .OrderByDescending(l => l.CreatedAt)
                 .Take(1000) // TODO:
                 .ToArrayAsync(cancellationToken);
@@ -56,6 +43,8 @@ public record GetUserNotificationsQuery : IMediatorRequest<UserNotificationsWith
             IList<int> usersIds = new List<int>();
             foreach (var un in userNotifications)
             {
+                usersIds.Add(un.ActivityLog!.UserId);
+
                 foreach (var md in un.ActivityLog!.Metadata)
                 {
                     if (md.Key == "clanId")

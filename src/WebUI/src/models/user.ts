@@ -19,6 +19,7 @@ export interface User {
   region: Region;
   experienceMultiplier: number;
   isDonor: boolean;
+  unreadNotificationsCount: number;
 }
 
 export interface UserPublic
@@ -61,4 +62,10 @@ export interface UserNotification {
   type: NotificationType;
   state: NotificationState;
   activityLog: ActivityLog;
+}
+
+export interface UserNotificationsWithDicts {
+  notifications: UserNotification[];
+  users: UserPublic[];
+  clans: Clan[];
 }

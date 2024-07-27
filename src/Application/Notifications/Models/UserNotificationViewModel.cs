@@ -1,7 +1,8 @@
-﻿using Crpg.Application.Common.Mappings;
+﻿using Crpg.Application.ActivityLogs.Models;
+using Crpg.Application.Common.Mappings;
 using Crpg.Domain.Entities.Notification;
 
-namespace Crpg.Application.ActivityLogs.Models;
+namespace Crpg.Application.Notifications.Models;
 
 public record UserNotificationViewModel : IMapFrom<UserNotification>
 {

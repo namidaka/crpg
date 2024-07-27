@@ -7,6 +7,7 @@ import type {
   UserItemsByType,
   UserPrivate,
   UserNotification,
+  UserNotificationsWithDicts,
 } from '@/models/user';
 import { Platform } from '@/models/platform';
 import { type Clan, type ClanEdition, type ClanMemberRole } from '@/models/clan';
@@ -15,8 +16,6 @@ import { get, post, put, del } from '@/services/crpg-client';
 import { mapRestrictions } from '@/services/restriction-service';
 import { mapClanResponse } from '@/services/clan-service';
 import { pick } from '@/utils/object';
-
-export const getUserNotifications = () => get<UserNotification[]>('/users/self/notifications');
 
 export const getUser = () => get<User>('/users/self');
 
@@ -109,3 +108,26 @@ export const mapUserToUserPublic = (user: User, userClan: Clan | null): UserPubl
   ...pick(user, ['id', 'platform', 'platformUserId', 'name', 'region', 'avatar']),
   clan: userClan,
 });
+
+export const getUserNotifications = async (): Promise<UserNotificationsWithDicts> => {
+  const { notifications, users, clans } = await get<{
+    notifications: UserNotification[];
+    users: UserPublic[];
+    clans: ClanEdition[];
+  }>('/users/self/notifications');
+
+  return {
+    notifications,
+    users,
+    clans: clans.map(mapClanResponse), // TODO: mapping to backend side?
+  };
+};
+
+export const readUserNotification = (id: number) =>
+  put<UserNotification>(`/users/self/notifications/${id}`);
+
+export const readAllUserNotifications = () => put(`/users/self/notifications/readAll`);
+
+export const deleteUserNotification = (id: number) => del(`/users/self/notifications/${id}`);
+
+export const deleteAllUserNotifications = () => del(`/users/self/notifications/deleteAll`);

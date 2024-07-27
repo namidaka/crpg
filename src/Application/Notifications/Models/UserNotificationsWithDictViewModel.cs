@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using Crpg.Application.Clans.Models;
-using Crpg.Application.Common.Mappings;
+﻿using Crpg.Application.Clans.Models;
 using Crpg.Application.Users.Models;
-using Crpg.Domain.Entities.Notification;
 
-namespace Crpg.Application.ActivityLogs.Models;
+namespace Crpg.Application.Notifications.Models;
 
 public record UserNotificationsWithDictViewModel
 {

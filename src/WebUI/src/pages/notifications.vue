@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
+import { useUsersNotifications } from '@/composables/user/use-user-notifications';
 
 definePage({
   meta: {
@@ -8,7 +8,16 @@ definePage({
   },
 });
 
-const userStore = useUserStore();
+const {
+  notifications,
+  isLoading,
+  isEmpty,
+  hasUnreadNotifications,
+  readNotification,
+  readAllNotifications,
+  deleteNotification,
+  deleteAllNotifications,
+} = useUsersNotifications();
 </script>
 
 <template>
@@ -18,12 +27,45 @@ const userStore = useUserStore();
         {{ $t('user.notifications.title') }}
       </h1>
 
-      <div class="flex flex-col flex-wrap gap-4">
-        <NotificationCard
-          v-if="Boolean(userStore.notifications.length)"
-          v-for="notification in userStore.notifications"
-          :notification="notification"
+      <div v-if="!isEmpty" class="mb-4 flex justify-end gap-4">
+        <OButton
+          :disabled="!hasUnreadNotifications"
+          variant="transparent"
+          outlined
+          size="xs"
+          :label="`Mark all as read`"
+          @click="readAllNotifications"
         />
+
+        <ConfirmActionTooltip
+          :confirmLabel="$t('action.ok')"
+          :title="`Are you sure you want to delete all notifications?`"
+          placement="bottom"
+          @confirm="deleteAllNotifications"
+        >
+          <OButton
+            variant="transparent"
+            outlined
+            size="xs"
+            icon-left="close"
+            :label="`Delete all`"
+          />
+        </ConfirmActionTooltip>
+      </div>
+
+      <div class="flex flex-col flex-wrap gap-4">
+        <OLoading :active="isLoading" :fullPage="false" />
+
+        <NotificationCard
+          v-for="notification in notifications.notifications"
+          :notification="notification"
+          :users="notifications.users"
+          :clans="notifications.clans"
+          @read="readNotification(notification.id)"
+          @delete="deleteNotification(notification.id)"
+        />
+
+        <ResultNotFound v-if="isEmpty" />
       </div>
     </div>
   </div>

@@ -183,6 +183,7 @@ shortcuts:
 
 setting:
   language: Language
+  notifications: Notifications
   settings: Settings
   logout: Logout
 
@@ -1462,8 +1463,8 @@ activityLog:
 # TODO: to user.notifications
 notification:
   tpl:
-    UserRewarded: '111 {gold} {heirloomPoints} {itemId} by user {actorUserId}'
-
+    ClanInvitationCreatedToUser: 'dddddddddddddddddd'
+    ClanInvitationCreatedToOfficers: 'В ваш клан {clan} была подана заявка от пользователя {user}'
 
 leaderboard:
   title: Leaderboard
