@@ -1463,8 +1463,11 @@ activityLog:
 # TODO: to user.notifications
 notification:
   tpl:
-    ClanInvitationCreatedToUser: 'dddddddddddddddddd'
-    ClanInvitationCreatedToOfficers: 'В ваш клан {clan} была подана заявка от пользователя {user}'
+    ClanInvitationCreatedToUser: 'Your application for {clan} has been successfully created'
+    ClanInvitationCreatedToOfficers: '{user} has applied to join your clan {clan}'
+    ClanInvitationAcceptedToUser: 'Your application to join the {clan} has been approved'
+    ClanInvitationDeclinedToUser: 'Your application to join the {clan} has been declined'
+    UserRewardedToUser: 'You have been rewarded with {gold} {heirloomPoints} {itemId} by user {actorUser}'
 
 leaderboard:
   title: Leaderboard

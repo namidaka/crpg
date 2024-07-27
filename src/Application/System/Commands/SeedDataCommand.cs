@@ -1233,13 +1233,17 @@ public record SeedDataCommand : IMediatorRequest
             var activityLogClanInvitationCreated1 = _activityLogService.CreateClanInvitationCreatedLog(takeo.Id, 1);
             var activityLogClanInvitationCreated2 = _activityLogService.CreateClanInvitationCreatedLog(namidaka.Id, 1);
             var activityLogClanInvitationCreated3 = _activityLogService.CreateClanInvitationCreatedLog(elmaryk.Id, 1);
+            var activityLogUserRewarded1 = _activityLogService.CreateUserRewardedLog(orle.Id, takeo.Id, 1000, 1, string.Empty);
+            var activityLogUserClanInvitationAccepted1 = _activityLogService.CreateClanInvitationAcceptedLog(orle.Id, 1);
+            var activityLogUserClanInvitationDeclined1 = _activityLogService.CreateClanInvitationDeclinedLog(orle.Id, 1);
 
             ActivityLog[] newActivityLogs =
             {
                 activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserReward1, activityLogItemBought1,
                 activityLogItemSold1, activityLogItemBroke1, activityLogItemUpgraded1, activityLogCharacterCreated1, activityLogCharacterDeleted1,
                 activityLogCharacterRespecialized1, activityLogCharacterRetired1, activityLogCharacterRewarded1, activityLogServerJoined1,
-                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem, activityLogClanArmoryRemoveItem, activityLogClanArmoryReturnItem, activityLogClanArmoryBorrowItem, activityLogClanInvitationCreated1, activityLogClanInvitationCreated2, activityLogClanInvitationCreated3,
+                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem, activityLogClanArmoryRemoveItem, activityLogClanArmoryReturnItem, activityLogClanArmoryBorrowItem, activityLogClanInvitationCreated1, activityLogClanInvitationCreated2, activityLogClanInvitationCreated3, activityLogUserRewarded1,
+                activityLogUserClanInvitationAccepted1, activityLogUserClanInvitationDeclined1,
             };
 
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());
@@ -1249,9 +1253,15 @@ public record SeedDataCommand : IMediatorRequest
             var orleNotification2 = _userNotificationService.CreateClanInvitationCreatedToOfficers(orle.Id, activityLogClanInvitationCreated2.Id);
             orleNotification2.State = NotificationState.Read;
             var orleNotification3 = _userNotificationService.CreateClanInvitationCreatedToOfficers(orle.Id, activityLogClanInvitationCreated3.Id);
+            var orleNotification4 = _userNotificationService.CreateUserRewardedToUser(orle.Id, activityLogUserRewarded1.Id);
+            var orleNotification5 = _userNotificationService.CreateClanInvitationAcceptedToUser(orle.Id, activityLogUserClanInvitationAccepted1.Id);
+            var orleNotification6 = _userNotificationService.CreateClanInvitationDeclinedToUser(orle.Id, activityLogUserClanInvitationDeclined1.Id);
+            var orleNotification7 = _userNotificationService.CreateClanInvitationCreatedToUser(orle.Id, activityLogClanInvitationCreated1.Id);
+
             UserNotification[] userNotifications =
             {
-                orleNotification1, orleNotification2, orleNotification3,
+                orleNotification1, orleNotification2, orleNotification3, orleNotification4, orleNotification5,
+                orleNotification6, orleNotification7,
             };
             _db.UserNotifications.RemoveRange(await _db.UserNotifications.ToArrayAsync());
             _db.UserNotifications.AddRange(userNotifications);

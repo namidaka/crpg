@@ -8,8 +8,11 @@ import {
 } from '@/services/users-service';
 import { NotificationState } from '@/models/notificatios';
 import { useAsyncCallback } from '@/utils/useAsyncCallback';
+import { useUserStore } from '@/stores/user';
 
 export const useUsersNotifications = () => {
+  const userStore = useUserStore();
+
   const {
     state: notifications,
     execute: loadNotifications,
@@ -34,12 +37,14 @@ export const useUsersNotifications = () => {
     async (id: number) => {
       await readUserNotification(id);
       await loadNotifications();
+      await userStore.fetchUser();
     }
   );
   const { execute: readAllNotifications, loading: readingAllNotification } = useAsyncCallback(
     async () => {
       await readAllUserNotifications();
       await loadNotifications();
+      await userStore.fetchUser();
     }
   );
 
@@ -47,6 +52,7 @@ export const useUsersNotifications = () => {
     async (id: number) => {
       await deleteUserNotification(id);
       await loadNotifications();
+      await userStore.fetchUser();
     }
   );
 
@@ -54,6 +60,7 @@ export const useUsersNotifications = () => {
     async () => {
       await deleteAllUserNotifications();
       await loadNotifications();
+      await userStore.fetchUser();
     }
   );
 

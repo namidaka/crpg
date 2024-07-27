@@ -196,7 +196,7 @@ internal class ActivityLogService : IActivityLogService
     {
         return CreateLog(ActivityLogType.ClanInvitationCreated, userId, new ActivityLogMetadata[]
         {
-                new("clanId", clanId.ToString()),
+            new("clanId", clanId.ToString()),
         });
     }
 
@@ -204,7 +204,7 @@ internal class ActivityLogService : IActivityLogService
     {
         return CreateLog(ActivityLogType.ClanInvitationDeclined, userId, new ActivityLogMetadata[]
         {
-                new("clanId", clanId.ToString()),
+            new("clanId", clanId.ToString()),
         });
     }
 
@@ -212,7 +212,7 @@ internal class ActivityLogService : IActivityLogService
     {
         return CreateLog(ActivityLogType.ClanInvitationAccepted, userId, new ActivityLogMetadata[]
         {
-                new("clanId", clanId.ToString()),
+            new("clanId", clanId.ToString()),
         });
     }
 
