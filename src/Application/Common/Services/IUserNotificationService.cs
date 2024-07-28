@@ -6,6 +6,7 @@ internal interface IUserNotificationService
 {
     UserNotification CreateItemReturnedToUser(int userId, int activityLogId);
     UserNotification CreateClanInvitationCreatedToUser(int userId, int activityLogId);
+    UserNotification CreateClanMemberRoleChangedToUser(int userId, int activityLogId);
     UserNotification CreateClanInvitationCreatedToOfficers(int userId, int activityLogId);
     UserNotification CreateClanInvitationDeclinedToUser(int userId, int activityLogId);
     UserNotification CreateClanInvitationAcceptedToUser(int userId, int activityLogId);
@@ -17,6 +18,11 @@ internal class UserNotificationService : IUserNotificationService
     public UserNotification CreateItemReturnedToUser(int userId, int activityLogId)
     {
         return CreateLog(NotificationType.ItemReturned, userId, activityLogId);
+    }
+
+    public UserNotification CreateClanMemberRoleChangedToUser(int userId, int activityLogId)
+    {
+        return CreateLog(NotificationType.ClanMemberRoleChangedToUser, userId, activityLogId);
     }
 
     public UserNotification CreateClanInvitationCreatedToUser(int userId, int activityLogId)

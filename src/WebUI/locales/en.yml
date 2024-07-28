@@ -1464,6 +1464,7 @@ activityLog:
 notification:
   tpl:
     ItemReturned: 'The item {itemId} has been removed from your inventory. The price of the item has been refunded'
+    ClanMemberRoleChangedToUser: 'Your role {oldClanMemberRole} in the clan {clan} has been changed to {newClanMemberRole}'
     ClanInvitationCreatedToUser: 'Your application for {clan} has been successfully created'
     ClanInvitationCreatedToOfficers: '{user} has applied to join your clan {clan}'
     ClanInvitationAcceptedToUser: 'Your application to join the {clan} has been approved'

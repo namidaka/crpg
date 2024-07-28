@@ -74,6 +74,20 @@ const emit = defineEmits<{
         <template #itemId v-if="'itemId' in notification.activityLog.metadata">
           <strong>{{ notification.activityLog.metadata.itemId }}</strong>
         </template>
+
+        <template
+          #oldClanMemberRole
+          v-if="'oldClanMemberRole' in notification.activityLog.metadata"
+        >
+          <strong>{{ notification.activityLog.metadata.oldClanMemberRole }}</strong>
+        </template>
+
+        <template
+          #newClanMemberRole
+          v-if="'newClanMemberRole' in notification.activityLog.metadata"
+        >
+          <strong>{{ notification.activityLog.metadata.newClanMemberRole }}</strong>
+        </template>
       </i18n-t>
 
       <div class="flex items-end gap-4">

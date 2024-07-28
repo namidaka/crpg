@@ -1,4 +1,5 @@
 ﻿using Crpg.Domain.Entities.ActivityLogs;
+using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Servers;
 
 namespace Crpg.Application.Common.Services;
@@ -23,7 +24,6 @@ internal interface IActivityLogService
     ActivityLog CreateCharacterRetiredLog(int userId, int characterId, int level);
     ActivityLog CreateCharacterRewardedLog(int userId, int actorUserId, int characterId, int experience);
 
-
     //
     //
     //
@@ -31,11 +31,12 @@ internal interface IActivityLogService
     ActivityLog CreateClanInvitationCreatedLog(int userId, int clanId);
     ActivityLog CreateClanInvitationDeclinedLog(int userId, int clanId);
     ActivityLog CreateClanInvitationAcceptedLog(int userId, int clanId);
+    ActivityLog CreateClanChangeMemberRoleLog(int userId, int clanId, int actorUserId, ClanMemberRole oldClanMemberRole, ClanMemberRole newClanMemberRole);
 
+    //
+    //
+    //
 
-    //
-    //
-    //
     ActivityLog CreateAddItemToClanArmory(int userId, int clanId, int userItemId);
     ActivityLog CreateRemoveItemFromClanArmory(int userId, int clanId, int userItemId);
     ActivityLog CreateBorrowItemFromClanArmory(int userId, int clanId, int userItemId);
@@ -200,6 +201,17 @@ internal class ActivityLogService : IActivityLogService
     //
     //
     //
+
+    public ActivityLog CreateClanChangeMemberRoleLog(int userId, int clanId, int actorUserId, ClanMemberRole oldClanMemberRole, ClanMemberRole newClanMemberRole)
+    {
+        return CreateLog(ActivityLogType.ClanRoleEdited, userId, new ActivityLogMetadata[]
+        {
+            new("clanId", clanId.ToString()),
+            new("actorUserId", actorUserId.ToString()),
+            new("oldClanMemberRole", oldClanMemberRole.ToString()),
+            new("newClanMemberRole", newClanMemberRole.ToString()),
+        });
+    }
 
     public ActivityLog CreateClanInvitationCreatedLog(int userId, int clanId)
     {

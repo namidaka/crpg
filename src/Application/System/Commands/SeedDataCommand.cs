@@ -1237,6 +1237,7 @@ public record SeedDataCommand : IMediatorRequest
             var activityLogUserClanInvitationAccepted1 = _activityLogService.CreateClanInvitationAcceptedLog(orle.Id, 1);
             var activityLogUserClanInvitationDeclined1 = _activityLogService.CreateClanInvitationDeclinedLog(orle.Id, 1);
             var activityLogItemReturned1 = _activityLogService.CreateItemReturnedLog(orle.Id, "crpg_item_1");
+            var activityLogClanChangeMemberRole1 = _activityLogService.CreateClanChangeMemberRoleLog(orle.Id, 1, takeo.Id, ClanMemberRole.Officer, ClanMemberRole.Leader);
 
             ActivityLog[] newActivityLogs =
             {
@@ -1244,7 +1245,7 @@ public record SeedDataCommand : IMediatorRequest
                 activityLogItemSold1, activityLogItemBroke1, activityLogItemUpgraded1, activityLogCharacterCreated1, activityLogCharacterDeleted1,
                 activityLogCharacterRespecialized1, activityLogCharacterRetired1, activityLogCharacterRewarded1, activityLogServerJoined1,
                 activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem, activityLogClanArmoryRemoveItem, activityLogClanArmoryReturnItem, activityLogClanArmoryBorrowItem, activityLogClanInvitationCreated1, activityLogClanInvitationCreated2, activityLogClanInvitationCreated3, activityLogUserRewarded1,
-                activityLogUserClanInvitationAccepted1, activityLogUserClanInvitationDeclined1, activityLogItemReturned1,
+                activityLogUserClanInvitationAccepted1, activityLogUserClanInvitationDeclined1, activityLogItemReturned1, activityLogClanChangeMemberRole1,
             };
 
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());
@@ -1259,11 +1260,12 @@ public record SeedDataCommand : IMediatorRequest
             var orleNotification6 = _userNotificationService.CreateClanInvitationDeclinedToUser(orle.Id, activityLogUserClanInvitationDeclined1.Id);
             var orleNotification7 = _userNotificationService.CreateClanInvitationCreatedToUser(orle.Id, activityLogClanInvitationCreated1.Id);
             var orleNotification8 = _userNotificationService.CreateItemReturnedToUser(orle.Id, activityLogItemReturned1.Id);
+            var orleNotification9 = _userNotificationService.CreateClanMemberRoleChangedToUser(orle.Id, activityLogItemReturned1.Id);
 
             UserNotification[] userNotifications =
             {
                 orleNotification1, orleNotification2, orleNotification3, orleNotification4, orleNotification5,
-                orleNotification6, orleNotification7, orleNotification8,
+                orleNotification6, orleNotification7, orleNotification8, orleNotification9,
             };
             _db.UserNotifications.RemoveRange(await _db.UserNotifications.ToArrayAsync());
             _db.UserNotifications.AddRange(userNotifications);
