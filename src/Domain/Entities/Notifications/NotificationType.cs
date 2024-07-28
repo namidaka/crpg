@@ -2,6 +2,7 @@
 
 public enum NotificationType
 {
+    ItemReturned,
     ClanInvitationCreatedToUser,
     ClanInvitationCreatedToOfficers,
     ClanInvitationDeclinedToUser,

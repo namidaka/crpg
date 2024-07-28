@@ -70,6 +70,10 @@ const emit = defineEmits<{
         <template #heirloomPoints v-if="'heirloomPoints' in notification.activityLog.metadata">
           <Loom :point="Number(notification.activityLog.metadata.heirloomPoints)" />
         </template>
+
+        <template #itemId v-if="'itemId' in notification.activityLog.metadata">
+          <strong>{{ notification.activityLog.metadata.itemId }}</strong>
+        </template>
       </i18n-t>
 
       <div class="flex items-end gap-4">
