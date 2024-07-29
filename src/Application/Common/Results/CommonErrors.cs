@@ -115,6 +115,12 @@ internal static class CommonErrors
         Detail = $"Clan with id '{clanId}' was not found",
     };
 
+    public static Error ClanLeaderNotFound(int clanId) => new(ErrorType.NotFound, ErrorCode.ClanLeaderFound)
+    {
+        Title = "Clan leader was not found",
+        Detail = $"Clan leader with clanId '{clanId}' was not found",
+    };
+
     public static Error ClanTagAlreadyUsed(string clanTag) => new(ErrorType.Validation, ErrorCode.ClanTagAlreadyUsed)
     {
         Title = "Clan tag is already used",

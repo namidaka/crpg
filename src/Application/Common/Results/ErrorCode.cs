@@ -23,6 +23,7 @@ public enum ErrorCode
     ClanNameAlreadyUsed,
     ClanNeedLeader,
     ClanNotFound,
+    ClanLeaderFound,
     ClanTagAlreadyUsed,
     Conflict,
     FighterNotACommander,

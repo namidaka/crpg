@@ -63,12 +63,26 @@ const emit = defineEmits<{
           />
         </template>
 
-        <template #gold v-if="'gold' in notification.activityLog.metadata">
-          <Coin :value="Number(notification.activityLog.metadata.gold)" />
+        <template #gold>
+          <Coin
+            v-if="'gold' in notification.activityLog.metadata"
+            :value="Number(notification.activityLog.metadata.gold)"
+          />
+          <Coin
+            v-if="'refundedGold' in notification.activityLog.metadata"
+            :value="Number(notification.activityLog.metadata.refundedGold)"
+          />
         </template>
 
-        <template #heirloomPoints v-if="'heirloomPoints' in notification.activityLog.metadata">
-          <Loom :point="Number(notification.activityLog.metadata.heirloomPoints)" />
+        <template #heirloomPoints>
+          <Loom
+            v-if="'heirloomPoints' in notification.activityLog.metadata"
+            :point="Number(notification.activityLog.metadata.heirloomPoints)"
+          />
+          <Loom
+            v-if="'refundedHeirloomPoints' in notification.activityLog.metadata"
+            :point="Number(notification.activityLog.metadata.refundedHeirloomPoints)"
+          />
         </template>
 
         <template #itemId v-if="'itemId' in notification.activityLog.metadata">

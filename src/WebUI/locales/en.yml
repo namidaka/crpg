@@ -1463,10 +1463,12 @@ activityLog:
 # TODO: to user.notifications
 notification:
   tpl:
-    ItemReturned: 'The item {itemId} has been removed from your inventory. The price of the item has been refunded'
+    ItemReturned: 'The item {itemId} has been removed from your inventory. {gold} {heirloomPoints} has been refunded'
     ClanMemberRoleChangedToUser: 'Your role {oldClanMemberRole} in the clan {clan} has been changed to {newClanMemberRole}'
+    ClanMemberLeavedToClanLeader: '{user} has left your clan {clan}'
+    ClanMemberKickedToExClanMember: 'You were kicked out of clan {clan}'
     ClanInvitationCreatedToUser: 'Your application for {clan} has been successfully created'
-    ClanInvitationCreatedToOfficers: '{user} has applied to join your clan {clan}'
+    ClanInvitationCreatedToClanOfficers: '{user} has applied to join your clan {clan}'
     ClanInvitationAcceptedToUser: 'Your application to join the {clan} has been approved'
     ClanInvitationDeclinedToUser: 'Your application to join the {clan} has been declined'
     UserRewardedToUser: 'You have been rewarded with {gold} {heirloomPoints} {itemId} by user {actorUser}'

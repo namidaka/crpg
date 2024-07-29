@@ -15,7 +15,7 @@ internal interface IActivityLogService
     ActivityLog CreateItemBrokeLog(int userId, string itemId);
     ActivityLog CreateItemReforgedLog(int userId, string itemId, int heirloomPoints, int price);
     ActivityLog CreateItemRepairedLog(int userId, string itemId, int price);
-    ActivityLog CreateItemReturnedLog(int userId, string itemId);
+    ActivityLog CreateItemReturnedLog(int userId, string itemId, int refundedHeirloomPoints, int refundedGold);
     ActivityLog CreateItemUpgradedLog(int userId, string itemId, int heirloomPoints);
     ActivityLog CreateCharacterCreatedLog(int userId, int characterId);
     ActivityLog CreateCharacterDeletedLog(int userId, int characterId, int generation, int level);
@@ -23,20 +23,14 @@ internal interface IActivityLogService
     ActivityLog CreateCharacterRespecializedLog(int userId, int characterId, int price);
     ActivityLog CreateCharacterRetiredLog(int userId, int characterId, int level);
     ActivityLog CreateCharacterRewardedLog(int userId, int actorUserId, int characterId, int experience);
-
-    //
-    //
-    //
-
+    ActivityLog CreateClanCreatedLog(int userId, int clanId);
+    ActivityLog CreateClanDeletedLog(int userId, int clanId);
     ActivityLog CreateClanInvitationCreatedLog(int userId, int clanId);
     ActivityLog CreateClanInvitationDeclinedLog(int userId, int clanId);
     ActivityLog CreateClanInvitationAcceptedLog(int userId, int clanId);
-    ActivityLog CreateClanChangeMemberRoleLog(int userId, int clanId, int actorUserId, ClanMemberRole oldClanMemberRole, ClanMemberRole newClanMemberRole);
-
-    //
-    //
-    //
-
+    ActivityLog CreateClanMemberRoleChangeLog(int userId, int clanId, int actorUserId, ClanMemberRole oldClanMemberRole, ClanMemberRole newClanMemberRole);
+    ActivityLog CreateClanMemberLeavedLog(int userId, int clanId);
+    ActivityLog CreateClanMemberKickedLog(int userId, int clanId, int actorUserId);
     ActivityLog CreateAddItemToClanArmory(int userId, int clanId, int userItemId);
     ActivityLog CreateRemoveItemFromClanArmory(int userId, int clanId, int userItemId);
     ActivityLog CreateBorrowItemFromClanArmory(int userId, int clanId, int userItemId);
@@ -130,11 +124,13 @@ internal class ActivityLogService : IActivityLogService
         });
     }
 
-    public ActivityLog CreateItemReturnedLog(int userId, string itemId)
+    public ActivityLog CreateItemReturnedLog(int userId, string itemId, int refundedHeirloomPoints, int refundedGold)
     {
         return CreateLog(ActivityLogType.ItemReturned, userId, new ActivityLogMetadata[]
         {
             new("itemId", itemId),
+            new("refundedHeirloomPoints", refundedHeirloomPoints.ToString()),
+            new("refundedGold", refundedGold.ToString()),
         });
     }
 
@@ -192,24 +188,47 @@ internal class ActivityLogService : IActivityLogService
         });
     }
 
-
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-
-    public ActivityLog CreateClanChangeMemberRoleLog(int userId, int clanId, int actorUserId, ClanMemberRole oldClanMemberRole, ClanMemberRole newClanMemberRole)
+    public ActivityLog CreateClanCreatedLog(int userId, int clanId)
     {
-        return CreateLog(ActivityLogType.ClanRoleEdited, userId, new ActivityLogMetadata[]
+        return CreateLog(ActivityLogType.ClanCreated, userId, new ActivityLogMetadata[]
+        {
+            new("clanId", clanId.ToString()),
+        });
+    }
+
+    public ActivityLog CreateClanDeletedLog(int userId, int clanId)
+    {
+        return CreateLog(ActivityLogType.ClanDeleted, userId, new ActivityLogMetadata[]
+        {
+            new("clanId", clanId.ToString()),
+        });
+    }
+
+    public ActivityLog CreateClanMemberRoleChangeLog(int userId, int clanId, int actorUserId, ClanMemberRole oldClanMemberRole, ClanMemberRole newClanMemberRole)
+    {
+        return CreateLog(ActivityLogType.ClanMemberRoleEdited, userId, new ActivityLogMetadata[]
         {
             new("clanId", clanId.ToString()),
             new("actorUserId", actorUserId.ToString()),
             new("oldClanMemberRole", oldClanMemberRole.ToString()),
             new("newClanMemberRole", newClanMemberRole.ToString()),
+        });
+    }
+
+    public ActivityLog CreateClanMemberKickedLog(int userId, int clanId, int actorUserId)
+    {
+        return CreateLog(ActivityLogType.ClanMemberKicked, userId, new ActivityLogMetadata[]
+        {
+            new("clanId", clanId.ToString()),
+            new("actorUserId", actorUserId.ToString()),
+        });
+    }
+
+    public ActivityLog CreateClanMemberLeavedLog(int userId, int clanId)
+    {
+        return CreateLog(ActivityLogType.ClanMemberLeaved, userId, new ActivityLogMetadata[]
+        {
+            new("clanId", clanId.ToString()),
         });
     }
 
@@ -236,15 +255,6 @@ internal class ActivityLogService : IActivityLogService
             new("clanId", clanId.ToString()),
         });
     }
-
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
 
     public ActivityLog CreateAddItemToClanArmory(int userId, int clanId, int userItemId)
     {

@@ -81,9 +81,9 @@ public record UpdateClanMemberCommand : IMediatorRequest<ClanMemberViewModel>
                 user.ClanMembership.Role = ClanMemberRole.Officer;
             }
 
-            var activityLog = _activityLogService.CreateClanChangeMemberRoleLog(req.MemberId, req.ClanId, req.UserId, oldRole, req.Role);
+            var activityLog = _activityLogService.CreateClanMemberRoleChangeLog(toUpdateUser.Id, req.ClanId, req.UserId, oldRole, req.Role);
             _db.ActivityLogs.Add(activityLog);
-            _db.UserNotifications.Add(_userNotificationService.CreateClanMemberRoleChangedToUser(req.MemberId, activityLog.Id));
+            _db.UserNotifications.Add(_userNotificationService.CreateClanMemberRoleChangedToUser(toUpdateUser.Id, activityLog.Id));
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' updated member '{1}' from clan '{2}'", req.UserId,
                 req.MemberId, req.ClanId);

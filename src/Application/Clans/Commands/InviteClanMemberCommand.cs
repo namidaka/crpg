@@ -86,19 +86,16 @@ public record InviteClanMemberCommand : IMediatorRequest<ClanInvitationViewModel
             };
             _db.ClanInvitations.Add(invitation);
 
-            var activityLog = _activityLogService.CreateClanInvitationCreatedLog(user.Id, clanId);
-            _db.ActivityLogs.Add(activityLog);
+            var createClanInvitationActivityLog = _activityLogService.CreateClanInvitationCreatedLog(user.Id, clanId);
+            _db.ActivityLogs.Add(createClanInvitationActivityLog);
 
             ClanMemberRole[] officersRoles = { ClanMemberRole.Officer, ClanMemberRole.Leader };
-            var clanOfficers = await _db.ClanMembers
-                .Where(cm => cm.ClanId == clanId && officersRoles.Contains(cm.Role))
-                .ToArrayAsync(cancellationToken);
+            _db.UserNotifications.Add(_userNotificationService.CreateClanInvitationCreatedToUser(user.Id, createClanInvitationActivityLog.Id));
 
-            _db.UserNotifications.Add(_userNotificationService.CreateClanInvitationCreatedToUser(user.Id, activityLog.Id));
-
-            foreach (var officer in clanOfficers)
+            var clanOfficers = await _clanService.GetClanOfficers(_db, clanId, cancellationToken);
+            foreach (var officer in clanOfficers.Data!)
             {
-                _db.UserNotifications.Add(_userNotificationService.CreateClanInvitationCreatedToOfficers(officer.UserId, activityLog.Id));
+                _db.UserNotifications.Add(_userNotificationService.CreateClanInvitationCreatedToClanOfficers(officer.UserId, createClanInvitationActivityLog.Id));
             }
 
             await _db.SaveChangesAsync(cancellationToken);
