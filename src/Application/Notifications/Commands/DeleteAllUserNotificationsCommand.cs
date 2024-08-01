@@ -7,13 +7,13 @@ using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Notifications.Commands;
 
-public record DeleteAllUserNotificationCommand : IMediatorRequest
+public record DeleteAllUserNotificationsCommand : IMediatorRequest
 {
     public int UserId { get; init; }
 
-    internal class Handler : IMediatorRequestHandler<DeleteAllUserNotificationCommand>
+    internal class Handler : IMediatorRequestHandler<DeleteAllUserNotificationsCommand>
     {
-        private static readonly ILogger Logger = LoggerFactory.CreateLogger<DeleteAllUserNotificationCommand>();
+        private static readonly ILogger Logger = LoggerFactory.CreateLogger<DeleteAllUserNotificationsCommand>();
 
         private readonly ICrpgDbContext _db;
 
@@ -22,7 +22,7 @@ public record DeleteAllUserNotificationCommand : IMediatorRequest
             _db = db;
         }
 
-        public async Task<Result> Handle(DeleteAllUserNotificationCommand req, CancellationToken cancellationToken)
+        public async Task<Result> Handle(DeleteAllUserNotificationsCommand req, CancellationToken cancellationToken)
         {
             var userNotifications = await _db.UserNotifications
                .Where(un => un.UserId == req.UserId)

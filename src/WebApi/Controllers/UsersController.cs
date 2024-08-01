@@ -640,5 +640,5 @@ public class UsersController : BaseController
     [HttpDelete("self/notifications/deleteAll")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public Task<ActionResult> DeleteAllUserNotifications() =>
-        ResultToActionAsync(Mediator.Send(new DeleteAllUserNotificationCommand { UserId = CurrentUser.User!.Id }));
+        ResultToActionAsync(Mediator.Send(new DeleteAllUserNotificationsCommand { UserId = CurrentUser.User!.Id }));
 }

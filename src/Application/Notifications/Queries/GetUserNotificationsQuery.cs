@@ -25,7 +25,6 @@ public record GetUserNotificationsQuery : IMediatorRequest<UserNotificationsWith
             _mapper = mapper;
         }
 
-        // TODO: last 5
         // TODO: all + pagination/filters (by date? by type?)
         public async Task<Result<UserNotificationsWithDictViewModel>> Handle(GetUserNotificationsQuery req,
             CancellationToken cancellationToken)
@@ -34,11 +33,11 @@ public record GetUserNotificationsQuery : IMediatorRequest<UserNotificationsWith
                 .Include(un => un.ActivityLog)
                     .ThenInclude(al => al!.Metadata)
                 .Where(un => un.UserId == req.UserId)
-                .OrderByDescending(l => l.CreatedAt)
+                .OrderByDescending(un => un.CreatedAt)
                 .Take(1000) // TODO:
                 .ToArrayAsync(cancellationToken);
 
-            // TODO: to fns
+            // TODO: to fns: extract from activityLog.metaData
             IList<int> clansIds = new List<int>();
             IList<int> usersIds = new List<int>();
             foreach (var un in userNotifications)
