@@ -1257,6 +1257,7 @@ public record SeedDataCommand : IMediatorRequest
             _db.ActivityLogs.AddRange(newActivityLogs.Concat(newActivityLogCharacterEarned));
 
             var orleNotification1 = _userNotificationService.CreateClanInvitationCreatedToClanOfficers(orle.Id, activityLogClanInvitationCreated1.Id);
+            orleNotification1.CreatedAt = DateTime.UtcNow.AddMinutes(-112);
             var orleNotification2 = _userNotificationService.CreateClanInvitationCreatedToClanOfficers(orle.Id, activityLogClanInvitationCreated2.Id);
             orleNotification2.State = NotificationState.Read;
             var orleNotification3 = _userNotificationService.CreateClanInvitationCreatedToClanOfficers(orle.Id, activityLogClanInvitationCreated3.Id);

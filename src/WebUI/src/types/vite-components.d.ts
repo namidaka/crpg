@@ -25,6 +25,7 @@ declare module 'vue' {
     ClanArmoryItemRelationBadge: typeof import('./../components/clan/armory/ClanArmoryItemRelationBadge.vue')['default']
     ClanForm: typeof import('./../components/clan/ClanForm.vue')['default']
     ClanMemberDetail: typeof import('./../components/clan/ClanMemberDetail.vue')['default']
+    ClanRole: typeof import('./../components/clan/ClanRole.vue')['default']
     ClanRoleIcon: typeof import('./../components/clan/ClanRoleIcon.vue')['default']
     ClanTagIcon: typeof import('./../components/clan/ClanTagIcon.vue')['default']
     ClosableTooltip: typeof import('./../components/ui/ClosableTooltip.vue')['default']

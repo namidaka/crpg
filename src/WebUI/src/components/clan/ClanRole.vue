@@ -7,8 +7,8 @@ defineProps<{
 </script>
 
 <template>
-  <OIcon
-    :icon="role === ClanMemberRole.Leader ? 'leader' : 'officer'"
+  <div
+    class="inline-flex items-center gap-1.5 align-middle font-bold"
     :class="
       role === ClanMemberRole.Leader
         ? 'text-more-support'
@@ -16,11 +16,8 @@ defineProps<{
           ? 'text-content-100'
           : 'text-content-400'
     "
-    size="sm"
-    :style="{
-      '--fa-secondary-opacity': 1,
-      '--fa-secondary-color': '#fff',
-      '--fa-primary-color': '#626262',
-    }"
-  />
+  >
+    <ClanRoleIcon v-if="[ClanMemberRole.Leader, ClanMemberRole.Officer].includes(role)" :role />
+    {{ $t(`clan.role.${role}`) }}
+  </div>
 </template>

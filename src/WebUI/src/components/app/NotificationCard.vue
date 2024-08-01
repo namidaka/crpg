@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Clan } from '@/models/clan';
+import { type Clan, ClanMemberRole } from '@/models/clan';
 import { NotificationState } from '@/models/notificatios';
-import { UserNotification, UserPublic } from '@/models/user';
+import { type UserNotification, type UserPublic } from '@/models/user';
 import { useLocaleTimeAgo } from '@/composables/use-locale-time-ago';
 
 const { notification, users, clans } = defineProps<{
@@ -26,14 +26,11 @@ const emit = defineEmits<{
 
 <template>
   <div class="relative flex items-start gap-4 rounded-lg bg-base-200 px-3 py-3 text-content-200">
-    <!-- TODO: -->
     <div
       class="flex h-8 w-8 min-w-8 items-center justify-center gap-1.5 rounded-full bg-content-600"
     >
       <SvgSpriteImg name="logo" viewBox="0 0 162 124" class="w-3/4" />
     </div>
-
-    <!-- <UserMedia hiddenTitle hiddenPlatform :user="getUserById(notification.activityLog.userId)!" /> -->
 
     <div class="flex-1 space-y-3">
       <i18n-t
@@ -46,6 +43,20 @@ const emit = defineEmits<{
           <UserClan
             :clan="getClanById(Number(notification.activityLog.metadata.clanId))!"
             class="inline-flex items-center gap-1 align-middle"
+          />
+        </template>
+
+        <template #oldClanMemberRole>
+          <ClanRole
+            v-if="'oldClanMemberRole' in notification.activityLog.metadata"
+            :role="notification.activityLog.metadata.oldClanMemberRole"
+          />
+        </template>
+
+        <template #newClanMemberRole>
+          <ClanRole
+            v-if="'newClanMemberRole' in notification.activityLog.metadata"
+            :role="notification.activityLog.metadata.newClanMemberRole"
           />
         </template>
 
@@ -87,20 +98,6 @@ const emit = defineEmits<{
 
         <template #itemId v-if="'itemId' in notification.activityLog.metadata">
           <strong>{{ notification.activityLog.metadata.itemId }}</strong>
-        </template>
-
-        <template
-          #oldClanMemberRole
-          v-if="'oldClanMemberRole' in notification.activityLog.metadata"
-        >
-          <strong>{{ notification.activityLog.metadata.oldClanMemberRole }}</strong>
-        </template>
-
-        <template
-          #newClanMemberRole
-          v-if="'newClanMemberRole' in notification.activityLog.metadata"
-        >
-          <strong>{{ notification.activityLog.metadata.newClanMemberRole }}</strong>
         </template>
       </i18n-t>
 
