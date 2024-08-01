@@ -75,14 +75,12 @@ public record CreateClanCommand : IMediatorRequest<ClanViewModel>
         private readonly IMapper _mapper;
 
         private readonly IActivityLogService _activityLogService;
-        private readonly IUserNotificationService _userNotificationService;
 
-        public Handler(ICrpgDbContext db, IMapper mapper, IActivityLogService activityLogService, IUserNotificationService userNotificationService)
+        public Handler(ICrpgDbContext db, IMapper mapper, IActivityLogService activityLogService)
         {
             _db = db;
             _mapper = mapper;
             _activityLogService = activityLogService;
-            _userNotificationService = userNotificationService;
         }
 
         public async Task<Result<ClanViewModel>> Handle(CreateClanCommand req, CancellationToken cancellationToken)

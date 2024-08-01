@@ -17,9 +17,9 @@ export enum ActivityLogType {
   ServerJoined = 'ServerJoined',
   ChatMessageSent = 'ChatMessageSent',
   TeamHit = 'TeamHit',
-  ClanInvitationCreated = 'ClanInvitationCreated',
-  ClanInvitationAccepted = 'ClanInvitationAccepted',
-  ClanInvitationDeclined = 'ClanInvitationDeclined',
+  ClanApplicationCreated = 'ClanApplicationCreated',
+  ClanApplicationAccepted = 'ClanApplicationAccepted',
+  ClanApplicationDeclined = 'ClanApplicationDeclined',
   ClanArmoryAddItem = 'ClanArmoryAddItem',
   ClanArmoryRemoveItem = 'ClanArmoryRemoveItem',
   ClanArmoryReturnItem = 'ClanArmoryReturnItem',
@@ -27,7 +27,7 @@ export enum ActivityLogType {
 }
 
 // TODO:
-export type ClanInvitationCreatedMetadata = {
+export type ClanApplicationCreatedMetadata = {
   clanId: string;
 };
 

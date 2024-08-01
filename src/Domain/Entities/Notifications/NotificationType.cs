@@ -6,10 +6,10 @@ public enum NotificationType
 
     ItemReturned,
 
-    ClanInvitationCreatedToUser,
-    ClanInvitationCreatedToClanOfficers,
-    ClanInvitationDeclinedToUser,
-    ClanInvitationAcceptedToUser,
+    ClanApplicationCreatedToUser,
+    ClanApplicationCreatedToClanOfficers,
+    ClanApplicationAcceptedToUser,
+    ClanApplicationDeclinedToUser,
     ClanMemberRoleChangedToUser,
     ClanMemberLeavedToClanLeader,
     ClanMemberKickedToExClanMember,

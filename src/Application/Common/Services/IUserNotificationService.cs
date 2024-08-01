@@ -5,13 +5,13 @@ namespace Crpg.Application.Common.Services;
 internal interface IUserNotificationService
 {
     UserNotification CreateItemReturnedToUser(int userId, int activityLogId);
-    UserNotification CreateClanInvitationCreatedToUser(int userId, int activityLogId);
+    UserNotification CreateClanApplicationCreatedToUser(int userId, int activityLogId);
+    UserNotification CreateClanApplicationCreatedToClanOfficers(int userId, int activityLogId);
+    UserNotification CreateClanApplicationAcceptedToUser(int userId, int activityLogId);
+    UserNotification CreateClanApplicationDeclinedToUser(int userId, int activityLogId);
     UserNotification CreateClanMemberRoleChangedToUser(int userId, int activityLogId);
     UserNotification CreateClanMemberLeavedToClanLeader(int userId, int activityLogId);
     UserNotification CreateClanMemberKickedToExClanMember(int userId, int activityLogId);
-    UserNotification CreateClanInvitationCreatedToClanOfficers(int userId, int activityLogId);
-    UserNotification CreateClanInvitationDeclinedToUser(int userId, int activityLogId);
-    UserNotification CreateClanInvitationAcceptedToUser(int userId, int activityLogId);
     UserNotification CreateUserRewardedToUser(int userId, int activityLogId);
 }
 
@@ -37,25 +37,27 @@ internal class UserNotificationService : IUserNotificationService
         return CreateLog(NotificationType.ClanMemberKickedToExClanMember, userId, activityLogId);
     }
 
-    public UserNotification CreateClanInvitationCreatedToUser(int userId, int activityLogId)
+    public UserNotification CreateClanApplicationCreatedToUser(int userId, int activityLogId)
     {
-        return CreateLog(NotificationType.ClanInvitationCreatedToUser, userId, activityLogId);
+        return CreateLog(NotificationType.ClanApplicationCreatedToUser, userId, activityLogId);
     }
 
-    public UserNotification CreateClanInvitationCreatedToClanOfficers(int userId, int activityLogId)
+    public UserNotification CreateClanApplicationCreatedToClanOfficers(int userId, int activityLogId)
     {
-        return CreateLog(NotificationType.ClanInvitationCreatedToClanOfficers, userId, activityLogId);
+        return CreateLog(NotificationType.ClanApplicationCreatedToClanOfficers, userId, activityLogId);
     }
 
-    public UserNotification CreateClanInvitationDeclinedToUser(int userId, int activityLogId)
+    public UserNotification CreateClanApplicationAcceptedToUser(int userId, int activityLogId)
     {
-        return CreateLog(NotificationType.ClanInvitationDeclinedToUser, userId, activityLogId);
+        return CreateLog(NotificationType.ClanApplicationAcceptedToUser, userId, activityLogId);
     }
 
-    public UserNotification CreateClanInvitationAcceptedToUser(int userId, int activityLogId)
+    public UserNotification CreateClanApplicationDeclinedToUser(int userId, int activityLogId)
     {
-        return CreateLog(NotificationType.ClanInvitationAcceptedToUser, userId, activityLogId);
+        return CreateLog(NotificationType.ClanApplicationDeclinedToUser, userId, activityLogId);
     }
+
+
 
     public UserNotification CreateUserRewardedToUser(int userId, int activityLogId)
     {

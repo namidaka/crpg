@@ -86,16 +86,18 @@ public record InviteClanMemberCommand : IMediatorRequest<ClanInvitationViewModel
             };
             _db.ClanInvitations.Add(invitation);
 
-            var createClanInvitationActivityLog = _activityLogService.CreateClanInvitationCreatedLog(user.Id, clanId);
+            var createClanInvitationActivityLog = _activityLogService.CreateClanApplicationCreatedLog(user.Id, clanId);
             _db.ActivityLogs.Add(createClanInvitationActivityLog);
 
-            ClanMemberRole[] officersRoles = { ClanMemberRole.Officer, ClanMemberRole.Leader };
-            _db.UserNotifications.Add(_userNotificationService.CreateClanInvitationCreatedToUser(user.Id, createClanInvitationActivityLog.Id));
+            _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationCreatedToUser(user.Id, createClanInvitationActivityLog.Id));
 
             var clanOfficers = await _clanService.GetClanOfficers(_db, clanId, cancellationToken);
-            foreach (var officer in clanOfficers.Data!)
+            if (clanOfficers.Errors == null && clanOfficers.Data != null)
             {
-                _db.UserNotifications.Add(_userNotificationService.CreateClanInvitationCreatedToClanOfficers(officer.UserId, createClanInvitationActivityLog.Id));
+                foreach (var officer in clanOfficers.Data)
+                {
+                    _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationCreatedToClanOfficers(officer.UserId, createClanInvitationActivityLog.Id));
+                }
             }
 
             await _db.SaveChangesAsync(cancellationToken);

@@ -25,9 +25,9 @@ internal interface IActivityLogService
     ActivityLog CreateCharacterRewardedLog(int userId, int actorUserId, int characterId, int experience);
     ActivityLog CreateClanCreatedLog(int userId, int clanId);
     ActivityLog CreateClanDeletedLog(int userId, int clanId);
-    ActivityLog CreateClanInvitationCreatedLog(int userId, int clanId);
-    ActivityLog CreateClanInvitationDeclinedLog(int userId, int clanId);
-    ActivityLog CreateClanInvitationAcceptedLog(int userId, int clanId);
+    ActivityLog CreateClanApplicationCreatedLog(int userId, int clanId);
+    ActivityLog CreateClanApplicationDeclinedLog(int userId, int clanId);
+    ActivityLog CreateClanApplicationAcceptedLog(int userId, int clanId);
     ActivityLog CreateClanMemberRoleChangeLog(int userId, int clanId, int actorUserId, ClanMemberRole oldClanMemberRole, ClanMemberRole newClanMemberRole);
     ActivityLog CreateClanMemberLeavedLog(int userId, int clanId);
     ActivityLog CreateClanMemberKickedLog(int userId, int clanId, int actorUserId);
@@ -232,25 +232,25 @@ internal class ActivityLogService : IActivityLogService
         });
     }
 
-    public ActivityLog CreateClanInvitationCreatedLog(int userId, int clanId)
+    public ActivityLog CreateClanApplicationCreatedLog(int userId, int clanId)
     {
-        return CreateLog(ActivityLogType.ClanInvitationCreated, userId, new ActivityLogMetadata[]
+        return CreateLog(ActivityLogType.ClanApplicationCreated, userId, new ActivityLogMetadata[]
         {
             new("clanId", clanId.ToString()),
         });
     }
 
-    public ActivityLog CreateClanInvitationDeclinedLog(int userId, int clanId)
+    public ActivityLog CreateClanApplicationDeclinedLog(int userId, int clanId)
     {
-        return CreateLog(ActivityLogType.ClanInvitationDeclined, userId, new ActivityLogMetadata[]
+        return CreateLog(ActivityLogType.ClanApplicationDeclined, userId, new ActivityLogMetadata[]
         {
             new("clanId", clanId.ToString()),
         });
     }
 
-    public ActivityLog CreateClanInvitationAcceptedLog(int userId, int clanId)
+    public ActivityLog CreateClanApplicationAcceptedLog(int userId, int clanId)
     {
-        return CreateLog(ActivityLogType.ClanInvitationAccepted, userId, new ActivityLogMetadata[]
+        return CreateLog(ActivityLogType.ClanApplicationAccepted, userId, new ActivityLogMetadata[]
         {
             new("clanId", clanId.ToString()),
         });

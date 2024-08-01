@@ -1467,10 +1467,10 @@ notification:
     ClanMemberRoleChangedToUser: 'Your role {oldClanMemberRole} in the clan {clan} has been changed to {newClanMemberRole}'
     ClanMemberLeavedToClanLeader: '{user} has left your clan {clan}'
     ClanMemberKickedToExClanMember: 'You were kicked out of clan {clan}'
-    ClanInvitationCreatedToUser: 'Your application for {clan} has been successfully created'
-    ClanInvitationCreatedToClanOfficers: '{user} has applied to join your clan {clan}'
-    ClanInvitationAcceptedToUser: 'Your application to join the {clan} has been approved'
-    ClanInvitationDeclinedToUser: 'Your application to join the {clan} has been declined'
+    ClanApplicationCreatedToUser: 'Your application for {clan} has been successfully created'
+    ClanApplicationCreatedToClanOfficers: '{user} has applied to join your clan {clan}'
+    ClanApplicationAcceptedToUser: 'Your application to join the {clan} has been approved'
+    ClanApplicationDeclinedToUser: 'Your application to join the {clan} has been declined'
     UserRewardedToUser: 'You have been rewarded with {gold} {heirloomPoints} {itemId} by user {actorUser}'
 
 leaderboard:

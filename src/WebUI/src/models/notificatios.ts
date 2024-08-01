@@ -3,7 +3,8 @@ export enum NotificationState {
   Read = 'Read',
 }
 
+// TODO:
 export enum NotificationType {
-  ClanInvitationCreatedToUser = 'ClanInvitationCreatedToUser',
-  ClanInvitationCreatedToOfficers = 'ClanInvitationCreatedToOfficers',
+  ClanApplicationCreatedToUser = 'ClanApplicationCreatedToUser',
+  ClanApplicationCreatedToClanOfficers = 'ClanApplicationCreatedToClanOfficers',
 }
