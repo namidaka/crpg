@@ -1,4 +1,6 @@
-﻿namespace Crpg.Domain.Entities.Characters;
+﻿using Crpg.Domain.Entities.Servers;
+
+namespace Crpg.Domain.Entities.Characters;
 
 public class CharacterStatistics
 {
@@ -6,4 +8,6 @@ public class CharacterStatistics
     public int Deaths { get; set; }
     public int Assists { get; set; }
     public TimeSpan PlayTime { get; set; }
+    public GameMode GameMode { get; set; }
+    public Character? Character { get; set; }
 }

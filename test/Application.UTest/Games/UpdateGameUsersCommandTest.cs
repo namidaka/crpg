@@ -48,12 +48,28 @@ public class UpdateGameUsersCommandTest : TestBase
                             Slot = ItemSlot.Body,
                         },
                     },
-                    Statistics = new CharacterStatistics
+                    Statistics = new List<CharacterStatistics>
                     {
-                        Kills = 1,
-                        Deaths = 2,
-                        Assists = 3,
-                        PlayTime = TimeSpan.FromSeconds(4),
+                        {
+                            new CharacterStatistics
+                            {
+                                Kills = 1,
+                                Deaths = 2,
+                                Assists = 3,
+                                PlayTime = TimeSpan.FromSeconds(4),
+                                GameMode = GameMode.CRPGBattle,
+                            }
+                        },
+                        {
+                            new CharacterStatistics
+                            {
+                                Kills = 2,
+                                Deaths = 4,
+                                Assists = 6,
+                                PlayTime = TimeSpan.FromSeconds(8),
+                                GameMode = GameMode.CRPGConquest,
+                            }
+                        },
                     },
                     Rating = new CharacterRating
                     {
@@ -126,10 +142,11 @@ public class UpdateGameUsersCommandTest : TestBase
         Assert.That(data.UpdateResults[0].RepairedItems, Is.Empty);
 
         var dbCharacter = await AssertDb.Characters.FirstAsync(c => c.Id == user.Characters[0].Id);
-        Assert.That(dbCharacter.Statistics.Kills, Is.EqualTo(6));
-        Assert.That(dbCharacter.Statistics.Deaths, Is.EqualTo(8));
-        Assert.That(dbCharacter.Statistics.Assists, Is.EqualTo(10));
-        Assert.That(dbCharacter.Statistics.PlayTime, Is.EqualTo(TimeSpan.FromSeconds(12)));
+        CharacterStatistics? charStats = dbCharacter.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle);
+        Assert.That(charStats?.Kills, Is.EqualTo(6));
+        Assert.That(charStats?.Deaths, Is.EqualTo(8));
+        Assert.That(charStats?.Assists, Is.EqualTo(10));
+        Assert.That(charStats?.PlayTime, Is.EqualTo(TimeSpan.FromSeconds(12)));
 
         characterServiceMock.VerifyAll();
 
@@ -183,6 +200,7 @@ public class UpdateGameUsersCommandTest : TestBase
             {
                 new GameUserUpdate
                 {
+                    Instance = "crpg99a",
                     CharacterId = user.Characters[0].Id,
                     BrokenItems = new[]
                     {
@@ -274,6 +292,7 @@ public class UpdateGameUsersCommandTest : TestBase
             {
                 new GameUserUpdate
                 {
+                    Instance = "crpg99a",
                     CharacterId = user.Characters[0].Id,
                     BrokenItems = new[]
                     {

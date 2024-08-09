@@ -29,6 +29,8 @@ export interface UserPrivate extends UserPublic {
   createdAt: Date;
   updatedAt: Date;
   gold: number;
+  heirloomPoints: number;
+  experienceMultiplier: number;
   note: string;
   activeCharacterId: number | null;
 }
@@ -41,6 +43,7 @@ export interface UserItem {
   item: Item;
   isBroken: boolean;
   isArmoryItem: boolean;
+  isPersonal: boolean;
 }
 
 export interface UserItemsByType {

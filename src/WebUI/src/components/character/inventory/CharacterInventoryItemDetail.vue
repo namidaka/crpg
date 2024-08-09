@@ -47,13 +47,21 @@ const emit = defineEmits<{
 }>();
 
 const isOwnArmoryItem = computed(() => userItem.isArmoryItem && userItem.userId === user.value!.id);
-const isSellable = computed(() => userItem.item.rank <= 0 && !userItem.isArmoryItem);
+const isSellable = computed(
+  () => userItem.item.rank <= 0 && !userItem.isArmoryItem && !userItem.isPersonal
+);
 const isUpgradable = computed(() => canUpgrade(userItem.item.type) && !userItem.isArmoryItem);
-const isCanAddedToClanArmory = computed(() => canAddedToClanArmory(userItem.item.type));
+const isCanAddedToClanArmory = computed(
+  () => canAddedToClanArmory(userItem.item.type) && !userItem.isPersonal
+);
 </script>
 
 <template>
-  <ItemDetail :item="userItem.item" :compareResult="compareResult">
+  <ItemDetail
+    :item="userItem.item"
+    :compareResult="compareResult"
+    :class="{ 'bg-primary-hover/15': userItem.isPersonal }"
+  >
     <template #badges-bottom-right>
       <Tag
         v-if="equipped"

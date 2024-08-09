@@ -96,13 +96,13 @@ internal class CharacterService : ICharacterService
 
     public void ResetStatistics(Character character)
     {
-        character.Statistics = new CharacterStatistics
+        foreach (CharacterStatistics modeStats in character.Statistics)
         {
-            Kills = 0,
-            Deaths = 0,
-            Assists = 0,
-            PlayTime = TimeSpan.Zero,
-        };
+            modeStats.Kills = 0;
+            modeStats.Deaths = 0;
+            modeStats.Assists = 0;
+            modeStats.PlayTime = TimeSpan.Zero;
+        }
     }
 
     public void UpdateRating(Character character, float value, float deviation, float volatility, bool isGameUserUpdate = false)

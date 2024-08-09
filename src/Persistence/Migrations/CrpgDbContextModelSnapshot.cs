@@ -9,6 +9,7 @@ using Crpg.Domain.Entities.GameServers;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Persistence;
@@ -43,6 +44,7 @@ namespace Crpg.Persistence.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "clan_member_role", new[] { "member", "officer", "leader" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "culture", new[] { "neutral", "aserai", "battania", "empire", "khuzait", "looters", "sturgia", "vlandia" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "damage_type", new[] { "undefined", "cut", "pierce", "blunt" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "game_mode", new[] { "crpg_battle", "crpg_conquest", "crpgdtv", "crpg_duel", "crpg_siege", "crpg_team_deathmatch", "crpg_skirmish", "crpg_unknown_game_mode" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_slot", new[] { "head", "shoulder", "body", "hand", "leg", "mount_harness", "mount", "weapon0", "weapon1", "weapon2", "weapon3", "weapon_extra" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_type", new[] { "undefined", "head_armor", "shoulder_armor", "body_armor", "hand_armor", "leg_armor", "mount_harness", "mount", "shield", "bow", "crossbow", "one_handed_weapon", "two_handed_weapon", "polearm", "thrown", "arrows", "bolts", "pistol", "musket", "bullets", "banner" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "languages", new[] { "en", "zh", "ru", "de", "fr", "it", "es", "pl", "uk", "ro", "nl", "tr", "el", "hu", "sv", "cs", "pt", "sr", "bg", "hr", "da", "fi", "no", "be", "lv" });
@@ -758,6 +760,26 @@ namespace Crpg.Persistence.Migrations
                     b.ToTable("items", (string)null);
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Items.PersonalItem", b =>
+                {
+                    b.Property<int>("UserItemId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_item_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("UserItemId")
+                        .HasName("pk_personal_items");
+
+                    b.ToTable("personal_items", (string)null);
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Items.UserItem", b =>
                 {
                     b.Property<int>("Id")
@@ -1465,11 +1487,18 @@ namespace Crpg.Persistence.Migrations
                                 .HasConstraintName("fk_characters_characters_id");
                         });
 
-                    b.OwnsOne("Crpg.Domain.Entities.Characters.CharacterStatistics", "Statistics", b1 =>
+                    b.OwnsMany("Crpg.Domain.Entities.Characters.CharacterStatistics", "Statistics", b1 =>
                         {
                             b1.Property<int>("CharacterId")
                                 .HasColumnType("integer")
+                                .HasColumnName("character_id");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer")
                                 .HasColumnName("id");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
 
                             b1.Property<int>("Assists")
                                 .HasColumnType("integer")
@@ -1479,6 +1508,10 @@ namespace Crpg.Persistence.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("deaths");
 
+                            b1.Property<GameMode>("GameMode")
+                                .HasColumnType("game_mode")
+                                .HasColumnName("game_mode");
+
                             b1.Property<int>("Kills")
                                 .HasColumnType("integer")
                                 .HasColumnName("kills");
@@ -1487,13 +1520,16 @@ namespace Crpg.Persistence.Migrations
                                 .HasColumnType("interval")
                                 .HasColumnName("play_time");
 
-                            b1.HasKey("CharacterId");
+                            b1.HasKey("CharacterId", "Id")
+                                .HasName("pk_character_statistics");
 
-                            b1.ToTable("characters");
+                            b1.ToTable("character_statistics", (string)null);
 
-                            b1.WithOwner()
+                            b1.WithOwner("Character")
                                 .HasForeignKey("CharacterId")
-                                .HasConstraintName("fk_characters_characters_id");
+                                .HasConstraintName("fk_character_statistics_characters_character_id");
+
+                            b1.Navigation("Character");
                         });
 
                     b.Navigation("Characteristics")
@@ -1502,8 +1538,7 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("Rating")
                         .IsRequired();
 
-                    b.Navigation("Statistics")
-                        .IsRequired();
+                    b.Navigation("Statistics");
 
                     b.Navigation("User");
                 });
@@ -1980,6 +2015,18 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("TertiaryWeapon");
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Items.PersonalItem", b =>
+                {
+                    b.HasOne("Crpg.Domain.Entities.Items.UserItem", "UserItem")
+                        .WithOne("PersonalItem")
+                        .HasForeignKey("Crpg.Domain.Entities.Items.PersonalItem", "UserItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_personal_items_user_items_user_item_id");
+
+                    b.Navigation("UserItem");
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Items.UserItem", b =>
                 {
                     b.HasOne("Crpg.Domain.Entities.Items.Item", "Item")
@@ -2180,6 +2227,8 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("ClanArmoryItem");
 
                     b.Navigation("EquippedItems");
+
+                    b.Navigation("PersonalItem");
                 });
 
             modelBuilder.Entity("Crpg.Domain.Entities.Parties.Party", b =>

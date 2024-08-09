@@ -103,6 +103,7 @@ const emit = defineEmits<{
               params: { id: activityLog.metadata.targetUserId },
             }"
             class="inline-block hover:text-content-100"
+            target="_blank"
           >
             <UserMedia :user="users[Number(activityLog.metadata.targetUserId)]" />
           </RouterLink>
@@ -118,8 +119,31 @@ const emit = defineEmits<{
         </div>
       </template>
 
+      <template #actorUserId v-if="'actorUserId' in activityLog.metadata">
+        <div class="inline-flex items-center gap-1 align-middle">
+          <RouterLink
+            class="inline-block hover:text-content-100"
+            :to="{
+              name: 'ModeratorUserIdInformation',
+              params: { id: activityLog.metadata.actorUserId },
+            }"
+            target="_blank"
+          >
+            <UserMedia
+              :user="users[Number(activityLog.metadata.actorUserId)]"
+              hiddenClan
+              hiddenPlatform
+            />
+          </RouterLink>
+        </div>
+      </template>
+
       <template #instance v-if="'instance' in activityLog.metadata">
         <Tag variant="info" :label="activityLog.metadata.instance" />
+      </template>
+
+      <template #gameMode v-if="'gameMode' in activityLog.metadata">
+        <Tag variant="info" :label="activityLog.metadata.gameMode" />
       </template>
 
       <template #oldName v-if="'oldName' in activityLog.metadata">

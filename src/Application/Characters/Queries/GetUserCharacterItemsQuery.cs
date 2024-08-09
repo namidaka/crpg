@@ -27,7 +27,10 @@ public record GetUserCharacterItemsQuery : IMediatorRequest<IList<EquippedItemVi
         {
             var character = await _db.Characters
                 .AsNoTracking()
-                .Include(c => c.EquippedItems).ThenInclude(ei => ei.UserItem!.Item)
+                .Include(c => c.EquippedItems)
+                    .ThenInclude(ei => ei.UserItem!.Item)
+                .Include(c => c.EquippedItems)
+                    .ThenInclude(ei => ei.UserItem!.PersonalItem)
                 .FirstOrDefaultAsync(c => c.Id == req.CharacterId && c.UserId == req.UserId, cancellationToken);
 
             return character == null

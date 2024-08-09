@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { type RouteLocationNormalized } from 'vue-router/auto';
 import { type CharacterCharacteristics, type CharacterOverallItemsStats } from '@/models/character';
 import { useUserStore } from '@/stores/user';
 import {
@@ -116,7 +115,7 @@ onBeforeRouteUpdate(async (to, from) => {
     // if character changed
     unsubscribe(loadCharacterItemsSymbol);
 
-    const characterId = Number((to as RouteLocationNormalized<'CharactersId'>).params.id as string);
+    const characterId = Number(to.params.id);
     await fetchPageData(characterId);
 
     subscribe(loadCharacterItemsSymbol, () => loadCharacterItems(0, { id: characterId }));

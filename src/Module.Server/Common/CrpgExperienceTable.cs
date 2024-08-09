@@ -19,6 +19,11 @@ internal class CrpgExperienceTable
 
     public int GetExperienceForLevel(int level)
     {
+        if (level >= _constants.MaximumLevel)
+        {
+            return _table[_constants.MaximumLevel - _constants.MinimumLevel];
+        }
+
         return _table[level - _constants.MinimumLevel];
     }
 
