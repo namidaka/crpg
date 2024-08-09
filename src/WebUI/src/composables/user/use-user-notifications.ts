@@ -23,6 +23,7 @@ export const useUsersNotifications = () => {
       notifications: [],
       users: [],
       clans: [],
+      characters: [],
     },
     {
       resetOnExecute: false,

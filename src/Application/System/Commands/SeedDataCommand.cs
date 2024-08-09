@@ -1100,16 +1100,7 @@ public record SeedDataCommand : IMediatorRequest
                     new("level", "34"),
                 },
             };
-            ActivityLog activityLogCharacterRewarded1 = new()
-            {
-                Type = ActivityLogType.CharacterRewarded,
-                User = namidaka,
-                Metadata =
-                {
-                    new("characterId", "123"),
-                    new("experience", "1000000"),
-                },
-            };
+            var activityLogCharacterRewarded1 = _activityLogService.CreateCharacterRewardedLog(orle.Id, takeo.Id, 5, 1000000);
             ActivityLog activityLogServerJoined1 = new()
             {
                 Type = ActivityLogType.ServerJoined,
@@ -1269,12 +1260,13 @@ public record SeedDataCommand : IMediatorRequest
             var orleNotification9 = _userNotificationService.CreateClanMemberRoleChangedToUser(orle.Id, activityLogClanMemberRoleChange1.Id);
             var orleNotification10 = _userNotificationService.CreateClanMemberLeavedToClanLeader(orle.Id, activityLogClanMemberLeaved1.Id);
             var orleNotification11 = _userNotificationService.CreateClanMemberKickedToExClanMember(orle.Id, activityLogClanMemberKicked1.Id);
+            var orleNotification12 = _userNotificationService.CreateCharacterRewardedToUser(orle.Id, activityLogCharacterRewarded1.Id);
 
             UserNotification[] userNotifications =
             {
                 orleNotification1, orleNotification2, orleNotification3, orleNotification4, orleNotification5,
                 orleNotification6, orleNotification7, orleNotification8, orleNotification9, orleNotification10,
-                orleNotification11,
+                orleNotification11, orleNotification12,
             };
             _db.UserNotifications.RemoveRange(await _db.UserNotifications.ToArrayAsync());
             _db.UserNotifications.AddRange(userNotifications);

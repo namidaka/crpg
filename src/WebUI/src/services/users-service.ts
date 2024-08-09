@@ -16,6 +16,7 @@ import { get, post, put, del } from '@/services/crpg-client';
 import { mapRestrictions } from '@/services/restriction-service';
 import { mapClanResponse } from '@/services/clan-service';
 import { pick } from '@/utils/object';
+import { CharacterCompetitive } from '@/models/competitive';
 
 export const getUser = () => get<User>('/users/self');
 
@@ -110,15 +111,17 @@ export const mapUserToUserPublic = (user: User, userClan: Clan | null): UserPubl
 });
 
 export const getUserNotifications = async (): Promise<UserNotificationsWithDicts> => {
-  const { notifications, users, clans } = await get<{
+  const { notifications, users, characters, clans } = await get<{
     notifications: UserNotification[];
     users: UserPublic[];
     clans: ClanEdition[];
+    characters: CharacterCompetitive[];
   }>('/users/self/notifications');
 
   return {
     notifications,
     users,
+    characters,
     clans: clans.map(mapClanResponse), // TODO: mapping to backend side?
   };
 };

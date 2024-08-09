@@ -5,6 +5,7 @@ import { ItemSlot, ItemType, type Item } from './item';
 import { type Clan } from './clan';
 import { NotificationState, NotificationType } from './notificatios';
 import { ActivityLog } from './activity-logs';
+import { CharacterCompetitive } from './competitive';
 
 export interface User {
   id: number;
@@ -67,5 +68,6 @@ export interface UserNotification {
 export interface UserNotificationsWithDicts {
   notifications: UserNotification[];
   users: UserPublic[];
+  characters: CharacterCompetitive[];
   clans: Clan[];
 }

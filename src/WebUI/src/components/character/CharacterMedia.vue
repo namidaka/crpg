@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import { type Character } from '@/models/character';
+import { type CharacterPublic } from '@/models/character';
 import { characterClassToIcon } from '@/services/characters-service';
 
-const { character, isActive = false } = defineProps<{
-  character: Character;
+const {
+  character,
+  isActive = false,
+  forTournament = false,
+} = defineProps<{
+  character: CharacterPublic;
   isActive?: boolean;
+  forTournament?: boolean;
 }>();
 </script>
 
 <template>
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-1.5">
     <OIcon
       :icon="characterClassToIcon[character.class]"
       size="lg"
@@ -33,7 +38,7 @@ const { character, isActive = false } = defineProps<{
     />
 
     <Tag
-      v-if="character.forTournament"
+      v-if="forTournament"
       :label="$t('character.status.forTournament.short')"
       v-tooltip="$t('character.status.forTournament.title')"
       variant="warning"

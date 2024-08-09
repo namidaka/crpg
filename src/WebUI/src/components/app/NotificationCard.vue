@@ -3,10 +3,12 @@ import { type Clan, ClanMemberRole } from '@/models/clan';
 import { NotificationState } from '@/models/notificatios';
 import { type UserNotification, type UserPublic } from '@/models/user';
 import { useLocaleTimeAgo } from '@/composables/use-locale-time-ago';
+import { type CharacterPublic } from '@/models/character';
 
-const { notification, users, clans } = defineProps<{
+const { notification, users, characters, clans } = defineProps<{
   notification: UserNotification;
   users: UserPublic[];
+  characters: CharacterPublic[];
   clans: Clan[];
 }>();
 
@@ -15,6 +17,8 @@ const timeAgo = useLocaleTimeAgo(notification.createdAt);
 const getClanById = (clanId: number) => clans.find(({ id }) => id === clanId);
 
 const getUserById = (userId: number) => users.find(({ id }) => id === userId);
+
+const getCharacterById = (characterId: number) => characters.find(({ id }) => id === characterId);
 
 const isUnread = computed(() => notification.state === NotificationState.Unread);
 
@@ -63,14 +67,21 @@ const emit = defineEmits<{
         <template #user>
           <UserMedia
             :user="getUserById(notification.activityLog.userId)!"
-            class="inline-flex items-center gap-1 align-middle"
+            class="inline-flex items-center gap-1 align-middle font-bold text-content-100"
           />
         </template>
 
         <template #actorUser>
           <UserMedia
             :user="getUserById(Number(notification.activityLog.metadata.actorUserId))!"
-            class="inline-flex items-center gap-1 align-middle"
+            class="inline-flex items-center gap-1 align-middle font-bold text-content-100"
+          />
+        </template>
+
+        <template #character>
+          <CharacterMedia
+            class="inline-flex items-center gap-1 align-middle font-bold text-content-100"
+            :character="getCharacterById(Number(notification.activityLog.metadata.characterId))!"
           />
         </template>
 

@@ -3,9 +3,8 @@
 public enum NotificationType
 {
     UserRewardedToUser,
-
+    CharacterRewardedToUser,
     ItemReturned,
-
     ClanApplicationCreatedToUser,
     ClanApplicationCreatedToClanOfficers,
     ClanApplicationAcceptedToUser,

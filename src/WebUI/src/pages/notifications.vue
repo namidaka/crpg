@@ -61,6 +61,7 @@ const {
           :notification="notification"
           :users="notifications.users"
           :clans="notifications.clans"
+          :characters="notifications.characters"
           @read="readNotification(notification.id)"
           @delete="deleteNotification(notification.id)"
         />
