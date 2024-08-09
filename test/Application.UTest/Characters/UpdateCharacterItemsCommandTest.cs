@@ -262,6 +262,32 @@ public class UpdateCharacterItemsCommandTest : TestBase
     }
 
     [Test]
+    public async Task PersonalItem()
+    {
+        Item item = new() { Type = ItemType.HeadArmor, Enabled = false };
+        Character character = new();
+        UserItem userItem = new() { Item = item, PersonalItem = new() };
+        User user = new() { Characters = { character }, Items = { userItem } };
+        ArrangeDb.Characters.Add(character);
+        ArrangeDb.Users.Add(user);
+        await ArrangeDb.SaveChangesAsync();
+
+        UpdateCharacterItemsCommand.Handler handler = new(ActDb, Mapper);
+        UpdateCharacterItemsCommand cmd = new()
+        {
+            CharacterId = character.Id,
+            UserId = user.Id,
+            Items = new List<EquippedItemIdViewModel> { new() { UserItemId = userItem.Id, Slot = ItemSlot.Head } },
+        };
+
+        var result = await handler.Handle(cmd, CancellationToken.None);
+        Assert.That(result.Errors, Is.Null);
+
+        var userItemIdBySlot = result.Data!.ToDictionary(i => i.Slot, ei => ei.UserItem.Id);
+        Assert.That(userItemIdBySlot[ItemSlot.Head], Is.EqualTo(userItem.Id));
+    }
+
+    [Test]
     public async Task ItemBroken()
     {
         UserItem userItem = new() { IsBroken = true, Item = new Item { Type = ItemType.HeadArmor, Enabled = true } };

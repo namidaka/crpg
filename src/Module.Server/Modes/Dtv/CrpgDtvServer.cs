@@ -181,7 +181,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: Math.Max(_currentWave, 0)),
                 durationUpkeep: roundDuration * UpkeepMultiplier,
-                updateUserStats: false,
                 constantMultiplier: RewardMultiplier);
         }
     }
@@ -307,7 +306,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
             _ = _rewardServer.UpdateCrpgUsersAsync(
                 durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave),
                 durationUpkeep: roundDuration * UpkeepMultiplier,
-                updateUserStats: false,
                 constantMultiplier: RewardMultiplier);
             EndGame(Mission.AttackerTeam);
             return;
@@ -328,7 +326,6 @@ internal class CrpgDtvServer : MissionMultiplayerGameModeBase
         _ = _rewardServer.UpdateCrpgUsersAsync(
             durationRewarded: ComputeRoundReward(CurrentRoundData, wavesWon: _currentWave + 1),
             durationUpkeep: roundDuration * UpkeepMultiplier,
-            updateUserStats: false,
             constantMultiplier: RewardMultiplier);
 
         if (_currentRound < RoundsCount - 1)

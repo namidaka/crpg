@@ -12,6 +12,7 @@ using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
@@ -105,7 +106,7 @@ public record SeedDataCommand : IMediatorRequest
                 PlatformUserId = "76561198016876889",
                 Platform = Platform.Steam,
                 Name = "orle",
-                Role = Role.Moderator,
+                Role = Role.Admin,
                 Gold = 1000000,
                 HeirloomPoints = 12,
                 ExperienceMultiplier = 1.09f,
@@ -116,7 +117,7 @@ public record SeedDataCommand : IMediatorRequest
                 PlatformUserId = "76561198023558734",
                 Platform = Platform.Steam,
                 Name = "droob",
-                Role = Role.Moderator,
+                Role = Role.Admin,
                 Gold = 1000000,
                 HeirloomPoints = 12,
                 ExperienceMultiplier = 1.09f,
@@ -530,11 +531,10 @@ public record SeedDataCommand : IMediatorRequest
                 }
             }
 
-            //
             UserItem takeoItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
             UserItem takeoItem2 = new() { User = takeo, ItemId = "crpg_winds_fury_v1_h2" };
-            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_lion_imprinted_saber_v1_h1" };
-            UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0" };
+            UserItem orleItem1 = new() { User = orle, ItemId = "crpg_armet_h1", PersonalItem = new() };
+            UserItem orleItem2 = new() { User = orle, ItemId = "crpg_decorated_scimitar_with_wide_grip_v1_h0", };
             UserItem orleItem3 = new() { User = orle, ItemId = "crpg_thamaskene_steel_spatha_v1_h2" };
             UserItem orleItem4 = new() { User = orle, ItemId = "crpg_decorated_short_spatha_v1_h1" };
             UserItem orleItem5 = new() { User = orle, ItemId = "crpg_scalpel_v1_h0" };
@@ -543,11 +543,11 @@ public record SeedDataCommand : IMediatorRequest
             UserItem orleItem8 = new() { User = orle, ItemId = "crpg_nordic_leather_cap_v2_h3" };
             UserItem orleItem9 = new() { User = orle, ItemId = "crpg_eastern_wrapped_armguards_v2_h3" };
             UserItem orleItem10 = new() { User = orle, ItemId = "crpg_blacksmith_hammer_v2_h0" };
-            UserItem orleItem11 = new() { User = orle, ItemId = "crpg_scythe_v1_h3" };
+            UserItem orleItem11 = new() { User = orle, ItemId = "crpg_scythe_v2_h3" };
             UserItem orleItem12 = new() { User = orle, ItemId = "crpg_rondel_v2_h3" };
-            UserItem orleItem13 = new() { User = orle, ItemId = "crpg_crossbow_j_v2_h3" };
+            UserItem orleItem13 = new() { User = orle, ItemId = "crpg_crossbow_j_v4_h3" };
             UserItem orleItem14 = new() { User = orle, ItemId = "crpg_helping_hand_v3_h2" };
-            UserItem orleItem15 = new() { User = orle, ItemId = "crpg_bolt_c_v2_h2" };
+            UserItem orleItem15 = new() { User = orle, ItemId = "crpg_bolt_c_v4_h0" };
             UserItem orleItem16 = new() { User = orle, ItemId = "crpg_wooden_sword_v2_h3" };
             UserItem orleItem17 = new() { User = orle, ItemId = "crpg_basic_imperial_leather_armor_v2_h3" };
             UserItem orleItem18 = new() { User = orle, ItemId = "crpg_wooden_twohander_v2_h3" };
@@ -588,9 +588,13 @@ public record SeedDataCommand : IMediatorRequest
                 laHirekItem3,
             };
 
+            var existingUserItems = await _db.UserItems.ToDictionaryAsync(pi => pi.ItemId);
             foreach (var newUserItem in newUserItems)
             {
-                _db.UserItems.Add(newUserItem);
+                if (!existingUserItems.ContainsKey(newUserItem.ItemId))
+                {
+                    _db.UserItems.Add(newUserItem);
+                }
             }
 
             Restriction takeoRestriction0 = new()
@@ -665,12 +669,18 @@ public record SeedDataCommand : IMediatorRequest
                 Generation = 2,
                 Level = 23,
                 Experience = _experienceTable.GetExperienceForLevel(23),
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(0, 10, 50, 20),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(0, 10, 50, 20),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
                 },
             };
             Character takeoCharacter1 = new()
@@ -680,12 +690,18 @@ public record SeedDataCommand : IMediatorRequest
                 Generation = 0,
                 Level = 12,
                 Experience = _experienceTable.GetExperienceForLevel(12),
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(365, 0, 0, 2),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
                 },
             };
             Character takeoCharacter2 = new()
@@ -695,12 +711,18 @@ public record SeedDataCommand : IMediatorRequest
                 Generation = 0,
                 Level = 31,
                 Experience = _experienceTable.GetExperienceForLevel(31) + 100,
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(3, 7, 0, 29),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(3, 7, 0, 29),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
                 },
             };
             Character namidakaCharacter0 = new()
@@ -717,12 +739,18 @@ public record SeedDataCommand : IMediatorRequest
                 Level = 33,
                 Generation = 3,
                 Experience = _experienceTable.GetExperienceForLevel(33) + (_experienceTable.GetExperienceForLevel(34) - _experienceTable.GetExperienceForLevel(33)) / 2,
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(365, 0, 0, 20),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
                 },
                 Characteristics = new CharacterCharacteristics
                 {
@@ -756,15 +784,41 @@ public record SeedDataCommand : IMediatorRequest
             {
                 User = droob,
                 Name = "Droob Soldier",
-                Level = 33,
+                Level = 38,
                 Generation = 3,
-                Experience = _experienceTable.GetExperienceForLevel(33) + (_experienceTable.GetExperienceForLevel(34) - _experienceTable.GetExperienceForLevel(33)) / 2,
-                Statistics = new CharacterStatistics
+                Experience = _experienceTable.GetExperienceForLevel(38),
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 1,
+                            Deaths = 30,
+                            Assists = 10,
+                            PlayTime = new TimeSpan(10, 7, 5, 20),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 10,
+                            Deaths = 0,
+                            Assists = 10,
+                            PlayTime = new TimeSpan(100, 3, 50, 15),
+                            GameMode = GameMode.CRPGConquest,
+                        }
+                    },
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 5,
+                            Deaths = 5,
+                            Assists = 0,
+                            PlayTime = new TimeSpan(0, 8, 1, 15),
+                            GameMode = GameMode.CRPGDuel,
+                        }
+                    },
                 },
                 Characteristics = new CharacterCharacteristics
                 {
@@ -786,12 +840,18 @@ public record SeedDataCommand : IMediatorRequest
                 Level = 33,
                 Generation = 3,
                 Experience = _experienceTable.GetExperienceForLevel(33) + (_experienceTable.GetExperienceForLevel(34) - _experienceTable.GetExperienceForLevel(33)) / 2,
-                Statistics = new CharacterStatistics
+                Statistics = new List<CharacterStatistics>
                 {
-                    Kills = 2,
-                    Assists = 3,
-                    Deaths = 6,
-                    PlayTime = new TimeSpan(365, 0, 0, 20),
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 2,
+                            Deaths = 3,
+                            Assists = 6,
+                            PlayTime = new TimeSpan(365, 0, 0, 20),
+                            GameMode = GameMode.CRPGBattle,
+                        }
+                    },
                 },
                 Characteristics = new CharacterCharacteristics
                 {
@@ -884,10 +944,15 @@ public record SeedDataCommand : IMediatorRequest
                 Character = kadseCharacter0,
                 LastRespecializeAt = DateTime.UtcNow.AddDays(-8),
             };
+            CharacterLimitations droobCharacter0Limitations = new()
+            {
+                Character = droobCharacter0,
+                LastRespecializeAt = DateTime.UtcNow.AddDays(-8),
+            };
             CharacterLimitations[] newCharactersLimitations =
             {
                 takeoCharacter0Limitations, takeoCharacter1Limitations, takeoCharacter2Limitations, orleCharacter0Limitations,
-                orleCharacter2Limitations, kadseCharacter0Limitations,
+                orleCharacter2Limitations, kadseCharacter0Limitations, droobCharacter0Limitations,
             };
 
             var existingCharactersLimitations = await _db.CharacterLimitations.ToDictionaryAsync(l => l.CharacterId);
@@ -935,6 +1000,7 @@ public record SeedDataCommand : IMediatorRequest
                 {
                     new("gold", "120000"),
                     new("heirloomPoints", "3"),
+                    new("itemId", "crpg_ba_bolzanogreathelmet_h2"),
                 },
             };
             ActivityLog activityLogItemBought1 = new()
@@ -1212,11 +1278,14 @@ public record SeedDataCommand : IMediatorRequest
 
             ClanArmoryItem[] newClanArmoryItems =
             {
-                takeoClanArmoryItem1, takeoClanArmoryItem2, orleClanArmoryItem1, orleClanArmoryItem2, orleClanArmoryItem3,  orleClanArmoryItem4,  orleClanArmoryItem5,  orleClanArmoryItem6,  orleClanArmoryItem7,  orleClanArmoryItem8,  orleClanArmoryItem9,  orleClanArmoryItem10, orleClanArmoryItem11, orleClanArmoryItem12, orleClanArmoryItem13, orleClanArmoryItem14, orleClanArmoryItem15, orleClanArmoryItem16, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
+                takeoClanArmoryItem1, takeoClanArmoryItem2,
+                orleClanArmoryItem2, orleClanArmoryItem3, orleClanArmoryItem4, orleClanArmoryItem5, orleClanArmoryItem6, orleClanArmoryItem7,  orleClanArmoryItem8, orleClanArmoryItem9, orleClanArmoryItem10, orleClanArmoryItem11, orleClanArmoryItem12, orleClanArmoryItem13, orleClanArmoryItem14, orleClanArmoryItem15, orleClanArmoryItem16, elmarykClanArmoryItem1, elmarykClanArmoryItem2, laHireClanArmoryItem1, laHireClanArmoryItem2, laHireClanArmoryItem3,
             };
+
             foreach (var newClanArmoryItem in newClanArmoryItems)
             {
-                pecores.ArmoryItems.Add(newClanArmoryItem);
+                // TODO: check if exist
+                // pecores.ArmoryItems.Add(newClanArmoryItem);
             }
 
             ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHirekItem2, Borrower = orleMember, };
@@ -1232,7 +1301,8 @@ public record SeedDataCommand : IMediatorRequest
 
             foreach (var newClanArmoryBorrowedItem in newClanArmoryBorrowedItems)
             {
-                pecores.ArmoryBorrowedItems.Add(newClanArmoryBorrowedItem);
+                // TODO: check if exist
+                // pecores.ArmoryBorrowedItems.Add(newClanArmoryBorrowedItem);
             }
 
             Clan ats = new()
@@ -2148,6 +2218,12 @@ public record SeedDataCommand : IMediatorRequest
             }
             else
             {
+                // auto disable item
+                if (item.Id.StartsWith("crpg_disabled_"))
+                {
+                    item.Enabled = false;
+                }
+
                 _db.Items.Add(item);
             }
         }

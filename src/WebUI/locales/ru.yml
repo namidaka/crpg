@@ -237,6 +237,9 @@ game-mode:
   CRPGConquest: Завоевание
   CRPGDTV: DTV
   CRPGDuel: Дуэль
+  CRPGSiege: Осада
+  CRPGTeamDeathmatch: Командный смертельный бой
+  CRPGSkirmish: Скирмиш
 
 clanBalancingExplanation: '
   <h3>Вы не в клане</h3>

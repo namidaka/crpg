@@ -11,3 +11,9 @@ export const groupBy = <T>(arr: T[], fn: (item: T) => any) =>
     group.push(curr);
     return { ...prev, [groupKey]: group };
   }, {});
+
+// TODO: SPEC
+export const getIndexToIns = (arr: number[], num: number) => {
+  let index = arr.findIndex(currentNum => num <= currentNum);
+  return index === -1 ? arr.length : index;
+};

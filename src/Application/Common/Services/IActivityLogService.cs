@@ -8,7 +8,7 @@ internal interface IActivityLogService
     ActivityLog CreateUserCreatedLog(int userId);
     ActivityLog CreateUserDeletedLog(int userId);
     ActivityLog CreateUserRenamedLog(int userId, string oldName, string newName);
-    ActivityLog CreateUserRewardedLog(int userId, int gold, int heirloomPoints);
+    ActivityLog CreateUserRewardedLog(int userId, int actorUserId, int gold, int heirloomPoints, string itemId);
     ActivityLog CreateItemBoughtLog(int userId, string itemId, int price);
     ActivityLog CreateItemSoldLog(int userId, string itemId, int price);
     ActivityLog CreateItemBrokeLog(int userId, string itemId);
@@ -20,7 +20,7 @@ internal interface IActivityLogService
     ActivityLog CreateCharacterRatingResetLog(int userId, int characterId);
     ActivityLog CreateCharacterRespecializedLog(int userId, int characterId, int price);
     ActivityLog CreateCharacterRetiredLog(int userId, int characterId, int level);
-    ActivityLog CreateCharacterRewardedLog(int userId, int characterId, int experience);
+    ActivityLog CreateCharacterRewardedLog(int userId, int actorUserId, int characterId, int experience);
     ActivityLog CreateAddItemToClanArmory(int userId, int clanId, int userItemId);
     ActivityLog CreateRemoveItemFromClanArmory(int userId, int clanId, int userItemId);
     ActivityLog CreateBorrowItemFromClanArmory(int userId, int clanId, int userItemId);
@@ -49,12 +49,14 @@ internal class ActivityLogService : IActivityLogService
         });
     }
 
-    public ActivityLog CreateUserRewardedLog(int userId, int gold, int heirloomPoints)
+    public ActivityLog CreateUserRewardedLog(int userId, int actorUserId, int gold, int heirloomPoints, string itemId)
     {
         return CreateLog(ActivityLogType.UserRewarded, userId, new ActivityLogMetadata[]
         {
+            new("actorUserId", actorUserId.ToString()),
             new("gold", gold.ToString()),
             new("heirloomPoints", heirloomPoints.ToString()),
+            new("itemId", itemId),
         });
     }
 
@@ -156,12 +158,13 @@ internal class ActivityLogService : IActivityLogService
         });
     }
 
-    public ActivityLog CreateCharacterRewardedLog(int userId, int characterId, int experience)
+    public ActivityLog CreateCharacterRewardedLog(int userId, int actorUserId, int characterId, int experience)
     {
         return CreateLog(ActivityLogType.CharacterRewarded, userId, new ActivityLogMetadata[]
         {
             new("characterId", characterId.ToString()),
             new("experience", experience.ToString()),
+            new("actorUserId", actorUserId.ToString()),
         });
     }
 

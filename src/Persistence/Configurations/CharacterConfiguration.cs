@@ -1,3 +1,4 @@
+using System.Reflection.Emit;
 using Crpg.Domain.Entities.Characters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -11,7 +12,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         builder.HasQueryFilter(c => c.DeletedAt == null);
         builder.Property(c => c.Version).IsRowVersion();
         builder.OwnsOne(c => c.Characteristics, ConfigureCharacterCharacteristics);
-        builder.OwnsOne(c => c.Statistics, ConfigureCharacterStatistics);
+        builder.OwnsMany(c => c.Statistics, ConfigureCharacterStatistics);
         builder.OwnsOne(c => c.Rating, ConfigureCharacterRating);
     }
 
@@ -64,6 +65,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         builder.Property(s => s.Deaths).HasColumnName("deaths");
         builder.Property(s => s.Assists).HasColumnName("assists");
         builder.Property(s => s.PlayTime).HasColumnName("play_time");
+        builder.Property(s => s.GameMode).HasColumnName("game_mode");
     }
 
     private void ConfigureCharacterRating(OwnedNavigationBuilder<Character, CharacterRating> builder)
