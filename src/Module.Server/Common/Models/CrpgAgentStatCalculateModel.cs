@@ -392,15 +392,13 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                 {
                     int powerThrow = GetEffectiveSkill(agent, CrpgSkills.PowerThrow);
 
-                    // tweak me here
                     float wpfImpactOnWindUp = 180f; // lower is better 160f
                     float wpfImpactOnReloadSpeed = 240f; // lower is better 200f
 
                     float DamageImpactOnWindUp = equippedItem.ThrustDamage * CrpgItemValueModel.CalculateDamageTypeFactorForThrown(equippedItem.ThrustDamageType) / CrpgItemValueModel.CalculateDamageTypeFactorForThrown(DamageTypes.Cut);
 
                     props.WeaponMaxUnsteadyAccuracyPenalty = 0.0035f;
-                    // CHANGE ME CHANGE ME CHANGE ME CHANGE ME
-                    props.WeaponMaxMovementAccuracyPenalty = 0.0010f; // This has no penalty now. Needs to be set to something above 0 and tested. Then remove this comment please | LOWER IS BETTER
+                    props.WeaponMaxMovementAccuracyPenalty = 0.0010f;
 
                     props.WeaponRotationalAccuracyPenaltyInRadians = 0.025f; // this is accuracy loss when turning lower is better
 
