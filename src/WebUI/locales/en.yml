@@ -1465,10 +1465,10 @@ notification:
   tpl:
     ItemReturned: 'The item {itemId} has been removed from your inventory. {gold} {heirloomPoints} has been refunded'
     ClanMemberRoleChangedToUser: 'Your role {oldClanMemberRole} in the clan {clan} has been changed to {newClanMemberRole}'
-    ClanMemberLeavedToClanLeader: '{user} has left your clan {clan}'
-    ClanMemberKickedToExClanMember: 'You were kicked out of clan {clan}'
+    ClanMemberLeavedToLeader: '{user} has left your clan {clan}'
+    ClanMemberKickedToExMember: 'You were kicked out of clan {clan}'
     ClanApplicationCreatedToUser: 'Your application for {clan} has been successfully created'
-    ClanApplicationCreatedToClanOfficers: '{user} has applied to join your clan {clan}'
+    ClanApplicationCreatedToOfficers: '{user} has applied to join your clan {clan}'
     ClanApplicationAcceptedToUser: 'Your application to join the {clan} has been approved'
     ClanApplicationDeclinedToUser: 'Your application to join the {clan} has been declined'
     UserRewardedToUser: 'You have been rewarded with {gold} {heirloomPoints} {itemId} by user {actorUser}'

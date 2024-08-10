@@ -1247,19 +1247,19 @@ public record SeedDataCommand : IMediatorRequest
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());
             _db.ActivityLogs.AddRange(newActivityLogs.Concat(newActivityLogCharacterEarned));
 
-            var orleNotification1 = _userNotificationService.CreateClanApplicationCreatedToClanOfficers(orle.Id, activityLogClanApplicationCreated1.Id);
+            var orleNotification1 = _userNotificationService.CreateClanApplicationCreatedToOfficers(orle.Id, activityLogClanApplicationCreated1.Id);
             orleNotification1.CreatedAt = DateTime.UtcNow.AddMinutes(-112);
-            var orleNotification2 = _userNotificationService.CreateClanApplicationCreatedToClanOfficers(orle.Id, activityLogClanApplicationCreated2.Id);
+            var orleNotification2 = _userNotificationService.CreateClanApplicationCreatedToOfficers(orle.Id, activityLogClanApplicationCreated2.Id);
             orleNotification2.State = NotificationState.Read;
-            var orleNotification3 = _userNotificationService.CreateClanApplicationCreatedToClanOfficers(orle.Id, activityLogClanApplicationCreated3.Id);
+            var orleNotification3 = _userNotificationService.CreateClanApplicationCreatedToOfficers(orle.Id, activityLogClanApplicationCreated3.Id);
             var orleNotification4 = _userNotificationService.CreateUserRewardedToUser(orle.Id, activityLogUserRewarded1.Id);
             var orleNotification5 = _userNotificationService.CreateClanApplicationAcceptedToUser(orle.Id, activityLogUserClanApplicationAccepted1.Id);
             var orleNotification6 = _userNotificationService.CreateClanApplicationDeclinedToUser(orle.Id, activityLogUserClanApplicationDeclined1.Id);
             var orleNotification7 = _userNotificationService.CreateClanApplicationCreatedToUser(orle.Id, activityLogClanApplicationCreated1.Id);
             var orleNotification8 = _userNotificationService.CreateItemReturnedToUser(orle.Id, activityLogItemReturned1.Id);
             var orleNotification9 = _userNotificationService.CreateClanMemberRoleChangedToUser(orle.Id, activityLogClanMemberRoleChange1.Id);
-            var orleNotification10 = _userNotificationService.CreateClanMemberLeavedToClanLeader(orle.Id, activityLogClanMemberLeaved1.Id);
-            var orleNotification11 = _userNotificationService.CreateClanMemberKickedToExClanMember(orle.Id, activityLogClanMemberKicked1.Id);
+            var orleNotification10 = _userNotificationService.CreateClanMemberLeavedToLeader(orle.Id, activityLogClanMemberLeaved1.Id);
+            var orleNotification11 = _userNotificationService.CreateClanMemberKickedToExMember(orle.Id, activityLogClanMemberKicked1.Id);
             var orleNotification12 = _userNotificationService.CreateCharacterRewardedToUser(orle.Id, activityLogCharacterRewarded1.Id);
 
             UserNotification[] userNotifications =

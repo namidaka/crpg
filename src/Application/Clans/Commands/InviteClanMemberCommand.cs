@@ -96,7 +96,7 @@ public record InviteClanMemberCommand : IMediatorRequest<ClanInvitationViewModel
             {
                 foreach (var officer in clanOfficers.Data)
                 {
-                    _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationCreatedToClanOfficers(officer.UserId, createClanInvitationActivityLog.Id));
+                    _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationCreatedToOfficers(officer.UserId, createClanInvitationActivityLog.Id));
                 }
             }
 

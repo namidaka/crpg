@@ -165,7 +165,7 @@ internal class ClanService : IClanService
             var clanLeaderRes = await GetClanLeader(db, member.ClanId, cancellationToken);
             if (clanLeaderRes.Errors == null)
             {
-                db.UserNotifications.Add(_userNotificationService.CreateClanMemberLeavedToClanLeader(clanLeaderRes.Data!.UserId, clanMemberLeavedActivityLog.Id));
+                db.UserNotifications.Add(_userNotificationService.CreateClanMemberLeavedToLeader(clanLeaderRes.Data!.UserId, clanMemberLeavedActivityLog.Id));
             }
         }
 

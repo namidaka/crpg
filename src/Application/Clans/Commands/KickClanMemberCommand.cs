@@ -70,7 +70,7 @@ public record KickClanMemberCommand : IMediatorRequest
 
             var clanMemberKickedActivityLog = _activityLogService.CreateClanMemberKickedLog(req.KickedUserId, req.ClanId, req.UserId);
             _db.ActivityLogs.Add(clanMemberKickedActivityLog);
-            _db.UserNotifications.Add(_userNotificationService.CreateClanMemberKickedToExClanMember(req.KickedUserId, clanMemberKickedActivityLog.Id));
+            _db.UserNotifications.Add(_userNotificationService.CreateClanMemberKickedToExMember(req.KickedUserId, clanMemberKickedActivityLog.Id));
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' kicked user '{1}' out of clan '{2}'", req.UserId,

@@ -6,12 +6,12 @@ internal interface IUserNotificationService
 {
     UserNotification CreateItemReturnedToUser(int userId, int activityLogId);
     UserNotification CreateClanApplicationCreatedToUser(int userId, int activityLogId);
-    UserNotification CreateClanApplicationCreatedToClanOfficers(int userId, int activityLogId);
+    UserNotification CreateClanApplicationCreatedToOfficers(int userId, int activityLogId);
     UserNotification CreateClanApplicationAcceptedToUser(int userId, int activityLogId);
     UserNotification CreateClanApplicationDeclinedToUser(int userId, int activityLogId);
     UserNotification CreateClanMemberRoleChangedToUser(int userId, int activityLogId);
-    UserNotification CreateClanMemberLeavedToClanLeader(int userId, int activityLogId);
-    UserNotification CreateClanMemberKickedToExClanMember(int userId, int activityLogId);
+    UserNotification CreateClanMemberLeavedToLeader(int userId, int activityLogId);
+    UserNotification CreateClanMemberKickedToExMember(int userId, int activityLogId);
     UserNotification CreateUserRewardedToUser(int userId, int activityLogId);
     UserNotification CreateCharacterRewardedToUser(int userId, int activityLogId);
 }
@@ -28,14 +28,14 @@ internal class UserNotificationService : IUserNotificationService
         return CreateNotification(NotificationType.ClanMemberRoleChangedToUser, userId, activityLogId);
     }
 
-    public UserNotification CreateClanMemberLeavedToClanLeader(int userId, int activityLogId)
+    public UserNotification CreateClanMemberLeavedToLeader(int userId, int activityLogId)
     {
-        return CreateNotification(NotificationType.ClanMemberLeavedToClanLeader, userId, activityLogId);
+        return CreateNotification(NotificationType.ClanMemberLeavedToLeader, userId, activityLogId);
     }
 
-    public UserNotification CreateClanMemberKickedToExClanMember(int userId, int activityLogId)
+    public UserNotification CreateClanMemberKickedToExMember(int userId, int activityLogId)
     {
-        return CreateNotification(NotificationType.ClanMemberKickedToExClanMember, userId, activityLogId);
+        return CreateNotification(NotificationType.ClanMemberKickedToExMember, userId, activityLogId);
     }
 
     public UserNotification CreateClanApplicationCreatedToUser(int userId, int activityLogId)
@@ -43,9 +43,9 @@ internal class UserNotificationService : IUserNotificationService
         return CreateNotification(NotificationType.ClanApplicationCreatedToUser, userId, activityLogId);
     }
 
-    public UserNotification CreateClanApplicationCreatedToClanOfficers(int userId, int activityLogId)
+    public UserNotification CreateClanApplicationCreatedToOfficers(int userId, int activityLogId)
     {
-        return CreateNotification(NotificationType.ClanApplicationCreatedToClanOfficers, userId, activityLogId);
+        return CreateNotification(NotificationType.ClanApplicationCreatedToOfficers, userId, activityLogId);
     }
 
     public UserNotification CreateClanApplicationAcceptedToUser(int userId, int activityLogId)
