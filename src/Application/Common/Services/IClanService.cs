@@ -213,6 +213,7 @@ internal class ClanService : IClanService
 
         var armoryItem = new ClanArmoryItem { LenderClanId = clan.Id, UserItemId = userItem.Id, LenderUserId = user.Id };
         db.ClanArmoryItems.Add(armoryItem);
+        db.ActivityLogs.Add(_activityLogService.CreateAddItemToClanArmory(user.Id, clan.Id, userItem));
 
         return new(armoryItem);
     }
@@ -247,6 +248,7 @@ internal class ClanService : IClanService
         }
 
         db.ClanArmoryItems.Remove(userItem.ClanArmoryItem);
+        db.ActivityLogs.Add(_activityLogService.CreateRemoveItemFromClanArmory(user.Id, clan.Id, userItem));
 
         return Result.NoErrors;
     }
@@ -290,6 +292,10 @@ internal class ClanService : IClanService
         var borrowedItem = new ClanArmoryBorrowedItem { BorrowerClanId = clan.Id, UserItemId = armoryItem.UserItemId, BorrowerUserId = user.Id };
         db.ClanArmoryBorrowedItems.Add(borrowedItem);
 
+        var activityLog = _activityLogService.CreateBorrowItemFromClanArmory(user.Id, clan.Id, armoryItem.UserItem!);
+        db.ActivityLogs.Add(activityLog);
+        db.UserNotifications.Add(_userNotificationService.CreateClanArmoryBorrowItemToLender(armoryItem.LenderUserId, activityLog.Id));
+
         return new(borrowedItem);
     }
 
@@ -319,6 +325,7 @@ internal class ClanService : IClanService
 
         db.EquippedItems.RemoveRange(borrowedItem.UserItem!.EquippedItems);
         db.ClanArmoryBorrowedItems.Remove(borrowedItem);
+        db.ActivityLogs.Add(_activityLogService.CreateReturnItemToClanArmory(user.Id, clan.Id, borrowedItem.UserItem));
 
         return Result.NoErrors;
     }

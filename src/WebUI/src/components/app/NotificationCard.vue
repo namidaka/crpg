@@ -41,7 +41,7 @@ const emit = defineEmits<{
         :keypath="`notification.tpl.${notification.type}`"
         tag="div"
         scope="global"
-        class="pr-8"
+        class="pr-8 leading-loose"
       >
         <template #clan v-if="'clanId' in notification.activityLog.metadata">
           <UserClan
@@ -108,7 +108,15 @@ const emit = defineEmits<{
         </template>
 
         <template #itemId v-if="'itemId' in notification.activityLog.metadata">
-          <strong>{{ notification.activityLog.metadata.itemId }}</strong>
+          <strong class="font-bold text-content-100">
+            {{ notification.activityLog.metadata.itemId }}
+          </strong>
+        </template>
+
+        <template #userItemId v-if="'userItemId' in notification.activityLog.metadata">
+          <strong class="font-bold text-content-100">
+            {{ notification.activityLog.metadata.userItemId }}
+          </strong>
         </template>
       </i18n-t>
 

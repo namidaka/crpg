@@ -1471,6 +1471,7 @@ notification:
     ClanApplicationCreatedToOfficers: '{user} has applied to join your clan {clan}'
     ClanApplicationAcceptedToUser: 'Your application to join the {clan} has been approved'
     ClanApplicationDeclinedToUser: 'Your application to join the {clan} has been declined'
+    ClanArmoryBorrowItemToLender: 'User {user} has borrowed your item {userItemId} from the {clan} clan armory'
     UserRewardedToUser: 'You have been rewarded with {gold} {heirloomPoints} {itemId} by user {actorUser}'
     CharacterRewardedToUser: 'Your character {character} has been rewarded {experience} experience by user {actorUser}'
 

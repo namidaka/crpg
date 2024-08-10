@@ -12,6 +12,7 @@ internal interface IUserNotificationService
     UserNotification CreateClanMemberRoleChangedToUser(int userId, int activityLogId);
     UserNotification CreateClanMemberLeavedToLeader(int userId, int activityLogId);
     UserNotification CreateClanMemberKickedToExMember(int userId, int activityLogId);
+    UserNotification CreateClanArmoryBorrowItemToLender(int userId, int activityLogId);
     UserNotification CreateUserRewardedToUser(int userId, int activityLogId);
     UserNotification CreateCharacterRewardedToUser(int userId, int activityLogId);
 }
@@ -56,6 +57,11 @@ internal class UserNotificationService : IUserNotificationService
     public UserNotification CreateClanApplicationDeclinedToUser(int userId, int activityLogId)
     {
         return CreateNotification(NotificationType.ClanApplicationDeclinedToUser, userId, activityLogId);
+    }
+
+    public UserNotification CreateClanArmoryBorrowItemToLender(int userId, int activityLogId)
+    {
+        return CreateNotification(NotificationType.ClanArmoryBorrowItemToLender, userId, activityLogId);
     }
 
     public UserNotification CreateUserRewardedToUser(int userId, int activityLogId)

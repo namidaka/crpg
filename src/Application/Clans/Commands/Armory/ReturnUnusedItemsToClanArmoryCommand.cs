@@ -42,6 +42,8 @@ public record ReturnUnusedItemsToClanArmoryCommand : IMediatorRequest
                 _db.ClanArmoryBorrowedItems.RemoveRange(u.ClanMembership!.ArmoryBorrowedItems);
             }
 
+            // TODO: return
+
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("Return unused items");
 
