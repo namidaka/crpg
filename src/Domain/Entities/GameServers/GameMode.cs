@@ -7,17 +7,18 @@ public enum GameMode
     CRPGDTV,
     CRPGDuel,
     CRPGSiege,
-    CRPGTeamDeathmatch,
     CRPGSkirmish,
+    CRPGTeamDeathmatch,
     CRPGUnknownGameMode,
 }
 
 public enum GameModeAlias
 {
-    A, // CRPGBattle
-    B, // CRPGConquest
-    C, // CRPGDuel
-    D, // CRPGSkirmish
-    E, // CRPGDTV
-    Z, // CRPGUnknownGameMode
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    Z,
 }

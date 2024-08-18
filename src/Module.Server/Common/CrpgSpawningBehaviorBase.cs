@@ -53,6 +53,11 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
         return true;
     }
 
+    protected virtual bool IsBotTeamAllowedToSpawn(Team team)
+    {
+        return true;
+    }
+
     protected override void SpawnAgents()
     {
         BasicCultureObject cultureTeam1 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue());
@@ -227,6 +232,11 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
         foreach (Team team in Mission.Teams)
         {
             if (Mission.AttackerTeam != team && Mission.DefenderTeam != team)
+            {
+                continue;
+            }
+
+            if (!IsBotTeamAllowedToSpawn(team))
             {
                 continue;
             }

@@ -1,24 +1,32 @@
 using Crpg.Module.Common;
+using Crpg.Module.Common.Commander;
+using Crpg.Module.Common.HotConstants;
+using Crpg.Module.Common.TeamSelect;
 using Crpg.Module.Modes.Warmup;
 using Crpg.Module.Notifications;
 using Crpg.Module.Rewards;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.Source.Missions;
 using TaleWorlds.MountAndBlade.Multiplayer;
+using TaleWorlds.MountAndBlade.Source.Missions;
 
 #if CRPG_SERVER
 using Crpg.Module.Api;
 using Crpg.Module.Common.ChatCommands;
 #else
+
 using Crpg.Module.GUI;
+using Crpg.Module.GUI.Commander;
+using Crpg.Module.GUI.EndOfRound;
 using Crpg.Module.GUI.HudExtension;
-using TaleWorlds.MountAndBlade.Multiplayer;
+using Crpg.Module.GUI.Scoreboard;
+using Crpg.Module.GUI.Spectator;
+using Crpg.Module.GUI.Warmup;
 using TaleWorlds.MountAndBlade.Multiplayer.View.MissionViews;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
-#endif
 
+#endif
 namespace Crpg.Module.Modes.TeamDeathmatch;
 
 [ViewCreatorModule] // Exposes methods with ViewMethod attribute.
@@ -40,25 +48,28 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
     {
         CrpgExperienceTable experienceTable = new(_constants);
         MissionMultiplayerGameModeBaseClient gameModeClient = mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>();
+        MissionView crpgEscapeMenu = ViewCreatorManager.CreateMissionView<CrpgMissionMultiplayerEscapeMenu>(isNetwork: false, null, "TeamDeathmatch", gameModeClient);
 
         return new[]
         {
-            MultiplayerViewCreator.CreateMissionServerStatusUIHandler(),
+            MultiplayerViewCreator.CreateMultiplayerFactionBanVoteUIHandler(),
             ViewCreator.CreateMissionAgentStatusUIHandler(mission),
             ViewCreator.CreateMissionMainAgentEquipmentController(mission), // Pick/drop items.
-            ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
-            ViewCreatorManager.CreateMissionView<CrpgMissionMultiplayerEscapeMenu>(isNetwork: false, null, "TeamDeathmatch", gameModeClient),
+            new CrpgMissionGauntletMainAgentCheerControllerView(),
+            crpgEscapeMenu,
             ViewCreator.CreateMissionAgentLabelUIHandler(mission),
             MultiplayerViewCreator.CreateMultiplayerTeamSelectUIHandler(),
-            MultiplayerViewCreator.CreateMissionScoreBoardUIHandler(mission, false),
-            MultiplayerViewCreator.CreateMultiplayerEndOfRoundUIHandler(),
-            MultiplayerViewCreator.CreateMultiplayerEndOfBattleUIHandler(),
+            new CrpgMissionScoreboardUIHandler(false),
+            new CrpgEndOfBattleUIHandler(),
             MultiplayerViewCreator.CreatePollProgressUIHandler(),
+            new CommanderPollingProgressUiHandler(),
             new MissionItemContourControllerView(), // Draw contour of item on the ground when pressing ALT.
             new MissionAgentContourControllerView(),
             MultiplayerViewCreator.CreateMissionKillNotificationUIHandler(),
             new CrpgHudExtensionHandler(),
             MultiplayerViewCreator.CreateMultiplayerMissionDeathCardUIHandler(),
+            //new SpectatorHudUiHandler(),
+            new WarmupHudUiHandler(),
             ViewCreator.CreateOptionsUIHandler(),
             ViewCreator.CreateMissionMainAgentEquipDropView(mission),
             ViewCreator.CreateMissionBoundaryCrossingView(),
@@ -74,17 +85,21 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
     public override void StartMultiplayerGame(string scene)
     {
         CrpgNotificationComponent notificationsComponent = new();
-        CrpgScoreboardComponent scoreboardComponent = new(new CrpgBattleScoreboardData());
         var lobbyComponent = MissionLobbyComponent.CreateBehavior();
+        CrpgScoreboardComponent scoreboardComponent = new(new CrpgBattleScoreboardData());
 
 #if CRPG_SERVER
         ICrpgClient crpgClient = CrpgClient.Create();
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
+
+        //MultiplayerRoundController roundController = new(); // starts/stops round, ends match
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent,
             () => (new TeamDeathmatchSpawnFrameBehavior(), new CrpgTeamDeathmatchSpawningBehavior(_constants)));
+        CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, null);
         CrpgRewardServer rewardServer = new(crpgClient, _constants, warmupComponent, enableTeamHitCompensations: false, enableRating: false);
 #else
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, null);
+        CrpgTeamSelectClientComponent teamSelectComponent = new();
 #endif
 
         MissionState.OpenNew(GameName,
@@ -94,33 +109,36 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
                 lobbyComponent,
 #if CRPG_CLIENT
                 new CrpgUserManagerClient(), // Needs to be loaded before the Client mission part.
+                new MultiplayerMissionAgentVisualSpawnComponent(), // expose method to spawn an agent
+                new CrpgCommanderBehaviorClient(),
 #endif
-                warmupComponent,
                 new CrpgTeamDeathmatchClient(),
                 new MultiplayerTimerComponent(),
-                new MultiplayerTeamSelectComponent(),
+                new MissionLobbyEquipmentNetworkComponent(),
+                teamSelectComponent,
                 new MissionHardBorderPlacer(),
                 new MissionBoundaryPlacer(),
+                new AgentVictoryLogic(),
                 new MissionBoundaryCrossingHandler(),
                 new MultiplayerPollComponent(),
-                new MultiplayerAdminComponent(),
-                notificationsComponent,
+                new CrpgCommanderPollComponent(),
                 new MissionOptionsComponent(),
                 scoreboardComponent,
                 new MissionAgentPanicHandler(),
-                new AgentHumanAILogic(),
                 new EquipmentControllerLeaveLogic(),
                 new MultiplayerPreloadHelper(),
+                warmupComponent,
+                notificationsComponent,
                 new WelcomeMessageBehavior(warmupComponent),
 
-                // Shit that need to stay because BL code is extremely coupled to the visual spawning.
-                // new MultiplayerMissionAgentVisualSpawnComponent(),
-                new MissionLobbyEquipmentNetworkComponent(),
 #if CRPG_SERVER
                 new CrpgTeamDeathmatchServer(scoreboardComponent, rewardServer),
+                rewardServer,
                 new SpawnComponent(new TeamDeathmatchSpawnFrameBehavior(), new CrpgTeamDeathmatchSpawningBehavior(_constants)),
+                new AgentHumanAILogic(),
+                new MultiplayerAdminComponent(),
                 new CrpgUserManagerServer(crpgClient, _constants),
-                new KickInactiveBehavior(inactiveTimeLimit: 30, warmupComponent),
+                new KickInactiveBehavior(inactiveTimeLimit: 60, warmupComponent),
                 new MapPoolComponent(),
                 new ChatCommandsComponent(chatBox, crpgClient),
                 new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
@@ -128,11 +146,17 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
                 new NotAllPlayersReadyComponent(),
                 new DrowningBehavior(),
                 new PopulationBasedEntityVisibilityBehavior(lobbyComponent),
+                new BreakableWeaponsBehaviorServer(),
+                new CrpgCustomTeamBannersAndNamesServer(null),
+                new CrpgCommanderBehaviorServer(),
 #else
                 new MultiplayerAchievementComponent(),
                 MissionMatchHistoryComponent.CreateIfConditionsAreMet(),
                 new MissionRecentPlayersComponent(),
                 new CrpgRewardClient(),
+                new HotConstantsClient(),
+                new BreakableWeaponsBehaviorClient(),
+                new CrpgCustomTeamBannersAndNamesClient(),
 #endif
             });
     }
