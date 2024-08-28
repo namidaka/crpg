@@ -760,6 +760,26 @@ namespace Crpg.Persistence.Migrations
                     b.ToTable("items", (string)null);
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Items.PersonalItem", b =>
+                {
+                    b.Property<int>("UserItemId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_item_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("UserItemId")
+                        .HasName("pk_personal_items");
+
+                    b.ToTable("personal_items", (string)null);
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Items.UserItem", b =>
                 {
                     b.Property<int>("Id")
@@ -1995,6 +2015,18 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("TertiaryWeapon");
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Items.PersonalItem", b =>
+                {
+                    b.HasOne("Crpg.Domain.Entities.Items.UserItem", "UserItem")
+                        .WithOne("PersonalItem")
+                        .HasForeignKey("Crpg.Domain.Entities.Items.PersonalItem", "UserItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_personal_items_user_items_user_item_id");
+
+                    b.Navigation("UserItem");
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Items.UserItem", b =>
                 {
                     b.HasOne("Crpg.Domain.Entities.Items.Item", "Item")
@@ -2195,6 +2227,8 @@ namespace Crpg.Persistence.Migrations
                     b.Navigation("ClanArmoryItem");
 
                     b.Navigation("EquippedItems");
+
+                    b.Navigation("PersonalItem");
                 });
 
             modelBuilder.Entity("Crpg.Domain.Entities.Parties.Party", b =>

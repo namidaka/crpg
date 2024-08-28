@@ -26,6 +26,8 @@ public class GetUserCharacterItemsQueryTest : TestBase
     {
         UserItem userItem1 = new() { Item = new Item { Id = "1" } };
         UserItem userItem2 = new() { Item = new Item { Id = "2" } };
+        UserItem userItem3 = new() { Item = new Item { Id = "3", Enabled = false, }, PersonalItem = new() };
+
         Character character = new()
         {
             Name = "toto",
@@ -34,6 +36,7 @@ public class GetUserCharacterItemsQueryTest : TestBase
             {
                 new EquippedItem { UserItem = userItem1, Slot = ItemSlot.Body },
                 new EquippedItem { UserItem = userItem2, Slot = ItemSlot.Weapon0 },
+                new EquippedItem { UserItem = userItem3, Slot = ItemSlot.Weapon1 },
             },
         };
         ArrangeDb.Characters.Add(character);
@@ -47,6 +50,7 @@ public class GetUserCharacterItemsQueryTest : TestBase
         }, CancellationToken.None);
 
         Assert.That(result.Errors, Is.Null);
-        Assert.That(result.Data!.Count, Is.EqualTo(2));
+        Assert.That(result.Data!.Count, Is.EqualTo(3));
+        Assert.That(result.Data!.ElementAt(2).UserItem.IsPersonal, Is.EqualTo(true));
     }
 }
