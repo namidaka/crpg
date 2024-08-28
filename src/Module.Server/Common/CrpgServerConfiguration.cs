@@ -35,7 +35,9 @@ internal static class CrpgServerConfiguration
     public static float ServerExperienceMultiplier { get; private set; } = 1.0f;
     public static int RewardTick { get; private set; } = 60;
     public static bool TeamBalanceOnce { get; private set; }
-    public static bool ShuffleGameMode { get; private set; }
+    public static string? HighPopulationGameMode { get; private set; }
+    public static string? LowPopulationGameMode { get; private set; }
+    public static int LowPopulationGameModeMaxPlayerCount { get; private set; } = 12;
     public static bool FrozenBots { get; private set; } = false;
     public static Tuple<TimeSpan, TimeSpan, TimeZoneInfo>? HappyHours { get; private set; }
 
@@ -118,18 +120,36 @@ internal static class CrpgServerConfiguration
     }
 
     [UsedImplicitly]
-    [ConsoleCommandMethod("crpg_shuffle_gamemode", "Enables gamemode shuffling")]
-    private static void SetGameModeShuffle(string? gamemodeShuffleString)
+    [ConsoleCommandMethod("crpg_low_pop_gamemode", "Sets the gamemode for low population")]
+    private static void SetLowPopulationGamemode(string? lowPopGamemodeString)
     {
-        if (gamemodeShuffleString == null
-            || !bool.TryParse(gamemodeShuffleString, out bool shuffle))
+        LowPopulationGameMode = lowPopGamemodeString;
+        Debug.Print($"Setting low population gamemode: {LowPopulationGameMode}");
+    }
+
+    [UsedImplicitly]
+    [ConsoleCommandMethod("crpg_high_pop_gamemode", "Sets the gamemode for high population")]
+    private static void SetHighPopulationGamemode(string? highPopGamemodeString)
+    {
+        HighPopulationGameMode = highPopGamemodeString;
+        Debug.Print($"Setting high population gamemode: {HighPopulationGameMode}");
+    }
+
+    [UsedImplicitly]
+    [ConsoleCommandMethod("crpg_low_pop_gamemode_count", "Sets the maximum players for low population gamemode")]
+    private static void SetLowPopulationGamemodeMaxPlayerCount(string? lowPopGamemodeCountString)
+    {
+        if (lowPopGamemodeCountString == null ||
+        !int.TryParse(lowPopGamemodeCountString, out int lowPopMaxPlayerCount)
+        || lowPopMaxPlayerCount < 0
+        || lowPopMaxPlayerCount > 256)
         {
-            Debug.Print($"Invalid string, must be true or false: {gamemodeShuffleString}");
+            Debug.Print($"Invalid playercount: {lowPopGamemodeCountString}");
             return;
         }
 
-        ShuffleGameMode = shuffle;
-        Debug.Print($"Shuffling gamemodes: {ShuffleGameMode}");
+        LowPopulationGameModeMaxPlayerCount = lowPopMaxPlayerCount;
+        Debug.Print($"Setting low population max player count: {LowPopulationGameModeMaxPlayerCount}");
     }
 
     [UsedImplicitly]

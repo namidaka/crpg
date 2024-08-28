@@ -32,9 +32,17 @@ internal class MapPoolComponent : MissionLogic
 
     protected override void OnEndMission()
     {
-        if (CrpgServerConfiguration.ShuffleGameMode)
+        if (CrpgServerConfiguration.LowPopulationGameMode != null && CrpgServerConfiguration.HighPopulationGameMode != null)
         {
-            _nextMode = MultiplayerOptions.OptionType.GameType.GetStrValue() == "cRPGBattle" ? "cRPGTeamDeathmatch" : "cRPGBattle";
+            if (GameNetwork.NetworkPeerCount <= CrpgServerConfiguration.LowPopulationGameModeMaxPlayerCount)
+            {
+                _nextMode = CrpgServerConfiguration.LowPopulationGameMode;
+            }
+            else
+            {
+                _nextMode = CrpgServerConfiguration.HighPopulationGameMode;
+            }
+
             CrpgGamemodeManager.LoadGameConfig(_nextMode);
             CrpgGamemodeManager.MapCounter[_nextMode] = (CrpgGamemodeManager.MapCounter[_nextMode] + 1) % CrpgGamemodeManager.Maps[_nextMode].Count;
             string nextMap = _forcedNextMap ?? CrpgGamemodeManager.Maps[_nextMode][CrpgGamemodeManager.MapCounter[_nextMode]];
