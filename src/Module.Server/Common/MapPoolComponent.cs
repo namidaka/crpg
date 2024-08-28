@@ -32,6 +32,8 @@ internal class MapPoolComponent : MissionLogic
 
     protected override void OnEndMission()
     {
+        string nextMap = string.Empty;
+
         if (CrpgServerConfiguration.LowPopulationGameMode != null && CrpgServerConfiguration.HighPopulationGameMode != null)
         {
             if (GameNetwork.NetworkPeerCount <= CrpgServerConfiguration.LowPopulationGameModeMaxPlayerCount)
@@ -43,20 +45,22 @@ internal class MapPoolComponent : MissionLogic
                 _nextMode = CrpgServerConfiguration.HighPopulationGameMode;
             }
 
-            CrpgGamemodeManager.LoadGameConfig(_nextMode);
-            CrpgGamemodeManager.MapCounter[_nextMode] = (CrpgGamemodeManager.MapCounter[_nextMode] + 1) % CrpgGamemodeManager.Maps[_nextMode].Count;
-            string nextMap = _forcedNextMap ?? CrpgGamemodeManager.Maps[_nextMode][CrpgGamemodeManager.MapCounter[_nextMode]];
+            if (CrpgGamemodeManager.LoadGameConfig(_nextMode))
+            {
+                CrpgGamemodeManager.MapCounter[_nextMode] = (CrpgGamemodeManager.MapCounter[_nextMode] + 1) % CrpgGamemodeManager.Maps[_nextMode].Count;
+                nextMap = _forcedNextMap ?? CrpgGamemodeManager.Maps[_nextMode][CrpgGamemodeManager.MapCounter[_nextMode]];
 
-            MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
-            Environment.SetEnvironmentVariable("CRPG_INSTANCE", CrpgGamemodeManager.Modes[_nextMode][0].ToString());
-            _forcedNextMap = null;
+                MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
+                Environment.SetEnvironmentVariable("CRPG_INSTANCE", CrpgGamemodeManager.Modes[_nextMode][0].ToString());
+                _forcedNextMap = null;
+            }
+
+            return;
         }
-        else
-        {
-            nextMapId = (nextMapId + 1) % ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool.Count;
-            string nextMap = _forcedNextMap ?? ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool[nextMapId];
-            MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.NextMapOptions);
-            _forcedNextMap = null;
-        }
+
+        nextMapId = (nextMapId + 1) % ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool.Count;
+        nextMap = _forcedNextMap ?? ListedServerCommandManager.ServerSideIntermissionManager.AutomatedMapPool[nextMapId];
+        MultiplayerOptions.OptionType.Map.SetValue(nextMap, MultiplayerOptions.MultiplayerOptionsAccessMode.NextMapOptions);
+        _forcedNextMap = null;
     }
 }

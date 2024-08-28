@@ -136,7 +136,7 @@ internal static class CrpgServerConfiguration
     }
 
     [UsedImplicitly]
-    [ConsoleCommandMethod("crpg_low_pop_gamemode_count", "Sets the maximum players for low population gamemode")]
+    [ConsoleCommandMethod("crpg_low_pop_gamemode_max_playercount", "Sets the maximum players for low population gamemode")]
     private static void SetLowPopulationGamemodeMaxPlayerCount(string? lowPopGamemodeCountString)
     {
         if (lowPopGamemodeCountString == null ||

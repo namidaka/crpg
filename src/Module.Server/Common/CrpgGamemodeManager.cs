@@ -11,7 +11,6 @@ internal static class CrpgGamemodeManager
     public static readonly Dictionary<string, string> Modes = new()
     {
         { "cRPGBattle", "a" },
-        { "cRPGConquest", "b" },
         { "cRPGTeamDeathmatch", "f" },
     };
 
@@ -23,25 +22,34 @@ internal static class CrpgGamemodeManager
     public static Dictionary<string, List<string>> Maps { get; private set; } = new()
     {
         { "cRPGBattle", new() },
-        { "cRPGConquest", new() },
         { "cRPGTeamDeathmatch", new() },
     };
 
     public static Dictionary<string, int> MapCounter { get; set; } = new()
     {
         { "cRPGBattle", 0 },
-        { "cRPGConquest", 0 },
         { "cRPGTeamDeathmatch", 0 },
     };
 
     private static readonly Random Random = new();
 
-    public static void LoadGameConfig(string configName)
+    public static bool LoadGameConfig(string configName)
     {
         string newConfigFilePath = Path.Combine(Directory.GetCurrentDirectory(), ModuleHelper.GetModuleFullPath("cRPG"), InstanceByGameMode(configName) + ".txt");
-        string[] commands = File.ReadAllLines(newConfigFilePath);
-        MultiplayerOptions.Instance.InitializeFromCommandList(commands.ToList());
-        MultiplayerOptions.Instance.InitializeNextAndDefaultOptionContainers();
+        try
+        {
+            string[] commands = File.ReadAllLines(newConfigFilePath);
+            MultiplayerOptions.Instance.InitializeFromCommandList(commands.ToList());
+            MultiplayerOptions.Instance.InitializeNextAndDefaultOptionContainers();
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.Print($"could not read the config file {newConfigFilePath}", color: Debug.DebugColor.Red);
+            Debug.Print($"{e.Message}", color: Debug.DebugColor.Red);
+            return false;
+        }
+
     }
 
     public static void AddMaps()

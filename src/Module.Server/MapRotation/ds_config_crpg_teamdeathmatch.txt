@@ -27,6 +27,4 @@ start_game
 set_automated_battle_count -1
 enable_automated_battle_switching
 crpg_apply_harmony_patches
-crpg_low_pop_gamemode cRPGTeamDeathmatch
-crpg_high_pop_gamemode cRPGBattle
-crpg_low_pop_gamemode_count 20
+
