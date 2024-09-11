@@ -248,7 +248,9 @@ internal class ClanService : IClanService
         }
 
         db.ClanArmoryItems.Remove(userItem.ClanArmoryItem);
-        db.ActivityLogs.Add(_activityLogService.CreateRemoveItemFromClanArmory(user.Id, clan.Id, userItem));
+
+        var activityLog = _activityLogService.CreateRemoveItemFromClanArmory(user.Id, clan.Id, userItem);
+        db.ActivityLogs.Add(activityLog);
 
         return Result.NoErrors;
     }
