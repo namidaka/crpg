@@ -102,54 +102,19 @@ public class FileItemsSourceTest
 
         string filepath = GetFilePath();
         string charactersFilePath = Path.Combine(filepath, "../../../../../src/Module.Server/ModuleData/characters.xml");
-        Console.WriteLine(filepath);
-        string charactersXmlPath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)
-                                   + "/ModuleData/characters.xml";
-        XDocument charactersDoc = XDocument.Load(charactersFilePath);
-        string[] itemIdsFromXml = charactersDoc
-            .Descendants("equipment")
-            .Select(el => el.Attribute("id")!.Value["Item.".Length..])
-            .ToArray();
-
-        Assert.Multiple(() =>
-        {
-            foreach (string itemId in itemIdsFromXml)
-            {
-                if (!items.Contains(itemId))
-                {
-                    string closestItemId = TestHelper.FindClosestString(itemId, items);
-                    Assert.Fail($"Character item {itemId} was not found in items.json. Did you mean {closestItemId}?");
-                    charactersDoc
-                    .Descendants("equipment")
-                    .First(el => el.Attribute("id")!.Value == "Item." + itemId).Attribute("id")!.Value = "Item." + closestItemId;
-                }
-            }
-
-            //uncomment to automatically replace with suggestions
-            //charactersDoc.Save(charactersFilePath);
-        });
-    }
-
-    [Test]
-    public async Task CheckDTVBotItemsExist()
-    {
-        var items = (await new FileItemsSource().LoadItems())
-            .Select(i => i.Id)
-            .ToHashSet();
-        string GetFilePath([CallerFilePath] string path = "")
-        {
-            return path;
-        }
-
-        string filepath = GetFilePath();
-        string charactersFilePath = Path.Combine(filepath, "../../../../../src/Module.Server/ModuleData/dtv/dtv_characters.xml");
+        string dtvCharactersFilePath = Path.Combine(filepath, "../../../../../src/Module.Server/ModuleData/dtv/dtv_characters.xml");
         string dtvItemsFilePath = Path.Combine(filepath, "../../../../../src/Module.Server/ModuleData/dtv/dtv_weapons.xml");
         Console.WriteLine(filepath);
         string charactersXmlPath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)
                                    + "/ModuleData/dtv/dtv_characters.xml";
         XDocument charactersDoc = XDocument.Load(charactersFilePath);
+        XDocument dtvCharactersDoc = XDocument.Load(dtvCharactersFilePath);
         XDocument dtvItemsDoc = XDocument.Load(dtvItemsFilePath);
-        string[] itemIdsFromXml = charactersDoc
+        string[] itemIdsFromCharacterXml = charactersDoc
+            .Descendants("equipment")
+            .Select(el => el.Attribute("id")!.Value["Item.".Length..])
+            .ToArray();
+        string[] itemIdsFromDtvCharacterXml = dtvCharactersDoc
             .Descendants("equipment")
             .Select(el => el.Attribute("id")!.Value["Item.".Length..])
             .ToArray();
@@ -158,11 +123,12 @@ public class FileItemsSourceTest
             .Select(el => el.Attribute("id")!.Value)
             .ToHashSet();
 
+        var combinedItemIds = itemIdsFromCharacterXml.Concat(itemIdsFromDtvCharacterXml);
         var combinedItems = items.Concat(dtvItemIdsFromXml);
 
         Assert.Multiple(() =>
         {
-            foreach (string itemId in itemIdsFromXml)
+            foreach (string itemId in combinedItemIds)
             {
                 if (!combinedItems.Contains(itemId))
                 {
