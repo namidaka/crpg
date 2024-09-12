@@ -30,8 +30,7 @@ public class ClanArmoryWorker : BackgroundService
                 Logger.LogError(e, "An error occured while returning unused clan armory items");
             }
 
-            // await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
-            await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+            await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
         }
     }
 }
