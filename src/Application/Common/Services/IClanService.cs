@@ -264,11 +264,11 @@ internal class ClanService : IClanService
     {
         await db.Entry(user)
             .Reference(u => u.ClanMembership)
-            .LoadAsync();
+            .LoadAsync(cancellationToken);
 
         await db.Entry(user)
             .Collection(u => u.Items)
-            .LoadAsync();
+            .LoadAsync(cancellationToken);
 
         var errors = CheckClanMembership(user, clan.Id);
         if (errors != null)
@@ -310,7 +310,7 @@ internal class ClanService : IClanService
     {
         await db.Entry(user)
             .Reference(u => u.ClanMembership)
-            .LoadAsync();
+            .LoadAsync(cancellationToken);
 
         var errors = CheckClanMembership(user, clan.Id);
         if (errors != null)
@@ -321,8 +321,8 @@ internal class ClanService : IClanService
         var borrowedItem = await db.ClanArmoryBorrowedItems
             .Where(bi =>
                 bi.UserItemId == userItemId
-                && (bi.BorrowerUserId == user.Id || user.ClanMembership!.Role == ClanMemberRole.Leader) // force return by clan leader
-                && bi.BorrowerClanId == clan.Id)
+                && bi.BorrowerClanId == clan.Id
+                && (bi.BorrowerUserId == user.Id || user.ClanMembership!.Role == ClanMemberRole.Leader)) // force return by clan leader
             .Include(bi => bi.UserItem!).ThenInclude(ui => ui.EquippedItems)
             .FirstOrDefaultAsync(cancellationToken);
         if (borrowedItem == null)
