@@ -76,7 +76,7 @@ public record RewardUserCommand : IMediatorRequest<UserViewModel>
 
             var activityLog = _activityLogService.CreateUserRewardedLog(req.UserId, req.ActorUserId, req.Gold, req.HeirloomPoints, req.ItemId);
             _db.ActivityLogs.Add(activityLog);
-            _db.UserNotifications.Add(_userNotificationService.CreateUserRewardedToUser(req.UserId, activityLog.Id));
+            _db.UserNotifications.Add(_userNotificationService.CreateUserRewardedToUserNotification(req.UserId, activityLog.Id));
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("User '{0}' rewarded", req.UserId);

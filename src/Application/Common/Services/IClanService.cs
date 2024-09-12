@@ -165,7 +165,7 @@ internal class ClanService : IClanService
             var clanLeaderRes = await GetClanLeader(db, member.ClanId, cancellationToken);
             if (clanLeaderRes.Errors == null)
             {
-                db.UserNotifications.Add(_userNotificationService.CreateClanMemberLeavedToLeader(clanLeaderRes.Data!.UserId, clanMemberLeavedActivityLog.Id));
+                db.UserNotifications.Add(_userNotificationService.CreateClanMemberLeavedToLeaderNotification(clanLeaderRes.Data!.UserId, clanMemberLeavedActivityLog.Id));
             }
         }
 
@@ -301,7 +301,7 @@ internal class ClanService : IClanService
 
         var activityLog = _activityLogService.CreateBorrowItemFromClanArmoryLog(user.Id, clan.Id, armoryItem.UserItem!);
         db.ActivityLogs.Add(activityLog);
-        db.UserNotifications.Add(_userNotificationService.CreateClanArmoryBorrowItemToLender(armoryItem.LenderUserId, activityLog.Id));
+        db.UserNotifications.Add(_userNotificationService.CreateClanArmoryBorrowItemToLenderNotification(armoryItem.LenderUserId, activityLog.Id));
 
         return new(borrowedItem);
     }

@@ -109,7 +109,7 @@ public record RespondClanInvitationCommand : IMediatorRequest<ClanInvitationView
                 {
                     var activityLog = _activityLogService.CreateClanApplicationDeclinedLog(user.Id, invitation.ClanId);
                     _db.ActivityLogs.Add(activityLog);
-                    _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationDeclinedToUser(user.Id, activityLog.Id));
+                    _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationDeclinedToUserNotification(user.Id, activityLog.Id));
                     await _db.SaveChangesAsync(cancellationToken);
                     Logger.LogInformation("User '{0}' declined request to join '{1}' from user '{2}' to join clan '{3}'",
                         inviter.Id, invitation.Id, invitee.Id, invitation.ClanId);
@@ -153,7 +153,7 @@ public record RespondClanInvitationCommand : IMediatorRequest<ClanInvitationView
             {
                 var invitationAcceptedActivityLog = _activityLogService.CreateClanApplicationAcceptedLog(user.Id, invitation.ClanId);
                 _db.ActivityLogs.Add(invitationAcceptedActivityLog);
-                _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationAcceptedToUser(invitee.Id, invitationAcceptedActivityLog.Id));
+                _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationAcceptedToUserNotification(invitee.Id, invitationAcceptedActivityLog.Id));
                 await _db.SaveChangesAsync(cancellationToken);
 
                 if (oldClanId == null)

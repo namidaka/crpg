@@ -89,14 +89,14 @@ public record InviteClanMemberCommand : IMediatorRequest<ClanInvitationViewModel
             var createClanInvitationActivityLog = _activityLogService.CreateClanApplicationCreatedLog(user.Id, clanId);
             _db.ActivityLogs.Add(createClanInvitationActivityLog);
 
-            _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationCreatedToUser(user.Id, createClanInvitationActivityLog.Id));
+            _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationCreatedToUserNotification(user.Id, createClanInvitationActivityLog.Id));
 
             var clanOfficers = await _clanService.GetClanOfficers(_db, clanId, cancellationToken);
             if (clanOfficers.Errors == null && clanOfficers.Data != null)
             {
                 foreach (var officer in clanOfficers.Data)
                 {
-                    _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationCreatedToOfficers(officer.UserId, createClanInvitationActivityLog.Id));
+                    _db.UserNotifications.Add(_userNotificationService.CreateClanApplicationCreatedToOfficersNotification(officer.UserId, createClanInvitationActivityLog.Id));
                 }
             }
 

@@ -95,7 +95,7 @@ public record RewardCharacterCommand : IMediatorRequest<CharacterViewModel>
 
             var activityLog = _activityLogService.CreateCharacterRewardedLog(req.UserId, req.ActorUserId, req.CharacterId, req.Experience);
             _db.ActivityLogs.Add(activityLog);
-            _db.UserNotifications.Add(_userNotificationService.CreateCharacterRewardedToUser(req.UserId, activityLog.Id));
+            _db.UserNotifications.Add(_userNotificationService.CreateCharacterRewardedToUserNotification(req.UserId, activityLog.Id));
 
             await _db.SaveChangesAsync(cancellationToken);
             Logger.LogInformation("Character '{0}' rewarded", req.CharacterId);
