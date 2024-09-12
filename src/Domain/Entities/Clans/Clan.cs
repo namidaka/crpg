@@ -60,5 +60,6 @@ public class Clan : AuditableEntity
     /// <summary>
     /// return an item if a borrower is not active for N days.
     /// </summary>
-    public TimeSpan ArmoryTimeout { get; set; } = TimeSpan.FromDays(3);
+    // public TimeSpan ArmoryTimeout { get; set; } = TimeSpan.FromDays(3);
+    public TimeSpan ArmoryTimeout { get; set; } = TimeSpan.FromSeconds(40);
 }

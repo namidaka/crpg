@@ -332,7 +332,9 @@ internal class ClanService : IClanService
 
         db.EquippedItems.RemoveRange(borrowedItem.UserItem!.EquippedItems);
         db.ClanArmoryBorrowedItems.Remove(borrowedItem);
-        db.ActivityLogs.Add(_activityLogService.CreateReturnItemToClanArmoryLog(user.Id, clan.Id, borrowedItem.UserItem));
+        var activityLog = _activityLogService.CreateReturnItemToClanArmoryLog(user.Id, clan.Id, borrowedItem.UserItem);
+        db.ActivityLogs.Add(activityLog);
+        db.UserNotifications.Add(_userNotificationService.CreateClanArmoryRemoveItemToBorrowerNotification(borrowedItem.BorrowerUserId, activityLog.Id));
 
         return Result.NoErrors;
     }
