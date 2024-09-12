@@ -1452,10 +1452,10 @@ public record SeedDataCommand : IMediatorRequest
                 },
             };
 
-            var activityLogClanArmoryAddItem1 = _activityLogService.CreateAddItemToClanArmory(takeo.Id, pecores.Id, orleItem1);
-            var activityLogClanArmoryRemoveItem1 = _activityLogService.CreateRemoveItemFromClanArmory(takeo.Id, pecores.Id, orleItem1);
-            var activityLogClanArmoryReturnItem1 = _activityLogService.CreateReturnItemToClanArmory(takeo.Id, pecores.Id, orleItem1);
-            var activityLogClanArmoryBorrowItem1 = _activityLogService.CreateBorrowItemFromClanArmory(takeo.Id, pecores.Id, orleItem1);
+            var activityLogClanArmoryAddItem1 = _activityLogService.CreateAddItemToClanArmoryLog(takeo.Id, pecores.Id, takeoItem1);
+            var activityLogClanArmoryRemoveItem1 = _activityLogService.CreateRemoveItemFromClanArmoryLog(takeo.Id, pecores.Id, takeoItem1);
+            var activityLogClanArmoryReturnItem1 = _activityLogService.CreateReturnItemToClanArmoryLog(takeo.Id, pecores.Id, orleItem1);
+            var activityLogClanArmoryBorrowItem1 = _activityLogService.CreateBorrowItemFromClanArmoryLog(takeo.Id, pecores.Id, orleItem1);
 
             ActivityLog[] newActivityLogCharacterEarned =
             {
@@ -1489,7 +1489,7 @@ public record SeedDataCommand : IMediatorRequest
                 activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserReward1, activityLogItemBought1,
                 activityLogItemSold1, activityLogItemBroke1, activityLogItemUpgraded1, activityLogCharacterCreated1, activityLogCharacterDeleted1,
                 activityLogCharacterRespecialized1, activityLogCharacterRetired1, activityLogCharacterRewarded1, activityLogServerJoined1,
-                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem1 ,activityLogClanArmoryRemoveItem1, activityLogClanArmoryReturnItem1, activityLogClanArmoryBorrowItem1, activityLogClanArmoryBorrowItem1, activityLogClanApplicationCreated1, activityLogClanApplicationCreated2, activityLogClanApplicationCreated3, activityLogUserRewarded1,
+                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem1, activityLogClanArmoryRemoveItem1, activityLogClanArmoryReturnItem1, activityLogClanArmoryBorrowItem1, activityLogClanArmoryBorrowItem1, activityLogClanApplicationCreated1, activityLogClanApplicationCreated2, activityLogClanApplicationCreated3, activityLogUserRewarded1,
                 activityLogUserClanApplicationAccepted1, activityLogUserClanApplicationDeclined1, activityLogItemReturned1, activityLogClanMemberRoleChange1, activityLogClanMemberLeaved1, activityLogClanMemberKicked1, activityLogClanCreatedl,
                 activityLogClanDeletedl,
             };
@@ -1512,12 +1512,13 @@ public record SeedDataCommand : IMediatorRequest
             var orleNotification11 = _userNotificationService.CreateClanMemberKickedToExMember(orle.Id, activityLogClanMemberKicked1.Id);
             var orleNotification12 = _userNotificationService.CreateCharacterRewardedToUser(orle.Id, activityLogCharacterRewarded1.Id);
             var orleNotification13 = _userNotificationService.CreateClanArmoryBorrowItemToLender(orle.Id, activityLogClanArmoryBorrowItem1.Id);
+            var orleNotification14 = _userNotificationService.CreateClanArmoryRemoveItemToBorrowerNotification(orle.Id, activityLogClanArmoryRemoveItem1.Id);
 
             UserNotification[] userNotifications =
             {
                 orleNotification1, orleNotification2, orleNotification3, orleNotification4, orleNotification5,
                 orleNotification6, orleNotification7, orleNotification8, orleNotification9, orleNotification10,
-                orleNotification11, orleNotification12, orleNotification13,
+                orleNotification11, orleNotification12, orleNotification13, orleNotification14,
             };
             _db.UserNotifications.RemoveRange(await _db.UserNotifications.ToArrayAsync());
             _db.UserNotifications.AddRange(userNotifications);
