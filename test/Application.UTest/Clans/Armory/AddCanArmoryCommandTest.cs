@@ -3,13 +3,13 @@ using Crpg.Application.Common.Results;
 using Crpg.Application.Common.Services;
 using Crpg.Domain.Entities.Items;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Clans.Armory;
 public class AddCanArmoryCommandTest : TestBase
 {
-    private IClanService ClanService { get; } = new ClanService();
-    private IActivityLogService ActivityService { get; } = new ActivityLogService();
+    private static readonly IClanService ClanService = Mock.Of<IClanService>();
 
     [Test]
     public async Task ShouldAdd()
@@ -22,7 +22,7 @@ public class AddCanArmoryCommandTest : TestBase
             .FirstAsync();
 
         var item = user.Items.First();
-        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ClanService);
         var result = await handler.Handle(new AddItemToClanArmoryCommand
         {
             UserItemId = item.Id,
@@ -58,7 +58,7 @@ public class AddCanArmoryCommandTest : TestBase
 
         var item = user.Items.First(ui => ui.ClanArmoryItem != null);
 
-        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ClanService);
         var result = await handler.Handle(new AddItemToClanArmoryCommand
         {
             UserItemId = item.Id,
@@ -92,7 +92,7 @@ public class AddCanArmoryCommandTest : TestBase
 
         var item = user0.Items.First();
 
-        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ClanService);
         var result = await handler.Handle(new AddItemToClanArmoryCommand
         {
             UserItemId = item.Id,
@@ -121,7 +121,7 @@ public class AddCanArmoryCommandTest : TestBase
 
         var item = user.Items.First();
 
-        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ClanService);
         var result = await handler.Handle(new AddItemToClanArmoryCommand
         {
             UserItemId = item.Id,
@@ -158,7 +158,7 @@ public class AddCanArmoryCommandTest : TestBase
             .Include(u => u.ClanMembership)
             .FirstAsync(u => u.Name == user.Name);
 
-        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ActivityService, ClanService);
+        var handler = new AddItemToClanArmoryCommand.Handler(ActDb, Mapper, ClanService);
         var result = await handler.Handle(new AddItemToClanArmoryCommand
         {
             UserItemId = item.Id,
@@ -175,6 +175,5 @@ public class AddCanArmoryCommandTest : TestBase
         Assert.That(user.Items.Count(ui => ui.ClanArmoryItem != null), Is.EqualTo(1));
         Assert.That(AssertDb.ClanArmoryItems.Count(), Is.EqualTo(1));
         Assert.That(AssertDb.EquippedItems.Count(), Is.EqualTo(0));
-
     }
 }

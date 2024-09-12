@@ -5,12 +5,13 @@ using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Clans.Armory;
 public static class ClanArmoryTestHelper
 {
-    private static IClanService ClanService { get; } = new ClanService();
+    private static readonly IClanService ClanService = Mock.Of<IClanService>();
 
     public static async Task CommonSetUp(ICrpgDbContext db, int usersCount = 4, int itemsPerUser = 4, int armoryTimeout = 3)
     {

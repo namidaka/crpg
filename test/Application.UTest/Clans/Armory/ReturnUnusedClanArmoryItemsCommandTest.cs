@@ -1,11 +1,16 @@
 ﻿using Crpg.Application.Clans.Commands.Armory;
+using Crpg.Application.Common.Services;
 using Crpg.Sdk;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Clans.Armory;
 public class ReturnUnusedClanArmoryItemsCommandTest : TestBase
 {
+    private static readonly IActivityLogService ActivityLogService = Mock.Of<IActivityLogService>();
+    private static readonly IUserNotificationService UserNotificationService = Mock.Of<IUserNotificationService>();
+
     [TestCase(3, 0)]
     [TestCase(11, 4)]
     public async Task Basic(int clanArmoryTimeoutDays, int clanArmoryBorrowedItemsCount)
@@ -20,7 +25,7 @@ public class ReturnUnusedClanArmoryItemsCommandTest : TestBase
 
         Assert.That(ActDb.ClanArmoryBorrowedItems.Count(), Is.EqualTo(4));
 
-        var handler = new ReturnUnusedItemsToClanArmoryCommand.Handler(ActDb, new MachineDateTime());
+        var handler = new ReturnUnusedItemsToClanArmoryCommand.Handler(ActDb, new MachineDateTime(), ActivityLogService, UserNotificationService);
         var result = await handler.Handle(new ReturnUnusedItemsToClanArmoryCommand(), CancellationToken.None);
 
         Assert.That(result.Errors, Is.Null);

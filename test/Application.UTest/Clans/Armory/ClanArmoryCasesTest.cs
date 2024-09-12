@@ -1,12 +1,13 @@
 using Crpg.Application.Common.Services;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using NUnit.Framework;
 
 namespace Crpg.Application.UTest.Clans.Armory;
 
 public class ClanArmoryCasesTest : TestBase
 {
-    private IClanService ClanService { get; } = new ClanService();
+    private static readonly IClanService ClanService = Mock.Of<IClanService>();
 
     [Test]
     public async Task ShouldCascadeOnClanLeave()
