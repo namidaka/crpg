@@ -10,9 +10,9 @@ namespace Crpg.Application.UTest.Clans;
 
 public class InviteClanMemberCommandTest : TestBase
 {
-    private static readonly IClanService ClanService = Mock.Of<IClanService>();
     private static readonly Mock<IActivityLogService> ActivityLogService = new() { DefaultValue = DefaultValue.Mock };
     private static readonly Mock<IUserNotificationService> UserNotificationService = new() { DefaultValue = DefaultValue.Mock };
+    private static readonly IClanService ClanService = new ClanService(ActivityLogService.Object, UserNotificationService.Object);
 
     [Test]
     public async Task ShouldReturnErrorIfUserNotFound()
@@ -130,6 +130,11 @@ public class InviteClanMemberCommandTest : TestBase
     [Test]
     public async Task IfOfferButInviterNotInAClanShouldReturnError()
     {
+        // Mock<IClanService> clanServiceMock = new();
+        // clanServiceMock
+        //     .Setup(c => c.GetClanOfficers())
+        //     .Returns(experienceForRetirementLevel);
+
         Clan clan = new();
         ArrangeDb.Clans.Add(clan);
         User invitee = new();

@@ -7,7 +7,9 @@ using NUnit.Framework;
 namespace Crpg.Application.UTest.Clans.Armory;
 public class RemoveClanArmoryCommandTest : TestBase
 {
-    private static readonly IClanService ClanService = Mock.Of<IClanService>();
+    private static readonly Mock<IActivityLogService> ActivityLogService = new() { DefaultValue = DefaultValue.Mock };
+    private static readonly Mock<IUserNotificationService> UserNotificationService = new() { DefaultValue = DefaultValue.Mock };
+    private static readonly IClanService ClanService = new ClanService(ActivityLogService.Object, UserNotificationService.Object);
 
     [Test]
     public async Task ShouldRemove()

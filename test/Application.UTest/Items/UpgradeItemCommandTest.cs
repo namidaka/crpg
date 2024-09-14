@@ -12,7 +12,7 @@ namespace Crpg.Application.UTest.Items;
 
 public class UpgradeItemCommandTest : TestBase
 {
-    private static readonly IActivityLogService ActivityLogService = Mock.Of<IActivityLogService>();
+    private static readonly Mock<IActivityLogService> ActivityLogService = new() { DefaultValue = DefaultValue.Mock };
 
     [Test]
     public async Task Basic()
@@ -53,7 +53,7 @@ public class UpgradeItemCommandTest : TestBase
         ArrangeDb.Items.AddRange(item00, item01, item10);
         await ArrangeDb.SaveChangesAsync();
 
-        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService);
+        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService.Object);
         var result = await handler.Handle(new UpgradeUserItemCommand
         {
             UserItemId = userItem0.Id,
@@ -96,7 +96,7 @@ public class UpgradeItemCommandTest : TestBase
         ArrangeDb.Items.Add(item0);
         await ArrangeDb.SaveChangesAsync();
 
-        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService);
+        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService.Object);
         var result = await handler.Handle(new UpgradeUserItemCommand
         {
             UserItemId = 15,
@@ -110,7 +110,7 @@ public class UpgradeItemCommandTest : TestBase
     [Test]
     public async Task NotFoundUser()
     {
-        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService);
+        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService.Object);
         var result = await handler.Handle(new UpgradeUserItemCommand
         {
             UserItemId = 50,
@@ -134,7 +134,7 @@ public class UpgradeItemCommandTest : TestBase
         ArrangeDb.Items.Add(item0);
         await ArrangeDb.SaveChangesAsync();
 
-        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService);
+        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService.Object);
         var result = await handler.Handle(new UpgradeUserItemCommand
         {
             UserItemId = user.Items[0].Id,
@@ -161,7 +161,7 @@ public class UpgradeItemCommandTest : TestBase
         ArrangeDb.Items.Add(item1);
         await ArrangeDb.SaveChangesAsync();
 
-        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService);
+        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService.Object);
         var result = await handler.Handle(new UpgradeUserItemCommand
         {
             UserItemId = user.Items[0].Id,
@@ -192,7 +192,7 @@ public class UpgradeItemCommandTest : TestBase
         ArrangeDb.Items.Add(item1);
         await ArrangeDb.SaveChangesAsync();
 
-        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService);
+        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService.Object);
         var result = await handler.Handle(new UpgradeUserItemCommand
         {
             UserItemId = user.Items[0].Id,
@@ -217,7 +217,7 @@ public class UpgradeItemCommandTest : TestBase
         ArrangeDb.Items.Add(item0);
         await ArrangeDb.SaveChangesAsync();
 
-        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService);
+        UpgradeUserItemCommand.Handler handler = new(ActDb, Mapper, ActivityLogService.Object);
         var result = await handler.Handle(new UpgradeUserItemCommand
         {
             UserItemId = user.Items[0].Id,

@@ -11,7 +11,9 @@ using NUnit.Framework;
 namespace Crpg.Application.UTest.Clans.Armory;
 public static class ClanArmoryTestHelper
 {
-    private static readonly IClanService ClanService = Mock.Of<IClanService>();
+    private static readonly Mock<IActivityLogService> ActivityLogService = new() { DefaultValue = DefaultValue.Mock };
+    private static readonly Mock<IUserNotificationService> UserNotificationService = new() { DefaultValue = DefaultValue.Mock };
+    private static readonly IClanService ClanService = new ClanService(ActivityLogService.Object, UserNotificationService.Object);
 
     public static async Task CommonSetUp(ICrpgDbContext db, int usersCount = 4, int itemsPerUser = 4, int armoryTimeout = 3)
     {
