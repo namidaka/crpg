@@ -62,6 +62,59 @@ public class ClanServiceTest : TestBase
     }
 
     [Test]
+    public async Task GetClanLeaderShouldReturnErrorIfClanHasNotALeader()
+    {
+        Clan clan = new();
+        ArrangeDb.Clans.Add(clan);
+        User user = new() { ClanMembership = new() { Clan = clan } };
+        ArrangeDb.Users.Add(user);
+
+        await ArrangeDb.SaveChangesAsync();
+
+        ClanService clanService = new(ActivityLogService.Object, UserNotificationService.Object);
+        var res = await clanService.GetClanLeader(ActDb, clan.Id, CancellationToken.None);
+        Assert.That(res.Errors, Is.Not.Null);
+        Assert.That(res.Errors![0].Code, Is.EqualTo(ErrorCode.ClanLeaderFound));
+    }
+
+    [Test]
+    public async Task GetClanLeaderShouldNotReturnErrorIfClanHasALeader()
+    {
+        Clan clan = new();
+        ArrangeDb.Clans.Add(clan);
+        User user = new() { ClanMembership = new() { Clan = clan, Role = ClanMemberRole.Leader } };
+        ArrangeDb.Users.Add(user);
+
+        await ArrangeDb.SaveChangesAsync();
+
+        ClanService clanService = new(ActivityLogService.Object, UserNotificationService.Object);
+        var res = await clanService.GetClanLeader(ActDb, clan.Id, CancellationToken.None);
+        Assert.That(res.Errors, Is.Null);
+    }
+
+    [Test]
+    public async Task GetClanOfficersShouldNotEmptyIfClanHasSomeOfficer()
+    {
+        Clan clan = new();
+        ArrangeDb.Clans.Add(clan);
+        User user1 = new() { ClanMembership = new() { Clan = clan, Role = ClanMemberRole.Leader } };
+        User user2 = new() { ClanMembership = new() { Clan = clan, Role = ClanMemberRole.Officer } };
+        User user3 = new() { ClanMembership = new() { Clan = clan, Role = ClanMemberRole.Member } };
+
+        ArrangeDb.Users.Add(user1);
+        ArrangeDb.Users.Add(user2);
+        ArrangeDb.Users.Add(user3);
+
+        await ArrangeDb.SaveChangesAsync();
+
+        ClanService clanService = new(ActivityLogService.Object, UserNotificationService.Object);
+        var res = await clanService.GetClanOfficers(ActDb, clan.Id, CancellationToken.None);
+        Assert.That(res.Data, Is.Not.Null);
+        Assert.That(res.Data!.Count, Is.EqualTo(2));
+        Assert.That(res.Errors, Is.Null);
+    }
+
+    [Test]
     public async Task JoinClanShouldDeleteInvitationRequestsAndDeclineInvitationOffers()
     {
         User user = new();
