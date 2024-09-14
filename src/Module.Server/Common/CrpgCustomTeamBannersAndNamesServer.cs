@@ -17,8 +17,8 @@ internal class CrpgCustomTeamBannersAndNamesServer : MissionNetwork
     public BannerCode DefenderBanner { get; private set; } = BannerCode.CreateFrom(string.Empty);
     public string AttackerName { get; private set; } = string.Empty;
     public string DefenderName { get; private set; } = string.Empty;
-    private MultiplayerRoundController _roundController;
-    internal CrpgCustomTeamBannersAndNamesServer(MultiplayerRoundController roundController)
+    private MultiplayerRoundController? _roundController;
+    internal CrpgCustomTeamBannersAndNamesServer(MultiplayerRoundController? roundController)
     {
         _roundController = roundController;
     }

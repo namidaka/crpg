@@ -147,7 +147,7 @@
         <equipment slot="Leg" id="Item.crpg_battania_leather_boots_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_norse_huscarl_axe_v2_h0" />
         <equipment slot="Item1" id="Item.crpg_battania_targe_b_v3_h0" />
-        <equipment slot="Item2" id="Item.crpg_simple_steppe_bow_v1_h0" />
+        <equipment slot="Item2" id="Item.dtv_simple_steppe_bow_v1_h0" />
         <equipment slot="Item3" id="Item.crpg_rangers_arrows_v2_h0" />
       </EquipmentRoster>
     </Equipments>
@@ -521,7 +521,7 @@
         <equipment slot="Body" id="Item.crpg_battania_light_armor_a_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_battania_noble_bracers_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_turndown_leather_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_noble_long_bow_v1_h0" />
+        <equipment slot="Item0" id="Item.dtv_noble_long_bow_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_piercing_arrows_v1_h0" />
         <equipment slot="Item2" id="Item.crpg_piercing_arrows_v1_h0" />
         <equipment slot="Item3" id="Item.crpg_thamaskene_steel_two_hander_v1_h0" />
@@ -839,7 +839,7 @@
         <equipment slot="Body" id="Item.crpg_leather_lamellar_armor_v2_h0" />
         <equipment slot="Gloves" id="Item.crpg_steppe_leather_vambraces_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_reinforced_suede_boots_v2_h0" />
-        <equipment slot="Item0" id="Item.crpg_common_ranger_bow_v1_h0" />
+        <equipment slot="Item0" id="Item.dtv_common_ranger_bow_v1_h0" />
         <equipment slot="Item1" id="Item.crpg_light_broad_arrows_v2_h0" />
         <equipment slot="Item2" id="Item.crpg_light_broad_arrows_v2_h0" />
         <equipment slot="Item3" id="Item.crpg_fine_steel_cavalry_saber_v1_h0" />
