@@ -11,12 +11,12 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Crpg.Application.Characters.Queries;
 
-public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewModel>>
+public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicCompetitiveViewModel>>
 {
     public Region? Region { get; set; }
     public CharacterClass? CharacterClass { get; set; }
 
-    internal class Handler : IMediatorRequestHandler<GetLeaderboardQuery, IList<CharacterPublicViewModel>>
+    internal class Handler : IMediatorRequestHandler<GetLeaderboardQuery, IList<CharacterPublicCompetitiveViewModel>>
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -29,11 +29,11 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
             _cache = cache;
         }
 
-        public async Task<Result<IList<CharacterPublicViewModel>>> Handle(GetLeaderboardQuery req, CancellationToken cancellationToken)
+        public async Task<Result<IList<CharacterPublicCompetitiveViewModel>>> Handle(GetLeaderboardQuery req, CancellationToken cancellationToken)
         {
             string cacheKey = GetCacheKey(req);
 
-            if (_cache.TryGetValue(cacheKey, out IList<CharacterPublicViewModel>? results) == false)
+            if (_cache.TryGetValue(cacheKey, out IList<CharacterPublicCompetitiveViewModel>? results) == false)
             {
                 // Todo: use DistinctBy here when EfCore implements it (does not work for now: https://github.com/dotnet/efcore/issues/27470 )
                 var topRatedCharactersByRegion = await _db.Characters
@@ -42,10 +42,10 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicViewMo
                     .Where(c => (req.Region == null || req.Region == c.User!.Region)
                                 && (req.CharacterClass == null || req.CharacterClass == c.Class))
                     .Take(500)
-                    .ProjectTo<CharacterPublicViewModel>(_mapper.ConfigurationProvider)
+                    .ProjectTo<CharacterPublicCompetitiveViewModel>(_mapper.ConfigurationProvider)
                     .ToArrayAsync(cancellationToken);
 
-                IList<CharacterPublicViewModel> data = topRatedCharactersByRegion.DistinctBy(c => c.User.Id).Take(50).ToList();
+                IList<CharacterPublicCompetitiveViewModel> data = topRatedCharactersByRegion.DistinctBy(c => c.User.Id).Take(50).ToList();
 
                 var cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));

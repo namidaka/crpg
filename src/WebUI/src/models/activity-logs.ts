@@ -17,11 +17,19 @@ export enum ActivityLogType {
   ServerJoined = 'ServerJoined',
   ChatMessageSent = 'ChatMessageSent',
   TeamHit = 'TeamHit',
+  ClanApplicationCreated = 'ClanApplicationCreated',
+  ClanApplicationAccepted = 'ClanApplicationAccepted',
+  ClanApplicationDeclined = 'ClanApplicationDeclined',
   ClanArmoryAddItem = 'ClanArmoryAddItem',
   ClanArmoryRemoveItem = 'ClanArmoryRemoveItem',
   ClanArmoryReturnItem = 'ClanArmoryReturnItem',
   ClanArmoryBorrowItem = 'ClanArmoryBorrowItem',
 }
+
+// TODO:
+export type ClanApplicationCreatedMetadata = {
+  clanId: string;
+};
 
 export type CharacterEarnedMetadata = {
   characterId: string;

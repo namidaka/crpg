@@ -1,10 +1,7 @@
-import { CharacterClass, type CharacterRating } from '@/models/character';
+import { type CharacterPublic, type CharacterRating } from '@/models/character';
 import { type UserPublic } from '@/models/user';
 
-export interface CharacterCompetitive {
-  id: number;
-  level: number;
-  class: CharacterClass;
+export interface CharacterCompetitive extends CharacterPublic {
   rating: CharacterRating;
   user: UserPublic;
 }

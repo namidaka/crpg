@@ -56,13 +56,10 @@ const emit = defineEmits<{
       </template>
 
       <template #heirloomPoints v-if="'heirloomPoints' in activityLog.metadata">
-        <span
-          class="inline-flex gap-1.5 align-text-bottom font-bold text-primary"
+        <Loom
+          :point="Number(activityLog.metadata.heirloomPoints)"
           data-aq-addLogItem-tpl-heirloomPoints
-        >
-          <OIcon icon="blacksmith" size="lg" />
-          {{ $n(Number(activityLog.metadata.heirloomPoints)) }}
-        </span>
+        />
       </template>
 
       <template #itemId v-if="'itemId' in activityLog.metadata">

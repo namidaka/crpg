@@ -60,7 +60,6 @@ import { range, groupBy, getIndexToIns } from '@/utils/array';
 
 import { GameMode } from '@/models/game-mode';
 
-
 export const getCharacters = () => get<Character[]>('/users/self/characters');
 
 export const getCharactersByUserId = (userId: number) =>

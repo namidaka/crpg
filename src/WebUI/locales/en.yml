@@ -183,6 +183,7 @@ shortcuts:
 
 setting:
   language: Language
+  notifications: Notifications
   settings: Settings
   logout: Logout
 
@@ -971,6 +972,10 @@ user:
         navigate: Navigate to our {modMailLink} channel
         follow: Follow the instructions in that channel to reach out to us
       outro: Please note that at this time, we do not accept appeals through any platform other than Discord.
+  notifications:
+    title: Notifications
+    empty: you have no notifications yet
+    toAll: All Notifications
 
 banned:
   title: You are banned
@@ -1454,6 +1459,20 @@ activityLog:
     ClanArmoryReturnItem: 'Item {userItemId} was returned from clan {clanId} armory'
     ClanArmoryBorrowItem: 'Item {userItemId} was borrowed from clan {clanId} armory'
     CharacterEarned: 'The character {characterId} earned {experience} experience and {gold} gold in the {gameMode} game mode'
+notification:
+  tpl:
+    ItemReturned: 'The item {itemId} has been removed from your inventory. {gold} {heirloomPoints} has been refunded'
+    ClanMemberRoleChangedToUser: 'Your role {oldClanMemberRole} in the clan {clan} has been changed to {newClanMemberRole}'
+    ClanMemberLeavedToLeader: '{user} has left your clan {clan}'
+    ClanMemberKickedToExMember: 'You were kicked out of clan {clan}'
+    ClanApplicationCreatedToUser: 'Your application for {clan} has been successfully created'
+    ClanApplicationCreatedToOfficers: '{user} has applied to join your clan {clan}'
+    ClanApplicationAcceptedToUser: 'Your application to join the {clan} has been approved'
+    ClanApplicationDeclinedToUser: 'Your application to join the {clan} has been declined'
+    ClanArmoryBorrowItemToLender: 'User {user} has borrowed your item {itemId} from the {clan} clan armory'
+    ClanArmoryRemoveItemToBorrower: 'User {user} has removed his item {itemId} from the {clan} clan armory'
+    UserRewardedToUser: 'You have been rewarded with {gold} {heirloomPoints} {itemId} by user {actorUser}'
+    CharacterRewardedToUser: 'Your character {character} has been rewarded {experience} experience by user {actorUser}'
 
 leaderboard:
   title: Leaderboard
