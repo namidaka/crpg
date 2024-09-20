@@ -1283,11 +1283,11 @@ public record SeedDataCommand : IMediatorRequest
             var activityLogCharacterRetired1 = _activityLogService.CreateCharacterRetiredLog(orle.Id, orleCharacter0.Id, 34);
             var activityLogCharacterRewarded1 = _activityLogService.CreateCharacterRewardedLog(orle.Id, takeo.Id, 5, 1000000);
 
-            var activityLogServerJoined1 = new ActivityLog() { Type = ActivityLogType.ServerJoined, User = namidaka };
-            var activityLogChatMessageSent1 = new ActivityLog() { Type = ActivityLogType.ChatMessageSent, User = namidaka, Metadata = { new("message", "Fluttershy is best"), new("instance", "crpg01a"), } };
-            var activityLogChatMessageSent2 = new ActivityLog() { Type = ActivityLogType.ChatMessageSent, User = takeo, Metadata = { new("message", "No, Rarity the best"), new("instance", "crpg01a"), }, };
+            var activityLogServerJoined1 = new ActivityLog() { Type = ActivityLogType.ServerJoined, User = orle };
+            var activityLogChatMessageSent1 = new ActivityLog() { Type = ActivityLogType.ChatMessageSent, User = orle, Metadata = { new("message", "Fluttershy is best"), new("instance", "crpg01a"), } };
+            var activityLogChatMessageSent2 = new ActivityLog() { Type = ActivityLogType.ChatMessageSent, User = orle, Metadata = { new("message", "No, Rarity the best"), new("instance", "crpg01a"), }, };
             var activityLogChatMessageSent3 = new ActivityLog() { Type = ActivityLogType.ChatMessageSent, User = takeo, CreatedAt = DateTime.UtcNow.AddMinutes(-3), Metadata = { new("message", "Do you get it?"), new("instance", "crpg01a"), }, };
-            var activityLogTeamHit1 = new ActivityLog() { Type = ActivityLogType.TeamHit, User = namidaka, CreatedAt = DateTime.UtcNow.AddMinutes(+3), Metadata = { new("targetUserId", "1"), new("damage", "123"), new("instance", "crpg01a"), }, };
+            var activityLogTeamHit1 = new ActivityLog() { Type = ActivityLogType.TeamHit, User = orle, CreatedAt = DateTime.UtcNow.AddMinutes(+3), Metadata = { new("targetUserId", "1"), new("damage", "123"), new("instance", "crpg01a"), }, };
             var activityLogTeamHit2 = new ActivityLog() { Type = ActivityLogType.TeamHit, User = takeo, CreatedAt = DateTime.UtcNow.AddMinutes(-1), };
 
             ActivityLog[] newActivityLogCharacterEarned =

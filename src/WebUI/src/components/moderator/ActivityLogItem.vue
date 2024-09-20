@@ -7,11 +7,11 @@ const props = withDefaults(
   defineProps<{
     activityLog: ActivityLog;
     user: UserPublic;
-    users: Record<number, UserPublic>;
+    users: Array<UserPublic>;
     isSelfUser: boolean;
   }>(),
   {
-    users: () => ({}),
+    users: () => [],
   }
 );
 
@@ -19,6 +19,8 @@ const emit = defineEmits<{
   (e: 'addUser', id: number): void;
   (e: 'addType', type: ActivityLogType): void;
 }>();
+
+const getUserById = (userId: number) => props.users.find(({ id }) => id === userId);
 </script>
 
 <template>
@@ -46,6 +48,15 @@ const emit = defineEmits<{
       />
     </div>
 
+    <ActivityLogMetadata
+      :keypath="`activityLog.tpl.${activityLog.type}`"
+      :activityLog="activityLog"
+      v-bind="{ users, characters: [], clans: [] }"
+    />
+
+    <br />
+    <br />
+
     <i18n-t :keypath="`activityLog.tpl.${activityLog.type}`" tag="div" scope="global">
       <template #price v-if="'price' in activityLog.metadata">
         <Coin :value="Number(activityLog.metadata.price)" data-aq-addLogItem-tpl-goldPrice />
@@ -62,7 +73,7 @@ const emit = defineEmits<{
         />
       </template>
 
-      <template #itemId v-if="'itemId' in activityLog.metadata">
+      <template #item v-if="'itemId' in activityLog.metadata">
         <span class="inline" data-aq-addLogItem-tpl-itemId>
           <VTooltip placement="auto" class="inline-block">
             <span class="font-bold text-content-100">{{ activityLog.metadata.itemId }}</span>
@@ -89,7 +100,7 @@ const emit = defineEmits<{
         </span>
       </template>
 
-      <template #targetUserId v-if="Number(activityLog.metadata.targetUserId) in users">
+      <template #targetUser v-if="Number(activityLog.metadata.targetUserId) in users">
         <div
           class="inline-flex items-center gap-1 align-middle"
           data-aq-addLogItem-tpl-targetUserId
@@ -102,7 +113,7 @@ const emit = defineEmits<{
             class="inline-block hover:text-content-100"
             target="_blank"
           >
-            <UserMedia :user="users[Number(activityLog.metadata.targetUserId)]" />
+            <UserMedia :user="getUserById(Number(activityLog.metadata.targetUserId))" />
           </RouterLink>
           <OButton
             v-if="isSelfUser"
@@ -116,7 +127,7 @@ const emit = defineEmits<{
         </div>
       </template>
 
-      <template #actorUserId v-if="'actorUserId' in activityLog.metadata">
+      <template #actorUser v-if="'actorUserId' in activityLog.metadata">
         <div class="inline-flex items-center gap-1 align-middle">
           <RouterLink
             class="inline-block hover:text-content-100"
@@ -127,7 +138,7 @@ const emit = defineEmits<{
             target="_blank"
           >
             <UserMedia
-              :user="users[Number(activityLog.metadata.actorUserId)]"
+              :user="getUserById(Number(activityLog.metadata.actorUserId))"
               hiddenClan
               hiddenPlatform
             />
@@ -151,7 +162,7 @@ const emit = defineEmits<{
         <span class="font-bold text-content-100">{{ activityLog.metadata.newName }}</span>
       </template>
 
-      <template #characterId v-if="'characterId' in activityLog.metadata">
+      <template #character v-if="'characterId' in activityLog.metadata">
         <span class="font-bold text-content-100">{{ activityLog.metadata.characterId }}</span>
       </template>
 
@@ -167,11 +178,11 @@ const emit = defineEmits<{
         <span class="font-bold text-content-100">{{ activityLog.metadata.message }}</span>
       </template>
 
-      <template #clanId v-if="'clanId' in activityLog.metadata">
+      <template #clan v-if="'clan' in activityLog.metadata">
         <span class="font-bold text-content-100">{{ activityLog.metadata.clanId }}</span>
       </template>
 
-      <template #userItemId v-if="'userItemId' in activityLog.metadata">
+      <template #userItem v-if="'userItemId' in activityLog.metadata">
         <span class="font-bold text-content-100">{{ activityLog.metadata.userItemId }}</span>
       </template>
     </i18n-t>

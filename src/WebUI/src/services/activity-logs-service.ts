@@ -36,15 +36,9 @@ const extractUsersFromLogs = (logs: ActivityLog[]) =>
 export const getActivityLogsWithUsers = async (payload: ActivityLogsPayload) => {
   const logs = await getActivityLogs(payload);
 
-  const users = (
-    await getUsersByIds([...new Set([...payload.userId, ...extractUsersFromLogs(logs)])])
-  ).reduce(
-    (out, user) => {
-      out[user.id] = user;
-      return out;
-    },
-    {} as Record<number, UserPublic>
-  );
+  const users = await getUsersByIds([
+    ...new Set([...payload.userId, ...extractUsersFromLogs(logs)]),
+  ]);
 
   return {
     logs,
