@@ -4,6 +4,7 @@ using Crpg.Application.Clans.Models;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
+using Crpg.Application.Common.Services;
 using Crpg.Application.Notifications.Models;
 using Crpg.Application.Users.Models;
 using FluentValidation;
@@ -19,11 +20,13 @@ public record GetUserNotificationsQuery : IMediatorRequest<UserNotificationsWith
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
+        private readonly IActivityLogService _activityLogService;
 
-        public Handler(ICrpgDbContext db, IMapper mapper)
+        public Handler(ICrpgDbContext db, IMapper mapper, IActivityLogService activityLogService)
         {
             _db = db;
             _mapper = mapper;
+            _activityLogService = activityLogService;
         }
 
         // TODO: all + pagination/filters (by date? by type?)
@@ -38,46 +41,22 @@ public record GetUserNotificationsQuery : IMediatorRequest<UserNotificationsWith
                 .Take(1000) // TODO:
                 .ToArrayAsync(cancellationToken);
 
-            // TODO: to fns: extract from activityLog.metaData
-            IList<int> clansIds = new List<int>();
-            IList<int> usersIds = new List<int>();
-            IList<int> charactersIds = new List<int>();
+            var entitiesFromMetadata = _activityLogService.ExtractEntitiesFromMetadata(userNotifications.Select(un => un.ActivityLog!).ToList());
 
-            foreach (var un in userNotifications)
-            {
-                usersIds.Add(un.ActivityLog!.UserId);
+            var clans = await _db.Clans.Where(c => entitiesFromMetadata.clansIds.Contains(c.Id)).ToArrayAsync();
+            var users = await _db.Users.Where(u => entitiesFromMetadata.usersIds.Contains(u.Id)).ToArrayAsync();
+            var characters = await _db.Characters.Where(c => entitiesFromMetadata.charactersIds.Contains(c.Id)).ToArrayAsync();
 
-                foreach (var md in un.ActivityLog!.Metadata)
-                {
-                    if (md.Key == "clanId")
-                    {
-                        clansIds.Add(Convert.ToInt32(md.Value));
-                    }
-
-                    if (md.Key == "userId" || md.Key == "actorUserId")
-                    {
-                        usersIds.Add(Convert.ToInt32(md.Value));
-                    }
-
-                    if (md.Key == "characterId")
-                    {
-                        charactersIds.Add(Convert.ToInt32(md.Value));
-                    }
-                }
-            }
-
-            var clans = await _db.Clans.Where(c => clansIds.Contains(c.Id)).ToArrayAsync();
-            var users = await _db.Users.Where(u => usersIds.Contains(u.Id)).ToArrayAsync();
-            var characters = await _db.Characters.Where(c => charactersIds.Contains(c.Id)).ToArrayAsync();
-
-            UserNotificationsWithDictViewModel dd = new()
+            return new(new UserNotificationsWithDictViewModel()
             {
                 Notifications = _mapper.Map<IList<UserNotificationViewModel>>(userNotifications),
-                Clans = _mapper.Map<IList<ClanPublicViewModel>>(clans),
-                Users = _mapper.Map<IList<UserPublicViewModel>>(users),
-                Characters = _mapper.Map<IList<CharacterPublicViewModel>>(characters),
-            };
-            return new(dd);
+                Dict = new()
+                {
+                    Clans = _mapper.Map<IList<ClanPublicViewModel>>(clans),
+                    Users = _mapper.Map<IList<UserPublicViewModel>>(users),
+                    Characters = _mapper.Map<IList<CharacterPublicViewModel>>(characters),
+                },
+            });
         }
     }
 }

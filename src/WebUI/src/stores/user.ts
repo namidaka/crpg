@@ -1,4 +1,4 @@
-import { UserNotificationsWithDicts, type User, type UserItem } from '@/models/user';
+import { type User, type UserItem } from '@/models/user';
 import { type Character } from '@/models/character';
 import { type ClanMemberRole, type Clan } from '@/models/clan';
 import { type PublicRestriction } from '@/models/restriction';
@@ -8,7 +8,6 @@ import {
   buyUserItem,
   getUserClan,
   getUserRestriction,
-  getUserNotifications,
 } from '@/services/users-service';
 import { getCharacters } from '@/services/characters-service';
 import {
@@ -23,7 +22,6 @@ interface State {
   clan: Clan | null;
   clanMemberRole: ClanMemberRole | null;
   restriction: PublicRestriction | null;
-  notifications: UserNotificationsWithDicts;
 }
 
 export const useUserStore = defineStore('user', {
@@ -34,11 +32,6 @@ export const useUserStore = defineStore('user', {
     clan: null,
     clanMemberRole: null,
     restriction: null,
-    notifications: {
-      notifications: [],
-      users: [],
-      clans: [],
-    },
   }),
 
   getters: {
@@ -84,10 +77,6 @@ export const useUserStore = defineStore('user', {
 
     async fetchUser() {
       this.user = await getUser();
-    },
-
-    async fetchUserNotifications() {
-      this.notifications = await getUserNotifications();
     },
 
     async fetchCharacters() {

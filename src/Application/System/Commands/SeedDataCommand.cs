@@ -1269,7 +1269,7 @@ public record SeedDataCommand : IMediatorRequest
             var activityLogUserRenamed1 = _activityLogService.CreateUserRenamedLog(orle.Id, "Salt", "Duke Salt of Savoy");
             var activityLogUserRewarded1 = _activityLogService.CreateUserRewardedLog(orle.Id, namidaka.Id, 120000, 3, orleItem1.ItemId);
             activityLogUserRewarded1.CreatedAt = DateTime.UtcNow.AddDays(-1);
-            var activityLogUserRewarded2 = _activityLogService.CreateUserRewardedLog(orle.Id, orle.Id, 120000, 3, orleItem1.ItemId);
+            var activityLogUserRewarded2 = _activityLogService.CreateUserRewardedLog(orle.Id, namidaka.Id, 120000, 0, string.Empty);
 
             var activityLogItemBought1 = _activityLogService.CreateItemBoughtLog(orle.Id, orleItem1.ItemId, 12000);
             var activityLogItemSold1 = _activityLogService.CreateItemSoldLog(orle.Id, orleItem1.ItemId, 12000);
@@ -1306,7 +1306,7 @@ public record SeedDataCommand : IMediatorRequest
 
             var activityLogClanApplicationCreated1 = _activityLogService.CreateClanApplicationCreatedLog(takeo.Id, 1);
             var activityLogClanApplicationCreated2 = _activityLogService.CreateClanApplicationCreatedLog(namidaka.Id, 1);
-            var activityLogClanApplicationCreated3 = _activityLogService.CreateClanApplicationCreatedLog(elmaryk.Id, 1);
+            var activityLogClanApplicationCreated3 = _activityLogService.CreateClanApplicationCreatedLog(orle.Id, 1);
             var activityLogClanApplicationAccepted1 = _activityLogService.CreateClanApplicationAcceptedLog(orle.Id, 1);
             var activityLogClanApplicationDeclined1 = _activityLogService.CreateClanApplicationDeclinedLog(orle.Id, 1);
             var activityLogClanMemberRoleChange1 = _activityLogService.CreateClanMemberRoleChangeLog(orle.Id, 1, takeo.Id, ClanMemberRole.Officer, ClanMemberRole.Leader);
@@ -1321,11 +1321,10 @@ public record SeedDataCommand : IMediatorRequest
 
             ActivityLog[] newActivityLogs =
             {
-                activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserRewarded1, activityLogItemBought1,
+                activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserRewarded1, activityLogUserRewarded2, activityLogItemBought1,
                 activityLogItemSold1, activityLogItemBroke1, activityLogItemUpgraded1, activityLogCharacterCreated1, activityLogCharacterDeleted1,
                 activityLogCharacterRespecialized1, activityLogCharacterRetired1, activityLogCharacterRewarded1, activityLogServerJoined1,
-                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem1, activityLogClanArmoryRemoveItem1, activityLogClanArmoryReturnItem1, activityLogClanArmoryBorrowItem1, activityLogClanArmoryBorrowItem1, activityLogClanApplicationCreated1, activityLogClanApplicationCreated2, activityLogClanApplicationCreated3, activityLogUserRewarded1,
-                activityLogClanApplicationAccepted1, activityLogClanApplicationDeclined1, activityLogItemReturned1, activityLogClanMemberRoleChange1, activityLogClanMemberLeaved1, activityLogClanMemberKicked1, activityLogClanCreatedl,
+                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem1, activityLogClanArmoryRemoveItem1, activityLogClanArmoryReturnItem1, activityLogClanArmoryBorrowItem1, activityLogClanArmoryBorrowItem1, activityLogClanApplicationCreated1, activityLogClanApplicationCreated2, activityLogClanApplicationCreated3, activityLogClanApplicationAccepted1, activityLogClanApplicationDeclined1, activityLogItemReturned1, activityLogClanMemberRoleChange1, activityLogClanMemberLeaved1, activityLogClanMemberKicked1, activityLogClanCreatedl,
                 activityLogClanDeletedl,
             };
 
@@ -1338,6 +1337,8 @@ public record SeedDataCommand : IMediatorRequest
             orleNotificationClanApplicationCreatedToOfficers2.State = NotificationState.Read;
             var orleNotificationClanApplicationCreatedToOfficers3 = _userNotificationService.CreateClanApplicationCreatedToOfficersNotification(orle.Id, activityLogClanApplicationCreated3.Id);
             var orleNotificatioUserRewardedToUser = _userNotificationService.CreateUserRewardedToUserNotification(orle.Id, activityLogUserRewarded1.Id);
+            var orleNotificatioUserRewardedToUser2 = _userNotificationService.CreateUserRewardedToUserNotification(orle.Id, activityLogUserRewarded2.Id);
+
             var orleNotificationClanApplicationAcceptedToUser = _userNotificationService.CreateClanApplicationAcceptedToUserNotification(orle.Id, activityLogClanApplicationAccepted1.Id);
             var orleNotificationClanApplicationDeclinedToUser = _userNotificationService.CreateClanApplicationDeclinedToUserNotification(orle.Id, activityLogClanApplicationDeclined1.Id);
             var orleNotificationClanApplicationCreatedToUser = _userNotificationService.CreateClanApplicationCreatedToUserNotification(orle.Id, activityLogClanApplicationCreated1.Id);
@@ -1351,7 +1352,7 @@ public record SeedDataCommand : IMediatorRequest
 
             UserNotification[] userNotifications =
             {
-                orleNotificationClanApplicationCreatedToOfficers1, orleNotificationClanApplicationCreatedToOfficers2, orleNotificationClanApplicationCreatedToOfficers3, orleNotificatioUserRewardedToUser, orleNotificationClanApplicationAcceptedToUser,
+                orleNotificationClanApplicationCreatedToOfficers1, orleNotificationClanApplicationCreatedToOfficers2, orleNotificationClanApplicationCreatedToOfficers3, orleNotificatioUserRewardedToUser, orleNotificatioUserRewardedToUser2, orleNotificationClanApplicationAcceptedToUser,
                 orleNotificationClanApplicationDeclinedToUser, orleNotificationClanApplicationCreatedToUser, orleNotificationItemReturned, orleNotificationClanMemberRoleChangedToUser, orleNotificationClanMemberLeavedToLeader,
                 orleNotificationClanMemberKickedToExMember, orleNotificationCharacterRewardedToUser, orleNotificationClanArmoryBorrowItemToLender, orleNotificationClanArmoryRemoveItemToBorrower,
             };

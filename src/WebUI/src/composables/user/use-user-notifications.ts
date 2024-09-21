@@ -21,9 +21,11 @@ export const useUsersNotifications = () => {
     () => getUserNotifications(),
     {
       notifications: [],
-      users: [],
-      clans: [],
-      characters: [],
+      dict: {
+        users: [],
+        clans: [],
+        characters: [],
+      },
     },
     {
       resetOnExecute: false,
@@ -37,31 +39,29 @@ export const useUsersNotifications = () => {
   const { execute: readNotification, loading: readingNotification } = useAsyncCallback(
     async (id: number) => {
       await readUserNotification(id);
-      await loadNotifications();
-      await userStore.fetchUser();
+
+      await Promise.all([loadNotifications(), userStore.fetchUser()]);
     }
   );
+
   const { execute: readAllNotifications, loading: readingAllNotification } = useAsyncCallback(
     async () => {
       await readAllUserNotifications();
-      await loadNotifications();
-      await userStore.fetchUser();
+      await Promise.all([loadNotifications(), userStore.fetchUser()]);
     }
   );
 
   const { execute: deleteNotification, loading: deletingNotification } = useAsyncCallback(
     async (id: number) => {
       await deleteUserNotification(id);
-      await loadNotifications();
-      await userStore.fetchUser();
+      await Promise.all([loadNotifications(), userStore.fetchUser()]);
     }
   );
 
   const { execute: deleteAllNotifications, loading: deletingAllNotification } = useAsyncCallback(
     async () => {
       await deleteAllUserNotifications();
-      await loadNotifications();
-      await userStore.fetchUser();
+      await Promise.all([loadNotifications(), userStore.fetchUser()]);
     }
   );
 

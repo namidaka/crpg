@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { type Clan, ClanMemberRole } from '@/models/clan';
-import { type UserPublic } from '@/models/user';
-import { type CharacterPublic } from '@/models/character';
+import { ClanMemberRole } from '@/models/clan';
 import { I18nT } from 'vue-i18n';
 import UserClan from '@/components/user/UserClan.vue';
 import ClanRole from '@/components/clan/ClanRole.vue';
@@ -11,24 +9,23 @@ import Coin from '@/components/app/Coin.vue';
 import Loom from '@/components/app/Loom.vue';
 import Tag from '@/components/ui/Tag.vue';
 
-import { ActivityLog } from '@/models/activity-logs';
+import { ActivityLog, ActivityLogMetadataDicts } from '@/models/activity-logs';
 import { n } from '@/services/translate-service';
 import { getItemImage } from '@/services/item-service';
 import { Tooltip } from 'floating-vue';
 
-const { keypath, activityLog, users, characters, clans } = defineProps<{
+const { keypath, activityLog, dict } = defineProps<{
   keypath: string;
   activityLog: ActivityLog;
-  users: UserPublic[];
-  characters: CharacterPublic[];
-  clans: Clan[];
+  dict: ActivityLogMetadataDicts;
 }>();
 
-const getClanById = (clanId: number) => clans.find(({ id }) => id === clanId);
+const getClanById = (clanId: number) => dict.clans.find(({ id }) => id === clanId);
 
-const getUserById = (userId: number) => users.find(({ id }) => id === userId);
+const getUserById = (userId: number) => dict.users.find(({ id }) => id === userId);
 
-const getCharacterById = (characterId: number) => characters.find(({ id }) => id === characterId);
+const getCharacterById = (characterId: number) =>
+  dict.characters.find(({ id }) => id === characterId);
 
 const emit = defineEmits<{
   read: [];
@@ -41,45 +38,15 @@ const renderDamage = (value: string) => {
   return h('strong', { class: 'font-bold text-status-danger' }, n(Number(value)));
 };
 
-const renderUserClan = () => {
-  const clan = getClanById(Number(activityLog.metadata.clanId));
+const renderUserClan = (clanId: number) => {
+  const clan = getClanById(clanId);
   return clan
-    ? h(UserClan, {
-        clan,
-        class: 'inline-flex items-center gap-1 align-middle',
-      })
-    : renderStrong(activityLog.metadata.clanId);
+    ? h(UserClan, { clan, class: 'inline-flex items-center gap-1 align-middle' })
+    : renderStrong(String(clanId));
 };
-
-const renderClanRole = () =>
-  h(ClanRole, {
-    role: activityLog.metadata.oldClanMemberRole as ClanMemberRole,
-  });
 
 const renderUser = (userId: number) => {
   const user = getUserById(userId);
-
-  // TODO:
-  // <RouterLink
-  //           :to="{
-  //             name: 'ModeratorUserIdRestrictions',
-  //             params: { id: activityLog.metadata.targetUserId },
-  //           }"
-  //           class="inline-block hover:text-content-100"
-  //           target="_blank"
-  //         >
-  //           <UserMedia :user="getUserById(Number(activityLog.metadata.targetUserId))" />
-  //         </RouterLink>
-  //         <OButton
-  //           v-if="isSelfUser"
-  //           size="2xs"
-  //           iconLeft="add"
-  //           rounded
-  //           variant="secondary"
-  //           data-aq-addLogItem-addUser-btn
-  //           @click="emit('addUser', Number(activityLog.metadata.targetUserId))"
-  //         />
-
   return user
     ? h(UserMedia, {
         user,
@@ -129,21 +96,23 @@ const renderLoom = (point: number) => h(Loom, { point });
 const Render = () => {
   const { metadata } = activityLog;
 
-  console.log('metadata.heirloomPoints', metadata.heirloomPoints);
-
   return h(
     I18nT,
     {
       tag: 'div',
       scope: 'global',
       keypath,
+      class: 'leading-relaxed',
     },
     {
-      clan: renderUserClan,
-      oldClanMemberRole: renderClanRole,
-      newClanMemberRole: renderClanRole,
+      clan: () => renderUserClan(Number(metadata.clanId)),
+      oldClanMemberRole: () => h(ClanRole, { role: metadata.oldClanMemberRole as ClanMemberRole }),
+      newClanMemberRole: () => h(ClanRole, { role: metadata.newClanMemberRole as ClanMemberRole }),
       ...((activityLog.userId || metadata.userId) && {
         user: () => renderUser(Number(activityLog.userId || metadata.userId)),
+      }),
+      ...(metadata.targetUserId && {
+        targetUser: () => renderUser(Number(metadata.targetUserId)),
       }),
       ...(metadata.actorUserId && {
         actorUser: () => renderUser(Number(metadata.actorUserId)),

@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { type Clan } from '@/models/clan';
 import { NotificationState } from '@/models/notificatios';
 import { type UserNotification, type UserPublic } from '@/models/user';
 import { useLocaleTimeAgo } from '@/composables/use-locale-time-ago';
-import { type CharacterPublic } from '@/models/character';
+import { ActivityLogMetadataDicts } from '@/models/activity-logs';
 
-const { notification, users, characters, clans } = defineProps<{
+const { notification, dict } = defineProps<{
   notification: UserNotification;
-  users: UserPublic[];
-  characters: CharacterPublic[];
-  clans: Clan[];
+  dict: ActivityLogMetadataDicts;
 }>();
 
 const timeAgo = useLocaleTimeAgo(notification.createdAt);
@@ -33,7 +30,8 @@ const emit = defineEmits<{
       <ActivityLogMetadata
         :keypath="`notification.tpl.${notification.type}`"
         :activityLog="notification.activityLog"
-        v-bind="{ users, characters, clans }"
+        v-bind="{ dict }"
+        class="pr-8"
       />
 
       <div class="flex items-end gap-4">

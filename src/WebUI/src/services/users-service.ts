@@ -111,18 +111,21 @@ export const mapUserToUserPublic = (user: User, userClan: Clan | null): UserPubl
 });
 
 export const getUserNotifications = async (): Promise<UserNotificationsWithDicts> => {
-  const { notifications, users, characters, clans } = await get<{
+  const { notifications, dict } = await get<{
     notifications: UserNotification[];
-    users: UserPublic[];
-    clans: ClanEdition[];
-    characters: CharacterCompetitive[];
+    dict: {
+      users: UserPublic[];
+      clans: ClanEdition[];
+      characters: CharacterCompetitive[];
+    };
   }>('/users/self/notifications');
 
   return {
     notifications,
-    users,
-    characters,
-    clans: clans.map(mapClanResponse), // TODO: mapping to backend side?
+    dict: {
+      ...dict,
+      clans: dict.clans.map(mapClanResponse), // TODO: mapping to backend side?
+    },
   };
 };
 

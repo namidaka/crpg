@@ -5,6 +5,14 @@ using Crpg.Domain.Entities.Servers;
 
 namespace Crpg.Application.Common.Services;
 
+// TODO:
+public record EntitiesFromMetadata
+{
+    public IList<int> clansIds = new List<int>();
+    public IList<int> usersIds = new List<int>();
+    public IList<int> charactersIds = new List<int>();
+}
+
 internal interface IActivityLogService
 {
     ActivityLog CreateUserCreatedLog(int userId);
@@ -37,10 +45,48 @@ internal interface IActivityLogService
     ActivityLog CreateBorrowItemFromClanArmoryLog(int userId, int clanId, UserItem userItem);
     ActivityLog CreateReturnItemToClanArmoryLog(int userId, int clanId, UserItem userItem);
     ActivityLog CreateCharacterEarnedLog(int userId, int characterId, GameMode gameMode, int experience, int gold);
+    EntitiesFromMetadata ExtractEntitiesFromMetadata(List<ActivityLog> activityLogs);
 }
 
 internal class ActivityLogService : IActivityLogService
 {
+    public EntitiesFromMetadata ExtractEntitiesFromMetadata(List<ActivityLog> activityLogs)
+    {
+        EntitiesFromMetadata output = new() { usersIds = new List<int>() };
+
+        foreach (var al in activityLogs)
+        {
+            foreach (var md in al.Metadata)
+            {
+                if (md.Key == "clanId")
+                {
+                    if (!output.clansIds.Contains(Convert.ToInt32(md.Value)))
+                    {
+                        output.clansIds.Add(Convert.ToInt32(md.Value));
+                    }
+                }
+
+                if (md.Key == "userId" || md.Key == "actorUserId")
+                {
+                    if (!output.usersIds.Contains(Convert.ToInt32(md.Value)))
+                    {
+                        output.usersIds.Add(Convert.ToInt32(md.Value));
+                    }
+                }
+
+                if (md.Key == "characterId")
+                {
+                    if (!output.charactersIds.Contains(Convert.ToInt32(md.Value)))
+                    {
+                        output.charactersIds.Add(Convert.ToInt32(md.Value));
+                    }
+                }
+            }
+        }
+
+        return output;
+    }
+
     public ActivityLog CreateUserCreatedLog(int userId)
     {
         return CreateLog(ActivityLogType.UserCreated, userId);

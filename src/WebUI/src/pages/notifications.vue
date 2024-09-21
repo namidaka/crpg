@@ -59,9 +59,7 @@ const {
         <NotificationCard
           v-for="notification in notifications.notifications"
           :notification="notification"
-          :users="notifications.users"
-          :clans="notifications.clans"
-          :characters="notifications.characters"
+          :dict="notifications.dict"
           @read="readNotification(notification.id)"
           @delete="deleteNotification(notification.id)"
         />
