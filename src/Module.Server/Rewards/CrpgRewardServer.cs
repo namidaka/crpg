@@ -1,8 +1,10 @@
 using Crpg.Module.Api;
 using Crpg.Module.Api.Models;
 using Crpg.Module.Api.Models.Characters;
+using Crpg.Module.Api.Models.Users;
 using Crpg.Module.Common;
 using Crpg.Module.Common.Network;
+using Crpg.Module.Modes.TrainingGround;
 using Crpg.Module.Modes.Warmup;
 using Crpg.Module.Rating;
 using Polly;
@@ -128,6 +130,99 @@ internal class CrpgRewardServer : MissionLogic
         _ratingResults.AddResult(affectorRating!, affectedRating!, inflictedRatio);
     }
 
+    public async Task OnDuelEnded(CrpgPeer winnerPeer, CrpgPeer loserPeer)
+    {
+        List<CrpgUserUpdate> userUpdates = new();
+        Dictionary<int, CrpgPeer> crpgPeerByCrpgUserId = new();
+        CrpgCharacterStatistics winnerStats = winnerPeer.User!.Character.Statistics;
+        CrpgCharacterStatistics loserStats = loserPeer.User!.Character.Statistics;
+        CrpgRatingPeriodResults duelResults = new();
+
+        CrpgPlayerRating winnerRating = new(winnerStats.Rating.Value, winnerStats.Rating.Deviation, winnerStats.Rating.Volatility);
+        CrpgPlayerRating loserRating = new(loserStats.Rating.Value, loserStats.Rating.Deviation, loserStats.Rating.Volatility);
+
+        CrpgUserUpdate winnerUpdate = new()
+        {
+            UserId = winnerPeer.User.Id,
+            CharacterId = winnerPeer.User.Character.Id,
+            Reward = new CrpgUserReward { Experience = 0, Gold = 0 },
+            Statistics = new CrpgCharacterStatistics
+            {
+                Kills = 1,
+                Deaths = 0,
+                Assists = 0,
+                PlayTime = TimeSpan.Zero,
+                Rating = winnerStats.Rating,
+            },
+            BrokenItems = Array.Empty<CrpgUserDamagedItem>(),
+            Instance = CrpgServerConfiguration.Instance,
+        };
+        crpgPeerByCrpgUserId[winnerUpdate.UserId] = winnerPeer;
+        _characterRatings[winnerUpdate.CharacterId] = winnerRating;
+        duelResults.AddParticipant(winnerRating);
+        userUpdates.Add(winnerUpdate);
+
+        CrpgUserUpdate loserUpdate = new()
+        {
+            UserId = loserPeer.User.Id,
+            CharacterId = loserPeer.User.Character.Id,
+            Reward = new CrpgUserReward { Experience = 0, Gold = 0 },
+            Statistics = new CrpgCharacterStatistics
+            {
+                Kills = 0,
+                Deaths = 1,
+                Assists = 0,
+                PlayTime = TimeSpan.Zero,
+                Rating = loserStats.Rating,
+            },
+            BrokenItems = Array.Empty<CrpgUserDamagedItem>(),
+            Instance = CrpgServerConfiguration.Instance,
+        };
+        crpgPeerByCrpgUserId[loserUpdate.UserId] = loserPeer;
+        _characterRatings[loserUpdate.CharacterId] = loserRating;
+        duelResults.AddParticipant(loserRating);
+        userUpdates.Add(loserUpdate);
+
+        duelResults.AddResult(winnerRating, loserRating, 1);
+        CrpgRatingCalculator.UpdateRatings(duelResults);
+
+        winnerUpdate.Statistics.Rating = GetNewRating(winnerPeer);
+        loserUpdate.Statistics.Rating = GetNewRating(loserPeer);
+
+        if (userUpdates.Count == 0)
+        {
+            return;
+        }
+
+        Guid idempotencyKey = Guid.NewGuid();
+
+        try
+        {
+            await _pipeline.ExecuteAsync(async cancellationToken =>
+            {
+                var request = new CrpgGameUsersUpdateRequest
+                {
+                    Updates = userUpdates,
+                    Key = idempotencyKey.ToString(),
+                };
+
+                SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: true);
+                var res = (await _crpgClient.UpdateUsersAsync(request)).Data!;
+                SendDuelResultToPeers(res.UpdateResults, crpgPeerByCrpgUserId, winnerUpdate.UserId);
+            });
+        }
+        catch (Exception e)
+        {
+            Debug.Print($"Couldn't update users - {e}");
+
+            SendErrorToPeers(crpgPeerByCrpgUserId);
+        }
+        finally
+        {
+            SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, loading: false);
+        }
+    }
+
     /// <summary>
     /// Update rating and statistics from the last time this method was called and also give rewards.
     /// </summary>
@@ -193,8 +288,14 @@ internal class CrpgRewardServer : MissionLogic
                 UserId = crpgPeer.User.Id,
                 CharacterId = crpgPeer.User.Character.Id,
                 Reward = new CrpgUserReward { Experience = 0, Gold = 0 },
-                Statistics = new CrpgCharacterStatistics { Kills = 0, Deaths = 0, Assists = 0, PlayTime = TimeSpan.Zero },
-                Rating = crpgPeer.User.Character.Rating,
+                Statistics = new CrpgCharacterStatistics
+                {
+                    Kills = 0,
+                    Deaths = 0,
+                    Assists = 0,
+                    PlayTime = TimeSpan.Zero,
+                    Rating = crpgPeer.User.Character.Statistics.Rating,
+                },
                 BrokenItems = Array.Empty<CrpgUserDamagedItem>(),
                 Instance = CrpgServerConfiguration.Instance,
             };
@@ -205,9 +306,14 @@ internal class CrpgRewardServer : MissionLogic
                 continue;
             }
 
+            if (updateUserStats)
+            {
+                SetStatistics(userUpdate, networkPeer, periodStats);
+            }
+
             if (_isRatingEnabled && updateUserStats)
             {
-                userUpdate.Rating = GetNewRating(crpgPeer);
+                userUpdate.Statistics.Rating = GetNewRating(crpgPeer);
             }
 
             bool isPlayerInSpectator = missionPeer.Team?.Side == BattleSideEnum.None;
@@ -217,11 +323,6 @@ internal class CrpgRewardServer : MissionLogic
                 int compensationForCrpgUser = compensationByCrpgUserId.TryGetValue(crpgUserId, out int compensation) ? compensation : 0;
                 SetRewardForConnectedPlayer(userUpdate, crpgPeer, durationRewarded, compensationForCrpgUser, isValorousPlayer,
                     defenderMultiplierGain, attackerMultiplierGain, constantMultiplier);
-
-                if (updateUserStats)
-                {
-                    SetStatistics(userUpdate, networkPeer, periodStats);
-                }
 
                 if (brokenItems.TryGetValue(crpgUserId, out var userBrokenItems))
                 {
@@ -392,7 +493,7 @@ internal class CrpgRewardServer : MissionLogic
                 return false;
             }
 
-            var characterRating = crpgPeer.User.Character.Rating;
+            var characterRating = crpgPeer.User.Character.Statistics.Rating;
             rating = new CrpgPlayerRating(characterRating.Value, characterRating.Deviation, characterRating.Volatility);
             _characterRatings[characterId] = rating;
             _ratingResults.AddParticipant(rating);
@@ -517,7 +618,7 @@ internal class CrpgRewardServer : MissionLogic
 
         if (!_characterRatings.TryGetValue(characterId, out var rating))
         {
-            return crpgPeer.User!.Character.Rating;
+            return crpgPeer.User!.Character.Statistics.Rating;
         }
 
         // Values are clamped in case there is an issue in the rating algorithm.
@@ -562,6 +663,7 @@ internal class CrpgRewardServer : MissionLogic
                 Deaths = peerPeriodStats.Deaths,
                 Assists = peerPeriodStats.Assists,
                 PlayTime = peerPeriodStats.PlayTime,
+                Rating = userUpdate.Statistics.Rating,
             };
         }
     }
@@ -615,6 +717,31 @@ internal class CrpgRewardServer : MissionLogic
                 Compensation = compensationForCrpgUser,
                 BrokeItemIds = updateResult.RepairedItems.Where(r => r.Broke).Select(r => r.ItemId).ToList(),
             });
+            GameNetwork.EndModuleEventAsServer();
+        }
+    }
+
+    private void SendDuelResultToPeers(IList<UpdateCrpgUserResult> updateResults,
+        Dictionary<int, CrpgPeer> crpgPeerByCrpgUserId, int winnerUserId)
+    {
+        foreach (var updateResult in updateResults)
+        {
+            if (!crpgPeerByCrpgUserId.TryGetValue(updateResult.User.Id, out var crpgPeer))
+            {
+                Debug.Print($"Unknown user with id '{updateResult.User.Id}'");
+                continue;
+            }
+
+            var networkPeer = crpgPeer.GetNetworkPeer();
+            if (!networkPeer.IsConnectionActive)
+            {
+                return;
+            }
+
+            crpgPeer.User = updateResult.User;
+
+            GameNetwork.BeginModuleEventAsServer(crpgPeer.GetNetworkPeer());
+            GameNetwork.WriteMessage(new TrainingGroundDuelResultMessage { HasWonDuel = updateResult.User.Id == winnerUserId ? true : false, RatingChange = (int)crpgPeer.User.Character.Statistics.Rating.CompetitiveValue });
             GameNetwork.EndModuleEventAsServer();
         }
     }

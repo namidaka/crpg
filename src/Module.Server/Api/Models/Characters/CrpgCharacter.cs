@@ -14,6 +14,7 @@ internal class CrpgCharacter
 
     public bool ForTournament { get; set; }
     public CrpgCharacterCharacteristics Characteristics { get; set; } = new();
+    public CrpgCharacterStatistics Statistics { get; set; } = new();
+
     public IList<CrpgEquippedItem> EquippedItems { get; set; } = Array.Empty<CrpgEquippedItem>();
-    public CrpgCharacterRating Rating { get; set; } = new();
 }

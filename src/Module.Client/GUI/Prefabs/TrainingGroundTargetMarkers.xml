@@ -1,0 +1,101 @@
+﻿<Prefab>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsVisible="@IsEnabled">
+      <Children>
+
+        <Widget DataSource="{Targets}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+          <ItemTemplate>
+
+            <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+              <Children>
+
+                <!--Single Card-->
+                <CrpgTrainingGroundTargetMarkerListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop" Background="CardBackground" Border="CardBackground\CardOutline" ActionText="..\ActionText" Position="@ScreenPosition" WSign="@WSign" RatingTextWidget="CardBackground\CardOutline\CardContentList\CardContentListVertical\RatingTextWidget" IsAgentInScreenBoundaries="@IsAgentInScreenBoundaries" IsTracked="@IsTracked" IsAvailable="@IsEnabled" HasTargetSentDuelRequest="@HasDuelRequestForPlayer" HasPlayerSentDuelRequest="@HasSentDuelRequest" IsAgentFocused="@IsFocused" Rating="@Rating">
+                  <Children>
+
+                    <BrushWidget Id="CardBackground" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="180" HorizontalAlignment="Center" Brush="CrpgHUD.Duel.Card.Canvas" UpdateChildrenStates="true">
+                      <Children>
+
+                        <BrushWidget Id="CardOutline" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="CrpgHUD.Duel.Card.Frame">
+                          <Children>
+
+                            <ListPanel Id="CardContentList" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalBottomToTop">
+                              <Children>
+
+                                <ListPanel Id="CardContentListHorizontal" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight" >
+                                  <Children>
+
+                                    <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center">
+                                      <Children>
+                                        <!--Name-->
+                                        <ScrollingRichTextWidget WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="160" MarginTop="8" MarginLeft="10" MarginRight="10" MarginBottom="5" Brush="CrpgHUD.Duel.Card.NameText" Text="@Name" IsVisible="@IsTracked" />
+                                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" Brush="CrpgHUD.Duel.Card.NameText" Text="@Name" IsHidden="@IsTracked" />
+
+                                      </Children>
+                                    </Widget>
+
+                                  </Children>
+                                </ListPanel>
+
+                                <ListPanel Id="CardContentListVertical" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="VerticalTopToBottom" MarginLeft="10" MarginRight="10" IsVisible="@ShouldShowInformation">
+                                  <Children>
+                                    <!--Record-->
+                                    <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight">
+                                      <Children>
+                                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="CrpgHUD.Duel.Card.RecordText.Win" BrushLayer="Win" IntText="@DuelsWon" />
+                                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="CrpgHUD.Duel.Card.RecordText.Seperator" BrushLayer="Default" Text="-" />
+                                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="CrpgHUD.Duel.Card.RecordText.Loss" BrushLayer="Loss" IntText="@DuelsLost" />
+                                      </Children>
+                                    </ListPanel>
+                                    <!--Rating-->
+                                    <TextWidget Id="RatingTextWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" IntText="@Rating" Brush="CrpgHUD.Duel.Card.RatingText"/>
+
+                                  </Children>
+                                </ListPanel>
+
+                                <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" MarginBottom="10" MarginLeft="10" MarginRight="10" StackLayout.LayoutMethod="VerticalBottomToTop" IsVisible="@ShouldShowInformation">
+                                  <Children>
+                                    <!--Level-->
+                                    <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" StackLayout.LayoutMethod="HorizontalLeftToRight">
+                                      <Children>
+                                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="CrpgHUD.Duel.Card.DescriptionText" Text="@LevelText"/>
+                                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="CrpgHUD.Duel.Card.DescriptionText" IntText="@Level"/>
+                                      </Children>
+                                    </ListPanel>
+                                    <!--Clan-->
+                                    <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" StackLayout.LayoutMethod="HorizontalLeftToRight">
+                                      <Children>
+                                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginTop="4" Brush="CrpgHUD.Duel.Card.DescriptionText" Text="@ClanText" />
+                                        <ScrollingRichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" SuggestedWidth="150" MarginTop="4" PositionYOffset="1" Brush="CrpgHUD.Duel.Card.DescriptionText" Text="@Clan" />
+                                      </Children>
+                                    </ListPanel>
+
+                                  </Children>
+                                </ListPanel>
+
+                              </Children>
+                            </ListPanel>
+
+                          </Children>
+                        </BrushWidget>
+
+                      </Children>
+                    </BrushWidget>
+
+                  </Children>
+                </CrpgTrainingGroundTargetMarkerListPanel>
+
+                <!--Action-->
+                <RichTextWidget Id="ActionText" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" Brush="CrpgHUD.Duel.Card.ActionText" MarginTop="8" Text="@ActionDescriptionText" IsVisible="@IsFocused"/>
+
+
+              </Children>
+            </Widget>
+
+          </ItemTemplate>
+        </Widget>
+
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

@@ -28,3 +28,5 @@ export const characterItemsStatsKey: InjectionKey<ComputedRef<CharacterOverallIt
 
 export const equippedItemsBySlotKey: InjectionKey<ComputedRef<EquippedItemsBySlot>> =
   Symbol('EquippedItemsBySlot');
+
+export const loadCharacterStatisticsKey = Symbol('loadCharacterStatistics');

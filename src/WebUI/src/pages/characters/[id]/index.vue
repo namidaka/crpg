@@ -9,7 +9,11 @@ import {
   freeRespecializePostWindowHours,
 } from '@root/data/constants.json';
 import { useUserStore } from '@/stores/user';
-import { characterKey, characterCharacteristicsKey } from '@/symbols/character';
+import {
+  characterKey,
+  characterCharacteristicsKey,
+  loadCharacterStatisticsKey,
+} from '@/symbols/character';
 import { msToHours, parseTimestamp } from '@/utils/date';
 import { percentOf } from '@/utils/math';
 import { GameMode } from '@/models/game-mode';
@@ -19,7 +23,6 @@ import {
   getExperienceForLevel,
   getCharacterStatistics,
   getDefaultCharacterStatistics,
-  getCharacterRating,
   getCharacterLimitations,
   respecializeCharacter,
   canRetireValidate,
@@ -37,7 +40,7 @@ import {
 import { createRankTable } from '@/services/leaderboard-service';
 import { usePollInterval } from '@/composables/use-poll-interval';
 import { useGameMode } from '@/composables/use-game-mode';
-import { gameModeToIcon } from '@/services/game-mode-service';
+import { gameModeToIcon, checkIsRankedGameMode } from '@/services/game-mode-service';
 
 definePage({
   meta: {
@@ -104,23 +107,7 @@ const onSetCharacterForTournament = async () => {
 
 const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
   ({ id }: { id: number }) => getCharacterStatistics(id),
-  {
-    [GameMode.Battle]: getDefaultCharacterStatistics(),
-  },
-  {
-    immediate: false,
-    resetOnExecute: false,
-  }
-);
-
-const { state: characterRating, execute: loadCharacterRating } = useAsyncState(
-  ({ id }: { id: number }) => getCharacterRating(id),
-  {
-    value: 0,
-    deviation: 0,
-    volatility: 0,
-    competitiveValue: 0,
-  },
+  {},
   {
     immediate: false,
     resetOnExecute: false,
@@ -128,14 +115,15 @@ const { state: characterRating, execute: loadCharacterRating } = useAsyncState(
 );
 
 const { subscribe, unsubscribe } = usePollInterval();
-const loadCharacterRatingSymbol = Symbol('loadCharacterRating');
 
 onMounted(() => {
-  subscribe(loadCharacterRatingSymbol, () => loadCharacterRating(0, { id: character.value.id }));
+  subscribe(loadCharacterStatisticsKey, () =>
+    loadCharacterStatistics(0, { id: character.value.id })
+  );
 });
 
 onBeforeUnmount(() => {
-  unsubscribe(loadCharacterRatingSymbol);
+  unsubscribe(loadCharacterStatisticsKey);
 });
 
 const rankTable = computed(() => createRankTable());
@@ -149,15 +137,17 @@ const { state: characterLimitations, execute: loadCharacterLimitations } = useAs
   }
 );
 
-const currentGameMode = ref<GameMode>(GameMode.Battle);
-const selectedCharacterStatistics = computed(
-  () => characterStatistics.value[currentGameMode.value] || getDefaultCharacterStatistics()
+const gameMode = ref<GameMode>(GameMode.Battle);
+const isRankedGameMode = computed(() => checkIsRankedGameMode(gameMode.value));
+
+const gameModeCharacterStatistics = computed(
+  () => characterStatistics.value[gameMode.value] || getDefaultCharacterStatistics()
 );
 
 const kdaRatio = computed(() =>
-  selectedCharacterStatistics.value.deaths === 0
+  gameModeCharacterStatistics.value.deaths === 0
     ? '∞'
-    : getCharacterKDARatio(selectedCharacterStatistics.value)
+    : getCharacterKDARatio(gameModeCharacterStatistics.value)
 );
 
 const experienceMultiplierBonus = computed(() =>
@@ -170,12 +160,12 @@ const retireTableData = computed(() => getHeirloomPointByLevelAggregation());
 const fetchPageData = (characterId: number) =>
   Promise.all([
     loadCharacterStatistics(0, { id: characterId }),
-    loadCharacterRating(0, { id: characterId }),
     loadCharacterLimitations(0, { id: characterId }),
   ]);
 
 onBeforeRouteUpdate(async (to, from) => {
   if (to.name === from.name) {
+    // @ts-expect-error
     await fetchPageData(Number(to.params.id));
   }
   return true;
@@ -303,7 +293,7 @@ await fetchPageData(character.value.id);
 
         <template v-if="!character.forTournament">
           <div class="flex justify-center">
-            <OTabs v-model="currentGameMode" contentClass="hidden">
+            <OTabs v-model="gameMode" contentClass="hidden">
               <OTabItem
                 v-for="gm in gameModes"
                 :label="$t(`game-mode.${gm}`, 0)"
@@ -315,19 +305,22 @@ await fetchPageData(character.value.id);
 
           <div class="grid grid-cols-2 gap-2 text-2xs">
             <!-- COMPETITIVE RANK -->
-            <SimpleTableRow :label="$t('character.statistics.rank.title')">
+            <SimpleTableRow v-if="isRankedGameMode" :label="$t('character.statistics.rank.title')">
               <Tooltip
                 :title="$t('character.statistics.rank.tooltip.title')"
                 :description="$t('character.statistics.rank.tooltip.desc')"
               >
-                <Rank :rankTable="rankTable" :competitiveValue="characterRating.competitiveValue" />
+                <Rank
+                  :rankTable="rankTable"
+                  :competitiveValue="gameModeCharacterStatistics.rating.competitiveValue"
+                />
               </Tooltip>
               <Modal closable>
-                <Tag icon="popup" variant="primary" rounded size="sm" />
+                <Tag icon="help-circle" rounded size="lg" variant="primary" />
                 <template #popper>
                   <RankTable
                     :rankTable="rankTable"
-                    :competitiveValue="characterRating.competitiveValue"
+                    :competitiveValue="gameModeCharacterStatistics.rating.competitiveValue"
                   />
                 </template>
               </Modal>
@@ -338,9 +331,9 @@ await fetchPageData(character.value.id);
               :label="$t('character.statistics.kda.title')"
               :value="
                 $t('character.format.kda', {
-                  kills: selectedCharacterStatistics.kills,
-                  deaths: selectedCharacterStatistics.deaths,
-                  assists: selectedCharacterStatistics.assists,
+                  kills: gameModeCharacterStatistics.kills,
+                  deaths: gameModeCharacterStatistics.deaths,
+                  assists: gameModeCharacterStatistics.assists,
                   ratio: kdaRatio,
                 })
               "
@@ -353,7 +346,7 @@ await fetchPageData(character.value.id);
             <SimpleTableRow
               :label="$t('character.statistics.playTime.title')"
               :value="
-                $t('dateTimeFormat.hh', { hours: msToHours(selectedCharacterStatistics.playTime) })
+                $t('dateTimeFormat.hh', { hours: msToHours(gameModeCharacterStatistics.playTime) })
               "
             />
           </div>

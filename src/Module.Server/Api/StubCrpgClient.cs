@@ -5,6 +5,7 @@ using Crpg.Module.Api.Models.Clans;
 using Crpg.Module.Api.Models.Items;
 using Crpg.Module.Api.Models.Restrictions;
 using Crpg.Module.Api.Models.Users;
+using Crpg.Module.Common;
 using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
 
@@ -74,11 +75,19 @@ internal class StubCrpgClient : ICrpgClient
                     GetRandomEquippedItem(CrpgItemSlot.Weapon1, ItemObject.ItemTypeEnum.Crossbow),
                     GetRandomEquippedItem(CrpgItemSlot.Weapon2, ItemObject.ItemTypeEnum.Bolts),
                 },
-                Rating = new CrpgCharacterRating
+                Statistics =
+                new()
                 {
-                    Volatility = 0,
-                    Deviation = 0,
-                    Value = 0,
+                    Kills = 0,
+                    Deaths = 0,
+                    Assists = 0,
+                    PlayTime = TimeSpan.FromSeconds(0),
+                    Rating = new CrpgCharacterRating
+                    {
+                        Value = 0,
+                        Deviation = 0,
+                        Volatility = 0,
+                    },
                 },
             },
             Restrictions = Array.Empty<CrpgRestriction>(),
@@ -90,7 +99,7 @@ internal class StubCrpgClient : ICrpgClient
 
     public Task<CrpgResult<CrpgUser>> GetTournamentUserAsync(Platform platform, string platformUserId, CancellationToken cancellationToken = default)
     {
-        return GetUserAsync(platform, platformUserId, CrpgRegion.Eu, cancellationToken);
+        return GetUserAsync(platform, platformUserId, CrpgRegion.Eu, cancellationToken: cancellationToken);
     }
 
     public Task CreateActivityLogsAsync(IList<CrpgActivityLog> activityLogs, CancellationToken cancellationToken = default)

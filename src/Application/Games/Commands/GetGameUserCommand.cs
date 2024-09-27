@@ -8,6 +8,7 @@ using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
 using FluentValidation;
@@ -25,6 +26,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
     public Platform Platform { get; init; }
     public string PlatformUserId { get; init; } = default!;
     public Region Region { get; init; }
+    public string Instance { get; init; } = string.Empty;
 
     public class Validator : AbstractValidator<GetGameUserCommand>
     {
@@ -135,10 +137,11 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
         private readonly IUserService _userService;
         private readonly ICharacterService _characterService;
         private readonly IActivityLogService _activityLogService;
+        private readonly IGameModeService _gameModeService;
 
         public Handler(ICrpgDbContext db, IMapper mapper, IDateTime dateTime,
             IRandom random, IUserService userService, ICharacterService characterService,
-            IActivityLogService activityLogService)
+            IActivityLogService activityLogService, IGameModeService gameModeService)
         {
             _db = db;
             _mapper = mapper;
@@ -147,6 +150,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
             _userService = userService;
             _characterService = characterService;
             _activityLogService = activityLogService;
+            _gameModeService = gameModeService;
         }
 
         public async Task<Result<GameUserViewModel>> Handle(GetGameUserCommand req, CancellationToken cancellationToken)
@@ -211,6 +215,35 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                     .Query()
                     .Include(ei => ei.UserItem)
                     .LoadAsync(cancellationToken);
+
+                if (!Enum.TryParse(req.Instance, true, out GameModeAlias instanceAlias))
+                {
+                    instanceAlias = GameModeAlias.Z; // Default value if parsing fails.
+                }
+
+                GameMode currentGameMode = _gameModeService.GameModeByInstanceAlias(instanceAlias);
+
+                var statistics = await _db.Entry(user.ActiveCharacter)
+                    .Collection(c => c.Statistics)
+                    .Query()
+                    .Where(s => s.GameMode == currentGameMode)
+                    .Include(s => s.Rating)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken);
+
+                var statistic = statistics.FirstOrDefault();
+
+                if (statistic == null)
+                {
+                    user.ActiveCharacter.Statistics.Add(new CharacterStatistics { GameMode = currentGameMode });
+                    _characterService.ResetRating(user.ActiveCharacter, currentGameMode);
+                    await _db.SaveChangesAsync(cancellationToken);
+
+                    statistic = user.ActiveCharacter.Statistics.First(s => s.GameMode == currentGameMode);
+                }
+
+                // Only load the relevant statistic for the gameMode
+                user.ActiveCharacter.Statistics = new List<CharacterStatistics> { statistic };
             }
 
             var gameUser = _mapper.Map<GameUserViewModel>(user);

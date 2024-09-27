@@ -1,7 +1,7 @@
 ﻿using Crpg.Application.Characters.Queries;
-using Crpg.Application.Common.Results;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
+using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Users;
 using Microsoft.Extensions.Caching.Memory;
 using NUnit.Framework;
@@ -42,12 +42,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = orle.Id,
             User = orle,
             Class = CharacterClass.Infantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1800,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1800,
+                        },
+                    }
+                },
             },
         };
         Character takeoCharacter = new()
@@ -56,12 +69,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = takeo.Id,
             User = takeo,
             Class = CharacterClass.ShockInfantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1500,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1500,
+                        },
+                    }
+                },
             },
         };
 
@@ -71,12 +97,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = namidaka.Id,
             User = namidaka,
             Class = CharacterClass.Archer,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1400,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1400,
+                        },
+                    }
+                },
             },
         };
 
@@ -86,12 +125,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = lemon.Id,
             User = lemon,
             Class = CharacterClass.Crossbowman,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1000,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1000,
+                        },
+                    }
+                },
             },
         };
         ArrangeDb.Users.Add(orle);
@@ -111,6 +163,91 @@ public class GetLeaderboardQueryTest : TestBase
         Assert.That(result.Data, Is.Not.Null);
         Assert.That(result.Data!.First().Class, Is.EqualTo(CharacterClass.Infantry));
         Assert.That(result.Data!.Last().Class, Is.EqualTo(CharacterClass.Crossbowman));
+    }
+
+    [Test]
+    public async Task OtherGameModeLeaderboardTest()
+    {
+        User orle = new()
+        {
+            Name = "Orle",
+            Region = Domain.Entities.Region.Eu,
+        };
+
+        User droob = new()
+        {
+            Name = "Droob",
+            Region = Domain.Entities.Region.Eu,
+        };
+
+        Character orleCharacter = new()
+        {
+            Name = "shielder",
+            UserId = orle.Id,
+            User = orle,
+            Class = CharacterClass.Infantry,
+            Statistics = new List<CharacterStatistics>
+            {
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGDuel,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1800,
+                        },
+                    }
+                },
+            },
+        };
+        Character droobCharacter = new()
+        {
+            Name = "2h",
+            UserId = droob.Id,
+            User = droob,
+            Class = CharacterClass.ShockInfantry,
+            Statistics = new List<CharacterStatistics>
+            {
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGDuel,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1500,
+                        },
+                    }
+                },
+            },
+        };
+
+        ArrangeDb.Users.Add(orle);
+        ArrangeDb.Users.Add(droob);
+        ArrangeDb.Characters.Add(droobCharacter);
+        ArrangeDb.Characters.Add(orleCharacter);
+        await ArrangeDb.SaveChangesAsync();
+
+        GetLeaderboardQuery.Handler handler = new(ActDb, Mapper, new MemoryCache(new MemoryCacheOptions()));
+        var result = await handler.Handle(new GetLeaderboardQuery { GameMode = GameMode.CRPGDuel }, CancellationToken.None);
+
+        Assert.That(result.Errors, Is.Null);
+        Assert.That(result.Data, Is.Not.Null);
+        Assert.That(result.Data!.First().Class, Is.EqualTo(CharacterClass.Infantry));
+        Assert.That(result.Data!.Last().Class, Is.EqualTo(CharacterClass.ShockInfantry));
     }
 
     [Test]
@@ -145,12 +282,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = orle.Id,
             User = orle,
             Class = CharacterClass.Infantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1800,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1800,
+                        },
+                    }
+                },
             },
         };
         Character takeoCharacter = new()
@@ -159,12 +309,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = takeo.Id,
             User = takeo,
             Class = CharacterClass.ShockInfantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1500,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1500,
+                        },
+                    }
+                },
             },
         };
 
@@ -174,12 +337,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = namidaka.Id,
             User = namidaka,
             Class = CharacterClass.Archer,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1400,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1400,
+                        },
+                    }
+                },
             },
         };
 
@@ -189,12 +365,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = lemon.Id,
             User = lemon,
             Class = CharacterClass.Crossbowman,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1000,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1000,
+                        },
+                    }
+                },
             },
         };
         ArrangeDb.Users.Add(orle);
@@ -245,12 +434,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = orle.Id,
             User = orle,
             Class = CharacterClass.Infantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1800,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1800,
+                        },
+                    }
+                },
             },
         };
         ArrangeDb.Users.Add(orle);
@@ -290,12 +492,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = orle.Id,
             User = orle,
             Class = CharacterClass.Infantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1800,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1800,
+                        },
+                    }
+                },
             },
         };
         Character takeoCharacter = new()
@@ -304,12 +519,25 @@ public class GetLeaderboardQueryTest : TestBase
             UserId = takeo.Id,
             User = takeo,
             Class = CharacterClass.ShockInfantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1500,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1500,
+                        },
+                    }
+                },
             },
         };
 
@@ -343,12 +571,25 @@ public class GetLeaderboardQueryTest : TestBase
             Name = "shielder",
             User = orle,
             Class = CharacterClass.Infantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1800,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1800,
+                        },
+                    }
+                },
             },
         };
         Character orleCharacter2 = new()
@@ -356,12 +597,25 @@ public class GetLeaderboardQueryTest : TestBase
             Name = "2h",
             User = orle,
             Class = CharacterClass.ShockInfantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1500,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1500,
+                        },
+                    }
+                },
             },
         };
 
@@ -392,12 +646,25 @@ public class GetLeaderboardQueryTest : TestBase
             Name = "shielder",
             User = orle,
             Class = CharacterClass.Infantry,
-            Rating = new()
+            Statistics = new List<CharacterStatistics>
             {
-                Value = 50,
-                Deviation = 100,
-                Volatility = 100,
-                CompetitiveValue = 1800,
+                {
+                    new CharacterStatistics
+                    {
+                        Kills = 1,
+                        Deaths = 30,
+                        Assists = 10,
+                        PlayTime = new TimeSpan(10, 7, 5, 20),
+                        GameMode = GameMode.CRPGBattle,
+                        Rating = new()
+                        {
+                            Value = 50,
+                            Deviation = 100,
+                            Volatility = 100,
+                            CompetitiveValue = 1800,
+                        },
+                    }
+                },
             },
         };
 

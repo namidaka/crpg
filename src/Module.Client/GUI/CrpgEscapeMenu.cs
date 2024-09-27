@@ -1,4 +1,5 @@
 ﻿using Crpg.Module.Modes.Duel;
+using Crpg.Module.Modes.TrainingGround;
 using NetworkMessages.FromClient;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -35,6 +36,10 @@ internal class CrpgEscapeMenu : MissionGauntletMultiplayerEscapeMenu
         if (_gameModeClient is CrpgDuelMissionMultiplayerClient)
         {
             AddDuelModeOptions(items);
+        }
+        else if (_gameModeClient is CrpgTrainingGroundMissionMultiplayerClient)
+        {
+            AddTrainingGroundOptions(items);
         }
 
         items.Insert(items.Count - 2, crpgWebsiteButton); // -2 = Insert new button right before the 'Options' button
@@ -79,6 +84,31 @@ internal class CrpgEscapeMenu : MissionGauntletMultiplayerEscapeMenu
         items.InsertRange(items.Count - 2, newButtons);
     }
 
+    private void AddTrainingGroundOptions(List<EscapeMenuItemVM> items)
+    {
+        MissionPeer component = GameNetwork.MyPeer.GetComponent<MissionPeer>();
+
+        if (component == null || component.Team == null || component.Representative is not CrpgTrainingGroundMissionRepresentative)
+        {
+            return;
+        }
+
+        var duelBehavior = Mission.GetMissionBehavior<CrpgTrainingGroundMissionMultiplayerClient>();
+        if (duelBehavior?.IsInDuel ?? false)
+        {
+            return;
+        }
+
+        EscapeMenuItemVM preferredArenaInfButton = new(new TextObject("{=}Refresh Character"), _ =>
+        {
+            RefreshCharacter();
+            OnEscapeMenuToggled(false);
+        }, null, () => Tuple.Create(false, TextObject.Empty));
+
+        List<EscapeMenuItemVM> newButtons = new() { preferredArenaInfButton };
+        items.InsertRange(items.Count - 2, newButtons);
+    }
+
     private void DuelModeChangeArena(TroopType troopType)
     {
         MissionPeer component = GameNetwork.MyPeer.GetComponent<MissionPeer>();
@@ -97,5 +127,24 @@ internal class CrpgEscapeMenu : MissionGauntletMultiplayerEscapeMenu
         GameNetwork.WriteMessage(new RequestChangePreferredTroopType(troopType));
         GameNetwork.EndModuleEventAsClient();
         duelRepresentative.OnMyPreferredZoneChanged?.Invoke(troopType);
+    }
+
+    private void RefreshCharacter()
+    {
+        MissionPeer component = GameNetwork.MyPeer.GetComponent<MissionPeer>();
+        if (component == null || component.Team == null || component.Representative is not CrpgTrainingGroundMissionRepresentative duelRepresentative)
+        {
+            return;
+        }
+
+        if (component.Team.IsDefender)
+        {
+            InformationManager.DisplayMessage(new InformationMessage(new TextObject("{=}Can't refresh character while you are in a duel.").ToString()));
+            return;
+        }
+
+        GameNetwork.BeginModuleEventAsClient();
+        GameNetwork.WriteMessage(new ClientRequestRefreshCharacter());
+        GameNetwork.EndModuleEventAsClient();
     }
 }

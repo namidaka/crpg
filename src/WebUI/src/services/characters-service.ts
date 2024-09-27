@@ -44,7 +44,6 @@ import {
   type CharacterArmorOverall,
   CharacterArmorOverallKey,
   type CharacterLimitations,
-  type CharacterRating,
   type CharacteristicKey,
 } from '@/models/character';
 import { ItemSlot, ItemType, type Item, type ItemArmorComponent } from '@/models/item';
@@ -56,9 +55,8 @@ import { armorTypes, computeAverageRepairCostPerHour } from '@/services/item-ser
 import { t } from '@/services/translate-service';
 
 import { applyPolynomialFunction, clamp, roundFLoat } from '@/utils/math';
-import { computeLeftMs, parseTimestamp } from '@/utils/date';
-import { range, groupBy, getIndexToIns } from '@/utils/array';
-
+import { computeLeftMs } from '@/utils/date';
+import { range, getIndexToIns } from '@/utils/array';
 import { GameMode } from '@/models/game-mode';
 
 export const getCharacters = () => get<Character[]>('/users/self/characters');
@@ -111,7 +109,17 @@ export const getDefaultCharacterStatistics = (): CharacterStatistics => ({
   deaths: 0,
   assists: 0,
   playTime: 0,
+  gameMode: GameMode.Battle,
+  rating: { competitiveValue: 0, value: 0, deviation: 0, volatility: 0 },
 });
+
+export const getCompetitiveValueByGameMode = (
+  statistics: CharacterStatistics[],
+  gameMode: GameMode
+) => {
+  const statisticByGameMode = statistics.find(s => s.gameMode === gameMode);
+  return statisticByGameMode ? statisticByGameMode.rating.competitiveValue : 0;
+};
 
 export enum CharacterEarningType {
   'Exp' = 'Exp',
@@ -154,9 +162,6 @@ export const getCharacterEarningStatistics = async (
     return out;
   }, [] as TimeSeries[]);
 };
-
-export const getCharacterRating = (characterId: number) =>
-  get<CharacterRating>(`/users/self/characters/${characterId}/rating`);
 
 export const getCharacterLimitations = async (characterId: number) =>
   (await get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`)) || {

@@ -31,7 +31,7 @@ public class ResetCharacterRatingCommandTest : TestBase
             UserId = character.UserId,
         }, CancellationToken.None);
 
-        characterServiceMock.Verify(cs => cs.ResetRating(It.IsAny<Character>()));
+        characterServiceMock.Verify(cs => cs.ResetAllRatings(It.IsAny<Character>()));
     }
 
     [Test]

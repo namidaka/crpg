@@ -117,6 +117,7 @@ public record SeedDataCommand : IMediatorRequest
                 PlatformUserId = "76561198023558734",
                 Platform = Platform.Steam,
                 Name = "droob",
+                ActiveCharacterId = 8,
                 Role = Role.Admin,
                 Gold = 1000000,
                 HeirloomPoints = 12,
@@ -674,11 +675,18 @@ public record SeedDataCommand : IMediatorRequest
                     {
                         new CharacterStatistics
                         {
-                            Kills = 2,
-                            Deaths = 3,
-                            Assists = 6,
-                            PlayTime = new TimeSpan(0, 10, 50, 20),
-                            GameMode = GameMode.CRPGBattle,
+                            Kills = 1,
+                            Deaths = 30,
+                            Assists = 10,
+                            PlayTime = new TimeSpan(10, 7, 5, 20),
+                            GameMode = GameMode.CRPGDuel,
+                            Rating = new()
+                            {
+                                Value = 2990,
+                                Deviation = 350,
+                                Volatility = 0.06f,
+                                CompetitiveValue = 2990,
+                            },
                         }
                     },
                 },
@@ -731,6 +739,26 @@ public record SeedDataCommand : IMediatorRequest
                 Name = "namichar",
                 Level = 10,
                 Experience = 146457,
+                Statistics = new List<CharacterStatistics>
+                {
+                    {
+                        new CharacterStatistics
+                        {
+                            Kills = 1,
+                            Deaths = 30,
+                            Assists = 10,
+                            PlayTime = new TimeSpan(10, 7, 5, 20),
+                            GameMode = GameMode.CRPGDuel,
+                            Rating = new()
+                            {
+                                Value = 2400,
+                                Deviation = 350,
+                                Volatility = 0.06f,
+                                CompetitiveValue = 2400,
+                            },
+                        }
+                    },
+                },
             };
             Character orleCharacter0 = new()
             {
@@ -748,7 +776,14 @@ public record SeedDataCommand : IMediatorRequest
                             Deaths = 3,
                             Assists = 6,
                             PlayTime = new TimeSpan(365, 0, 0, 20),
-                            GameMode = GameMode.CRPGBattle,
+                            GameMode = GameMode.CRPGDuel,
+                            Rating = new()
+                            {
+                                Value = 1900,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1900,
+                            },
                         }
                     },
                 },
@@ -756,13 +791,6 @@ public record SeedDataCommand : IMediatorRequest
                 {
                     Attributes = new CharacterAttributes { Points = 100 },
                     Skills = new CharacterSkills { Points = 100 },
-                },
-                Rating = new()
-                {
-                    Value = 50,
-                    Deviation = 100,
-                    Volatility = 100,
-                    CompetitiveValue = 1900,
                 },
             };
 
@@ -797,6 +825,13 @@ public record SeedDataCommand : IMediatorRequest
                             Assists = 10,
                             PlayTime = new TimeSpan(10, 7, 5, 20),
                             GameMode = GameMode.CRPGBattle,
+                            Rating = new()
+                            {
+                                Value = 1500,
+                                Deviation = 350,
+                                Volatility = 0.06f,
+                                CompetitiveValue = 600,
+                            },
                         }
                     },
                     {
@@ -807,16 +842,30 @@ public record SeedDataCommand : IMediatorRequest
                             Assists = 10,
                             PlayTime = new TimeSpan(100, 3, 50, 15),
                             GameMode = GameMode.CRPGConquest,
+                            Rating = new()
+                            {
+                                Value = 1200,
+                                Deviation = 100,
+                                Volatility = 100,
+                                CompetitiveValue = 1200,
+                            },
                         }
                     },
                     {
                         new CharacterStatistics
                         {
-                            Kills = 5,
-                            Deaths = 5,
+                            Kills = 133,
+                            Deaths = 7,
                             Assists = 0,
-                            PlayTime = new TimeSpan(0, 8, 1, 15),
+                            PlayTime = new TimeSpan(100, 3, 50, 15),
                             GameMode = GameMode.CRPGDuel,
+                            Rating = new()
+                            {
+                                Value = 5000,
+                                Deviation = 5,
+                                Volatility = 0.05f,
+                                CompetitiveValue = 5000,
+                            },
                         }
                     },
                 },
@@ -824,13 +873,6 @@ public record SeedDataCommand : IMediatorRequest
                 {
                     Attributes = new CharacterAttributes { Points = 100 },
                     Skills = new CharacterSkills { Points = 100 },
-                },
-                Rating = new()
-                {
-                    Value = 50,
-                    Deviation = 100,
-                    Volatility = 100,
-                    CompetitiveValue = 1900,
                 },
             };
             Character kadseCharacter0 = new()
@@ -845,11 +887,18 @@ public record SeedDataCommand : IMediatorRequest
                     {
                         new CharacterStatistics
                         {
-                            Kills = 2,
-                            Deaths = 3,
-                            Assists = 6,
-                            PlayTime = new TimeSpan(365, 0, 0, 20),
-                            GameMode = GameMode.CRPGBattle,
+                            Kills = 1,
+                            Deaths = 30,
+                            Assists = 10,
+                            PlayTime = new TimeSpan(10, 7, 5, 20),
+                            GameMode = GameMode.CRPGDuel,
+                            Rating = new()
+                            {
+                                Value = 50,
+                                Deviation = 350,
+                                Volatility = 0.06f,
+                                CompetitiveValue = 50,
+                            },
                         }
                     },
                 },

@@ -6,11 +6,18 @@ using Crpg.Module.Modes.Dtv;
 using Crpg.Module.Modes.Duel;
 using Crpg.Module.Modes.Siege;
 using Crpg.Module.Modes.TeamDeathmatch;
+using Crpg.Module.Modes.TrainingGround;
 using Newtonsoft.Json;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.InputSystem;
+using TaleWorlds.Engine.InputSystem;
+
+using TaleWorlds.MountAndBlade.GameKeyCategory;
+
+
 
 #if CRPG_SERVER
 using TaleWorlds.MountAndBlade.DedicatedCustomServer;
@@ -62,7 +69,7 @@ internal class CrpgSubModule : MBSubModuleBase
         TaleWorlds.MountAndBlade.Module.CurrentModule.AddMultiplayerGameMode(new CrpgTeamDeathmatchGameMode(_constants));
         TaleWorlds.MountAndBlade.Module.CurrentModule.AddMultiplayerGameMode(new CrpgDuelGameMode(_constants));
         TaleWorlds.MountAndBlade.Module.CurrentModule.AddMultiplayerGameMode(new CrpgDtvGameMode(_constants));
-
+        TaleWorlds.MountAndBlade.Module.CurrentModule.AddMultiplayerGameMode(new CrpgTrainingGroundGameMode(_constants));
 #if CRPG_SERVER
         CrpgServerConfiguration.Init();
         CrpgFeatureFlags.Init();
@@ -73,11 +80,11 @@ internal class CrpgSubModule : MBSubModuleBase
             new TextObject("Export Data"), 4578, ExportData, () => (false, null)));
 #endif
 
-        // Uncomment to start watching UI changes.
+    // Uncomment to start watching UI changes.
 #if CRPG_CLIENT
-        // UIResourceManager.UIResourceDepot.StartWatchingChangesInDepot();
+    // UIResourceManager.UIResourceDepot.StartWatchingChangesInDepot();
 #endif
-    }
+}
 
     protected override void InitializeGameStarter(Game game, IGameStarter starterObject)
     {

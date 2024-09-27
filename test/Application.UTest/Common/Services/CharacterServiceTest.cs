@@ -195,11 +195,18 @@ public class CharacterServiceTest
     {
         Character character = new()
         {
-            Rating = new CharacterRating
+            Statistics = new List<CharacterStatistics>()
             {
-                Value = 1,
-                Deviation = 2,
-                Volatility = 3,
+                new()
+                {
+                    GameMode = GameMode.CRPGBattle,
+                    Rating = new CharacterRating
+                    {
+                        Value = 1,
+                        Deviation = 2,
+                        Volatility = 3,
+                    },
+                },
             },
         };
 
@@ -209,12 +216,12 @@ public class CharacterServiceTest
             .Returns(4);
 
         CharacterService characterService = new(ExperienceTable, competitiveRatingModelMock.Object, Constants);
-        characterService.UpdateRating(character, 4, 5, 6);
+        characterService.UpdateRating(character, GameMode.CRPGBattle, 4, 5, 6);
 
-        Assert.That(character.Rating.Value, Is.EqualTo(4));
-        Assert.That(character.Rating.Deviation, Is.EqualTo(5));
-        Assert.That(character.Rating.Volatility, Is.EqualTo(6));
-        Assert.That(character.Rating.CompetitiveValue, Is.EqualTo(4));
+        Assert.That(character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle)?.Rating.Value, Is.EqualTo(4));
+        Assert.That(character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle)?.Rating.Deviation, Is.EqualTo(5));
+        Assert.That(character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle)?.Rating.Volatility, Is.EqualTo(6));
+        Assert.That(character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle)?.Rating.CompetitiveValue, Is.EqualTo(4));
     }
 
     [Test]
@@ -222,11 +229,18 @@ public class CharacterServiceTest
     {
         Character character = new()
         {
-            Rating = new CharacterRating
+            Statistics = new List<CharacterStatistics>()
             {
-                Value = 1,
-                Deviation = 2,
-                Volatility = 3,
+                new()
+                {
+                    GameMode = GameMode.CRPGBattle,
+                    Rating = new CharacterRating
+                    {
+                        Value = 1,
+                        Deviation = 2,
+                        Volatility = 3,
+                    },
+                },
             },
         };
 
@@ -236,12 +250,12 @@ public class CharacterServiceTest
             .Returns(4);
 
         CharacterService characterService = new(ExperienceTable, competitiveRatingModelMock.Object, Constants);
-        characterService.ResetRating(character);
+        characterService.ResetAllRatings(character);
 
-        Assert.That(character.Rating.Value, Is.EqualTo(Constants.DefaultRating));
-        Assert.That(character.Rating.Deviation, Is.EqualTo(Constants.DefaultRatingDeviation));
-        Assert.That(character.Rating.Volatility, Is.EqualTo(Constants.DefaultRatingVolatility));
-        Assert.That(character.Rating.CompetitiveValue, Is.EqualTo(4));
+        Assert.That(character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle)?.Rating.Value, Is.EqualTo(Constants.DefaultRating));
+        Assert.That(character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle)?.Rating.Deviation, Is.EqualTo(Constants.DefaultRatingDeviation));
+        Assert.That(character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle)?.Rating.Volatility, Is.EqualTo(Constants.DefaultRatingVolatility));
+        Assert.That(character.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle)?.Rating.CompetitiveValue, Is.EqualTo(4));
     }
 
     [TestCase(31, 1.00f, 1, 1.03f)]

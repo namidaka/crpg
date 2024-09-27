@@ -35,10 +35,18 @@
   <string id="str_multiplayer_official_game_type_explainer.cRPGDTV" text="{=bp8JJZpG}·   Defend the Viscount from waves of enemies!{newline}·   Earn rewards for protection!{newline}·   Upgrade your character on c-rpg.eu" />
   <string id="str_multiplayer_game_type.cRPGDTV" text="{=3uoZAXxh}Defend The Viscount" />
 
+  <!-- TrainingGround -->
+  <string id="str_multiplayer_official_game_type_name.cRPGTrainingGround" text="{=RsSKxAMt}Training Ground" />
+  <string id="str_multiplayer_official_game_type_explainer.cRPGTrainingGround" text="{=jz6NaOu6}·   Hone your skills!{newline}·   Challenge others to ranked duels!{newline}·   Upgrade your character on c-rpg.eu" />
+  <string id="str_multiplayer_game_type.cRPGTrainingGround" text="{=RnggjkC0}Training Ground" />
+
   <!-- Scoreboard -->
   <string id="str_scoreboard_header.life" text="{=fBDiQBrC}Life" />
   <string id="str_mp_scoreboard_context_promote_commander" text="{=sXF7LsGO}Promote Commander" />
   <string id="str_mp_scoreboard_context_demote_commander" text="{=JDAtTV9K}Demote Commander" />
+  <string id="str_scoreboard_header.win" text="{=ASQYQ4sZ}Wins" />
+  <string id="str_scoreboard_header.loss" text="{=AtkHJkQi}Losses" />
+  <string id="str_scoreboard_header.rating" text="{=WkeDgZFB}Rating" />
 
   <!-- Kick reasons -->
   <string id="str_kick_reason.bad_player_height" text="{=gaC79g3U}Your character has a weird height. Fix it in the Bannerlord Armory to join a cRPG server." />

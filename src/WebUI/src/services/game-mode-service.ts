@@ -7,3 +7,7 @@ export const gameModeToIcon: Record<GameMode, string> = {
   [GameMode.Duel]: 'game-mode-duel',
   [GameMode.TeamDeathmatch]: 'game-mode-teamdeathmatch',
 };
+
+export const rankedGameModes: GameMode[] = [GameMode.Battle, GameMode.Duel];
+
+export const checkIsRankedGameMode = (gameMode: GameMode) => rankedGameModes.includes(gameMode);

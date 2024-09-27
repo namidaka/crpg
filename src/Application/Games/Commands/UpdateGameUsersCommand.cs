@@ -56,7 +56,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                 await _db.SaveChangesAsync(cancellationToken);
 
                 var charactersById = await LoadCharacters(req.Updates, cancellationToken);
-                List<(User user, GameUserEffectiveReward reward, List<GameRepairedItem> repairedItems)> results = new(req.Updates.Count);
+                List<(User user, GameUserEffectiveReward reward, List<GameRepairedItem> repairedItems, GameMode gameMode)> results = new(req.Updates.Count);
                 foreach (var update in req.Updates)
                 {
                     GameMode updateGameMode = _gameModeService.GameModeByInstanceAlias(Enum.TryParse(update.Instance[^1..], ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.Z);
@@ -66,11 +66,11 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                         continue;
                     }
 
-                    _characterService.UpdateRating(character, update.Rating.Value, update.Rating.Deviation, update.Rating.Volatility, isGameUserUpdate: true);
                     var reward = GiveReward(character, update.Reward, updateGameMode);
                     UpdateStatistics(updateGameMode, character, update.Statistics);
+                    _characterService.UpdateRating(character, updateGameMode, update.Statistics.Rating.Value, update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
                     var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
-                    results.Add((character.User!, reward, brokenItems));
+                    results.Add((character.User!, reward, brokenItems, updateGameMode));
                 }
 
                 key.Status = UserUpdateStatus.Completed;
@@ -79,11 +79,23 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
 
                 return new(new UpdateGameUsersResult
                 {
-                    UpdateResults = results.Select(r => new UpdateGameUserResult
+                    UpdateResults = results.Select(r =>
                     {
-                        User = _mapper.Map<GameUserViewModel>(r.user),
-                        EffectiveReward = r.reward,
-                        RepairedItems = r.repairedItems,
+                        var gameUserViewModel = _mapper.Map<GameUserViewModel>(r.user);
+
+                        // Only include relevant statistic in response
+                        var relevantStatistic = r.user.ActiveCharacter?.Statistics.FirstOrDefault(s => s.GameMode == r.gameMode);
+                        if (relevantStatistic != null)
+                        {
+                            gameUserViewModel.Character.Statistics = _mapper.Map<CharacterStatisticsViewModel>(relevantStatistic);
+                        }
+
+                        return new UpdateGameUserResult
+                        {
+                            User = gameUserViewModel,
+                            EffectiveReward = r.reward,
+                            RepairedItems = r.repairedItems,
+                        };
                     }).ToArray(),
                 });
             }

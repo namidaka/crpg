@@ -32,7 +32,7 @@ internal class PlayerListCommand : AdminCommand
                 string message = $"{crpgPeer.User.Id}. {networkPeer.UserName}"
                                  + $" | lvl {crpgPeer.User.Character.Level}"
                                  + $" | gen {crpgPeer.User.Character.Generation}"
-                                 + $" | mmr {(int)crpgPeer.User.Character.Rating.CompetitiveValue}"
+                                 + $" | mmr {(int)crpgPeer.User.Character.Statistics.Rating.CompetitiveValue}"
                                  + $" | clan {crpgPeer.Clan?.Tag ?? "none"}";
                 ChatComponent.ServerSendMessageToPlayer(fromPeer, ColorWarning, message);
             }

@@ -1,8 +1,10 @@
-﻿using Crpg.Module.Common.Network;
+﻿using Crpg.Module.Api.Models.Characters;
+using Crpg.Module.Common.Network;
 using Crpg.Module.Helpers;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+
 
 #if CRPG_SERVER
 using Crpg.Module.Rating;
@@ -54,7 +56,8 @@ internal class CrpgScoreboardComponent : MissionScoreboardComponent
         }
         else
         {
-            double ratingWithUncertainty = 0.01 * (affectedCrpgUser.Character.Rating.Value - 2 * affectedCrpgUser.Character.Rating.Deviation);
+            CrpgCharacterRating rating = affectedCrpgUser.Character.Statistics.Rating;
+            double ratingWithUncertainty = 0.01 * (rating.Value - 2 * rating.Deviation);
             float competitiveRating = (float)(ratingWithUncertainty < 0
                 ? 0.03f * -Math.Pow(-ratingWithUncertainty, 3.98)
                 : 0.03f * Math.Pow(ratingWithUncertainty, 3.98));

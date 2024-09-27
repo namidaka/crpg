@@ -1456,37 +1456,6 @@ namespace Crpg.Persistence.Migrations
                                 .IsRequired();
                         });
 
-                    b.OwnsOne("Crpg.Domain.Entities.Characters.CharacterRating", "Rating", b1 =>
-                        {
-                            b1.Property<int>("CharacterId")
-                                .HasColumnType("integer")
-                                .HasColumnName("id");
-
-                            b1.Property<float>("CompetitiveValue")
-                                .HasColumnType("real")
-                                .HasColumnName("competitive_rating");
-
-                            b1.Property<float>("Deviation")
-                                .HasColumnType("real")
-                                .HasColumnName("rating_deviation");
-
-                            b1.Property<float>("Value")
-                                .HasColumnType("real")
-                                .HasColumnName("rating");
-
-                            b1.Property<float>("Volatility")
-                                .HasColumnType("real")
-                                .HasColumnName("rating_volatility");
-
-                            b1.HasKey("CharacterId");
-
-                            b1.ToTable("characters");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CharacterId")
-                                .HasConstraintName("fk_characters_characters_id");
-                        });
-
                     b.OwnsMany("Crpg.Domain.Entities.Characters.CharacterStatistics", "Statistics", b1 =>
                         {
                             b1.Property<int>("CharacterId")
@@ -1529,13 +1498,48 @@ namespace Crpg.Persistence.Migrations
                                 .HasForeignKey("CharacterId")
                                 .HasConstraintName("fk_character_statistics_characters_character_id");
 
+                            b1.OwnsOne("Crpg.Domain.Entities.Characters.CharacterRating", "Rating", b2 =>
+                                {
+                                    b2.Property<int>("CharacterStatisticsCharacterId")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("character_id");
+
+                                    b2.Property<int>("CharacterStatisticsId")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("id");
+
+                                    b2.Property<float>("CompetitiveValue")
+                                        .HasColumnType("real")
+                                        .HasColumnName("competitive_rating");
+
+                                    b2.Property<float>("Deviation")
+                                        .HasColumnType("real")
+                                        .HasColumnName("rating_deviation");
+
+                                    b2.Property<float>("Value")
+                                        .HasColumnType("real")
+                                        .HasColumnName("rating");
+
+                                    b2.Property<float>("Volatility")
+                                        .HasColumnType("real")
+                                        .HasColumnName("rating_volatility");
+
+                                    b2.HasKey("CharacterStatisticsCharacterId", "CharacterStatisticsId");
+
+                                    b2.ToTable("character_statistics");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CharacterStatisticsCharacterId", "CharacterStatisticsId")
+                                        .HasConstraintName("fk_character_statistics_character_statistics_character_id_id");
+                                });
+
                             b1.Navigation("Character");
+
+                            b1.Navigation("Rating")
+                                .IsRequired();
                         });
 
                     b.Navigation("Characteristics")
-                        .IsRequired();
-
-                    b.Navigation("Rating")
                         .IsRequired();
 
                     b.Navigation("Statistics");

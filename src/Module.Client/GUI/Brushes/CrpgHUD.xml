@@ -1,0 +1,105 @@
+﻿<Brushes>
+  <Brush Name="CrpgHUD.Duel.Card.Canvas">
+    <Layers>
+      <BrushLayer Name="Default" Sprite="duel_card_fill_9"  Color="#000000FF" IsHidden="true"/>
+      <BrushLayer Name="Focused" Sprite="duel_card_fill_9"  Color="#0F0F0FCF" IsHidden="true"/>
+      <BrushLayer Name="Tracked" Sprite="duel_card_fill_9"  Color="#093313FF" IsHidden="true"/>
+    </Layers>
+    <Styles>
+      <Style Name="Default">
+        <BrushLayer Name="Default" IsHidden="true"/>
+      </Style>
+      <Style Name="Focused">
+        <BrushLayer Name="Focused" IsHidden="false"/>
+      </Style>
+      <Style Name="Tracked">
+        <BrushLayer Name="Tracked" IsHidden="false"/>
+      </Style>
+    </Styles>
+  </Brush>
+
+  <Brush Name="CrpgHUD.Duel.Card.Frame">
+    <Layers>
+      <BrushLayer Name="Default" Sprite="duel_card_outline_9"  Color="#000000FF" IsHidden="true"/>
+      <BrushLayer Name="Focused" Sprite="duel_card_outline_9"  Color="#B6B6B6CF" IsHidden="true"/>
+      <BrushLayer Name="Tracked" Sprite="duel_card_outline_9" Color="#00FF00FF" IsHidden="true"/>
+    </Layers>
+    <Styles>
+      <Style Name="Default">
+        <BrushLayer Name="Default" IsHidden="true"/>
+      </Style>
+      <Style Name="Focused">
+        <BrushLayer Name="Focused" IsHidden="false"/>
+      </Style>
+      <Style Name="Tracked">
+        <BrushLayer Name="Tracked" IsHidden="false"/>
+      </Style>
+    </Styles>
+  </Brush>
+
+  <Brush Name="CrpgHUD.Duel.Card.Class.Outline">
+    <Layers>
+      <BrushLayer Name="Default" Sprite="MPHud\class_circle_default" IsHidden="true"/>
+      <BrushLayer Name="Tracked" Sprite="MPHud\class_circle_invite_received" IsHidden="true"/>
+    </Layers>
+    <Styles>
+      <Style Name="Default">
+        <BrushLayer Name="Default" IsHidden="false"/>
+      </Style>
+      <Style Name="Tracked">
+        <BrushLayer Name="Tracked" IsHidden="false"/>
+      </Style>
+    </Styles>
+  </Brush>
+
+
+  <Brush Name="CrpgHUD.Duel.Card.NameText" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Center" TextVerticalAlignment="Center">
+    <Styles>
+      <Style Name="Default" FontColor="#F4E1C4FF" TextBlur="0" TextOutlineAmount="0.3" TextGlowRadius="0.2" FontSize="32" />
+    </Styles>
+  </Brush>
+
+  <Brush Name="CrpgHUD.Duel.Card.ActionText" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Center" TextVerticalAlignment="Center">
+    <Styles>
+      <Style Name="Default" FontColor="#F4E1C4FF" TextBlur="0" TextOutlineAmount="0.3" TextGlowRadius="0.2" FontSize="24" />
+    </Styles>
+  </Brush>
+
+  <Brush Name="CrpgHUD.Duel.Card.DescriptionText" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Center" TextVerticalAlignment="Center">
+    <Styles>
+      <Style Name="Default" FontColor="#F4E1C4FF" TextBlur="0" TextOutlineAmount="0.3" TextGlowRadius="0.2" FontSize="24" />
+    </Styles>
+  </Brush>
+
+  <Brush Name="CrpgHUD.Duel.Card.RatingText" Font="FiraSansExtraCondensed-Medium" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" >
+    <Styles>
+      <Style Name="Champion" FontColor="#B73E6CFF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Diamond" FontColor="#C289F5FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Platinum" FontColor="#40A7B9FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Gold" FontColor="#EABC40FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Silver" FontColor="#C7CCCAFF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Bronze" FontColor="#CC6633FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Copper" FontColor="#B87333FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+      <Style Name="Iron" FontColor="#A19D94FF" TextBlur="0.1" TextOutlineAmount="0.3" TextGlowRadius="0.1" FontSize="26" TextAlphaFactor="0.7" />
+    </Styles>
+  </Brush>
+
+  <Brush Name="CrpgHUD.Duel.Card.RecordText.Seperator" Font="FiraSansExtraCondensed-Medium" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" >
+    <Styles>
+      <Style Name="Default" FontColor="#FFFFFFFF" TextBlur="0" TextOutlineAmount="0.3" TextGlowRadius="0.2" FontSize="22" />
+    </Styles>
+  </Brush>
+
+  <Brush Name="CrpgHUD.Duel.Card.RecordText.Win" Font="FiraSansExtraCondensed-Medium" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" >
+    <Styles>
+      <Style Name="Default" FontColor="#00D100FF" TextBlur="0" TextOutlineAmount="0.3" TextGlowRadius="0.2" FontSize="22" />
+    </Styles>
+  </Brush>
+
+  <Brush Name="CrpgHUD.Duel.Card.RecordText.Loss" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" >
+    <Styles>
+      <Style Name="Default" FontColor="#E32227FF" TextBlur="0" TextOutlineAmount="0.3" TextGlowRadius="0.2" FontSize="22" />
+    </Styles>
+  </Brush>
+
+</Brushes>

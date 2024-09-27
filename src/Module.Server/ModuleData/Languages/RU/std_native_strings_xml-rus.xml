@@ -39,11 +39,19 @@
     <string id="bp8JJZpG" text="·   Защищайте графа от волн врагов!{newline}·   Получайте награды за защиту!{newline}·   Улучшайте своего персонажа на c-rpg.eu" />
     <string id="3uoZAXxh" text="Защита графа" />
 
+    <!-- Training Ground -->
+    <string id="RsSKxAMt" text="Тренировочная площадка" />
+    <string id="jz6NaOu6" text="·   Оттачивайте свои навыки!{newline}·   Сражайтесь с другими в рейтинговых дуэлях!{newline}·   Улучшайте своего персонажа на c-rpg.eu" />
+    <string id="RnggjkC0" text="Тренировочная площадка" />
+
     <!-- Intermission -->
     <string id="OZYLgnQq" text="Пожалуйста, подождите:" />
     
     <!-- Scoreboard -->
     <string id="fBDiQBrC" text="Жизнь" />
+    <string id="ASQYQ4sZ" text="Победы" />
+    <string id="AtkHJkQi" text="Поражения" />
+    <string id="WkeDgZFB" text="Рейтинг" />
 
     <!-- Kick reasons -->
     <string id="gaC79g3U" text="Ваш персонаж имеет недопустимый рост. Исправьте это в оружейной Баннерлорд, чтобы присоединиться к серверу cRPG." />
