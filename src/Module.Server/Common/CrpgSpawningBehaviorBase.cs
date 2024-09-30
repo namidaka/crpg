@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using Crpg.Module.Api.Models.Characters;
-using Crpg.Module.Api.Models.Users;
+﻿using Crpg.Module.Api.Models.Characters;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
@@ -11,6 +9,7 @@ namespace Crpg.Module.Common;
 
 internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 {
+    private protected float _timeSinceSpawnEnabled;
     private readonly CrpgConstants _constants;
 
     private readonly List<WeaponClass> allowedSpawnWeaponClass = new()
@@ -35,6 +34,22 @@ internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
     public CrpgSpawningBehaviorBase(CrpgConstants constants)
     {
         _constants = constants;
+    }
+
+    public float TimeUntilRespawn(Team team)
+    {
+        int respawnPeriod = team.Side == BattleSideEnum.Defender
+        ? MultiplayerOptions.OptionType.RespawnPeriodTeam2.GetIntValue()
+        : MultiplayerOptions.OptionType.RespawnPeriodTeam1.GetIntValue();
+        float timeSinceLastRespawn = _timeSinceSpawnEnabled % respawnPeriod;
+        float timeUntilNextRespawn = respawnPeriod - timeSinceLastRespawn;
+
+        if (timeUntilNextRespawn <= 1.0f)
+        {
+            timeUntilNextRespawn = 0f;
+        }
+
+        return timeUntilNextRespawn;
     }
 
     public override bool AllowEarlyAgentVisualsDespawning(MissionPeer missionPeer)
