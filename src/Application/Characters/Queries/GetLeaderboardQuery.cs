@@ -41,13 +41,13 @@ public record GetLeaderboardQuery : IMediatorRequest<IList<CharacterPublicCompet
                 // Todo: use DistinctBy here when EfCore implements it (does not work for now: https://github.com/dotnet/efcore/issues/27470 )
                 var topRatedCharactersByRegion = await _db.Characters
                     .Include(c => c.User)
-                    .OrderByDescending(c => c.Statistics.First(s => s.GameMode == requestGameMode).Rating.CompetitiveValue)
                     .Where(c => (req.Region == null || req.Region == c.User!.Region)
                                 && (req.CharacterClass == null || req.CharacterClass == c.Class))
+                    .OrderByDescending(
+                        c => c.Statistics.FirstOrDefault(s => s.GameMode == requestGameMode)!.Rating.CompetitiveValue)
                     .Take(500)
                     .ProjectTo<CharacterPublicCompetitiveViewModel>(_mapper.ConfigurationProvider)
                     .ToArrayAsync(cancellationToken);
-
                 IList<CharacterPublicCompetitiveViewModel> data = topRatedCharactersByRegion.DistinctBy(c => c.User.Id).Take(50).ToList();
 
                 var cacheOptions = new MemoryCacheEntryOptions()
