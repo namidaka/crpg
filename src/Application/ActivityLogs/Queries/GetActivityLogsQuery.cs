@@ -54,7 +54,7 @@ public record GetActivityLogsQuery : IMediatorRequest<ActivityLogWithDictViewMod
                     && (req.Types.Length == 0 || req.Types.Contains(l.Type)))
                 .OrderByDescending(l => l.CreatedAt)
                 .Take(1000)
-                .ToListAsync(cancellationToken);
+                .ToArrayAsync(cancellationToken);
 
             var entitiesFromMetadata = _activityLogService.ExtractEntitiesFromMetadata(activityLogs);
             var clans = await _db.Clans.Where(c => entitiesFromMetadata.ClansIds.Contains(c.Id)).ToArrayAsync();

@@ -37,7 +37,7 @@ internal interface IActivityLogService
     ActivityLog CreateBorrowItemFromClanArmoryLog(int userId, int clanId, UserItem userItem);
     ActivityLog CreateReturnItemToClanArmoryLog(int userId, int clanId, UserItem userItem);
     ActivityLog CreateCharacterEarnedLog(int userId, int characterId, GameMode gameMode, int experience, int gold);
-    EntitiesFromMetadata ExtractEntitiesFromMetadata(List<ActivityLog> activityLogs);
+    EntitiesFromMetadata ExtractEntitiesFromMetadata(ActivityLog[] activityLogs);
 }
 
 internal record struct EntitiesFromMetadata
@@ -56,7 +56,7 @@ internal record struct EntitiesFromMetadata
 
 internal class ActivityLogService : IActivityLogService
 {
-    public EntitiesFromMetadata ExtractEntitiesFromMetadata(List<ActivityLog> activityLogs)
+    public EntitiesFromMetadata ExtractEntitiesFromMetadata(ActivityLog[] activityLogs)
     {
         var output = new EntitiesFromMetadata();
         foreach (var al in activityLogs)
