@@ -9,5 +9,4 @@ public record CharacterPublicViewModel : IMapFrom<Character>
     public int Level { get; init; }
     public string Name { get; init; } = string.Empty;
     public CharacterClass Class { get; init; }
-    public IList<CharacterStatisticsViewModel> Statistics { get; init; } = Array.Empty<CharacterStatisticsViewModel>();
 }

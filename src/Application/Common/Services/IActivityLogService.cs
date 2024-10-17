@@ -42,6 +42,13 @@ internal interface IActivityLogService
 
 internal record struct EntitiesFromMetadata
 {
+    public EntitiesFromMetadata()
+    {
+        ClansIds = new List<int>();
+        UsersIds = new List<int>();
+        CharactersIds = new List<int>();
+    }
+
     public IList<int> ClansIds { get; init; }
     public IList<int> UsersIds { get; init; }
     public IList<int> CharactersIds { get; init; }
@@ -51,38 +58,35 @@ internal class ActivityLogService : IActivityLogService
 {
     public EntitiesFromMetadata ExtractEntitiesFromMetadata(List<ActivityLog> activityLogs)
     {
-        EntitiesFromMetadata output = new()
-        {
-            UsersIds = new List<int>(),
-            ClansIds = new List<int>(),
-            CharactersIds = new List<int>(),
-        };
-
+        var output = new EntitiesFromMetadata();
         foreach (var al in activityLogs)
         {
             foreach (var md in al.Metadata)
             {
                 if (md.Key == "clanId")
                 {
-                    if (!output.ClansIds.Contains(Convert.ToInt32(md.Value)))
+                    int clanId = Convert.ToInt32(md.Value);
+                    if (!output.ClansIds.Contains(clanId))
                     {
-                        output.ClansIds.Add(Convert.ToInt32(md.Value));
+                        output.ClansIds.Add(clanId);
                     }
                 }
 
                 if (md.Key == "userId" || md.Key == "actorUserId")
                 {
-                    if (!output.UsersIds.Contains(Convert.ToInt32(md.Value)))
+                    int userId = Convert.ToInt32(md.Value);
+                    if (!output.UsersIds.Contains(userId))
                     {
-                        output.UsersIds.Add(Convert.ToInt32(md.Value));
+                        output.UsersIds.Add(userId);
                     }
                 }
 
                 if (md.Key == "characterId")
                 {
-                    if (!output.CharactersIds.Contains(Convert.ToInt32(md.Value)))
+                    int characterId = Convert.ToInt32(md.Value);
+                    if (!output.CharactersIds.Contains(characterId))
                     {
-                        output.CharactersIds.Add(Convert.ToInt32(md.Value));
+                        output.CharactersIds.Add(characterId);
                     }
                 }
             }
