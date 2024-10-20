@@ -1,12 +1,15 @@
 import { type UserItem } from '@/models/user';
 import { type ItemSlot } from '@/models/item';
-import { GameMode } from '@/models/game-mode';
 
-export interface Character {
+export interface CharacterPublic {
   id: number;
   name: string;
-  generation: number;
   level: number;
+  class: CharacterClass;
+}
+
+export interface Character extends CharacterPublic {
+  generation: number;
   experience: number;
   forTournament: boolean;
   class: CharacterClass;

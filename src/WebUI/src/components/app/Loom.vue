@@ -4,7 +4,7 @@ const { point = null } = defineProps<{ point?: number | null }>();
 
 <template>
   <div
-    class="inline-flex items-center gap-1.5 align-bottom font-bold text-primary"
+    class="inline-flex items-center gap-1.5 align-middle font-bold text-primary"
     v-tooltip.bottom="$t('user.field.heirloom')"
   >
     <OIcon icon="blacksmith" size="lg" />

@@ -601,6 +601,7 @@ await fetchPageData(character.value.id);
                       class="rounded-full border-border-300 bg-base-500/20 px-3 py-2.5 text-primary"
                       :character="character"
                       :isActive="character.id === userStore.user?.activeCharacterId"
+                      :forTournament="character.forTournament"
                     />
                   </div>
                 </template>

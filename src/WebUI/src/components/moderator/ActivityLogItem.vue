@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { type ActivityLog, ActivityLogType } from '@/models/activity-logs';
+import {
+  type ActivityLog,
+  ActivityLogMetadataDicts,
+  ActivityLogType,
+} from '@/models/activity-logs';
 import { type UserPublic } from '@/models/user';
-import { getItemImage } from '@/services/item-service';
+import { useLocaleTimeAgo } from '@/composables/use-locale-time-ago';
 
-const props = withDefaults(
-  defineProps<{
-    activityLog: ActivityLog;
-    user: UserPublic;
-    users: Record<number, UserPublic>;
-    isSelfUser: boolean;
-  }>(),
-  {
-    users: () => ({}),
-  }
-);
+const { user, activityLog, isSelfUser, dict } = defineProps<{
+  activityLog: ActivityLog;
+  user: UserPublic;
+  dict: ActivityLogMetadataDicts;
+  isSelfUser: boolean;
+}>();
+
+const timeAgo = useLocaleTimeAgo(activityLog.createdAt);
 
 const emit = defineEmits<{
-  (e: 'addUser', id: number): void;
-  (e: 'addType', type: ActivityLogType): void;
+  addType: [type: ActivityLogType];
 }>();
 </script>
 
@@ -35,10 +35,11 @@ const emit = defineEmits<{
       </RouterLink>
 
       <div class="text-2xs text-content-300">
-        {{ $d(activityLog.createdAt, 'long') }}
+        {{ $d(activityLog.createdAt, 'long') }} ({{ timeAgo }})
       </div>
 
       <Tag
+        class="ml-auto mr-0"
         variant="primary"
         :label="activityLog.type"
         data-aq-addLogItem-type
@@ -46,137 +47,10 @@ const emit = defineEmits<{
       />
     </div>
 
-    <i18n-t :keypath="`activityLog.tpl.${activityLog.type}`" tag="div" scope="global">
-      <template #price v-if="'price' in activityLog.metadata">
-        <Coin :value="Number(activityLog.metadata.price)" data-aq-addLogItem-tpl-goldPrice />
-      </template>
-
-      <template #gold v-if="'gold' in activityLog.metadata">
-        <Coin :value="Number(activityLog.metadata.gold)" data-aq-addLogItem-tpl-goldPrice />
-      </template>
-
-      <template #heirloomPoints v-if="'heirloomPoints' in activityLog.metadata">
-        <span
-          class="inline-flex gap-1.5 align-text-bottom font-bold text-primary"
-          data-aq-addLogItem-tpl-heirloomPoints
-        >
-          <OIcon icon="blacksmith" size="lg" />
-          {{ $n(Number(activityLog.metadata.heirloomPoints)) }}
-        </span>
-      </template>
-
-      <template #itemId v-if="'itemId' in activityLog.metadata">
-        <span class="inline" data-aq-addLogItem-tpl-itemId>
-          <VTooltip placement="auto" class="inline-block">
-            <span class="font-bold text-content-100">{{ activityLog.metadata.itemId }}</span>
-            <template #popper>
-              <!-- TODO: need baseId (replace _h0?) -->
-              <img
-                :src="getItemImage(activityLog.metadata.itemId)"
-                class="h-full w-full object-contain"
-              />
-            </template>
-          </VTooltip>
-        </span>
-      </template>
-
-      <template #experience v-if="'experience' in activityLog.metadata">
-        <span class="font-bold text-content-100" data-aq-addLogItem-tpl-experience>
-          {{ $n(Number(activityLog.metadata.experience)) }}
-        </span>
-      </template>
-
-      <template #damage v-if="'damage' in activityLog.metadata">
-        <span class="font-bold text-status-danger" data-aq-addLogItem-tpl-damage>
-          {{ $n(Number(activityLog.metadata.damage)) }}
-        </span>
-      </template>
-
-      <template #targetUserId v-if="Number(activityLog.metadata.targetUserId) in users">
-        <div
-          class="inline-flex items-center gap-1 align-middle"
-          data-aq-addLogItem-tpl-targetUserId
-        >
-          <RouterLink
-            :to="{
-              name: 'ModeratorUserIdRestrictions',
-              params: { id: activityLog.metadata.targetUserId },
-            }"
-            class="inline-block hover:text-content-100"
-            target="_blank"
-          >
-            <UserMedia :user="users[Number(activityLog.metadata.targetUserId)]" />
-          </RouterLink>
-          <OButton
-            v-if="isSelfUser"
-            size="2xs"
-            iconLeft="add"
-            rounded
-            variant="secondary"
-            data-aq-addLogItem-addUser-btn
-            @click="emit('addUser', Number(activityLog.metadata.targetUserId))"
-          />
-        </div>
-      </template>
-
-      <template #actorUserId v-if="'actorUserId' in activityLog.metadata">
-        <div class="inline-flex items-center gap-1 align-middle">
-          <RouterLink
-            class="inline-block hover:text-content-100"
-            :to="{
-              name: 'ModeratorUserIdInformation',
-              params: { id: activityLog.metadata.actorUserId },
-            }"
-            target="_blank"
-          >
-            <UserMedia
-              :user="users[Number(activityLog.metadata.actorUserId)]"
-              hiddenClan
-              hiddenPlatform
-            />
-          </RouterLink>
-        </div>
-      </template>
-
-      <template #instance v-if="'instance' in activityLog.metadata">
-        <Tag variant="info" :label="activityLog.metadata.instance" />
-      </template>
-
-      <template #gameMode v-if="'gameMode' in activityLog.metadata">
-        <Tag variant="info" :label="activityLog.metadata.gameMode" />
-      </template>
-
-      <template #oldName v-if="'oldName' in activityLog.metadata">
-        <span class="font-bold text-content-100">{{ activityLog.metadata.oldName }}</span>
-      </template>
-
-      <template #newName v-if="'newName' in activityLog.metadata">
-        <span class="font-bold text-content-100">{{ activityLog.metadata.newName }}</span>
-      </template>
-
-      <template #characterId v-if="'characterId' in activityLog.metadata">
-        <span class="font-bold text-content-100">{{ activityLog.metadata.characterId }}</span>
-      </template>
-
-      <template #generation v-if="'generation' in activityLog.metadata">
-        <span class="font-bold text-content-100">{{ activityLog.metadata.generation }}</span>
-      </template>
-
-      <template #level v-if="'level' in activityLog.metadata">
-        <span class="font-bold text-content-100">{{ activityLog.metadata.level }}</span>
-      </template>
-
-      <template #message v-if="'message' in activityLog.metadata">
-        <span class="font-bold text-content-100">{{ activityLog.metadata.message }}</span>
-      </template>
-
-      <template #clanId v-if="'clanId' in activityLog.metadata">
-        <span class="font-bold text-content-100">{{ activityLog.metadata.clanId }}</span>
-      </template>
-
-      <template #userItemId v-if="'userItemId' in activityLog.metadata">
-        <span class="font-bold text-content-100">{{ activityLog.metadata.userItemId }}</span>
-      </template>
-    </i18n-t>
+    <ActivityLogMetadata
+      :keypath="`activityLog.tpl.${activityLog.type}`"
+      :activityLog="activityLog"
+      v-bind="{ dict }"
+    />
   </div>
 </template>
