@@ -1,10 +1,12 @@
-﻿using NetworkMessages.FromServer;
+﻿using System.Reflection;
+using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.MissionRepresentatives;
+using TaleWorlds.MountAndBlade.Network.Messages;
 using TaleWorlds.MountAndBlade.Objects;
 using static TaleWorlds.MountAndBlade.MissionLobbyComponent;
 using MathF = TaleWorlds.Library.MathF;
@@ -17,7 +19,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
     private const int BattleFlagUnlockTime = 45;
     private const int SkirmishFlagsRemovalTime = 120;
 
-    private readonly bool _isSkirmish;
+    private readonly MultiplayerGameType _gameType;
     private FlagCapturePoint[] _flags = Array.Empty<FlagCapturePoint>();
     private Team?[] _flagOwners = Array.Empty<Team>();
     private bool _notifiedForFlagRemoval;
@@ -30,17 +32,14 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
     public event Action? OnFlagNumberChangedEvent;
     public event Action<FlagCapturePoint, Team?>? OnCapturePointOwnerChangedEvent;
 
-    public CrpgBattleClient(bool isSkirmish)
+    public CrpgBattleClient(MultiplayerGameType gameType)
     {
-        _isSkirmish = isSkirmish;
+        _gameType = gameType;
     }
-
     public override bool IsGameModeUsingGold => false;
     public override bool IsGameModeTactical => _flags.Length != 0;
     public override bool IsGameModeUsingRoundCountdown => true;
-    public override MultiplayerGameType GameType => _isSkirmish
-        ? MultiplayerGameType.Skirmish
-        : MultiplayerGameType.Battle;
+    public override MultiplayerGameType GameType => _gameType;
     public override bool IsGameModeUsingCasualGold => false;
     public IEnumerable<FlagCapturePoint> AllCapturePoints => _flags;
     public bool AreMoralesIndependent => false;
@@ -49,6 +48,9 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
 
     public override void OnBehaviorInitialize()
     {
+        typeof(TaleWorlds.MountAndBlade.CompressionMission)
+            .GetField(nameof(TaleWorlds.MountAndBlade.CompressionMission.AgentOffsetCompressionInfo), BindingFlags.Public | BindingFlags.Static)?
+            .SetValue(null, new CompressionInfo.Integer(0, 16));
         base.OnBehaviorInitialize();
         RoundComponent.OnPreparationEnded += OnPreparationEnded;
         MissionNetworkComponent.OnMyClientSynchronized += OnMyClientSynchronized;
@@ -203,9 +205,11 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
         base.AddRemoveMessageHandlers(registerer);
         if (GameNetwork.IsClientOrReplay)
         {
+            registerer.Register<BotsControlledChange>(HandleServerEventBotsControlledChangeEvent);
             registerer.Register<FlagDominationMoraleChangeMessage>(OnMoraleChange);
             registerer.Register<FlagDominationCapturePointMessage>(OnCapturePoint);
-            if (_isSkirmish)
+            registerer.Register<FormationWipedMessage>(HandleServerEventFormationWipedMessage);
+            if (_gameType == MultiplayerGameType.Skirmish)
             {
                 registerer.Register<FlagDominationFlagsRemovedMessage>(OnFlagsRemovedSkirmish);
             }
@@ -243,7 +247,7 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
 
     private void NotifyForFlagManipulation()
     {
-        if (!_isSkirmish)
+        if (!(_gameType == MultiplayerGameType.Skirmish))
         {
             TextObject textObject = new("{=nbOZ9BNQ}A flag will spawn in {TIMER} seconds.",
             new Dictionary<string, object> { ["TIMER"] = 30 });
@@ -325,5 +329,18 @@ internal class CrpgBattleClient : MissionMultiplayerGameModeBaseClient, ICommand
     {
         _flags = Mission.Current.MissionObjects.FindAllWithType<FlagCapturePoint>().ToArray();
         _flagOwners = new Team[_flags.Length];
+    }
+    private void HandleServerEventBotsControlledChangeEvent(GameNetworkMessage baseMessage)
+    {
+        BotsControlledChange botsControlledChange = (BotsControlledChange)baseMessage;
+        MissionPeer component = botsControlledChange.Peer.GetComponent<MissionPeer>();
+        this.OnBotsControlledChanged(component, botsControlledChange.AliveCount, botsControlledChange.TotalCount);
+    }
+    public void OnBotsControlledChanged(MissionPeer missionPeer, int botAliveCount, int botTotalCount)
+    {
+        missionPeer.BotsUnderControlAlive = botAliveCount;
+    }
+    private void HandleServerEventFormationWipedMessage(GameNetworkMessage baseMessage)
+    {
     }
 }
