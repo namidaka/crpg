@@ -95,6 +95,14 @@ const userStore = useUserStore();
     </div>
 
     <RouterLink
+      :to="{ name: 'Captain' }"
+      class="text-content-300 hover:text-content-100"
+      activeClass="!text-content-100"
+    >
+      {{ $t('nav.main.Captain') }}
+    </RouterLink>
+    
+    <RouterLink
       :to="{ name: 'Leaderboard' }"
       class="inline-flex items-center gap-1.5 text-content-300 hover:text-content-100"
       activeClass="!text-content-100"

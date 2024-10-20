@@ -1,4 +1,6 @@
-﻿using Crpg.Module.Modes.Battle.FlagSystems;
+﻿using System.Reflection;
+using Crpg.Module.Modes.Battle.FlagSystems;
+using Crpg.Module.Modes.Captain;
 using Crpg.Module.Modes.Skirmish;
 using Crpg.Module.Rewards;
 using NetworkMessages.FromServer;
@@ -20,7 +22,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
     private const float SkirmishMoraleGainMultiplierLastFlag = 2f;
 
     private readonly CrpgBattleClient _battleClient;
-    private readonly bool _isSkirmish;
+    private readonly MultiplayerGameType _gametype;
     private readonly CrpgRewardServer _rewardServer;
     private AbstractFlagSystem _flagSystem = default!;
 
@@ -35,22 +37,26 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
     public override bool AllowCustomPlayerBanners() => false;
     public override bool UseRoundController() => true;
 
-    public CrpgBattleServer(CrpgBattleClient battleClient, bool isSkirmish,
+    public CrpgBattleServer(CrpgBattleClient battleClient, MultiplayerGameType gametype,
         CrpgRewardServer rewardServer)
     {
         _battleClient = battleClient;
-        _isSkirmish = isSkirmish;
+        _gametype = gametype;
         _rewardServer = rewardServer;
+        typeof(TaleWorlds.MountAndBlade.CompressionMission)
+            .GetField(nameof(TaleWorlds.MountAndBlade.CompressionMission.AgentOffsetCompressionInfo), BindingFlags.Public | BindingFlags.Static)?
+            .SetValue(null, new CompressionInfo.Integer(0, 16));
     }
 
     public override MultiplayerGameType GetMissionType()
     {
-        return MultiplayerGameType.Battle;
+        return _gametype;
     }
 
     public override void AfterStart()
     {
         base.AfterStart();
+        MissionPeer.OnPreTeamChanged += this.OnPreTeamChanged;
         RoundController.OnPreRoundEnding += OnPreRoundEnding;
 
         AddTeams();
@@ -58,7 +64,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
 
     public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
     {
-        if (_isSkirmish || !affectedAgent.IsHuman)
+        if (_gametype == MultiplayerGameType.Skirmish || !affectedAgent.IsHuman)
         {
             return;
         }
@@ -66,12 +72,21 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         ((CrpgBattleFlagSystem)_flagSystem).CheckForDeadPlayerFlagSpawnThreshold(_attackersSpawned, _defendersSpawned);
     }
 
+    protected override void HandleEarlyPlayerDisconnect(NetworkCommunicator networkPeer)
+    {
+        if (this.RoundController.IsRoundInProgress && MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) > 0)
+        {
+            this.MakePlayerFormationCharge(networkPeer);
+        }
+    }
+
     public override void OnBehaviorInitialize()
     {
         base.OnBehaviorInitialize();
-        _flagSystem = _isSkirmish
-            ? new CrpgSkirmishFlagSystem(Mission, NotificationsComponent, _battleClient)
-            : new CrpgBattleFlagSystem(Mission, NotificationsComponent, _battleClient);
+        _flagSystem = _gametype switch { 
+            MultiplayerGameType.Skirmish => new CrpgSkirmishFlagSystem(Mission, NotificationsComponent, _battleClient),
+            _ => new CrpgBattleFlagSystem(Mission, NotificationsComponent, _battleClient),
+            };
 
         _flagSystem.ResetFlags();
         _morale = 0f;
@@ -81,6 +96,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
     public override void OnRemoveBehavior()
     {
         RoundController.OnPreRoundEnding -= OnPreRoundEnding;
+        MissionPeer.OnPreTeamChanged -= this.OnPreTeamChanged;
         base.OnRemoveBehavior();
     }
 
@@ -115,17 +131,25 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         base.OnMissionTick(dt);
         if (MissionLobbyComponent.CurrentMultiplayerState != MissionLobbyComponent.MultiplayerGameState.Playing
             || !RoundController.IsRoundInProgress
-            || !CanGameModeSystemsTickThisFrame
-            || _flagSystem.HasNoFlags()) // Protection against scene with no flags.
+            || !CanGameModeSystemsTickThisFrame)
         {
             return;
         }
+
 
         if (SpawnComponent.SpawningBehavior is CrpgBattleSpawningBehavior s && s.SpawnDelayEnded() && !_hasSpawnDelayEnded)
         {
             _hasSpawnDelayEnded = true;
             _attackersSpawned = Mission.AttackerTeam.ActiveAgents.Count;
             _defendersSpawned = Mission.DefenderTeam.ActiveAgents.Count;
+        }
+
+        CheckForPlayersSpawningAsBots();
+
+
+        if (_flagSystem.HasNoFlags()) // Protection against scene with no flags.
+        {
+            return;
         }
 
         _flagSystem.CheckForManipulationOfFlags();
@@ -162,9 +186,14 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             return false;
         }
 
+        if (SpawnComponent.SpawningBehavior is CrpgCaptainSpawningBehavior c && !c.SpawnDelayEnded())
+        {
+            return false;
+        }
+
         bool defenderTeamDepleted = Mission.DefenderTeam.ActiveAgents.Count == 0;
         bool attackerTeamDepleted = Mission.AttackerTeam.ActiveAgents.Count == 0;
-        if (!_isSkirmish)
+        if (!(_gametype == MultiplayerGameType.Skirmish))
         {
             return defenderTeamDepleted || attackerTeamDepleted;
         }
@@ -238,9 +267,20 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         BasicCultureObject cultureTeam1 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue());
         Banner bannerTeam1 = new(cultureTeam1.BannerKey, cultureTeam1.BackgroundColor1, cultureTeam1.ForegroundColor1);
         Mission.Teams.Add(BattleSideEnum.Attacker, cultureTeam1.BackgroundColor1, cultureTeam1.ForegroundColor1, bannerTeam1, false, true);
+        for (int i = 0; i < 42; i++)
+        {
+            Formation f = new(Mission.Current.Teams.Attacker, 1);
+            Mission.Teams.Attacker.FormationsIncludingEmpty.Add(f);
+        }
+
         BasicCultureObject cultureTeam2 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue());
         Banner bannerTeam2 = new(cultureTeam2.BannerKey, cultureTeam2.BackgroundColor2, cultureTeam2.ForegroundColor2);
         Mission.Teams.Add(BattleSideEnum.Defender, cultureTeam2.BackgroundColor2, cultureTeam2.ForegroundColor2, bannerTeam2, false, true);
+        for (int i = 0; i < 42; i++)
+        {
+            Formation f = new(Mission.Current.Teams.Defender, 1);
+            Mission.Teams.Defender.FormationsIncludingEmpty.Add(f);
+        }
     }
 
     private void CheckMorales()
@@ -271,8 +311,8 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
             return 0f;
         }
 
-        float moraleGainOnTick = _isSkirmish ? SkirmishMoraleGainOnTick : BattleMoraleGainOnTick;
-        float moraleGainMultiplierLastFlag = _isSkirmish ? SkirmishMoraleGainMultiplierLastFlag : BattleMoraleGainMultiplierLastFlag;
+        float moraleGainOnTick = _gametype == MultiplayerGameType.Skirmish ? SkirmishMoraleGainOnTick : BattleMoraleGainOnTick;
+        float moraleGainMultiplierLastFlag = _gametype == MultiplayerGameType.Skirmish ? SkirmishMoraleGainMultiplierLastFlag : BattleMoraleGainMultiplierLastFlag;
 
         float moraleMultiplier = moraleGainOnTick * Math.Abs(teamFlagsDelta);
         float moraleGain = teamFlagsDelta <= 0
@@ -384,6 +424,73 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         else if (roundResult == CaptureTheFlagCaptureResultEnum.DefendersWin)
         {
             missionBehavior.SetTimersOfVictoryReactionsOnBattleEnd(BattleSideEnum.Defender);
+        }
+    }
+
+    private void CheckForPlayersSpawningAsBots()
+    {
+        foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
+        {
+            if (networkCommunicator.IsSynchronized)
+            {
+                MissionPeer component = networkCommunicator.GetComponent<MissionPeer>();
+                if (component != null && component.ControlledAgent == null && component.Team != null && component.ControlledFormation != null && component.SpawnCountThisRound > 0)
+                {
+                    if (!component.HasSpawnTimerExpired && component.SpawnTimer.Check(base.Mission.CurrentTime))
+                    {
+                        component.HasSpawnTimerExpired = true;
+                    }
+
+                    if (component.HasSpawnTimerExpired)
+                    {
+                        if (component.ControlledFormation.HasUnitsWithCondition((Agent agent) => agent.IsActive() && agent.IsAIControlled))
+                        {
+                            Agent? newAgent = null;
+                            Agent followingAgent = component.FollowedAgent;
+                            if (followingAgent != null && followingAgent.IsActive() && followingAgent.IsAIControlled && component.ControlledFormation.HasUnitsWithCondition((Agent agent) => agent == followingAgent))
+                            {
+                                newAgent = followingAgent;
+                            }
+                            else
+                            {
+                                float maxHealth = 0f;
+                                component.ControlledFormation.ApplyActionOnEachUnit(delegate (Agent agent)
+                                {
+                                    if (agent.Health > maxHealth)
+                                    {
+                                        maxHealth = agent.Health;
+                                        newAgent = agent;
+                                    }
+                                }, null);
+                            }
+
+                            Mission.Current.ReplaceBotWithPlayer(newAgent, component);
+                            component.WantsToSpawnAsBot = false;
+                            component.HasSpawnTimerExpired = false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void MakePlayerFormationCharge(NetworkCommunicator peer)
+    {
+        if (peer.IsSynchronized)
+        {
+            MissionPeer component = peer.GetComponent<MissionPeer>();
+            if (component.ControlledFormation != null)
+            {
+                component.ControlledFormation.SetMovementOrder(MovementOrder.MovementOrderCharge);
+            }
+        }
+    }
+
+    private void OnPreTeamChanged(NetworkCommunicator peer, Team currentTeam, Team newTeam)
+    {
+        if (peer.IsSynchronized && peer.GetComponent<MissionPeer>().ControlledAgent != null)
+        {
+            this.MakePlayerFormationCharge(peer);
         }
     }
 }

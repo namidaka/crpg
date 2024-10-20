@@ -125,6 +125,7 @@ nav:
     Characters: Characters
     Shop: Shop
     Clans: Clans
+    Captain: Captain
     Moderator: Moderator
     Builder: Builder
     Leaderboard: Leaderboard
@@ -270,6 +271,7 @@ game-mode:
   CRPGTeamDeathmatch: Team Deathmatch
   CRPGSkirmish: Skirmish
 
+  CRPGCaptain: Captain
 
 clanBalancingExplanation: "
   <h3>You're not in any clan</h3>
@@ -318,6 +320,7 @@ character:
   empty:
     title: You don't have a character yet
     desc: To create a character, simply join a cRPG server
+    name: Select Character
 
   create:
     title: New character
@@ -348,6 +351,7 @@ character:
     Archer: Archer
     Cavalry: Cavalry
     MountedArcher: Mounted archer
+    NotFound: The character class could not be found
 
   statistics:
     generation:
@@ -1454,6 +1458,45 @@ activityLog:
     ClanArmoryReturnItem: 'Item {userItemId} was returned from clan {clanId} armory'
     ClanArmoryBorrowItem: 'Item {userItemId} was borrowed from clan {clanId} armory'
     CharacterEarned: 'The character {characterId} earned {experience} experience and {gold} gold in the {gameMode} game mode'
+
+captain:
+  title: Captain Formations
+  formation:
+    title: Formation {id}
+    update:
+      notify:
+        success: Formations updated successfully
+    character:
+      title: Selected Troop
+      remove: Remove from Formation
+    weight:
+      title: Formation Weight
+
+captain:
+  title: Captain Formations
+  formation:
+    title: Formation {id}
+    update:
+      notify:
+        success: Formations updated successfully
+    character:
+      title: Selected Troop
+      remove: Remove from Formation
+    weight:
+      title: Formation Weight
+
+captain:
+  title: Captain Formations
+  formation:
+    title: Formation {id}
+    update:
+      notify:
+        success: Formations updated successfully
+    character:
+      title: Selected Troop
+      remove: Remove from Formation
+    weight:
+      title: Formation Weight
 
 leaderboard:
   title: Leaderboard

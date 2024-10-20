@@ -6,6 +6,7 @@ using Crpg.Application.Items.Models;
 using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.ActivityLogs;
 using Crpg.Domain.Entities.Battles;
+using Crpg.Domain.Entities.Captains;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;
@@ -941,7 +942,8 @@ public record SeedDataCommand : IMediatorRequest
             Character[] newCharacters =
             {
                 takeoCharacter0, takeoCharacter1, takeoCharacter2, namidakaCharacter0, orleCharacter0, orleCharacter1, orleCharacter2, droobCharacter0,
-                falcomCharacter0, victorhh888Character0, sellkaCharacter0, krogCharacter0, kadseCharacter0, noobAmphetamine0, baronCyborg0,
+                droobCharacter1, droobCharacter2, falcomCharacter0, victorhh888Character0, sellkaCharacter0, krogCharacter0, kadseCharacter0,
+                noobAmphetamine0, baronCyborg0,
             };
 
             var existingCharacters = await _db.Characters.ToDictionaryAsync(c => c.Name);

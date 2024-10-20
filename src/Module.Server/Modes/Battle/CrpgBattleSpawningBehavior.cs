@@ -1,4 +1,5 @@
 ﻿using Crpg.Module.Common;
+using Crpg.Module.Modes.Warmup;
 using Crpg.Module.Notifications;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -14,12 +15,12 @@ internal class CrpgBattleSpawningBehavior : CrpgSpawningBehaviorBase
     private MissionTimer? _spawnTimer;
     private MissionTimer? _cavalrySpawnDelayTimer;
     private bool _botsSpawned;
-
-    public CrpgBattleSpawningBehavior(CrpgConstants constants, MultiplayerRoundController roundController)
+    public CrpgBattleSpawningBehavior(CrpgConstants constants, MultiplayerRoundController roundController, MultiplayerGameType gameType)
         : base(constants)
     {
         _roundController = roundController;
         _notifiedPlayersAboutSpawnRestriction = new HashSet<PlayerId>();
+        GameMode = gameType;
     }
 
     public override void Initialize(SpawnComponent spawnComponent)
@@ -60,7 +61,6 @@ internal class CrpgBattleSpawningBehavior : CrpgSpawningBehaviorBase
     public override void RequestStartSpawnSession()
     {
         base.RequestStartSpawnSession();
-        _botsSpawned = false;
         _spawnTimer = new MissionTimer(TotalSpawnDuration); // Limit spawning for 30 seconds.
         _cavalrySpawnDelayTimer = new MissionTimer(GetCavalrySpawnDelay()); // Cav will spawn X seconds later.
         _notifiedPlayersAboutSpawnRestriction.Clear();

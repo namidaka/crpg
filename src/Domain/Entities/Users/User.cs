@@ -1,4 +1,5 @@
 using Crpg.Domain.Common;
+using Crpg.Domain.Entities.Captains;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;
@@ -52,4 +53,5 @@ public class User : AuditableEntity
     public IList<Restriction> Restrictions { get; set; } = new List<Restriction>();
     public ClanMember? ClanMembership { get; set; }
     public Party? Party { get; set; }
+    public Captain? Captain { get; set; } = default!;
 }

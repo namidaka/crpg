@@ -4,6 +4,7 @@ using Crpg.Domain.Common;
 using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.ActivityLogs;
 using Crpg.Domain.Entities.Battles;
+using Crpg.Domain.Entities.Captains;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.GameServers;
@@ -79,6 +80,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<ClanArmoryItem> ClanArmoryItems { get; set; } = default!;
     public DbSet<ClanArmoryBorrowedItem> ClanArmoryBorrowedItems { get; set; } = default!;
     public DbSet<ClanInvitation> ClanInvitations { get; set; } = default!;
+    public DbSet<Captain> Captains { get; set; } = default!;
     public DbSet<Party> Parties { get; set; } = default!;
     public DbSet<Settlement> Settlements { get; set; } = default!;
     public DbSet<SettlementItem> SettlementItems { get; set; } = default!;

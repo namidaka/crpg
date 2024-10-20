@@ -1,9 +1,11 @@
 using AutoMapper;
 using Crpg.Application.Characters.Models;
 using Crpg.Application.Clans.Models;
+using Crpg.Application.Captains.Models;
 using Crpg.Application.Common.Mappings;
 using Crpg.Application.Restrictions.Models;
 using Crpg.Domain.Entities;
+using Crpg.Domain.Entities.Captains;
 using Crpg.Domain.Entities.Users;
 
 namespace Crpg.Application.Games.Models;
@@ -23,6 +25,7 @@ public record GameUserViewModel : IMapFrom<User>
     public GameCharacterViewModel Character { get; init; } = default!;
     public IList<RestrictionViewModel> Restrictions { get; set; } = Array.Empty<RestrictionViewModel>();
     public GameClanMemberViewModel? ClanMembership { get; set; }
+    public CaptainViewModel? Captain { get; set; } = default!;
 
     public void Mapping(Profile profile)
     {
