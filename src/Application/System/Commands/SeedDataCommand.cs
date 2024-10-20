@@ -66,14 +66,14 @@ public record SeedDataCommand : IMediatorRequest
 
             if (_appEnv.Environment == HostingEnvironment.Development)
             {
-                await AddDevelopmentData();
+                await AddDevelopmentData(cancellationToken);
                 await _db.SaveChangesAsync(cancellationToken);
             }
 
             return Result.NoErrors;
         }
 
-        private async Task AddDevelopmentData()
+        private async Task AddDevelopmentData(CancellationToken cancellationToken)
         {
             User takeo = new()
             {
@@ -122,7 +122,6 @@ public record SeedDataCommand : IMediatorRequest
                 PlatformUserId = "76561198023558734",
                 Platform = Platform.Steam,
                 Name = "droob",
-                ActiveCharacterId = 8,
                 Role = Role.Admin,
                 Gold = 1000000,
                 HeirloomPoints = 12,
@@ -537,6 +536,8 @@ public record SeedDataCommand : IMediatorRequest
                 }
             }
 
+            await _db.SaveChangesAsync(cancellationToken);
+
             UserItem takeoItem1 = new() { User = takeo, ItemId = "crpg_thamaskene_steel_spatha_v1_h3" };
             UserItem takeoItem2 = new() { User = takeo, ItemId = "crpg_winds_fury_v1_h2" };
             UserItem orleItem1 = new() { User = orle, ItemId = "crpg_armet_h1", PersonalItem = new() };
@@ -566,32 +567,7 @@ public record SeedDataCommand : IMediatorRequest
 
             UserItem[] newUserItems =
             {
-                takeoItem1,
-                takeoItem2,
-                orleItem1,
-                orleItem2,
-                orleItem3,
-                orleItem4,
-                orleItem5,
-                orleItem6,
-                orleItem7,
-                orleItem8,
-                orleItem9,
-                orleItem10,
-                orleItem11,
-                orleItem12,
-                orleItem13,
-                orleItem14,
-                orleItem15,
-                orleItem16,
-                orleItem17,
-                orleItem18,
-                orleItem19,
-                elmarykItem1,
-                elmarykItem2,
-                laHireItem1,
-                laHirekItem2,
-                laHirekItem3,
+                takeoItem1, takeoItem2, orleItem1, orleItem2, orleItem3, orleItem4, orleItem5, orleItem6, orleItem7, orleItem8, orleItem9, orleItem10, orleItem11, orleItem12, orleItem13, orleItem14, orleItem15, orleItem16, orleItem17, orleItem18, orleItem19, elmarykItem1, elmarykItem2, laHireItem1, laHirekItem2, laHirekItem3,
             };
 
             var existingUserItems = await _db.UserItems.ToDictionaryAsync(pi => pi.ItemId);
@@ -1089,17 +1065,16 @@ public record SeedDataCommand : IMediatorRequest
                 }
             }
 
-            ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHireClanArmoryItem2.UserItem, Borrower = orleMember, };
-            ClanArmoryBorrowedItem orleBorrowedItem2 = new() { UserItem = laHireClanArmoryItem3.UserItem, Borrower = orleMember, };
-            ClanArmoryBorrowedItem elmarykBorrowedItem1 = new() { UserItem = orleClanArmoryItem1.UserItem, Borrower = elmarykMember, };
-            ClanArmoryBorrowedItem elmarykBorrowedItem2 = new() { UserItem = takeoClanArmoryItem1.UserItem, Borrower = elmarykMember, };
-            ClanArmoryBorrowedItem laHireBorrowedItem1 = new() { UserItem = takeoClanArmoryItem2.UserItem, Borrower = laHireMember, };
-            ClanArmoryBorrowedItem laHireBorrowedItem2 = new() { UserItem = orleClanArmoryItem15.UserItem, Borrower = laHireMember, };
+            ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHireClanArmoryItem2.UserItem, Borrower = orleMember };
+            ClanArmoryBorrowedItem orleBorrowedItem2 = new() { UserItem = laHireClanArmoryItem3.UserItem, Borrower = orleMember };
+            ClanArmoryBorrowedItem elmarykBorrowedItem1 = new() { UserItem = orleClanArmoryItem2.UserItem, Borrower = elmarykMember };
+            ClanArmoryBorrowedItem elmarykBorrowedItem2 = new() { UserItem = takeoClanArmoryItem1.UserItem, Borrower = elmarykMember };
+            ClanArmoryBorrowedItem laHireBorrowedItem1 = new() { UserItem = takeoClanArmoryItem2.UserItem, Borrower = laHireMember };
+            ClanArmoryBorrowedItem laHireBorrowedItem2 = new() { UserItem = orleClanArmoryItem15.UserItem, Borrower = laHireMember };
 
             ClanArmoryBorrowedItem[] newClanArmoryBorrowedItems =
             {
-                orleBorrowedItem1, orleBorrowedItem2, elmarykBorrowedItem1, elmarykBorrowedItem2, laHireBorrowedItem1,
-                laHireBorrowedItem2,
+                orleBorrowedItem1, orleBorrowedItem2, elmarykBorrowedItem1, elmarykBorrowedItem2, laHireBorrowedItem1, laHireBorrowedItem2,
             };
 
             foreach (var newClanArmoryBorrowedItem in newClanArmoryBorrowedItems)
@@ -1370,15 +1345,12 @@ public record SeedDataCommand : IMediatorRequest
 
             ActivityLog[] newActivityLogs =
             {
-                activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserRewarded1, activityLogUserRewarded2, activityLogItemBought1,
-                activityLogItemSold1, activityLogItemBroke1, activityLogItemUpgraded1, activityLogCharacterCreated1, activityLogCharacterDeleted1,
-                activityLogCharacterRespecialized1, activityLogCharacterRetired1, activityLogCharacterRewarded1, activityLogServerJoined1,
-                activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem1, activityLogClanArmoryRemoveItem1, activityLogClanArmoryReturnItem1, activityLogClanArmoryBorrowItem1, activityLogClanArmoryBorrowItem1, activityLogClanApplicationCreated1, activityLogClanApplicationCreated2, activityLogClanApplicationCreated3, activityLogClanApplicationAccepted1, activityLogClanApplicationDeclined1, activityLogItemReturned1, activityLogClanMemberRoleChange1, activityLogClanMemberLeaved1, activityLogClanMemberKicked1, activityLogClanCreatedl,
-                activityLogClanDeletedl,
+                activityLogUserCreated1, activityLogUserDeleted1, activityLogUserRenamed1, activityLogUserRewarded1, activityLogUserRewarded2, activityLogItemBought1, activityLogItemSold1, activityLogItemBroke1, activityLogItemUpgraded1, activityLogCharacterCreated1, activityLogCharacterDeleted1, activityLogCharacterRespecialized1, activityLogCharacterRetired1, activityLogCharacterRewarded1, activityLogServerJoined1, activityLogChatMessageSent1, activityLogChatMessageSent2, activityLogChatMessageSent3, activityLogTeamHit1, activityLogTeamHit2, activityLogClanArmoryAddItem1, activityLogClanArmoryRemoveItem1, activityLogClanArmoryReturnItem1, activityLogClanArmoryBorrowItem1, activityLogClanArmoryBorrowItem1, activityLogClanApplicationCreated1, activityLogClanApplicationCreated2, activityLogClanApplicationCreated3, activityLogClanApplicationAccepted1, activityLogClanApplicationDeclined1, activityLogItemReturned1, activityLogClanMemberRoleChange1, activityLogClanMemberLeaved1, activityLogClanMemberKicked1, activityLogClanCreatedl, activityLogClanDeletedl,
             };
 
             _db.ActivityLogs.RemoveRange(await _db.ActivityLogs.ToArrayAsync());
             _db.ActivityLogs.AddRange(newActivityLogs.Concat(newActivityLogCharacterEarned));
+            await _db.SaveChangesAsync(cancellationToken);
 
             var orleNotificationClanApplicationCreatedToOfficers1 = _userNotificationService.CreateClanApplicationCreatedToOfficersNotification(orle.Id, activityLogClanApplicationCreated1.Id);
             orleNotificationClanApplicationCreatedToOfficers1.CreatedAt = DateTime.UtcNow.AddMinutes(-112);
@@ -1405,6 +1377,7 @@ public record SeedDataCommand : IMediatorRequest
                 orleNotificationClanApplicationDeclinedToUser, orleNotificationClanApplicationCreatedToUser, orleNotificationItemReturned, orleNotificationClanMemberRoleChangedToUser, orleNotificationClanMemberLeavedToLeader,
                 orleNotificationClanMemberKickedToExMember, orleNotificationCharacterRewardedToUser, orleNotificationClanArmoryBorrowItemToLender, orleNotificationClanArmoryRemoveItemToBorrower,
             };
+
             _db.UserNotifications.RemoveRange(await _db.UserNotifications.ToArrayAsync());
             _db.UserNotifications.AddRange(userNotifications);
 
