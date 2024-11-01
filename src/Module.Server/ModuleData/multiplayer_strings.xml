@@ -4,7 +4,10 @@
   <string id="str_multiplayer_official_game_type_name.cRPGBattle" text="{=haGoKI0Q}Battle" />
   <string id="str_multiplayer_official_game_type_explainer.cRPGBattle" text="{=HN4gzXhG}·   Kill the entire enemy team to win{newline}·   Gain experience and gold every minute{newline}·   Upgrade your character on c-rpg.eu" />
   <string id="str_multiplayer_game_type.cRPGBattle" text="{=uSmyz6m1}Battle" />
-
+  <!-- Battle -->
+  <string id="str_multiplayer_official_game_type_name.cRPGCaptain" text="{=haGoKI0Q}Captain" />
+  <string id="str_multiplayer_official_game_type_explainer.cRPGCaptain" text="{=HN4gzXhG}·   Kill the entire enemy team to win{newline}·   Gain experience and gold every minute{newline}·   Upgrade your character on c-rpg.eu" />
+  <string id="str_multiplayer_game_type.cRPGCaptain" text="{=uSmyz6m1}Captain" />
   <!-- Skirmish -->
   <string id="str_multiplayer_official_game_type_name.cRPGSkirmish" text="{=XDxF8ujQ}Skirmish" />
   <string id="str_multiplayer_official_game_type_explainer.cRPGSkirmish" text="{=a4VXBtjm}·   Hold control points on the map to deplete enemy morale{newline}·   Kill the entire enemy team or exhaust their morale to win·   Gain experience and gold while playing" />

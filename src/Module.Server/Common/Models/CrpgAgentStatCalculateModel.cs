@@ -258,12 +258,12 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
     // if you're dividing by (str -3)
     private void UpdateHumanAgentStats(Agent agent, AgentDrivenProperties props)
     {
-
         // Dirty hack, part of the work-around to have skills without spawning custom characters. This hack should be
         // be performed in InitializeHumanAgentStats but the MissionPeer is null there.
         if (GameNetwork.IsClientOrReplay) // Server-side the hacky AgentOrigin is directly passed to the AgentBuildData.
         {
             var crpgUser = agent.MissionPeer?.GetComponent<CrpgPeer>()?.User;
+            var agentCharacterId = agent.Character.StringId;
             if (crpgUser != null && agent.Origin is not CrpgBattleAgentOrigin)
             {
                 var characteristics = crpgUser.Character.Characteristics;
@@ -271,7 +271,28 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                 agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, mbSkills);
                 InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
             }
-        }
+            else if (agentCharacterId.StartsWith("crpg_character"))
+            {
+                var crpgNetworkPeers = GameNetwork.NetworkPeers.Where(p =>
+                    p.GetComponent<CrpgPeer>() != null);
+                var ownerNetworkPeer =
+                    crpgNetworkPeers.FirstOrDefault(p => p.ControlledAgent?.Character.StringId.Contains(agentCharacterId) ?? false);
+                if (ownerNetworkPeer?.GetComponent<CrpgPeer>()?.User != null && agent.Origin is not CrpgBattleAgentOrigin)
+                {
+                    var characteristics = ownerNetworkPeer.GetComponent<CrpgPeer>().User!.Character.Characteristics;
+                    var mbSkills = CrpgCharacterBuilder.CreateCharacterSkills(characteristics);
+                    agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, mbSkills);
+                    InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
+                }
+
+            }
+        }/*
+            else if (agent.Character.StringId.StartsWith("crpg_h")
+            {
+                agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, crpgComponent._mbSkills);
+                InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
+            }*/
+
 
         MissionEquipment equipment = agent.Equipment;
         props.WeaponsEncumbrance = equipment.GetTotalWeightOfWeapons();
