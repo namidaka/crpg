@@ -25,6 +25,6 @@ public class DeleteOldIdempotencyKeysCommandTest : TestBase
         DeleteOldIdempotencyKeysCommand.Handler handler = new(ActDb, new MachineDateTime());
         await handler.Handle(new DeleteOldIdempotencyKeysCommand(), CancellationToken.None);
 
-        Assert.That(await AssertDb.IdempotencyKeys.CountAsync(), Is.EqualTo(3));
+        Assert.That(await AssertDb.IdempotencyKeys.CountAsync(), Is.EqualTo(2));
     }
 }
