@@ -14,7 +14,6 @@ using Crpg.Sdk.Abstractions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Games.Commands;
