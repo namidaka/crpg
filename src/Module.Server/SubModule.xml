@@ -2,7 +2,7 @@
 <Module>
   <Name value="cRPG"/>
   <Id value="cRPG"/>
-  <Version value="v1.2.11.108"/>
+  <Version value="v1.2.11.109"/>
   <ModuleCategory value="Multiplayer"/>
   <DependedModules>
     <DependedModule Id="Native" DependentVersion="v1.2.11" Optional="false"/>
@@ -64,6 +64,12 @@
     </XmlNode>
     <XmlNode>
       <XmlName id="MPClassDivisions" path="class_divisions"/>
+    </XmlNode>
+    <XmlNode>
+      <XmlName id="MPCharacters" path="crpg_captain_characters"/>
+    </XmlNode>
+    <XmlNode>
+      <XmlName id="MPClassDivisions" path="crpg_captain_class_divisions"/>
     </XmlNode>
     <XmlNode>
       <XmlName id="MPCharacters" path="dtv/dtv_characters"/>

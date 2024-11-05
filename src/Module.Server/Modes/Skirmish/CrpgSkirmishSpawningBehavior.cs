@@ -19,6 +19,7 @@ internal class CrpgSkirmishSpawningBehavior : CrpgSpawningBehaviorBase
     {
         _roundController = roundController;
         _notifiedPlayersAboutSpawnRestriction = new HashSet<PlayerId>();
+        CurrentGameMode = MultiplayerGameType.Skirmish;
     }
 
     public override void Initialize(SpawnComponent spawnComponent)

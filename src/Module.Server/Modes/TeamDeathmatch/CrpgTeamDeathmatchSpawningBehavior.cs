@@ -11,6 +11,7 @@ internal class CrpgTeamDeathmatchSpawningBehavior : CrpgSpawningBehaviorBase
     public CrpgTeamDeathmatchSpawningBehavior(CrpgConstants constants)
         : base(constants)
     {
+        CurrentGameMode = MultiplayerGameType.TeamDeathmatch;
     }
 
     public override void OnTick(float dt)

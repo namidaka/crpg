@@ -95,8 +95,8 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
         CrpgTeamDeathmatchSpawningBehavior spawnBehavior = new(_constants);
         //MultiplayerRoundController roundController = new(); // starts/stops round, ends match
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent,
-            () => (new TeamDeathmatchSpawnFrameBehavior(), spawnBehavior));
-        CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, null);
+            () => (new TeamDeathmatchSpawnFrameBehavior(), new CrpgTeamDeathmatchSpawningBehavior(_constants)));
+        CrpgTeamSelectServerComponent teamSelectComponent = new(warmupComponent, null, MultiplayerGameType.TeamDeathmatch);
         CrpgRewardServer rewardServer = new(crpgClient, _constants, warmupComponent, enableTeamHitCompensations: false, enableRating: false);
         CrpgTeamDeathmatchServer teamDeathmatchServer = new(scoreboardComponent, rewardServer);
 
