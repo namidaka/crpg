@@ -30,6 +30,8 @@ internal static class CrpgServerConfiguration
     public static int RewardTick { get; private set; } = 60;
     public static bool TeamBalanceOnce { get; private set; }
     public static bool FrozenBots { get; private set; } = false;
+    public static int ControlledBotsCount { get; private set; } = 0;
+    public static int BaseNakedEquipmentValue { get; private set; } = 10000;
     public static Tuple<TimeSpan, TimeSpan, TimeZoneInfo>? HappyHours { get; private set; }
 
     [UsedImplicitly]
@@ -62,6 +64,33 @@ internal static class CrpgServerConfiguration
 
         ServerExperienceMultiplier = multiplier;
         Debug.Print($"Set server multiplier to {multiplier}");
+    }
+
+    [UsedImplicitly]
+    [ConsoleCommandMethod("crpg_base_naked_equipment_value", "Sets the equipment value of a naked character. used to combat dagger builds in captain.")]
+    private static void SetBaseNakedEquipmentValue(string? baseNakedEquipmentValueStr)
+    {
+        if (baseNakedEquipmentValueStr == null || !int.TryParse(baseNakedEquipmentValueStr, out int baseNakedEquipmentValue))
+        {
+            Debug.Print($"Invalid Controlled Bots Count: {baseNakedEquipmentValueStr}");
+            return;
+        }
+
+        ControlledBotsCount = baseNakedEquipmentValue;
+        Debug.Print($"Sets baseNakedEquipmentValue to {baseNakedEquipmentValue}");
+    }
+
+    [ConsoleCommandMethod("crpg_controlled_bots_count", "Sets ControlledBotsCount in captain  and battle.")]
+    private static void SetControlledBotsCount(string? botsCountStr)
+    {
+        if (botsCountStr == null || !int.TryParse(botsCountStr, out int botsCount))
+        {
+            Debug.Print($"Invalid Controlled Bots Count: {botsCountStr}");
+            return;
+        }
+
+        ControlledBotsCount = botsCount;
+        Debug.Print($"Sets ControlledBotsCount to {botsCount}");
     }
 
     [UsedImplicitly]

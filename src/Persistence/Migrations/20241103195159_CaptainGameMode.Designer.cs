@@ -15,6 +15,7 @@ using Crpg.Domain.Entities.Users;
 using Crpg.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -24,9 +25,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crpg.Persistence.Migrations
 {
     [DbContext(typeof(CrpgDbContext))]
-    partial class CrpgDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241103195159_CaptainGameMode")]
+    partial class CaptainGameMode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -611,9 +614,8 @@ namespace Crpg.Persistence.Migrations
 
             modelBuilder.Entity("Crpg.Domain.Entities.GameServers.IdempotencyKey", b =>
                 {
-                    b.Property<Guid>("Key")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                    b.Property<string>("Key")
+                        .HasColumnType("text")
                         .HasColumnName("key");
 
                     b.Property<DateTime>("CreatedAt")
@@ -623,10 +625,6 @@ namespace Crpg.Persistence.Migrations
                     b.Property<UserUpdateStatus>("Status")
                         .HasColumnType("user_update_status")
                         .HasColumnName("status");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
 
                     b.HasKey("Key")
                         .HasName("pk_idempotency_keys");
