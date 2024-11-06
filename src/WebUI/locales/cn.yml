@@ -1462,14 +1462,14 @@ leaderboard:
   table:
     cols:
       top: 前
-      rank: 排名
+      rank: 段位
       player: 玩家
       class: 职业
       level: 等级
       region: 地区
 
 rankTable:
-  title: 排名表
+  title: 段位表
 
 patchNotes:
   showAllPatches: '+ {count} 个补丁 | + {count} 个补丁'
