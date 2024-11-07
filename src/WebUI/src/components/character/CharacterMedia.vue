@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { type Character } from '@/models/character';
-import { characterClassToIcon } from '@/services/characters-service';
+import type { Character } from '~/models/character'
+
+import { characterClassToIcon } from '~/services/characters-service'
 
 const { character, isActive = false } = defineProps<{
-  character: Character;
-  isActive?: boolean;
-}>();
+  character: Character
+  isActive?: boolean
+}>()
 </script>
 
 <template>
   <div class="flex items-center gap-2">
     <OIcon
+      v-tooltip="$t(`character.class.${character.class}`)"
       :icon="characterClassToIcon[character.class]"
       size="lg"
-      v-tooltip="$t(`character.class.${character.class}`)"
     />
 
     <div class="flex items-center gap-1">
@@ -26,16 +27,16 @@ const { character, isActive = false } = defineProps<{
 
     <Tag
       v-if="isActive"
-      :label="$t('character.status.active.short')"
       v-tooltip="$t('character.status.active.title')"
+      :label="$t('character.status.active.short')"
       variant="success"
       size="sm"
     />
 
     <Tag
       v-if="character.forTournament"
-      :label="$t('character.status.forTournament.short')"
       v-tooltip="$t('character.status.forTournament.title')"
+      :label="$t('character.status.forTournament.short')"
       variant="warning"
       size="sm"
     />

@@ -1,9 +1,9 @@
-it.todo('TODO:', () => {});
+it.todo('... TODO:', () => {})
 
 // import { mount } from '@vue/test-utils';
-// import { CharacterCharacteristics } from '@/models/character';
+// import { CharacterCharacteristics } from '~/models/character';
 
-// vi.mock('@/services/characters-service', () => ({
+// vi.mock('~/services/characters-service', () => ({
 //   computeSpeedStats: vi.fn().mockReturnValue({
 //     weightReductionFactor: 1,
 //     freeWeight: 2.5,

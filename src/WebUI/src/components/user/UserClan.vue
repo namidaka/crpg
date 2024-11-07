@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ClanMemberRole } from '@/models/clan';
-import { type Clan } from '@/models/clan';
+import type { Clan } from '~/models/clan'
+
+import { ClanMemberRole } from '~/models/clan'
 
 const { clan, clanRole } = defineProps<{
-  clan: Clan;
-  clanRole?: ClanMemberRole | null;
-}>();
+  clan: Clan
+  clanRole?: ClanMemberRole | null
+}>()
 </script>
 
 <template>

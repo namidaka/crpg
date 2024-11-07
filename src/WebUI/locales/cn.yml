@@ -41,32 +41,31 @@ dateTime:
     long: 分钟 | 分钟
 
 timeAgo:
-  just-now: "刚刚"
-  ago: "{0} 前"
-  in: "在 {0}"
-  last-month: "上个月"
-  next-month: "下个月"
-  month: "个月 | 个月"
-  last-year: "去年"
-  next-year: "明年"
-  year: "年 | 年"
-  yesterday: "昨天"
-  tomorrow: "明天"
-  day: "天 | 天"
-  last-week: "上周"
-  next-week: "下周"
-  week: "周 | 周"
-  hour: "小时 | 小时"
-  minute: "分钟 | 分钟"
-  second: "秒 | 秒"
-
+  just-now: 刚刚
+  ago: '{0} 前'
+  in: '在 {0}'
+  last-month: 上个月
+  next-month: 下个月
+  month: '个月 | 个月'
+  last-year: 去年
+  next-year: 明年
+  year: '年 | 年'
+  yesterday: 昨天
+  tomorrow: 明天
+  day: '天 | 天'
+  last-week: 上周
+  next-week: 下周
+  week: '周 | 周'
+  hour: '小时 | 小时'
+  minute: '分钟 | 分钟'
+  second: '秒 | 秒'
 
 dateTimeFormat:
   # TODO: https://github.com/tc39/proposal-intl-duration-format
   countdown: '{hours}:{minutes}:{seconds}'
-  'dd': '{days} @:dateTime.days.short'
-  'mm': '{minutes} @:dateTime.minutes.short'
-  'hh': '{hours} @:dateTime.hours.short'
+  dd: '{days} @:dateTime.days.short'
+  mm: '{minutes} @:dateTime.minutes.short'
+  hh: '{hours} @:dateTime.hours.short'
   'dd:hh:mm': '{days}@:dateTime.days.short {hours}@:dateTime.hours.short {minutes}@:dateTime.minutes.short'
 
 nav:
@@ -158,7 +157,7 @@ error:
   discord: 如果您想帮助我们修复它，请在我们的{discordLink}上提交一份报告。
   modMail: 您可以利用Modmail来提交一个报告, 您可以从这儿找到如何操作的指南{modMailGuideLink}
   report:
-    title: '当您提交报告时，请确保包含以下内容：'
+    title: 当您提交报告时，请确保包含以下内容：
     step:
       reproduce: 在出现错误之前您正在做什么
       repeat: 您是否能够稳定地重现此错误
@@ -198,29 +197,29 @@ clanBalancingExplanation: '
   <p>此外，加入部族还可以共享和出借物品（部族军械库</p>'
 
 welcome:
-  title: '欢迎，勇士！'
-  intro: "
+  title: 欢迎，勇士！
+  intro: '
     <p>欢迎来到 Bannerlord 最受欢迎的在线修改之一！</p>
     <p>为了让您尽可能顺利地开始游戏，我们为您提供了一个 30 级的初始角色，并为您提供了一些额外的奖励，助您一臂之力</p>
-    <p>请记住，cRPG 有很多经验丰富的玩家，所以一开始面临挑战是完全正常的。不要被这些吓倒！如有任何问题，请加入我们的 <a href='https://discord.gg/c-rpg' target='_blank'>Discord</a></p>"
-  bonusTitle: '你的初始奖励'
+    <p>请记住，cRPG 有很多经验丰富的玩家，所以一开始面临挑战是完全正常的。不要被这些吓倒！如有任何问题，请加入我们的 <a href=''https://discord.gg/c-rpg'' target=''_blank''>Discord</a></p>'
+  bonusTitle: 你的初始奖励
   bonusHint: '* 奖励在达到 {level} 级之前有效（大约1-2周的游戏时间）'
   bonus:
-    gold: "
-     <h5>起始金币</h5>
-     <p>金币用于<strong>购买</strong>、<strong>维护</strong>和<strong>重铸</strong>物品，以及重置角色技能</p>
-     <p>为了积累金币，请查看您角色的<strong>@:character.nav.inventory 页面</strong>上装备维护的成本</p>
-     <p>在起始奖励有效期间，重置您角色技能是<strong>免费<strong>的</p>"
-    newUserStartingCharacter: "
+    gold: '
+      <h5>起始金币</h5>
+      <p>金币用于<strong>购买</strong>、<strong>维护</strong>和<strong>重铸</strong>物品，以及重置角色技能</p>
+      <p>为了积累金币，请查看您角色的<strong>@:character.nav.inventory 页面</strong>上装备维护的成本</p>
+      <p>在起始奖励有效期间，重置您角色技能是<strong>免费<strong>的</p>'
+    newUserStartingCharacter: '
       <h5>起始角色</h5>
       <p>您将获得一个起始角色：一名战士，携带一把<strong>{level}级</strong>的单手剑和盾牌，并穿着<strong>中等装备</strong><p>
-      <p>您可以使用<strong>@:character.nav.overview 页面</strong>上的技能重置功能更改角色的职业<p>"
-    freeRespec: "
+      <p>您可以使用<strong>@:character.nav.overview 页面</strong>上的技能重置功能更改角色的职业<p>'
+    freeRespec: '
       <h5>重置专精技能</h5>
       <p>重置专精技能是重置角色的技能</p>
       <p>您有<strong>无限</strong>次<strong>免费</strong>重置专精技能的机会，可以尝试不同的技能搭配</p>
       <p>奖励在您达到<strong>{level}级</strong>之前有效</p>
-      <p>您可以在<strong>@:character.nav.overview 页面</strong>上更改角色职业<p>"
+      <p>您可以在<strong>@:character.nav.overview 页面</strong>上更改角色职业<p>'
   helpfulLinks:
     label: 提供帮助的链接
 
@@ -244,7 +243,7 @@ character:
     title: 新角色
     guide:
       title: 创建一个新角色
-      intro: '要创建一个新角色，只需按照以下步骤操作：'
+      intro: 要创建一个新角色，只需按照以下步骤操作：
       step:
         install: 加载包含cRPG模组的Bannerlord
         join: 加入任何一个cRPG服务器（战场/攻城/决斗）
@@ -309,17 +308,17 @@ character:
       tooltip:
         title: 段位
         # prettier-ignore
-        desc: "
+        desc: '
           <p>你的评级决定了你的段位，它与自动平衡器直接相关，通过它来决定将你放在哪个队伍中。我们使用的系统是 <strong>*Glicko2</strong>.</p>
           <p>不要过分担心你的段位！最终，它只是我们用来平衡队伍的工具，不一定完全反映你在《骑马与砍杀》中的技能水平。</p>
           <p>你可以通过对更强大的玩家造成伤害、与他们交战，并保持持续出色的表现来提升你的段位。</p>
           <p>
-            <small>
-              <strong>*Glicko2</strong>
-              <br />
-              Glicko-2 段位系统是一种用于估算类似国际象棋这样的零和游戏中玩家技能水平的方法。它是 Elo 段位系统的扩展，通过添加一个可靠性评级来改进系统。该系统不仅根据胜负结果调整段位，还考虑玩家表现的一致性。以骑马与砍杀游戏模组 cRPG 为背景，Glicko-2 段位系统是一种用于评估玩家技能水平的方法，它综合考虑了玩家的胜负结果和表现的一致性。
-            </small>
-          </p>"
+          <small>
+          <strong>*Glicko2</strong>
+          <br />
+          Glicko-2 段位系统是一种用于估算类似国际象棋这样的零和游戏中玩家技能水平的方法。它是 Elo 段位系统的扩展，通过添加一个可靠性评级来改进系统。该系统不仅根据胜负结果调整段位，还考虑玩家表现的一致性。以骑马与砍杀游戏模组 cRPG 为背景，Glicko-2 段位系统是一种用于评估玩家技能水平的方法，它综合考虑了玩家的胜负结果和表现的一致性。
+          </small>
+          </p>'
 
   settings:
     group:
@@ -347,14 +346,14 @@ character:
       title: 重新分配
       tooltip:
         title: 重新分配角色
-        desc: "
+        desc: '
           <p>您可以在上次重置后的 <strong>{freeRespecPostWindow}</strong> 和 <strong>{freeRespecInterval}</strong> 之后免费重置角色的技能。</p>
-          <p>其余时间重置技能的费用会随着时间的推移而降低。</p>"
-        freeRespecPostWindowRemaining: "
-          <p>剩余免费技能重置时间: <strong>{remainingTime}</strong></p>"
+          <p>其余时间重置技能的费用会随着时间的推移而降低。</p>'
+        freeRespecPostWindowRemaining: '
+          <p>剩余免费技能重置时间: <strong>{remainingTime}</strong></p>'
         paidRespec: '花费{respecPrice}重新分配你的属性点'
-        freeRespecIntervalNext: "
-          <p>下次免费重新分配属性点将在：: <strong>{nextFreeAt}</strong></p>"
+        freeRespecIntervalNext: '
+          <p>下次免费重新分配属性点将在：: <strong>{nextFreeAt}</strong></p>'
       dialog:
         title: 重新分配角色
         desc: 你确定要花费{respecializationPrice}重新分配你的属性点吗? 此操作无法撤销。
@@ -531,10 +530,10 @@ character:
       desc: 根据武器长度和力量属性点数，造成的额外移动速度惩罚
     price:
       title: 价格
-      desc: '已装备物品的总成本'
+      desc: 已装备物品的总成本
     avgRepairCost:
       title: 平均维修成本
-      desc: '已装备物品每小时的平均维护费用'
+      desc: 已装备物品每小时的平均维护费用
 
   earningChart:
     title: 收入图表
@@ -580,15 +579,15 @@ character:
           warning: 大盾牌不能在马背上使用
       EBAArmorCompatible:
         notify:
-          warning: '要装备EBA包中的防弹衣，您必须首先穿戴EBA包中的兼容腿部防弹衣。'
+          warning: 要装备EBA包中的防弹衣，您必须首先穿戴EBA包中的兼容腿部防弹衣。
       upgrade:
         upgradesTitle: 物品升级
         tooltip:
-          title: '升级物品'
-          description: '你可以花费一个转生点来升级你的物品'
+          title: 升级物品
+          description: 你可以花费一个转生点来升级你的物品
         validation:
-          maxRank: '该物品已经升级到最高阶'
-          loomPoints: '你没有足够的转生点'
+          maxRank: 该物品已经升级到最高阶
+          loomPoints: 你没有足够的转生点
         confirm:
           description: '你确定要使用{loomPoints}转生点来升级此物品吗？你的物品{oldItem}将会变成{newItem}。'
         currentItem: 当前物品
@@ -596,8 +595,8 @@ character:
           success: 物品成功升级
       reforge:
         tooltip:
-          title: '重铸物品'
-          description: '你可以使用金币来重铸你的物品'
+          title: 重铸物品
+          description: 你可以使用金币来重铸你的物品
           costTable:
             cols:
               rank:
@@ -608,11 +607,11 @@ character:
                 label: 获得奖励
         validation:
           rank: '该物品必须拥有大于{minimumRank}的阶级'
-          gold: '你没有足够的金币来执行此操作'
+          gold: 你没有足够的金币来执行此操作
         confirm:
           description: '你确定要用{gold}的金币来重铸该物品吗？你将会获得{loomPoints}转生点作为回报，同时物品{oldItem}将变成{newItem}'
         notify:
-          success: '物品重铸成功'
+          success: 物品重铸成功
       clanArmory:
         inArmory:
           title: 物品在部族军械库中
@@ -659,7 +658,7 @@ character:
         description: ''
       WeaponExtra:
         title: 额外武器
-        description: '用于放置旗帜或长矛等无法出鞘的物品的插槽'
+        description: 用于放置旗帜或长矛等无法出鞘的物品的插槽
     armorOverall:
       ArmArmor: 手臂护甲
       BodyArmor: 身体护甲
@@ -874,14 +873,14 @@ user:
           <h5>警告</h5>
           <h4>您即将删除您的帐户</h4>
           <h5>警告</h5>'
-        desc: '最后警告：此过程不可撤销 - 删除您的账户意味着您的账户将永久消失。与您在 cRPG 中的时间、角色、物品、等级等相关的所有数据都将被永久删除。一旦删除，我们将无法恢复数据。'
+        desc: 最后警告：此过程不可撤销 - 删除您的账户意味着您的账户将永久消失。与您在 cRPG 中的时间、角色、物品、等级等相关的所有数据都将被永久删除。一旦删除，我们将无法恢复数据。
         enterToConfirm: '删除我的帐户 {user}'
       notify:
         success: 您的账户已被删除。
   restriction:
     notification: '你被封禁，时长为：{duration}'
     guide:
-      intro: '如果你想进一步讨论你的惩罚，请按照以下步骤操作：'
+      intro: 如果你想进一步讨论你的惩罚，请按照以下步骤操作：
       step:
         join: 加入我们的{discordLink}
         navigate: 导航到我们的{modMailLink}频道
@@ -984,34 +983,34 @@ hh:
 item:
   type:
     Undefined: ''
-    HeadArmor: '头部护甲'
-    ShoulderArmor: '肩部护甲'
-    BodyArmor: '身体护甲'
-    HandArmor: '手部护甲'
-    LegArmor: '腿部护甲'
-    MountHarness: '坐骑护具'
-    Mount: '坐骑'
-    Shield: '盾牌'
-    Bow: '弓'
-    Crossbow: '弩'
-    OneHandedWeapon: '单手武器'
-    TwoHandedWeapon: '双手武器'
-    Polearm: '长柄武器'
-    Thrown: '投掷武器'
-    Arrows: '箭'
-    Bolts: '弩矢'
-    Pistol: '手枪'
-    Musket: '火枪'
-    Bullets: '子弹'
-    Banner: '旗帜'
+    HeadArmor: 头部护甲
+    ShoulderArmor: 肩部护甲
+    BodyArmor: 身体护甲
+    HandArmor: 手部护甲
+    LegArmor: 腿部护甲
+    MountHarness: 坐骑护具
+    Mount: 坐骑
+    Shield: 盾牌
+    Bow: 弓
+    Crossbow: 弩
+    OneHandedWeapon: 单手武器
+    TwoHandedWeapon: 双手武器
+    Polearm: 长柄武器
+    Thrown: 投掷武器
+    Arrows: 箭
+    Bolts: 弩矢
+    Pistol: 手枪
+    Musket: 火枪
+    Bullets: 子弹
+    Banner: 旗帜
 
   flags:
     ForceAttachOffHandPrimaryItemBone: ''
     ForceAttachOffHandSecondaryItemBone: ''
     NotUsableByFemale: ''
     NotUsableByMale: ''
-    DropOnWeaponChange: '换武器会掉落'
-    DropOnAnyAction: '任何操作都会掉落'
+    DropOnWeaponChange: 换武器会掉落
+    DropOnAnyAction: 任何操作都会掉落
     CannotBePickedUp: ''
     CanBePickedUpFromCorpse: ''
     QuickFadeOut: ''
@@ -1019,86 +1018,86 @@ item:
     WoodenParry: ''
     HeldInOffHand: ''
     HasToBeHeldUp: ''
-    UseTeamColor: '使用氏族颜色'
+    UseTeamColor: 使用氏族颜色
     Civilian: ''
     DoNotScaleBodyAccordingToWeaponLength: ''
     DoesNotHideChest: ''
-    NotStackable: '不可堆叠'
+    NotStackable: 不可堆叠
 
   usage:
     long_bow:
-      title: '长弓'
+      title: 长弓
       description: ''
     bow:
-      title: '弓'
+      title: 弓
       description: ''
     crossbow:
-      title: '重弩'
+      title: 重弩
       description: ''
     crossbow_light:
-      title: '轻弩'
+      title: 轻弩
       description: ''
     polearm_couch:
-      title: '冲锋'
+      title: 冲锋
       description: ''
     polearm_bracing:
-      title: '架刺'
+      title: 架刺
       description: ''
     polearm_pike:
-      title: '长枪'
+      title: 长枪
       description: ''
     polearm:
-      title: '长枪'
-      description: '只能在沙发模式下使用'
+      title: 长枪
+      description: 只能在沙发模式下使用
 
   weaponClass:
     Undefined: ''
-    Dagger: '匕首'
-    OneHandedSword: '单手剑'
-    TwoHandedSword: '双手剑'
-    OneHandedAxe: '单手斧'
-    TwoHandedAxe: '双手斧'
-    Mace: '钉头锤'
-    Pick: '镐'
-    TwoHandedMace: '双手钉头锤'
-    OneHandedPolearm: '单手长柄武器'
-    TwoHandedPolearm: '双手长柄武器'
-    LowGripPolearm: '低握长柄武器'
-    Arrow: '箭'
-    Bolt: '弩矢'
-    Cartridge: '子弹'
-    Bow: '弓'
-    Crossbow: '弩'
-    Stone: '石头'
-    Boulder: '巨石'
-    ThrowingAxe: '投掷斧'
-    ThrowingKnife: '投掷匕首'
-    Javelin: '标枪'
-    Pistol: '手枪'
-    Musket: '火枪'
-    SmallShield: '小盾'
-    LargeShield: '大盾'
-    Banner: '旗帜'
+    Dagger: 匕首
+    OneHandedSword: 单手剑
+    TwoHandedSword: 双手剑
+    OneHandedAxe: 单手斧
+    TwoHandedAxe: 双手斧
+    Mace: 钉头锤
+    Pick: 镐
+    TwoHandedMace: 双手钉头锤
+    OneHandedPolearm: 单手长柄武器
+    TwoHandedPolearm: 双手长柄武器
+    LowGripPolearm: 低握长柄武器
+    Arrow: 箭
+    Bolt: 弩矢
+    Cartridge: 子弹
+    Bow: 弓
+    Crossbow: 弩
+    Stone: 石头
+    Boulder: 巨石
+    ThrowingAxe: 投掷斧
+    ThrowingKnife: 投掷匕首
+    Javelin: 标枪
+    Pistol: 手枪
+    Musket: 火枪
+    SmallShield: 小盾
+    LargeShield: 大盾
+    Banner: 旗帜
 
   weaponFlags:
-    AffectsAreaBig: '影响范围大'
-    AffectsArea: '影响范围'
+    AffectsAreaBig: 影响范围大
+    AffectsArea: 影响范围
     AmmoBreaksOnBounceBack: ''
     AmmoCanBreakOnBounceBack: ''
     AmmoSticksWhenShot: ''
     AttachAmmoToVisual: ''
-    AutoReload: '自动装填'
-    BonusAgainstShield: '对盾牌加成'
-    Burning: '燃烧'
-    CanBlockRanged: '能阻挡远程攻击'
-    CanCrushThrough: '能突破格挡'
-    CanDismount: '能卸下坐骑'
-    CanHook: '可以钩住'
-    CanKnockDown: '能突破格挡'
-    CanPenetrateShield: '能穿透盾牌'
-    CantReloadOnHorseback: '不能再马上装填'
-    CanReloadOnHorseback: '可以在马上装填'
-    CantUseOnHorseback: '不能在马背上使用'
+    AutoReload: 自动装填
+    BonusAgainstShield: 对盾牌加成
+    Burning: 燃烧
+    CanBlockRanged: 能阻挡远程攻击
+    CanCrushThrough: 能突破格挡
+    CanDismount: 能卸下坐骑
+    CanHook: 可以钩住
+    CanKnockDown: 能突破格挡
+    CanPenetrateShield: 能穿透盾牌
+    CantReloadOnHorseback: 不能再马上装填
+    CanReloadOnHorseback: 可以在马上装填
+    CantUseOnHorseback: 不能在马背上使用
     Consumable: ''
     FirearmAmmo: ''
     HasHitPoints: ''
@@ -1106,17 +1105,17 @@ item:
     LeavesTrail: ''
     MeleeWeapon: ''
     MissileWithPhysics: ''
-    MultiplePenetration: '能击倒'
+    MultiplePenetration: 能击倒
     NoBlood: ''
-    NotUsableWithOneHand: '只能用于双手'
-    NotUsableWithTwoHand: '只能用于单手'
-    PenaltyWithShield: '与盾牌使用会有惩罚'
-    RangedWeapon: '远程武器'
+    NotUsableWithOneHand: 只能用于双手
+    NotUsableWithTwoHand: 只能用于单手
+    PenaltyWithShield: 与盾牌使用会有惩罚
+    RangedWeapon: 远程武器
     StringHeldByHand: ''
-    TwoHandIdleOnMount: '骑乘时使用双手空闲状态'
+    TwoHandIdleOnMount: 骑乘时使用双手空闲状态
     UnloadWhenSheathed: ''
     UseHandAsThrowBase: ''
-    WideGrip: '宽握'
+    WideGrip: 宽握
 
   culture:
     Neutral: 中立
@@ -1130,193 +1129,193 @@ item:
 
   familyType:
     1:
-      title: '马'
+      title: 马
       description: ''
     2:
-      title: '骆驼'
+      title: 骆驼
       description: ''
     3:
-      title: 'EBA'
-      description: '要装备EBA包中的防弹衣，您必须首先穿戴EBA包中的兼容腿部防弹衣。'
+      title: EBA
+      description: 要装备EBA包中的防弹衣，您必须首先穿戴EBA包中的兼容腿部防弹衣。
 
   armorMaterialType:
     Cloth:
-      title: '布料'
+      title: 布料
       description: ''
     Leather:
-      title: '皮革'
+      title: 皮革
       description: ''
     Chainmail:
-      title: '锁子甲'
+      title: 锁子甲
       description: ''
     Plate:
-      title: '板材'
+      title: 板材
       description: ''
 
   damageTypeFormat: '{value} {type}'
   damageType:
     Cut:
-      long: '砍伤'
-      short: '砍'
-      title: '砍伤'
-      description: "
+      long: 砍伤
+      short: 砍
+      title: 砍伤
+      description: '
         <p>砍伤代表使用剑或斧等锋利武器施加的劈砍攻击。</p>
-        <p>这些攻击在面对低或无装甲的敌人时表现出色，有效地利用其脆弱性。装甲越薄，砍伤就越具毁灭性，反映了锋利武器在敌人身体较少受保护的部位切割的能力。</p>"
+        <p>这些攻击在面对低或无装甲的敌人时表现出色，有效地利用其脆弱性。装甲越薄，砍伤就越具毁灭性，反映了锋利武器在敌人身体较少受保护的部位切割的能力。</p>'
     Pierce:
-      long: '刺伤'
-      short: '刺'
-      title: '刺伤'
-      description: "
+      long: 刺伤
+      short: 刺
+      title: 刺伤
+      description: '
         <p>刺伤代表由箭矢、长矛或匕首等用于穿透和刺入的武器造成的伤害。</p>
         <p>刺伤的主要优势在于对抗着甲敌人的效率。刺伤的头部命中伤害加成增加得比通常更多，如果近战（刺击）攻击命中敌人的头部，伤害加成为1.3倍，而对于远程攻击，增加倍数为1.6倍。</p>
-        <p>这使得刺伤成为潜在的最强伤害类型，因为它受益于头部命中。</p>"
+        <p>这使得刺伤成为潜在的最强伤害类型，因为它受益于头部命中。</p>'
     Blunt:
-      long: '钝伤'
-      short: '钝'
-      title: '钝伤'
-      description: "
+      long: 钝伤
+      short: 钝
+      title: 钝伤
+      description: '
         <p>钝伤指的是由锤子、钉头锤或木棍等冲击武器造成的伤害。</p>
-        <p>在对抗穿着厚重盔甲的敌人这一方面，钝伤与刺伤类似有效。然而，与刺伤不同的是，钝伤没有针对头部伤害的加成。相比之下，钝伤更适合在综合情况下使用。</p>"
+        <p>在对抗穿着厚重盔甲的敌人这一方面，钝伤与刺伤类似有效。然而，与刺伤不同的是，钝伤没有针对头部伤害的加成。相比之下，钝伤更适合在综合情况下使用。</p>'
 
   requirementFormat: '{value} 力'
 
   aggregations:
     type:
-      title: '物品类型'
+      title: 物品类型
       description: ''
     price:
-      title: '价格'
+      title: 价格
       description: ''
     upkeep:
-      title: '维修费'
-      description: '平均每小时维护费用'
+      title: 维修费
+      description: 平均每小时维护费用
     culture:
-      title: '文化'
+      title: 文化
       description: ''
     requirement:
-      title: '需求'
-      description: '’你的力量不足以使用此物品‘'
+      title: 需求
+      description: ’你的力量不足以使用此物品‘
     tier:
-      title: '物品品阶'
-      description: '<p>cRPG有一个物品价值模型，预测和量化游戏中的物品效率。它根据统计资料、通知要求和价格，为每件物品分配一个从0到10的等级。前段时间进行的模型大修重新调整了定价表，以更好地反映物品的性能，通常使顶级武器更加昂贵。然而，请记住，该模型是物品平衡的一个指标，而不是一个完美的衡量标准。</p>'
+      title: 物品品阶
+      description: <p>cRPG有一个物品价值模型，预测和量化游戏中的物品效率。它根据统计资料、通知要求和价格，为每件物品分配一个从0到10的等级。前段时间进行的模型大修重新调整了定价表，以更好地反映物品的性能，通常使顶级武器更加昂贵。然而，请记住，该模型是物品平衡的一个指标，而不是一个完美的衡量标准。</p>
     flags:
-      title: '特性'
+      title: 特性
       description: ''
     weight:
-      title: '重量'
+      title: 重量
       description: ''
 
     armorMaterialType:
-      title: '材料'
+      title: 材料
       description: ''
     headArmor:
-      title: '头部护甲'
+      title: 头部护甲
       description: ''
     bodyArmor:
-      title: '身体护甲'
+      title: 身体护甲
       description: ''
     armArmor:
-      title: '手臂护甲'
+      title: 手臂护甲
       description: ''
     legArmor:
-      title: '腿部护甲'
+      title: 腿部护甲
       description: ''
     armorFamilyType:
-      title: '盔甲套装'
-      description: '某些装甲元素仅与同一组装甲元素兼容'
+      title: 盔甲套装
+      description: 某些装甲元素仅与同一组装甲元素兼容
     bodyLength:
-      title: '身长'
+      title: 身长
       description: ''
     chargeDamage:
-      title: '冲锋伤害'
+      title: 冲锋伤害
       description: ''
     maneuver:
-      title: '机动性'
+      title: 机动性
       description: ''
     speed:
-      title: '速度'
+      title: 速度
       description: ''
     hitPoints:
-      title: '生命值'
+      title: 生命值
       description: ''
     mountFamilyType:
-      title: '坐骑类型'
+      title: 坐骑类型
       description: ''
     mountArmor:
-      title: '坐骑护甲'
+      title: 坐骑护甲
       description: ''
     mountArmorFamilyType:
-      title: '坐骑护甲类型'
+      title: 坐骑护甲类型
       description: ''
     weaponClass:
-      title: '武器类型'
+      title: 武器类型
       description: ''
     length:
-      title: '长度'
+      title: 长度
       description: ''
     handling:
-      title: '操控性'
-      description: '在您释放挥杆动作之前加快准备动画的处理速度'
+      title: 操控性
+      description: 在您释放挥杆动作之前加快准备动画的处理速度
     thrustSpeed:
-      title: '刺击速度'
+      title: 刺击速度
       description: ''
     thrustDamage:
-      title: '刺击伤害'
+      title: 刺击伤害
       description: ''
     thrustDamageType:
-      title: '刺击伤害类型'
+      title: 刺击伤害类型
       description: ''
     swingSpeed:
-      title: '挥击速度'
+      title: 挥击速度
       description: ''
     swingDamage:
-      title: '挥击伤害'
+      title: 挥击伤害
       description: ''
     swingDamageType:
-      title: '挥击伤害类型'
+      title: 挥击伤害类型
       description: ''
 
     accuracy:
-      title: '精度'
+      title: 精度
       description: ''
     missileSpeed:
-      title: '导弹速度'
+      title: 导弹速度
       description: ''
     reloadSpeed:
-      title: '装填速度'
+      title: 装填速度
       description: ''
     aimSpeed:
-      title: '瞄准速度'
+      title: 瞄准速度
       description: ''
 
     damage:
-      title: '伤害'
+      title: 伤害
       description: ''
     damageType:
-      title: '伤害'
+      title: 伤害
       description: ''
     stackAmount:
-      title: '弹药数量'
+      title: 弹药数量
       description: ''
     stackWeight:
-      title: '弹药重量'
+      title: 弹药重量
       description: ''
 
     shieldSpeed:
-      title: '速度'
+      title: 速度
       description: ''
     shieldDurability:
-      title: '耐久度'
+      title: 耐久度
       description: ''
     shieldArmor:
-      title: '护甲'
+      title: 护甲
       description: ''
 
     rank:
-      title: '阶级'
+      title: 阶级
       description: ''
     new:
-      title: '仅限新物品'
+      title: 仅限新物品
       description: '显示最近{days}天内添加或修改的物品'
 
   format:
@@ -1348,4 +1347,4 @@ rankTable:
 
 patchNotes:
   showAllPatches: '+ {count} 补丁'
-  latestPatch: '最新补丁'
+  latestPatch: 最新补丁

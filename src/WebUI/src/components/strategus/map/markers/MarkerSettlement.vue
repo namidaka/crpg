@@ -1,38 +1,41 @@
 <script setup lang="ts">
-import { LMarker, LIcon } from '@vue-leaflet/vue-leaflet';
-import { SettlementType, type SettlementPublic } from '@/models/strategus/settlement';
-import { positionToLatLng } from '@/utils/geometry';
-import { settlementIconByType } from '@/services/strategus-service/settlement';
+import { LIcon, LMarker } from '@vue-leaflet/vue-leaflet'
 
-const { settlement } = defineProps<{ settlement: SettlementPublic }>();
+import { type SettlementPublic, SettlementType } from '~/models/strategus/settlement'
+import { settlementIconByType } from '~/services/strategus-service/settlement'
+import { positionToLatLng } from '~/utils/geometry'
+
+const { settlement } = defineProps<{ settlement: SettlementPublic }>()
 
 const settlementMarkerStyle = computed(() => {
   const output = {
     ...settlementIconByType[settlement.type],
     baseClass: '',
-  };
+  }
 
   switch (settlement.type) {
     case SettlementType.Town:
-      output.baseClass = 'text-sm px-2 py-1.5 gap-2';
-
+      output.baseClass = 'text-sm px-2 py-1.5 gap-2'
+      break
     case SettlementType.Castle:
-      output.baseClass = 'text-xs px-1.5 py-1 gap-1.5';
+      output.baseClass = 'text-xs px-1.5 py-1 gap-1.5'
+      break
 
     case SettlementType.Village:
-      output.baseClass = 'text-2xs px-1 py-1 gap-1';
+      output.baseClass = 'text-2xs px-1 py-1 gap-1'
+      break
   }
 
-  return output;
-});
+  return output
+})
 </script>
 
 <template>
   <LMarker
-    :latLng="positionToLatLng(settlement.position.coordinates)"
+    :lat-lng="positionToLatLng(settlement.position.coordinates)"
     :options="{ bubblingMouseEvents: false }"
   >
-    <LIcon className="!flex justify-center items-center">
+    <LIcon class-name="!flex justify-center items-center">
       <div
         class="flex items-center whitespace-nowrap rounded-md bg-base-100 bg-opacity-30 text-white hover:ring"
         :class="settlementMarkerStyle.baseClass"
@@ -43,7 +46,9 @@ const settlementMarkerStyle = computed(() => {
           :size="settlementMarkerStyle.iconSize"
           class="self-baseline"
         />
-        <div class="leading-snug">{{ settlement.name }}</div>
+        <div class="leading-snug">
+          {{ settlement.name }}
+        </div>
       </div>
     </LIcon>
   </LMarker>

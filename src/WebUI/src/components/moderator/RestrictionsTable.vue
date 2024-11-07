@@ -1,29 +1,39 @@
 <script setup lang="ts">
-import { RestrictionWithActive } from '@/models/restriction';
-import { usePagination } from '@/composables/use-pagination';
-import { parseTimestamp, computeLeftMs } from '@/utils/date';
+import type { RestrictionWithActive } from '~/models/restriction'
 
-defineProps<{ restrictions: RestrictionWithActive[]; hiddenCols?: string[] }>();
+import { usePagination } from '~/composables/use-pagination'
+import { computeLeftMs, parseTimestamp } from '~/utils/date'
 
-const { pageModel, perPage } = usePagination();
+defineProps<{ restrictions: RestrictionWithActive[], hiddenCols?: string[] }>()
+
+const { pageModel, perPage } = usePagination()
 </script>
 
 <template>
   <OTable
     v-model:current-page="pageModel"
     :data="restrictions"
-    :perPage="perPage"
+    :per-page="perPage"
     :paginated="restrictions.length > perPage"
     hoverable
     bordered
     narrowed
-    :debounceSearch="300"
-    sortIcon="chevron-up"
-    sortIconSize="xs"
-    :defaultSort="['id', 'desc']"
+    :debounce-search="300"
+    sort-icon="chevron-up"
+    sort-icon-size="xs"
+    :default-sort="['id', 'desc']"
   >
     <OTableColumn
-      #default="{ row: restriction }: { row: RestrictionWithActive }"
+      v-slot="{ row: restriction }: { row: RestrictionWithActive }"
+      field="id"
+      :width="60"
+      label="id"
+      sortable
+    >
+      {{ restriction.id }}
+    </OTableColumn>
+    <OTableColumn
+      v-slot="{ row: restriction }: { row: RestrictionWithActive }"
       field="active"
       :label="$t('restriction.table.column.status')"
       :width="90"
@@ -31,16 +41,22 @@ const { pageModel, perPage } = usePagination();
     >
       <Tag
         v-if="restriction.active"
-        :label="$t('restriction.status.active')"
-        variant="success"
-        size="sm"
         v-tooltip="
           $t('dateTimeFormat.dd:hh:mm', {
             ...parseTimestamp(computeLeftMs(restriction.createdAt, restriction.duration)),
           })
         "
+        :label="$t('restriction.status.active')"
+        variant="success"
+        size="sm"
       />
-      <Tag v-else variant="info" size="sm" disabled :label="$t('restriction.status.inactive')" />
+      <Tag
+        v-else
+        variant="info"
+        size="sm"
+        disabled
+        :label="$t('restriction.status.inactive')"
+      />
     </OTableColumn>
 
     <OTableColumn
@@ -68,13 +84,17 @@ const { pageModel, perPage } = usePagination();
           }"
           class="inline-block hover:text-content-100"
         >
-          <UserMedia class="max-w-[12rem]" :user="restriction.restrictedUser" hiddenClan />
+          <UserMedia
+            class="max-w-48"
+            :user="restriction.restrictedUser"
+            hidden-clan
+          />
         </RouterLink>
       </template>
     </OTableColumn>
 
     <OTableColumn
-      #default="{ row: restriction }: { row: RestrictionWithActive }"
+      v-slot="{ row: restriction }: { row: RestrictionWithActive }"
       field="createdAt"
       :label="$t('restriction.table.column.createdAt')"
       :width="160"
@@ -84,7 +104,7 @@ const { pageModel, perPage } = usePagination();
     </OTableColumn>
 
     <OTableColumn
-      #default="{ row: restriction }: { row: RestrictionWithActive }"
+      v-slot="{ row: restriction }: { row: RestrictionWithActive }"
       field="duration"
       :label="$t('restriction.table.column.duration')"
       :width="160"
@@ -97,7 +117,7 @@ const { pageModel, perPage } = usePagination();
     </OTableColumn>
 
     <OTableColumn
-      #default="{ row: restriction }: { row: RestrictionWithActive }"
+      v-slot="{ row: restriction }: { row: RestrictionWithActive }"
       field="type"
       :label="$t('restriction.table.column.type')"
       :width="60"
@@ -106,7 +126,7 @@ const { pageModel, perPage } = usePagination();
     </OTableColumn>
 
     <OTableColumn
-      #default="{ row: restriction }: { row: RestrictionWithActive }"
+      v-slot="{ row: restriction }: { row: RestrictionWithActive }"
       field="reason"
       :label="$t('restriction.table.column.reason')"
     >
@@ -114,7 +134,7 @@ const { pageModel, perPage } = usePagination();
     </OTableColumn>
 
     <OTableColumn
-      #default="{ row: restriction }: { row: RestrictionWithActive }"
+      v-slot="{ row: restriction }: { row: RestrictionWithActive }"
       field="publicReason"
       :label="$t('restriction.table.column.publicReason')"
     >
@@ -122,12 +142,16 @@ const { pageModel, perPage } = usePagination();
     </OTableColumn>
 
     <OTableColumn
-      #default="{ row: restriction }: { row: RestrictionWithActive }"
+      v-slot="{ row: restriction }: { row: RestrictionWithActive }"
       field="restrictedByUser.name"
       :label="$t('restriction.table.column.restrictedBy')"
       :width="200"
     >
-      <UserMedia :user="restriction.restrictedByUser" class="max-w-[12rem]" hiddenClan />
+      <UserMedia
+        :user="restriction.restrictedByUser"
+        class="max-w-48"
+        hidden-clan
+      />
     </OTableColumn>
 
     <template #empty>

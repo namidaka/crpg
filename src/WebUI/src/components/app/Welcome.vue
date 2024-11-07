@@ -1,35 +1,50 @@
 <script setup lang="ts">
-import { defaultGold, newUserStartingCharacterLevel } from '@root/data/constants.json';
+import { defaultGold, newUserStartingCharacterLevel } from '~root/data/constants.json'
 
-const emit = defineEmits<{
-  close: [];
-}>();
+defineEmits<{
+  close: []
+}>()
 </script>
 
 <template>
-  <Modal closable :autoHide="false" shown @hide="$emit('close')">
+  <Modal
+    closable
+    :auto-hide="false"
+    shown
+    @hide="$emit('close')"
+  >
     <template #popper="{ hide }">
       <div class="flex max-h-[90vh] w-[44rem] flex-col">
-        <header class="relative min-h-[10rem]">
+        <header class="relative min-h-40">
           <!-- TODO: poster -->
           <img
-            class="absolute inset-0 aspect-video h-full w-full object-cover opacity-50"
-            :src="`/images/bg/background-3.webp`"
-          />
+            class="absolute inset-0 aspect-video size-full object-cover opacity-50"
+            src="/images/bg/background-3.webp"
+          >
           <!-- TODO: heading cmp from clan-armory branch -->
           <div class="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 space-y-2">
             <div class="flex justify-center">
-              <SvgSpriteImg name="logo" viewBox="0 0 162 124" class="w-16" />
+              <SvgSpriteImg
+                name="logo"
+                viewBox="0 0 162 124"
+                class="w-16"
+              />
             </div>
             <div class="flex select-none items-center justify-center gap-8 text-center">
               <SvgSpriteImg
                 name="logo-decor"
                 viewBox="0 0 108 10"
-                class="w-24 rotate-180 transform"
+                class="w-24 rotate-180"
               />
 
-              <h2 class="text-2xl text-white">{{ $t('welcome.title') }}</h2>
-              <SvgSpriteImg name="logo-decor" viewBox="0 0 108 10" class="w-24" />
+              <h2 class="text-2xl text-white">
+                {{ $t('welcome.title') }}
+              </h2>
+              <SvgSpriteImg
+                name="logo-decor"
+                viewBox="0 0 108 10"
+                class="w-24"
+              />
             </div>
           </div>
         </header>
@@ -42,23 +57,21 @@ const emit = defineEmits<{
 
           <div class="relative rounded-3xl border border-border-200 px-6 py-10">
             <div class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-base-100 px-3">
-              <h4 class="text-sm text-primary">{{ $t('welcome.bonusTitle') }}</h4>
+              <h4 class="text-sm text-primary">
+                {{ $t('welcome.bonusTitle') }}
+              </h4>
             </div>
 
             <div class="flex flex-wrap items-center justify-center gap-4 px-20">
               <Coin
-                :value="defaultGold"
                 v-tooltip="{
                   popperClass: 'prose prose-invert',
                   content: $t('welcome.bonus.gold'),
                   html: true,
                 }"
+                :value="defaultGold"
               />
               <Tag
-                icon="member"
-                variant="primary"
-                size="lg"
-                :label="`${newUserStartingCharacterLevel} lvl`"
                 v-tooltip="{
                   popperClass: 'prose prose-invert',
                   content: $t('welcome.bonus.newUserStartingCharacter', {
@@ -66,12 +79,12 @@ const emit = defineEmits<{
                   }),
                   html: true,
                 }"
-              />
-              <Tag
-                icon="chevron-down-double"
+                icon="member"
                 variant="primary"
                 size="lg"
-                label="free respec *"
+                :label="`${newUserStartingCharacterLevel} lvl`"
+              />
+              <Tag
                 v-tooltip="{
                   popperClass: 'prose prose-invert',
                   content: $t('welcome.bonus.freeRespec', {
@@ -79,13 +92,22 @@ const emit = defineEmits<{
                   }),
                   html: true,
                 }"
+                icon="chevron-down-double"
+                variant="primary"
+                size="lg"
+                label="free respec *"
               />
             </div>
 
             <div
               class="absolute bottom-0 left-1/2 flex -translate-x-1/2 translate-y-1/2 justify-center bg-base-100 px-3"
             >
-              <OButton variant="primary" size="lg" :label="$t('action.start')" @click="hide" />
+              <OButton
+                variant="primary"
+                size="lg"
+                :label="$t('action.start')"
+                @click="hide"
+              />
             </div>
           </div>
 
@@ -105,7 +127,10 @@ const emit = defineEmits<{
                       href="https://discord.gg/c-rpg"
                       class="!my-0 flex items-center gap-x-1"
                     >
-                      <OIcon icon="discord" size="sm" />
+                      <OIcon
+                        icon="discord"
+                        size="sm"
+                      />
                       Community
                     </a>
                   </li>
@@ -126,7 +151,10 @@ const emit = defineEmits<{
                     </a>
                   </li>
                   <li>
-                    <a target="_blank" href="https://c-rpg.eu/clans">Clans hall</a>
+                    <a
+                      target="_blank"
+                      href="https://c-rpg.eu/clans"
+                    >Clans hall</a>
                   </li>
                   <li>
                     <a

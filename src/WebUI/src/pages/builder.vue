@@ -1,38 +1,40 @@
 <script setup lang="ts">
-import { defu } from 'defu';
-import { useClipboard } from '@vueuse/core';
+import { useClipboard } from '@vueuse/core'
+import { maximumLevel, minimumLevel } from '~root/data/constants.json'
+import { defu } from 'defu'
+
+import type {
+  CharacterAttributes,
+  CharacterCharacteristics,
+  CharacterSkills,
+  CharacterWeaponProficiencies,
+  SkillKey,
+} from '~/models/character'
+
+import { useCharacterCharacteristic } from '~/composables/character/use-character-characteristic'
+import { CharacteristicConversion } from '~/models/character'
 import {
-  type CharacterAttributes,
-  type CharacterSkills,
-  type CharacterWeaponProficiencies,
-  CharacteristicConversion,
-  type CharacterCharacteristics,
-  type SkillKey,
-} from '@/models/character';
-import { minimumLevel, maximumLevel } from '@root/data/constants.json';
-import { useCharacterCharacteristic } from '@/composables/character/use-character-characteristic';
-import {
-  createDefaultCharacteristic,
-  createCharacteristics,
-  getExperienceForLevel,
   attributePointsForLevel,
+  characteristicBonusByKey,
+  computeHealthPoints,
+  createCharacteristics,
+  createDefaultCharacteristic,
+  getExperienceForLevel,
   skillPointsForLevel,
   wppForLevel,
-  computeHealthPoints,
-  characteristicBonusByKey,
-} from '@/services/characters-service';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
+} from '~/services/characters-service'
+import { notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
 
 definePage({
   meta: {
     layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+})
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
 const initialCharacteristics = ref<CharacterCharacteristics>(
   createCharacteristics(
@@ -47,17 +49,21 @@ const initialCharacteristics = ref<CharacterCharacteristics>(
             .weaponProficiencies as Partial<CharacterWeaponProficiencies>,
         }),
       },
-      createDefaultCharacteristic()
-    )
-  )
-);
+      createDefaultCharacteristic(),
+    ),
+  ),
+)
 
 const level = computed({
-  async set(value: number) {
-    reset();
-    await nextTick();
+  get() {
+    return Number(route.query.level) || minimumLevel
+  },
 
-    await router.push({ query: { level: value } });
+  async set(value: number) {
+    reset()
+    await nextTick()
+
+    await router.push({ query: { level: value } })
 
     initialCharacteristics.value = {
       attributes: {
@@ -72,76 +78,72 @@ const level = computed({
         ...initialCharacteristics.value.weaponProficiencies,
         points: wppForLevel(value),
       },
-    };
+    }
   },
+})
 
-  get() {
-    return Number(route.query.level) || minimumLevel;
-  },
-});
-
-const experienceForLevel = computed(() => getExperienceForLevel(level.value));
-const experienceForNextLevel = computed(() => getExperienceForLevel(level.value + 1));
+const experienceForLevel = computed(() => getExperienceForLevel(level.value))
+const experienceForNextLevel = computed(() => getExperienceForLevel(level.value + 1))
 
 const weight = computed({
-  set(value: number) {
-    router.push({ query: { ...route.query, weight: value } });
+  get() {
+    return Number(route.query.weight) || 0
   },
 
-  get() {
-    return Number(route.query.weight) || 0;
+  set(value: number) {
+    router.push({ query: { ...route.query, weight: value } })
   },
-});
+})
 
 const weaponLength = computed({
-  set(value: number) {
-    router.push({ query: { ...route.query, weaponLength: value } });
+  get() {
+    return Number(route.query.weaponLength) || 0
   },
 
-  get() {
-    return Number(route.query.weaponLength) || 0;
+  set(value: number) {
+    router.push({ query: { ...route.query, weaponLength: value } })
   },
-});
+})
 
 const {
   characteristics,
   //
-  currentSkillRequirementsSatisfied,
-  canConvertSkillsToAttributes,
   canConvertAttributesToSkills,
+  canConvertSkillsToAttributes,
+  currentSkillRequirementsSatisfied,
   //
   formSchema,
   //
-  onInput,
-  reset,
-  getInputProps,
   convertAttributeToSkills,
   convertSkillsToAttribute,
-} = useCharacterCharacteristic(initialCharacteristics);
+  getInputProps,
+  onInput,
+  reset,
+} = useCharacterCharacteristic(initialCharacteristics)
 
-watch(characteristics, val => {
+watch(characteristics, (val) => {
   router.push({
-    // @ts-ignore
+    // @ts-expect-error TODO:
     query: { ...route.query, ...val },
-  });
-});
+  })
+})
 
 const healthPoints = computed(() =>
   computeHealthPoints(
     characteristics.value.skills.ironFlesh,
-    characteristics.value.attributes.strength
-  )
-);
+    characteristics.value.attributes.strength,
+  ),
+)
 
 const convertRate = computed({
-  set(_value: Record<CharacteristicConversion, number>) {},
   get() {
     return defu(route.query.convert, {
       [CharacteristicConversion.AttributesToSkills]: 0,
       [CharacteristicConversion.SkillsToAttributes]: 0,
-    });
+    })
   },
-});
+  set(_value: Record<CharacteristicConversion, number>) {},
+})
 
 const convertCharacteristics = async (conversion: CharacteristicConversion) => {
   if (conversion === CharacteristicConversion.AttributesToSkills) {
@@ -150,18 +152,19 @@ const convertCharacteristics = async (conversion: CharacteristicConversion) => {
       convertRate.value = {
         AttributesToSkills: convertRate.value.AttributesToSkills,
         SkillsToAttributes: (convertRate.value.SkillsToAttributes -= 1),
-      };
-    } else {
+      }
+    }
+    else {
       convertRate.value = {
         AttributesToSkills: (convertRate.value.AttributesToSkills += 1),
         SkillsToAttributes: convertRate.value.SkillsToAttributes,
-      };
+      }
     }
 
-    // @ts-ignore
-    await router.push({ query: { ...route.query, convert: convertRate.value } });
-    convertAttributeToSkills();
-    return;
+    // @ts-expect-error TODO:
+    await router.push({ query: { ...route.query, convert: convertRate.value } })
+    convertAttributeToSkills()
+    return
   }
 
   // TODO: unit
@@ -169,38 +172,41 @@ const convertCharacteristics = async (conversion: CharacteristicConversion) => {
     convertRate.value = {
       AttributesToSkills: (convertRate.value.AttributesToSkills -= 1),
       SkillsToAttributes: convertRate.value.SkillsToAttributes,
-    };
-  } else {
+    }
+  }
+  else {
     convertRate.value = {
       AttributesToSkills: convertRate.value.AttributesToSkills,
       SkillsToAttributes: (convertRate.value.SkillsToAttributes += 1),
-    };
+    }
   }
 
-  // @ts-ignore
-  await router.push({ query: { ...route.query, convert: convertRate.value } });
-  convertSkillsToAttribute();
-};
+  // @ts-expect-error TODO:
+  await router.push({ query: { ...route.query, convert: convertRate.value } })
+  convertSkillsToAttribute()
+}
 
 const onReset = async () => {
-  initialCharacteristics.value = createDefaultCharacteristic();
-  reset();
-  await nextTick();
-  router.push({ query: {} });
-};
+  initialCharacteristics.value = createDefaultCharacteristic()
+  reset()
+  await nextTick()
+  router.push({ query: {} })
+}
 
-const { copy } = useClipboard();
+const { copy } = useClipboard()
 
 const onShare = () => {
-  copy(window.location.href);
-  notify(t('builder.share.notify.success'));
-};
+  copy(window.location.href)
+  notify(t('builder.share.notify.success'))
+}
 </script>
 
 <template>
   <div class="container">
     <div class="mx-auto max-w-4xl py-8 md:py-16">
-      <h1 class="mb-14 text-center text-xl text-content-100">{{ $t('builder.title') }}</h1>
+      <h1 class="mb-14 text-center text-xl text-content-100">
+        {{ $t('builder.title') }}
+      </h1>
 
       <div class="relative">
         <div class="mb-12 space-y-5">
@@ -228,7 +234,13 @@ const onShare = () => {
             </template>
           </i18n-t>
 
-          <i18n-t v-else scope="global" keypath="builder.levelTpl" tag="div" class="text-center">
+          <i18n-t
+            v-else
+            scope="global"
+            keypath="builder.levelTpl"
+            tag="div"
+            class="text-center"
+          >
             <template #level>
               <span class="font-bold text-content-100">{{ level }}</span>
             </template>
@@ -254,6 +266,7 @@ const onShare = () => {
         <div class="statsGrid mb-8 grid gap-6">
           <div
             v-for="fieldsGroup in formSchema"
+            :key="fieldsGroup.key"
             class="space-y-3"
             :style="{ 'grid-area': fieldsGroup.key }"
           >
@@ -279,7 +292,7 @@ const onShare = () => {
                   outlined
                   rounded
                   :disabled="!canConvertAttributesToSkills"
-                  iconLeft="convert"
+                  icon-left="convert"
                   data-aq-convert-attributes-action
                   :label="String(convertRate.AttributesToSkills)"
                   @click="convertCharacteristics(CharacteristicConversion.AttributesToSkills)"
@@ -313,7 +326,7 @@ const onShare = () => {
                   rounded
                   outlined
                   :disabled="!canConvertSkillsToAttributes"
-                  iconLeft="convert"
+                  icon-left="convert"
                   :label="String(convertRate.SkillsToAttributes)"
                   data-aq-convert-skills-action
                   @click="convertCharacteristics(CharacteristicConversion.SkillsToAttributes)"
@@ -345,6 +358,7 @@ const onShare = () => {
             <div class="rounded-xl border border-border-200 py-2">
               <div
                 v-for="field in fieldsGroup.children"
+                :key="field.key"
                 class="flex items-center justify-between px-4 py-2.5 hover:bg-base-200"
               >
                 <VTooltip>
@@ -375,7 +389,10 @@ const onShare = () => {
                         :keypath="`character.characteristic.${fieldsGroup.key}.children.${field.key}.desc`"
                         tag="p"
                       >
-                        <template v-if="field.key in characteristicBonusByKey" #value>
+                        <template
+                          v-if="field.key in characteristicBonusByKey"
+                          #value
+                        >
                           <span class="font-bold text-content-100">
                             {{
                               $n(characteristicBonusByKey[field.key]!.value, {
@@ -403,7 +420,7 @@ const onShare = () => {
                   v-bind="getInputProps(fieldsGroup.key, field.key, true)"
                   :exponential="0.5"
                   readonly
-                  @update:modelValue="val => onInput(fieldsGroup.key, field.key, val)"
+                  @update:model-value="val => onInput(fieldsGroup.key, field.key, val)"
                 />
               </div>
             </div>
@@ -447,9 +464,9 @@ const onShare = () => {
             <CharacterStats
               :characteristics="characteristics"
               :weight="weight"
-              :longestWeaponLength="weaponLength"
-              :hiddenRows="['weight']"
-              :healthPoints="healthPoints"
+              :longest-weapon-length="weaponLength"
+              :hidden-rows="['weight']"
+              :health-points="healthPoints"
             />
           </div>
         </div>
@@ -461,7 +478,7 @@ const onShare = () => {
             variant="secondary"
             outlined
             size="lg"
-            iconLeft="reset"
+            icon-left="reset"
             :label="$t('action.reset')"
             @click="onReset"
           />
@@ -469,7 +486,7 @@ const onShare = () => {
           <OButton
             variant="primary"
             size="lg"
-            iconLeft="share"
+            icon-left="share"
             :label="$t('action.share')"
             @click="onShare"
           />

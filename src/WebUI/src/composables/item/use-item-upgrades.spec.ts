@@ -1,21 +1,23 @@
-import { createTestingPinia } from '@pinia/testing';
-import { flushPromises } from '@vue/test-utils';
-import { useUserStore } from '@/stores/user';
-import { type ItemFlat } from '@/models/item';
-import { type AggregationConfig } from '@/models/item-search';
+import { createTestingPinia } from '@pinia/testing'
+import { flushPromises } from '@vue/test-utils'
+
+import type { ItemFlat } from '~/models/item'
+import type { AggregationConfig } from '~/models/item-search'
+
+import { useUserStore } from '~/stores/user'
+
+import { useItemUpgrades } from './use-item-upgrades'
 
 const { mockedGetItemUpgrades, mockedGetRelativeEntries } = vi.hoisted(() => ({
   mockedGetItemUpgrades: vi.fn().mockResolvedValue([]),
   mockedGetRelativeEntries: vi.fn().mockReturnValue({}),
-}));
-vi.mock('@/services/item-service', () => ({
+}))
+vi.mock('~/services/item-service', () => ({
   getItemUpgrades: mockedGetItemUpgrades,
   getRelativeEntries: mockedGetRelativeEntries,
-}));
+}))
 
-const userStore = useUserStore(createTestingPinia());
-
-import { useItemUpgrades } from './use-item-upgrades';
+const userStore = useUserStore(createTestingPinia())
 
 const mockItemUpgrades = [
   {
@@ -34,102 +36,102 @@ const mockItemUpgrades = [
     id: 't3',
     rank: 3,
   },
-];
+]
 
 beforeAll(() => {
-  mockedGetItemUpgrades.mockResolvedValue(mockItemUpgrades);
-});
+  mockedGetItemUpgrades.mockResolvedValue(mockItemUpgrades)
+})
 
 beforeEach(() => {
-  userStore.$reset();
-  userStore.$patch({ user: { heirloomPoints: 0 }, userItems: [] });
-});
+  userStore.$reset()
+  userStore.$patch({ user: { heirloomPoints: 0 }, userItems: [] })
+})
 
 const item = {
+  baseId: '1',
   id: 't0',
   rank: 0,
-  baseId: '1',
-} as ItemFlat;
+} as ItemFlat
 
-const cols = {} as AggregationConfig;
+const cols = {} as AggregationConfig
 
 describe('useItemUpgrades', () => {
   it('itemUpgrades', async () => {
-    const { itemUpgrades, isLoading } = useItemUpgrades(item, cols);
+    const { isLoading, itemUpgrades } = useItemUpgrades(item, cols)
 
-    expect(isLoading.value).toEqual(true);
+    expect(isLoading.value).toEqual(true)
 
-    await flushPromises();
+    await flushPromises()
 
-    expect(itemUpgrades.value).toEqual(mockItemUpgrades);
-    expect(isLoading.value).toEqual(false);
-  });
+    expect(itemUpgrades.value).toEqual(mockItemUpgrades)
+    expect(isLoading.value).toEqual(false)
+  })
 
   it('baseItem', async () => {
-    const { baseItem } = useItemUpgrades(item, cols);
+    const { baseItem } = useItemUpgrades(item, cols)
 
-    await flushPromises();
+    await flushPromises()
 
-    expect(baseItem.value).toEqual(mockItemUpgrades[0]);
-  });
+    expect(baseItem.value).toEqual(mockItemUpgrades[0])
+  })
 
   it('nextItem', async () => {
-    const { nextItem } = useItemUpgrades(item, cols);
+    const { nextItem } = useItemUpgrades(item, cols)
 
-    await flushPromises();
+    await flushPromises()
 
-    expect(nextItem.value).toEqual(mockItemUpgrades[1]);
-  });
+    expect(nextItem.value).toEqual(mockItemUpgrades[1])
+  })
 
   it('relativeEntries', async () => {
-    const { relativeEntries } = useItemUpgrades(item, cols);
+    const { relativeEntries } = useItemUpgrades(item, cols)
 
-    await flushPromises();
+    await flushPromises()
 
-    expect(relativeEntries.value).toEqual({});
-  });
+    expect(relativeEntries.value).toEqual({})
+  })
 
   describe('validation', () => {
     it('basic', async () => {
-      userStore.$patch({ user: { heirloomPoints: 1 }, userItems: [] });
-      const { validation, canUpgrade } = useItemUpgrades(item, cols);
+      userStore.$patch({ user: { heirloomPoints: 1 }, userItems: [] })
+      const { canUpgrade, validation } = useItemUpgrades(item, cols)
 
-      await flushPromises();
+      await flushPromises()
 
-      expect(validation.value.points).toEqual(true);
-      expect(validation.value.maxRank).toEqual(true);
-      expect(canUpgrade.value).toEqual(true);
-    });
+      expect(validation.value.points).toEqual(true)
+      expect(validation.value.maxRank).toEqual(true)
+      expect(canUpgrade.value).toEqual(true)
+    })
 
     it('points', async () => {
-      userStore.$patch({ user: { heirloomPoints: 0 }, userItems: [] });
+      userStore.$patch({ user: { heirloomPoints: 0 }, userItems: [] })
 
-      const { validation, canUpgrade } = useItemUpgrades(item, cols);
+      const { canUpgrade, validation } = useItemUpgrades(item, cols)
 
-      await flushPromises();
+      await flushPromises()
 
-      expect(validation.value.points).toEqual(false);
-      expect(validation.value.maxRank).toEqual(true);
-      expect(canUpgrade.value).toEqual(false);
-    });
+      expect(validation.value.points).toEqual(false)
+      expect(validation.value.maxRank).toEqual(true)
+      expect(canUpgrade.value).toEqual(false)
+    })
 
     it('maxRank', async () => {
       const item = {
+        baseId: '1',
         id: 't3',
         rank: 3,
-        baseId: '1',
-      } as ItemFlat;
+      } as ItemFlat
 
       userStore.$patch({
         user: { heirloomPoints: 1 },
-      });
+      })
 
-      const { validation, canUpgrade } = useItemUpgrades(item, cols);
+      const { canUpgrade, validation } = useItemUpgrades(item, cols)
 
-      await flushPromises();
+      await flushPromises()
 
-      expect(validation.value.maxRank).toEqual(false);
-      expect(canUpgrade.value).toEqual(false);
-    });
-  });
-});
+      expect(validation.value.maxRank).toEqual(false)
+      expect(canUpgrade.value).toEqual(false)
+    })
+  })
+})

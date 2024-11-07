@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { UseDraggable as Draggable } from '@vueuse/components';
-import { useItemDetail } from '@/composables/character/use-item-detail';
+import { UseDraggable as Draggable } from '@vueuse/components'
 
-const { openedItems, closeItemDetail, computeDetailCardYPosition } = useItemDetail(true);
+import { useItemDetail } from '~/composables/character/use-item-detail'
+
+const { closeItemDetail, computeDetailCardYPosition, openedItems } = useItemDetail(true)
 </script>
 
 <template>
@@ -18,7 +19,7 @@ const { openedItems, closeItemDetail, computeDetailCardYPosition } = useItemDeta
     >
       <OButton
         class="!absolute -right-3 -top-3 z-10 cursor-pointer"
-        iconRight="close"
+        icon-right="close"
         rounded
         size="xs"
         variant="secondary"

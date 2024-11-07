@@ -1,12 +1,12 @@
-import { clamp, roundFLoat, percentOf, inRange } from './math';
+import { clamp, inRange, percentOf, roundFLoat } from './math'
 
 it.each([
   [[0, 0, 0], 0],
   [[1, 1, 1], 1],
   [[5, 1, 6], 5],
 ])('clamp', ([num, min, max], expectation) => {
-  expect(clamp(num, min, max)).toEqual(expectation);
-});
+  expect(clamp(num, min, max)).toEqual(expectation)
+})
 
 it.each([
   [0, 0],
@@ -22,8 +22,8 @@ it.each([
   [1.0001, 1],
   [1.1029, 1.1],
 ])('roundFLoat', (num, expectation) => {
-  expect(roundFLoat(num)).toEqual(expectation);
-});
+  expect(roundFLoat(num)).toEqual(expectation)
+})
 
 it.each([
   [[0, 0], 0],
@@ -34,8 +34,8 @@ it.each([
   [[1, 2], 50],
   [[3, 9], 33.33333333333333],
 ])('percentOf', ([val, of], expectation) => {
-  expect(percentOf(val, of)).toEqual(expectation);
-});
+  expect(percentOf(val, of)).toEqual(expectation)
+})
 
 it.each([
   [2, 0, 3, true],
@@ -45,5 +45,5 @@ it.each([
   [0, -2, -1, false],
   [10, 9, 11, true],
 ])('inRange %s, %s, %s', (val, min, max, expectation) => {
-  expect(inRange(val, min, max)).toEqual(expectation);
-});
+  expect(inRange(val, min, max)).toEqual(expectation)
+})

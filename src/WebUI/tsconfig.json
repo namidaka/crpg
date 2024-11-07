@@ -1,36 +1,34 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
     "useDefineForClassFields": true,
+    "baseUrl": ".",
     "module": "esnext",
     "moduleResolution": "Bundler",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "lib": ["esnext", "dom"],
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["/*"],
-      "@root/*": ["../../*"]
+      "~/*": ["src/*"],
+      "~root/*": ["../../*"]
     },
+    "resolveJsonModule": true,
     "types": [
       "type-fest",
       "vite/client",
       "vitest/globals",
       "vite-plugin-vue-layouts/client",
-      "vi-fetch/matchers",
-      "@types/body-scroll-lock",
-      "vite-plugin-svg-icons/client",
-      "@vue-macros/reactivity-transform/macros-global",
-      "@oruga-ui/oruga-next/volar",
       "unplugin-vue-router/client",
-    ]
+      "vi-fetch/matchers",
+      "@oruga-ui/oruga-next/volar",
+      "@intlify/unplugin-vue-i18n/messages"
+    ],
+    "strict": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": false,
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
   "exclude": ["node_modules"]

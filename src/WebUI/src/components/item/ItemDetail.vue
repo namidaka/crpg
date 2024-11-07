@@ -1,54 +1,31 @@
 <script setup lang="ts">
-import { useClipboard } from '@vueuse/core';
-import { type Item } from '@/models/item';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
-import { useItem } from '@/composables/item/use-item';
-import { createItemIndex } from '@/services/item-search-service/indexator';
-import { ItemCompareMode, type CompareItemsResult, type ItemFlat } from '@/models/item';
-import {
-  getAggregationsConfig,
-  getVisibleAggregationsConfig,
-} from '@/services/item-search-service';
-import { omitPredicate } from '@/utils/object';
+import { useClipboard } from '@vueuse/core'
 
-const { item, compareResult } = defineProps<{
-  item: Item;
-  // TODO: hmm
-  compareResult?: CompareItemsResult;
-}>();
+import type { CompareItemsResult, Item } from '~/models/item'
 
-const { rankColor, thumb } = useItem(toRef(() => item));
+import { useItem } from '~/composables/item/use-item'
+import { ItemCompareMode } from '~/models/item'
+import { createItemIndex } from '~/services/item-search-service/indexator'
+import { getItemAggregations } from '~/services/item-service'
+import { notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
 
-const { copy } = useClipboard();
+const { compareResult, item } = defineProps<{
+  item: Item
+  compareResult?: CompareItemsResult // TODO: hmm
+}>()
+
+const { rankColor, thumb } = useItem(toRef(() => item))
+
+const { copy } = useClipboard()
 const onNameCopy = () => {
-  copy(item.name);
-  notify(t('action.copied'));
-};
+  copy(item.name)
+  notify(t('action.copied'))
+}
 
-const flatItem = computed(() => createItemIndex([item])[0]);
+const flatItem = computed(() => createItemIndex([item])[0])
 
-// TODO: to service/utils
-const omitEmptyParam = (field: keyof ItemFlat) => {
-  if (Array.isArray(flatItem.value[field]) && (flatItem.value[field] as string[]).length === 0) {
-    return false;
-  }
-
-  if (flatItem.value[field] === 0) {
-    return false;
-  }
-
-  return true;
-};
-
-const aggregationsConfig = computed(() =>
-  omitPredicate(
-    getVisibleAggregationsConfig(
-      getAggregationsConfig(flatItem.value.type, flatItem.value.weaponClass)
-    ),
-    (key: keyof ItemFlat) => omitEmptyParam(key)
-  )
-);
+const aggregationConfig = computed(() => getItemAggregations(flatItem.value))
 </script>
 
 <template>
@@ -60,11 +37,14 @@ const aggregationsConfig = computed(() =>
           :alt="item.name"
           :title="item.name"
           class="pointer-events-none w-full select-none object-contain"
-        />
+        >
       </div>
 
       <div class="absolute left-0 top-4 z-10 flex items-center gap-1">
-        <ItemRankIcon v-if="item.rank > 0" :rank="item.rank" />
+        <ItemRankIcon
+          v-if="item.rank > 0"
+          :rank="item.rank"
+        />
 
         <slot name="badges-top-left" />
       </div>
@@ -82,29 +62,45 @@ const aggregationsConfig = computed(() =>
       </div>
     </div>
 
-    <h3 class="mb-6 font-bold" :style="{ color: rankColor }">
+    <h3
+      class="mb-6 font-bold"
+      :style="{ color: rankColor }"
+    >
       {{ item.name }}
 
       <Tag
+        v-tooltip.bottom="$t('action.copy')"
         icon="popup"
         variant="primary"
         rounded
         size="sm"
         @click="onNameCopy"
-        v-tooltip.bottom="$t('action.copy')"
       />
     </h3>
 
     <div class="grid grid-cols-2 gap-4">
       <div class="space-y-1">
-        <h6 class="text-2xs text-content-300">Type/Class</h6>
+        <h6 class="text-2xs text-content-300">
+          Type/Class
+        </h6>
         <div class="flex flex-wrap gap-2">
-          <ItemParam :item="flatItem" field="type" />
-          <ItemParam v-if="flatItem.weaponClass !== null" :item="flatItem" field="weaponClass" />
+          <ItemParam
+            :item="flatItem"
+            field="type"
+          />
+          <ItemParam
+            v-if="flatItem.weaponClass !== null"
+            :item="flatItem"
+            field="weaponClass"
+          />
         </div>
       </div>
 
-      <div v-for="(_agg, field) in aggregationsConfig" class="space-y-1">
+      <div
+        v-for="(_agg, field) in aggregationConfig"
+        :key="field"
+        class="space-y-1"
+      >
         <VTooltip :delay="{ show: 600 }">
           <h6 class="text-2xs text-content-300">
             {{ $t(`item.aggregations.${field}.title`) }}
@@ -125,17 +121,23 @@ const aggregationsConfig = computed(() =>
         <ItemParam
           :item="flatItem"
           :field="field"
-          :isCompare="compareResult !== undefined"
-          :compareMode="ItemCompareMode.Absolute"
-          :bestValue="compareResult !== undefined ? compareResult[field] : undefined"
+          :is-compare="compareResult !== undefined"
+          :compare-mode="ItemCompareMode.Absolute"
+          :best-value="compareResult !== undefined ? compareResult[field] : undefined"
         >
-          <template v-if="field === 'price'" #default="{ rawBuckets }">
-            <Coin :value="rawBuckets as number" />
+          <template
+            v-if="field === 'price'"
+            #default="{ rawBuckets }"
+          >
+            <Coin :value="(rawBuckets as number)" />
           </template>
 
-          <template v-if="field === 'upkeep'" #default="{ rawBuckets }">
+          <template
+            v-else-if="field === 'upkeep'"
+            #default="{ rawBuckets }"
+          >
             <Coin>
-              {{ $t('item.format.upkeep', { upkeep: $n(rawBuckets as number) }) }}
+              {{ $t('item.format.upkeep', { upkeep: $n((rawBuckets as number)) }) }}
             </Coin>
           </template>
         </ItemParam>

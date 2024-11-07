@@ -1,41 +1,46 @@
 <script setup lang="ts">
-import { ClanMemberRole, type ClanArmoryItem } from '@/models/clan';
-import { type UserPublic } from '@/models/user';
-import { useUserStore } from '@/stores/user';
-import { isClanArmoryItemInInventory, isOwnClanArmoryItem } from '@/services/clan-service';
+import type { ClanArmoryItem } from '~/models/clan'
+import type { UserPublic } from '~/models/user'
 
-const { clanArmoryItem, borrower, lender } = defineProps<{
-  clanArmoryItem: ClanArmoryItem;
-  lender: UserPublic;
-  borrower: UserPublic | null;
-}>();
+import { ClanMemberRole } from '~/models/clan'
+import { isClanArmoryItemInInventory, isOwnClanArmoryItem } from '~/services/clan-service'
+import { useUserStore } from '~/stores/user'
 
-const emit = defineEmits<{
-  borrow: [id: number];
-  remove: [id: number];
-  return: [id: number];
-}>();
+const { borrower, clanArmoryItem, lender } = defineProps<{
+  clanArmoryItem: ClanArmoryItem
+  lender: UserPublic
+  borrower: UserPublic | null
+}>()
 
-const { user, userItems, clanMemberRole } = toRefs(useUserStore());
+defineEmits<{
+  borrow: [id: number]
+  remove: [id: number]
+  return: [id: number]
+}>()
 
-const isOwnArmoryItem = computed(() => isOwnClanArmoryItem(clanArmoryItem, user.value!.id));
-const isInInventory = computed(() => isClanArmoryItemInInventory(clanArmoryItem, userItems.value));
+const { clanMemberRole, user, userItems } = toRefs(useUserStore())
+
+const isOwnArmoryItem = computed(() => isOwnClanArmoryItem(clanArmoryItem, user.value!.id))
+const isInInventory = computed(() => isClanArmoryItemInInventory(clanArmoryItem, userItems.value))
 const canReturn = computed(
-  () => borrower?.id === user.value!.id || clanMemberRole.value === ClanMemberRole.Leader
-);
+  () => borrower?.id === user.value!.id || clanMemberRole.value === ClanMemberRole.Leader,
+)
 </script>
 
 <template>
   <ItemDetail :item="clanArmoryItem.userItem.item">
     <template #badges-bottom-right>
-      <ClanArmoryItemRelationBadge :lender="lender" :borrower="borrower" />
+      <ClanArmoryItemRelationBadge
+        :lender="lender"
+        :borrower="borrower"
+      />
     </template>
 
     <template #actions>
       <ConfirmActionTooltip
         v-if="isOwnArmoryItem"
         class="flex-auto"
-        :confirmLabel="$t('action.ok')"
+        :confirm-label="$t('action.ok')"
         :title="$t('clan.armory.item.remove.confirm.description')"
         @confirm="$emit('remove', clanArmoryItem.userItem.id)"
       >
@@ -49,18 +54,21 @@ const canReturn = computed(
         />
       </ConfirmActionTooltip>
 
-      <div v-else-if="!borrower" class="flex w-full flex-col items-center justify-center gap-2">
+      <div
+        v-else-if="!borrower"
+        class="flex w-full flex-col items-center justify-center gap-2"
+      >
         <OButton
-          variant="secondary"
-          expanded
-          rounded
-          size="lg"
-          :disabled="isInInventory"
           v-tooltip="{
             disabled: !isInInventory,
             content: $t('clan.armory.item.borrow.validation.isInInventory'),
             popperClass: 'v-popper--theme-tooltip-danger',
           }"
+          variant="secondary"
+          expanded
+          rounded
+          size="lg"
+          :disabled="isInInventory"
           @click="$emit('borrow', clanArmoryItem.userItem.id)"
         >
           <i18n-t
@@ -70,7 +78,11 @@ const canReturn = computed(
             class="flex items-center gap-2"
           >
             <template #user>
-              <UserMedia :user="lender" hiddenPlatform hiddenClan />
+              <UserMedia
+                :user="lender"
+                hidden-platform
+                hidden-clan
+              />
             </template>
           </i18n-t>
         </OButton>
@@ -90,15 +102,15 @@ const canReturn = computed(
 
         <OButton
           v-else
+          v-tooltip="{
+            content: $t('clan.armory.item.borrow.validation.borrowed'),
+            popperClass: 'v-popper--theme-tooltip-danger',
+          }"
           variant="secondary"
           disabled
           expanded
           rounded
           size="lg"
-          v-tooltip="{
-            content: $t('clan.armory.item.borrow.validation.borrowed'),
-            popperClass: 'v-popper--theme-tooltip-danger',
-          }"
         >
           <i18n-t
             scope="global"
@@ -107,7 +119,11 @@ const canReturn = computed(
             class="flex items-center gap-2"
           >
             <template #user>
-              <UserMedia :user="borrower" hiddenPlatform hiddenClan />
+              <UserMedia
+                :user="borrower"
+                hidden-platform
+                hidden-clan
+              />
             </template>
           </i18n-t>
         </OButton>

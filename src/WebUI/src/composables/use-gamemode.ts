@@ -1,13 +1,13 @@
-import { GameMode } from '@/models/game-mode';
-import { rankedGameModes } from '@/services/game-mode-service';
+import { GameMode } from '~/models/game-mode'
+import { rankedGameModes } from '~/services/game-mode-service'
 
 export const useGameMode = () => {
-  const route = useRoute();
-  const router = useRouter();
+  const route = useRoute()
+  const router = useRouter()
 
   const gameModeModel = computed({
     get() {
-      return (route.query?.gameMode as GameMode) || GameMode.Battle;
+      return (route.query?.gameMode as GameMode) || GameMode.Battle
     },
 
     set(gameMode: GameMode) {
@@ -16,15 +16,15 @@ export const useGameMode = () => {
           ...route.query,
           gameMode,
         },
-      });
+      })
     },
-  });
+  })
 
-  const gameModes = Object.values(GameMode);
+  const gameModes = Object.values(GameMode)
 
   return {
     gameModeModel,
     gameModes,
     rankedGameModes,
-  };
-};
+  }
+}

@@ -1,37 +1,38 @@
-import { useAsyncState } from '@vueuse/core';
+import { useAsyncState } from '@vueuse/core'
+
 import {
-  getClanArmory,
   addItemToClanArmory,
+  borrowItemFromClanArmory,
+  getClanArmory,
   removeItemFromClanArmory,
   returnItemToClanArmory,
-  borrowItemFromClanArmory,
-} from '@/services/clan-service';
+} from '~/services/clan-service'
 
 export const useClanArmory = (clanId: number) => {
   const {
-    state: clanArmory,
     execute: loadClanArmory,
     isLoading: isLoadingClanArmory,
+    state: clanArmory,
   } = useAsyncState(() => getClanArmory(clanId), [], {
     immediate: false,
     resetOnExecute: false,
-  });
+  })
 
-  const addItem = (itemId: number) => addItemToClanArmory(clanId, itemId);
+  const addItem = (itemId: number) => addItemToClanArmory(clanId, itemId)
 
-  const removeItem = (itemId: number) => removeItemFromClanArmory(clanId, itemId);
+  const removeItem = (itemId: number) => removeItemFromClanArmory(clanId, itemId)
 
-  const borrowItem = (itemId: number) => borrowItemFromClanArmory(clanId, itemId);
+  const borrowItem = (itemId: number) => borrowItemFromClanArmory(clanId, itemId)
 
-  const returnItem = (itemId: number) => returnItemToClanArmory(clanId, itemId);
+  const returnItem = (itemId: number) => returnItemToClanArmory(clanId, itemId)
 
   return {
-    clanArmory,
-    loadClanArmory,
-    isLoadingClanArmory,
     addItem,
+    borrowItem,
+    clanArmory,
+    isLoadingClanArmory,
+    loadClanArmory,
     removeItem,
     returnItem,
-    borrowItem,
-  };
-};
+  }
+}

@@ -1,46 +1,50 @@
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, maxLength } from '@/services/validators-service';
-import { type Character } from '@/models/character';
+import { useVuelidate } from '@vuelidate/core'
+
+import type { Character } from '~/models/character'
+
+import { maxLength, minLength, required } from '~/services/validators-service'
 
 const props = defineProps<{
-  character: Character;
-}>();
+  character: Character
+}>()
 
 const emit = defineEmits<{
-  (e: 'cancel'): void;
-  (e: 'confirm', { name }: { name: string }): void;
-}>();
+  (e: 'cancel'): void
+  (e: 'confirm', { name }: { name: string }): void
+}>()
 
-const nameModel = ref<string>(props.character.name);
+const nameModel = ref<string>(props.character.name)
 const $v = useVuelidate(
   {
     nameModel: {
-      required,
-      minLength: minLength(2),
       maxLength: maxLength(32),
+      minLength: minLength(2),
+      required,
     },
   },
-  { nameModel }
-);
+  { nameModel },
+)
 
 const onCancel = () => {
-  $v.value.$reset();
-  emit('cancel');
-};
+  $v.value.$reset()
+  emit('cancel')
+}
 
 const onConfirm = async () => {
-  if (!(await $v.value.$validate())) return;
+  if (!(await $v.value.$validate())) { return }
 
-  emit('confirm', { name: nameModel.value });
-};
+  emit('confirm', { name: nameModel.value })
+}
 
-const wasChange = computed(() => nameModel.value !== props.character.name);
+const wasChange = computed(() => nameModel.value !== props.character.name)
 </script>
 
 <template>
   <div class="space-y-14">
-    <h4 class="text-center text-xl">{{ $t('character.settings.update.title') }}</h4>
+    <h4 class="text-center text-xl">
+      {{ $t('character.settings.update.title') }}
+    </h4>
 
     <div class="space-y-8">
       <OField

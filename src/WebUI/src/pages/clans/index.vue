@@ -1,58 +1,67 @@
 <script setup lang="ts">
-import { type Clan, type ClanWithMemberCount } from '@/models/clan';
-import { getClans, getFilteredClans } from '@/services/clan-service';
-import { usePagination } from '@/composables/use-pagination';
-import { useSearchDebounced } from '@/composables/use-search-debounce';
-import { useUserStore } from '@/stores/user';
-import { useRegion } from '@/composables/use-region';
-import { useLanguages } from '@/composables/use-language';
+import type { Clan, ClanWithMemberCount } from '~/models/clan'
+
+import { useLanguages } from '~/composables/use-language'
+import { usePagination } from '~/composables/use-pagination'
+import { useRegion } from '~/composables/use-region'
+import { useSearchDebounced } from '~/composables/use-search-debounce'
+import { getClans, getFilteredClans } from '~/services/clan-service'
+import { useUserStore } from '~/stores/user'
 
 definePage({
   meta: {
     layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+})
 
-const router = useRouter();
-const userStore = useUserStore();
+const router = useRouter()
+const userStore = useUserStore()
 
-const { pageModel, perPage } = usePagination();
-const { searchModel } = useSearchDebounced();
+const { pageModel, perPage } = usePagination()
+const { searchModel } = useSearchDebounced()
 
 // TODO: region as query, pagination - improve REST API
-const { state: clans, execute: loadClans } = useAsyncState(() => getClans(), [], {
+const { execute: loadClans, state: clans } = useAsyncState(() => getClans(), [], {
   immediate: false,
-});
+})
 
-const { regionModel, regions } = useRegion();
-const { languagesModel, languages } = useLanguages();
+const { regionModel, regions } = useRegion()
+const { languages, languagesModel } = useLanguages()
 const aggregatedLanguages = computed(() =>
-  languages.filter(l => clans.value.some(c => c.clan.languages.includes(l)))
-);
+  languages.filter(l => clans.value.some(c => c.clan.languages.includes(l))),
+)
 watch(regionModel, () => {
-  languagesModel.value = [];
-});
+  languagesModel.value = []
+})
 
 const filteredClans = computed(() =>
-  getFilteredClans(clans.value, regionModel.value, languagesModel.value, searchModel.value)
-);
+  getFilteredClans(clans.value, regionModel.value, languagesModel.value, searchModel.value),
+)
 
 const rowClass = (clan: ClanWithMemberCount<Clan>) =>
-  userStore.clan?.id === clan.clan.id ? 'text-primary' : 'text-content-100';
+  userStore.clan?.id === clan.clan.id ? 'text-primary' : 'text-content-100'
 
 const onClickRow = (clan: ClanWithMemberCount<Clan>) =>
-  router.push({ name: 'ClansId', params: { id: clan.clan.id } });
+  router.push({ name: 'ClansId', params: { id: clan.clan.id } })
 
-await loadClans();
+await loadClans()
 </script>
 
 <template>
   <div class="container">
     <div class="mx-auto max-w-4xl py-8 md:py-16">
       <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <OTabs v-model="regionModel" contentClass="hidden">
-          <OTabItem v-for="region in regions" :label="$t(`region.${region}`, 0)" :value="region" />
+        <OTabs
+          v-model="regionModel"
+          content-class="hidden"
+        >
+          <OTabItem
+            v-for="region in regions"
+            :key="region"
+            :label="$t(`region.${region}`, 0)"
+            :value="region"
+          />
         </OTabs>
 
         <div class="flex items-center gap-2">
@@ -99,18 +108,18 @@ await loadClans();
       <OTable
         v-model:current-page="pageModel"
         :data="filteredClans"
-        :perPage="perPage"
+        :per-page="perPage"
         :paginated="filteredClans.length > perPage"
         hoverable
         bordered
-        sortIcon="chevron-up"
-        sortIconSize="xs"
-        :defaultSort="['memberCount', 'desc']"
-        :rowClass="rowClass"
-        @click="onClickRow"
+        sort-icon="chevron-up"
+        sort-icon-size="xs"
+        :default-sort="['memberCount', 'desc']"
+        :row-class="(row) => rowClass(row as ClanWithMemberCount<Clan>)"
+        @click="(row) => onClickRow(row as ClanWithMemberCount<Clan>)"
       >
         <OTableColumn
-          #default="{ row: clan }: { row: ClanWithMemberCount<Clan> }"
+          v-slot="{ row: clan }: { row: ClanWithMemberCount<Clan> }"
           field="clan.tag"
           :label="$t('clan.table.column.tag')"
           :width="120"
@@ -122,29 +131,38 @@ await loadClans();
         </OTableColumn>
 
         <OTableColumn
-          #default="{ row: clan }: { row: ClanWithMemberCount<Clan> }"
+          v-slot="{ row: clan }: { row: ClanWithMemberCount<Clan> }"
           field="clan.name"
           :label="$t('clan.table.column.name')"
         >
           {{ clan.clan.name }}
-          <span v-if="userStore.clan?.id === clan.clan.id" data-aq-clan-row="self-clan">
+          <span
+            v-if="userStore.clan?.id === clan.clan.id"
+            data-aq-clan-row="self-clan"
+          >
             ({{ $t('you') }})
           </span>
         </OTableColumn>
 
-        <OTableColumn field="clan.languages" :width="220">
+        <OTableColumn
+          field="clan.languages"
+          :width="220"
+        >
           <template #header>
             <THDropdown
               :label="$t('clan.table.column.languages')"
-              :shownReset="Boolean(languagesModel.length)"
+              :shown-reset="Boolean(languagesModel.length)"
               @reset="languagesModel = []"
             >
-              <DropdownItem v-for="l in aggregatedLanguages">
+              <DropdownItem
+                v-for="l in aggregatedLanguages"
+                :key="l"
+              >
                 <OCheckbox
                   v-model="languagesModel"
-                  :nativeValue="l"
+                  :native-value="l"
                   class="items-center"
-                  :label="$t(`language.${l}`) + ` - ${l}`"
+                  :label="`${$t(`language.${l}`)} - ${l}`"
                 />
               </DropdownItem>
             </THDropdown>
@@ -154,8 +172,9 @@ await loadClans();
             <div class="flex items-center gap-1.5">
               <Tag
                 v-for="l in clan.clan.languages"
-                :label="l"
+                :key="l"
                 v-tooltip="$t(`language.${l}`)"
+                :label="l"
                 variant="primary"
               />
             </div>
@@ -163,7 +182,7 @@ await loadClans();
         </OTableColumn>
 
         <OTableColumn
-          #default="{ row: clan }: { row: ClanWithMemberCount<Clan> }"
+          v-slot="{ row: clan }: { row: ClanWithMemberCount<Clan> }"
           field="memberCount"
           :label="$t('clan.table.column.members')"
           :width="40"

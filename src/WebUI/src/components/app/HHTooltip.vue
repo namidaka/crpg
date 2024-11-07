@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { Region } from '@/models/region';
+import type { Region } from '~/models/region'
 
-defineProps<{ region: Region }>();
+defineProps<{ region: Region }>()
 </script>
 
 <template>
   <VTooltip>
     <template #default="slotProps">
-      <slot name="default" v-bind="slotProps" />
+      <slot
+        name="default"
+        v-bind="slotProps"
+      />
     </template>
 
     <template #popper>
@@ -22,7 +25,11 @@ defineProps<{ region: Region }>();
         </template>
 
         <template #desc>
-          <i18n-t scope="global" keypath="hh.tooltip-content.desc" tag="p">
+          <i18n-t
+            scope="global"
+            keypath="hh.tooltip-content.desc"
+            tag="p"
+          >
             <template #descHighlight>
               <span class="text-content-100">
                 {{ $t('hh.tooltip-content.descHighlight') }}
@@ -32,7 +39,11 @@ defineProps<{ region: Region }>();
         </template>
 
         <template #region>
-          <i18n-t scope="global" keypath="hh.tooltip-content.region" tag="p">
+          <i18n-t
+            scope="global"
+            keypath="hh.tooltip-content.region"
+            tag="p"
+          >
             <template #currentRegion>
               <span class="text-content-100">
                 {{ $t(`region.${region}`, 0) }}

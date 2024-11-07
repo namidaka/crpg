@@ -1,40 +1,42 @@
-import { type NavigationGuard, type RouteLocationNormalized } from 'vue-router/auto';
-import { useUserStore } from '@/stores/user';
+import type { NavigationGuard, RouteLocationNormalized } from 'vue-router/auto'
 
-export const characterValidate: NavigationGuard = async to => {
-  const userStore = useUserStore();
+import { useUserStore } from '~/stores/user'
+
+export const characterValidate: NavigationGuard = async (to) => {
+  const userStore = useUserStore()
 
   if (userStore.characters.length === 0) {
-    await userStore.fetchCharacters();
+    await userStore.fetchCharacters()
   }
 
-  if (!userStore.validateCharacter(Number(to.params!.id as string))) {
+  // @ts-expect-error TODO:
+  if (!userStore.validateCharacter(Number(to.params?.id as string))) {
     if (userStore.activeCharacterId) {
       return {
         name: 'CharactersIdInventory',
         params: { id: String(userStore.activeCharacterId) },
-      } as RouteLocationNormalized<'CharactersIdInventory'>;
+      } as RouteLocationNormalized<'CharactersIdInventory'>
     }
 
-    return { name: 'Characters' };
+    return { name: 'Characters' }
   }
 
-  return true;
-};
+  return true
+}
 
-export const activeCharacterRedirect: NavigationGuard = async _to => {
-  const userStore = useUserStore();
+export const activeCharacterRedirect: NavigationGuard = async (_to) => {
+  const userStore = useUserStore()
 
   if (userStore.characters.length === 0) {
-    await userStore.fetchCharacters();
+    await userStore.fetchCharacters()
   }
 
   if (userStore.activeCharacterId) {
     return {
       name: 'CharactersIdInventory',
       params: { id: String(userStore.activeCharacterId) },
-    } as RouteLocationNormalized<'CharactersIdInventory'>;
+    } as RouteLocationNormalized<'CharactersIdInventory'>
   }
 
-  return true;
-};
+  return true
+}

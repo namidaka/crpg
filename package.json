@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "eslint-plugin-import-x": "^4.4.0"
+  }
+}

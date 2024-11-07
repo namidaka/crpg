@@ -1,89 +1,92 @@
 <script setup lang="ts">
-import { CharacteristicConversion, type SkillKey } from '@/models/character';
+import type { SkillKey } from '~/models/character'
+
+import { useCharacterCharacteristic } from '~/composables/character/use-character-characteristic'
+import { CharacteristicConversion } from '~/models/character'
 import {
+  characteristicBonusByKey,
+  computeHealthPoints,
   convertCharacterCharacteristics,
   updateCharacterCharacteristics,
-  computeHealthPoints,
-  characteristicBonusByKey,
-} from '@/services/characters-service';
+} from '~/services/characters-service'
+import { notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
+import { useUserStore } from '~/stores/user'
 import {
-  characterKey,
   characterCharacteristicsKey,
   characterItemsStatsKey,
-} from '@/symbols/character';
-import { useCharacterCharacteristic } from '@/composables/character/use-character-characteristic';
-import { useUserStore } from '@/stores/user';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
+  characterKey,
+} from '~/symbols/character'
 
 definePage({
-  props: true,
   meta: {
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+  props: true,
+})
 
-const userStore = useUserStore();
+const userStore = useUserStore()
 
-const character = injectStrict(characterKey);
+const character = injectStrict(characterKey)
 const { characterCharacteristics, setCharacterCharacteristics } = injectStrict(
-  characterCharacteristicsKey
-);
-const itemsStats = injectStrict(characterItemsStatsKey);
+  characterCharacteristicsKey,
+)
+const itemsStats = injectStrict(characterItemsStatsKey)
 
 const {
   characteristics,
   //
-  wasChangeMade,
-  isChangeValid,
-  currentSkillRequirementsSatisfied,
-  canConvertSkillsToAttributes,
   canConvertAttributesToSkills,
+  canConvertSkillsToAttributes,
+  currentSkillRequirementsSatisfied,
+  isChangeValid,
+  wasChangeMade,
   //
   formSchema,
   //
-  onInput,
   getInputProps,
+  onInput,
   reset,
-} = useCharacterCharacteristic(characterCharacteristics);
+} = useCharacterCharacteristic(characterCharacteristics)
 
 const healthPoints = computed(() =>
   computeHealthPoints(
     characteristics.value.skills.ironFlesh,
-    characteristics.value.attributes.strength
-  )
-);
+    characteristics.value.attributes.strength,
+  ),
+)
 
 const onCommitCharacterCharacteristics = async () => {
   setCharacterCharacteristics(
-    await updateCharacterCharacteristics(character.value.id, characteristics.value)
-  );
+    await updateCharacterCharacteristics(character.value.id, characteristics.value),
+  )
 
-  reset();
+  reset()
 
-  await userStore.fetchCharacters();
+  await userStore.fetchCharacters()
 
-  notify(t('character.characteristic.commit.notify'));
-};
+  notify(t('character.characteristic.commit.notify'))
+}
 
 const onConvertCharacterCharacteristics = async (conversion: CharacteristicConversion) => {
   setCharacterCharacteristics(
-    await convertCharacterCharacteristics(character.value.id, conversion)
-  );
-};
+    await convertCharacterCharacteristics(character.value.id, conversion),
+  )
+}
 
 onBeforeRouteUpdate(() => {
-  reset();
-  return true;
-});
+  reset()
+  return true
+})
 </script>
 
 <template>
   <div class="relative mx-auto max-w-4xl">
     <div class="statsGrid mb-8 grid gap-6">
       <div
-        class="space-y-3"
         v-for="fieldsGroup in formSchema"
+        :key="fieldsGroup.key"
+        class="space-y-3"
         :style="{ 'grid-area': fieldsGroup.key }"
       >
         <div
@@ -111,7 +114,7 @@ onBeforeRouteUpdate(() => {
               rounded
               outlined
               :disabled="!canConvertAttributesToSkills"
-              iconRight="convert"
+              icon-right="convert"
               data-aq-convert-attributes-action
               @click="
                 onConvertCharacterCharacteristics(CharacteristicConversion.AttributesToSkills)
@@ -147,7 +150,7 @@ onBeforeRouteUpdate(() => {
               rounded
               outlined
               :disabled="!canConvertSkillsToAttributes"
-              iconRight="convert"
+              icon-right="convert"
               data-aq-convert-skills-action
               @click="
                 onConvertCharacterCharacteristics(CharacteristicConversion.SkillsToAttributes)
@@ -180,6 +183,7 @@ onBeforeRouteUpdate(() => {
         <div class="rounded-xl border border-border-200 py-2">
           <div
             v-for="field in fieldsGroup.children"
+            :key="field.key"
             class="flex items-center justify-between gap-2 px-4 py-2.5 text-2xs hover:bg-base-200"
           >
             <VTooltip>
@@ -187,16 +191,16 @@ onBeforeRouteUpdate(() => {
                 class="flex items-center gap-1 text-2xs"
                 :class="{
                   'text-status-danger':
-                    fieldsGroup.key === 'skills' &&
-                    !currentSkillRequirementsSatisfied(field.key as SkillKey),
+                    fieldsGroup.key === 'skills'
+                    && !currentSkillRequirementsSatisfied(field.key as SkillKey),
                 }"
               >
                 {{ $t(`character.characteristic.${fieldsGroup.key}.children.${field.key}.title`) }}
 
                 <OIcon
                   v-if="
-                    fieldsGroup.key === 'skills' &&
-                    !currentSkillRequirementsSatisfied(field.key as SkillKey)
+                    fieldsGroup.key === 'skills'
+                      && !currentSkillRequirementsSatisfied(field.key as SkillKey)
                   "
                   icon="alert-circle"
                   size="xs"
@@ -215,7 +219,10 @@ onBeforeRouteUpdate(() => {
                     :keypath="`character.characteristic.${fieldsGroup.key}.children.${field.key}.desc`"
                     tag="p"
                   >
-                    <template v-if="field.key in characteristicBonusByKey" #value>
+                    <template
+                      v-if="field.key in characteristicBonusByKey"
+                      #value
+                    >
                       <span class="font-bold text-content-100">
                         {{
                           $n(characteristicBonusByKey[field.key]!.value, {
@@ -244,7 +251,7 @@ onBeforeRouteUpdate(() => {
               readonly
               :data-aq-control="`${fieldsGroup.key}:${field.key}`"
               v-bind="getInputProps(fieldsGroup.key, field.key)"
-              @update:modelValue="onInput(fieldsGroup.key, field.key, $event)"
+              @update:model-value="onInput(fieldsGroup.key, field.key, $event)"
             />
           </div>
         </div>
@@ -257,8 +264,8 @@ onBeforeRouteUpdate(() => {
         <CharacterStats
           :characteristics="characteristics!"
           :weight="itemsStats.weight"
-          :longestWeaponLength="itemsStats.longestWeaponLength"
-          :healthPoints="healthPoints"
+          :longest-weapon-length="itemsStats.longestWeaponLength"
+          :health-points="healthPoints"
         />
       </div>
     </div>
@@ -270,7 +277,7 @@ onBeforeRouteUpdate(() => {
         :disabled="!wasChangeMade"
         variant="secondary"
         size="lg"
-        iconLeft="reset"
+        icon-left="reset"
         :label="$t('action.reset')"
         data-aq-reset-action
         @click="reset"
@@ -280,7 +287,7 @@ onBeforeRouteUpdate(() => {
         <OButton
           variant="primary"
           size="lg"
-          iconLeft="check"
+          icon-left="check"
           :disabled="!wasChangeMade || !isChangeValid"
           :label="$t('action.commit')"
           data-aq-commit-action

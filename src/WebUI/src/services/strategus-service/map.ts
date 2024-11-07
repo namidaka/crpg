@@ -1,20 +1,22 @@
-import { LatLngBounds } from 'leaflet';
-import { SettlementType, type SettlementPublic } from '@/models/strategus/settlement';
+import type { LatLngBounds } from 'leaflet'
 
-import { positionToLatLng } from '@/utils/geometry';
+import type { SettlementPublic } from '~/models/strategus/settlement'
+
+import { SettlementType } from '~/models/strategus/settlement'
+import { positionToLatLng } from '~/utils/geometry'
 
 export const shouldDisplaySettlement = (
   settlement: SettlementPublic,
   mapBounds: LatLngBounds,
-  zoom: number
+  zoom: number,
 ) => {
   if (!mapBounds.contains(positionToLatLng(settlement.position.coordinates))) {
-    return false;
+    return false
   }
 
   return (
-    zoom > 4 ||
-    (zoom > 3 && settlement.type === SettlementType.Castle) ||
-    settlement.type === SettlementType.Town
-  );
-};
+    zoom > 4
+    || (zoom > 3 && settlement.type === SettlementType.Castle)
+    || settlement.type === SettlementType.Town
+  )
+}

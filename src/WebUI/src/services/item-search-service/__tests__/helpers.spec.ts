@@ -1,13 +1,14 @@
-import { type ItemFlat } from '@/models/item';
-import { type FiltersModel } from '@/models/item-search';
-import { excludeRangeFilters, applyFilters } from '@/services/item-search-service/helpers';
+import type { ItemFlat } from '~/models/item'
+import type { FiltersModel } from '~/models/item-search'
+
+import { applyFilters, excludeRangeFilters } from '~/services/item-search-service/helpers'
 
 it.each<[FiltersModel<number[] | string[]>, FiltersModel<number[] | string[]>]>([
   [{ price: [0, 1] }, {}],
   [{ weaponClass: ['test'] }, { weaponClass: ['test'] }],
 ])('excludeRangeFilters - model: %j', (filtersModel, expectation) => {
-  expect(excludeRangeFilters(filtersModel)).toEqual(expectation);
-});
+  expect(excludeRangeFilters(filtersModel)).toEqual(expectation)
+})
 
 it.each<[FiltersModel<number[] | string[]>, string[], boolean]>([
   [{ price: [999, 1001], tier: [6, 9] }, [], true],
@@ -21,7 +22,7 @@ it.each<[FiltersModel<number[] | string[]>, string[], boolean]>([
     applyFilters(
       { id: 'Fluttershy', price: 1000, tier: 8.45 } as ItemFlat,
       filterModel,
-      userItemsIds
-    )
-  ).toEqual(expectation);
-});
+      userItemsIds,
+    ),
+  ).toEqual(expectation)
+})

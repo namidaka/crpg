@@ -23,7 +23,11 @@
       </div>
 
       <template #fallback>
-        <OLoading fullPage active iconSize="xl" />
+        <OLoading
+          full-page
+          active
+          icon-size="xl"
+        />
       </template>
     </Suspense>
   </RouterView>

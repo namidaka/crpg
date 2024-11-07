@@ -1,31 +1,36 @@
-import defu from 'defu';
-import { type ComponentPublicInstance, defineComponent } from 'vue';
-import { mount, flushPromises, type VueWrapper, MountingOptions } from '@vue/test-utils';
+import type { MountingOptions, VueWrapper } from '@vue/test-utils'
+import type { ComponentPublicInstance } from 'vue'
+import type {
+  RouteLocationRaw,
+  Router,
+  RouteRecordRaw,
+} from 'vue-router'
+
+import { flushPromises, mount } from '@vue/test-utils'
+import defu from 'defu'
+import { defineComponent } from 'vue'
 import {
   createRouter,
   createWebHistory,
-  type Router,
-  RouteRecordRaw,
-  RouteLocationRaw,
-} from 'vue-router';
+} from 'vue-router'
 
 // ref: https://github.com/vuejs/test-utils/issues/108#issuecomment-1124851726
-export const mountWithRouter = async <Component extends ComponentPublicInstance, Props>(
+export const mountWithRouter = async <Props>(
   options: MountingOptions<Props> = {},
   routes: RouteRecordRaw[],
-  route: RouteLocationRaw
+  route: RouteLocationRaw,
 ): Promise<{
-  wrapper: VueWrapper<ComponentPublicInstance>;
-  router: Router;
+  wrapper: VueWrapper<ComponentPublicInstance>
+  router: Router
 }> => {
   const router = createRouter({
     history: createWebHistory(),
     routes,
-  });
+  })
 
-  router.push(route);
+  router.push(route)
 
-  await router.isReady();
+  await router.isReady()
 
   const app = defineComponent({
     template: `
@@ -35,7 +40,7 @@ export const mountWithRouter = async <Component extends ComponentPublicInstance,
             </suspense>
         </router-view>
     `,
-  });
+  })
 
   const wrapper = mount(
     app,
@@ -45,11 +50,11 @@ export const mountWithRouter = async <Component extends ComponentPublicInstance,
           plugins: [router],
         },
       },
-      options
-    )
-  );
+      options,
+    ),
+  )
 
-  await flushPromises();
+  await flushPromises()
 
-  return { wrapper, router };
-};
+  return { router, wrapper }
+}

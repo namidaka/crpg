@@ -1,21 +1,26 @@
-import { createApp } from 'vue';
-import { type BootModule } from './types/boot-module';
-import { guessDefaultLocale, switchLanguage } from '@/services/translate-service';
+import { createApp } from 'vue'
 
-import 'floating-vue/dist/style.css';
-import './assets/styles/tailwind.css';
-import './assets/themes/oruga-tailwind/index.css';
-import 'virtual:svg-icons-register';
+import { guessDefaultLocale, switchLanguage } from '~/services/translate-service'
 
-import App from './App.vue';
+import type { BootModule } from './types/boot-module'
 
-const app = createApp(App);
+import 'floating-vue/dist/style.css'
+
+import './assets/styles/tailwind.css'
+import './assets/themes/oruga-tailwind/index.css'
+
+import 'virtual:svg-icons-register'
+
+import App from './App.vue'
+
+const app = createApp(App)
 
 // Load modules || plugins
 Object.values(
-  import.meta.glob<BootModule>('./boot/*.ts', { eager: true, import: 'install' })
-).forEach(install => install(app));
+  import.meta.glob<BootModule>('./boot/*.ts', { eager: true, import: 'install' }),
+).forEach(install => install(app))
 
-await switchLanguage(guessDefaultLocale());
+// eslint-disable-next-line antfu/no-top-level-await
+await switchLanguage(guessDefaultLocale())
 
-app.mount('#app');
+app.mount('#app')

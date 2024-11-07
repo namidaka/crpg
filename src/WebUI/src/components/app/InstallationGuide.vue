@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { Platform } from '@/models/platform';
-import { platformToIcon } from '@/services/platform-service';
-import { usePlatform } from '@/composables/use-platform';
+import { usePlatform } from '~/composables/use-platform'
+import { Platform } from '~/models/platform'
+import { platformToIcon } from '~/services/platform-service'
 
-const { platform } = usePlatform();
+const { platform } = usePlatform()
 
 enum PossibleValues {
   Steam = 'Steam',
   Other = 'Other',
 }
 
-const tabsModel = ref<PossibleValues>(PossibleValues.Steam);
+const tabsModel = ref<PossibleValues>(PossibleValues.Steam)
 
 watch(
   platform,
   () => {
-    tabsModel.value =
-      platform.value === Platform.Steam ? PossibleValues.Other : PossibleValues.Steam;
+    tabsModel.value
+      = platform.value === Platform.Steam ? PossibleValues.Other : PossibleValues.Steam
   },
   {
     immediate: true,
-  }
-);
+  },
+)
 </script>
 
 <template>
@@ -30,7 +30,7 @@ watch(
       <OButton
         variant="secondary"
         size="xl"
-        iconLeft="download"
+        icon-left="download"
         target="_blank"
         :label="$t('installation.title')"
       />
@@ -38,14 +38,29 @@ watch(
 
     <template #popper>
       <div class="prose prose-invert space-y-6 px-12 py-10">
-        <h3 class="text-center">{{ $t('installation.title') }}</h3>
+        <h3 class="text-center">
+          {{ $t('installation.title') }}
+        </h3>
 
-        <OTabs v-model="tabsModel" size="xl" :animation="['fade', 'fade']">
+        <OTabs
+          v-model="tabsModel"
+          size="xl"
+          :animation="['fade', 'fade']"
+        >
           <OTabItem :value="PossibleValues.Other">
             <template #header>
-              <OIcon :icon="platformToIcon[Platform.Steam]" size="xl" />
-              <OIcon :icon="platformToIcon[Platform.Microsoft]" size="xl" />
-              <OIcon :icon="platformToIcon[Platform.EpicGames]" size="xl" />
+              <OIcon
+                :icon="platformToIcon[Platform.Steam]"
+                size="xl"
+              />
+              <OIcon
+                :icon="platformToIcon[Platform.Microsoft]"
+                size="xl"
+              />
+              <OIcon
+                :icon="platformToIcon[Platform.EpicGames]"
+                size="xl"
+              />
               {{ $t('installation.platform.other.title') }}
             </template>
             <ol>
@@ -55,7 +70,10 @@ watch(
                 tag="li"
               >
                 <template #launcherLink>
-                  <a target="_blank" href="https://c-rpg.eu/LauncherV3.exe">Launcher</a>
+                  <a
+                    target="_blank"
+                    href="https://c-rpg.eu/LauncherV3.exe"
+                  >Launcher</a>
                 </template>
               </i18n-t>
               <li>{{ $t('installation.platform.other.startLauncher') }}</li>
@@ -71,7 +89,11 @@ watch(
             :value="PossibleValues.Steam"
           >
             <ol>
-              <i18n-t scope="global" keypath="installation.platform.steam.subscribe" tag="li">
+              <i18n-t
+                scope="global"
+                keypath="installation.platform.steam.subscribe"
+                tag="li"
+              >
                 <template #steamWorkshopsLink>
                   <!-- prettier-ignore -->
                   <a
@@ -85,7 +107,9 @@ watch(
               <li>{{ $t('installation.platform.steam.activateMod') }}</li>
               <li>{{ $t('installation.platform.steam.launchMultiplayerGame') }}</li>
             </ol>
-            <p class="text-primary">{{ $t('installation.platform.steam.update') }}</p>
+            <p class="text-primary">
+              {{ $t('installation.platform.steam.update') }}
+            </p>
           </OTabItem>
         </OTabs>
 
@@ -93,7 +117,7 @@ watch(
           <OButton
             variant="primary"
             size="xl"
-            iconLeft="youtube"
+            icon-left="youtube"
             target="_blank"
             outlined
             tag="a"
@@ -105,7 +129,12 @@ watch(
         <Divider />
 
         <div class="mt-6 space-y-6">
-          <i18n-t scope="global" keypath="installation.common.help" tag="p" class="text-content-400">
+          <i18n-t
+            scope="global"
+            keypath="installation.common.help"
+            tag="p"
+            class="text-content-400"
+          >
             <template #discordLink>
               <!-- prettier-ignore -->
               <a

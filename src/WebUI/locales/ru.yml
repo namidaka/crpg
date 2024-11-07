@@ -34,15 +34,15 @@ help:
 
   overview:
     navTitle: Обзор
-    title: 'Добро пожаловать в cRPG!'
-    intro: "
-      <p>Если вы новичок и, вероятно, нашли эту страницу в поисках помощи, то вы пришли по адресу! Это будет своего рода 'приветственный набор', который поможет вам разобраться с основными вопросами.</p>
-      <p>Для начала мы рекомендуем ознакомиться с <a href='/help/build-support'>билд-системой</a>, это лучший способ изучить нашу систему прогрессии и начать творчески подходить к созданию персонажа!</p>"
+    title: Добро пожаловать в cRPG!
+    intro: '
+      <p>Если вы новичок и, вероятно, нашли эту страницу в поисках помощи, то вы пришли по адресу! Это будет своего рода ''приветственный набор'', который поможет вам разобраться с основными вопросами.</p>
+      <p>Для начала мы рекомендуем ознакомиться с <a href=''/help/build-support''>билд-системой</a>, это лучший способ изучить нашу систему прогрессии и начать творчески подходить к созданию персонажа!</p>'
 
   buildSupport:
     navTitle: Билд-система
-    title: 'Создайте билд своего персонажа'
-    content: "
+    title: Создайте билд своего персонажа
+    content: '
       <p>Создание хорошего билда для вашего персонажа - это фундаментальный инструмент для доминирования на поле боя в cRPG. Будучи новичком в игре, вы захотите получить что-то простое, легкое и понятное, чтобы как можно чаще участвовать в боях.</p>
       <p>Самое основное правило, которое необходимо усвоить при составлении билда, заключается в том, что увеличение атрибутов (сила и ловкость) всегда должно происходить <strong>в количестве кратном трем</strong>.</p>
       <p>Причина в том, что за каждое кратное трем число, вложенное в силу или ловкость, вы получаете возможность вложить <strong>+1 очко в навык</strong> (скилл), связанный с этим атрибутом.</p>
@@ -52,23 +52,23 @@ help:
       <li>добавьте 3 очка и доведите его до 6-го уровня, теперь вы можете добавить 2 очка</li>
       <li>повторяйте, пока не достигнете желаемого уровня!</li>
       </ul>
-      <p>Вы можете поэкспериментировать с билдами с помощью <a href='/builder' target='_blank'>этого инструмента</a>, а также задать вопросы в <a href='https://discord.com/channels/279063743839862805/1036085650849550376' target='_blank'>специализированном чате Discord</a>.</p>"
+      <p>Вы можете поэкспериментировать с билдами с помощью <a href=''/builder'' target=''_blank''>этого инструмента</a>, а также задать вопросы в <a href=''https://discord.com/channels/279063743839862805/1036085650849550376'' target=''_blank''>специализированном чате Discord</a>.</p>'
 
   joinClan:
-    title: 'Вступление в клан'
+    title: Вступление в клан
     navTitle: Вступить в клан
-    content: "
+    content: '
       <p>Вступить в клан в cRPG - хорошая идея по двум простым причинам:</p>
       <ul>
       <li>Это вовлекает вас в сообщество - вы можете учиться у более опытных игроков и пользоваться этим для улучшения своих навыков!</li>
       <li>Это дает вам доступ к их <strong>клановой оружейной</strong> - в ней хранятся предметы, которые вы можете позаимствовать у других игроков! Это огромное преимещуство на ранних этапах, когда с золотом туго!</li>
-      </ul>"
+      </ul>'
 
   FAQ:
-    title: 'Часто задаваемые вопросы'
+    title: Часто задаваемые вопросы
     navTitle: FAQ
-    intro: "
-      <p>Здесь вы найдете список распространенных вопросов. Задайте свой вопрос <a href='https://discord.com/channels/279063743839862805/1044686358066778112' target='_blank'>в нашем Discord</a>!</p>"
+    intro: '
+      <p>Здесь вы найдете список распространенных вопросов. Задайте свой вопрос <a href=''https://discord.com/channels/279063743839862805/1044686358066778112'' target=''_blank''>в нашем Discord</a>!</p>'
     list:
       - q: Как работает требование к силе?
         a: Вы можете носить все, что вам нравится, однако, если вы не обладаете необходимыми навыками владения этим предметом, вы столкнетесь с <strong>штрафами</strong>.
@@ -93,20 +93,20 @@ dateTime:
     long: минута | минуты | минут
 
 timeAgo:
-  just-now: 'прямо сейчас'
+  just-now: прямо сейчас
   ago: '{0} назад'
   in: 'через {0}'
-  last-month: 'в прошлом месяце'
-  next-month: 'в следующем месяце'
+  last-month: в прошлом месяце
+  next-month: в следующем месяце
   month: 'месяцев | месяц | месяца | месяцев'
-  last-year: 'в прошлом году'
-  next-year: 'в следующем году'
+  last-year: в прошлом году
+  next-year: в следующем году
   year: 'лет | год | года | лет'
-  yesterday: 'вчера'
-  tomorrow: 'завтра'
+  yesterday: вчера
+  tomorrow: завтра
   day: 'дней | день | дня | дней'
-  last-week: 'на прошлой неделе'
-  next-week: 'на следующей неделе'
+  last-week: на прошлой неделе
+  next-week: на следующей неделе
   week: 'недель | неделя | недели | недель'
   hour: 'часов | час | часа | часов'
   minute: 'минут | минуты | минуты | минут'
@@ -114,9 +114,9 @@ timeAgo:
 
 dateTimeFormat:
   countdown: '{hours}:{minutes}:{seconds}'
-  'dd': '{days} @:dateTime.days.short'
-  'mm': '{minutes} @:dateTime.minutes.short'
-  'hh': '{hours} @:dateTime.hours.short'
+  dd: '{days} @:dateTime.days.short'
+  mm: '{minutes} @:dateTime.minutes.short'
+  hh: '{hours} @:dateTime.hours.short'
   'dd:hh:mm': '{days}@:dateTime.days.short {hours}@:dateTime.hours.short {minutes}@:dateTime.minutes.short'
 
 nav:
@@ -247,12 +247,12 @@ clanBalancingExplanation: '
   <p>Также, будучи в клане, можно делиться и одалжевать предметы (клановая оружейная).</p>'
 
 welcome:
-  title: 'Приветствуем воин!'
+  title: Приветствуем воин!
   intro: '
     <p>Добро пожаловуть в одну из самых популярных онлайн модификаций в Bannerlord!</p>
     <p>Для того чтобы вы начали свой путь наиболее гладко, мы предоставили вам стартового персонажа 30-го уровня с некоторыми дополнительными бонусами, которые помогут вам.</p>
     <p>Помните, что в cRPG много опытных игроков, поэтому столкнуться с трудностями на начальном этапе - совершенно нормально. Не позволяйте этому запугать вас! Если возникнут вопросы, присоединяйтесь к нашему <a href="https://discord.gg/c-rpg" target="_blank">дискорду</a>.</p>'
-  bonusTitle: 'Стартовый бонус'
+  bonusTitle: Стартовый бонус
   bonusHint: '* бонус активен до достижения {level} уровня (~1-2 недели игры)'
   bonus:
     gold: '
@@ -356,17 +356,17 @@ character:
       tooltip:
         title: Ранг
         # prettier-ignore
-        desc: "
+        desc: '
           <p>Ваш рейтинг присваивает вам ранг, который напрямую связан с автобалансом, используя который он решает, в какую команду вас поместить. Система, которую мы используем <strong>*Glicko2</strong>.</p>
           <p>Не беспокойтесь о своем ранге! В конце концов, это инструмент, который мы используем для балансировки команд, он не обязательно является идеальным показателем мастерства в Bannerlord.</p>
           <p>Вы можете повысить свой ранг, нанося урон, особенно по более сильным игрокам, а также стабильно хорошо играя.</p>
           <p>
-            <small>
-              <strong>*Glicko2</strong>
-              <br />
-              Рейтинговая система Glicko2 - это метод оценки уровня мастерства игроков в играх с нулевой суммой, таких как шахматы. Она является продолжением рейтинговой системы Эло, добавляя рейтинг надежности для улучшения системы. Она корректирует рейтинги, основываясь не только на результатах побед и поражений, но и на последовательности действий игрока.
-            </small>
-          </p>"
+          <small>
+          <strong>*Glicko2</strong>
+          <br />
+          Рейтинговая система Glicko2 - это метод оценки уровня мастерства игроков в играх с нулевой суммой, таких как шахматы. Она является продолжением рейтинговой системы Эло, добавляя рейтинг надежности для улучшения системы. Она корректирует рейтинги, основываясь не только на результатах побед и поражений, но и на последовательности действий игрока.
+          </small>
+          </p>'
 
   settings:
     group:
@@ -583,10 +583,10 @@ character:
         <p>Зависит от длины оружия и очков атрибута <strong>силы</strong></p>'
     price:
       title: Стоимость
-      desc: 'Общая стоимость экипированных предметов'
+      desc: Общая стоимость экипированных предметов
     avgRepairCost:
       title: Ремонт
-      desc: 'Усредненная стоимость содержания экипированных предметов в час'
+      desc: Усредненная стоимость содержания экипированных предметов в час
 
   earningChart:
     title: График
@@ -634,13 +634,13 @@ character:
         notify:
           warning: 'Чтобы экипировать доспех из набора EBA, необходимо сначала надеть совместимую защиту ног из набора EBA'
       upgrade:
-        upgradesTitle: 'Улучшения предмета'
+        upgradesTitle: Улучшения предмета
         tooltip:
-          title: 'Улучшить предмет'
-          description: 'Вы можете улучшить предмет за очки улучшения (Heirloom)'
+          title: Улучшить предмет
+          description: Вы можете улучшить предмет за очки улучшения (Heirloom)
         validation:
-          maxRank: 'Предмет уже имеет максимальный ранг'
-          loomPoints: 'У вас недостаточно очков улучшения'
+          maxRank: Предмет уже имеет максимальный ранг
+          loomPoints: У вас недостаточно очков улучшения
         confirm:
           description: 'Вы уверены, что хотите улучшить этот предмет за {loomPoints}? {oldItem} будет заменен на {newItem}'
         currentItem: Текущий предмет
@@ -648,8 +648,8 @@ character:
           success: Предмет успешно улучшен
       reforge:
         tooltip:
-          title: 'Рассплавить предмет'
-          description: 'Вы можете перековать свои предметы за золото'
+          title: Рассплавить предмет
+          description: Вы можете перековать свои предметы за золото
           costTable:
             cols:
               rank:
@@ -660,11 +660,11 @@ character:
                 label: Награда
         validation:
           rank: 'Предмет должен иметь ранг больше, чем {minimumRank}'
-          gold: 'У вас недостаточно золота'
+          gold: У вас недостаточно золота
         confirm:
           description: 'Вы уверены, что хотите рассплавить этот предмет за {gold}? Вы получите {loomPoints}, также предмет {oldItem} будет заменен на {newItem}.'
         notify:
-          success: 'Предмет успешно рассплавлен'
+          success: Предмет успешно рассплавлен
       clanArmory:
         inArmory:
           title: Предмет находится в клановой оружейной
@@ -1038,34 +1038,34 @@ hh:
 item:
   type:
     Undefined: ''
-    HeadArmor: 'Защита головы'
-    ShoulderArmor: 'Защита шеи'
-    BodyArmor: 'Защита тела'
-    HandArmor: 'Защита рук'
-    LegArmor: 'Защита ног'
-    MountHarness: 'Защита ездового животного'
-    Mount: 'Ездовое животное'
-    Shield: 'Щит'
-    Bow: 'Лук'
-    Crossbow: 'Арбалет'
-    OneHandedWeapon: 'Одноручное оружие'
-    TwoHandedWeapon: 'Двуручное оружие'
-    Polearm: 'Древковое оружие'
-    Thrown: 'Метательное оружие'
-    Arrows: 'Стрелы'
-    Bolts: 'Болты'
+    HeadArmor: Защита головы
+    ShoulderArmor: Защита шеи
+    BodyArmor: Защита тела
+    HandArmor: Защита рук
+    LegArmor: Защита ног
+    MountHarness: Защита ездового животного
+    Mount: Ездовое животное
+    Shield: Щит
+    Bow: Лук
+    Crossbow: Арбалет
+    OneHandedWeapon: Одноручное оружие
+    TwoHandedWeapon: Двуручное оружие
+    Polearm: Древковое оружие
+    Thrown: Метательное оружие
+    Arrows: Стрелы
+    Bolts: Болты
     Pistol: ''
     Musket: ''
     Bullets: ''
-    Banner: 'Знамя'
+    Banner: Знамя
 
   flags:
     ForceAttachOffHandPrimaryItemBone: ''
     ForceAttachOffHandSecondaryItemBone: ''
     NotUsableByFemale: ''
     NotUsableByMale: ''
-    DropOnWeaponChange: 'Выбросить при смене'
-    DropOnAnyAction: 'Drop on any action'
+    DropOnWeaponChange: Выбросить при смене
+    DropOnAnyAction: Drop on any action
     CannotBePickedUp: ''
     CanBePickedUpFromCorpse: ''
     QuickFadeOut: ''
@@ -1073,86 +1073,86 @@ item:
     WoodenParry: ''
     HeldInOffHand: ''
     HasToBeHeldUp: ''
-    UseTeamColor: 'Использует цвет команды'
+    UseTeamColor: Использует цвет команды
     Civilian: ''
     DoNotScaleBodyAccordingToWeaponLength: ''
     DoesNotHideChest: ''
-    NotStackable: 'Not stackable'
+    NotStackable: Not stackable
 
   usage:
     long_bow:
-      title: 'Длинный лук'
+      title: Длинный лук
       description: ''
     bow:
-      title: 'Короткий лук'
+      title: Короткий лук
       description: ''
     crossbow:
-      title: 'Тяжелый арбалет'
+      title: Тяжелый арбалет
       description: ''
     crossbow_light:
-      title: 'Легкий арбалет'
+      title: Легкий арбалет
       description: ''
     polearm_couch:
-      title: 'Рыцарский удар'
+      title: Рыцарский удар
       description: ''
     polearm_bracing:
-      title: 'Стена копий'
+      title: Стена копий
       description: ''
     polearm_pike:
-      title: 'Пика'
+      title: Пика
       description: ''
     polearm:
-      title: 'Копье для джостинга'
-      description: 'Можно использовать только в режиме рыцарского удара'
+      title: Копье для джостинга
+      description: Можно использовать только в режиме рыцарского удара
 
   weaponClass:
     Undefined: ''
-    Dagger: 'Кинжал'
-    OneHandedSword: 'Одноручный меч'
-    TwoHandedSword: 'Двуручный меч'
-    OneHandedAxe: 'Одноручный топор'
-    TwoHandedAxe: 'Двуручный топор'
-    Mace: 'Булава'
+    Dagger: Кинжал
+    OneHandedSword: Одноручный меч
+    TwoHandedSword: Двуручный меч
+    OneHandedAxe: Одноручный топор
+    TwoHandedAxe: Двуручный топор
+    Mace: Булава
     Pick: ''
-    TwoHandedMace: 'Двуручная булава'
-    OneHandedPolearm: 'Одноручное древковое'
-    TwoHandedPolearm: 'Двуручное древковое'
+    TwoHandedMace: Двуручная булава
+    OneHandedPolearm: Одноручное древковое
+    TwoHandedPolearm: Двуручное древковое
     LowGripPolearm: ''
-    Arrow: 'Стрела'
-    Bolt: 'Болт'
+    Arrow: Стрела
+    Bolt: Болт
     Cartridge: ''
-    Bow: 'Лук'
-    Crossbow: 'Арбалет'
-    Stone: 'Камень'
+    Bow: Лук
+    Crossbow: Арбалет
+    Stone: Камень
     Boulder: ''
-    ThrowingAxe: 'Метательный топор'
-    ThrowingKnife: 'Метательный кинжал'
-    Javelin: 'Дротик'
+    ThrowingAxe: Метательный топор
+    ThrowingKnife: Метательный кинжал
+    Javelin: Дротик
     Pistol: ''
     Musket: ''
-    SmallShield: 'Маленький щит'
-    LargeShield: 'Большой щит'
-    Banner: 'Знамя'
+    SmallShield: Маленький щит
+    LargeShield: Большой щит
+    Banner: Знамя
 
   weaponFlags:
-    AffectsAreaBig: 'Affects area big'
-    AffectsArea: 'Affects area'
+    AffectsAreaBig: Affects area big
+    AffectsArea: Affects area
     AmmoBreaksOnBounceBack: ''
     AmmoCanBreakOnBounceBack: ''
     AmmoSticksWhenShot: ''
     AttachAmmoToVisual: ''
-    AutoReload: 'Автоматическая перезарядка'
-    BonusAgainstShield: 'Бонус против щитов'
+    AutoReload: Автоматическая перезарядка
+    BonusAgainstShield: Бонус против щитов
     Burning: ''
-    CanBlockRanged: 'Can block ranged'
-    CanCrushThrough: 'Урон сквозь блок'
-    CanDismount: 'Может спешить'
-    CanHook: 'CanHook'
-    CanKnockDown: 'Урон сквозь блок'
-    CanPenetrateShield: 'Урон сквозь щит'
-    CantReloadOnHorseback: 'Нельзя использовать верхом'
-    CanReloadOnHorseback: 'Можно использовать верхом'
-    CantUseOnHorseback: 'Нельзя использовать верхом'
+    CanBlockRanged: Can block ranged
+    CanCrushThrough: Урон сквозь блок
+    CanDismount: Может спешить
+    CanHook: CanHook
+    CanKnockDown: Урон сквозь блок
+    CanPenetrateShield: Урон сквозь щит
+    CantReloadOnHorseback: Нельзя использовать верхом
+    CanReloadOnHorseback: Можно использовать верхом
+    CantUseOnHorseback: Нельзя использовать верхом
     Consumable: ''
     FirearmAmmo: ''
     HasHitPoints: ''
@@ -1160,17 +1160,17 @@ item:
     LeavesTrail: ''
     MeleeWeapon: ''
     MissileWithPhysics: ''
-    MultiplePenetration: 'Может опрокинуть'
+    MultiplePenetration: Может опрокинуть
     NoBlood: ''
-    NotUsableWithOneHand: 'Two hand only'
-    NotUsableWithTwoHand: 'One hand only'
-    PenaltyWithShield: 'Penalty with shield'
-    RangedWeapon: 'Ranged weapon'
+    NotUsableWithOneHand: Two hand only
+    NotUsableWithTwoHand: One hand only
+    PenaltyWithShield: Penalty with shield
+    RangedWeapon: Ranged weapon
     StringHeldByHand: ''
-    TwoHandIdleOnMount: 'Two hand idle on mount'
+    TwoHandIdleOnMount: Two hand idle on mount
     UnloadWhenSheathed: ''
     UseHandAsThrowBase: ''
-    WideGrip: 'Wide grip'
+    WideGrip: Wide grip
 
   culture:
     Neutral: Нейтралы
@@ -1184,50 +1184,50 @@ item:
 
   familyType:
     1:
-      title: 'Лошадь'
+      title: Лошадь
       description: ''
     2:
-      title: 'Верблюд'
+      title: Верблюд
       description: ''
     3:
-      title: 'EBA'
+      title: EBA
       description: 'Чтобы экипировать доспех из набора EBA, необходимо сначала надеть совместимую защиту ног из набора EBA'
 
   armorMaterialType:
     Cloth:
-      title: 'Ткань'
+      title: Ткань
       description: ''
     Leather:
-      title: 'Кожа'
+      title: Кожа
       description: ''
     Chainmail:
-      title: 'Кольчуга'
+      title: Кольчуга
       description: ''
     Plate:
-      title: 'Латы'
+      title: Латы
       description: ''
 
   damageTypeFormat: '{value} {type}'
   damageType:
     Cut:
-      long: 'Режущий'
-      short: 'c'
-      title: 'Режущий урон'
+      long: Режущий
+      short: c
+      title: Режущий урон
       description: '
         <p>Рубящий урон представляет собой атаки, наносящие режущие или рассекающие удары, которые часто наносятся оружием с острыми концами - мечами или топорами.</p>
         <p>Эти атаки особенно эффективны против противников с низкой броней или вообще без нее. Чем тоньше броня, тем более разрушительным является урон от порезов, что отражает способность острого оружия рассекать менее защищенные участки.</p>'
     Pierce:
-      long: 'Проникающий'
-      short: 'p'
-      title: 'Проникающий урон'
+      long: Проникающий
+      short: p
+      title: Проникающий урон
       description: '
         <p>Проникающий урон - это урон, наносимый оружием, предназначенным для пробивания или проникновения, например, стрелами, копьями или кинжалами.</p>
         <p>Основное преимущество пробивного урона заключается в его эффективности против бронированных противников. Попадание в голову дает дополнительный бонус к урону: для атак ближнего боя - 1,3, для атак дальнего боя - в 1,6.</p>
         <p>Таким образом, урон от пробития является потенциально самым сильным типом урона, учитывая его преимущество при попадании в голову.</p>'
     Blunt:
-      long: 'Дробящий'
-      short: 'b'
-      title: 'Дробящий урон'
+      long: Дробящий
+      short: b
+      title: Дробящий урон
       description: '
         <p>Под дробящим уроном понимается травма, наносимая ударным оружием, таким как молот или булава.</p>
         <p>По эффективности против бронированных противников этот вид урона схож с проникающий. Однако, в отличие от него, дробящий урон не имеет дополнительного бонус при попадании в голову.</p>
@@ -1237,146 +1237,146 @@ item:
 
   aggregations:
     type:
-      title: 'Item type'
+      title: Item type
       description: ''
     price:
-      title: 'Стоимость'
+      title: Стоимость
       description: ''
     upkeep:
-      title: 'Стоимость ремонта'
-      description: 'Средняя стоимость ремонта в час'
+      title: Стоимость ремонта
+      description: Средняя стоимость ремонта в час
     culture:
-      title: 'Культура'
+      title: Культура
       description: ''
     requirement:
-      title: 'Требования'
-      description: 'Есть требование минимальногог значении атрибута силы для данного предмета'
+      title: Требования
+      description: Есть требование минимальногог значении атрибута силы для данного предмета
     tier:
-      title: 'Ранг предмета'
+      title: Ранг предмета
       description: '<p>В cRPG используется модель стоимости предметов, которая предсказывает и количественно оценивает эффективность предметов в игре. Она присваивает каждому предмету уровень от 0 до 10 на основе статистики, требований к информации и цены. Некоторое время назад модель была переработана и изменила список цен, чтобы лучше отразить эффективность предметов, обычно делая оружие высшего уровня более дорогим. Однако помните, что модель служит индикатором, а не идеальным показателем баланса предметов.</p>'
     flags:
-      title: 'Особенности'
+      title: Особенности
       description: ''
     weight:
-      title: 'Вес'
+      title: Вес
       description: ''
 
     armorMaterialType:
-      title: 'Материал'
+      title: Материал
       description: ''
     headArmor:
-      title: 'Защита головы'
+      title: Защита головы
       description: ''
     bodyArmor:
-      title: 'Защита тела'
+      title: Защита тела
       description: ''
     armArmor:
-      title: 'Защита рук'
+      title: Защита рук
       description: ''
     legArmor:
-      title: 'Защита ног'
+      title: Защита ног
       description: ''
     armorFamilyType:
-      title: 'Комплект'
-      description: 'Некоторые элементы доспехов совместимы только элементами доспехов из этого же набора'
+      title: Комплект
+      description: Некоторые элементы доспехов совместимы только элементами доспехов из этого же набора
     bodyLength:
-      title: 'Длина'
+      title: Длина
       description: ''
     chargeDamage:
-      title: 'Натиск'
+      title: Натиск
       description: ''
     maneuver:
-      title: 'Маневренность'
+      title: Маневренность
       description: ''
     speed:
-      title: 'Скорость'
+      title: Скорость
       description: ''
     hitPoints:
-      title: 'Здоровье'
+      title: Здоровье
       description: ''
     mountFamilyType:
-      title: 'Тип'
+      title: Тип
       description: ''
     mountArmor:
-      title: 'Броня'
+      title: Броня
       description: ''
     mountArmorFamilyType:
-      title: 'Тип'
+      title: Тип
       description: ''
 
     weaponUsage:
-      title: 'Не основной режим использования'
+      title: Не основной режим использования
       description: 'TODO:'
     weaponClass:
-      title: 'Класс оружия'
+      title: Класс оружия
       description: ''
     length:
-      title: 'Длина'
+      title: Длина
       description: ''
     handling:
-      title: 'Владение'
-      description: 'Владение (Handling) ускоряет анимацию готовности удара перед выполнением замаха'
+      title: Владение
+      description: Владение (Handling) ускоряет анимацию готовности удара перед выполнением замаха
     thrustSpeed:
-      title: 'Скорость колющего удара'
+      title: Скорость колющего удара
       description: ''
     thrustDamage:
-      title: 'Колющий урон'
+      title: Колющий урон
       description: ''
     thrustDamageType:
-      title: 'Тип колющего урона'
+      title: Тип колющего урона
       description: ''
     swingSpeed:
-      title: 'Скорость режущего удара'
+      title: Скорость режущего удара
       description: ''
     swingDamage:
-      title: 'Режущий урон'
+      title: Режущий урон
       description: ''
     swingDamageType:
-      title: 'Тип режущего урона'
+      title: Тип режущего урона
       description: ''
 
     accuracy:
-      title: 'Точность'
+      title: Точность
       description: ''
     missileSpeed:
-      title: 'Скорость полета снаряда'
+      title: Скорость полета снаряда
       description: ''
     reloadSpeed:
-      title: 'Скорость перезарядки'
+      title: Скорость перезарядки
       description: ''
     aimSpeed:
-      title: 'Скорость прицеливания'
+      title: Скорость прицеливания
       description: ''
 
     damage:
-      title: 'Урон'
+      title: Урон
       description: ''
     damageType:
-      title: 'Тип урона'
+      title: Тип урона
       description: ''
     stackAmount:
-      title: 'Количество'
+      title: Количество
       description: ''
     stackWeight:
-      title: 'Вес'
+      title: Вес
       description: ''
 
     shieldSpeed:
-      title: 'Скорость'
+      title: Скорость
       description: ''
     shieldDurability:
-      title: 'Прочность'
+      title: Прочность
       description: ''
     shieldArmor:
-      title: 'Броня'
+      title: Броня
       description: ''
 
     rank:
-      title: 'Ранг'
+      title: Ранг
       description: ''
 
     new:
-      title: 'Только новые предметы'
+      title: Только новые предметы
       description: 'Показывать предметы добавленные или обновленные не позднее {days} дней'
 
   format:
@@ -1408,4 +1408,4 @@ rankTable:
 
 patchNotes:
   showAllPatches: '+ {count} патчей | + {count} патч | + {count} патча | + {count} патчей'
-  latestPatch: 'Последний патч'
+  latestPatch: Последний патч

@@ -1,14 +1,14 @@
-import { Region } from '@/models/region';
-import { useUserStore } from '@/stores/user';
+import { Region } from '~/models/region'
+import { useUserStore } from '~/stores/user'
 
 export const useRegion = () => {
-  const route = useRoute();
-  const router = useRouter();
-  const { user } = toRefs(useUserStore());
+  const route = useRoute()
+  const router = useRouter()
+  const { user } = toRefs(useUserStore())
 
   const regionModel = computed({
     get() {
-      return (route.query?.region as Region) || user.value!.region || Region.Eu;
+      return (route.query?.region as Region) || user.value?.region || Region.Eu
     },
 
     set(region: Region) {
@@ -17,14 +17,14 @@ export const useRegion = () => {
           ...route.query,
           region,
         },
-      });
+      })
     },
-  });
+  })
 
-  const regions = Object.keys(Region);
+  const regions = Object.keys(Region)
 
   return {
     regionModel,
     regions,
-  };
-};
+  }
+}
