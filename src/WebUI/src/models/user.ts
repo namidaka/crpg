@@ -1,12 +1,10 @@
 import type { ActivityLog, ActivityLogMetadataDicts } from './activity-logs'
 import type { Clan } from './clan'
 import type { Item, ItemSlot, ItemType } from './item'
-import type { NotificationState, NotificationType } from './notificatios'
+import type { NotificationState, UserNotificationType } from './notificatios'
 import type { Platform } from './platform'
 import type { Region } from './region'
 import type Role from './role'
-
-import { CharacterCompetitive } from './competitive'
 
 export interface User {
   id: number
@@ -61,7 +59,7 @@ export type UserItemsBySlot = Record<ItemSlot, UserItem>
 export interface UserNotification {
   id: number
   createdAt: Date
-  type: NotificationType
+  type: UserNotificationType
   state: NotificationState
   activityLog: ActivityLog
 }

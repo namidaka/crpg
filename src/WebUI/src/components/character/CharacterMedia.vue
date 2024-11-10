@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { CharacterPublic } from '@/models/character'
+import type { CharacterPublic } from '~/models/character'
 
-import { characterClassToIcon } from '@/services/characters-service'
+import { characterClassToIcon } from '~/services/characters-service'
 
 const {
   character,

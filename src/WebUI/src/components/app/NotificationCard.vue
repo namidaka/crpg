@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { NotificationState } from '@/models/notificatios';
-import { type UserNotification, type UserPublic } from '@/models/user';
-import { useLocaleTimeAgo } from '@/composables/use-locale-time-ago';
-import { ActivityLogMetadataDicts } from '@/models/activity-logs';
+import type { ActivityLogMetadataDicts } from '~/models/activity-logs'
+import type { UserNotification } from '~/models/user'
+
+import { useLocaleTimeAgo } from '~/composables/use-locale-time-ago'
+import { NotificationState } from '~/models/notificatios'
 
 const { notification, dict } = defineProps<{
-  notification: UserNotification;
-  dict: ActivityLogMetadataDicts;
-}>();
+  notification: UserNotification
+  dict: ActivityLogMetadataDicts
+}>()
 
-const timeAgo = useLocaleTimeAgo(notification.createdAt);
-const isUnread = computed(() => notification.state === NotificationState.Unread);
-
-const emit = defineEmits<{
-  read: [];
-  delete: [];
-}>();
+defineEmits<{
+  read: []
+  delete: []
+}>()
+const timeAgo = useLocaleTimeAgo(notification.createdAt)
+const isUnread = computed(() => notification.state === NotificationState.Unread)
 </script>
 
 <template>
-  <div class="relative flex items-start gap-4 rounded-lg bg-base-200 px-3 py-3 text-content-200">
+  <div class="relative flex items-start gap-4 rounded-lg bg-base-200 p-3 text-content-200">
     <div
-      class="flex h-8 w-8 min-w-8 items-center justify-center gap-1.5 rounded-full bg-content-600"
+      class="flex size-8 min-w-8 items-center justify-center gap-1.5 rounded-full bg-content-600"
     >
       <SvgSpriteImg name="logo" viewBox="0 0 162 124" class="w-3/4" />
     </div>
@@ -29,15 +29,15 @@ const emit = defineEmits<{
     <div class="flex-1 space-y-3">
       <ActivityLogMetadata
         :keypath="`notification.tpl.${notification.type}`"
-        :activityLog="notification.activityLog"
+        :activity-log="notification.activityLog"
         v-bind="{ dict }"
         class="pr-8"
       />
 
       <div class="flex items-end gap-4">
         <span
-          class="cursor-default text-3xs text-content-300"
           v-tooltip="$d(new Date(notification.createdAt), 'short')"
+          class="cursor-default text-3xs text-content-300"
         >
           {{ timeAgo }}
         </span>
@@ -47,7 +47,7 @@ const emit = defineEmits<{
             v-if="isUnread"
             variant="transparent"
             size="xs"
-            :label="`Read`"
+            label="Read"
             @click="$emit('read')"
           />
           <OButton
@@ -55,7 +55,7 @@ const emit = defineEmits<{
             outlined
             size="xs"
             icon-left="close"
-            :label="`Delete`"
+            label="Delete"
             @click="$emit('delete')"
           />
         </div>

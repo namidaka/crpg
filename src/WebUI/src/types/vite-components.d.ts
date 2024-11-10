@@ -38,7 +38,6 @@ declare module 'vue' {
     ControlSearchToggle: typeof import('./../components/strategus/map/controls/ControlSearchToggle.vue')['default']
     ControlTerrainEditToggle: typeof import('./../components/strategus/map/controls/ControlTerrainEditToggle.vue')['default']
     ControlTerrainVisibilityToggle: typeof import('./../components/strategus/map/controls/ControlTerrainVisibilityToggle.vue')['default']
-    copy: typeof import('./../components/app/Coin copy.vue')['default']
     CreateRestrictionForm: typeof import('./../components/moderator/CreateRestrictionForm.vue')['default']
     DialogBase: typeof import('./../components/strategus/dialogs/DialogBase.vue')['default']
     DialogMove: typeof import('./../components/strategus/dialogs/DialogMove.vue')['default']

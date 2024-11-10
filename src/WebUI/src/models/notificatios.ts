@@ -4,7 +4,7 @@ export enum NotificationState {
 }
 
 // TODO:
-export enum NotificationType {
+export enum UserNotificationType {
   ClanApplicationCreatedToUser = 'ClanApplicationCreatedToUser',
   ClanApplicationCreatedToOfficers = 'ClanApplicationCreatedToOfficers',
 }

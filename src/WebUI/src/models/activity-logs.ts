@@ -37,11 +37,6 @@ export enum ActivityLogType {
 }
 
 // TODO: try to type narrow
-export interface ClanApplicationCreatedMetadata {
-  clanId: string
-}
-
-// TODO: try to type narrow
 export interface CharacterEarnedMetadata {
   characterId: string
   gameMode: string

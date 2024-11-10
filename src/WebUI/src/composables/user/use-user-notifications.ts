@@ -1,17 +1,18 @@
-import { useAsyncState } from '@vueuse/core';
+import { useAsyncState } from '@vueuse/core'
+
+import { NotificationState } from '~/models/notificatios'
 import {
-  getUserNotifications,
-  readUserNotification,
-  readAllUserNotifications,
-  deleteUserNotification,
   deleteAllUserNotifications,
-} from '@/services/users-service';
-import { NotificationState } from '@/models/notificatios';
-import { useAsyncCallback } from '@/utils/useAsyncCallback';
-import { useUserStore } from '@/stores/user';
+  deleteUserNotification,
+  getUserNotifications,
+  readAllUserNotifications,
+  readUserNotification,
+} from '~/services/users-service'
+import { useUserStore } from '~/stores/user'
+import { useAsyncCallback } from '~/utils/useAsyncCallback'
 
 export const useUsersNotifications = () => {
-  const userStore = useUserStore();
+  const userStore = useUserStore()
 
   const {
     state: notifications,
@@ -29,52 +30,52 @@ export const useUsersNotifications = () => {
     },
     {
       resetOnExecute: false,
-    }
-  );
+    },
+  )
 
   const hasUnreadNotifications = computed(() =>
-    notifications.value.notifications.some(n => n.state === NotificationState.Unread)
-  );
+    notifications.value.notifications.some(n => n.state === NotificationState.Unread),
+  )
 
   const { execute: readNotification, loading: readingNotification } = useAsyncCallback(
     async (id: number) => {
-      await readUserNotification(id);
+      await readUserNotification(id)
 
-      await Promise.all([loadNotifications(), userStore.fetchUser()]);
-    }
-  );
+      await Promise.all([loadNotifications(), userStore.fetchUser()])
+    },
+  )
 
   const { execute: readAllNotifications, loading: readingAllNotification } = useAsyncCallback(
     async () => {
-      await readAllUserNotifications();
-      await Promise.all([loadNotifications(), userStore.fetchUser()]);
-    }
-  );
+      await readAllUserNotifications()
+      await Promise.all([loadNotifications(), userStore.fetchUser()])
+    },
+  )
 
   const { execute: deleteNotification, loading: deletingNotification } = useAsyncCallback(
     async (id: number) => {
-      await deleteUserNotification(id);
-      await Promise.all([loadNotifications(), userStore.fetchUser()]);
-    }
-  );
+      await deleteUserNotification(id)
+      await Promise.all([loadNotifications(), userStore.fetchUser()])
+    },
+  )
 
   const { execute: deleteAllNotifications, loading: deletingAllNotification } = useAsyncCallback(
     async () => {
-      await deleteAllUserNotifications();
-      await Promise.all([loadNotifications(), userStore.fetchUser()]);
-    }
-  );
+      await deleteAllUserNotifications()
+      await Promise.all([loadNotifications(), userStore.fetchUser()])
+    },
+  )
 
   const isLoading = computed(
     () =>
-      loadingNotifications.value ||
-      readingNotification.value ||
-      deletingNotification.value ||
-      readingAllNotification.value ||
-      deletingAllNotification.value
-  );
+      loadingNotifications.value
+      || readingNotification.value
+      || deletingNotification.value
+      || readingAllNotification.value
+      || deletingAllNotification.value,
+  )
 
-  const isEmpty = computed(() => !Boolean(notifications.value.notifications.length));
+  const isEmpty = computed(() => !notifications.value.notifications.length)
 
   return {
     notifications,
@@ -86,5 +87,5 @@ export const useUsersNotifications = () => {
     readAllNotifications,
     deleteNotification,
     deleteAllNotifications,
-  };
-};
+  }
+}

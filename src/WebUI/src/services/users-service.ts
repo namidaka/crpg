@@ -115,6 +115,7 @@ export const mapUserToUserPublic = (user: User, userClan: Clan | null): UserPubl
   clan: userClan,
 })
 
+// TODO: FIXME: SPEC
 export const getUserNotifications = async (): Promise<UserNotificationsWithDicts> => {
   const { notifications, dict } = await get<{
     notifications: UserNotification[]

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ClanMemberRole } from '@/models/clan';
+import { ClanMemberRole } from '~/models/clan'
 
 defineProps<{
-  role: ClanMemberRole;
-}>();
+  role: ClanMemberRole
+}>()
 </script>
 
 <template>

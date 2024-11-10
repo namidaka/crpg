@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useUsersNotifications } from '@/composables/user/use-user-notifications';
+import { useUsersNotifications } from '~/composables/user/use-user-notifications'
 
 definePage({
   meta: {
     layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+})
 
 const {
   notifications,
@@ -17,7 +17,7 @@ const {
   readAllNotifications,
   deleteNotification,
   deleteAllNotifications,
-} = useUsersNotifications();
+} = useUsersNotifications()
 </script>
 
 <template>
@@ -33,13 +33,13 @@ const {
           variant="transparent"
           outlined
           size="xs"
-          :label="`Mark all as read`"
+          label="Mark all as read"
           @click="readAllNotifications"
         />
 
         <ConfirmActionTooltip
-          :confirmLabel="$t('action.ok')"
-          :title="`Are you sure you want to delete all notifications?`"
+          :confirm-label="$t('action.ok')"
+          title="Are you sure you want to delete all notifications?"
           placement="bottom"
           @confirm="deleteAllNotifications"
         >
@@ -48,23 +48,24 @@ const {
             outlined
             size="xs"
             icon-left="close"
-            :label="`Delete all`"
+            label="Delete all"
           />
         </ConfirmActionTooltip>
       </div>
 
       <div class="flex flex-col flex-wrap gap-4">
-        <OLoading :active="isLoading" :fullPage="false" />
+        <OLoading :active="isLoading" :full-page="false" />
 
         <NotificationCard
           v-for="notification in notifications.notifications"
+          :key="notification.id"
           :notification="notification"
           :dict="notifications.dict"
           @read="readNotification(notification.id)"
           @delete="deleteNotification(notification.id)"
         />
 
-        <ResultNotFound v-if="!isLoading && isEmpty" :message="`Notifications not found...`" />
+        <ResultNotFound v-if="!isLoading && isEmpty" message="Notifications not found..." />
       </div>
     </div>
   </div>

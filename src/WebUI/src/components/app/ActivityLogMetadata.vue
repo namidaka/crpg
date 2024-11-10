@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import type { ActivityLog, ActivityLogMetadataDicts } from '@/models/activity-logs'
-import type { ClanMemberRole } from '@/models/clan'
-
-import Coin from '@/components/app/Coin.vue'
-import Loom from '@/components/app/Loom.vue'
-import CharacterMedia from '@/components/character/CharacterMedia.vue'
-import ClanRole from '@/components/clan/ClanRole.vue'
-import Tag from '@/components/ui/Tag.vue'
-import UserClan from '@/components/user/UserClan.vue'
-import UserMedia from '@/components/user/UserMedia.vue'
-import { getItemImage } from '@/services/item-service'
-import { n } from '@/services/translate-service'
 import { Tooltip } from 'floating-vue'
 import { I18nT } from 'vue-i18n'
+
+import type { ActivityLog, ActivityLogMetadataDicts } from '~/models/activity-logs'
+import type { ClanMemberRole } from '~/models/clan'
+
+import Coin from '~/components/app/Coin.vue'
+import Loom from '~/components/app/Loom.vue'
+import CharacterMedia from '~/components/character/CharacterMedia.vue'
+import ClanRole from '~/components/clan/ClanRole.vue'
+import Tag from '~/components/ui/Tag.vue'
+import UserClan from '~/components/user/UserClan.vue'
+import UserMedia from '~/components/user/UserMedia.vue'
+import { getItemImage } from '~/services/item-service'
+import { n } from '~/services/translate-service'
 
 const { keypath, activityLog, dict } = defineProps<{
   keypath: string
@@ -20,7 +21,7 @@ const { keypath, activityLog, dict } = defineProps<{
   dict: ActivityLogMetadataDicts
 }>()
 
-const emit = defineEmits<{
+defineEmits<{
   read: []
   delete: []
 }>()
