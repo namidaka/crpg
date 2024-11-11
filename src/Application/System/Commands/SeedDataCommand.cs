@@ -614,7 +614,7 @@ public record SeedDataCommand : IMediatorRequest
                 Type = RestrictionType.Join,
                 Reason = "INTERNAL REASON: Reason3",
                 PublicReason = "PUBLIC REASON: Reason31",
-                CreatedAt = DateTime.Parse("2023-07-12T02:07:52.453109Z"),
+                CreatedAt = DateTime.Parse("2023-07-12T02:07:52.453109Z").ToUniversalTime(),
             };
             Restriction orleRestriction1 = new()
             {
@@ -624,7 +624,7 @@ public record SeedDataCommand : IMediatorRequest
                 Type = RestrictionType.Join,
                 Reason = "INTERNAL REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.",
                 PublicReason = "PUBLIC REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate",
-                CreatedAt = DateTime.Parse("2023-07-12T14:15:37.199511Z"),
+                CreatedAt = DateTime.Parse("2023-07-12T14:15:37.199511Z").ToUniversalTime(),
             };
 
             Restriction[] newRestrictions =
