@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+// TODO: FIXME: composition + components
+
 import type { BarSeriesOption } from 'echarts/charts'
 import type {
   GridComponentOption,
@@ -7,6 +9,7 @@ import type {
   TooltipComponentOption,
 } from 'echarts/components'
 import type { ComposeOption } from 'echarts/core'
+import type { DurationLike } from 'luxon'
 
 import { BarChart } from 'echarts/charts'
 import {
@@ -17,9 +20,6 @@ import {
 } from 'echarts/components'
 import { registerTheme, use } from 'echarts/core'
 import { SVGRenderer } from 'echarts/renderers'
-// TODO: FIXME: composition + components
-import type { DurationLike } from 'luxon'
-
 import { DateTime } from 'luxon'
 import VChart from 'vue-echarts'
 
@@ -72,23 +72,23 @@ const loadingOptions = {
 }
 
 const durationByZoom: Record<Zoom, DurationLike> = {
-  [Zoom['12h']]: {
-    hours: 12,
-  },
-  [Zoom['14d']]: {
-    days: 14,
-  },
   [Zoom['1h']]: {
     hours: 1,
-  },
-  [Zoom['2d']]: {
-    days: 2,
   },
   [Zoom['3h']]: {
     hours: 3,
   },
+  [Zoom['12h']]: {
+    hours: 12,
+  },
+  [Zoom['2d']]: {
+    days: 2,
+  },
   [Zoom['7d']]: {
     days: 7,
+  },
+  [Zoom['14d']]: {
+    days: 14,
   },
 }
 
@@ -240,7 +240,7 @@ await fetchPageData(character.value.id)
 
 <template>
   <div class="mx-auto max-w-2xl space-y-12 pb-12">
-    <div class="flex max-h-[90vh] min-w-[48rem] flex-col pl-5 pr-10 pt-8">
+    <div class="flex max-h-[90vh] min-w-[56rem] flex-col pl-5 pr-10 pt-8">
       <div class="flex items-center gap-4">
         <OTabs
           v-model="statTypeModel"

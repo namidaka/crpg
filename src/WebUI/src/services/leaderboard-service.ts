@@ -56,14 +56,14 @@ export const getLeaderBoard = async ({
 }
 
 const rankColors: Record<RankGroup, string> = {
-  [RankGroup.Bronze]: '#CC6633',
-  [RankGroup.Champion]: '#B73E6C',
-  [RankGroup.Copper]: '#B87333',
-  [RankGroup.Diamond]: '#C289F5',
-  [RankGroup.Gold]: '#EABC40',
   [RankGroup.Iron]: '#A19D94',
-  [RankGroup.Platinum]: '#40A7B9',
+  [RankGroup.Copper]: '#B87333',
+  [RankGroup.Bronze]: '#CC6633',
   [RankGroup.Silver]: '#C7CCCA',
+  [RankGroup.Gold]: '#EABC40',
+  [RankGroup.Platinum]: '#40A7B9',
+  [RankGroup.Diamond]: '#C289F5',
+  [RankGroup.Champion]: '#B73E6C',
 }
 
 const step = 50

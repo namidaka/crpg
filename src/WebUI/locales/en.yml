@@ -267,8 +267,9 @@ game-mode:
   CRPGDTV: DTV
   CRPGDuel: Duel
   CRPGSiege: Siege
-  CRPGTeamDeathmatch: Team Deathmatch
+  CRPGTeamDeathmatch: TDM
   CRPGSkirmish: Skirmish
+  CRPGCaptain: Captain
 
 clanBalancingExplanation: '
   <h3>You''re not in any clan</h3>
