@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
-import { login } from '@/services/auth-service';
-import { platformToIcon } from '@/services/platform-service';
-import { Platform } from '@/models/platform';
-import { usePlatform } from '@/composables/use-platform';
-import { useAsyncCallback } from '@/utils/useAsyncCallback';
+import { usePlatform } from '~/composables/use-platform'
+import { Platform } from '~/models/platform'
+import { login } from '~/services/auth-service'
+import { platformToIcon } from '~/services/platform-service'
+import { useUserStore } from '~/stores/user'
+import { useAsyncCallback } from '~/utils/useAsyncCallback'
 
-const { user } = toRefs(useUserStore());
-const { platform, changePlatform } = usePlatform();
-const { execute: loginUser, loading: logging } = useAsyncCallback(() => login(platform.value));
+const { user } = toRefs(useUserStore())
+const { changePlatform, platform } = usePlatform()
+const { execute: loginUser, loading: logging } = useAsyncCallback(() => login(platform.value))
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const { execute: loginUser, loading: logging } = useAsyncCallback(() => login(pl
     <OButton
       variant="primary"
       size="xl"
-      :iconLeft="platformToIcon[platform]"
+      :icon-left="platformToIcon[platform]"
       :label="$t(`platform.${platform}`)"
       :loading="logging"
       data-aq-login-btn
@@ -28,14 +28,22 @@ const { execute: loginUser, loading: logging } = useAsyncCallback(() => login(pl
       </div>
     </OButton>
 
-    <VDropdown :triggers="['click']" placement="bottom-end">
+    <VDropdown
+      :triggers="['click']"
+      placement="bottom-end"
+    >
       <template #default="{ shown }">
-        <OButton variant="primary" :iconRight="shown ? 'chevron-up' : 'chevron-down'" size="xl" />
+        <OButton
+          variant="primary"
+          :icon-right="shown ? 'chevron-up' : 'chevron-down'"
+          size="xl"
+        />
       </template>
 
       <template #popper="{ hide }">
         <DropdownItem
           v-for="p in Object.values(Platform)"
+          :key="p"
           :checked="p === platform"
           :label="$t(`platform.${p}`)"
           :icon="platformToIcon[p]"
@@ -51,7 +59,16 @@ const { execute: loginUser, loading: logging } = useAsyncCallback(() => login(pl
     </VDropdown>
   </OField>
 
-  <RouterLink v-else :to="{ name: 'Characters' }" data-aq-character-link>
-    <OButton variant="primary" size="xl" iconLeft="member" :label="$t('action.enter')" />
+  <RouterLink
+    v-else
+    :to="{ name: 'Characters' }"
+    data-aq-character-link
+  >
+    <OButton
+      variant="primary"
+      size="xl"
+      icon-left="member"
+      :label="$t('action.enter')"
+    />
   </RouterLink>
 </template>

@@ -1,4 +1,3 @@
-// TODO: SPEC
-import { Region } from '@/models/region';
+import { Region } from '~/models/region'
 
-export const getRegions = () => Object.keys(Region) as Array<keyof Region>;
+export const getRegions = () => Object.keys(Region) as Array<keyof Region>

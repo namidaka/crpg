@@ -1,96 +1,100 @@
-import L, { type LatLngLiteral, type LeafletMouseEvent, type Map } from 'leaflet';
-import { LMap } from '@vue-leaflet/vue-leaflet';
-import { MovementType, MovementTargetType } from '@/models/strategus';
-import { type PartyCommon, PartyStatus } from '@/models/strategus/party';
-import { type SettlementPublic } from '@/models/strategus/settlement';
-import { useParty } from '@/composables/strategus/use-party';
-import { positionToLatLng } from '@/utils/geometry';
+import type { LMap } from '@vue-leaflet/vue-leaflet'
+import type L from 'leaflet'
+import type { LatLngLiteral, LeafletMouseEvent, Map } from 'leaflet'
+
+import type { MovementTargetType, MovementType } from '~/models/strategus'
+import type { PartyCommon } from '~/models/strategus/party'
+import type { SettlementPublic } from '~/models/strategus/settlement'
+
+import { useParty } from '~/composables/strategus/use-party'
+import { PartyStatus } from '~/models/strategus/party'
+import { positionToLatLng } from '~/utils/geometry'
 
 export const useMove = (map: Ref<typeof LMap | null>) => {
-  const { moveParty } = useParty();
+  const { moveParty } = useParty()
 
-  const moveDialogCoordinates = ref<LatLngLiteral | null>(null);
-  const moveDialogMovementTypes = ref<MovementType[]>([]);
+  const moveDialogCoordinates = ref<LatLngLiteral | null>(null)
+  const moveDialogMovementTypes = ref<MovementType[]>([])
 
-  const moveTargetType = ref<MovementTargetType | null>(null);
-  const moveTarget = ref<PartyCommon | SettlementPublic | null>(null);
+  const moveTargetType = ref<MovementTargetType | null>(null)
+  const moveTarget = ref<PartyCommon | SettlementPublic | null>(null)
 
   const showMoveDialog = ({
+    movementTypes,
     target,
     targetType,
-    movementTypes,
   }: {
-    target: PartyCommon | SettlementPublic;
-    targetType: MovementTargetType;
-    movementTypes: MovementType[];
+    target: PartyCommon | SettlementPublic
+    targetType: MovementTargetType
+    movementTypes: MovementType[]
   }) => {
-    moveTarget.value = target;
-    moveTargetType.value = targetType;
+    moveTarget.value = target
+    moveTargetType.value = targetType
 
-    moveDialogCoordinates.value = positionToLatLng(target.position.coordinates);
-    moveDialogMovementTypes.value = movementTypes;
-  };
+    moveDialogCoordinates.value = positionToLatLng(target.position.coordinates)
+    moveDialogMovementTypes.value = movementTypes
+  }
 
   const closeMoveDialog = () => {
-    moveDialogCoordinates.value = null;
-    moveDialogMovementTypes.value = [];
-    moveTarget.value = null;
-    moveTargetType.value = null;
-  };
+    moveDialogCoordinates.value = null
+    moveDialogMovementTypes.value = []
+    moveTarget.value = null
+    moveTargetType.value = null
+  }
 
-  const isMoveMode = ref<boolean>(false);
+  const isMoveMode = ref<boolean>(false)
 
-  const onCreateMovePath = async (event: { shape: string; layer: L.Layer }) => {
-    const { shape, layer } = event;
+  const onCreateMovePath = async (event: { shape: string, layer: L.Layer }) => {
+    const { layer, shape } = event
 
     if (shape === 'Line') {
-      // @ts-ignore
-      const coordinates = layer.toGeoJSON().geometry.coordinates;
+      // @ts-expect-error TODO:
+      const coordinates = layer.toGeoJSON().geometry.coordinates
 
       await moveParty({
         status: PartyStatus.MovingToPoint,
-        waypoints: { type: 'MultiPoint', coordinates },
-      });
+        waypoints: { coordinates, type: 'MultiPoint' },
+      })
 
-      event.layer.removeFrom(map.value!.leafletObject as Map);
-      isMoveMode.value = false;
+      event.layer.removeFrom(map.value!.leafletObject as Map)
+      isMoveMode.value = false
     }
-  };
+  }
 
   const onStartMove = (e: LeafletMouseEvent) => {
     isMoveMode.value = true;
 
     (map.value!.leafletObject as Map).pm.enableDraw('Line', {});
-    // @ts-ignore
+    // @ts-expect-error TODO:
     (map.value!.leafletObject as Map).pm.Draw.Line._layer.addLatLng(e.latlng);
-    // @ts-ignore
-    (map.value!.leafletObject as Map).pm.Draw.Line._createMarker(e.latlng);
-  };
+    // @ts-expect-error TODO:
+    (map.value!.leafletObject as Map).pm.Draw.Line._createMarker(e.latlng)
+  }
 
   const applyEvents = () => {
-    (map.value!.leafletObject as Map).on('pm:keyevent', e => {
+    (map.value!.leafletObject as Map).on('pm:keyevent', (e) => {
       if (isMoveMode.value && (e.event as KeyboardEvent).code === 'Escape') {
-        (map.value!.leafletObject as Map).pm.disableDraw();
-        isMoveMode.value = false;
+        (map.value!.leafletObject as Map).pm.disableDraw()
+        isMoveMode.value = false
       }
     });
 
-    (map.value!.leafletObject as Map).on('pm:create', onCreateMovePath);
-  };
+    (map.value!.leafletObject as Map).on('pm:create', onCreateMovePath)
+  }
 
   return {
     applyEvents,
 
     isMoveMode,
-    onStartMove,
-
     moveTarget,
+
     moveTargetType,
+    onStartMove,
     //
     moveDialogCoordinates,
     moveDialogMovementTypes,
     //
-    showMoveDialog,
     closeMoveDialog,
-  };
-};
+    showMoveDialog,
+  }
+}

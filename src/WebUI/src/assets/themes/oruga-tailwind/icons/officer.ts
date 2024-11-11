@@ -1,6 +1,4 @@
 export default {
-  prefix: 'crpg',
-  iconName: 'officer',
   icon: [
     18,
     18,
@@ -11,4 +9,6 @@ export default {
       'm9 6 .573 2.008 2.025-.508L10.146 9l1.452 1.5-2.025-.508L9 12l-.573-2.008-2.025.508L7.854 9 6.402 7.5l2.025.508L9 6Z',
     ],
   ],
-};
+  iconName: 'officer',
+  prefix: 'crpg',
+}

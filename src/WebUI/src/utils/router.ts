@@ -1,60 +1,63 @@
-import { parse, stringify } from 'qs';
-import { type RouterScrollBehavior, type LocationQuery } from 'vue-router/auto';
+import type { LocationQuery, RouterScrollBehavior } from 'vue-router/auto'
 
-const numberCandidate = (candidate: string) => /^[+-]?\d+(\.\d+)?$/.test(candidate);
+import { parse, stringify } from 'qs'
 
-const tryParseFloat = (str: string) => (numberCandidate(str) ? parseFloat(str) : str);
+const numberCandidate = (candidate: string) => /^[+-]?\d+(?:\.\d+)?$/.test(candidate)
+
+const tryParseFloat = (str: string) => (numberCandidate(str) ? Number.parseFloat(str) : str)
 
 // ref: https://github.com/ljharb/qs/blob/main/lib/utils.js#L111
 const decoder = (str: string): string | number | boolean | null | undefined => {
-  const candidateToNumber = tryParseFloat(str);
+  const candidateToNumber = tryParseFloat(str)
 
-  if (typeof candidateToNumber === 'number' && !isNaN(candidateToNumber)) {
-    return candidateToNumber;
+  if (typeof candidateToNumber === 'number' && !Number.isNaN(candidateToNumber)) {
+    return candidateToNumber
   }
 
   const keywords: Record<string, any> = {
-    true: true,
     false: false,
     null: null,
-    undefined: undefined,
-  };
+    true: true,
+    undefined,
+  }
 
   if (str in keywords) {
-    return keywords[str];
+    return keywords[str]
   }
 
-  const strWithoutPlus = str.replace(/\+/g, ' ');
+  const strWithoutPlus = str.replace(/\+/g, ' ')
 
   try {
-    return decodeURIComponent(strWithoutPlus);
-  } catch (_e) {
-    return strWithoutPlus;
+    return decodeURIComponent(strWithoutPlus)
   }
-};
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  catch (_e) {
+    return strWithoutPlus
+  }
+}
 
 export const parseQuery = (query: string) =>
   parse(query, {
+    decoder,
     ignoreQueryPrefix: true,
     strictNullHandling: true,
-    decoder,
-  }) as LocationQuery;
+  }) as LocationQuery
 
 export const stringifyQuery = (query: Record<string, any>) =>
   stringify(query, {
-    strictNullHandling: true,
     arrayFormat: 'brackets',
-    skipNulls: true,
     encode: false,
-  });
+    skipNulls: true,
+    strictNullHandling: true,
+  })
 
 export const scrollBehavior: RouterScrollBehavior = (to, _from, savedPosition) => {
   if (savedPosition) {
-    return savedPosition;
+    return savedPosition
   }
 
   // check if any matched route config has meta that requires scrolling to top
   if (to.matched.some(m => m.meta.scrollToTop)) {
-    return { top: 0, left: 0, behavior: 'smooth' };
+    return { behavior: 'smooth', left: 0, top: 0 }
   }
-};
+}

@@ -1,18 +1,19 @@
-import type { RouteLocationNormalized } from 'vue-router';
+import type { RouteLocationNormalized } from 'vue-router'
 
 export const getRoute = (
-  routePart: Partial<RouteLocationNormalized> = {}
+  routePart: Partial<RouteLocationNormalized> = {},
 ): RouteLocationNormalized => ({
-  name: '',
-  path: '',
-  hash: '',
-  meta: {},
-  params: {},
-  matched: [],
   fullPath: '',
+  hash: '',
+  matched: [],
+  meta: {},
+  // @ts-expect-error TODO:
+  name: '',
+  params: {},
+  path: '',
   query: {},
   redirectedFrom: undefined,
   ...routePart,
-});
+})
 
-export const next = vi.fn();
+export const next = vi.fn()

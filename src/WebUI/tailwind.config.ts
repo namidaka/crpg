@@ -1,7 +1,13 @@
-import { type Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss'
+
+import typography from '@tailwindcss/typography'
+import defaultTheme from 'tailwindcss/defaultTheme'
+
+import forms from './src/assets/themes/oruga-tailwind/forms'
 
 export default {
   content: ['index.html', './src/**/*.{js,jsx,ts,tsx,vue,html}'],
+  plugins: [typography, forms],
   theme: {
     container: {
       center: true,
@@ -12,32 +18,32 @@ export default {
 
     // TODO:
     screens: {
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
+      'sm': '640px',
+      'md': '768px',
+      'xl': '1280px',
+      'lg': '1024px',
       '2xl': '1536px',
     },
 
     // TODO:
     colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      inherit: 'inherit',
-
-      white: '#ffffff',
-      black: '#000000',
-
-      primary: {
-        DEFAULT: '#D2BB8A',
-        hover: '#AE9257',
-        // disabled =  DEFAULT + 30% opacity
+      base: {
+        100: '#0F0F0E',
+        200: '#171716',
+        300: '#272723',
+        400: '#3C3B36',
+        500: '#555552',
+        600: '#FFFFFF',
       },
-
       bg: {
         main: '#0F0F0E',
       },
+      black: '#000000',
 
+      border: {
+        200: '#232527',
+        300: '#404040',
+      },
       content: {
         100: '#FFFFFF',
         200: '#B6B6B6',
@@ -52,72 +58,48 @@ export default {
         },
       },
 
-      base: {
-        100: '#0F0F0E',
-        200: '#171716',
-        300: '#272723',
-        400: '#3C3B36',
-        500: '#555552',
-        600: '#FFFFFF',
-      },
+      current: 'currentColor',
 
-      border: {
-        200: '#232527',
-        300: '#404040',
-      },
-
-      status: {
-        success: '#53825A',
-        danger: '#BF3838',
-        warning: '#C29F47',
-      },
+      inherit: 'inherit',
 
       more: {
         support: '#C99E34',
       },
-    },
 
-    fontFamily: {
-      sans: [
-        'Merriweather',
-        'ui-sans-serif',
-        'system-ui',
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        '"Noto Sans"',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-        '"Noto Color Emoji"',
-      ],
+      primary: {
+        DEFAULT: '#D2BB8A',
+        hover: '#AE9257',
+        // disabled =  DEFAULT + 30% opacity
+      },
+
+      status: {
+        danger: '#BF3838',
+        success: '#53825A',
+        warning: '#C29F47',
+      },
+
+      transparent: 'transparent',
+
+      white: '#ffffff',
     },
 
     extend: {
+      borderRadius: {
+        sm: '0.188rem', // 2px
+      },
+
       fontSize: {
+        '2xl': ['36px', '42px'],
+        '2xs': ['12px', '18px'],
+        '3xl': ['42px', '48px'],
+        '3xs': ['10px', '14px'],
+        'lg': ['24px', '28px'],
+        'sm': ['18px', '23px'],
         'title-hero': ['42px', '48px'],
         'title-lg': ['21px', '27px'],
         'title-md': ['15px', '21px'],
-        '3xl': ['42px', '48px'],
-        '2xl': ['36px', '42px'],
-        xl: ['32px', '38px'],
-        lg: ['24px', '28px'],
-        sm: ['18px', '23px'],
-        xs: ['15px', '21px'],
-        '2xs': ['12px', '18px'],
-        '3xs': ['10px', '14px'],
-      },
-
-      minWidth: {
-        initial: 'initial',
-        9: '2.25rem' /* 36px */,
-        36: '9rem' /* 144px */,
-        48: '12rem' /* 192px */,
-        60: '15rem' /* 240px */,
+        'xl': ['32px', '38px'],
+        'xs': ['15px', '21px'],
       },
 
       minHeight: {
@@ -125,33 +107,37 @@ export default {
         screen: '100vh',
       },
 
-      spacing: {
-        4.5: '1.125rem' /* 18px */,
-        10.5: '2.625rem' /* 42px */,
-        13.5: '3.375rem' /* 54px */,
-      },
-
-      zIndex: {
-        '100': '100',
+      minWidth: {
+        36: '9rem', /* 144px */
+        48: '12rem', /* 192px */
+        60: '15rem', /* 240px */
+        9: '2.25rem', /* 36px */
+        initial: 'initial',
       },
 
       opacity: {
-        '15': '0.15',
+        15: '0.15',
       },
 
-      borderRadius: {
-        sm: '0.188rem', // 2px
+      spacing: {
+        10.5: '2.625rem', /* 42px */
+        13.5: '3.375rem', /* 54px */
+        4.5: '1.125rem', /* 18px */
+      },
+
+      zIndex: {
+        100: '100',
       },
 
       // https://tailwindcss.com/docs/animation#using-custom-values
-      keyframes: {
-        ping: {
-          '75%, 100%': { transform: 'scale(1.5)', opacity: '0' },
-        },
-      },
-
       animation: {
         ping: 'ping 1s linear infinite',
+      },
+
+      keyframes: {
+        ping: {
+          '75%, 100%': { opacity: '0', transform: 'scale(1.5)' },
+        },
       },
 
       textUnderlineOffset: {
@@ -165,35 +151,35 @@ export default {
           DEFAULT: {
             css: {
               '--tw-prose-invert-counters': theme('colors.content.200'),
-              fontSize: theme('fontSize.xs[0]'),
-              lineHeight: theme('fontSize.sm[1]'),
-              li: {
-                marginTop: theme('spacing')['0'],
-                marginBottom: theme('spacing')['2.5'],
-              },
-              a: {
-                color: theme('colors.content.link.DEFAULT'),
+              'a': {
                 '&:hover': {
                   color: theme('colors.content.link.hover'),
                 },
+                'color': theme('colors.content.link.DEFAULT'),
               },
-              h3: {
+              'fontSize': theme('fontSize.xs[0]'),
+              'h3': {
                 fontSize: theme('fontSize.lg[0]'),
-                marginTop: theme('spacing')['2.5'],
                 marginBottom: theme('spacing')['2.5'],
+                marginTop: theme('spacing')['2.5'],
               },
-              h4: {
+              'h4': {
                 fontSize: theme('fontSize.lg[0]'),
-                marginTop: theme('spacing')['2.5'],
                 marginBottom: theme('spacing')['2.5'],
+                marginTop: theme('spacing')['2.5'],
               },
-              h5: {
+              'h5': {
+                color: 'var(--tw-prose-headings)',
                 fontSize: theme('fontSize.sm[0]'),
                 fontWeight: theme('fontWeight.semibold'),
-                marginTop: theme('spacing')['2.5'],
                 marginBottom: theme('spacing')['2.5'],
-                color: 'var(--tw-prose-headings)',
+                marginTop: theme('spacing')['2.5'],
               },
+              'li': {
+                marginBottom: theme('spacing')['2.5'],
+                marginTop: theme('spacing')['0'],
+              },
+              'lineHeight': theme('fontSize.sm[1]'),
             },
           },
 
@@ -203,28 +189,27 @@ export default {
               '--tw-prose-bold': theme('colors.content.100'),
               '--tw-prose-headings': theme('colors.content.100'),
               // TODO:!
-              '--tw-prose-lead': 'var(--tw-prose-invert-lead)',
-              '--tw-prose-links': 'var(--tw-prose-invert-links)',
-              '--tw-prose-counters': 'var(--tw-prose-invert-counters)',
               '--tw-prose-bullets': 'var(--tw-prose-invert-bullets)',
-              '--tw-prose-hr': 'var(--tw-prose-invert-hr)',
-              '--tw-prose-quotes': 'var(--tw-prose-invert-quotes)',
-              '--tw-prose-quote-borders': 'var(--tw-prose-invert-quote-borders)',
               '--tw-prose-captions': 'var(--tw-prose-invert-captions)',
               '--tw-prose-code': 'var(--tw-prose-invert-code)',
-              '--tw-prose-pre-code': 'var(--tw-prose-invert-pre-code)',
+              '--tw-prose-counters': 'var(--tw-prose-invert-counters)',
+              '--tw-prose-hr': 'var(--tw-prose-invert-hr)',
+              '--tw-prose-lead': 'var(--tw-prose-invert-lead)',
+              '--tw-prose-links': 'var(--tw-prose-invert-links)',
               '--tw-prose-pre-bg': 'var(--tw-prose-invert-pre-bg)',
-              '--tw-prose-th-borders': 'var(--tw-prose-invert-th-borders)',
+              '--tw-prose-pre-code': 'var(--tw-prose-invert-pre-code)',
+              '--tw-prose-quote-borders': 'var(--tw-prose-invert-quote-borders)',
+              '--tw-prose-quotes': 'var(--tw-prose-invert-quotes)',
               '--tw-prose-td-borders': 'var(--tw-prose-invert-td-borders)',
+              '--tw-prose-th-borders': 'var(--tw-prose-invert-th-borders)',
             },
           },
-        };
+        }
       },
     },
-  },
 
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('./src/assets/themes/oruga-tailwind/forms'), // TODO:
-  ],
-} satisfies Config;
+    fontFamily: {
+      sans: ['Merriweather', ...defaultTheme.fontFamily.sans],
+    },
+  },
+} satisfies Config

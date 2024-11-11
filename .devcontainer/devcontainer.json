@@ -18,31 +18,98 @@
     "vscode": {
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
-        "ms-dotnettools.csdevkit",
         "editorconfig.editorconfig",
         "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
         "eamodio.gitlens",
         "Vue.volar",
         "bradlc.vscode-tailwindcss",
         "naumovs.color-highlight",
         "streetsidesoftware.code-spell-checker",
-        "fabiospampinato.vscode-terminals",
         "rangav.vscode-thunder-client",
-        "antfu.goto-alias"
+        "antfu.goto-alias",
+        "cweijan.vscode-database-client2",
+        "ms-dotnettools.csdevkit",
+        "usernamehw.errorlens"
       ],
       "settings": {
         "tailwindCSS.experimental.classRegex": [
-          ["/\\*@tw\\*/ ([^;]*);", "'([^']*)'"]
+          [
+            "/\\*@tw\\*/ ([^;]*);",
+            "'([^']*)'"
+          ]
         ],
         "typescript.preferences.autoImportFileExcludePatterns": [
           "vue-router" // ref: https://github.com/posva/unplugin-vue-router#setup
+        ],
+        "files.associations": {
+          "*.css": "tailwindcss"
+        },
+        "editor.quickSuggestions": {
+          "strings": true
+        },
+        "editor.formatOnSave": true,
+        "eslint.format.enable": true,
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+        "prettier.enable": false,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "never",
+          "source.fixAll.eslint": "explicit",
+          "source.organizeImports": "never"
+        },
+        "cSpell.allowCompoundWords": true,
+        "errorLens.excludeBySource": [
+          "cSpell",
+          "eslint"
+        ],
+        "errorLens.enabledDiagnosticLevels": [
+          "warning",
+          "error"
+        ],
+        // Silent the stylistic rules in you IDE, but still auto fix them
+        // "eslint.rules.customizations": [
+        //   { "rule": "style/*", "severity": "off", "fixable": true },
+        //   { "rule": "format/*", "severity": "off", "fixable": true },
+        //   { "rule": "*-indent", "severity": "off", "fixable": true },
+        //   { "rule": "*-spacing", "severity": "off", "fixable": true },
+        //   { "rule": "*-spaces", "severity": "off", "fixable": true },
+        //   { "rule": "*-order", "severity": "off", "fixable": true },
+        //   { "rule": "*-dangle", "severity": "off", "fixable": true },
+        //   { "rule": "*-newline", "severity": "off", "fixable": true },
+        //   { "rule": "*quotes", "severity": "off", "fixable": true },
+        //   { "rule": "*semi", "severity": "off", "fixable": true }
+        // ],
+        // Enable eslint for all supported languages
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "vue",
+          "html",
+          "markdown",
+          "json",
+          "jsonc",
+          "yaml",
+          "toml",
+          "xml",
+          "gql",
+          "graphql",
+          "astro",
+          "svelte",
+          "css",
+          "less",
+          "scss",
+          "pcss",
+          "postcss"
         ]
       }
     }
   },
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [8000, 8080],
+  "forwardPorts": [
+    8000,
+    8080
+  ],
   // [Optional] To reuse of your local HTTPS dev cert:
   //
   // 1. Export it locally using this command:
@@ -69,7 +136,6 @@
   "postCreateCommand": "bash ./.devcontainer/ubuntu-create-dotnet-devcert.sh",
   // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "root",
-
   // https://code.visualstudio.com/remote/advancedcontainers/persist-bash-history
   "mounts": [
     "source=projectname-bashhistory,target=/commandhistory,type=volume"

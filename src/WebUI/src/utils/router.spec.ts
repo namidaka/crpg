@@ -1,5 +1,6 @@
-import { type LocationQuery, type RouteLocationNormalizedLoaded } from 'vue-router/auto';
-import { parseQuery, stringifyQuery, scrollBehavior } from './router';
+import type { LocationQuery, RouteLocationNormalizedLoaded } from 'vue-router/auto'
+
+import { parseQuery, scrollBehavior, stringifyQuery } from './router'
 
 it.each<[string, any]>([
   [
@@ -24,14 +25,14 @@ it.each<[string, any]>([
         damageType: ['Cut'],
         stackWeight: [0.2, 2], // custom decoder
       },
+      hideOwnedItems: true, // custom decoder
       search: 'Bolts',
       type: 'Bolts',
-      hideOwnedItems: true, // custom decoder
     },
   ],
 ])('parseQuery - q: %s', (query, expectation) => {
-  expect(parseQuery(query)).toEqual(expectation);
-});
+  expect(parseQuery(query)).toEqual(expectation)
+})
 
 it.todo.each<[LocationQuery, string]>([
   [
@@ -41,18 +42,18 @@ it.todo.each<[LocationQuery, string]>([
     'search=Lion%20Imprinted%20Saber',
   ],
 ])('stringifyQuery - q: %s', (query, expectation) => {
-  expect(stringifyQuery(query)).toEqual(expectation);
-});
+  expect(stringifyQuery(query)).toEqual(expectation)
+})
 
 describe('scrollBehavior', () => {
   it('savedPosition', () => {
     expect(
       scrollBehavior({} as RouteLocationNormalizedLoaded, {} as RouteLocationNormalizedLoaded, {
-        top: 20,
         left: 0,
-      })
-    ).toEqual({ top: 20, left: 0 });
-  });
+        top: 20,
+      }),
+    ).toEqual({ left: 0, top: 20 })
+  })
 
   it('scrollToTop', () => {
     expect(
@@ -65,10 +66,10 @@ describe('scrollBehavior', () => {
               },
             },
           ],
-        } as RouteLocationNormalizedLoaded,
+        } as unknown as RouteLocationNormalizedLoaded,
         {} as RouteLocationNormalizedLoaded,
-        null
-      )
-    ).toEqual({ top: 0, left: 0, behavior: 'smooth' });
-  });
-});
+        null,
+      ),
+    ).toEqual({ behavior: 'smooth', left: 0, top: 0 })
+  })
+})

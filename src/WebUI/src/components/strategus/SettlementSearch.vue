@@ -1,33 +1,33 @@
 <script setup lang="ts">
-import { type SettlementPublic } from '@/models/strategus/settlement';
+import type { SettlementPublic } from '~/models/strategus/settlement'
 
-const { settlements } = defineProps<{ settlements: SettlementPublic[] }>();
+const { settlements } = defineProps<{ settlements: SettlementPublic[] }>()
 
-const emit = defineEmits<{
-  select: [position: SettlementPublic['position']['coordinates']];
-}>();
+defineEmits<{
+  select: [position: SettlementPublic['position']['coordinates']]
+}>()
 
-const searchSettlement = ref<string>('');
+const searchSettlement = ref<string>('')
 const suggestionsSettlements = computed(() =>
   searchSettlement.value !== ''
     ? settlements.filter(
-        settlement =>
-          settlement.region === 'Eu' && // TODO: REGION
-          settlement.name.toLowerCase().includes(searchSettlement.value.toLowerCase())
-      )
-    : []
-);
+      settlement =>
+        settlement.region === 'Eu' // TODO: REGION
+        && settlement.name.toLowerCase().includes(searchSettlement.value.toLowerCase()),
+    )
+    : [],
+)
 </script>
 
 <template>
   <VDropdown
     :triggers="[]"
     :shown="Boolean(suggestionsSettlements.length)"
-    noAutoFocus
-    :autoHide="false"
+    no-auto-focus
+    :auto-hide="false"
     :distance="8"
   >
-    <div class="min-w-[14rem]">
+    <div class="min-w-56">
       <OInput
         v-model="searchSettlement"
         type="text"
@@ -36,14 +36,15 @@ const suggestionsSettlements = computed(() =>
         expanded
         clearable
         size="sm"
-        iconRightClickable
+        icon-right-clickable
       />
     </div>
 
     <template #popper>
-      <div class="max-h-[20rem] min-w-[14rem] overflow-y-auto">
+      <div class="max-h-80 min-w-56 overflow-y-auto">
         <SettlementMedia
           v-for="settlement in suggestionsSettlements"
+          :key="settlement.id"
           :settlement="settlement"
           class="text-black"
           @click="$emit('select', settlement.position.coordinates)"

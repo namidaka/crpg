@@ -1,60 +1,60 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ patreonExpanded?: boolean; size?: string }>(), {
+const props = withDefaults(defineProps<{ patreonExpanded?: boolean, size?: string }>(), {
   patreonExpanded: false,
   size: 'xl',
-});
+})
 
 interface SocialLink {
-  id: string;
-  title: string;
-  href: string;
-  icon: string;
+  id: string
+  href: string
+  icon: string
+  title: string
 }
 
 const socialsLinks: SocialLink[] = [
   {
+    href: 'https://www.patreon.com/crpg',
+    icon: 'patreon',
     id: 'patreon',
     title: 'Patreon',
-    icon: 'patreon',
-    href: 'https://www.patreon.com/crpg',
   },
   {
+    href: 'https://discord.gg/c-rpg',
+    icon: 'discord',
     id: 'discord',
     title: 'Discord',
-    icon: 'discord',
-    href: 'https://discord.gg/c-rpg',
   },
   {
+    href: 'https://www.reddit.com/r/CRPG_Bannerlord',
+    icon: 'reddit',
     id: 'reddit',
     title: 'Reddit',
-    icon: 'reddit',
-    href: 'https://www.reddit.com/r/CRPG_Bannerlord',
   },
   {
+    href: 'https://www.moddb.com/mods/crpg',
+    icon: 'moddb',
     id: 'moddb',
     title: 'Moddb',
-    icon: 'moddb',
-    href: 'https://www.moddb.com/mods/crpg',
   },
   {
+    href: 'https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589',
+    icon: 'steam',
     id: 'steam',
     title: 'Steam',
-    icon: 'steam',
-    href: 'https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589',
   },
   {
+    href: 'https://github.com/namidaka/crpg',
+    icon: 'github',
     id: 'github',
     title: 'Github',
-    icon: 'github',
-    href: 'https://github.com/namidaka/crpg',
   },
-];
+]
 
 const links = computed(() =>
-  props.patreonExpanded ? socialsLinks.filter(l => l.id !== 'patreon') : socialsLinks
-);
+  props.patreonExpanded ? socialsLinks.filter(l => l.id !== 'patreon') : socialsLinks,
+)
 
-const patreonLink = computed(() => socialsLinks.find(l => l.id === 'patreon')!);
+const patreonLink = computed(() => socialsLinks.find(l => l.id === 'patreon')!)
 </script>
 
 <template>
@@ -79,6 +79,7 @@ const patreonLink = computed(() => socialsLinks.find(l => l.id === 'patreon')!);
     <div class="flex flex-wrap items-center gap-4">
       <OButton
         v-for="social in links"
+        :key="social.id"
         v-tooltip.bottom="social.title"
         variant="secondary"
         :size="size"

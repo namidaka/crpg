@@ -1,9 +1,10 @@
-import FloatingVue from 'floating-vue';
-import { type BootModule } from '@/types/boot-module';
+import FloatingVue from 'floating-vue'
 
-export const install: BootModule = app => {
+import type { BootModule } from '~/types/boot-module'
+
+export const install: BootModule = (app) => {
   app.use(FloatingVue, {
-    distance: 16,
     disposeTimeout: 100,
-  });
-};
+    distance: 16,
+  })
+}

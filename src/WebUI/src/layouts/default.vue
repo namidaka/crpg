@@ -1,52 +1,56 @@
 <script setup lang="ts">
-import { useElementSize } from '@vueuse/core';
-import { useUserStore } from '@/stores/user';
-import { useHappyHours } from '@/composables/use-hh';
-import { useGameServerStats } from '@/composables/use-game-server-stats';
-import { usePatchNotes } from '@/composables/use-patch-notes';
-import { usePollInterval } from '@/composables/use-poll-interval';
-import { mainHeaderHeightKey } from '@/symbols/common';
+import { useElementSize } from '@vueuse/core'
 
-const userStore = useUserStore();
-const fetchUserPollId = Symbol('fetchUser');
+import { useGameServerStats } from '~/composables/use-game-server-stats'
+import { useHappyHours } from '~/composables/use-hh'
+import { usePatchNotes } from '~/composables/use-patch-notes'
+import { usePollInterval } from '~/composables/use-poll-interval'
+import { useUserStore } from '~/stores/user'
+import { mainHeaderHeightKey } from '~/symbols/common'
 
-const route = useRoute();
+const userStore = useUserStore()
+const fetchUserPollId = Symbol('fetchUser')
 
-const { patchNotes, loadPatchNotes } = usePatchNotes();
-const { HHPollId, HHEvent, HHEventRemaining, isHHCountdownEnded } = useHappyHours();
-const { gameServerStats, loadGameServerStats } = useGameServerStats();
+const route = useRoute()
+
+const { loadPatchNotes, patchNotes } = usePatchNotes()
+const { HHEvent, HHEventRemaining, HHPollId, isHHCountdownEnded } = useHappyHours()
+const { gameServerStats, loadGameServerStats } = useGameServerStats()
 
 const promises: Array<Promise<any>> = [
   loadPatchNotes(),
   loadGameServerStats(),
   userStore.fetchUserRestriction(),
   userStore.fetchUserClanAndRole(),
-];
+]
 
-const mainHeader = ref<HTMLDivElement | null>(null);
+const mainHeader = ref<HTMLDivElement | null>(null)
 const { height: mainHeaderHeight } = useElementSize(
   mainHeader,
-  { width: 0, height: 0 },
-  { box: 'border-box' }
-);
-provide(mainHeaderHeightKey, mainHeaderHeight);
+  { height: 0, width: 0 },
+  { box: 'border-box' },
+)
+provide(mainHeaderHeightKey, mainHeaderHeight)
 
-const { subscribe, unsubscribe } = usePollInterval();
+const { subscribe, unsubscribe } = usePollInterval()
 
-subscribe(fetchUserPollId, userStore.fetchUser);
-subscribe(HHPollId, HHEvent.trigger);
+subscribe(fetchUserPollId, userStore.fetchUser)
+subscribe(HHPollId, HHEvent.trigger)
 
 onBeforeUnmount(() => {
-  unsubscribe(fetchUserPollId);
-  unsubscribe(HHPollId);
-});
+  unsubscribe(fetchUserPollId)
+  unsubscribe(HHPollId)
+})
 
-await Promise.all(promises);
+await Promise.all(promises)
 </script>
 
 <template>
   <div class="relative flex min-h-[calc(100vh+1px)] flex-col">
-    <Bg v-if="route.meta?.bg" :bg="route.meta.bg" />
+    <Bg
+      v-if="route.meta?.bg"
+      :bg="(route.meta.bg as string)"
+    />
 
     <header
       ref="mainHeader"
@@ -60,17 +64,21 @@ await Promise.all(promises);
 
       <HHHeaderNotification v-if="!isHHCountdownEnded && HHEventRemaining !== 0" />
 
-      <div class="flex flex-wrap items-center justify-between px-3 py-3">
+      <div class="flex flex-wrap items-center justify-between p-3">
         <div class="flex items-center gap-4">
           <RouterLink :to="{ name: 'Root' }">
-            <SvgSpriteImg name="logo" viewBox="0 0 162 124" class="w-14" />
+            <SvgSpriteImg
+              name="logo"
+              viewBox="0 0 162 124"
+              class="w-14"
+            />
           </RouterLink>
 
-          <OnlinePlayers :gameServerStats="gameServerStats" />
+          <OnlinePlayers :game-server-stats="gameServerStats" />
 
           <Divider inline />
 
-          <MainNavigation :latestPatch="patchNotes[0]" />
+          <MainNavigation :latest-patch="patchNotes[0]" />
         </div>
 
         <UserHeaderToolbar />
@@ -81,6 +89,9 @@ await Promise.all(promises);
       <RouterView />
     </main>
 
-    <Footer v-if="!route.meta.noFooter" :HHEvent="HHEvent" />
+    <Footer
+      v-if="!route.meta.noFooter"
+      :HHEvent="HHEvent"
+    />
   </div>
 </template>

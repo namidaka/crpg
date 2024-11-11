@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { getRestrictions } from '@/services/restriction-service';
+import { getRestrictions } from '~/services/restriction-service'
 
 definePage({
   meta: {
     roles: ['Moderator', 'Admin'],
   },
-});
+})
 
-const { state: restrictions, execute: loadRestrictions } = useAsyncState(
+const { execute: loadRestrictions, state: restrictions } = useAsyncState(
   () => getRestrictions(),
   [],
   {
     immediate: false,
-  }
-);
+  },
+)
 
-await loadRestrictions();
+await loadRestrictions()
 </script>
 
 <template>

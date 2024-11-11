@@ -1,31 +1,32 @@
 <script setup lang="ts">
-import { FontAwesomeLayersText } from '@fortawesome/vue-fontawesome';
-import { type CharacterArmorOverall } from '@/models/character';
-import { ItemSlot } from '@/models/item';
-import { type UserItem } from '@/models/user';
+import { FontAwesomeLayersText } from '@fortawesome/vue-fontawesome'
+
+import type { CharacterArmorOverall } from '~/models/character'
+import type { ItemSlot } from '~/models/item'
+import type { UserItem } from '~/models/user'
 
 const {
-  slot,
-  placeholder,
-  userItem,
   armorOverall,
-  notMeetRequirement = false,
   available = false,
   focused = false,
   invalid = false,
+  notMeetRequirement = false,
+  placeholder,
   remove = false,
+  itemSlot,
+  userItem,
 } = defineProps<{
-  slot: ItemSlot;
-  placeholder: string;
-  userItem?: UserItem;
-  armorOverall?: CharacterArmorOverall;
-  notMeetRequirement: boolean;
+  itemSlot: ItemSlot
+  placeholder: string
+  userItem?: UserItem
+  armorOverall?: CharacterArmorOverall
+  notMeetRequirement: boolean
   // slot state
-  available?: boolean;
-  focused?: boolean;
-  invalid?: boolean;
-  remove?: boolean;
-}>();
+  available?: boolean
+  focused?: boolean
+  invalid?: boolean
+  remove?: boolean
+}>()
 </script>
 
 <template>
@@ -50,10 +51,10 @@ const {
       <template #badges-top-right>
         <Tag
           v-if="notMeetRequirement"
+          v-tooltip="$t('character.inventory.item.requirement.tooltip.title')"
           rounded
           variant="danger"
           icon="alert"
-          v-tooltip="$t('character.inventory.item.requirement.tooltip.title')"
         />
       </template>
     </ItemCard>
@@ -61,10 +62,10 @@ const {
     <Tooltip
       v-else
       placement="bottom"
-      :title="$t(`character.doll.slot.${slot}.title`)"
+      :title="$t(`character.doll.slot.${itemSlot}.title`)"
       :description="
-        $t(`character.doll.slot.${slot}.description`) !== ''
-          ? $t(`character.doll.slot.${slot}.description`)
+        $t(`character.doll.slot.${itemSlot}.description`) !== ''
+          ? $t(`character.doll.slot.${itemSlot}.description`)
           : undefined
       "
     >
@@ -78,8 +79,8 @@ const {
 
     <div
       v-if="armorOverall !== undefined"
-      class="group absolute right-0 top-0 flex -translate-y-3/4 translate-x-1/2 transform cursor-default"
       v-tooltip.bottom="$t(`character.doll.armorOverall.${armorOverall.key}`)"
+      class="group absolute right-0 top-0 flex -translate-y-3/4 translate-x-1/2 cursor-default"
     >
       <FontAwesomeLayers class="fa-4x">
         <FontAwesomeIcon

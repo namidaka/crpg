@@ -1,10 +1,18 @@
 <script setup lang="ts">
-const { active = false } = defineProps<{ active?: boolean }>();
+const { active = false } = defineProps<{ active?: boolean }>()
 </script>
 
 <template>
-  <OButton variant="secondary" outlined size="xl" rounded>
-    <FontAwesomeLayers full-width class="fa-2x">
+  <OButton
+    variant="secondary"
+    outlined
+    size="xl"
+    rounded
+  >
+    <FontAwesomeLayers
+      full-width
+      class="fa-2x"
+    >
       <FontAwesomeIcon :icon="['crpg', 'dots']" />
       <FontAwesomeLayersText
         v-if="active"

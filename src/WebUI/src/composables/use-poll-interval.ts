@@ -1,27 +1,27 @@
-type SubscriptionFn = () => Promise<any> | any;
+type SubscriptionFn = () => Promise<any> | any
 
-const INTERVAL = 1000 * 60 * 2; // 2 min
+const INTERVAL = 1000 * 60 * 2 // 2 min
 
 // global state
-const subscriptions = new Map<symbol, SubscriptionFn>();
+const subscriptions = new Map<symbol, SubscriptionFn>()
 
 setInterval(() => {
-  for (let fn of subscriptions.values()) {
-    fn();
+  for (const fn of subscriptions.values()) {
+    fn()
   }
-}, INTERVAL);
+}, INTERVAL)
 
 export const usePollInterval = () => {
   const subscribe = (id: symbol, fn: SubscriptionFn) => {
-    subscriptions.set(id, fn);
-  };
+    subscriptions.set(id, fn)
+  }
 
   const unsubscribe = (id: symbol) => {
-    subscriptions.delete(id);
-  };
+    subscriptions.delete(id)
+  }
 
   return {
     subscribe,
     unsubscribe,
-  };
-};
+  }
+}

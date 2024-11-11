@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { PartyStatus } from '@/models/strategus/party';
-import { useParty } from '@/composables/strategus/use-party';
+import { useParty } from '~/composables/strategus/use-party'
+import { PartyStatus } from '~/models/strategus/party'
 
-const { party, toggleRecruitTroops, isTogglingRecruitTroops } = useParty();
+const { isTogglingRecruitTroops, party, toggleRecruitTroops } = useParty()
 
-const settlement = computed(() => party.value!.targetedSettlement!);
+const settlement = computed(() => party.value!.targetedSettlement!)
 </script>
 
 <template>
@@ -29,7 +29,11 @@ const settlement = computed(() => party.value!.targetedSettlement!);
           @click="toggleRecruitTroops"
         />
 
-        <OButton variant="primary" size="lg" label="TODO: Shop" />
+        <OButton
+          variant="primary"
+          size="lg"
+          label="TODO: Shop"
+        />
       </div>
     </div>
   </DialogBase>

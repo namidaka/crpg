@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const props = defineProps<{
-  color: string;
-}>();
+defineProps<{
+  color: string
+}>()
 </script>
 
 <template>
@@ -9,7 +9,7 @@ const props = defineProps<{
     icon="tag"
     size="sm"
     :style="{
-      color: '#fff',
+      'color': '#fff',
       '--fa-primary-opacity': 0.15,
       '--fa-secondary-color': color,
     }"

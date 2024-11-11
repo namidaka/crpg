@@ -1,42 +1,44 @@
 <script setup lang="ts">
-import { type ClanInvitation } from '@/models/clan';
-import { respondToClanInvitation } from '@/services/clan-service';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
-import { useClan } from '@/composables/clan/use-clan';
-import { useClanApplications } from '@/composables/clan/use-clan-applications';
-import { usePagination } from '@/composables/use-pagination';
+import type { ClanInvitation } from '~/models/clan'
+
+import { useClan } from '~/composables/clan/use-clan'
+import { useClanApplications } from '~/composables/clan/use-clan-applications'
+import { usePagination } from '~/composables/use-pagination'
+import { respondToClanInvitation } from '~/services/clan-service'
+import { notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
+
+const props = defineProps<{
+  id: string
+}>()
 
 definePage({
-  props: true,
   meta: {
     layout: 'default',
     middleware: 'canManageApplications', // TODO: ['clanIdParamValidate', 'canManageApplications']
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+  props: true,
+})
 
-const props = defineProps<{
-  id: string;
-}>();
-
-const { clanId } = useClan(props.id);
-const { applications, loadClanApplications } = useClanApplications();
-const { pageModel, perPage } = usePagination();
+const { clanId } = useClan(props.id)
+const { applications, loadClanApplications } = useClanApplications()
+const { pageModel, perPage } = usePagination()
 
 const respond = async (application: ClanInvitation, status: boolean) => {
-  await respondToClanInvitation(clanId.value, application.id, status);
-  await loadClanApplications(0, { id: clanId.value });
+  await respondToClanInvitation(clanId.value, application.id, status)
+  await loadClanApplications(0, { id: clanId.value })
+
   status
     ? notify(t('clan.application.respond.accept.notify.success'))
-    : notify(t('clan.application.respond.decline.notify.success'));
-};
+    : notify(t('clan.application.respond.decline.notify.success'))
+}
 
-await loadClanApplications(0, { id: clanId.value });
+await loadClanApplications(0, { id: clanId.value })
 </script>
 
 <template>
-  <div class="px-6 py-6">
+  <div class="p-6">
     <OButton
       v-tooltip.bottom="$t('nav.back')"
       tag="router-link"
@@ -56,22 +58,25 @@ await loadClanApplications(0, { id: clanId.value });
       <div class="container">
         <div class="mx-auto max-w-3xl">
           <OTable
-            :data="applications"
-            :perPage="perPage"
-            bordered
             v-model:current-page="pageModel"
+            :data="applications"
+            :per-page="perPage"
+            bordered
             :paginated="applications.length > perPage"
           >
             <OTableColumn
-              #default="{ row: application }: { row: ClanInvitation }"
+              v-slot="{ row: application }: { row: ClanInvitation }"
               field="name"
               :label="$t('clan.application.table.column.name')"
             >
-              <UserMedia :user="application.invitee" hiddenClan />
+              <UserMedia
+                :user="application.invitee"
+                hidden-clan
+              />
             </OTableColumn>
 
             <OTableColumn
-              #default="{ row: application }: { row: ClanInvitation }"
+              v-slot="{ row: application }: { row: ClanInvitation }"
               field="action"
               position="right"
               :label="$t('clan.application.table.column.actions')"

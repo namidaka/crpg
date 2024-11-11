@@ -1,3 +1,3 @@
-import { type App } from 'vue';
+import type { App } from 'vue'
 
-export type BootModule = (app: App) => void;
+export type BootModule = (app: App) => void

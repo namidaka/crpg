@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ClanMemberRole } from '@/models/clan';
+import { ClanMemberRole } from '~/models/clan'
 
-const props = defineProps<{
-  role: ClanMemberRole;
-}>();
+defineProps<{
+  role: ClanMemberRole
+}>()
 </script>
 
 <template>
@@ -13,8 +13,8 @@ const props = defineProps<{
       role === ClanMemberRole.Leader
         ? 'text-more-support'
         : role === ClanMemberRole.Officer
-        ? 'text-content-100'
-        : 'text-content-400'
+          ? 'text-content-100'
+          : 'text-content-400'
     "
     size="sm"
     :style="{

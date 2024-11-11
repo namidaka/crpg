@@ -1,4 +1,4 @@
-import { Culture } from '@/models/culture';
+import type { Culture } from '~/models/culture'
 
 export enum ArmorMaterialType {
   Undefined = 'Undefined',
@@ -9,21 +9,21 @@ export enum ArmorMaterialType {
 }
 
 export interface ItemArmorComponent {
-  headArmor: number;
-  bodyArmor: number;
-  armArmor: number;
-  legArmor: number;
-  materialType: ArmorMaterialType;
-  familyType: ItemFamilyType;
+  armArmor: number
+  legArmor: number
+  headArmor: number
+  bodyArmor: number
+  familyType: ItemFamilyType
+  materialType: ArmorMaterialType
 }
 
 export interface ItemMountComponent {
-  bodyLength: number;
-  chargeDamage: number;
-  maneuver: number;
-  speed: number;
-  hitPoints: number;
-  familyType: ItemFamilyType;
+  speed: number
+  maneuver: number
+  hitPoints: number
+  bodyLength: number
+  chargeDamage: number
+  familyType: ItemFamilyType
 }
 
 export enum WeaponClass {
@@ -103,23 +103,23 @@ export enum DamageType {
 }
 
 export interface ItemWeaponComponent {
-  class: WeaponClass;
-  itemUsage: ItemUsage;
-  accuracy: number;
-  missileSpeed: number;
-  stackAmount: number;
-  length: number;
-  handling: number;
-  bodyArmor: number;
-  flags: WeaponFlags[];
+  length: number
+  accuracy: number
+  handling: number
+  bodyArmor: number
+  class: WeaponClass
+  swingSpeed: number
+  stackAmount: number
+  thrustSpeed: number
+  swingDamage: number
 
-  thrustDamage: number;
-  thrustDamageType: DamageType;
-  thrustSpeed: number;
+  itemUsage: ItemUsage
+  missileSpeed: number
+  flags: WeaponFlags[]
 
-  swingDamage: number;
-  swingDamageType: DamageType;
-  swingSpeed: number;
+  thrustDamage: number
+  swingDamageType: DamageType
+  thrustDamageType: DamageType
 }
 
 export enum ItemFlags {
@@ -189,24 +189,24 @@ export enum ItemFamilyType {
   EBA = 3,
 }
 
-export type ItemRank = 0 | 1 | 2 | 3;
+export type ItemRank = 0 | 1 | 2 | 3
 
 export interface Item {
-  baseId: string;
-  id: string;
-  createdAt: Date;
-  rank: ItemRank;
-  name: string;
-  price: number;
-  type: ItemType;
-  culture: Culture;
-  weight: number;
-  requirement: number;
-  tier: number;
-  flags: ItemFlags[];
-  armor: ItemArmorComponent | null;
-  mount: ItemMountComponent | null;
-  weapons: ItemWeaponComponent[];
+  id: string
+  name: string
+  tier: number
+  price: number
+  baseId: string
+  rank: ItemRank
+  type: ItemType
+  weight: number
+  createdAt: Date
+  culture: Culture
+  flags: ItemFlags[]
+  requirement: number
+  weapons: ItemWeaponComponent[]
+  armor: ItemArmorComponent | null
+  mount: ItemMountComponent | null
 }
 
 export enum WeaponUsage {
@@ -215,81 +215,81 @@ export enum WeaponUsage {
 }
 
 export interface ItemFlat {
-  id: string;
-  baseId: string;
-  new: number;
-  rank: ItemRank;
-  modId: string;
-  name: string;
-  price: number;
-  upkeep: number;
-  type: ItemType;
-  culture: Culture;
-  requirement: number;
-  tier: number;
-  flags: Array<ItemFlags | WeaponFlags | ItemUsage>;
-  weight: number | null;
+  id: string
+  new: number
+  name: string
+  tier: number
+  modId: string
+  price: number
+  baseId: string
+  rank: ItemRank
+  upkeep: number
+  type: ItemType
+  culture: Culture
+  requirement: number
+  weight: number | null
+  flags: Array<ItemFlags | WeaponFlags | ItemUsage>
   // Armor
-  headArmor: number | null;
-  bodyArmor: number | null;
-  armArmor: number | null;
-  legArmor: number | null;
-  armorFamilyType: ItemFamilyType | null | undefined;
-  armorMaterialType: ArmorMaterialType | null;
+  armArmor: number | null
+  legArmor: number | null
+  headArmor: number | null
+  bodyArmor: number | null
+  armorMaterialType: ArmorMaterialType | null
+  armorFamilyType: ItemFamilyType | null | undefined
   // weapons
-  weaponClass: WeaponClass | null;
-  itemUsage: ItemUsage[];
-  weaponFlags: WeaponFlags[];
-  weaponUsage: WeaponUsage[];
-  weaponPrimaryClass: WeaponClass | null;
+  length: number | null
+  itemUsage: ItemUsage[]
+  accuracy: number | null
+  handling: number | null
+  weaponFlags: WeaponFlags[]
 
-  accuracy: number | null;
-  missileSpeed: number | null;
-  stackAmount: number | null;
-  length: number | null;
-  handling: number | null;
-  thrustDamage: number | null | undefined;
-  thrustDamageType: DamageType | null | undefined;
-  thrustSpeed: number | null | undefined;
-  swingDamage: number | null | undefined;
-  swingDamageType: DamageType | null | undefined;
-  swingSpeed: number | null | undefined;
+  weaponUsage: WeaponUsage[]
+  stackAmount: number | null
+  missileSpeed: number | null
+  weaponClass: WeaponClass | null
+  swingSpeed: number | null | undefined
+  weaponPrimaryClass: WeaponClass | null
+  thrustSpeed: number | null | undefined
+  swingDamage: number | null | undefined
+  thrustDamage: number | null | undefined
+  swingDamageType: DamageType | null | undefined
+  thrustDamageType: DamageType | null | undefined
 
   // Shield
-  shieldSpeed: number | null;
-  shieldDurability: number | null;
-  shieldArmor: number | null;
+  shieldSpeed: number | null
+  shieldArmor: number | null
+  shieldDurability: number | null
   // Mount
-  bodyLength: number | null;
-  chargeDamage: number | null;
-  maneuver: number | null;
-  speed: number | null;
-  hitPoints: number | null;
-  mountFamilyType: ItemFamilyType | null;
+  speed: number | null
+  maneuver: number | null
+  hitPoints: number | null
+  bodyLength: number | null
+  chargeDamage: number | null
+  mountFamilyType: ItemFamilyType | null
   // MountHarness
-  mountArmor: number | null;
-  mountArmorFamilyType: ItemFamilyType | null;
+  mountArmor: number | null
+  mountArmorFamilyType: ItemFamilyType | null
   // Bow/XBow
-  reloadSpeed: number | null;
-  aimSpeed: number | null;
+  aimSpeed: number | null
+  reloadSpeed: number | null
   // Arrows/Bolts
-  stackWeight: number | null;
-  damage: number | null;
-  damageType: DamageType | null | undefined;
+  damage: number | null
+  stackWeight: number | null
+  damageType: DamageType | null | undefined
 }
 
-export type ItemDescriptorField = [string, string | number];
+export type ItemDescriptorField = [string, string | number]
 
 export interface ItemDescriptor {
-  fields: ItemDescriptorField[];
-  flags: string[];
-  modes: ItemMode[];
+  flags: string[]
+  modes: ItemMode[]
+  fields: ItemDescriptorField[]
 }
 
 export interface ItemMode {
-  name: string;
-  fields: ItemDescriptorField[];
-  flags: string[];
+  name: string
+  flags: string[]
+  fields: ItemDescriptorField[]
 }
 
 export enum ItemSlot {
@@ -319,7 +319,7 @@ export enum ItemFieldCompareRule {
   Less = 'Less',
 }
 
-export type CompareItemsResult = Partial<Record<keyof ItemFlat, number>>;
+export type CompareItemsResult = Partial<Record<keyof ItemFlat, number>>
 
 export enum ItemCompareMode {
   Absolute = 'Absolute', // The items compared to each other, and the best one is chosen.

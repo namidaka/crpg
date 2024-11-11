@@ -1,54 +1,54 @@
-import { Platform } from './platform';
-import Role from './role';
-import { Region } from './region';
-import { ItemSlot, ItemType, type Item } from './item';
-import { type Clan } from './clan';
+import type { Clan } from './clan'
+import type { Item, ItemSlot, ItemType } from './item'
+import type { Platform } from './platform'
+import type { Region } from './region'
+import type Role from './role'
 
 export interface User {
-  id: number;
-  platform: Platform;
-  platformUserId: string;
-  name: string;
-  gold: number;
-  heirloomPoints: number;
-  role: Role;
-  avatar: string;
-  activeCharacterId: number | null;
-  region: Region;
-  experienceMultiplier: number;
-  isDonor: boolean;
+  id: number
+  role: Role
+  name: string
+  gold: number
+  avatar: string
+  region: Region
+  isDonor: boolean
+  platform: Platform
+  platformUserId: string
+  heirloomPoints: number
+  experienceMultiplier: number
+  activeCharacterId: number | null
 }
 
 export interface UserPublic
   extends Pick<User, 'id' | 'platform' | 'platformUserId' | 'name' | 'region'> {
-  avatar: string;
-  clan: Clan | null;
+  avatar: string
+  clan: Clan | null
 }
 
 export interface UserPrivate extends UserPublic {
-  createdAt: Date;
-  updatedAt: Date;
-  gold: number;
-  heirloomPoints: number;
-  experienceMultiplier: number;
-  note: string;
-  activeCharacterId: number | null;
+  gold: number
+  note: string
+  createdAt: Date
+  updatedAt: Date
+  heirloomPoints: number
+  experienceMultiplier: number
+  activeCharacterId: number | null
 }
 
 // TODO: to /models/item.ts
 export interface UserItem {
-  id: number;
-  userId: number;
-  createdAt: Date;
-  item: Item;
-  isBroken: boolean;
-  isArmoryItem: boolean;
-  isPersonal: boolean;
+  id: number
+  item: Item
+  userId: number
+  createdAt: Date
+  isBroken: boolean
+  isPersonal: boolean
+  isArmoryItem: boolean
 }
 
 export interface UserItemsByType {
-  type: ItemType;
-  items: UserItem[];
+  type: ItemType
+  items: UserItem[]
 }
 
-export type UserItemsBySlot = Record<ItemSlot, UserItem>;
+export type UserItemsBySlot = Record<ItemSlot, UserItem>

@@ -1,34 +1,43 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{ stopPropagation?: boolean }>(), {
   stopPropagation: true,
-});
+})
 
-const router = useRouter();
+const router = useRouter()
 
-const err = ref<Error | null>(null);
-const info = ref<string | null>(null);
+const err = ref<Error | null>(null)
+const info = ref<string | null>(null)
 
 onErrorCaptured((_err, _vm, _info) => {
-  console.error(_err); // TODO: send to datadog
-  err.value = _err;
-  info.value = _info;
-  return !props.stopPropagation;
-});
+  console.error(_err) // TODO: send to datadog
+  err.value = _err
+  info.value = _info
+  return !props.stopPropagation
+})
 
 const goToRootPage = () => {
-  const charactersRoute = router.resolve({ name: 'Root' });
-  globalThis.location.href = charactersRoute.href;
-};
+  const charactersRoute = router.resolve({ name: 'Root' })
+  location.href = charactersRoute.href
+}
 </script>
 
 <template>
   <div>
-    <slot v-if="err !== null" name="error" v-bind="{ err, info }">
+    <slot
+      v-if="err !== null"
+      name="error"
+      v-bind="{ err, info }"
+    >
       <div class="flex h-screen w-full items-center justify-center">
         <div class="mx-auto max-w-lg rounded-xl border border-border-200 p-6">
           <div class="prose prose-invert px-12 pb-6 text-center">
-            <OIcon size="5x" icon="error" />
-            <h4 class="text-sm text-content-200">{{ $t('error.title') }}</h4>
+            <OIcon
+              size="5x"
+              icon="error"
+            />
+            <h4 class="text-sm text-content-200">
+              {{ $t('error.title') }}
+            </h4>
           </div>
 
           <Divider />
@@ -38,7 +47,11 @@ const goToRootPage = () => {
 
             <Divider />
 
-            <i18n-t scope="global" keypath="error.discord" tag="p">
+            <i18n-t
+              scope="global"
+              keypath="error.discord"
+              tag="p"
+            >
               <template #discordLink>
                 <a
                   class="text-content-link hover:text-content-link-hover"
@@ -50,7 +63,11 @@ const goToRootPage = () => {
               </template>
             </i18n-t>
 
-            <i18n-t scope="global" keypath="error.modMail" tag="p">
+            <i18n-t
+              scope="global"
+              keypath="error.modMail"
+              tag="p"
+            >
               <template #modMailGuideLink>
                 <a
                   class="text-content-link hover:text-content-link-hover"
@@ -78,7 +95,7 @@ const goToRootPage = () => {
               variant="primary"
               outlined
               size="xl"
-              iconLeft="region"
+              icon-left="region"
               :label="$t('error.goToHomePage')"
               @click="goToRootPage"
             />

@@ -1,139 +1,145 @@
 <script setup lang="ts">
-import { type CharacterCharacteristics, type CharacterOverallItemsStats } from '@/models/character';
-import { useUserStore } from '@/stores/user';
+import type { CharacterCharacteristics, CharacterOverallItemsStats } from '~/models/character'
+
+import { usePollInterval } from '~/composables/use-poll-interval'
+import { useWelcome } from '~/composables/use-welcome'
 import {
-  characterKey,
+  computeHealthPoints,
+  computeLongestWeaponLength,
+  computeOverallArmor,
+  computeOverallAverageRepairCostByHour,
+  computeOverallPrice,
+  computeOverallWeight,
+  createDefaultCharacteristic,
+  getCharacterCharacteristics,
+  getCharacterItems,
+} from '~/services/characters-service'
+import { useUserStore } from '~/stores/user'
+import {
   characterCharacteristicsKey,
   characterHealthPointsKey,
   characterItemsKey,
   characterItemsStatsKey,
-} from '@/symbols/character';
-import {
-  getCharacterCharacteristics,
-  createDefaultCharacteristic,
-  getCharacterItems,
-  computeHealthPoints,
-  computeOverallArmor,
-  computeOverallWeight,
-  computeOverallPrice,
-  computeLongestWeaponLength,
-} from '@/services/characters-service';
-import { computeOverallAverageRepairCostByHour } from '@/services/characters-service';
-import { usePollInterval } from '@/composables/use-poll-interval';
-import { useWelcome } from '@/composables/use-welcome';
+  characterKey,
+} from '~/symbols/character'
+
+const props = defineProps<{ id: string }>()
 
 definePage({
-  props: true,
   meta: {
     middleware: 'characterValidate',
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+  props: true,
+})
 
-const props = defineProps<{ id: string }>();
-const userStore = useUserStore();
-const character = computed(() => userStore.characters.find(c => c.id === Number(props.id))!);
+const userStore = useUserStore()
+const character = computed(() => userStore.characters.find(c => c.id === Number(props.id))!)
 
-const { state: characterItems, execute: loadCharacterItems } = useAsyncState(
+const { execute: loadCharacterItems, state: characterItems } = useAsyncState(
   ({ id }: { id: number }) => getCharacterItems(id),
   [],
   {
     immediate: false,
     resetOnExecute: false,
-  }
-);
+  },
+)
 
-const { state: characterCharacteristics, execute: loadCharacterCharacteristics } = useAsyncState(
+const { execute: loadCharacterCharacteristics, state: characterCharacteristics } = useAsyncState(
   ({ id }: { id: number }) => getCharacterCharacteristics(id),
   createDefaultCharacteristic(),
   {
     immediate: false,
     resetOnExecute: false,
-  }
-);
+  },
+)
 
 const setCharacterCharacteristics = (characteristic: CharacterCharacteristics) => {
-  characterCharacteristics.value = characteristic;
-};
+  characterCharacteristics.value = characteristic
+}
 
 const healthPoints = computed(() =>
   computeHealthPoints(
     characterCharacteristics.value.skills.ironFlesh,
-    characterCharacteristics.value.attributes.strength
-  )
-);
+    characterCharacteristics.value.attributes.strength,
+  ),
+)
 
 const itemsStats = computed((): CharacterOverallItemsStats => {
-  const items = characterItems.value.map(ei => ei.userItem.item);
+  const items = characterItems.value.map(ei => ei.userItem.item)
   return {
     averageRepairCostByHour: computeOverallAverageRepairCostByHour(items),
-    weight: computeOverallWeight(items),
-    price: computeOverallPrice(items),
     longestWeaponLength: computeLongestWeaponLength(items),
+    price: computeOverallPrice(items),
+    weight: computeOverallWeight(items),
     ...computeOverallArmor(items),
-  };
-});
+  }
+})
 
-provide(characterKey, character);
+provide(characterKey, character)
 provide(characterCharacteristicsKey, {
   characterCharacteristics: readonly(characterCharacteristics),
-  setCharacterCharacteristics,
   loadCharacterCharacteristics,
-});
-provide(characterHealthPointsKey, healthPoints);
+  setCharacterCharacteristics,
+})
+provide(characterHealthPointsKey, healthPoints)
 provide(characterItemsKey, {
   characterItems: readonly(characterItems),
   loadCharacterItems,
-});
-provide(characterItemsStatsKey, itemsStats);
+})
+provide(characterItemsStatsKey, itemsStats)
 
-const { subscribe, unsubscribe } = usePollInterval();
-const loadCharacterItemsSymbol = Symbol('loadCharacterItems');
-const loadCharactersSymbol = Symbol('fetchCharacters');
-const loadUserItemsSymbol = Symbol('fetchUserItems');
+const { subscribe, unsubscribe } = usePollInterval()
+const loadCharacterItemsSymbol = Symbol('loadCharacterItems')
+const loadCharactersSymbol = Symbol('fetchCharacters')
+const loadUserItemsSymbol = Symbol('fetchUserItems')
 
 onMounted(() => {
-  subscribe(loadCharactersSymbol, userStore.fetchCharacters);
-  subscribe(loadCharacterItemsSymbol, () => loadCharacterItems(0, { id: character.value.id }));
-  subscribe(loadUserItemsSymbol, userStore.fetchUserItems);
-});
+  subscribe(loadCharactersSymbol, userStore.fetchCharacters)
+  subscribe(loadCharacterItemsSymbol, () => loadCharacterItems(0, { id: character.value.id }))
+  subscribe(loadUserItemsSymbol, userStore.fetchUserItems)
+})
 
 onBeforeUnmount(() => {
-  unsubscribe(loadCharactersSymbol);
-  unsubscribe(loadCharacterItemsSymbol);
-  unsubscribe(loadUserItemsSymbol);
-});
+  unsubscribe(loadCharactersSymbol)
+  unsubscribe(loadCharacterItemsSymbol)
+  unsubscribe(loadUserItemsSymbol)
+})
 
 const fetchPageData = (characterId: number) =>
   Promise.all([
     loadCharacterCharacteristics(0, { id: characterId }),
     loadCharacterItems(0, { id: characterId }),
-  ]);
+  ])
 
 onBeforeRouteUpdate(async (to, from) => {
   if (to.name === from.name) {
     // if character changed
-    unsubscribe(loadCharacterItemsSymbol);
+    unsubscribe(loadCharacterItemsSymbol)
 
-    const characterId = Number(to.params.id);
-    await fetchPageData(characterId);
+    // @ts-expect-error TODO:
+    const characterId = Number(to.params.id)
+    await fetchPageData(characterId)
 
-    subscribe(loadCharacterItemsSymbol, () => loadCharacterItems(0, { id: characterId }));
+    subscribe(loadCharacterItemsSymbol, () => loadCharacterItems(0, { id: characterId }))
   }
 
-  return true;
-});
+  return true
+})
 
-const { shownWelcomeMessage, showWelcomeMessage, onCloseWelcomeMessage } = useWelcome();
+const { onCloseWelcomeMessage, shownWelcomeMessage, showWelcomeMessage } = useWelcome()
 
-await fetchPageData(character.value.id);
+await fetchPageData(character.value.id)
 </script>
 
 <template>
   <div>
     <Teleport to="#character-top-navbar">
       <div class="order-2 flex items-center justify-center gap-2">
-        <RouterLink :to="{ name: 'CharactersId', params: { id } }" v-slot="{ isExactActive }">
+        <RouterLink
+          v-slot="{ isExactActive }"
+          :to="{ name: 'CharactersId', params: { id } }"
+        >
           <OButton
             :variant="isExactActive ? 'transparent-active' : 'transparent'"
             size="lg"
@@ -141,7 +147,10 @@ await fetchPageData(character.value.id);
           />
         </RouterLink>
 
-        <RouterLink :to="{ name: 'CharactersIdInventory', params: { id } }" v-slot="{ isActive }">
+        <RouterLink
+          v-slot="{ isActive }"
+          :to="{ name: 'CharactersIdInventory', params: { id } }"
+        >
           <OButton
             :variant="isActive ? 'transparent-active' : 'transparent'"
             size="lg"
@@ -150,8 +159,8 @@ await fetchPageData(character.value.id);
         </RouterLink>
 
         <RouterLink
-          :to="{ name: 'CharactersIdCharacteristic', params: { id } }"
           v-slot="{ isActive }"
+          :to="{ name: 'CharactersIdCharacteristic', params: { id } }"
         >
           <OButton
             :variant="isActive ? 'transparent-active' : 'transparent'"
@@ -160,7 +169,10 @@ await fetchPageData(character.value.id);
           />
         </RouterLink>
 
-        <RouterLink :to="{ name: 'CharactersIdStats', params: { id } }" v-slot="{ isActive }">
+        <RouterLink
+          v-slot="{ isActive }"
+          :to="{ name: 'CharactersIdStats', params: { id } }"
+        >
           <OButton
             :variant="isActive ? 'transparent-active' : 'transparent'"
             size="lg"
@@ -176,7 +188,7 @@ await fetchPageData(character.value.id);
           rounded
           variant="transparent"
           outlined
-          iconLeft="help-circle"
+          icon-left="help-circle"
           @click="showWelcomeMessage"
         />
         <RouterLink :to="{ name: 'Builder' }">
@@ -184,7 +196,7 @@ await fetchPageData(character.value.id);
             variant="primary"
             outlined
             size="lg"
-            iconLeft="calculator"
+            icon-left="calculator"
             :label="$t(`nav.main.Builder`)"
           />
         </RouterLink>
@@ -193,6 +205,9 @@ await fetchPageData(character.value.id);
 
     <RouterView />
 
-    <Welcome v-if="shownWelcomeMessage" @close="onCloseWelcomeMessage" />
+    <Welcome
+      v-if="shownWelcomeMessage"
+      @close="onCloseWelcomeMessage"
+    />
   </div>
 </template>
