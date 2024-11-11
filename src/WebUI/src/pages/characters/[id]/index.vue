@@ -308,6 +308,7 @@ await fetchPageData(character.value.id)
             <OTabs
               v-model="gameMode"
               content-class="hidden"
+              multiline
             >
               <OTabItem
                 v-for="gm in gameModes"

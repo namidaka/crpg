@@ -56,11 +56,6 @@ export default defineConfig({
     target: 'esnext',
   },
 
-  preview: {
-    host: '0.0.0.0',
-    port: 8080,
-  },
-
   plugins: [
     // https://github.com/posva/unplugin-vue-router
     VueRouter({
@@ -132,8 +127,13 @@ export default defineConfig({
     }),
   ],
 
+  preview: {
+    host: '0.0.0.0',
+    port: 8080,
+  },
+
   server: {
-    host: '127.0.0.1',
+    host: '0.0.0.0',
     port: 8080,
     watch: {
       ignored: watchIgnored,
