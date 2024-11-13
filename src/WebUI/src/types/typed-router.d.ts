@@ -53,5 +53,7 @@ declare module 'vue-router/auto-routes' {
     'Shop': RouteRecordInfo<'Shop', '/shop', Record<never, never>, Record<never, never>>,
     'SigninCallback': RouteRecordInfo<'SigninCallback', '/signin-callback', Record<never, never>, Record<never, never>>,
     'Strategus': RouteRecordInfo<'Strategus', '/strategus', Record<never, never>, Record<never, never>>,
+    'StrategusBattles': RouteRecordInfo<'StrategusBattles', '/strategus/battles', Record<never, never>, Record<never, never>>,
+    'StrategusBattlesId': RouteRecordInfo<'StrategusBattlesId', '/strategus/battles/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
   }
 }

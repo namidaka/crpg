@@ -1485,6 +1485,13 @@ strategus:
       mercenary in scheduled battles on the cRPG servers.'
     join: 'You will join the campaign in region: {region}'
     hint: 'If this doesn''t seem right you can try re-login or contact an administrator'
+  battle:
+    table:
+      column:
+        when: When
+        phase: Current Phase
+        attacker: Attacker
+        defender: Defender
 
   movementType:
     Move: Move
