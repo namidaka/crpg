@@ -42,8 +42,8 @@ public record GetBattlesQuery : IMediatorRequest<IList<BattleDetailedViewModel>>
         {
             var battles = await _db.Battles
                 .AsSplitQuery()
-                .Include(b => b.Fighters).ThenInclude(f => f.Party!.User)
-                .Include(b => b.Fighters).ThenInclude(f => f.Settlement)
+                .Include(b => b.Fighters).ThenInclude(f => f.Party!.User).ThenInclude(u => u!.ClanMembership).ThenInclude(c => c!.Clan)
+                .Include(b => b.Fighters).ThenInclude(f => f.Settlement).ThenInclude(s => s!.Owner)
                 .Where(b => b.Region == req.Region && req.Phases.Contains(b.Phase))
                 .ToArrayAsync(cancellationToken);
 
