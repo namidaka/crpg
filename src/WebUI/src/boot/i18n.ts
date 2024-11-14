@@ -2,9 +2,6 @@ import { createI18n } from 'vue-i18n'
 
 import type { BootModule } from '~/types/boot-module'
 
-// @ts-expect-error TODO:
-import en from '../../locales/en.yml'
-
 export const i18n = createI18n({
   fallbackLocale: import.meta.env.VITE_LOCALE_FALLBACK,
   globalInjection: true,
@@ -69,7 +66,7 @@ export const i18n = createI18n({
       },
     },
   },
-  messages: { en },
+  messages: {},
   numberFormats: {
     cn: {
       decimal: {
@@ -140,6 +137,17 @@ export const i18n = createI18n({
   },
 })
 
-export const install: BootModule = (app) => {
+function loadLocaleMessages(locale: string) {
+  return import(`../../locales/${locale}.yml`)
+}
+
+export const install: BootModule = async (app) => {
+  if (i18n.global.fallbackLocale.value && i18n.global.fallbackLocale.value !== i18n.global.locale.value) {
+    const fallbackMessages = await loadLocaleMessages(i18n.global.fallbackLocale.value)
+    i18n.global.setLocaleMessage(i18n.global.fallbackLocale.value, fallbackMessages.default)
+  }
+  const messages = await loadLocaleMessages(i18n.global.locale.value)
+  i18n.global.setLocaleMessage(i18n.global.locale.value, messages.default)
+
   app.use(i18n)
 }
