@@ -3,11 +3,12 @@ import { createI18n } from 'vue-i18n'
 import type { BootModule } from '~/types/boot-module'
 
 export const i18n = createI18n({
+  locale: import.meta.env.VITE_LOCALE_DEFAULT,
   fallbackLocale: import.meta.env.VITE_LOCALE_FALLBACK,
   globalInjection: true,
-  locale: import.meta.env.VITE_LOCALE_DEFAULT,
   missingWarn: false,
   fallbackWarn: false,
+  messages: {},
   datetimeFormats: {
     cn: {
       long: {
@@ -66,7 +67,6 @@ export const i18n = createI18n({
       },
     },
   },
-  messages: {},
   numberFormats: {
     cn: {
       decimal: {
@@ -142,12 +142,16 @@ function loadLocaleMessages(locale: string) {
 }
 
 export const install: BootModule = async (app) => {
-  if (i18n.global.fallbackLocale.value && i18n.global.fallbackLocale.value !== i18n.global.locale.value) {
-    const fallbackMessages = await loadLocaleMessages(i18n.global.fallbackLocale.value)
-    i18n.global.setLocaleMessage(i18n.global.fallbackLocale.value, fallbackMessages.default)
-  }
-  const messages = await loadLocaleMessages(i18n.global.locale.value)
-  i18n.global.setLocaleMessage(i18n.global.locale.value, messages.default)
+  const locale = i18n.global.locale.value
+  // const fallbackLocale = i18n.global.fallbackLocale.value
+
+  // if (fallbackLocale && fallbackLocale !== locale) {
+  //   const fallbackMessages = await loadLocaleMessages(fallbackLocale)
+  //   i18n.global.setLocaleMessage(fallbackLocale, fallbackMessages.default)
+  // }
+
+  const messages = await loadLocaleMessages(locale)
+  i18n.global.setLocaleMessage(locale, messages.default)
 
   app.use(i18n)
 }
