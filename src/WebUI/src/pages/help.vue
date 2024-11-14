@@ -1,32 +1,33 @@
 <script setup lang="ts">
-import type { RouteNamedMap } from 'vue-router/auto-routes';
-import { t } from '@/services/translate-service';
+import type { RouteNamedMap } from 'vue-router/auto-routes'
+
+import { t } from '~/services/translate-service'
 
 definePage({
   meta: {
-    layout: 'default',
     bg: 'background-3.webp',
+    layout: 'default',
   },
-});
+})
 
-const helpHubNavigation: { name: keyof RouteNamedMap; label: string }[] = [
+const helpHubNavigation: { name: keyof RouteNamedMap, label: string }[] = [
   {
-    name: 'Help',
     label: t('help.overview.navTitle'),
+    name: 'Help',
   },
   {
-    name: 'HelpBuildSupport',
     label: t('help.buildSupport.navTitle'),
+    name: 'HelpBuildSupport',
   },
   {
-    name: 'HelpJoinClan',
     label: t('help.joinClan.navTitle'),
+    name: 'HelpJoinClan',
   },
   {
-    name: 'HelpFaq',
     label: t('help.FAQ.navTitle'),
+    name: 'HelpFaq',
   },
-];
+]
 </script>
 
 <template>
@@ -34,13 +35,17 @@ const helpHubNavigation: { name: keyof RouteNamedMap; label: string }[] = [
     <Heading :title="$t('help.title')" />
 
     <div class="mb-12 flex items-center justify-center gap-2">
-      <!-- TODO: ts -->
       <RouterLink
         v-for="{ name, label } in helpHubNavigation"
-        :to="{ name }"
+        :key="name"
         v-slot="{ isExactActive }"
+        :to="{ name }"
       >
-        <OButton :variant="isExactActive ? 'transparent-active' : 'secondary'" size="lg" :label />
+        <OButton
+          :variant="isExactActive ? 'transparent-active' : 'secondary'"
+          size="lg"
+          :label
+        />
       </RouterLink>
     </div>
 

@@ -1,16 +1,16 @@
 export interface Result<TData> {
-  errors: Error[] | null;
-  data: TData | null;
+  data: TData | null
+  errors: Error[] | null
 }
 
 export interface Error {
-  traceId: string | null;
-  type: ErrorType;
-  code: string;
-  title: string | null;
-  detail: string | null;
+  code: string
+  type: ErrorType
+  title: string | null
+  detail: string | null
+  traceId: string | null
   // TODO: errorSource
-  stackTrace: string | null;
+  stackTrace: string | null
 }
 
 export enum ErrorType {

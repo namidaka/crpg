@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { registerUser } from '@/services/strategus-service';
-import { useUserStore } from '@/stores/user';
-
-const { user } = toRefs(useUserStore());
+import { registerUser } from '~/services/strategus-service'
+import { useUserStore } from '~/stores/user'
 
 const emit = defineEmits<{
-  registered: [];
-}>();
+  registered: []
+}>()
+
+const { user } = toRefs(useUserStore())
 
 const start = async () => {
-  await registerUser();
-  emit('registered');
-};
+  await registerUser()
+  emit('registered')
+}
 </script>
 
 <template>
@@ -27,13 +27,22 @@ const start = async () => {
         {{ $t('strategus.registration.description') }}
       </p>
 
-      <i18n-t scope="global" keypath="strategus.registration.join" tag="p">
+      <i18n-t
+        scope="global"
+        keypath="strategus.registration.join"
+        tag="p"
+      >
         <template #region>
           <strong>{{ $t(`region.${user!.region}`) }}</strong>
         </template>
       </i18n-t>
 
-      <OButton variant="primary" size="xl" :label="'Start'" @click="start" />
+      <OButton
+        variant="primary"
+        size="xl"
+        label="Start"
+        @click="start"
+      />
 
       <Divider />
 

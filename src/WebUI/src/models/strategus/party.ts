@@ -1,6 +1,7 @@
-import { type MultiPoint, type Point } from 'geojson';
-import { type UserPublic } from '@/models/user';
-import { type SettlementPublic } from '@/models/strategus/settlement';
+import type { MultiPoint, Point } from 'geojson'
+
+import type { SettlementPublic } from '~/models/strategus/settlement'
+import type { UserPublic } from '~/models/user'
 
 export enum PartyStatus {
   Idle = 'Idle',
@@ -15,24 +16,24 @@ export enum PartyStatus {
 }
 
 export interface PartyCommon {
-  id: number;
-  name: string;
-  troops: number;
-  position: Point;
-  user: UserPublic;
+  id: number
+  name: string
+  troops: number
+  position: Point
+  user: UserPublic
 }
 
 export interface Party extends PartyCommon {
-  gold: number;
-  status: PartyStatus;
-  waypoints: MultiPoint;
-  targetedParty: PartyCommon | null;
-  targetedSettlement: SettlementPublic | null;
+  gold: number
+  status: PartyStatus
+  waypoints: MultiPoint
+  targetedParty: PartyCommon | null
+  targetedSettlement: SettlementPublic | null
 }
 
 export interface PartyStatusUpdateRequest {
-  status: PartyStatus;
-  waypoints: MultiPoint;
-  targetedPartyId: number;
-  targetedSettlementId: number;
+  status: PartyStatus
+  waypoints: MultiPoint
+  targetedPartyId: number
+  targetedSettlementId: number
 }

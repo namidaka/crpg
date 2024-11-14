@@ -23,17 +23,17 @@ export enum ActivityLogType {
   ClanArmoryBorrowItem = 'ClanArmoryBorrowItem',
 }
 
-export type CharacterEarnedMetadata = {
-  characterId: string;
-  gameMode: string;
-  experience: string;
-  gold: string;
-};
+export interface CharacterEarnedMetadata {
+  characterId: string
+  gameMode: string
+  experience: string
+  gold: string
+}
 
-export type ActivityLog<T = { [key: string]: string }> = {
-  id: number;
-  type: ActivityLogType;
-  userId: number;
-  createdAt: Date;
-  metadata: T;
-};
+export interface ActivityLog<T = { [key: string]: string }> {
+  id: number
+  type: ActivityLogType
+  userId: number
+  createdAt: Date
+  metadata: T
+}

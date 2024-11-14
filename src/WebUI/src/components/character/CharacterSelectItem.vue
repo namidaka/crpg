@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { type Character } from '@/models/character';
+import type { Character } from '~/models/character'
 
 const { character } = defineProps<{
-  character: Character;
-}>();
+  character: Character
+}>()
 
-const modelValue = defineModel<boolean>();
+const modelValue = defineModel<boolean>()
 </script>
 
 <template>
@@ -19,11 +19,14 @@ const modelValue = defineModel<boolean>();
           <h5 class="text-content-100">
             {{ $t('character.settings.active.tooltip.title') }}
           </h5>
-          <div v-html="$t('character.settings.active.tooltip.desc')"></div>
+          <div v-html="$t('character.settings.active.tooltip.desc')" />
         </div>
       </template>
     </VTooltip>
 
-    <CharacterMedia :character="character" :isActive="modelValue!" />
+    <CharacterMedia
+      :character="character"
+      :is-active="modelValue!"
+    />
   </div>
 </template>

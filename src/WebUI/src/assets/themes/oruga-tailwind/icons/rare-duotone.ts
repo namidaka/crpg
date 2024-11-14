@@ -1,6 +1,4 @@
 export default {
-  prefix: 'crpg',
-  iconName: 'rare-duotone',
   icon: [
     32,
     32,
@@ -11,4 +9,6 @@ export default {
       'm15.435 5.393-9.9 9.9a1 1 0 0 0 0 1.414l9.9 9.9a1 1 0 0 0 1.414 0l9.9-9.9a1 1 0 0 0 0-1.414l-9.9-9.9a1 1 0 0 0-1.414 0ZM4.121 13.88a3 3 0 0 0 0 4.242l9.9 9.9a3 3 0 0 0 4.242 0l9.9-9.9a3 3 0 0 0 0-4.242l-9.9-9.9a3 3 0 0 0-4.242 0l-9.9 9.9Z',
     ],
   ],
-};
+  iconName: 'rare-duotone',
+  prefix: 'crpg',
+}

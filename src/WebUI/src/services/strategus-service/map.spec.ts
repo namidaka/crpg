@@ -1,13 +1,17 @@
-import { LatLngBounds } from 'leaflet';
-import { shouldDisplaySettlement } from './map';
-import { SettlementType, type SettlementPublic } from '@/models/strategus/settlement';
+import { LatLngBounds } from 'leaflet'
+
+import type { SettlementPublic } from '~/models/strategus/settlement'
+
+import { SettlementType } from '~/models/strategus/settlement'
+
+import { shouldDisplaySettlement } from './map'
 
 it.each<[SettlementPublic, LatLngBounds, number, boolean]>([
   [
     {
       position: {
-        type: 'Point',
         coordinates: [0.5, 0.5],
+        type: 'Point',
       },
       type: SettlementType.Village,
     } as SettlementPublic,
@@ -21,8 +25,8 @@ it.each<[SettlementPublic, LatLngBounds, number, boolean]>([
   [
     {
       position: {
-        type: 'Point',
         coordinates: [0.5, 0.5],
+        type: 'Point',
       },
       type: SettlementType.Castle,
     } as SettlementPublic,
@@ -36,8 +40,8 @@ it.each<[SettlementPublic, LatLngBounds, number, boolean]>([
   [
     {
       position: {
-        type: 'Point',
         coordinates: [0.5, 0.5],
+        type: 'Point',
       },
       type: SettlementType.Castle,
     } as SettlementPublic,
@@ -51,8 +55,8 @@ it.each<[SettlementPublic, LatLngBounds, number, boolean]>([
   [
     {
       position: {
-        type: 'Point',
         coordinates: [0.5, 0.5],
+        type: 'Point',
       },
       type: SettlementType.Village,
     } as SettlementPublic,
@@ -66,8 +70,8 @@ it.each<[SettlementPublic, LatLngBounds, number, boolean]>([
   [
     {
       position: {
-        type: 'Point',
         coordinates: [0.5, 0.5],
+        type: 'Point',
       },
       type: SettlementType.Town,
     } as SettlementPublic,
@@ -79,5 +83,5 @@ it.each<[SettlementPublic, LatLngBounds, number, boolean]>([
     true,
   ],
 ])('shouldDisplaySettlement - items: %j', (settlement, bounds, zoom, expectation) => {
-  expect(shouldDisplaySettlement(settlement, bounds, zoom)).toEqual(expectation);
-});
+  expect(shouldDisplaySettlement(settlement, bounds, zoom)).toEqual(expectation)
+})

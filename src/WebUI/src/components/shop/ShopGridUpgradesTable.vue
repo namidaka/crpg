@@ -1,45 +1,65 @@
 <script setup lang="ts">
-import { ItemCompareMode, type ItemFlat } from '@/models/item';
-import { type AggregationConfig } from '@/models/item-search';
-import { useItemUpgrades } from '@/composables/item/use-item-upgrades';
+import type { ItemFlat } from '~/models/item'
+import type { AggregationConfig } from '~/models/item-search'
 
-const { item, cols } = defineProps<{
-  item: ItemFlat;
-  cols: AggregationConfig;
-}>();
+import { useItemUpgrades } from '~/composables/item/use-item-upgrades'
+import { ItemCompareMode } from '~/models/item'
 
-const { itemUpgrades, isLoading, relativeEntries } = useItemUpgrades(item, cols);
+const { cols, item } = defineProps<{
+  item: ItemFlat
+  cols: AggregationConfig
+}>()
+
+const { isLoading, itemUpgrades, relativeEntries } = useItemUpgrades(item, cols)
 </script>
 
 <template>
-  <OTable :data="itemUpgrades.slice(1)" :showHeader="false" :loading="isLoading">
+  <OTable
+    :data="itemUpgrades.slice(1)"
+    :show-header="false"
+    :loading="isLoading"
+  >
     <!-- offset col -->
-    <OTableColumn :width="78" #default>
-      <template></template>
-    </OTableColumn>
-
-    <OTableColumn field="name" #default="{ row: item }: { row: ItemFlat }">
-      <ShopGridItemName :item="item" showTier />
+    <OTableColumn
+      v-slot
+      :width="78"
+    >
+      <template />
     </OTableColumn>
 
     <OTableColumn
-      v-for="field in Object.keys(cols) as Array<keyof ItemFlat>"
-      #default="{ row: rowItem }: { row: ItemFlat }"
+      v-slot="{ row: item }: { row: ItemFlat }"
+      field="name"
+    >
+      <ShopGridItemName
+        :item="item"
+        show-tier
+      />
+    </OTableColumn>
+
+    <OTableColumn
+      v-for="field in (Object.keys(cols) as Array<keyof ItemFlat>)"
+      :key="field"
+      v-slot="{ row: rowItem }: { row: ItemFlat }"
       :field="field"
       :width="cols[field]?.width ?? 140"
     >
       <ItemParam
         :item="rowItem"
         :field="field"
-        isCompare
-        :compareMode="ItemCompareMode.Relative"
-        :relativeValue="relativeEntries[field]"
+        is-compare
+        :compare-mode="ItemCompareMode.Relative"
+        :relative-value="relativeEntries[field]"
       />
     </OTableColumn>
 
     <template #empty>
-      <div class="relative min-h-[10rem]">
-        <OLoading active iconSize="xl" :fullPage="false" />
+      <div class="relative min-h-40">
+        <OLoading
+          active
+          icon-size="xl"
+          :full-page="false"
+        />
       </div>
     </template>
   </OTable>

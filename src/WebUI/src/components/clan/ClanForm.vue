@@ -1,109 +1,116 @@
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core';
+import { useVuelidate } from '@vuelidate/core'
 import {
-  clanTagMinLength,
-  clanTagMaxLength,
-  clanNameMinLength,
-  clanNameMaxLength,
   clanBannerKeyMaxLength,
   clanDescriptionMaxLength,
-} from '@root/data/constants.json';
-import { type Clan } from '@/models/clan';
-import { Language } from '@/models/language';
+  clanNameMaxLength,
+  clanNameMinLength,
+  clanTagMaxLength,
+  clanTagMinLength,
+} from '~root/data/constants.json'
 
+import type { Clan } from '~/models/clan'
+
+import { Language } from '~/models/language'
+import { Region } from '~/models/region'
+import { NotificationType, notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
 import {
+  clanBannerKeyPattern,
+  clanTagPattern,
+  discordLinkPattern,
+  integer,
+  maxLength,
+  minLength,
+  minValue,
   required,
   url,
-  minLength,
-  maxLength,
-  clanTagPattern,
-  clanBannerKeyPattern,
-  discordLinkPattern,
-  minValue,
-  integer,
-} from '@/services/validators-service';
-import { notify, NotificationType } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
-import { Region } from '@/models/region';
-import { daysToMs, parseTimestamp } from '@/utils/date';
+} from '~/services/validators-service'
+import { daysToMs, parseTimestamp } from '~/utils/date'
 
 const props = withDefaults(
   defineProps<{
-    clanId?: number;
-    clan?: Omit<Clan, 'id'>;
+    clanId?: number
+    clan?: Omit<Clan, 'id'>
   }>(),
   {
     clan: () => ({
-      region: Region.Eu,
-      languages: [],
-      primaryColor: '#000000',
-      secondaryColor: '#000000',
-      name: '',
-      tag: '',
-      bannerKey: '',
-      discord: null,
-      description: '',
       armoryTimeout: daysToMs(3),
+      bannerKey: '',
+      description: '',
+      discord: null,
+      languages: [],
+      name: '',
+      primaryColor: '#000000',
+      region: Region.Eu,
+      secondaryColor: '#000000',
+      tag: '',
     }),
-  }
-);
+  },
+)
 
 const emit = defineEmits<{
-  (e: 'submit', form: Omit<Clan, 'id'>): void;
-}>();
+  (e: 'submit', form: Omit<Clan, 'id'>): void
+}>()
 
-const clanFormModel = ref<Omit<Clan, 'id'>>(props.clan);
+const clanFormModel = ref<Omit<Clan, 'id'>>(props.clan)
 
 const $v = useVuelidate(
   {
-    name: {
-      required,
-      minLength: minLength(clanNameMinLength),
-      maxLength: maxLength(clanNameMaxLength),
+    armoryTimeout: {
+      integer,
+      minValue: minValue(1),
     },
-    tag: {
+    bannerKey: {
+      clanBannerKeyPattern,
+      maxLength: maxLength(clanBannerKeyMaxLength),
       required,
-      minLength: minLength(clanTagMinLength),
-      maxLength: maxLength(clanTagMaxLength),
-      clanTagPattern,
     },
     description: {
       maxLength: maxLength(clanDescriptionMaxLength),
     },
-    bannerKey: {
-      required,
-      maxLength: maxLength(clanBannerKeyMaxLength),
-      clanBannerKeyPattern,
-    },
     discord: {
-      url,
       discordLinkPattern,
+      url,
     },
-    armoryTimeout: {
-      minValue: minValue(1),
-      integer,
+    name: {
+      maxLength: maxLength(clanNameMaxLength),
+      minLength: minLength(clanNameMinLength),
+      required,
+    },
+    tag: {
+      clanTagPattern,
+      maxLength: maxLength(clanTagMaxLength),
+      minLength: minLength(clanTagMinLength),
+      required,
     },
   },
-  clanFormModel
-);
+  clanFormModel,
+)
 
 const onSubmit = async () => {
   if (!(await $v.value.$validate())) {
-    notify(t('form.validate.invalid'), NotificationType.Warning);
-    return;
+    notify(t('form.validate.invalid'), NotificationType.Warning)
+    return
   }
 
   emit('submit', {
     ...clanFormModel.value,
     discord: clanFormModel.value.discord === '' ? null : clanFormModel.value.discord,
-  });
-};
+  })
+}
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" data-aq-clan-form>
+  <form
+    data-aq-clan-form
+    @submit.prevent="onSubmit"
+  >
     <div class="mb-8 space-y-4">
-      <FormGroup icon="hash" :label="$t('clan.update.form.field.mainInfo')">
+      <FormGroup
+        icon="hash"
+        :label="$t('clan.update.form.field.mainInfo')"
+      >
         <div class="grid grid-cols-2 gap-4">
           <OField
             v-bind="{
@@ -145,7 +152,7 @@ const onSubmit = async () => {
               size="sm"
               expanded
               :placeholder="$t('clan.update.form.field.tag')"
-              :minLength="clanTagMinLength"
+              :min-length="clanTagMinLength"
               :maxlength="clanTagMaxLength"
               data-aq-clan-form-input="tag"
               @blur="$v.tag.$touch"
@@ -166,7 +173,7 @@ const onSubmit = async () => {
             <OInput
               v-model="clanFormModel.description"
               :placeholder="`${$t('clan.update.form.field.description')} (${$t(
-                'form.field.optional'
+                'form.field.optional',
               )})`"
               type="textarea"
               rows="5"
@@ -182,12 +189,16 @@ const onSubmit = async () => {
         </div>
       </FormGroup>
 
-      <FormGroup icon="region" :label="$t('region-title')">
+      <FormGroup
+        icon="region"
+        :label="$t('region-title')"
+      >
         <div class="space-y-8">
           <OField :addons="false">
             <div class="flex flex-col gap-4">
               <ORadio
                 v-for="region in Object.keys(Region)"
+                :key="region"
                 v-model="clanFormModel.region"
                 :native-value="region"
                 data-aq-clan-form-input="region"
@@ -200,13 +211,18 @@ const onSubmit = async () => {
           <OField>
             <VDropdown :triggers="['click']">
               <template #default="{ shown }">
-                <OButton variant="secondary" outlined size="lg">
+                <OButton
+                  variant="secondary"
+                  outlined
+                  size="lg"
+                >
                   {{ $t('clan.update.form.field.languages') }}
                   <div class="flex items-center gap-1.5">
                     <Tag
                       v-for="l in clanFormModel.languages"
-                      :label="l"
+                      :key="l"
                       v-tooltip="$t(`language.${l}`)"
+                      :label="l"
                       variant="primary"
                     />
                   </div>
@@ -222,12 +238,15 @@ const onSubmit = async () => {
 
               <template #popper>
                 <div class="max-h-64 max-w-md overflow-y-auto">
-                  <DropdownItem v-for="l in Object.keys(Language)">
+                  <DropdownItem
+                    v-for="l in Object.keys(Language)"
+                    :key="l"
+                  >
                     <OCheckbox
                       v-model="clanFormModel.languages"
-                      :nativeValue="l"
+                      :native-value="l"
                       class="items-center"
-                      :label="$t(`language.${l}`) + ` - ${l}`"
+                      :label="`${$t(`language.${l}`)} - ${l}`"
                     />
                   </DropdownItem>
                 </div>
@@ -239,34 +258,50 @@ const onSubmit = async () => {
 
       <FormGroup>
         <template #label>
-          <ClanTagIcon :color="clanFormModel.primaryColor" size="lg" />
+          <ClanTagIcon
+            :color="clanFormModel.primaryColor"
+            size="lg"
+          />
           {{ $t('clan.update.form.field.colors') }}
         </template>
 
         <div class="grid grid-cols-2 gap-4">
           <!-- TODO: https://github.com/oruga-ui/oruga/issues/823 -->
-          <OField :label="`${$t('clan.update.form.field.primaryColor')}:`" horizontal>
-            <div class="text-content-100">{{ clanFormModel.primaryColor }}</div>
+          <OField
+            :label="`${$t('clan.update.form.field.primaryColor')}:`"
+            horizontal
+          >
+            <div class="text-content-100">
+              {{ clanFormModel.primaryColor }}
+            </div>
             <OInput
-              type="color"
               v-model="clanFormModel.primaryColor"
+              type="color"
               data-aq-clan-form-input="primaryColor"
             />
           </OField>
 
           <!-- TODO: https://github.com/oruga-ui/oruga/issues/823 -->
-          <OField :label="`${$t('clan.update.form.field.secondaryColor')}:`" horizontal>
-            <div class="text-content-100">{{ clanFormModel.secondaryColor }}</div>
+          <OField
+            :label="`${$t('clan.update.form.field.secondaryColor')}:`"
+            horizontal
+          >
+            <div class="text-content-100">
+              {{ clanFormModel.secondaryColor }}
+            </div>
             <OInput
-              type="color"
               v-model="clanFormModel.secondaryColor"
+              type="color"
               data-aq-clan-form-input="secondaryColor"
             />
           </OField>
         </div>
       </FormGroup>
 
-      <FormGroup icon="banner" :label="$t('clan.update.form.field.bannerKey')">
+      <FormGroup
+        icon="banner"
+        :label="$t('clan.update.form.field.bannerKey')"
+      >
         <OField
           v-bind="{
             ...($v.bannerKey.$error && {
@@ -276,9 +311,15 @@ const onSubmit = async () => {
           data-aq-clan-form-field="bannerKey"
         >
           <template #message>
-            <template v-if="$v.bannerKey.$error">{{ $v.bannerKey.$errors[0].$message }}</template>
+            <template v-if="$v.bannerKey.$error">
+              {{ $v.bannerKey.$errors[0].$message }}
+            </template>
             <template v-else>
-              <i18n-t scope="global" keypath="clan.update.bannerKeyGeneratorTools" tag="div">
+              <i18n-t
+                scope="global"
+                keypath="clan.update.bannerKeyGeneratorTools"
+                tag="div"
+              >
                 <template #link>
                   <a
                     href="https://bannerlord.party"
@@ -305,7 +346,10 @@ const onSubmit = async () => {
         </OField>
       </FormGroup>
 
-      <FormGroup icon="discord" :label="$t('clan.update.form.field.discord')">
+      <FormGroup
+        icon="discord"
+        :label="$t('clan.update.form.field.discord')"
+      >
         <OField
           v-bind="{
             ...($v.discord.$error && {
@@ -328,7 +372,10 @@ const onSubmit = async () => {
         </OField>
       </FormGroup>
 
-      <FormGroup icon="armory" :label="$t('clan.update.form.group.armory.label')">
+      <FormGroup
+        icon="armory"
+        :label="$t('clan.update.form.group.armory.label')"
+      >
         <div class="grid grid-cols-2 gap-4">
           <OField
             data-aq-clan-form-field="armoryTimeout"
@@ -336,19 +383,19 @@ const onSubmit = async () => {
             v-bind="{
               ...($v.armoryTimeout.$error
                 ? {
-                    variant: 'danger',
-                    message: $v.armoryTimeout.$errors[0].$message as string,
-                  }
+                  variant: 'danger',
+                  message: $v.armoryTimeout.$errors[0].$message as string,
+                }
                 : { message: $t('clan.update.form.group.armory.field.armoryTimeout.hint') }),
             }"
           >
             <OInput
-              :modelValue="parseTimestamp(clanFormModel.armoryTimeout).days"
-              @update:modelValue="days => (clanFormModel.armoryTimeout = daysToMs(Number(days)))"
+              :model-value="parseTimestamp(clanFormModel.armoryTimeout).days"
               type="number"
               size="sm"
               expanded
               data-aq-clan-form-input="armoryTimeout"
+              @update:model-value="days => (clanFormModel.armoryTimeout = daysToMs(Number(days)))"
               @blur="$v.armoryTimeout.$touch"
               @focus="$v.armoryTimeout.$reset"
             />
@@ -360,7 +407,7 @@ const onSubmit = async () => {
     <div class="flex items-center justify-center gap-4">
       <template v-if="clanId === undefined">
         <OButton
-          nativeType="submit"
+          native-type="submit"
           variant="primary"
           size="xl"
           :label="$t('action.create')"
@@ -373,13 +420,18 @@ const onSubmit = async () => {
           :to="{ name: 'ClansId', params: { id: clanId } }"
           data-aq-clan-form-action="cancel"
         >
-          <OButton variant="primary" outlined size="xl" :label="$t('action.cancel')" />
+          <OButton
+            variant="primary"
+            outlined
+            size="xl"
+            :label="$t('action.cancel')"
+          />
         </RouterLink>
         <OButton
           variant="primary"
           size="xl"
           :label="$t('action.save')"
-          nativeType="submit"
+          native-type="submit"
           data-aq-clan-form-action="save"
         />
       </template>

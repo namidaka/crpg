@@ -1,4 +1,5 @@
-import { type PatchNote } from '@/models/patch-note';
-import { get } from '@/services/crpg-client';
+import type { PatchNote } from '~/models/patch-note'
 
-export const getPatchNotes = () => get<PatchNote[]>('/patch-notes');
+import { get } from '~/services/crpg-client'
+
+export const getPatchNotes = () => get<PatchNote[]>('/patch-notes')

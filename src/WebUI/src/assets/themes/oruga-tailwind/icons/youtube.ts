@@ -1,6 +1,4 @@
 export default {
-  prefix: 'crpg',
-  iconName: 'youtube',
   icon: [
     32,
     32,
@@ -11,4 +9,6 @@ export default {
       'm13 20.5701 7.4224-4.285L13 12v8.5701Z',
     ],
   ],
-};
+  iconName: 'youtube',
+  prefix: 'crpg',
+}

@@ -1,40 +1,45 @@
 <script setup lang="ts">
-import { useModalCounter } from '@/composables/use-modal-count';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
-defineProps<{ closable?: boolean }>();
+import { useModalCounter } from '~/composables/use-modal-count'
 
-const { counter, increase, decrease } = useModalCounter();
+defineProps<{ closable?: boolean }>()
 
 const emit = defineEmits<{
-  hide: [];
-}>();
+  hide: []
+}>()
+
+const { counter, decrease, increase } = useModalCounter()
 
 const onShow = () => {
   if (counter.value === 0) {
-    disableBodyScroll(document.querySelector('body')!, { reserveScrollBarGap: true });
+    disableBodyScroll(document.querySelector('body')!, { reserveScrollBarGap: true })
   }
 
-  increase();
-};
+  increase()
+}
 
 const onHide = () => {
-  decrease();
+  decrease()
 
   if (counter.value === 0) {
-    enableBodyScroll(document.querySelector('body')!);
+    enableBodyScroll(document.querySelector('body')!)
   }
 
-  emit('hide');
-};
+  emit('hide')
+}
 
 onBeforeUnmount(() => {
-  onHide();
-});
+  onHide()
+})
 </script>
 
 <template>
-  <VDropdown positioningDisabled @applyShow="onShow" @applyHide="onHide">
+  <VDropdown
+    positioning-disabled
+    @apply-show="onShow"
+    @apply-hide="onHide"
+  >
     <template #default="popper">
       <slot v-bind="popper" />
     </template>
@@ -43,13 +48,16 @@ onBeforeUnmount(() => {
       <OButton
         v-if="closable"
         class="!absolute -right-4 -top-4 z-10 shadow"
-        iconRight="close"
+        icon-right="close"
         rounded
         size="sm"
         variant="secondary"
         @click="popper.hide"
       />
-      <slot name="popper" v-bind="popper" />
+      <slot
+        name="popper"
+        v-bind="popper"
+      />
     </template>
   </VDropdown>
 </template>

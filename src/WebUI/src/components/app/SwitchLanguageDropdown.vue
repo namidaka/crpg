@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import { supportedLocales, currentLocale, switchLanguage } from '@/services/translate-service';
+import { currentLocale, supportedLocales, switchLanguage } from '~/services/translate-service'
 
-const locale = computed(() => currentLocale());
-const locales = supportedLocales();
+const locale = computed(() => currentLocale())
+const locales = supportedLocales()
 </script>
 
 <template>
-  <VDropdown :triggers="['click']" placement="bottom-end">
+  <VDropdown
+    :triggers="['click']"
+    placement="bottom-end"
+  >
     <template #default="scope">
-      <slot v-bind="{ ...scope, locale }"></slot>
+      <slot v-bind="{ ...scope, locale }" />
     </template>
 
     <template #popper="{ hide }">
       <DropdownItem
         v-for="l in locales"
+        :key="l"
         :checked="l === locale"
         data-aq-switch-lang-item
         @click="
@@ -23,7 +27,11 @@ const locales = supportedLocales();
           }
         "
       >
-        <SvgSpriteImg :name="`locale-${l}`" viewBox="0 0 18 18" class="w-4.5" />
+        <SvgSpriteImg
+          :name="`locale-${l}`"
+          viewBox="0 0 18 18"
+          class="w-4.5"
+        />
         {{ $t(`locale.${l}`) }}
       </DropdownItem>
     </template>

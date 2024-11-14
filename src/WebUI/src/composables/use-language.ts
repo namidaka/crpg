@@ -1,12 +1,12 @@
-import { Language } from '@/models/language';
+import { Language } from '~/models/language'
 
 export const useLanguages = () => {
-  const route = useRoute();
-  const router = useRouter();
+  const route = useRoute()
+  const router = useRouter()
 
   const languagesModel = computed({
     get() {
-      return (route.query?.languages as Language[]) || [];
+      return (route.query?.languages as Language[]) || []
     },
 
     set(languages: Language[]) {
@@ -15,14 +15,14 @@ export const useLanguages = () => {
           ...route.query,
           languages,
         },
-      });
+      })
     },
-  });
+  })
 
-  const languages = Object.keys(Language) as Language[];
+  const languages = Object.keys(Language) as Language[]
 
   return {
-    languagesModel,
     languages,
-  };
-};
+    languagesModel,
+  }
+}

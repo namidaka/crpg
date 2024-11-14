@@ -1,96 +1,100 @@
 <script setup lang="ts">
-import { itemSellCostPenalty } from '@root/data/constants.json';
-import { type CompareItemsResult } from '@/models/item';
-import { type UserItem, type UserPublic } from '@/models/user';
+import { itemSellCostPenalty } from '~root/data/constants.json'
+
+import type { CompareItemsResult } from '~/models/item'
+import type { UserItem, UserPublic } from '~/models/user'
 
 import {
-  computeSalePrice,
-  computeBrokenItemRepairCost,
-  canUpgrade,
   canAddedToClanArmory,
-} from '@/services/item-service';
-import { parseTimestamp } from '@/utils/date';
-import { useUserStore } from '@/stores/user';
+  canUpgrade,
+  computeBrokenItemRepairCost,
+  computeSalePrice,
+} from '~/services/item-service'
+import { useUserStore } from '~/stores/user'
+import { parseTimestamp } from '~/utils/date'
 
 const {
-  userItem,
   compareResult,
   equipped = false,
+  userItem,
 } = defineProps<{
-  userItem: UserItem;
-  compareResult?: CompareItemsResult;
-  equipped?: boolean;
-  lender?: UserPublic | null;
-}>();
-
-const { user, clan } = toRefs(useUserStore());
-
-const userItemToReplaceSalePrice = computed(() => {
-  const { price, graceTimeEnd } = computeSalePrice(userItem);
-  return {
-    price,
-    graceTimeEnd:
-      graceTimeEnd === null ? null : parseTimestamp(graceTimeEnd.valueOf() - new Date().valueOf()),
-  };
-});
-
-const repairCost = computed(() => computeBrokenItemRepairCost(userItem.item.price));
+  userItem: UserItem
+  compareResult?: CompareItemsResult
+  equipped?: boolean
+  lender?: UserPublic | null
+}>()
 
 const emit = defineEmits<{
-  sell: [];
-  repair: [];
-  upgrade: [];
-  reforge: [];
-  addToClanArmory: [];
-  removeFromClanArmory: [];
-  returnToClanArmory: [];
-}>();
+  sell: []
+  repair: []
+  upgrade: []
+  reforge: []
+  addToClanArmory: []
+  removeFromClanArmory: []
+  returnToClanArmory: []
+}>()
 
-const isOwnArmoryItem = computed(() => userItem.isArmoryItem && userItem.userId === user.value!.id);
+const { clan, user } = toRefs(useUserStore())
+
+const userItemToReplaceSalePrice = computed(() => {
+  const { graceTimeEnd, price } = computeSalePrice(userItem)
+  return {
+    graceTimeEnd:
+      graceTimeEnd === null ? null : parseTimestamp(graceTimeEnd.valueOf() - new Date().valueOf()),
+    price,
+  }
+})
+
+const repairCost = computed(() => computeBrokenItemRepairCost(userItem.item.price))
+
+const isOwnArmoryItem = computed(() => userItem.isArmoryItem && userItem.userId === user.value!.id)
 const isSellable = computed(
-  () => userItem.item.rank <= 0 && !userItem.isArmoryItem && !userItem.isPersonal
-);
-const isUpgradable = computed(() => canUpgrade(userItem.item.type) && !userItem.isArmoryItem);
+  () => userItem.item.rank <= 0 && !userItem.isArmoryItem && !userItem.isPersonal,
+)
+const isUpgradable = computed(() => canUpgrade(userItem.item.type) && !userItem.isArmoryItem)
 const isCanAddedToClanArmory = computed(
-  () => canAddedToClanArmory(userItem.item.type) && !userItem.isPersonal
-);
+  () => canAddedToClanArmory(userItem.item.type) && !userItem.isPersonal,
+)
 </script>
 
 <template>
   <ItemDetail
     :item="userItem.item"
-    :compareResult="compareResult"
+    :compare-result="compareResult"
     :class="{ 'bg-primary-hover/15': userItem.isPersonal }"
   >
     <template #badges-bottom-right>
       <Tag
         v-if="equipped"
+        v-tooltip="$t('character.inventory.item.equipped')"
         size="lg"
         icon="check"
         variant="success"
         rounded
-        v-tooltip="$t('character.inventory.item.equipped')"
       />
 
       <Tag
         v-if="userItem.isBroken"
+        v-tooltip="$t('character.inventory.item.broken.tooltip.title')"
         rounded
         size="lg"
         icon="error"
         class="cursor-default text-status-danger opacity-80 hover:opacity-100"
-        v-tooltip="$t('character.inventory.item.broken.tooltip.title')"
       />
 
       <template v-if="userItem.isArmoryItem">
-        <ClanArmoryItemRelationBadge v-if="lender && lender.id !== user!.id" :lender="lender" />
+        <ClanArmoryItemRelationBadge
+          v-if="lender && lender.id !== user!.id"
+          :lender="lender"
+        />
         <Tag
           v-else
+          v-tooltip="$t('character.inventory.item.clanArmory.inArmory.title')"
           rounded
           size="lg"
           variant="primary"
           icon="armory"
           class="cursor-default opacity-80 hover:opacity-100"
-          v-tooltip="$t('character.inventory.item.clanArmory.inArmory.title')"
         />
       </template>
     </template>
@@ -99,11 +103,16 @@ const isCanAddedToClanArmory = computed(
       <ConfirmActionTooltip
         v-if="isSellable"
         class="flex-auto"
-        :confirmLabel="$t('action.sell')"
+        :confirm-label="$t('action.sell')"
         :title="$t('character.inventory.item.sell.confirm')"
         @confirm="emit('sell')"
       >
-        <OButton variant="secondary" expanded rounded size="lg">
+        <OButton
+          variant="secondary"
+          expanded
+          rounded
+          size="lg"
+        >
           <i18n-t
             scope="global"
             keypath="character.inventory.item.sell.title"
@@ -159,9 +168,17 @@ const isCanAddedToClanArmory = computed(
         </OButton>
       </ConfirmActionTooltip>
 
-      <ConfirmActionTooltip v-if="userItem.isBroken" @confirm="emit('repair')">
+      <ConfirmActionTooltip
+        v-if="userItem.isBroken"
+        @confirm="emit('repair')"
+      >
         <VTooltip>
-          <OButton iconRight="repair" variant="danger" size="lg" rounded />
+          <OButton
+            icon-right="repair"
+            variant="danger"
+            size="lg"
+            rounded
+          />
           <template #popper>
             <i18n-t
               scope="global"
@@ -177,18 +194,22 @@ const isCanAddedToClanArmory = computed(
         </VTooltip>
       </ConfirmActionTooltip>
 
-      <Modal v-if="isUpgradable" closable :autoHide="false">
+      <Modal
+        v-if="isUpgradable"
+        closable
+        :auto-hide="false"
+      >
         <OButton
+          v-tooltip="$t('character.inventory.item.upgrade.upgradesTitle')"
           variant="secondary"
           rounded
           size="lg"
-          iconLeft="blacksmith"
-          v-tooltip="$t('character.inventory.item.upgrade.upgradesTitle')"
+          icon-left="blacksmith"
         />
         <template #popper>
           <div class="container pb-2 pt-12">
             <CharacterInventoryItemUpgrades
-              :userItem="userItem"
+              :user-item="userItem"
               @upgrade="emit('upgrade')"
               @reforge="emit('reforge')"
             />
@@ -200,7 +221,7 @@ const isCanAddedToClanArmory = computed(
         <ConfirmActionTooltip
           v-if="!userItem.isArmoryItem"
           class="flex-auto"
-          :confirmLabel="$t('action.ok')"
+          :confirm-label="$t('action.ok')"
           :title="$t('clan.armory.item.add.confirm.description')"
           @confirm="$emit('addToClanArmory')"
         >
@@ -218,7 +239,7 @@ const isCanAddedToClanArmory = computed(
           <ConfirmActionTooltip
             v-if="isOwnArmoryItem"
             class="flex-auto"
-            :confirmLabel="$t('action.ok')"
+            :confirm-label="$t('action.ok')"
             :title="$t('clan.armory.item.remove.confirm.description')"
             @confirm="$emit('removeFromClanArmory')"
           >

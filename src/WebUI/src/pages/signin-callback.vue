@@ -2,10 +2,12 @@
 definePage({
   meta: {
     layout: 'empty',
-    skipAuth: true,
     middleware: 'signInCallback',
+    skipAuth: true,
   },
-});
+})
 </script>
 
-<template></template>
+<template>
+  <div />
+</template>

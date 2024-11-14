@@ -1,15 +1,15 @@
-import { type UserItem } from '@/models/user';
-import { type ItemSlot } from '@/models/item';
-import { GameMode } from '@/models/game-mode';
+import type { GameMode } from '~/models/game-mode'
+import type { ItemSlot } from '~/models/item'
+import type { UserItem } from '~/models/user'
 
 export interface Character {
-  id: number;
-  name: string;
-  generation: number;
-  level: number;
-  experience: number;
-  forTournament: boolean;
-  class: CharacterClass;
+  id: number
+  name: string
+  level: number
+  generation: number
+  experience: number
+  class: CharacterClass
+  forTournament: boolean
 }
 
 export enum CharacterClass {
@@ -24,45 +24,45 @@ export enum CharacterClass {
 }
 
 export interface CharacterAttributes {
-  points: number;
-  strength: number;
-  agility: number;
+  points: number
+  agility: number
+  strength: number
 }
 
 export interface CharacterSkills {
-  points: number;
-  ironFlesh: number;
-  powerStrike: number;
-  powerDraw: number;
-  powerThrow: number;
-  athletics: number;
-  riding: number;
-  weaponMaster: number;
-  mountedArchery: number;
-  shield: number;
+  points: number
+  riding: number
+  shield: number
+  ironFlesh: number
+  powerDraw: number
+  athletics: number
+  powerThrow: number
+  powerStrike: number
+  weaponMaster: number
+  mountedArchery: number
 }
 
 export interface CharacterWeaponProficiencies {
-  points: number;
-  oneHanded: number;
-  twoHanded: number;
-  polearm: number;
-  bow: number;
-  throwing: number;
-  crossbow: number;
+  bow: number
+  points: number
+  polearm: number
+  throwing: number
+  crossbow: number
+  oneHanded: number
+  twoHanded: number
 }
 
 export interface CharacterCharacteristics {
-  attributes: CharacterAttributes;
-  skills: CharacterSkills;
-  weaponProficiencies: CharacterWeaponProficiencies;
+  skills: CharacterSkills
+  attributes: CharacterAttributes
+  weaponProficiencies: CharacterWeaponProficiencies
 }
 
-export type CharacteristicSectionKey = keyof CharacterCharacteristics;
-export type AttributeKey = keyof CharacterAttributes;
-export type SkillKey = keyof CharacterSkills;
-export type WeaponProficienciesKey = keyof CharacterWeaponProficiencies;
-export type CharacteristicKey = AttributeKey | SkillKey | WeaponProficienciesKey;
+export type CharacteristicSectionKey = keyof CharacterCharacteristics
+export type AttributeKey = keyof CharacterAttributes
+export type SkillKey = keyof CharacterSkills
+export type WeaponProficienciesKey = keyof CharacterWeaponProficiencies
+export type CharacteristicKey = AttributeKey | SkillKey | WeaponProficienciesKey
 
 export enum CharacteristicConversion {
   AttributesToSkills = 'AttributesToSkills',
@@ -70,63 +70,63 @@ export enum CharacteristicConversion {
 }
 
 export interface CharacterLimitations {
-  lastRespecializeAt: Date;
+  lastRespecializeAt: Date
 }
 
 export interface CharacterStatistics {
-  kills: number;
-  deaths: number;
-  assists: number;
-  playTime: number;
-  gameMode: GameMode;
-  rating: CharacterRating;
+  kills: number
+  deaths: number
+  assists: number
+  playTime: number
+  gameMode: GameMode
+  rating: CharacterRating
 }
 
 export interface CharacterRating {
-  value: number;
-  deviation: number;
-  volatility: number;
-  competitiveValue: number;
+  value: number
+  deviation: number
+  volatility: number
+  competitiveValue: number
 }
 
 export interface CharacterSpeedStats {
-  weightReductionFactor: number;
-  freeWeight: number;
-  perceivedWeight: number;
-  nakedSpeed: number;
-  currentSpeed: number;
-  timeToMaxSpeed: number;
+  freeWeight: number
+  nakedSpeed: number
+  currentSpeed: number
+  timeToMaxSpeed: number
+  perceivedWeight: number
+  maxWeaponLength: number
 
-  maxWeaponLength: number;
-  movementSpeedPenaltyWhenAttacking: number;
+  weightReductionFactor: number
+  movementSpeedPenaltyWhenAttacking: number
 }
 
 export interface UpdateCharacterRequest {
-  name: string;
+  name: string
 }
 
 export interface EquippedItem {
-  slot: ItemSlot;
-  userItem: UserItem;
+  slot: ItemSlot
+  userItem: UserItem
 }
 
-export type EquippedItemsBySlot = Record<ItemSlot, UserItem>;
+export type EquippedItemsBySlot = Record<ItemSlot, UserItem>
 
 export interface EquippedItemId {
-  slot: ItemSlot;
-  userItemId: number | null;
+  slot: ItemSlot
+  userItemId: number | null
 }
 
 export interface CharacterOverallItemsStats {
-  averageRepairCostByHour: number;
-  price: number;
-  weight: number;
-  armArmor: number;
-  bodyArmor: number;
-  headArmor: number;
-  legArmor: number;
-  mountArmor: number;
-  longestWeaponLength: number;
+  price: number
+  weight: number
+  armArmor: number
+  legArmor: number
+  bodyArmor: number
+  headArmor: number
+  mountArmor: number
+  longestWeaponLength: number
+  averageRepairCostByHour: number
 }
 
 export enum CharacterArmorOverallKey {
@@ -138,6 +138,6 @@ export enum CharacterArmorOverallKey {
 }
 
 export interface CharacterArmorOverall {
-  key: CharacterArmorOverallKey;
-  value: number;
+  value: number
+  key: CharacterArmorOverallKey
 }

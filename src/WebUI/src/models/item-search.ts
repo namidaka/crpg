@@ -1,4 +1,4 @@
-import { type ItemFlat, ItemFieldFormat, ItemFieldCompareRule } from '@/models/item';
+import type { ItemFieldCompareRule, ItemFieldFormat, ItemFlat } from '~/models/item'
 
 export enum AggregationView {
   Range = 'Range',
@@ -6,19 +6,20 @@ export enum AggregationView {
   Radio = 'Radio',
 }
 
-export type FiltersModel<T> = Partial<Record<keyof ItemFlat, T>>;
+export type FiltersModel<T> = Partial<Record<keyof ItemFlat, T>>
+
 export interface Aggregation extends Omit<itemsjs.Aggregation, 'title'> {
-  view: AggregationView;
-  description?: string;
-  title?: string;
-  format?: ItemFieldFormat;
-  hidden?: boolean; // don't display in the table
-  compareRule?: ItemFieldCompareRule; // for compare mode
-  width?: number;
+  title?: string
+  width?: number
+  hidden?: boolean // don't display in the table
+  description?: string
+  view: AggregationView
+  format?: ItemFieldFormat
+  compareRule?: ItemFieldCompareRule // for compare mode
 }
 
-export type AggregationConfig = Partial<Record<keyof ItemFlat, Aggregation>>;
+export type AggregationConfig = Partial<Record<keyof ItemFlat, Aggregation>>
 
-export type SortingConfig = Record<string, itemsjs.Sorting<ItemFlat>>;
+export type SortingConfig = Record<string, itemsjs.Sorting<ItemFlat>>
 
-export type Buckets = itemsjs.Buckets<ItemFlat[keyof ItemFlat]>;
+export type Buckets = itemsjs.Buckets<ItemFlat[keyof ItemFlat]>

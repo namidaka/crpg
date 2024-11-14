@@ -1,46 +1,53 @@
 import {
-  itemSellCostPenalty,
-  itemRepairCostPerSecond,
-  itemBreakChance,
   brokenItemRepairPenaltySeconds,
+  itemBreakChance,
   itemReforgeCostPerRank,
-} from '@root/data/constants.json';
+  itemRepairCostPerSecond,
+  itemSellCostPenalty,
+} from '~root/data/constants.json'
+import { omitBy } from 'es-toolkit'
+
+import type { EquippedItemsBySlot } from '~/models/character'
+import type {
+  ArmorMaterialType,
+  CompareItemsResult,
+  Item,
+  ItemFlat,
+  ItemRank,
+} from '~/models/item'
+import type { AggregationConfig } from '~/models/item-search'
+import type { UserItem } from '~/models/user'
+
+import { Culture } from '~/models/culture'
 import {
-  type Item,
+  DamageType,
+  ItemFamilyType,
+  ItemFieldCompareRule,
+  ItemFieldFormat,
+  ItemFlags,
   ItemSlot,
   ItemType,
-  WeaponClass,
-  ItemFlags,
-  DamageType,
-  WeaponFlags,
   ItemUsage,
-  type ItemFlat,
-  ItemFieldFormat,
-  ItemFieldCompareRule,
-  type CompareItemsResult,
-  ItemFamilyType,
-  type ItemRank,
-  ArmorMaterialType,
-} from '@/models/item';
-import { type UserItem } from '@/models/user';
-import { type AggregationConfig } from '@/models/item-search';
-import { type EquippedItemsBySlot } from '@/models/character';
-import { Culture } from '@/models/culture';
-import { get } from '@/services/crpg-client';
-import { aggregationsConfig } from '@/services/item-search-service/aggregations';
-import { createItemIndex } from '@/services/item-search-service/indexator';
-import { n, t } from '@/services/translate-service';
-import { notify, NotificationType } from '@/services/notification-service';
-import { roundFLoat } from '@/utils/math';
+  WeaponClass,
+  WeaponFlags,
+} from '~/models/item'
+import { get } from '~/services/crpg-client'
+import { aggregationsConfig } from '~/services/item-search-service/aggregations'
+import { createItemIndex } from '~/services/item-search-service/indexator'
+import { NotificationType, notify } from '~/services/notification-service'
+import { n, t } from '~/services/translate-service'
+import { roundFLoat } from '~/utils/math'
 
-export const getItems = () => get<Item[]>('/items');
+import { getAggregationsConfig, getVisibleAggregationsConfig } from './item-search-service'
 
-export const getItemImage = (baseId: string) => `/items/${baseId}.webp`;
+export const getItems = () => get<Item[]>('/items')
+
+export const getItemImage = (baseId: string) => `/items/${baseId}.webp`
 
 export const getItemUpgrades = async (item: ItemFlat) =>
   createItemIndex(await get<Item[]>(`/items/upgrades/${item.baseId}`))
     // TODO: hotfix, avoid duplicate items with multiply weaponClass
-    .filter(el => el?.weaponClass === item?.weaponClass);
+    .filter(el => el?.weaponClass === item?.weaponClass)
 
 export const armorTypes: ItemType[] = [
   ItemType.HeadArmor,
@@ -48,42 +55,42 @@ export const armorTypes: ItemType[] = [
   ItemType.BodyArmor,
   ItemType.HandArmor,
   ItemType.LegArmor,
-];
+]
 
 export const itemTypeByWeaponClass: Record<WeaponClass, ItemType> = {
-  [WeaponClass.Undefined]: ItemType.Undefined,
-  [WeaponClass.Dagger]: ItemType.OneHandedWeapon,
-  [WeaponClass.OneHandedSword]: ItemType.OneHandedWeapon,
-  [WeaponClass.OneHandedAxe]: ItemType.OneHandedWeapon,
-  [WeaponClass.Mace]: ItemType.OneHandedWeapon,
-  [WeaponClass.TwoHandedSword]: ItemType.TwoHandedWeapon,
-  [WeaponClass.TwoHandedAxe]: ItemType.TwoHandedWeapon,
-  [WeaponClass.Pick]: ItemType.TwoHandedWeapon,
-  [WeaponClass.TwoHandedMace]: ItemType.TwoHandedWeapon,
-  [WeaponClass.OneHandedPolearm]: ItemType.Polearm,
-  [WeaponClass.TwoHandedPolearm]: ItemType.Polearm,
-  [WeaponClass.LowGripPolearm]: ItemType.Polearm,
   [WeaponClass.Arrow]: ItemType.Arrows,
+  [WeaponClass.Banner]: ItemType.Banner,
   [WeaponClass.Bolt]: ItemType.Bolts,
-  [WeaponClass.Cartridge]: ItemType.Bullets,
-  [WeaponClass.Bow]: ItemType.Bow,
-  [WeaponClass.Crossbow]: ItemType.Crossbow,
-  [WeaponClass.Stone]: ItemType.Thrown,
   [WeaponClass.Boulder]: ItemType.Thrown,
+  [WeaponClass.Bow]: ItemType.Bow,
+  [WeaponClass.Cartridge]: ItemType.Bullets,
+  [WeaponClass.Crossbow]: ItemType.Crossbow,
+  [WeaponClass.Dagger]: ItemType.OneHandedWeapon,
+  [WeaponClass.Javelin]: ItemType.Thrown,
+  [WeaponClass.LargeShield]: ItemType.Shield,
+  [WeaponClass.LowGripPolearm]: ItemType.Polearm,
+  [WeaponClass.Mace]: ItemType.OneHandedWeapon,
+  [WeaponClass.Musket]: ItemType.Musket,
+  [WeaponClass.OneHandedAxe]: ItemType.OneHandedWeapon,
+  [WeaponClass.OneHandedPolearm]: ItemType.Polearm,
+  [WeaponClass.OneHandedSword]: ItemType.OneHandedWeapon,
+  [WeaponClass.Pick]: ItemType.TwoHandedWeapon,
+  [WeaponClass.Pistol]: ItemType.Pistol,
+  [WeaponClass.SmallShield]: ItemType.Shield,
+  [WeaponClass.Stone]: ItemType.Thrown,
   [WeaponClass.ThrowingAxe]: ItemType.Thrown,
   [WeaponClass.ThrowingKnife]: ItemType.Thrown,
-  [WeaponClass.Javelin]: ItemType.Thrown,
-  [WeaponClass.Pistol]: ItemType.Pistol,
-  [WeaponClass.Musket]: ItemType.Musket,
-  [WeaponClass.SmallShield]: ItemType.Shield,
-  [WeaponClass.LargeShield]: ItemType.Shield,
-  [WeaponClass.Banner]: ItemType.Banner,
-};
+  [WeaponClass.TwoHandedAxe]: ItemType.TwoHandedWeapon,
+  [WeaponClass.TwoHandedMace]: ItemType.TwoHandedWeapon,
+  [WeaponClass.TwoHandedPolearm]: ItemType.Polearm,
+  [WeaponClass.TwoHandedSword]: ItemType.TwoHandedWeapon,
+  [WeaponClass.Undefined]: ItemType.Undefined,
+}
 
 export const WeaponClassByItemUsage: Partial<Record<ItemUsage, WeaponClass>> = {
-  [ItemUsage.PolearmCouch]: WeaponClass.OneHandedPolearm,
   [ItemUsage.Polearm]: WeaponClass.OneHandedPolearm, // jousting lances
-};
+  [ItemUsage.PolearmCouch]: WeaponClass.OneHandedPolearm,
+}
 
 const WeaponClassByItemType: Partial<Record<ItemType, WeaponClass[]>> = {
   [ItemType.OneHandedWeapon]: [
@@ -92,11 +99,6 @@ const WeaponClassByItemType: Partial<Record<ItemType, WeaponClass[]>> = {
     WeaponClass.Mace,
     WeaponClass.Dagger,
   ],
-  [ItemType.TwoHandedWeapon]: [
-    WeaponClass.TwoHandedSword,
-    WeaponClass.TwoHandedAxe,
-    WeaponClass.TwoHandedMace,
-  ],
   [ItemType.Polearm]: [WeaponClass.TwoHandedPolearm, WeaponClass.OneHandedPolearm],
   [ItemType.Thrown]: [
     WeaponClass.Javelin,
@@ -104,15 +106,20 @@ const WeaponClassByItemType: Partial<Record<ItemType, WeaponClass[]>> = {
     WeaponClass.ThrowingKnife,
     WeaponClass.Stone,
   ],
-};
+  [ItemType.TwoHandedWeapon]: [
+    WeaponClass.TwoHandedSword,
+    WeaponClass.TwoHandedAxe,
+    WeaponClass.TwoHandedMace,
+  ],
+}
 
 export const hasWeaponClassesByItemType = (type: ItemType) =>
-  Object.keys(WeaponClassByItemType).includes(type);
+  Object.keys(WeaponClassByItemType).includes(type)
 
 export const getWeaponClassesByItemType = (type: ItemType): WeaponClass[] => {
-  const weaponClasses = WeaponClassByItemType[type];
-  return weaponClasses === undefined ? [] : weaponClasses;
-};
+  const weaponClasses = WeaponClassByItemType[type]
+  return weaponClasses === undefined ? [] : weaponClasses
+}
 
 const weaponTypes: ItemType[] = [
   ItemType.Shield,
@@ -124,135 +131,135 @@ const weaponTypes: ItemType[] = [
   ItemType.Thrown,
   ItemType.Arrows,
   ItemType.Bolts,
-];
+]
 
 export const itemTypesBySlot: Record<ItemSlot, ItemType[]> = {
-  [ItemSlot.Head]: [ItemType.HeadArmor],
-  [ItemSlot.Shoulder]: [ItemType.ShoulderArmor],
   [ItemSlot.Body]: [ItemType.BodyArmor],
   [ItemSlot.Hand]: [ItemType.HandArmor],
+  [ItemSlot.Head]: [ItemType.HeadArmor],
   [ItemSlot.Leg]: [ItemType.LegArmor],
-  [ItemSlot.MountHarness]: [ItemType.MountHarness],
   [ItemSlot.Mount]: [ItemType.Mount],
+  [ItemSlot.MountHarness]: [ItemType.MountHarness],
+  [ItemSlot.Shoulder]: [ItemType.ShoulderArmor],
   [ItemSlot.Weapon0]: weaponTypes,
   [ItemSlot.Weapon1]: weaponTypes,
   [ItemSlot.Weapon2]: weaponTypes,
   [ItemSlot.Weapon3]: weaponTypes,
   [ItemSlot.WeaponExtra]: [ItemType.Banner],
-};
+}
 
 const weaponSlots: ItemSlot[] = [
   ItemSlot.Weapon0,
   ItemSlot.Weapon1,
   ItemSlot.Weapon2,
   ItemSlot.Weapon3,
-];
+]
 
 export const itemSlotsByType: Partial<Record<ItemType, ItemSlot[]>> = {
-  [ItemType.HeadArmor]: [ItemSlot.Head],
-  [ItemType.ShoulderArmor]: [ItemSlot.Shoulder],
   [ItemType.BodyArmor]: [ItemSlot.Body],
   [ItemType.HandArmor]: [ItemSlot.Hand],
+  [ItemType.HeadArmor]: [ItemSlot.Head],
   [ItemType.LegArmor]: [ItemSlot.Leg],
-  [ItemType.MountHarness]: [ItemSlot.MountHarness],
   [ItemType.Mount]: [ItemSlot.Mount],
+  [ItemType.MountHarness]: [ItemSlot.MountHarness],
+  [ItemType.ShoulderArmor]: [ItemSlot.Shoulder],
   //
-  [ItemType.Shield]: weaponSlots,
+  [ItemType.Arrows]: weaponSlots,
+  [ItemType.Bolts]: weaponSlots,
   [ItemType.Bow]: weaponSlots,
   [ItemType.Crossbow]: weaponSlots,
   [ItemType.OneHandedWeapon]: weaponSlots,
-  [ItemType.TwoHandedWeapon]: weaponSlots,
   [ItemType.Polearm]: weaponSlots,
+  [ItemType.Shield]: weaponSlots,
   [ItemType.Thrown]: weaponSlots,
-  [ItemType.Arrows]: weaponSlots,
-  [ItemType.Bolts]: weaponSlots,
+  [ItemType.TwoHandedWeapon]: weaponSlots,
   //
   [ItemType.Banner]: [ItemSlot.WeaponExtra],
-};
+}
+
+export const isLargeShield = (item: Item) =>
+  item.type === ItemType.Shield && item.weapons[0].class === WeaponClass.LargeShield
 
 export const getAvailableSlotsByItem = (
   item: Item,
-  equippedItems: EquippedItemsBySlot
+  equippedItems: EquippedItemsBySlot,
 ): ItemSlot[] => {
   // family type: compatibility with mount and mountHarness
   if (
-    item.type === ItemType.MountHarness &&
-    ItemSlot.Mount in equippedItems &&
-    item.armor!.familyType !== equippedItems[ItemSlot.Mount].item.mount!.familyType
+    item.type === ItemType.MountHarness
+    && ItemSlot.Mount in equippedItems
+    && item.armor!.familyType !== equippedItems[ItemSlot.Mount].item.mount!.familyType
   ) {
-    return [];
+    return []
   }
 
   if (
-    item.type === ItemType.Mount &&
-    ItemSlot.MountHarness in equippedItems &&
-    item.mount!.familyType !== equippedItems[ItemSlot.MountHarness].item.armor!.familyType
+    item.type === ItemType.Mount
+    && ItemSlot.MountHarness in equippedItems
+    && item.mount!.familyType !== equippedItems[ItemSlot.MountHarness].item.armor!.familyType
   ) {
-    return [];
+    return []
   }
 
   // Pikes
   if (item.flags.includes(ItemFlags.DropOnWeaponChange)) {
-    return [ItemSlot.WeaponExtra];
+    return [ItemSlot.WeaponExtra]
   }
 
   // Banning the use of large shields on horseback
   if (
-    (ItemSlot.Mount in equippedItems && isLargeShield(item)) ||
-    (item.type === ItemType.Mount &&
-      Object.values(equippedItems).some(item => isLargeShield(item.item)))
+    (ItemSlot.Mount in equippedItems && isLargeShield(item))
+    || (item.type === ItemType.Mount
+      && Object.values(equippedItems).some(item => isLargeShield(item.item)))
   ) {
     notify(
       t('character.inventory.item.cantUseOnHorseback.notify.warning'),
-      NotificationType.Warning
-    );
-    return [];
+      NotificationType.Warning,
+    )
+    return []
   }
 
   // family type: compatibility with EBA BodyArmor and EBA LegArmor
   if (
-    (item.type === ItemType.BodyArmor &&
-      item.armor!.familyType === ItemFamilyType.EBA &&
-      (!(ItemSlot.Leg in equippedItems) ||
-        (ItemSlot.Leg in equippedItems &&
-          item.armor!.familyType !== equippedItems[ItemSlot.Leg].item.armor!.familyType))) ||
+    (item.type === ItemType.BodyArmor
+      && item.armor!.familyType === ItemFamilyType.EBA
+      && (!(ItemSlot.Leg in equippedItems)
+        || (ItemSlot.Leg in equippedItems
+          && item.armor!.familyType !== equippedItems[ItemSlot.Leg].item.armor!.familyType)))
     //
-    (item.type === ItemType.LegArmor &&
-      ItemSlot.Body in equippedItems &&
-      equippedItems[ItemSlot.Body].item.armor!.familyType === ItemFamilyType.EBA &&
-      item.armor!.familyType !== equippedItems[ItemSlot.Body].item.armor!.familyType)
+        || (item.type === ItemType.LegArmor
+          && ItemSlot.Body in equippedItems
+          && equippedItems[ItemSlot.Body].item.armor!.familyType === ItemFamilyType.EBA
+          && item.armor!.familyType !== equippedItems[ItemSlot.Body].item.armor!.familyType)
   ) {
     notify(
       t('character.inventory.item.EBAArmorCompatible.notify.warning'),
-      NotificationType.Warning
-    );
-    return [];
+      NotificationType.Warning,
+    )
+    return []
   }
 
-  return itemSlotsByType[item.type]!;
-};
+  return itemSlotsByType[item.type]!
+}
 
 export const getLinkedSlots = (slot: ItemSlot, equippedItems: EquippedItemsBySlot): ItemSlot[] => {
   // family type: compatibility with EBA BodyArmor and EBA LegArmor
   if (
-    slot === ItemSlot.Leg &&
-    ItemSlot.Body in equippedItems &&
-    equippedItems[ItemSlot.Body].item.armor!.familyType === ItemFamilyType.EBA
+    slot === ItemSlot.Leg
+    && ItemSlot.Body in equippedItems
+    && equippedItems[ItemSlot.Body].item.armor!.familyType === ItemFamilyType.EBA
   ) {
-    return [ItemSlot.Body];
+    return [ItemSlot.Body]
   }
 
-  return [];
-};
-
-export const isLargeShield = (item: Item) =>
-  item.type === ItemType.Shield && item.weapons[0].class === WeaponClass.LargeShield;
+  return []
+}
 
 export const visibleItemFlags: ItemFlags[] = [
   ItemFlags.DropOnWeaponChange,
   ItemFlags.DropOnAnyAction,
   ItemFlags.UseTeamColor,
-];
+]
 
 export const visibleWeaponFlags: WeaponFlags[] = [
   // WeaponFlags.AffectsAreaBig,
@@ -271,7 +278,7 @@ export const visibleWeaponFlags: WeaponFlags[] = [
   WeaponFlags.MultiplePenetration,
   WeaponFlags.CantUseOnHorseback,
   // WeaponFlags.TwoHandIdleOnMount, TODO:
-];
+]
 
 export const visibleItemUsage: ItemUsage[] = [
   ItemUsage.LongBow,
@@ -282,132 +289,132 @@ export const visibleItemUsage: ItemUsage[] = [
   ItemUsage.PolearmBracing,
   ItemUsage.PolearmPike,
   ItemUsage.Polearm,
-];
+]
 
 export const itemTypeToIcon: Record<ItemType, string> = {
-  [ItemType.Undefined]: '',
-  [ItemType.HeadArmor]: 'item-type-head-armor',
-  [ItemType.ShoulderArmor]: 'item-type-shoulder-armor',
-  [ItemType.BodyArmor]: 'item-type-body-armor',
-  [ItemType.HandArmor]: 'item-type-hand-armor',
-  [ItemType.LegArmor]: 'item-type-leg-armor',
-  [ItemType.MountHarness]: 'item-type-mount-harness',
-  [ItemType.Mount]: 'item-type-mount',
-  [ItemType.Shield]: 'item-type-shield',
-  [ItemType.Bow]: 'item-type-bow',
-  [ItemType.Crossbow]: 'item-type-crossbow',
-  [ItemType.OneHandedWeapon]: 'item-type-one-handed-weapon',
-  [ItemType.TwoHandedWeapon]: 'item-type-two-handed-weapon',
-  [ItemType.Polearm]: 'item-type-polearm',
-  [ItemType.Thrown]: 'item-type-throwing-weapon',
   [ItemType.Arrows]: 'item-type-arrow',
-  [ItemType.Bolts]: 'item-type-bolt',
   [ItemType.Banner]: 'item-type-banner',
-
-  [ItemType.Pistol]: '',
-  [ItemType.Musket]: '',
+  [ItemType.BodyArmor]: 'item-type-body-armor',
+  [ItemType.Bolts]: 'item-type-bolt',
+  [ItemType.Bow]: 'item-type-bow',
   [ItemType.Bullets]: '',
-};
+  [ItemType.Crossbow]: 'item-type-crossbow',
+  [ItemType.HandArmor]: 'item-type-hand-armor',
+  [ItemType.HeadArmor]: 'item-type-head-armor',
+  [ItemType.LegArmor]: 'item-type-leg-armor',
+  [ItemType.Mount]: 'item-type-mount',
+  [ItemType.MountHarness]: 'item-type-mount-harness',
+  [ItemType.Musket]: '',
+  [ItemType.OneHandedWeapon]: 'item-type-one-handed-weapon',
+  [ItemType.Pistol]: '',
+  [ItemType.Polearm]: 'item-type-polearm',
+  [ItemType.Shield]: 'item-type-shield',
+  [ItemType.ShoulderArmor]: 'item-type-shoulder-armor',
+
+  [ItemType.Thrown]: 'item-type-throwing-weapon',
+  [ItemType.TwoHandedWeapon]: 'item-type-two-handed-weapon',
+  [ItemType.Undefined]: '',
+}
 
 export const weaponClassToIcon: Record<WeaponClass, string> = {
-  [WeaponClass.Undefined]: '',
-  [WeaponClass.Dagger]: 'weapon-class-one-handed-dagger',
-  [WeaponClass.OneHandedSword]: 'weapon-class-one-handed-sword',
-  [WeaponClass.TwoHandedSword]: 'weapon-class-two-handed-sword',
-  [WeaponClass.OneHandedAxe]: 'weapon-class-one-handed-axe',
-  [WeaponClass.TwoHandedAxe]: 'weapon-class-two-handed-axe',
-  [WeaponClass.Mace]: 'weapon-class-one-handed-mace',
-  [WeaponClass.Pick]: '',
-  [WeaponClass.TwoHandedMace]: 'weapon-class-two-handed-mace',
-  [WeaponClass.OneHandedPolearm]: 'weapon-class-one-handed-polearm',
-  [WeaponClass.TwoHandedPolearm]: 'weapon-class-two-handed-polearm',
-  [WeaponClass.LowGripPolearm]: '',
   [WeaponClass.Arrow]: '',
+  [WeaponClass.Banner]: '',
   [WeaponClass.Bolt]: '',
-  [WeaponClass.Cartridge]: '',
-  [WeaponClass.Bow]: '',
-  [WeaponClass.Crossbow]: '',
-  [WeaponClass.Stone]: 'weapon-class-throwing-stone',
   [WeaponClass.Boulder]: '',
+  [WeaponClass.Bow]: '',
+  [WeaponClass.Cartridge]: '',
+  [WeaponClass.Crossbow]: '',
+  [WeaponClass.Dagger]: 'weapon-class-one-handed-dagger',
+  [WeaponClass.Javelin]: 'weapon-class-throwing-spear',
+  [WeaponClass.LargeShield]: 'weapon-class-shield-large',
+  [WeaponClass.LowGripPolearm]: '',
+  [WeaponClass.Mace]: 'weapon-class-one-handed-mace',
+  [WeaponClass.Musket]: '',
+  [WeaponClass.OneHandedAxe]: 'weapon-class-one-handed-axe',
+  [WeaponClass.OneHandedPolearm]: 'weapon-class-one-handed-polearm',
+  [WeaponClass.OneHandedSword]: 'weapon-class-one-handed-sword',
+  [WeaponClass.Pick]: '',
+  [WeaponClass.Pistol]: '',
+  [WeaponClass.SmallShield]: 'weapon-class-shield-small',
+  [WeaponClass.Stone]: 'weapon-class-throwing-stone',
   [WeaponClass.ThrowingAxe]: 'weapon-class-throwing-axe',
   [WeaponClass.ThrowingKnife]: 'weapon-class-throwing-knife',
-  [WeaponClass.Javelin]: 'weapon-class-throwing-spear',
-  [WeaponClass.Pistol]: '',
-  [WeaponClass.Musket]: '',
-  [WeaponClass.SmallShield]: 'weapon-class-shield-small',
-  [WeaponClass.LargeShield]: 'weapon-class-shield-large',
-  [WeaponClass.Banner]: '',
-};
+  [WeaponClass.TwoHandedAxe]: 'weapon-class-two-handed-axe',
+  [WeaponClass.TwoHandedMace]: 'weapon-class-two-handed-mace',
+  [WeaponClass.TwoHandedPolearm]: 'weapon-class-two-handed-polearm',
+  [WeaponClass.TwoHandedSword]: 'weapon-class-two-handed-sword',
+  [WeaponClass.Undefined]: '',
+}
 
 export const itemFlagsToIcon: Record<ItemFlags, string | null> = {
+  [ItemFlags.CanBePickedUpFromCorpse]: null,
+  [ItemFlags.CannotBePickedUp]: null,
+  [ItemFlags.Civilian]: null,
+  [ItemFlags.DoesNotHideChest]: null,
+  [ItemFlags.DoNotScaleBodyAccordingToWeaponLength]: null,
+  [ItemFlags.DropOnAnyAction]: null,
+  [ItemFlags.DropOnWeaponChange]: 'item-flag-drop-on-change',
   [ItemFlags.ForceAttachOffHandPrimaryItemBone]: null,
   [ItemFlags.ForceAttachOffHandSecondaryItemBone]: null,
+  [ItemFlags.HasToBeHeldUp]: null,
+  [ItemFlags.HeldInOffHand]: null,
+  [ItemFlags.NotStackable]: null,
   [ItemFlags.NotUsableByFemale]: null,
   [ItemFlags.NotUsableByMale]: null,
-  [ItemFlags.DropOnWeaponChange]: 'item-flag-drop-on-change',
-  [ItemFlags.DropOnAnyAction]: null,
-  [ItemFlags.CannotBePickedUp]: null,
-  [ItemFlags.CanBePickedUpFromCorpse]: null,
   [ItemFlags.QuickFadeOut]: null,
+  [ItemFlags.UseTeamColor]: 'item-flag-use-team-color',
   [ItemFlags.WoodenAttack]: null,
   [ItemFlags.WoodenParry]: null,
-  [ItemFlags.HeldInOffHand]: null,
-  [ItemFlags.HasToBeHeldUp]: null,
-  [ItemFlags.UseTeamColor]: 'item-flag-use-team-color',
-  [ItemFlags.Civilian]: null,
-  [ItemFlags.DoNotScaleBodyAccordingToWeaponLength]: null,
-  [ItemFlags.DoesNotHideChest]: null,
-  [ItemFlags.NotStackable]: null,
-};
+}
 
 export const weaponFlagsToIcon: Partial<Record<WeaponFlags, string | null>> = {
+  [WeaponFlags.AutoReload]: 'item-flag-auto-reload',
   [WeaponFlags.BonusAgainstShield]: 'item-flag-bonus-against-shield',
-  [WeaponFlags.TwoHandIdleOnMount]: 'item-flag-two-hand-idle',
-  [WeaponFlags.MultiplePenetration]: 'item-flag-multiply-penetration',
   [WeaponFlags.CanDismount]: 'item-flag-can-dismount',
   [WeaponFlags.CanKnockDown]: 'item-flag-can-knock-down',
-  [WeaponFlags.AutoReload]: 'item-flag-auto-reload',
   [WeaponFlags.CanPenetrateShield]: 'item-flag-can-penetrate-shield',
-  [WeaponFlags.CantReloadOnHorseback]: 'item-flag-cant-reload-on-horseback',
   [WeaponFlags.CanReloadOnHorseback]: 'item-flag-can-reload-on-horseback',
+  [WeaponFlags.CantReloadOnHorseback]: 'item-flag-cant-reload-on-horseback',
   [WeaponFlags.CantUseOnHorseback]: 'item-flag-cant-reload-on-horseback',
-};
+  [WeaponFlags.MultiplePenetration]: 'item-flag-multiply-penetration',
+  [WeaponFlags.TwoHandIdleOnMount]: 'item-flag-two-hand-idle',
+}
 
 export const itemUsageToIcon: Partial<Record<ItemUsage, string | null>> = {
-  [ItemUsage.LongBow]: 'item-flag-longbow',
   [ItemUsage.Bow]: 'item-flag-short-bow',
   [ItemUsage.Crossbow]: 'item-flag-heavy-crossbow',
   [ItemUsage.CrossbowLight]: 'item-flag-light-crossbow',
-  [ItemUsage.PolearmBracing]: 'item-flag-brace',
-  [ItemUsage.PolearmPike]: 'item-flag-pike',
-  [ItemUsage.PolearmCouch]: 'item-flag-couch',
+  [ItemUsage.LongBow]: 'item-flag-longbow',
   [ItemUsage.Polearm]: 'item-flag-jousting',
-};
+  [ItemUsage.PolearmBracing]: 'item-flag-brace',
+  [ItemUsage.PolearmCouch]: 'item-flag-couch',
+  [ItemUsage.PolearmPike]: 'item-flag-pike',
+}
 
 export const itemFamilyTypeToIcon: Record<ItemFamilyType, string | null> = {
-  [ItemFamilyType.Undefined]: null,
-  [ItemFamilyType.Horse]: 'mount-type-horse',
   [ItemFamilyType.Camel]: 'mount-type-camel',
   [ItemFamilyType.EBA]: null,
-};
+  [ItemFamilyType.Horse]: 'mount-type-horse',
+  [ItemFamilyType.Undefined]: null,
+}
 
 export const damageTypeToIcon: Record<DamageType, string | null> = {
-  [DamageType.Undefined]: null,
   [DamageType.Blunt]: 'damage-type-blunt',
   [DamageType.Cut]: 'damage-type-cut',
   [DamageType.Pierce]: 'damage-type-pierce',
-};
+  [DamageType.Undefined]: null,
+}
 
 export const itemCultureToIcon: Record<Culture, string | null> = {
-  [Culture.Neutral]: 'culture-neutrals',
   [Culture.Aserai]: 'culture-aserai',
   [Culture.Battania]: 'culture-battania',
   [Culture.Empire]: 'culture-empire',
   [Culture.Khuzait]: 'culture-khuzait',
   [Culture.Looters]: 'culture-looters',
+  [Culture.Neutral]: 'culture-neutrals',
   [Culture.Sturgia]: 'culture-sturgia',
   [Culture.Vlandia]: 'culture-vlandia',
-};
+}
 
 // TO MODEL:
 export enum IconBucketType {
@@ -416,78 +423,78 @@ export enum IconBucketType {
 }
 
 export interface IconedBucket {
-  type: IconBucketType;
-  name: string;
+  name: string
+  type: IconBucketType
 }
 
 export interface HumanBucket {
-  icon: IconedBucket | null;
-  label: string;
+  label: string
+  icon: IconedBucket | null
   tooltip: {
-    title: string;
-    description: string | null;
-  } | null;
+    title: string
+    description: string | null
+  } | null
 }
 
-type ItemFlatDamageField = keyof Pick<ItemFlat, 'damage' | 'thrustDamage' | 'swingDamage'>;
-type ItemFlatDamageType = keyof Pick<ItemFlat, 'thrustDamageType' | 'swingDamageType'>;
+type ItemFlatDamageField = keyof Pick<ItemFlat, 'damage' | 'thrustDamage' | 'swingDamage'>
+type ItemFlatDamageType = keyof Pick<ItemFlat, 'thrustDamageType' | 'swingDamageType'>
 
 const damageTypeFieldByDamageField: Record<ItemFlatDamageField, ItemFlatDamageType> = {
   damage: 'thrustDamageType', // arrow/bolt
-  thrustDamage: 'thrustDamageType',
   swingDamage: 'swingDamageType',
-};
+  thrustDamage: 'thrustDamageType',
+}
 
 export const getDamageType = (aggregationKey: keyof ItemFlat, item: ItemFlat) => {
-  return item[damageTypeFieldByDamageField[aggregationKey as ItemFlatDamageField]];
-};
+  return item[damageTypeFieldByDamageField[aggregationKey as ItemFlatDamageField]]
+}
 
 const createHumanBucket = (
   label: string,
   icon: IconedBucket | null,
   tooltip: {
-    title: string;
-    description: string | null;
-  } | null
+    title: string
+    description: string | null
+  } | null,
 ): HumanBucket => ({
-  label,
   icon,
+  label,
   tooltip,
-});
+})
 
 const createIcon = (type: IconBucketType, name: string | null | undefined): IconedBucket | null =>
   name === null || name === undefined
     ? null
     : {
-        type,
         name,
-      };
+        type,
+      }
 
 export const humanizeBucket = (
   aggregationKey: keyof ItemFlat,
   bucket: any,
-  item?: ItemFlat
+  item?: ItemFlat,
 ): HumanBucket => {
   if (bucket === null || bucket === undefined) {
-    return createHumanBucket('', null, null);
+    return createHumanBucket('', null, null)
   }
 
-  const format = aggregationsConfig[aggregationKey]?.format;
+  const format = aggregationsConfig[aggregationKey]?.format
 
   if (aggregationKey === 'type') {
     return createHumanBucket(
       t(`item.type.${bucket as ItemType}`),
       createIcon(IconBucketType.Svg, itemTypeToIcon[bucket as ItemType]),
-      null
-    );
+      null,
+    )
   }
 
   if (aggregationKey === 'weaponClass') {
     return createHumanBucket(
       t(`item.weaponClass.${bucket as WeaponClass}`),
       createIcon(IconBucketType.Svg, weaponClassToIcon[bucket as WeaponClass]),
-      null
-    );
+      null,
+    )
   }
 
   if (aggregationKey === 'damageType') {
@@ -495,10 +502,10 @@ export const humanizeBucket = (
       t(`item.damageType.${bucket}.long`),
       createIcon(IconBucketType.Svg, damageTypeToIcon[bucket as DamageType]),
       {
-        title: t(`item.damageType.${bucket}.title`),
         description: t(`item.damageType.${bucket}.description`),
-      }
-    );
+        title: t(`item.damageType.${bucket}.title`),
+      },
+    )
   }
 
   if (aggregationKey === 'culture') {
@@ -506,10 +513,10 @@ export const humanizeBucket = (
       t(`item.culture.${bucket}`),
       createIcon(IconBucketType.Asset, itemCultureToIcon[bucket as Culture]),
       {
-        title: t(`item.culture.${bucket}`),
         description: null,
-      }
-    );
+        title: t(`item.culture.${bucket}`),
+      },
+    )
   }
 
   if (['mountArmorFamilyType', 'mountFamilyType', 'armorFamilyType'].includes(aggregationKey)) {
@@ -517,18 +524,18 @@ export const humanizeBucket = (
       t(`item.familyType.${bucket}.title`),
       createIcon(IconBucketType.Svg, itemFamilyTypeToIcon[bucket as ItemFamilyType]),
       {
-        title: t(`item.familyType.${bucket}.title`),
         description: t(`item.familyType.${bucket}.description`),
-      }
-    );
+        title: t(`item.familyType.${bucket}.title`),
+      },
+    )
   }
 
   if (['armorMaterialType'].includes(aggregationKey)) {
     return createHumanBucket(
       t(`item.armorMaterialType.${bucket as ArmorMaterialType}.title`),
       null,
-      null
-    );
+      null,
+    )
   }
 
   if (aggregationKey === 'flags') {
@@ -537,10 +544,10 @@ export const humanizeBucket = (
         t(`item.flags.${bucket}`),
         createIcon(IconBucketType.Svg, itemFlagsToIcon[bucket as ItemFlags]),
         {
-          title: t(`item.flags.${bucket}`),
           description: null,
-        }
-      );
+          title: t(`item.flags.${bucket}`),
+        },
+      )
     }
 
     if (Object.values(WeaponFlags).includes(bucket as WeaponFlags)) {
@@ -548,10 +555,10 @@ export const humanizeBucket = (
         t(`item.weaponFlags.${bucket}`),
         createIcon(IconBucketType.Svg, weaponFlagsToIcon[bucket as WeaponFlags]),
         {
-          title: t(`item.weaponFlags.${bucket}`),
           description: null,
-        }
-      );
+          title: t(`item.weaponFlags.${bucket}`),
+        },
+      )
     }
 
     if (Object.values(ItemUsage).includes(bucket as ItemUsage)) {
@@ -559,30 +566,31 @@ export const humanizeBucket = (
         t(`item.usage.${bucket}.title`),
         createIcon(IconBucketType.Svg, itemUsageToIcon[bucket as ItemUsage]),
         {
-          title: t(`item.usage.${bucket}.title`),
           description: t(`item.usage.${bucket}.description`),
-        }
-      );
+          title: t(`item.usage.${bucket}.title`),
+        },
+      )
     }
   }
 
   if (format === ItemFieldFormat.Damage && item !== undefined) {
-    const damageType = getDamageType(aggregationKey, item);
+    const damageType = getDamageType(aggregationKey, item)
 
-    if (damageType === null || damageType === undefined)
-      return createHumanBucket(String(bucket), null, null);
+    if (damageType === null || damageType === undefined) {
+      return createHumanBucket(String(bucket), null, null)
+    }
 
     return createHumanBucket(
       t('item.damageTypeFormat', {
-        value: bucket,
         type: t(`item.damageType.${damageType}.short`),
+        value: bucket,
       }),
       null,
       {
-        title: t(`item.damageType.${damageType}.title`),
         description: t(`item.damageType.${damageType}.description`),
-      }
-    );
+        title: t(`item.damageType.${damageType}.title`),
+      },
+    )
   }
 
   if (format === ItemFieldFormat.Requirement) {
@@ -591,154 +599,191 @@ export const humanizeBucket = (
         value: bucket,
       }),
       null,
-      null
-    );
+      null,
+    )
   }
 
   if (format === ItemFieldFormat.Number) {
-    return createHumanBucket(n(bucket as number), null, null);
+    return createHumanBucket(n(bucket as number), null, null)
   }
 
-  return createHumanBucket(String(bucket), null, null);
-};
+  return createHumanBucket(String(bucket), null, null)
+}
 
 interface GroupedItems {
-  type: ItemType;
-  weaponClass: WeaponClass | null;
-  items: ItemFlat[];
+  type: ItemType
+  items: ItemFlat[]
+  weaponClass: WeaponClass | null
 }
 
 export const groupItemsByTypeAndWeaponClass = (items: ItemFlat[]) => {
   return items.reduce((out, item) => {
-    const currentEl = out.find(el => {
+    const currentEl = out.find((el) => {
       // merge Shield classes
       if (item.type === ItemType.Shield) {
-        return el.type === item.type;
+        return el.type === item.type
       }
 
-      return el.type === item.type && el.weaponClass === item.weaponClass;
-    });
+      return el.type === item.type && el.weaponClass === item.weaponClass
+    })
 
     if (currentEl !== undefined) {
-      currentEl.items.push(item);
-    } else {
+      currentEl.items.push(item)
+    }
+    else {
       out.push({
+        items: [item],
         type: item.type,
         weaponClass: item.weaponClass,
-        items: [item],
-      });
+      })
     }
 
-    return out;
-  }, [] as GroupedItems[]);
-};
+    return out
+  }, [] as GroupedItems[])
+}
 
 export const getCompareItemsResult = (items: ItemFlat[], aggregationsConfig: AggregationConfig) => {
   return (Object.keys(aggregationsConfig) as Array<keyof ItemFlat>)
     .filter(k => aggregationsConfig[k]?.compareRule !== undefined)
     .reduce((out, k) => {
-      const values = items.map(fi => fi[k]).filter(v => typeof v === 'number') as number[];
-      out[k] =
-        aggregationsConfig[k]!.compareRule === ItemFieldCompareRule.Less
+      const values = items.map(fi => fi[k]).filter(v => typeof v === 'number') as number[]
+      out[k]
+        = aggregationsConfig[k]!.compareRule === ItemFieldCompareRule.Less
           ? Math.min(...values)
-          : Math.max(...values);
-      return out;
-    }, {} as CompareItemsResult);
-};
+          : Math.max(...values)
+      return out
+    }, {} as CompareItemsResult)
+}
 
 export const getRelativeEntries = (item: ItemFlat, aggregationsConfig: AggregationConfig) => {
   return (Object.keys(aggregationsConfig) as Array<keyof ItemFlat>)
     .filter(k => aggregationsConfig[k]?.compareRule !== undefined)
     .reduce((out, k) => {
       if (typeof item[k] === 'number') {
-        out[k] = item[k] as number;
+        out[k] = item[k] as number
       }
-      return out;
-    }, {} as CompareItemsResult);
-};
+      return out
+    }, {} as CompareItemsResult)
+}
 
 export const getItemFieldAbsoluteDiffStr = (
   compareRule: ItemFieldCompareRule,
   value: number,
-  bestValue: number
+  bestValue: number,
 ) => {
-  if (value === bestValue) return '';
+  const DEFAULT_STR = ''
 
-  if (compareRule === ItemFieldCompareRule.Less) {
-    if (bestValue > value) return '';
-
-    return `+${n(roundFLoat(Math.abs(value - bestValue)))}`;
+  if (value === bestValue) {
+    return DEFAULT_STR
   }
 
-  if (bestValue < value) return '';
+  if (compareRule === ItemFieldCompareRule.Less) {
+    if (bestValue > value) {
+      return DEFAULT_STR
+    }
 
-  return `-${n(roundFLoat(Math.abs(bestValue - value)))}`;
-};
+    return `+${n(roundFLoat(Math.abs(value - bestValue)))}`
+  }
+
+  if (bestValue < value) {
+    return DEFAULT_STR
+  }
+
+  return `-${n(roundFLoat(Math.abs(bestValue - value)))}`
+}
 
 // TODO: spec
 export const getItemFieldRelativeDiffStr = (value: number, relativeValue: number) => {
-  if (value === relativeValue) return '';
+  const DEFAULT_STR = ''
 
-  if (relativeValue > value) return `-${n(roundFLoat(Math.abs(value - relativeValue)))}`;
+  if (value === relativeValue) {
+    return DEFAULT_STR
+  }
 
-  return `+${n(roundFLoat(Math.abs(value - relativeValue)))}`;
-};
+  if (relativeValue > value) {
+    return `-${n(roundFLoat(Math.abs(value - relativeValue)))}`
+  }
+
+  return `+${n(roundFLoat(Math.abs(value - relativeValue)))}`
+}
 
 export const getItemGraceTimeEnd = (userItem: UserItem) => {
-  const graceTimeEnd = userItem.createdAt;
-  graceTimeEnd.setHours(graceTimeEnd.getHours() + 1); // TODO: to constants
-  return graceTimeEnd;
-};
+  const graceTimeEnd = userItem.createdAt
+  graceTimeEnd.setHours(graceTimeEnd.getHours() + 1) // TODO: to constants
+  return graceTimeEnd
+}
 
-export const isGraceTimeExpired = (itemGraceTimeEnd: Date) => itemGraceTimeEnd < new Date();
+export const isGraceTimeExpired = (itemGraceTimeEnd: Date) => itemGraceTimeEnd < new Date()
 
 export const computeSalePrice = (userItem: UserItem) => {
-  const graceTimeEnd = getItemGraceTimeEnd(userItem);
+  const graceTimeEnd = getItemGraceTimeEnd(userItem)
 
   if (isGraceTimeExpired(graceTimeEnd)) {
     return {
-      price: Math.floor(userItem.item.price * itemSellCostPenalty),
       graceTimeEnd: null,
-    };
+      price: Math.floor(userItem.item.price * itemSellCostPenalty),
+    }
   }
 
   // If the item was recently bought it is sold at 100% of its original price.
-  return { price: userItem.item.price, graceTimeEnd };
-};
+  return { graceTimeEnd, price: userItem.item.price }
+}
 
 export const computeAverageRepairCostPerHour = (price: number) =>
-  Math.floor(price * itemRepairCostPerSecond * 3600 * itemBreakChance);
+  Math.floor(price * itemRepairCostPerSecond * 3600 * itemBreakChance)
 
 export const computeBrokenItemRepairCost = (price: number) =>
-  Math.floor(price * itemRepairCostPerSecond * brokenItemRepairPenaltySeconds);
+  Math.floor(price * itemRepairCostPerSecond * brokenItemRepairPenaltySeconds)
 
 export const getRankColor = (rank: ItemRank) => {
   switch (rank) {
     case 1:
-      return '#4ade80';
+      return '#4ade80'
 
     case 2:
-      return '#60a5fa';
+      return '#60a5fa'
 
     case 3:
-      return '#c084fc';
+      return '#c084fc'
 
     default:
-      return '#fff';
+      return '#fff'
   }
-};
+}
 
-export const canUpgrade = (type: ItemType) => type !== ItemType.Banner;
+export const canUpgrade = (type: ItemType) => type !== ItemType.Banner
 
-export const canAddedToClanArmory = (type: ItemType) => type !== ItemType.Banner;
+export const canAddedToClanArmory = (type: ItemType) => type !== ItemType.Banner
 
 export const reforgeCostByRank: Record<ItemRank, number> = {
   0: itemReforgeCostPerRank[0],
   1: itemReforgeCostPerRank[1],
   2: itemReforgeCostPerRank[2],
   3: itemReforgeCostPerRank[3],
-};
+}
 
-export const itemIsNewDays = 1;
+export const itemIsNewDays = 1
 
-export const checkIsWeaponBySlot = (slot: ItemSlot) => weaponSlots.includes(slot);
+export const checkIsWeaponBySlot = (slot: ItemSlot) => weaponSlots.includes(slot)
+
+const itemParamIsEmpty = (field: keyof ItemFlat, itemFlat: ItemFlat) => {
+  const value = itemFlat[field]
+
+  if (Array.isArray(value) && value.length === 0) {
+    return true
+  }
+
+  if (value === 0) {
+    return true
+  }
+
+  return false
+}
+
+// TODO: spec
+export const getItemAggregations = (itemFlat: ItemFlat) => {
+  const aggsConfig = getVisibleAggregationsConfig(
+    getAggregationsConfig(itemFlat.type, itemFlat.weaponClass),
+  )
+  return omitBy(aggsConfig, (_value, field) => itemParamIsEmpty(field, itemFlat))
+}

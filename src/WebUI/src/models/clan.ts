@@ -1,35 +1,35 @@
-import { Region } from '@/models/region';
-import { UserItem, type UserPublic } from '@/models/user';
-import { Language } from '@/models/language';
+import type { Language } from '~/models/language'
+import type { Region } from '~/models/region'
+import type { UserItem, UserPublic } from '~/models/user'
 
 export interface Clan {
-  id: number;
-  tag: string;
-  primaryColor: string;
-  secondaryColor: string;
-  name: string;
-  bannerKey: string;
-  region: Region;
-  languages: Language[];
-  discord: string | null;
-  description: string;
-  armoryTimeout: number;
+  id: number
+  tag: string
+  name: string
+  region: Region
+  bannerKey: string
+  description: string
+  primaryColor: string
+  languages: Language[]
+  armoryTimeout: number
+  secondaryColor: string
+  discord: string | null
 }
 
 // TODO: rename
 export interface ClanEdition extends Omit<Clan, 'primaryColor' | 'secondaryColor'> {
-  primaryColor: number;
-  secondaryColor: number;
+  primaryColor: number
+  secondaryColor: number
 }
 
 export interface ClanWithMemberCount<T> {
-  clan: T;
-  memberCount: number;
+  clan: T
+  memberCount: number
 }
 
 export interface ClanMember {
-  user: UserPublic;
-  role: ClanMemberRole;
+  user: UserPublic
+  role: ClanMemberRole
 }
 
 export enum ClanMemberRole {
@@ -50,21 +50,21 @@ export enum ClanInvitationStatus {
 }
 
 export interface ClanInvitation {
-  id: number;
-  invitee: UserPublic;
-  inviter: UserPublic;
-  type: ClanInvitationType;
-  status: ClanInvitationStatus;
+  id: number
+  invitee: UserPublic
+  inviter: UserPublic
+  type: ClanInvitationType
+  status: ClanInvitationStatus
 }
 
 export interface BorrowedItem {
-  updatedAt: Date;
-  borrowerUserId: number;
-  userItemId: number;
+  updatedAt: Date
+  userItemId: number
+  borrowerUserId: number
 }
 
 export interface ClanArmoryItem {
-  userItem: UserItem;
-  borrowedItem: BorrowedItem | null;
-  updatedAt: Date;
+  updatedAt: Date
+  userItem: UserItem
+  borrowedItem: BorrowedItem | null
 }

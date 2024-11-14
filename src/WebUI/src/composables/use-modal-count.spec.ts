@@ -1,16 +1,16 @@
-import { useModalCounter } from './use-modal-count';
+import { useModalCounter } from './use-modal-count'
 
 it('increase counter on call', () => {
-  const { counter, increase, decrease } = useModalCounter();
+  const { counter, decrease, increase } = useModalCounter()
 
-  expect(counter.value).toBe(0);
+  expect(counter.value).toBe(0)
 
-  increase();
+  increase()
 
-  expect(counter.value).toBe(1);
+  expect(counter.value).toBe(1)
 
-  decrease();
-  decrease();
+  decrease()
+  decrease()
 
-  expect(counter.value).toBe(-1);
-});
+  expect(counter.value).toBe(-1)
+})

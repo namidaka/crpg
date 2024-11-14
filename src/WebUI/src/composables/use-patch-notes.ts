@@ -1,12 +1,12 @@
-import { getPatchNotes } from '@/services/patch-note-service';
+import { getPatchNotes } from '~/services/patch-note-service'
 
 export const usePatchNotes = () => {
-  const { state: patchNotes, execute: loadPatchNotes } = useAsyncState(() => getPatchNotes(), [], {
+  const { execute: loadPatchNotes, state: patchNotes } = useAsyncState(() => getPatchNotes(), [], {
     immediate: false,
-  });
+  })
 
   return {
-    patchNotes,
     loadPatchNotes,
-  };
-};
+    patchNotes,
+  }
+}

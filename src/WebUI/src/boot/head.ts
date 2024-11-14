@@ -1,6 +1,7 @@
-import { createHead } from '@vueuse/head';
-import { type BootModule } from '@/types/boot-module';
+import { createHead } from '@vueuse/head'
 
-export const install: BootModule = app => {
-  app.use(createHead());
-};
+import type { BootModule } from '~/types/boot-module'
+
+export const install: BootModule = (app) => {
+  app.use(createHead())
+}

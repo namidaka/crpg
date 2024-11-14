@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { charsLength = 50 } = defineProps<{ text: string; charsLength?: number }>();
+const { charsLength = 50 } = defineProps<{ text: string, charsLength?: number }>()
 </script>
 
 <template>
@@ -7,7 +7,11 @@ const { charsLength = 50 } = defineProps<{ text: string; charsLength?: number }>
     {{ text }}
   </template>
 
-  <OCollapse v-else :open="false" position="bottom">
+  <OCollapse
+    v-else
+    :open="false"
+    position="bottom"
+  >
     <template #trigger="props">
       <template v-if="!props.open">
         {{ text.substring(0, charsLength) }}...
@@ -17,7 +21,7 @@ const { charsLength = 50 } = defineProps<{ text: string; charsLength?: number }>
           rounded
           size="2xs"
           :aria-expanded="props.open"
-          iconRight="chevron-down"
+          icon-right="chevron-down"
         />
       </template>
       <OButton
@@ -27,7 +31,7 @@ const { charsLength = 50 } = defineProps<{ text: string; charsLength?: number }>
         size="2xs"
         rounded
         :aria-expanded="props.open"
-        iconRight="chevron-up"
+        icon-right="chevron-up"
         class="mt-1"
       />
     </template>

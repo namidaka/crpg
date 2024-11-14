@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { type UserPublic } from '@/models/user';
-import { useUserStore } from '@/stores/user';
+import type { UserPublic } from '~/models/user'
 
-const { lender, borrower } = defineProps<{
-  lender: UserPublic;
-  borrower?: UserPublic | null;
-}>();
+import { useUserStore } from '~/stores/user'
 
-const { user } = toRefs(useUserStore());
+const { borrower, lender } = defineProps<{
+  lender: UserPublic
+  borrower?: UserPublic | null
+}>()
+
+const { user } = toRefs(useUserStore())
 </script>
 
 <template>
@@ -15,10 +16,10 @@ const { user } = toRefs(useUserStore());
     <VTooltip :class="{ 'transition-transform group-hover:-translate-x-3.5': borrower }">
       <UserMedia
         :user="lender"
-        hiddenPlatform
-        hiddenTitle
-        hiddenClan
-        :isSelf="user!.id === lender.id"
+        hidden-platform
+        hidden-title
+        hidden-clan
+        :is-self="user!.id === lender.id"
       />
       <template #popper>
         <div class="flex items-center gap-2">
@@ -30,12 +31,12 @@ const { user } = toRefs(useUserStore());
           >
             <template #user>
               <UserMedia
-                class="max-w-[10rem]"
+                class="max-w-40"
                 :user="lender"
-                :isSelf="user!.id === lender.id"
+                :is-self="user!.id === lender.id"
                 size="xl"
-                hiddenPlatform
-                hiddenClan
+                hidden-platform
+                hidden-clan
               />
             </template>
           </i18n-t>
@@ -46,11 +47,11 @@ const { user } = toRefs(useUserStore());
     <VTooltip v-if="borrower">
       <UserMedia
         :user="borrower"
-        hiddenPlatform
-        hiddenTitle
-        hiddenClan
+        hidden-platform
+        hidden-title
+        hidden-clan
         class="relative z-10 -ml-2.5"
-        :isSelf="user!.id === borrower.id"
+        :is-self="user!.id === borrower.id"
       />
       <template #popper>
         <div class="flex items-center gap-2">
@@ -62,12 +63,12 @@ const { user } = toRefs(useUserStore());
           >
             <template #user>
               <UserMedia
-                class="max-w-[10rem]"
+                class="max-w-40"
                 :user="borrower"
-                :isSelf="user!.id === borrower.id"
+                :is-self="user!.id === borrower.id"
                 size="xl"
-                hiddenPlatform
-                hiddenClan
+                hidden-platform
+                hidden-clan
               />
             </template>
           </i18n-t>

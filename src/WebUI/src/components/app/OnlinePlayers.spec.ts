@@ -1,12 +1,13 @@
-import { mount } from '@vue/test-utils';
-import { type GameServerStats } from '@/models/game-server-stats';
-import OnlinePlayersVue from './OnlinePlayers.vue';
-import { Region } from '@/models/region';
+import { mount } from '@vue/test-utils'
 
-const getWrapper = (props: { gameServerStats: GameServerStats | null; showLabel: boolean }) =>
+import type { GameServerStats } from '~/models/game-server-stats'
+
+import { Region } from '~/models/region'
+
+import OnlinePlayersVue from './OnlinePlayers.vue'
+
+const getWrapper = (props: { gameServerStats: GameServerStats | null, showLabel: boolean }) =>
   mount(OnlinePlayersVue, {
-    shallow: true,
-    props,
     global: {
       renderStubDefaultSlot: true,
       stubs: {
@@ -18,37 +19,39 @@ const getWrapper = (props: { gameServerStats: GameServerStats | null; showLabel:
         },
       },
     },
-  });
+    props,
+    shallow: true,
+  })
 
 it('testing api returning gameStats valid', async () => {
   const wrapper = getWrapper({
     gameServerStats: {
-      total: { playingCount: 0 },
       regions: {
         [Region.Eu]: {
           playingCount: 0,
         },
       },
+      total: { playingCount: 0 },
     },
     showLabel: false,
-  });
+  })
 
-  const onlinePlayersDiv = wrapper.find('[data-aq-online-players-count]');
-  const regionsPopperContent = wrapper.find('[data-aq-region-stats]');
+  const onlinePlayersDiv = wrapper.find('[data-aq-online-players-count]')
+  const regionsPopperContent = wrapper.find('[data-aq-region-stats]')
 
-  expect(onlinePlayersDiv.text()).toEqual('0');
-  expect(regionsPopperContent.exists()).toBeTruthy();
-});
+  expect(onlinePlayersDiv.text()).toEqual('0')
+  expect(regionsPopperContent.exists()).toBeTruthy()
+})
 
 it('testing api returning gameStats null/Error', async () => {
   const wrapper = getWrapper({
     gameServerStats: null,
     showLabel: false,
-  });
+  })
 
-  const onlinePlayersDiv = wrapper.find('[data-aq-online-players-count]');
-  const regionsPopperContent = wrapper.find('[data-aq-region-stats]');
+  const onlinePlayersDiv = wrapper.find('[data-aq-online-players-count]')
+  const regionsPopperContent = wrapper.find('[data-aq-region-stats]')
 
-  expect(onlinePlayersDiv.text()).toEqual('?');
-  expect(regionsPopperContent.exists()).toBeFalsy();
-});
+  expect(onlinePlayersDiv.text()).toEqual('?')
+  expect(regionsPopperContent.exists()).toBeFalsy()
+})

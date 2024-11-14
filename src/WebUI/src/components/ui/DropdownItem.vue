@@ -1,18 +1,18 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    active?: boolean;
-    checked?: boolean;
-    tag?: string;
-    label?: string;
-    icon?: string; // TODO: add size prop
+    active?: boolean
+    checked?: boolean
+    tag?: string
+    label?: string
+    icon?: string // TODO: add size prop
   }>(),
   {
     active: false,
     checked: false,
     tag: 'div',
-  }
-);
+  },
+)
 </script>
 
 <template>
@@ -28,13 +28,30 @@ withDefaults(
     <slot v-if="$slots.default" />
 
     <template v-else>
-      <OIcon v-if="icon" :icon="icon" size="sm" />
-      <div v-if="label">{{ label }}</div>
+      <OIcon
+        v-if="icon"
+        :icon="icon"
+        size="sm"
+      />
+      <div v-if="label">
+        {{ label }}
+      </div>
     </template>
 
-    <FontAwesomeLayers v-if="checked" class="fa-lg">
-      <FontAwesomeIcon :icon="['crpg', 'fa-circle']" size="lg" class="text-content-100" />
-      <FontAwesomeIcon :icon="['crpg', 'fa-check']" size="sm" class="text-base-200" />
+    <FontAwesomeLayers
+      v-if="checked"
+      class="fa-lg"
+    >
+      <FontAwesomeIcon
+        :icon="['crpg', 'fa-circle']"
+        size="lg"
+        class="text-content-100"
+      />
+      <FontAwesomeIcon
+        :icon="['crpg', 'fa-check']"
+        size="sm"
+        class="text-base-200"
+      />
     </FontAwesomeLayers>
   </component>
 </template>

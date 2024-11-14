@@ -1,8 +1,10 @@
-import { get } from '@/services/crpg-client';
-import { GameServerStats, GameServerModeStats } from '@/models/game-server-stats';
-import { omitPredicate } from '@/utils/object';
+import { omitBy } from 'es-toolkit'
 
-export const getGameServerStats = () => get<GameServerStats>('/game-server-statistics');
+import type { GameServerModeStats, GameServerStats } from '~/models/game-server-stats'
 
-export const omitEmptyGameMode = (gameModes: GameServerModeStats) =>
-  omitPredicate(gameModes, d => gameModes[d]!.playingCount > 0);
+import { get } from '~/services/crpg-client'
+
+export const getGameServerStats = () => get<GameServerStats>('/game-server-statistics')
+
+// TODO: omit immediately, or better yet, on the backend side.
+export const omitEmptyGameMode = (gameModes: GameServerModeStats) => omitBy(gameModes, stats => (stats?.playingCount || 0) < 0)

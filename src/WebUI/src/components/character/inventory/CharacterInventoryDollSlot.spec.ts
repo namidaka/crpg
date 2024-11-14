@@ -1,9 +1,9 @@
-it.todo('TODO:', () => {});
+it.todo('... TODO:', () => {})
 // import { mount } from '@vue/test-utils';
-// import { UserItem } from '@/models/user';
-// import { ItemSlot } from '@/models/item';
+// import { UserItem } from '~/models/user';
+// import { ItemSlot } from '~/models/item';
 
-// vi.mock('@/services/item-service', () => ({
+// vi.mock('~/services/item-service', () => ({
 //   getItemImage: vi.fn().mockImplementation((name: string) => `PATH_TO_CDN/images/${name}.png`),
 // }));
 

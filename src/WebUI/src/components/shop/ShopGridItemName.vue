@@ -1,24 +1,35 @@
 <script setup lang="ts">
-import { WeaponUsage, type ItemFlat } from '@/models/item';
-import { getItemImage, getRankColor, weaponClassToIcon } from '@/services/item-service';
+import type { ItemFlat } from '~/models/item'
+
+import { WeaponUsage } from '~/models/item'
+import { getItemImage, getRankColor, weaponClassToIcon } from '~/services/item-service'
 
 const { item, showTier = false } = defineProps<{
-  item: ItemFlat;
-  showTier?: boolean;
-}>();
+  item: ItemFlat
+  showTier?: boolean
+}>()
 
-const thumb = computed(() => getItemImage(item.baseId));
-const rankColor = computed(() => getRankColor(item.rank));
+const thumb = computed(() => getItemImage(item.baseId))
+const rankColor = computed(() => getRankColor(item.rank))
 </script>
 
 <template>
   <div class="flex items-center gap-4">
     <div class="relative h-16 w-32">
-      <VTooltip placement="auto" class="-mx-2" popperClass="expanded dense">
-        <img :src="thumb" />
+      <VTooltip
+        placement="auto"
+        class="-mx-2"
+        popper-class="expanded dense"
+      >
+        <img :src="thumb">
         <template #popper>
-          <img :src="thumb" />
-          <div class="mt-2 p-4" :style="{ color: rankColor }">{{ item.name }}</div>
+          <img :src="thumb">
+          <div
+            class="mt-2 p-4"
+            :style="{ color: rankColor }"
+          >
+            {{ item.name }}
+          </div>
         </template>
       </VTooltip>
 
@@ -30,8 +41,16 @@ const rankColor = computed(() => getRankColor(item.rank));
           :rank="item.rank"
         />
 
-        <VTooltip v-if="item.weaponUsage.includes(WeaponUsage.Secondary)" placement="auto">
-          <Tag variant="warning" rounded icon="alert" size="sm" />
+        <VTooltip
+          v-if="item.weaponUsage.includes(WeaponUsage.Secondary)"
+          placement="auto"
+        >
+          <Tag
+            variant="warning"
+            rounded
+            icon="alert"
+            size="sm"
+          />
 
           <template #popper>
             <div class="prose prose-invert">
@@ -43,19 +62,33 @@ const rankColor = computed(() => getRankColor(item.rank));
                 {{ $t(`shop.item.weaponUsage.desc`) }}
               </p>
 
-              <i18n-t scope="global" keypath="shop.item.weaponUsage.secondary" tag="p">
+              <i18n-t
+                scope="global"
+                keypath="shop.item.weaponUsage.secondary"
+                tag="p"
+              >
                 <template #weaponClass>
                   <div class="flex items-center gap-1 font-bold text-content-100">
-                    <OIcon size="lg" :icon="weaponClassToIcon[item.weaponClass!]" />
+                    <OIcon
+                      size="lg"
+                      :icon="weaponClassToIcon[item.weaponClass!]"
+                    />
                     <span>{{ $t(`item.weaponClass.${item.weaponClass}`) }}</span>
                   </div>
                 </template>
               </i18n-t>
 
-              <i18n-t scope="global" keypath="shop.item.weaponUsage.primary" tag="p">
+              <i18n-t
+                scope="global"
+                keypath="shop.item.weaponUsage.primary"
+                tag="p"
+              >
                 <template #weaponClass>
                   <div class="flex items-center gap-1 font-bold text-content-100">
-                    <OIcon size="lg" :icon="weaponClassToIcon[item.weaponPrimaryClass!]" />
+                    <OIcon
+                      size="lg"
+                      :icon="weaponClassToIcon[item.weaponPrimaryClass!]"
+                    />
                     <span>{{ $t(`item.weaponClass.${item.weaponPrimaryClass}`) }}</span>
                   </div>
                 </template>
@@ -69,8 +102,14 @@ const rankColor = computed(() => getRankColor(item.rank));
 
       <!-- bottom-right -->
       <div class="absolute bottom-0 right-0 flex items-center gap-1.5">
-        <VTooltip v-if="showTier" placement="auto">
-          <Tag :label="String(item.tier)" size="sm" />
+        <VTooltip
+          v-if="showTier"
+          placement="auto"
+        >
+          <Tag
+            :label="String(item.tier)"
+            size="sm"
+          />
 
           <template #popper>
             <div class="prose prose-invert">
@@ -87,12 +126,21 @@ const rankColor = computed(() => getRankColor(item.rank));
 
       <!-- top-right -->
       <div class="absolute right-0 top-0 flex items-center gap-1.5">
-        <Tag v-if="item.new === 1 && item.rank === 0" variant="success" label="new" />
+        <Tag
+          v-if="item.new === 1 && item.rank === 0"
+          variant="success"
+          label="new"
+        />
 
         <slot name="top-right" />
       </div>
     </div>
 
-    <div class="flex-1 text-2xs" :style="{ color: rankColor }">{{ item.name }}</div>
+    <div
+      class="flex-1 text-2xs"
+      :style="{ color: rankColor }"
+    >
+      {{ item.name }}
+    </div>
   </div>
 </template>

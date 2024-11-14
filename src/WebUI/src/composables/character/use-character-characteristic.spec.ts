@@ -1,16 +1,17 @@
 // TODO: FIXME: MOCK SERVICES!!
-import { type PartialDeep } from 'type-fest';
+import type { PartialDeep } from 'type-fest'
 
 import type {
   CharacterCharacteristics,
-  CharacteristicSectionKey,
-  SkillKey,
   CharacteristicKey,
+  CharacteristicSectionKey,
   CharacterSkills,
-} from '@/models/character';
+  SkillKey,
+} from '~/models/character'
 
-import { useCharacterCharacteristic } from './use-character-characteristic';
-import { createCharacteristics } from '@/services/characters-service';
+import { createCharacteristics } from '~/services/characters-service'
+
+import { useCharacterCharacteristic } from './use-character-characteristic'
 
 it.each([
   [0, false],
@@ -23,13 +24,13 @@ it.each([
       ref(
         createCharacteristics({
           attributes: { points: freeAttributesPoints },
-        })
-      )
-    );
+        }),
+      ),
+    )
 
-    expect(canConvertAttributesToSkills.value).toStrictEqual(expectation);
-  }
-);
+    expect(canConvertAttributesToSkills.value).toStrictEqual(expectation)
+  },
+)
 
 it.each([
   [0, false],
@@ -41,12 +42,12 @@ it.each([
     ref(
       createCharacteristics({
         skills: { points: freeSkillsPoints },
-      })
-    )
-  );
+      }),
+    ),
+  )
 
-  expect(canConvertSkillsToAttributes.value).toStrictEqual(expectation);
-});
+  expect(canConvertSkillsToAttributes.value).toStrictEqual(expectation)
+})
 
 describe('wasChangeMade', () => {
   it.each<
@@ -68,40 +69,40 @@ describe('wasChangeMade', () => {
   ])(
     'wasChangeMade - %j, %s, %s, %s',
     (characteristics, sectionCharacteristicKey, characteristicKey, value, expectation) => {
-      const { wasChangeMade, onInput } = useCharacterCharacteristic(
-        ref(createCharacteristics(characteristics))
-      );
+      const { onInput, wasChangeMade } = useCharacterCharacteristic(
+        ref(createCharacteristics(characteristics)),
+      )
 
-      expect(wasChangeMade.value).toBeFalsy();
-      onInput(sectionCharacteristicKey, characteristicKey, value);
-      expect(wasChangeMade.value).toStrictEqual(expectation);
-    }
-  );
+      expect(wasChangeMade.value).toBeFalsy()
+      onInput(sectionCharacteristicKey, characteristicKey, value)
+      expect(wasChangeMade.value).toStrictEqual(expectation)
+    },
+  )
 
   it('wasChangeMade - all at once', () => {
-    const { wasChangeMade, onInput } = useCharacterCharacteristic(
+    const { onInput, wasChangeMade } = useCharacterCharacteristic(
       ref(
         createCharacteristics({
           attributes: { points: 3 },
           skills: { points: 1 },
           weaponProficiencies: { points: 3 },
-        })
-      )
-    );
+        }),
+      ),
+    )
 
-    expect(wasChangeMade.value).toBeFalsy();
+    expect(wasChangeMade.value).toBeFalsy()
 
-    onInput('attributes', 'strength', 3);
-    onInput('skills', 'powerDraw', 1);
-    onInput('weaponProficiencies', 'polearm', 3);
-    expect(wasChangeMade.value).toBeTruthy();
+    onInput('attributes', 'strength', 3)
+    onInput('skills', 'powerDraw', 1)
+    onInput('weaponProficiencies', 'polearm', 3)
+    expect(wasChangeMade.value).toBeTruthy()
 
-    onInput('attributes', 'strength', 0);
-    onInput('skills', 'powerDraw', 0);
-    onInput('weaponProficiencies', 'polearm', 0);
-    expect(wasChangeMade.value).toBeFalsy();
-  });
-});
+    onInput('attributes', 'strength', 0)
+    onInput('skills', 'powerDraw', 0)
+    onInput('weaponProficiencies', 'polearm', 0)
+    expect(wasChangeMade.value).toBeFalsy()
+  })
+})
 
 it.each<[PartialDeep<CharacterCharacteristics>, boolean]>(
   // prettier-ignore
@@ -115,47 +116,47 @@ it.each<[PartialDeep<CharacterCharacteristics>, boolean]>(
     [{ attributes: { agility: 5 }, skills: { mountedArchery: 1 } }, false],
     [{ attributes: { agility: 12 }, skills: { shield: 2 } }, true],
     // more cases -> currentSkillRequirementsSatisfied
-]
+  ],
 )('isChangeValid - %j', (characteristics, expectation) => {
-  const { isChangeValid } = useCharacterCharacteristic(ref(createCharacteristics(characteristics)));
-  expect(isChangeValid.value).toStrictEqual(expectation);
-});
+  const { isChangeValid } = useCharacterCharacteristic(ref(createCharacteristics(characteristics)))
+  expect(isChangeValid.value).toStrictEqual(expectation)
+})
 
 it.each<[PartialDeep<CharacterCharacteristics>, boolean]>(
   // prettier-ignore
   [
-    [{ attributes: { strength: 2 },  skills: { ironFlesh: 1 } },      false],
-    [{ attributes: { strength: 3 },  skills: { ironFlesh: 1 } },      true],
-    [{ attributes: { strength: 5 },  skills: { powerStrike: 2 } },    false],
-    [{ attributes: { strength: 6 },  skills: { powerStrike: 2 } },    true],
-    [{ attributes: { strength: 12 }, skills: { powerDraw: 5 } },      false],
-    [{ attributes: { strength: 6 },  skills: { powerThrow: 2 } },     true],
-    [{ attributes: { agility: 6 },   skills: { athletics: 3 } },      false],
-    [{ attributes: { agility: 6 },   skills: { athletics: 2 } },      true],
-    [{ attributes: { agility: 21 },  skills: { athletics: 7 } },      true],
-    [{ attributes: { agility: 3 },   skills: { mountedArchery: 1 } }, false],
-    [{ attributes: { agility: 5 },   skills: { mountedArchery: 1 } }, false],
-    [{ attributes: { agility: 6 },   skills: { mountedArchery: 1 } }, true],
-    [{ attributes: { agility: 6 },   skills: { shield: 1 } },         true],
-    [{ attributes: { agility: 6 },   skills: { shield: 3 } },         false],
-    [{ attributes: { agility: 6 },   skills: { shield: 2 } },         false],
-    [{ attributes: { agility: 12 },  skills: { shield: 2 } },         true],
-]
+    [{ attributes: { strength: 2 }, skills: { ironFlesh: 1 } }, false],
+    [{ attributes: { strength: 3 }, skills: { ironFlesh: 1 } }, true],
+    [{ attributes: { strength: 5 }, skills: { powerStrike: 2 } }, false],
+    [{ attributes: { strength: 6 }, skills: { powerStrike: 2 } }, true],
+    [{ attributes: { strength: 12 }, skills: { powerDraw: 5 } }, false],
+    [{ attributes: { strength: 6 }, skills: { powerThrow: 2 } }, true],
+    [{ attributes: { agility: 6 }, skills: { athletics: 3 } }, false],
+    [{ attributes: { agility: 6 }, skills: { athletics: 2 } }, true],
+    [{ attributes: { agility: 21 }, skills: { athletics: 7 } }, true],
+    [{ attributes: { agility: 3 }, skills: { mountedArchery: 1 } }, false],
+    [{ attributes: { agility: 5 }, skills: { mountedArchery: 1 } }, false],
+    [{ attributes: { agility: 6 }, skills: { mountedArchery: 1 } }, true],
+    [{ attributes: { agility: 6 }, skills: { shield: 1 } }, true],
+    [{ attributes: { agility: 6 }, skills: { shield: 3 } }, false],
+    [{ attributes: { agility: 6 }, skills: { shield: 2 } }, false],
+    [{ attributes: { agility: 12 }, skills: { shield: 2 } }, true],
+  ],
 )('currentSkillRequirementsSatisfied - %j, %s', (characteristics, expectation) => {
   const { currentSkillRequirementsSatisfied } = useCharacterCharacteristic(
-    ref(createCharacteristics(characteristics))
-  );
+    ref(createCharacteristics(characteristics)),
+  )
 
-  const [skillKey] = Object.keys(characteristics.skills as Partial<CharacterSkills>);
-  expect(currentSkillRequirementsSatisfied(skillKey as SkillKey)).toStrictEqual(expectation);
-});
+  const [skillKey] = Object.keys(characteristics.skills as Partial<CharacterSkills>)
+  expect(currentSkillRequirementsSatisfied(skillKey as SkillKey)).toStrictEqual(expectation)
+})
 
 it.each<
   [
     PartialDeep<CharacterCharacteristics>,
     CharacteristicSectionKey,
     CharacteristicKey,
-    { modelValue?: number; min?: number; max: number },
+    { modelValue?: number, min?: number, max: number },
   ]
 >(
   // prettier-ignore
@@ -163,53 +164,53 @@ it.each<
     [{ attributes: { points: 0, strength: 0 } }, 'attributes', 'strength', { max: 0 }],
     [{ attributes: { points: 1, strength: 0 } }, 'attributes', 'strength', { max: 1, modelValue: 0 }],
     [{ attributes: { points: 2, strength: 0 } }, 'attributes', 'strength', { max: 1 }],
-    [{ attributes: { points: 1, strength: 1 } }, 'attributes', 'strength', { max: 2, modelValue: 1, min: 1 }],
-    [{ attributes: { points: 1, agility: 1 } }, 'attributes', 'agility', { max: 2, modelValue: 1, min: 1 }],
+    [{ attributes: { points: 1, strength: 1 } }, 'attributes', 'strength', { max: 2, min: 1, modelValue: 1 }],
+    [{ attributes: { agility: 1, points: 1 } }, 'attributes', 'agility', { max: 2, min: 1, modelValue: 1 }],
     //
-    [{ attributes: { strength: 1 }, skills: { points: 1 } }, 'skills', 'ironFlesh', { max: 0, modelValue: 0, min: 0 }],
-    [{ attributes: { strength: 3 }, skills: { points: 1 } }, 'skills', 'ironFlesh',  { max: 1, modelValue: 0, min: 0 }],
-    [{ attributes: { strength: 1 }, skills: { points: 1, ironFlesh: 2 } }, 'skills', 'ironFlesh', { max: 2, modelValue: 2, min: 2 }],
-    [{ attributes: { strength: 6 }, skills: { points: 1, ironFlesh: 2 } }, 'skills', 'ironFlesh', { max: 2, modelValue: 2, min: 2 }],
-    [{ attributes: { strength: 9 }, skills: { points: 1, ironFlesh: 2 } }, 'skills', 'ironFlesh', { max: 3, modelValue: 2, min: 2 }],
-    [{ attributes: { strength: 3 }, skills: { points: 1 } }, 'skills', 'powerStrike', { max: 1, modelValue: 0, min: 0 }],
-    [{ attributes: { strength: 5 }, skills: { points: 4 } }, 'skills', 'powerStrike',  { max: 1, modelValue: 0, min: 0 }],
-    [{ attributes: { strength: 3 }, skills: { points: 1 } }, 'skills', 'powerDraw', { max: 1, modelValue: 0, min: 0 }],
-    [{ attributes: { strength: 0 }, skills: { points: 4 } }, 'skills', 'powerDraw', { max: 0, modelValue: 0, min: 0 }],
-    [{ attributes: { strength: 2 }, skills: { points: 1 } }, 'skills', 'powerThrow', { max: 0, modelValue: 0, min: 0 }],
-    [{ attributes: { strength: 6 }, skills: { points: 1 } }, 'skills', 'powerThrow', { max: 1, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 1 },  skills: { points: 1 } }, 'skills', 'athletics', { max: 0, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 3 },  skills: { points: 1 } }, 'skills', 'athletics', { max: 1, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 12 }, skills: { points: 0, athletics: 4 } }, 'skills', 'athletics', { max: 4, modelValue: 4, min: 4 }],
-    [{ attributes: { agility: 16 }, skills: { points: 1, athletics: 4 } }, 'skills', 'athletics', { max: 5, modelValue: 4, min: 4 }],
-    [{ attributes: { agility: 1 },  skills: { points: 1 } }, 'skills', 'riding', { max: 0, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 1 },  skills: { points: 1 } }, 'skills', 'weaponMaster',   { max: 0, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 1 },  skills: { points: 1 } }, 'skills', 'mountedArchery', { max: 0, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 5 },  skills: { points: 1 } }, 'skills', 'mountedArchery', { max: 0, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 6 },  skills: { points: 1 } }, 'skills', 'mountedArchery', { max: 1, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 9 },  skills: { points: 1 } }, 'skills', 'shield', { max: 1, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 9 },  skills: { points: 0 } }, 'skills', 'shield', { max: 0, modelValue: 0, min: 0 }],
-    [{ attributes: { agility: 9 },  skills: { points: 1, shield: 2 } }, 'skills', 'shield', { max: 2, modelValue: 2, min: 2 }],
-    [{ attributes: { agility: 15 }, skills: { points: 1, shield: 2 } }, 'skills', 'shield', { max: 2, modelValue: 2, min: 2 }],
-    [{ attributes: { agility: 18 }, skills: { points: 1, shield: 2 } }, 'skills', 'shield', { max: 3, modelValue: 2, min: 2 }],
+    [{ attributes: { strength: 1 }, skills: { points: 1 } }, 'skills', 'ironFlesh', { max: 0, min: 0, modelValue: 0 }],
+    [{ attributes: { strength: 3 }, skills: { points: 1 } }, 'skills', 'ironFlesh', { max: 1, min: 0, modelValue: 0 }],
+    [{ attributes: { strength: 1 }, skills: { ironFlesh: 2, points: 1 } }, 'skills', 'ironFlesh', { max: 2, min: 2, modelValue: 2 }],
+    [{ attributes: { strength: 6 }, skills: { ironFlesh: 2, points: 1 } }, 'skills', 'ironFlesh', { max: 2, min: 2, modelValue: 2 }],
+    [{ attributes: { strength: 9 }, skills: { ironFlesh: 2, points: 1 } }, 'skills', 'ironFlesh', { max: 3, min: 2, modelValue: 2 }],
+    [{ attributes: { strength: 3 }, skills: { points: 1 } }, 'skills', 'powerStrike', { max: 1, min: 0, modelValue: 0 }],
+    [{ attributes: { strength: 5 }, skills: { points: 4 } }, 'skills', 'powerStrike', { max: 1, min: 0, modelValue: 0 }],
+    [{ attributes: { strength: 3 }, skills: { points: 1 } }, 'skills', 'powerDraw', { max: 1, min: 0, modelValue: 0 }],
+    [{ attributes: { strength: 0 }, skills: { points: 4 } }, 'skills', 'powerDraw', { max: 0, min: 0, modelValue: 0 }],
+    [{ attributes: { strength: 2 }, skills: { points: 1 } }, 'skills', 'powerThrow', { max: 0, min: 0, modelValue: 0 }],
+    [{ attributes: { strength: 6 }, skills: { points: 1 } }, 'skills', 'powerThrow', { max: 1, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 1 }, skills: { points: 1 } }, 'skills', 'athletics', { max: 0, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 3 }, skills: { points: 1 } }, 'skills', 'athletics', { max: 1, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 12 }, skills: { athletics: 4, points: 0 } }, 'skills', 'athletics', { max: 4, min: 4, modelValue: 4 }],
+    [{ attributes: { agility: 16 }, skills: { athletics: 4, points: 1 } }, 'skills', 'athletics', { max: 5, min: 4, modelValue: 4 }],
+    [{ attributes: { agility: 1 }, skills: { points: 1 } }, 'skills', 'riding', { max: 0, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 1 }, skills: { points: 1 } }, 'skills', 'weaponMaster', { max: 0, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 1 }, skills: { points: 1 } }, 'skills', 'mountedArchery', { max: 0, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 5 }, skills: { points: 1 } }, 'skills', 'mountedArchery', { max: 0, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 6 }, skills: { points: 1 } }, 'skills', 'mountedArchery', { max: 1, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 9 }, skills: { points: 1 } }, 'skills', 'shield', { max: 1, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 9 }, skills: { points: 0 } }, 'skills', 'shield', { max: 0, min: 0, modelValue: 0 }],
+    [{ attributes: { agility: 9 }, skills: { points: 1, shield: 2 } }, 'skills', 'shield', { max: 2, min: 2, modelValue: 2 }],
+    [{ attributes: { agility: 15 }, skills: { points: 1, shield: 2 } }, 'skills', 'shield', { max: 2, min: 2, modelValue: 2 }],
+    [{ attributes: { agility: 18 }, skills: { points: 1, shield: 2 } }, 'skills', 'shield', { max: 3, min: 2, modelValue: 2 }],
     //
-    [{ weaponProficiencies: { points: 0 } }, 'weaponProficiencies', 'oneHanded', { max: 0,  modelValue: 0,  min: 0 }],
-    [{ weaponProficiencies: { points: 1 } }, 'weaponProficiencies', 'oneHanded', { max: 0,  modelValue: 0,  min: 0 }],
-    [{ weaponProficiencies: { points: 3 } }, 'weaponProficiencies', 'oneHanded', { max: 1,  modelValue: 0,  min: 0 }],
-    [{ weaponProficiencies: { points: 217 } }, 'weaponProficiencies', 'oneHanded', { max: 1,  modelValue: 0,  min: 0 }],
-    [{ weaponProficiencies: { points: 79, oneHanded: 42 } }, 'weaponProficiencies', 'oneHanded', { max: 43, modelValue: 42, min: 42 }],
-    [{ weaponProficiencies: { points: 2,  oneHanded: 60 } }, 'weaponProficiencies', 'oneHanded', { max: 60, modelValue: 60, min: 60 }],
-    [{ weaponProficiencies: { points: 6,  oneHanded: 59 } }, 'weaponProficiencies', 'oneHanded', { max: 60, modelValue: 59, min: 59 }],
-]
+    [{ weaponProficiencies: { points: 0 } }, 'weaponProficiencies', 'oneHanded', { max: 0, min: 0, modelValue: 0 }],
+    [{ weaponProficiencies: { points: 1 } }, 'weaponProficiencies', 'oneHanded', { max: 0, min: 0, modelValue: 0 }],
+    [{ weaponProficiencies: { points: 3 } }, 'weaponProficiencies', 'oneHanded', { max: 1, min: 0, modelValue: 0 }],
+    [{ weaponProficiencies: { points: 217 } }, 'weaponProficiencies', 'oneHanded', { max: 1, min: 0, modelValue: 0 }],
+    [{ weaponProficiencies: { oneHanded: 42, points: 79 } }, 'weaponProficiencies', 'oneHanded', { max: 43, min: 42, modelValue: 42 }],
+    [{ weaponProficiencies: { oneHanded: 60, points: 2 } }, 'weaponProficiencies', 'oneHanded', { max: 60, min: 60, modelValue: 60 }],
+    [{ weaponProficiencies: { oneHanded: 59, points: 6 } }, 'weaponProficiencies', 'oneHanded', { max: 60, min: 59, modelValue: 59 }],
+  ],
 )(
   'getInputProps - %j, %s, %s',
   (characteristics, characteristicSectionKey, characteristicKey, expectation) => {
     const { getInputProps } = useCharacterCharacteristic(
-      ref(createCharacteristics(characteristics))
-    );
+      ref(createCharacteristics(characteristics)),
+    )
 
-    expect(getInputProps(characteristicSectionKey, characteristicKey)).toMatchObject(expectation);
-  }
-);
+    expect(getInputProps(characteristicSectionKey, characteristicKey)).toMatchObject(expectation)
+  },
+)
 
 it.each<
   [
@@ -226,185 +227,185 @@ it.each<
     // [{ attributes: { points: 0, strength: 0 } }, 'attributes', 'strength', 1, { attributes: { points: 0, strength: 0 } }],
     // [{ attributes: { points: 1, strength: 0 } }, 'attributes', 'strength', 2, { attributes: { points: 1, strength: 0 } }],
     [{ attributes: { points: 2, strength: 2 } }, 'attributes', 'strength', 4, { attributes: { points: 0, strength: 4 } }],
-    [{ attributes: { points: 1, agility: 0 } },  'attributes', 'agility', 1, { attributes: { points: 0, agility: 1 }, weaponProficiencies: { points: 14 } }],
+    [{ attributes: { agility: 0, points: 1 } }, 'attributes', 'agility', 1, { attributes: { agility: 1, points: 0 }, weaponProficiencies: { points: 14 } }],
     // [{ skills: { points: 1, weaponMaster: 0 } }, 'skills', 'weaponMaster', 1, { skills: { points: 1, weaponMaster: 0 } }],
-    [{ attributes: { agility: 3 }, skills: { points: 1} }, 'skills', 'weaponMaster', 1, { skills: { points: 0, weaponMaster: 1 } }],
-    [{ attributes: { agility: 6 }, skills: { points: 1} }, 'skills', 'shield', 1, { skills: { points: 0, shield: 1 } }],
+    [{ attributes: { agility: 3 }, skills: { points: 1 } }, 'skills', 'weaponMaster', 1, { skills: { points: 0, weaponMaster: 1 } }],
+    [{ attributes: { agility: 6 }, skills: { points: 1 } }, 'skills', 'shield', 1, { skills: { points: 0, shield: 1 } }],
     // [{ attributes: { agility: 5 }, skills: { points: 1} }, 'skills', 'shield', 1, { skills: { points: 1, shield: 0 } }],
     // [{ skills: { points: 1, athletics: 0 } }, 'skills', 'athletics', 2, { skills: { points: 1, athletics: 0 } }],
     [{ weaponProficiencies: { points: 3 } }, 'weaponProficiencies', 'bow', 1, { weaponProficiencies: { bow: 1 } }],
     // [{ weaponProficiencies: { points: 3 } }, 'weaponProficiencies', 'bow', 2, { weaponProficiencies: { bow: 0 } }],
-]
+  ],
 )(
   'onInput - %j, %s, %s, %s',
   (initialCharacteristics, characteristicSectionKey, characteristicKey, newValue, expectation) => {
     const { characteristics, onInput } = useCharacterCharacteristic(
-      ref(createCharacteristics(initialCharacteristics))
-    );
+      ref(createCharacteristics(initialCharacteristics)),
+    )
 
-    onInput(characteristicSectionKey, characteristicKey, newValue);
+    onInput(characteristicSectionKey, characteristicKey, newValue)
 
     Object.entries(expectation).forEach(([key, values]) => {
       expect(characteristics.value).toEqual(
         expect.objectContaining({
           [key]: expect.objectContaining(values),
-        })
-      );
-    });
-  }
-);
+        }),
+      )
+    })
+  },
+)
 
 it('convertAttributeToSkills', () => {
   const { characteristics, convertAttributeToSkills } = useCharacterCharacteristic(
-    ref(createCharacteristics({ attributes: { points: 5 }, skills: { points: 10 } }))
-  );
+    ref(createCharacteristics({ attributes: { points: 5 }, skills: { points: 10 } })),
+  )
 
-  convertAttributeToSkills();
-  convertAttributeToSkills();
+  convertAttributeToSkills()
+  convertAttributeToSkills()
 
-  expect(characteristics.value.attributes.points).toEqual(3);
-  expect(characteristics.value.skills.points).toEqual(14);
-});
+  expect(characteristics.value.attributes.points).toEqual(3)
+  expect(characteristics.value.skills.points).toEqual(14)
+})
 
 it('convertSkillsToAttribute', () => {
   const { characteristics, convertSkillsToAttribute } = useCharacterCharacteristic(
-    ref(createCharacteristics({ attributes: { points: 5 }, skills: { points: 10 } }))
-  );
+    ref(createCharacteristics({ attributes: { points: 5 }, skills: { points: 10 } })),
+  )
 
-  convertSkillsToAttribute();
-  convertSkillsToAttribute();
+  convertSkillsToAttribute()
+  convertSkillsToAttribute()
 
-  expect(characteristics.value.attributes.points).toEqual(7);
-  expect(characteristics.value.skills.points).toEqual(6);
-});
+  expect(characteristics.value.attributes.points).toEqual(7)
+  expect(characteristics.value.skills.points).toEqual(6)
+})
 
 it('reset', () => {
-  const { characteristics, reset, onInput } = useCharacterCharacteristic(
-    ref(createCharacteristics({ attributes: { points: 5 }, skills: { points: 10 } }))
-  );
+  const { characteristics, onInput, reset } = useCharacterCharacteristic(
+    ref(createCharacteristics({ attributes: { points: 5 }, skills: { points: 10 } })),
+  )
 
-  expect(characteristics.value.attributes.agility).toEqual(0);
-  expect(characteristics.value.attributes.points).toEqual(5);
+  expect(characteristics.value.attributes.agility).toEqual(0)
+  expect(characteristics.value.attributes.points).toEqual(5)
 
-  onInput('attributes', 'agility', 2);
+  onInput('attributes', 'agility', 2)
 
-  expect(characteristics.value.attributes.agility).toEqual(2);
-  expect(characteristics.value.attributes.points).toEqual(3);
+  expect(characteristics.value.attributes.agility).toEqual(2)
+  expect(characteristics.value.attributes.points).toEqual(3)
 
-  reset();
+  reset()
 
-  expect(characteristics.value.attributes.agility).toEqual(0);
-  expect(characteristics.value.attributes.points).toEqual(5);
-});
+  expect(characteristics.value.attributes.agility).toEqual(0)
+  expect(characteristics.value.attributes.points).toEqual(5)
+})
 
 it('free 1 attribute point scenario', () => {
   const {
-    characteristics,
-    wasChangeMade,
-    isChangeValid,
     canConvertAttributesToSkills,
-    onInput,
+    characteristics,
     getInputProps,
-  } = useCharacterCharacteristic(ref(createCharacteristics({ attributes: { points: 1 } })));
+    isChangeValid,
+    onInput,
+    wasChangeMade,
+  } = useCharacterCharacteristic(ref(createCharacteristics({ attributes: { points: 1 } })))
 
   //
-  expect(characteristics.value.attributes.points).toEqual(1);
-  expect(characteristics.value.attributes.strength).toEqual(0);
+  expect(characteristics.value.attributes.points).toEqual(1)
+  expect(characteristics.value.attributes.strength).toEqual(0)
 
-  expect(getInputProps('attributes', 'strength').max).toEqual(1);
-  expect(getInputProps('attributes', 'agility').max).toEqual(1);
+  expect(getInputProps('attributes', 'strength').max).toEqual(1)
+  expect(getInputProps('attributes', 'agility').max).toEqual(1)
 
-  expect(canConvertAttributesToSkills.value).toBeTruthy();
-  expect(wasChangeMade.value).toBeFalsy();
+  expect(canConvertAttributesToSkills.value).toBeTruthy()
+  expect(wasChangeMade.value).toBeFalsy()
 
   // +1 strength
-  onInput('attributes', 'strength', 1);
+  onInput('attributes', 'strength', 1)
 
   //
-  expect(characteristics.value.attributes.points).toEqual(0);
-  expect(characteristics.value.attributes.strength).toEqual(1);
+  expect(characteristics.value.attributes.points).toEqual(0)
+  expect(characteristics.value.attributes.strength).toEqual(1)
 
   expect(getInputProps('attributes', 'strength')).toEqual({
-    min: 0,
     max: 1,
+    min: 0,
     modelValue: 1,
-  });
-  expect(getInputProps('attributes', 'agility').max).toEqual(0);
+  })
+  expect(getInputProps('attributes', 'agility').max).toEqual(0)
 
-  expect(wasChangeMade.value).toBeTruthy();
-  expect(isChangeValid.value).toBeTruthy();
-  expect(canConvertAttributesToSkills.value).toBeFalsy();
-});
+  expect(wasChangeMade.value).toBeTruthy()
+  expect(isChangeValid.value).toBeTruthy()
+  expect(canConvertAttributesToSkills.value).toBeFalsy()
+})
 
 it('scenario - 33 lvl, tin can', () => {
   const {
-    characteristics,
-    wasChangeMade,
-    isChangeValid,
-    canConvertSkillsToAttributes,
     canConvertAttributesToSkills,
-    onInput,
+    canConvertSkillsToAttributes,
+    characteristics,
     convertSkillsToAttribute,
+    isChangeValid,
+    onInput,
+    wasChangeMade,
   } = useCharacterCharacteristic(
     ref(
       createCharacteristics({
-        attributes: { points: 32, strength: 3, agility: 3 },
+        attributes: { agility: 3, points: 32, strength: 3 },
         skills: { points: 34 },
         weaponProficiencies: { points: 322 },
-      })
-    )
-  );
+      }),
+    ),
+  )
 
-  onInput('attributes', 'strength', 30);
-  onInput('attributes', 'agility', 8);
+  onInput('attributes', 'strength', 30)
+  onInput('attributes', 'agility', 8)
 
   for (let i = 0; i < 4; i++) {
-    convertSkillsToAttribute();
+    convertSkillsToAttribute()
   }
 
-  onInput('attributes', 'agility', 12);
+  onInput('attributes', 'agility', 12)
 
-  expect(characteristics.value.weaponProficiencies.points).toEqual(448); // of agi
+  expect(characteristics.value.weaponProficiencies.points).toEqual(448) // of agi
 
-  onInput('skills', 'ironFlesh', 10);
-  onInput('skills', 'powerStrike', 10);
-  onInput('skills', 'athletics', 4);
-  onInput('skills', 'weaponMaster', 2);
+  onInput('skills', 'ironFlesh', 10)
+  onInput('skills', 'powerStrike', 10)
+  onInput('skills', 'athletics', 4)
+  onInput('skills', 'weaponMaster', 2)
 
-  expect(characteristics.value.weaponProficiencies.points).toEqual(618); // of wm
+  expect(characteristics.value.weaponProficiencies.points).toEqual(618) // of wm
 
-  onInput('weaponProficiencies', 'twoHanded', 117);
+  onInput('weaponProficiencies', 'twoHanded', 117)
 
-  expect(characteristics.value.weaponProficiencies.points).toEqual(1);
+  expect(characteristics.value.weaponProficiencies.points).toEqual(1)
 
   expect(characteristics.value).toEqual({
-    attributes: { points: 0, strength: 30, agility: 12 },
+    attributes: { agility: 12, points: 0, strength: 30 },
     skills: {
-      points: 0,
-      ironFlesh: 10,
-      powerStrike: 10,
-      powerDraw: 0,
-      powerThrow: 0,
       athletics: 4,
-      riding: 0,
-      weaponMaster: 2,
+      ironFlesh: 10,
       mountedArchery: 0,
+      points: 0,
+      powerDraw: 0,
+      powerStrike: 10,
+      powerThrow: 0,
+      riding: 0,
       shield: 0,
+      weaponMaster: 2,
     },
     weaponProficiencies: {
-      points: 1,
-      oneHanded: 0,
-      twoHanded: 117,
-      polearm: 0,
       bow: 0,
-      throwing: 0,
       crossbow: 0,
+      oneHanded: 0,
+      points: 1,
+      polearm: 0,
+      throwing: 0,
+      twoHanded: 117,
     },
-  });
+  })
 
-  expect(wasChangeMade.value).toBeTruthy();
-  expect(isChangeValid.value).toBeTruthy();
+  expect(wasChangeMade.value).toBeTruthy()
+  expect(isChangeValid.value).toBeTruthy()
 
-  expect(canConvertSkillsToAttributes.value).toBeFalsy();
-  expect(canConvertAttributesToSkills.value).toBeFalsy();
-});
+  expect(canConvertSkillsToAttributes.value).toBeFalsy()
+  expect(canConvertAttributesToSkills.value).toBeFalsy()
+})

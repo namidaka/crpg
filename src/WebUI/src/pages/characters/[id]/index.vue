@@ -1,182 +1,187 @@
 <script setup lang="ts">
-import { useTransition } from '@vueuse/core';
+import { useTransition } from '@vueuse/core'
 import {
   experienceMultiplierByGeneration,
-  maxExperienceMultiplierForGeneration,
-  minimumRetirementLevel,
-  maximumLevel,
   freeRespecializeIntervalDays,
   freeRespecializePostWindowHours,
-} from '@root/data/constants.json';
-import { useUserStore } from '@/stores/user';
+  maxExperienceMultiplierForGeneration,
+  maximumLevel,
+  minimumRetirementLevel,
+} from '~root/data/constants.json'
+
+import type {
+  HeirloomPointByLevelAggregation,
+} from '~/services/characters-service'
+
+import { useGameMode } from '~/composables/use-game-mode'
+import { usePollInterval } from '~/composables/use-poll-interval'
+import { GameMode } from '~/models/game-mode'
 import {
-  characterKey,
-  characterCharacteristicsKey,
-  loadCharacterStatisticsKey,
-} from '@/symbols/character';
-import { msToHours, parseTimestamp } from '@/utils/date';
-import { percentOf } from '@/utils/math';
-import { GameMode } from '@/models/game-mode';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
-import {
-  getExperienceForLevel,
+  canRetireValidate,
+  canSetCharacterForTournamentValidate,
+  getCharacterKDARatio,
+  getCharacterLimitations,
   getCharacterStatistics,
   getDefaultCharacterStatistics,
-  getCharacterLimitations,
-  respecializeCharacter,
-  canRetireValidate,
-  retireCharacter,
-  canSetCharacterForTournamentValidate,
-  tournamentLevelThreshold,
-  setCharacterForTournament,
-  getHeirloomPointByLevel,
-  type HeirloomPointByLevelAggregation,
-  getHeirloomPointByLevelAggregation,
+  getExperienceForLevel,
   getExperienceMultiplierBonus,
-  getCharacterKDARatio,
+  getHeirloomPointByLevel,
+  getHeirloomPointByLevelAggregation,
   getRespecCapability,
-} from '@/services/characters-service';
-import { createRankTable } from '@/services/leaderboard-service';
-import { usePollInterval } from '@/composables/use-poll-interval';
-import { useGameMode } from '@/composables/use-game-mode';
-import { gameModeToIcon, checkIsRankedGameMode } from '@/services/game-mode-service';
+  respecializeCharacter,
+  retireCharacter,
+  setCharacterForTournament,
+  tournamentLevelThreshold,
+} from '~/services/characters-service'
+import { checkIsRankedGameMode, gameModeToIcon } from '~/services/game-mode-service'
+import { createRankTable } from '~/services/leaderboard-service'
+import { notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
+import { useUserStore } from '~/stores/user'
+import {
+  characterCharacteristicsKey,
+  characterKey,
+  loadCharacterStatisticsKey,
+} from '~/symbols/character'
+import { msToHours, parseTimestamp } from '~/utils/date'
+import { percentOf } from '~/utils/math'
 
 definePage({
   meta: {
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+})
 
-const userStore = useUserStore();
+const userStore = useUserStore()
 
-const { gameModes } = useGameMode();
+const { gameModes } = useGameMode()
 
-const character = injectStrict(characterKey);
-const { loadCharacterCharacteristics } = injectStrict(characterCharacteristicsKey);
+const character = injectStrict(characterKey)
+const { loadCharacterCharacteristics } = injectStrict(characterCharacteristicsKey)
 
-const animatedCharacterExperience = useTransition(computed(() => character.value.experience));
-const currentLevelExperience = computed(() => getExperienceForLevel(character.value.level));
-const nextLevelExperience = computed(() => getExperienceForLevel(character.value.level + 1));
+const animatedCharacterExperience = useTransition(computed(() => character.value.experience))
+const currentLevelExperience = computed(() => getExperienceForLevel(character.value.level))
+const nextLevelExperience = computed(() => getExperienceForLevel(character.value.level + 1))
 const experiencePercentToNextLEvel = computed(() =>
   percentOf(
     character.value.experience - currentLevelExperience.value,
-    nextLevelExperience.value - currentLevelExperience.value
-  )
-);
+    nextLevelExperience.value - currentLevelExperience.value,
+  ),
+)
 
 const respecCapability = computed(() =>
   getRespecCapability(
     character.value,
     characterLimitations.value,
     userStore.user!.gold,
-    userStore.isRecentUser
-  )
-);
+    userStore.isRecentUser,
+  ),
+)
 
 const onRespecializeCharacter = async () => {
-  userStore.replaceCharacter(await respecializeCharacter(character.value.id));
-  userStore.subtractGold(respecCapability.value.price);
+  userStore.replaceCharacter(await respecializeCharacter(character.value.id))
+  userStore.subtractGold(respecCapability.value.price)
   await Promise.all([
     loadCharacterLimitations(0, { id: character.value.id }),
     loadCharacterCharacteristics(0, { id: character.value.id }),
-  ]);
-  notify(t('character.settings.respecialize.notify.success'));
-};
+  ])
+  notify(t('character.settings.respecialize.notify.success'))
+}
 
-const canRetire = computed(() => canRetireValidate(character.value.level));
+const canRetire = computed(() => canRetireValidate(character.value.level))
 const onRetireCharacter = async () => {
-  userStore.replaceCharacter(await retireCharacter(character.value.id));
+  userStore.replaceCharacter(await retireCharacter(character.value.id))
   await Promise.all([
     userStore.fetchUser(),
     loadCharacterCharacteristics(0, { id: character.value.id }),
-  ]);
-  notify(t('character.settings.retire.notify.success'));
-};
-const shownRetireConfirmTooltip = ref<boolean>(false);
+  ])
+  notify(t('character.settings.retire.notify.success'))
+}
+const shownRetireConfirmTooltip = ref<boolean>(false)
 
 const canSetCharacterForTournament = computed(() =>
-  canSetCharacterForTournamentValidate(character.value)
-);
+  canSetCharacterForTournamentValidate(character.value),
+)
 
 const onSetCharacterForTournament = async () => {
-  userStore.replaceCharacter(await setCharacterForTournament(character.value.id));
-  await loadCharacterCharacteristics(0, { id: character.value.id });
-  notify(t('character.settings.tournament.notify.success'));
-};
+  userStore.replaceCharacter(await setCharacterForTournament(character.value.id))
+  await loadCharacterCharacteristics(0, { id: character.value.id })
+  notify(t('character.settings.tournament.notify.success'))
+}
 
-const { state: characterStatistics, execute: loadCharacterStatistics } = useAsyncState(
+const { execute: loadCharacterStatistics, state: characterStatistics } = useAsyncState(
   ({ id }: { id: number }) => getCharacterStatistics(id),
   {},
   {
     immediate: false,
     resetOnExecute: false,
-  }
-);
+  },
+)
 
-const { subscribe, unsubscribe } = usePollInterval();
+const { subscribe, unsubscribe } = usePollInterval()
 
 onMounted(() => {
   subscribe(loadCharacterStatisticsKey, () =>
-    loadCharacterStatistics(0, { id: character.value.id })
-  );
-});
+    loadCharacterStatistics(0, { id: character.value.id }))
+})
 
 onBeforeUnmount(() => {
-  unsubscribe(loadCharacterStatisticsKey);
-});
+  unsubscribe(loadCharacterStatisticsKey)
+})
 
-const rankTable = computed(() => createRankTable());
+const rankTable = computed(() => createRankTable())
 
-const { state: characterLimitations, execute: loadCharacterLimitations } = useAsyncState(
+const { execute: loadCharacterLimitations, state: characterLimitations } = useAsyncState(
   ({ id }: { id: number }) => getCharacterLimitations(id),
   { lastRespecializeAt: new Date() },
   {
     immediate: false,
     resetOnExecute: false,
-  }
-);
+  },
+)
 
-const gameMode = ref<GameMode>(GameMode.Battle);
-const isRankedGameMode = computed(() => checkIsRankedGameMode(gameMode.value));
+const gameMode = ref<GameMode>(GameMode.Battle)
+const isRankedGameMode = computed(() => checkIsRankedGameMode(gameMode.value))
 
 const gameModeCharacterStatistics = computed(
-  () => characterStatistics.value[gameMode.value] || getDefaultCharacterStatistics()
-);
+  () => characterStatistics.value[gameMode.value] || getDefaultCharacterStatistics(),
+)
 
 const kdaRatio = computed(() =>
   gameModeCharacterStatistics.value.deaths === 0
     ? '∞'
-    : getCharacterKDARatio(gameModeCharacterStatistics.value)
-);
+    : getCharacterKDARatio(gameModeCharacterStatistics.value),
+)
 
 const experienceMultiplierBonus = computed(() =>
-  getExperienceMultiplierBonus(userStore.user!.experienceMultiplier)
-);
+  getExperienceMultiplierBonus(userStore.user!.experienceMultiplier),
+)
 
-const heirloomPointByLevel = computed(() => getHeirloomPointByLevel(character.value.level));
-const retireTableData = computed(() => getHeirloomPointByLevelAggregation());
+const heirloomPointByLevel = computed(() => getHeirloomPointByLevel(character.value.level))
+const retireTableData = computed(() => getHeirloomPointByLevelAggregation())
 
 const fetchPageData = (characterId: number) =>
   Promise.all([
     loadCharacterStatistics(0, { id: characterId }),
     loadCharacterLimitations(0, { id: characterId }),
-  ]);
+  ])
 
 onBeforeRouteUpdate(async (to, from) => {
-  if (to.name === from.name) {
-    // @ts-expect-error
-    await fetchPageData(Number(to.params.id));
+  if (to.name === from.name && 'id' in to.params) {
+    await fetchPageData(Number(to.params.id))
   }
-  return true;
-});
+  return true
+})
 
-await fetchPageData(character.value.id);
+await fetchPageData(character.value.id)
 </script>
 
 <template>
   <div class="mx-auto max-w-2xl space-y-12 pb-12">
-    <FormGroup :label="$t('character.settings.group.overview.title')" :collapsable="false">
+    <FormGroup
+      :label="$t('character.settings.group.overview.title')"
+      :collapsable="false"
+    >
       <div class="space-y-6">
         <div class="grid grid-cols-2 gap-2 text-2xs">
           <!-- LEVEL -->
@@ -185,15 +190,15 @@ await fetchPageData(character.value.id);
             :tooltip="
               character.forTournament
                 ? {
-                    title: $t('character.statistics.level.lockedTooltip.title', {
-                      maxLevel: maximumLevel,
-                    }),
-                  }
+                  title: $t('character.statistics.level.lockedTooltip.title', {
+                    maxLevel: maximumLevel,
+                  }),
+                }
                 : {
-                    title: $t('character.statistics.level.tooltip.title', {
-                      maxLevel: maximumLevel,
-                    }),
-                  }
+                  title: $t('character.statistics.level.tooltip.title', {
+                    maxLevel: maximumLevel,
+                  }),
+                }
             "
           >
             <div
@@ -201,7 +206,11 @@ await fetchPageData(character.value.id);
               :class="[character.forTournament ? 'text-status-warning' : 'text-content-100']"
             >
               {{ character.level }}
-              <OIcon v-if="character.forTournament" icon="lock" size="sm" />
+              <OIcon
+                v-if="character.forTournament"
+                icon="lock"
+                size="sm"
+              />
             </div>
           </SimpleTableRow>
 
@@ -237,7 +246,7 @@ await fetchPageData(character.value.id);
               <VueSlider
                 :key="currentLevelExperience"
                 class="!cursor-default !opacity-100"
-                :modelValue="Number(animatedCharacterExperience.toFixed(0))"
+                :model-value="Number(animatedCharacterExperience.toFixed(0))"
                 disabled
                 tooltip="always"
                 :min="currentLevelExperience"
@@ -248,7 +257,7 @@ await fetchPageData(character.value.id);
                   <div
                     class="absolute top-2.5 whitespace-nowrap"
                     :class="{
-                      '-translate-x-full transform': value === nextLevelExperience,
+                      '-translate-x-full': value === nextLevelExperience,
                     }"
                     :style="{ left: `${pos}%` }"
                   >
@@ -262,7 +271,10 @@ await fetchPageData(character.value.id);
                     <div class="flex items-center">
                       <VTooltip placement="bottom">
                         <div class="flex items-center gap-1 font-semibold text-primary">
-                          <OIcon icon="experience" size="xl" />
+                          <OIcon
+                            icon="experience"
+                            size="xl"
+                          />
                           {{
                             t('character.statistics.experience.format', {
                               exp: $n(value),
@@ -293,9 +305,14 @@ await fetchPageData(character.value.id);
 
         <template v-if="!character.forTournament">
           <div class="flex justify-center">
-            <OTabs v-model="gameMode" contentClass="hidden">
+            <OTabs
+              v-model="gameMode"
+              content-class="hidden"
+              multiline
+            >
               <OTabItem
                 v-for="gm in gameModes"
+                :key="gm"
                 :label="$t(`game-mode.${gm}`, 0)"
                 :icon="gameModeToIcon[gm]"
                 :value="gm"
@@ -305,22 +322,30 @@ await fetchPageData(character.value.id);
 
           <div class="grid grid-cols-2 gap-2 text-2xs">
             <!-- COMPETITIVE RANK -->
-            <SimpleTableRow v-if="isRankedGameMode" :label="$t('character.statistics.rank.title')">
+            <SimpleTableRow
+              v-if="isRankedGameMode"
+              :label="$t('character.statistics.rank.title')"
+            >
               <Tooltip
                 :title="$t('character.statistics.rank.tooltip.title')"
                 :description="$t('character.statistics.rank.tooltip.desc')"
               >
                 <Rank
-                  :rankTable="rankTable"
-                  :competitiveValue="gameModeCharacterStatistics.rating.competitiveValue"
+                  :rank-table="rankTable"
+                  :competitive-value="gameModeCharacterStatistics.rating.competitiveValue"
                 />
               </Tooltip>
               <Modal closable>
-                <Tag icon="help-circle" rounded size="lg" variant="primary" />
+                <Tag
+                  icon="help-circle"
+                  rounded
+                  size="lg"
+                  variant="primary"
+                />
                 <template #popper>
                   <RankTable
-                    :rankTable="rankTable"
-                    :competitiveValue="gameModeCharacterStatistics.rating.competitiveValue"
+                    :rank-table="rankTable"
+                    :competitive-value="gameModeCharacterStatistics.rating.competitiveValue"
                   />
                 </template>
               </Modal>
@@ -369,7 +394,7 @@ await fetchPageData(character.value.id);
                 size="xl"
                 :disabled="!respecCapability.enabled"
                 expanded
-                iconLeft="chevron-down-double"
+                icon-left="chevron-down-double"
                 data-aq-character-action="respecialize"
               >
                 <div class="flex items-center gap-2">
@@ -445,7 +470,7 @@ await fetchPageData(character.value.id);
             <ConfirmActionForm
               :title="$t('character.settings.respecialize.dialog.title')"
               :name="character.name"
-              :confirmLabel="$t('action.apply')"
+              :confirm-label="$t('action.apply')"
               @cancel="hide"
               @confirm="
                 () => {
@@ -475,7 +500,7 @@ await fetchPageData(character.value.id);
         <template v-if="!character.forTournament">
           <!--  -->
           <Modal
-            @applyHide="
+            @apply-hide="
               () => {
                 shownRetireConfirmTooltip = false;
               }
@@ -489,7 +514,7 @@ await fetchPageData(character.value.id);
                   :disabled="!canRetire"
                   size="xl"
                   expanded
-                  iconLeft="child"
+                  icon-left="child"
                   data-aq-character-action="retire"
                   :label="$t('character.settings.retire.title')"
                 />
@@ -514,7 +539,10 @@ await fetchPageData(character.value.id);
                     {{ $t('character.settings.retire.tooltip.title') }}
                   </h3>
 
-                  <i18n-t scope="global" keypath="character.settings.retire.tooltip.descTpl">
+                  <i18n-t
+                    scope="global"
+                    keypath="character.settings.retire.tooltip.descTpl"
+                  >
                     <template #desc1>
                       <i18n-t
                         scope="global"
@@ -552,15 +580,23 @@ await fetchPageData(character.value.id);
                         tag="p"
                       >
                         <template #heirloom>
-                          <OIcon icon="blacksmith" size="sm" class="align-top text-primary" />
+                          <OIcon
+                            icon="blacksmith"
+                            size="sm"
+                            class="align-top text-primary"
+                          />
                         </template>
                       </i18n-t>
                     </template>
                   </i18n-t>
 
-                  <OTable :data="retireTableData" bordered narrowed>
+                  <OTable
+                    :data="retireTableData"
+                    bordered
+                    narrowed
+                  >
                     <OTableColumn
-                      #default="{ row }: { row: HeirloomPointByLevelAggregation }"
+                      v-slot="{ row }: { row: HeirloomPointByLevelAggregation }"
                       field="level"
                       :label="$t('character.settings.retire.loomPointsTable.cols.level')"
                     >
@@ -570,7 +606,11 @@ await fetchPageData(character.value.id);
                       <template #header>
                         <div class="flex items-center gap-1">
                           {{ $t('character.settings.retire.loomPointsTable.cols.loomsPoints') }}
-                          <OIcon icon="blacksmith" size="sm" class="text-primary" />
+                          <OIcon
+                            icon="blacksmith"
+                            size="sm"
+                            class="text-primary"
+                          />
                         </div>
                       </template>
 
@@ -586,7 +626,7 @@ await fetchPageData(character.value.id);
             <template #popper="{ hide }">
               <ConfirmActionForm
                 :name="`${character.name} - ${character.level}`"
-                :confirmLabel="$t('action.apply')"
+                :confirm-label="$t('action.apply')"
                 @cancel="hide"
                 @confirm="
                   () => {
@@ -596,11 +636,13 @@ await fetchPageData(character.value.id);
               >
                 <template #title>
                   <div class="flex flex-col items-center gap-2">
-                    <h4 class="text-xl">{{ $t('character.settings.retire.dialog.title') }}</h4>
+                    <h4 class="text-xl">
+                      {{ $t('character.settings.retire.dialog.title') }}
+                    </h4>
                     <CharacterMedia
                       class="rounded-full border-border-300 bg-base-500/20 px-3 py-2.5 text-primary"
                       :character="character"
-                      :isActive="character.id === userStore.user?.activeCharacterId"
+                      :is-active="character.id === userStore.user?.activeCharacterId"
                     />
                   </div>
                 </template>
@@ -608,11 +650,18 @@ await fetchPageData(character.value.id);
                   <p>
                     {{ $t('character.settings.retire.dialog.desc') }}
                   </p>
-                  <i18n-t scope="global" keypath="character.settings.retire.dialog.reward" tag="p">
+                  <i18n-t
+                    scope="global"
+                    keypath="character.settings.retire.dialog.reward"
+                    tag="p"
+                  >
                     <template #heirloom>
                       <span class="inline-flex items-center text-sm font-bold text-primary">
                         +{{ heirloomPointByLevel }}
-                        <OIcon icon="blacksmith" size="sm" />
+                        <OIcon
+                          icon="blacksmith"
+                          size="sm"
+                        />
                       </span>
                     </template>
                     <template #multiplierBonus>
@@ -651,7 +700,7 @@ await fetchPageData(character.value.id);
                   variant="secondary"
                   size="xl"
                   expanded
-                  iconLeft="member"
+                  icon-left="member"
                   :disabled="!canSetCharacterForTournament"
                   data-aq-character-action="forTournament"
                   :label="$t('character.settings.tournament.title')"
@@ -695,7 +744,7 @@ await fetchPageData(character.value.id);
                 :title="$t('character.settings.tournament.dialog.title')"
                 :description="$t('character.settings.tournament.dialog.desc')"
                 :name="character.name"
-                :confirmLabel="$t('action.apply')"
+                :confirm-label="$t('action.apply')"
                 @cancel="hide"
                 @confirm="
                   () => {

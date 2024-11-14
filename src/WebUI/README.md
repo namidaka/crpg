@@ -6,7 +6,6 @@
 
 [ref](https://vitejs.dev/guide/env-and-mode.html)
 
-
 ### Type declaration for user defined env variables
 
 In the `src/types/vite-env.d.ts` add a field to the interface `ImportMetaEnv`
@@ -84,7 +83,6 @@ Playground: `/playground/oruga`
 
 ### Icon
 Just add an SVG icon as in the example: `src/assets/themes/oruga-tailwind/icons/arrow-up.ts`
-
 
 ### Image
 

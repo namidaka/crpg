@@ -1,76 +1,81 @@
-import { type NavigationGuard, type RouteLocationNormalized } from 'vue-router/auto';
-import { useUserStore } from '@/stores/user';
-import { canUpdateClanValidate, canManageApplicationsValidate } from '@/services/clan-service';
+import type { NavigationGuard, RouteLocationNormalized } from 'vue-router/auto'
 
-export const clanIdParamValidate: NavigationGuard = to => {
+import { canManageApplicationsValidate, canUpdateClanValidate } from '~/services/clan-service'
+import { useUserStore } from '~/stores/user'
+
+export const clanIdParamValidate: NavigationGuard = (to) => {
+  // @ts-expect-error TODO:
   if (Number.isNaN(Number(to.params.id as string))) {
-    return { name: 'PageNotFound' } as RouteLocationNormalized<'PageNotFound'>;
+    return { name: 'PageNotFound' } as RouteLocationNormalized<'PageNotFound'>
   }
 
-  return true;
-};
+  return true
+}
 
 export const clanExistValidate: NavigationGuard = async () => {
-  const userStore = useUserStore();
+  const userStore = useUserStore()
 
   if (userStore.clan === null) {
-    await userStore.fetchUserClanAndRole();
+    await userStore.fetchUserClanAndRole()
   }
 
   if (userStore.clan !== null) {
     return {
       name: 'ClansId',
       params: { id: String(userStore.clan.id) },
-    } as RouteLocationNormalized<'ClansId'>;
+    } as RouteLocationNormalized<'ClansId'>
   }
 
-  return true;
-};
+  return true
+}
 
-export const canUpdateClan: NavigationGuard = async to => {
-  const userStore = useUserStore();
+export const canUpdateClan: NavigationGuard = async (to) => {
+  const userStore = useUserStore()
 
   if (userStore.clan === null) {
-    await userStore.fetchUserClanAndRole();
+    await userStore.fetchUserClanAndRole()
   }
 
   if (
-    userStore.clan?.id !== Number(to.params.id as string) ||
-    (userStore.clanMemberRole !== null && !canUpdateClanValidate(userStore.clanMemberRole))
+    // @ts-expect-error TODO:
+    userStore.clan?.id !== Number(to.params.id as string)
+    || (userStore.clanMemberRole !== null && !canUpdateClanValidate(userStore.clanMemberRole))
   ) {
-    return { name: 'Clans' } as RouteLocationNormalized<'Clans'>;
+    return { name: 'Clans' } as RouteLocationNormalized<'Clans'>
   }
 
-  return true;
-};
+  return true
+}
 
-export const canManageApplications: NavigationGuard = async to => {
-  const userStore = useUserStore();
+export const canManageApplications: NavigationGuard = async (to) => {
+  const userStore = useUserStore()
 
   if (userStore.clan === null) {
-    await userStore.fetchUserClanAndRole();
+    await userStore.fetchUserClanAndRole()
   }
 
   if (
-    userStore.clan?.id !== Number(to.params.id as string) ||
-    (userStore.clanMemberRole !== null && !canManageApplicationsValidate(userStore.clanMemberRole))
+    // @ts-expect-error TODO:
+    userStore.clan?.id !== Number(to.params.id as string)
+    || (userStore.clanMemberRole !== null && !canManageApplicationsValidate(userStore.clanMemberRole))
   ) {
-    return { name: 'Clans' } as RouteLocationNormalized<'Clans'>;
+    return { name: 'Clans' } as RouteLocationNormalized<'Clans'>
   }
 
-  return true;
-};
+  return true
+}
 
-export const canUseClanArmory: NavigationGuard = async to => {
-  const userStore = useUserStore();
+export const canUseClanArmory: NavigationGuard = async (to) => {
+  const userStore = useUserStore()
 
   if (userStore.clan === null) {
-    await userStore.fetchUserClanAndRole();
+    await userStore.fetchUserClanAndRole()
   }
 
+  // @ts-expect-error TODO:
   if (userStore.clan?.id !== Number(to.params.id as string)) {
-    return { name: 'Clans' } as RouteLocationNormalized<'Clans'>;
+    return { name: 'Clans' } as RouteLocationNormalized<'Clans'>
   }
 
-  return true;
-};
+  return true
+}

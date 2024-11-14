@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import VueCountdown from '@chenfengyuan/vue-countdown';
-import { useHappyHours } from '@/composables/use-hh';
-import { useUserStore } from '@/stores/user';
+import VueCountdown from '@chenfengyuan/vue-countdown'
 
-const userStore = useUserStore();
+import { useHappyHours } from '~/composables/use-hh'
+import { useUserStore } from '~/stores/user'
 
-const { HHEventRemaining, onStartHHCountdown, onEndHHCountdown, transformSlotProps } =
-  useHappyHours();
+const userStore = useUserStore()
+
+const { HHEventRemaining, onEndHHCountdown, onStartHHCountdown, transformSlotProps }
+  = useHappyHours()
 </script>
 
 <template>
@@ -15,10 +16,10 @@ const { HHEventRemaining, onStartHHCountdown, onEndHHCountdown, transformSlotPro
       <div class="flex-1 cursor-pointer items-center gap-2 text-sm text-content-100">
         🎉
         <VueCountdown
+          v-slot="{ hours, minutes, seconds }"
           class="w-24"
           :time="HHEventRemaining"
           :transform="transformSlotProps"
-          v-slot="{ hours, minutes, seconds }"
           @start="onStartHHCountdown"
           @end="onEndHHCountdown"
         >
