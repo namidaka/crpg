@@ -1,39 +1,41 @@
 <script setup lang="ts">
-import { type ItemFlat } from '@/models/item';
-import { type Aggregation, AggregationView, type SortingConfig } from '@/models/item-search';
-import {
-  getMinRange,
-  getMaxRange,
-  getStepRange,
-  getBucketValues,
-} from '@/services/item-search-service';
+import type { ItemFlat } from '~/models/item'
+import type { Aggregation, SortingConfig } from '~/models/item-search'
 
-const filterModel = defineModel<string[] | number[]>('filter', { default: () => [] });
-const sortingModel = defineModel<string>('sorting', { default: '' });
+import { AggregationView } from '~/models/item-search'
+import {
+  getBucketValues,
+  getMaxRange,
+  getMinRange,
+  getStepRange,
+} from '~/services/item-search-service'
 
 const { sortingConfig } = defineProps<{
-  sortingConfig: SortingConfig;
-  aggregation: itemsjs.SearchAggregation<ItemFlat, keyof ItemFlat>;
-  scopeAggregation: itemsjs.SearchAggregation<ItemFlat, keyof ItemFlat>;
-  aggregationConfig: Aggregation;
-}>();
+  sortingConfig: SortingConfig
+  aggregation: itemsjs.SearchAggregation<ItemFlat, keyof ItemFlat>
+  scopeAggregation: itemsjs.SearchAggregation<ItemFlat, keyof ItemFlat>
+  aggregationConfig: Aggregation
+}>()
+const filterModel = defineModel<string[] | number[]>('filter', { default: () => [] })
+const sortingModel = defineModel<string>('sorting', { default: '' })
 
-const sortingKeys = computed(() => Object.keys(sortingConfig));
-const selfSortingIsActive = computed(() => sortingKeys.value.includes(sortingModel.value));
+const sortingKeys = computed(() => Object.keys(sortingConfig))
+const selfSortingIsActive = computed(() => sortingKeys.value.includes(sortingModel.value))
 const isSortingAsc = computed(
-  () => selfSortingIsActive.value && sortingConfig[sortingModel.value].order === 'asc'
-);
+  () => selfSortingIsActive.value && sortingConfig[sortingModel.value].order === 'asc',
+)
 
 const toggleSort = () => {
-  const [sortAsc, sortDesc] = sortingKeys.value;
-  console.log('sortingModel.value', sortingModel.value);
-
-  sortingModel.value = sortingModel.value === sortAsc ? sortDesc : sortAsc;
-};
+  const [sortAsc, sortDesc] = sortingKeys.value
+  sortingModel.value = sortingModel.value === sortAsc ? sortDesc : sortAsc
+}
 </script>
 
 <template>
-  <THDropdown :shownReset="Boolean(filterModel.length)" @reset="filterModel = []">
+  <THDropdown
+    :shown-reset="Boolean(filterModel.length)"
+    @reset="filterModel = []"
+  >
     <template #label>
       <Tooltip
         :label="$t(`item.aggregations.${aggregation.name}.title`)"
@@ -45,20 +47,26 @@ const toggleSort = () => {
 
     <template #default="{ hide }">
       <template v-if="aggregationConfig.view === AggregationView.Checkbox">
-        <DropdownItem v-for="bucket in aggregation.buckets">
+        <DropdownItem
+          v-for="bucket in aggregation.buckets"
+          :key="(bucket.key as string)"
+        >
           <ShopGridFilterCheckboxItem
             v-model="filterModel"
             :aggregation="aggregation.name"
-            :bucketValue="bucket.key"
-            :docCount="bucket.doc_count"
-            @update:modelValue="hide"
+            :bucket-value="bucket.key"
+            :doc-count="bucket.doc_count"
+            @update:model-value="hide"
           />
         </DropdownItem>
       </template>
 
-      <div v-else-if="aggregationConfig.view === AggregationView.Range" class="px-8 py-3">
+      <div
+        v-else-if="aggregationConfig.view === AggregationView.Range"
+        class="px-8 py-3"
+      >
         <SliderInput
-          v-model="filterModel"
+          v-model="(filterModel as number[])"
           :min="getMinRange(getBucketValues(scopeAggregation.buckets))"
           :max="getMaxRange(getBucketValues(scopeAggregation.buckets))"
           :step="getStepRange(getBucketValues(scopeAggregation.buckets))"
@@ -66,10 +74,13 @@ const toggleSort = () => {
       </div>
     </template>
 
-    <template #labelAppend v-if="Boolean(sortingKeys.length)">
+    <template
+      v-if="Boolean(sortingKeys.length)"
+      #labelAppend
+    >
       <div
-        class="flex w-5 cursor-pointer flex-col hover:text-content-100"
         v-tooltip="$t(isSortingAsc ? 'shop.sort.desc' : 'shop.sort.asc')"
+        class="flex w-5 cursor-pointer flex-col hover:text-content-100"
         @click="toggleSort"
       >
         <OIcon

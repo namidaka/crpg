@@ -1,169 +1,172 @@
-import { getRoute, next } from '@/__mocks__/router';
-import { createTestingPinia } from '@pinia/testing';
+import { createTestingPinia } from '@pinia/testing'
 
-import { type Clan, ClanMemberRole } from '@/models/clan';
-import { useUserStore } from '@/stores/user';
-const userStore = useUserStore(createTestingPinia());
+import type { Clan } from '~/models/clan'
+
+import { getRoute, next } from '~/__mocks__/router'
+import { ClanMemberRole } from '~/models/clan'
+import { useUserStore } from '~/stores/user'
 
 import {
-  clanIdParamValidate,
-  clanExistValidate,
-  canUpdateClan,
   canManageApplications,
+  canUpdateClan,
   canUseClanArmory,
-} from './clan';
+  clanExistValidate,
+  clanIdParamValidate,
+} from './clan'
+
+const userStore = useUserStore(createTestingPinia())
 
 beforeEach(() => {
-  userStore.$reset();
-});
+  userStore.$reset()
+})
 
 describe('clan id format validate', () => {
   it('404', () => {
     const to = getRoute({
       name: 'ClansId',
-      path: '/clans/:id',
       params: {
         id: 'abc',
       },
-    });
+      path: '/clans/:id',
+    })
 
-    const result = clanIdParamValidate(to, getRoute(), next);
+    const result = clanIdParamValidate(to, getRoute(), next)
 
-    expect(result).toEqual({ name: 'PageNotFound' });
-  });
+    expect(result).toEqual({ name: 'PageNotFound' })
+  })
 
   it('ok', () => {
     const to = getRoute({
       name: 'ClansId',
-      path: '/clans/:id',
       params: {
         id: '1',
       },
-    });
+      path: '/clans/:id',
+    })
 
-    const result = clanIdParamValidate(to, getRoute(), next);
+    const result = clanIdParamValidate(to, getRoute(), next)
 
-    expect(result).toStrictEqual(true);
-  });
-});
+    expect(result).toStrictEqual(true)
+  })
+})
 
 describe('clan exist validate', () => {
   it('user already have a clan', async () => {
-    const CLAN_ID = 1;
-    userStore.clan = { id: CLAN_ID } as Clan;
+    const CLAN_ID = 1
+    userStore.clan = { id: CLAN_ID } as Clan
 
-    const result = await clanExistValidate(getRoute(), getRoute(), next);
+    const result = await clanExistValidate(getRoute(), getRoute(), next)
 
-    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled();
-    expect(result).toEqual({ name: 'ClansId', params: { id: String(CLAN_ID) } });
-  });
+    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled()
+    expect(result).toEqual({ name: 'ClansId', params: { id: String(CLAN_ID) } })
+  })
 
-  it('user already have a clan', async () => {
-    const result = await clanExistValidate(getRoute(), getRoute(), next);
+  it('user already have a clan TODO: change test title', async () => {
+    const result = await clanExistValidate(getRoute(), getRoute(), next)
 
-    expect(userStore.fetchUserClanAndRole).toHaveBeenCalled();
-    expect(result).toStrictEqual(true);
-  });
-});
+    expect(userStore.fetchUserClanAndRole).toHaveBeenCalled()
+    expect(result).toStrictEqual(true)
+  })
+})
 
 describe('can update clan', () => {
-  const CLAN_ID = 1;
+  const CLAN_ID = 1
   const to = getRoute({
     name: 'ClansIdUpdate',
-    path: '/clans/:id/update',
     params: {
       id: String(CLAN_ID),
     },
-  });
+    path: '/clans/:id/update',
+  })
 
   it('officer', async () => {
-    userStore.clan = { id: CLAN_ID } as Clan;
-    userStore.clanMemberRole = ClanMemberRole.Officer;
+    userStore.clan = { id: CLAN_ID } as Clan
+    userStore.clanMemberRole = ClanMemberRole.Officer
 
-    const result = await canUpdateClan(to, getRoute(), next);
+    const result = await canUpdateClan(to, getRoute(), next)
 
-    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled();
+    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled()
 
-    expect(result).toEqual({ name: 'Clans' });
-  });
+    expect(result).toEqual({ name: 'Clans' })
+  })
 
   it('leader', async () => {
-    userStore.clan = { id: CLAN_ID } as Clan;
-    userStore.clanMemberRole = ClanMemberRole.Leader;
+    userStore.clan = { id: CLAN_ID } as Clan
+    userStore.clanMemberRole = ClanMemberRole.Leader
 
-    const result = await canUpdateClan(to, getRoute(), next);
+    const result = await canUpdateClan(to, getRoute(), next)
 
-    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled();
+    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled()
 
-    expect(result).toStrictEqual(true);
-  });
-});
+    expect(result).toStrictEqual(true)
+  })
+})
 
 describe('can manage clan application', () => {
-  const CLAN_ID = 1;
+  const CLAN_ID = 1
   const to = getRoute({
     name: 'ClansIdApplications',
-    path: '/clans/:id/application',
     params: {
       id: String(CLAN_ID),
     },
-  });
+    path: '/clans/:id/application',
+  })
 
   it('member', async () => {
-    const CLAN_ID = 1;
-    userStore.clan = { id: CLAN_ID } as Clan;
-    userStore.clanMemberRole = ClanMemberRole.Member;
+    const CLAN_ID = 1
+    userStore.clan = { id: CLAN_ID } as Clan
+    userStore.clanMemberRole = ClanMemberRole.Member
 
-    const result = await canManageApplications(to, getRoute(), next);
+    const result = await canManageApplications(to, getRoute(), next)
 
-    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled();
+    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled()
 
-    expect(result).toEqual({ name: 'Clans' });
-  });
+    expect(result).toEqual({ name: 'Clans' })
+  })
 
   it('officer', async () => {
-    const CLAN_ID = 1;
-    userStore.clan = { id: CLAN_ID } as Clan;
-    userStore.clanMemberRole = ClanMemberRole.Leader;
+    const CLAN_ID = 1
+    userStore.clan = { id: CLAN_ID } as Clan
+    userStore.clanMemberRole = ClanMemberRole.Leader
 
-    const result = await canManageApplications(to, getRoute(), next);
+    const result = await canManageApplications(to, getRoute(), next)
 
-    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled();
+    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled()
 
-    expect(result).toStrictEqual(true);
-  });
-});
+    expect(result).toStrictEqual(true)
+  })
+})
 
 describe('can manage clan armory', () => {
-  const CLAN_ID = 1;
+  const CLAN_ID = 1
   const to = getRoute({
     name: 'ClansIdArmory',
-    path: '/clans/:id/armory',
     params: {
       id: String(CLAN_ID),
     },
-  });
+    path: '/clans/:id/armory',
+  })
 
   it('member', async () => {
-    const CLAN_ID = 1;
-    userStore.clan = { id: CLAN_ID } as Clan;
-    userStore.clanMemberRole = ClanMemberRole.Member;
+    const CLAN_ID = 1
+    userStore.clan = { id: CLAN_ID } as Clan
+    userStore.clanMemberRole = ClanMemberRole.Member
 
-    const result = await canUseClanArmory(to, getRoute(), next);
+    const result = await canUseClanArmory(to, getRoute(), next)
 
-    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled();
+    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled()
 
-    expect(result).toStrictEqual(true);
-  });
+    expect(result).toStrictEqual(true)
+  })
 
   it('not member', async () => {
-    userStore.clan = { id: 2 } as Clan;
-    userStore.clanMemberRole = ClanMemberRole.Leader;
+    userStore.clan = { id: 2 } as Clan
+    userStore.clanMemberRole = ClanMemberRole.Leader
 
-    const result = await canManageApplications(to, getRoute(), next);
+    const result = await canManageApplications(to, getRoute(), next)
 
-    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled();
+    expect(userStore.fetchUserClanAndRole).not.toHaveBeenCalled()
 
-    expect(result).toEqual({ name: 'Clans' });
-  });
-});
+    expect(result).toEqual({ name: 'Clans' })
+  })
+})

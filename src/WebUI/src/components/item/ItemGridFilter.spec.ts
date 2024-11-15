@@ -1,5 +1,5 @@
-it.todo('TODO:', () => {});
-// import { type UserItem } from '@/models/user';
+it.todo('... TODO:', () => {})
+// import { type UserItem } from '~/models/user';
 // import { mount } from '@vue/test-utils';
 
 // import CharacterInventoryFilter from './CharacterInventoryFilter.vue';

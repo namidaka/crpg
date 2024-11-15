@@ -1,110 +1,115 @@
+import { cloneDeep } from 'es-toolkit'
+
+import type {
+  Item,
+  ItemFlat,
+  ItemWeaponComponent,
+} from '~/models/item'
+
 import {
   DamageType,
-  ItemFlat,
+  ItemFamilyType,
   ItemType,
-  type ItemWeaponComponent,
+  ItemUsage,
   WeaponClass,
   WeaponFlags,
-  type Item,
   WeaponUsage,
-  ItemUsage,
-  ItemFamilyType,
-} from '@/models/item';
+} from '~/models/item'
 import {
+  computeAverageRepairCostPerHour,
+  isLargeShield,
+  itemIsNewDays,
   itemTypeByWeaponClass,
-  WeaponClassByItemUsage,
-  visibleWeaponFlags,
   visibleItemFlags,
   visibleItemUsage,
-  isLargeShield,
-  computeAverageRepairCostPerHour,
-  itemIsNewDays,
-} from '@/services/item-service';
-import { roundFLoat } from '@/utils/math';
+  visibleWeaponFlags,
+  WeaponClassByItemUsage,
+} from '~/services/item-service'
+import { roundFLoat } from '~/utils/math'
 
 const createEmptyWeapon = () => ({
-  weaponClass: null,
-  weaponPrimaryClass: null,
-  itemUsage: [],
-  weaponFlags: [],
   accuracy: null,
-  missileSpeed: null,
-  stackAmount: null,
-  length: null,
-  handling: null,
-  thrustDamage: null,
-  thrustDamageType: null,
-  thrustSpeed: null,
-  swingDamage: null,
-  swingDamageType: null,
-  swingSpeed: null,
-  shieldSpeed: null,
-  shieldDurability: null,
-  shieldArmor: null,
-  reloadSpeed: null,
   aimSpeed: null,
   damage: null,
   damageType: null,
-});
+  handling: null,
+  itemUsage: [],
+  length: null,
+  missileSpeed: null,
+  reloadSpeed: null,
+  shieldArmor: null,
+  shieldDurability: null,
+  shieldSpeed: null,
+  stackAmount: null,
+  swingDamage: null,
+  swingDamageType: null,
+  swingSpeed: null,
+  thrustDamage: null,
+  thrustDamageType: null,
+  thrustSpeed: null,
+  weaponClass: null,
+  weaponFlags: [],
+  weaponPrimaryClass: null,
+})
 
 const mapWeaponProps = (item: Item) => {
-  const emptyWeapon = createEmptyWeapon();
+  const emptyWeapon = createEmptyWeapon()
 
   if (item.weapons.length === 0) {
-    return emptyWeapon;
+    return emptyWeapon
   }
 
-  const [originalWeapon] = item.weapons;
+  const [originalWeapon] = item.weapons
 
   const weapon = {
     ...emptyWeapon,
-    weaponClass: originalWeapon.class,
-    weaponPrimaryClass: originalWeapon.class,
-    itemUsage: [originalWeapon.itemUsage],
-    weaponFlags: originalWeapon.flags,
     accuracy: originalWeapon.accuracy,
+    handling: originalWeapon.handling,
+    itemUsage: [originalWeapon.itemUsage],
+    length: originalWeapon.length,
     missileSpeed: originalWeapon.missileSpeed,
     stackAmount: originalWeapon.stackAmount,
-    length: originalWeapon.length,
-    handling: originalWeapon.handling,
-    thrustSpeed: originalWeapon.thrustDamage !== 0 ? originalWeapon.thrustSpeed : 0,
-    thrustDamage: originalWeapon.thrustSpeed !== 0 ? originalWeapon.thrustDamage : 0,
-    thrustDamageType:
-      originalWeapon.thrustDamageType === DamageType.Undefined || originalWeapon.thrustDamage === 0
-        ? undefined
-        : originalWeapon.thrustDamageType,
-    swingSpeed: originalWeapon.swingDamage !== 0 ? originalWeapon.swingSpeed : 0,
     swingDamage: originalWeapon.swingSpeed !== 0 ? originalWeapon.swingDamage : 0,
     swingDamageType:
       originalWeapon.swingDamageType === DamageType.Undefined || originalWeapon.swingDamage === 0
         ? undefined
         : originalWeapon.swingDamageType,
-  };
+    swingSpeed: originalWeapon.swingDamage !== 0 ? originalWeapon.swingSpeed : 0,
+    thrustDamage: originalWeapon.thrustSpeed !== 0 ? originalWeapon.thrustDamage : 0,
+    thrustDamageType:
+      originalWeapon.thrustDamageType === DamageType.Undefined || originalWeapon.thrustDamage === 0
+        ? undefined
+        : originalWeapon.thrustDamageType,
+    thrustSpeed: originalWeapon.thrustDamage !== 0 ? originalWeapon.thrustSpeed : 0,
+    weaponClass: originalWeapon.class,
+    weaponFlags: originalWeapon.flags,
+    weaponPrimaryClass: originalWeapon.class,
+  }
 
   if (item.type === ItemType.Shield) {
     return {
       ...weapon,
-      shieldSpeed: originalWeapon.swingSpeed,
-      shieldDurability: originalWeapon.stackAmount,
       shieldArmor: originalWeapon.bodyArmor,
-    };
+      shieldDurability: originalWeapon.stackAmount,
+      shieldSpeed: originalWeapon.swingSpeed,
+    }
   }
 
   if ([ItemType.Bow, ItemType.Crossbow].includes(item.type)) {
     // add custom flag
     if (
-      item.type === ItemType.Crossbow &&
-      !originalWeapon.flags.includes(WeaponFlags.CantReloadOnHorseback)
+      item.type === ItemType.Crossbow
+      && !originalWeapon.flags.includes(WeaponFlags.CantReloadOnHorseback)
     ) {
-      weapon.weaponFlags.push(WeaponFlags.CanReloadOnHorseback);
+      weapon.weaponFlags.push(WeaponFlags.CanReloadOnHorseback)
     }
 
     return {
       ...weapon,
-      reloadSpeed: originalWeapon.swingSpeed,
       aimSpeed: originalWeapon.thrustSpeed,
       damage: originalWeapon.thrustDamage,
-    };
+      reloadSpeed: originalWeapon.swingSpeed,
+    }
   }
 
   if ([ItemType.Bolts, ItemType.Arrows, ItemType.Thrown].includes(item.type)) {
@@ -115,143 +120,143 @@ const mapWeaponProps = (item: Item) => {
         originalWeapon.thrustDamageType === DamageType.Undefined
           ? undefined
           : originalWeapon.thrustDamageType,
-    };
+    }
   }
 
-  return weapon;
-};
+  return weapon
+}
 
 const mapArmorProps = (item: Item) => {
   if (item.armor === null) {
     return {
-      headArmor: null,
-      bodyArmor: null,
       armArmor: null,
-      legArmor: null,
-      armorMaterialType: null,
       armorFamilyType: null,
+      armorMaterialType: null,
+      bodyArmor: null,
+      headArmor: null,
+      legArmor: null,
       mountArmor: null,
       mountArmorFamilyType: null,
-    };
+    }
   }
 
   if (item.type === ItemType.MountHarness) {
     return {
       ...item.armor,
-      armorMaterialType: item.armor.materialType,
       armorFamilyType: null,
+      armorMaterialType: item.armor.materialType,
       mountArmor: item.armor.bodyArmor,
       mountArmorFamilyType: item.armor.familyType,
-    };
+    }
   }
 
   return {
     ...item.armor,
-    armorMaterialType: item.armor.materialType,
     armorFamilyType:
       item.armor.familyType !== ItemFamilyType.Undefined ? item.armor.familyType : undefined,
+    armorMaterialType: item.armor.materialType,
     mountArmor: null,
     mountArmorFamilyType: null,
-  };
-};
+  }
+}
 
 const mapWeight = (item: Item) => {
   if ([ItemType.Thrown, ItemType.Bolts, ItemType.Arrows].includes(item.type)) {
-    const [weapon] = item.weapons;
+    const [weapon] = item.weapons
 
     return {
-      weight: null,
       stackWeight: roundFLoat(item.weight * weapon.stackAmount),
-    };
+      weight: null,
+    }
   }
 
   return {
-    weight: roundFLoat(item.weight),
     stackWeight: null,
-  };
-};
+    weight: roundFLoat(item.weight),
+  }
+}
 
 const mapMountProps = (item: Item) => {
   if (item.mount === null) {
     return {
       bodyLength: null,
       chargeDamage: null,
-      maneuver: null,
-      speed: null,
       hitPoints: null,
+      maneuver: null,
       mountFamilyType: null,
-    };
+      speed: null,
+    }
   }
 
   return {
     ...item.mount,
     mountFamilyType: item.mount.familyType,
-  };
-};
+  }
+}
 
 const itemToFlat = (item: Item): ItemFlat => {
-  const newItemDateThreshold = new Date().setDate(new Date().getDate() - itemIsNewDays);
+  const newItemDateThreshold = new Date().setDate(new Date().getDate() - itemIsNewDays)
 
-  const weaponProps = mapWeaponProps(item);
+  const weaponProps = mapWeaponProps(item)
 
   const flags = [
     ...item.flags.filter(flag => visibleItemFlags.includes(flag)),
     ...weaponProps.weaponFlags.filter(wf => visibleWeaponFlags.includes(wf)),
     ...weaponProps.itemUsage.filter(iu => visibleItemUsage.includes(iu)),
-  ];
+  ]
 
   // Banning the use of large shields on horseback
   if (isLargeShield(item)) {
-    flags.push(WeaponFlags.CantUseOnHorseback);
+    flags.push(WeaponFlags.CantUseOnHorseback)
   }
 
   return {
-    id: item.id,
-    new: new Date(item.createdAt).getTime() > newItemDateThreshold ? 1 : 0,
     baseId: item.baseId,
-    rank: item.rank,
+    culture: item.culture,
+    flags,
+    id: item.id,
     modId: generateModId(item, weaponProps?.weaponClass ?? undefined),
     name: item.name,
+    new: new Date(item.createdAt).getTime() > newItemDateThreshold ? 1 : 0,
     price: item.price,
-    upkeep: computeAverageRepairCostPerHour(item.price),
-    type: item.type,
-    culture: item.culture,
+    rank: item.rank,
     requirement: item.requirement,
     tier: roundFLoat(item.tier),
+    type: item.type,
+    upkeep: computeAverageRepairCostPerHour(item.price),
     weaponUsage: [WeaponUsage.Primary],
-    flags,
     ...mapWeight(item),
     ...mapArmorProps(item),
     ...mapMountProps(item),
     ...weaponProps,
-  };
-};
+  }
+}
 
 const generateModId = (item: Item, weaponClass?: WeaponClass) => {
-  return `${item.id}_${item.type}${weaponClass !== undefined ? `_${weaponClass}` : ''}`;
-};
+  return `${item.id}_${item.type}${weaponClass !== undefined ? `_${weaponClass}` : ''}`
+}
 
-const normalizeWeaponClass = (itemType: ItemType, weapon: ItemWeaponComponent) => {
+const normalizeWeaponClass = (_itemType: ItemType, weapon: ItemWeaponComponent) => {
   if (weapon.itemUsage in WeaponClassByItemUsage) {
-    return WeaponClassByItemUsage[weapon.itemUsage]!;
+    return WeaponClassByItemUsage[weapon.itemUsage]!
   }
 
-  return weapon.class;
-};
+  return weapon.class
+}
 
 const checkWeaponIsPrimaryUsage = (
   itemType: ItemType,
   weapon: ItemWeaponComponent,
-  weapons: ItemWeaponComponent[]
+  weapons: ItemWeaponComponent[],
 ) => {
-  let isPrimaryUsage = false;
+  let isPrimaryUsage = false
 
-  const weaponClass = normalizeWeaponClass(itemType, weapon);
+  const weaponClass = normalizeWeaponClass(itemType, weapon)
 
   if (itemType === ItemType.Polearm) {
-    const hasCouch = weapons.some(w => w.itemUsage === ItemUsage.PolearmCouch);
+    const hasCouch = weapons.some(w => w.itemUsage === ItemUsage.PolearmCouch)
     // TODO: jousting lances
-    const isJoustingLanceHack = weapons.some(w => w.itemUsage === ItemUsage.Polearm);
+    const isJoustingLanceHack = weapons.some(w => w.itemUsage === ItemUsage.Polearm)
 
     // const hasBrace = weapons.some(w => w.itemUsage === ItemUsage.PolearmBracing);
     // const hasPike = weapons.some(w => w.itemUsage === ItemUsage.PolearmPike);
@@ -259,39 +264,39 @@ const checkWeaponIsPrimaryUsage = (
     // console.log({itemType, 'weapon.class': weapon.class, weaponClass, hasCouch });
 
     if (!isJoustingLanceHack && hasCouch && weapon.class !== WeaponClass.OneHandedPolearm) {
-      return false;
+      return false
     }
   }
 
-  isPrimaryUsage = itemType === itemTypeByWeaponClass[weaponClass];
+  isPrimaryUsage = itemType === itemTypeByWeaponClass[weaponClass]
 
-  return isPrimaryUsage;
-};
+  return isPrimaryUsage
+}
 
 const getPrimaryWeaponClass = (item: Item) => {
   const primaryWeapon = item.weapons.find(w =>
-    checkWeaponIsPrimaryUsage(item.type, w, item.weapons)
-  );
+    checkWeaponIsPrimaryUsage(item.type, w, item.weapons),
+  )
 
   if (primaryWeapon !== undefined) {
-    return primaryWeapon.class;
+    return primaryWeapon.class
   }
 
-  return null;
-};
+  return null
+}
 
 // TODO: FIXME: SPEC cloneMultipleUsageWeapon param
 export const createItemIndex = (items: Item[], cloneMultipleUsageWeapon = false): ItemFlat[] => {
-  const result = JSON.parse(JSON.stringify(items)).reduce((out, item) => {
-    // TODO: leak, delete JSON
+  // TODO: try to remove cloneDeep
+  const result = cloneDeep(items).reduce((out, item) => {
     if (item.weapons.length > 1) {
-      item.weapons.forEach((w, idx) => {
-        let weaponClass = normalizeWeaponClass(item.type, w);
+      item.weapons.forEach((w, _idx) => {
+        const weaponClass = normalizeWeaponClass(item.type, w)
 
-        const isPrimaryUsage = checkWeaponIsPrimaryUsage(item.type, w, item.weapons);
+        const isPrimaryUsage = checkWeaponIsPrimaryUsage(item.type, w, item.weapons)
 
         // fixes a duplicate class, ex. Hoe: 1h/2h/1h
-        const itemTypeAlreadyExistIdx = out.findIndex(fi => {
+        const itemTypeAlreadyExistIdx = out.findIndex((fi) => {
           // console.table({
           //   fiType: fi.type,
           //   itemType: item.type,
@@ -303,10 +308,10 @@ export const createItemIndex = (items: Item[], cloneMultipleUsageWeapon = false)
           // });
 
           return (
-            fi.modId ===
-            generateModId({ ...item, type: itemTypeByWeaponClass[weaponClass] }, weaponClass)
-          );
-        });
+            fi.modId
+            === generateModId({ ...item, type: itemTypeByWeaponClass[weaponClass] }, weaponClass)
+          )
+        })
 
         // console.table({
         //   idx,
@@ -320,12 +325,12 @@ export const createItemIndex = (items: Item[], cloneMultipleUsageWeapon = false)
         // });
 
         // merge itemUsage, if the weapon has several of the same class
-        if (itemTypeAlreadyExistIdx != -1) {
+        if (itemTypeAlreadyExistIdx !== -1) {
           if (visibleItemUsage.includes(w.itemUsage)) {
-            out[itemTypeAlreadyExistIdx].flags.push(w.itemUsage);
+            out[itemTypeAlreadyExistIdx].flags.push(w.itemUsage)
           }
 
-          return;
+          return
         }
 
         if (isPrimaryUsage || cloneMultipleUsageWeapon) {
@@ -335,21 +340,21 @@ export const createItemIndex = (items: Item[], cloneMultipleUsageWeapon = false)
               type: itemTypeByWeaponClass[weaponClass],
               weapons: [{ ...w, class: weaponClass }], // TODO:
             }),
-            weaponUsage: [isPrimaryUsage ? WeaponUsage.Primary : WeaponUsage.Secondary],
             weaponPrimaryClass: isPrimaryUsage ? weaponClass : getPrimaryWeaponClass(item),
-          });
+            weaponUsage: [isPrimaryUsage ? WeaponUsage.Primary : WeaponUsage.Secondary],
+          })
         }
-      });
+      })
     }
     //
     else {
-      out.push(itemToFlat(item));
+      out.push(itemToFlat(item))
     }
 
-    return out;
-  }, [] as ItemFlat[]);
+    return out
+  }, [] as ItemFlat[])
 
   // console.log(result);
 
-  return result;
-};
+  return result
+}

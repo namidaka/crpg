@@ -1,107 +1,107 @@
 <script setup lang="ts">
-import { type Map } from 'leaflet';
-import { LMap, LTileLayer, LControlZoom } from '@vue-leaflet/vue-leaflet';
-import { LMarkerClusterGroup } from 'vue-leaflet-markercluster';
-import '@geoman-io/leaflet-geoman-free';
+import type { Map } from 'leaflet'
 
-import { MovementType, MovementTargetType } from '@/models/strategus';
-import { type PartyCommon, PartyStatus } from '@/models/strategus/party';
-import { type SettlementPublic } from '@/models/strategus/settlement';
+import { LControlZoom, LMap, LTileLayer } from '@vue-leaflet/vue-leaflet'
+import { LMarkerClusterGroup } from 'vue-leaflet-markercluster'
+import '@geoman-io/leaflet-geoman-free'
 
-import { inSettlementStatuses } from '@/services/strategus-service';
+import type { PartyCommon } from '~/models/strategus/party'
+import type { SettlementPublic } from '~/models/strategus/settlement'
 
-import { positionToLatLng } from '@/utils/geometry';
-
-import useMainHeaderHeight from '@/composables/use-main-header-height';
-import { useMap } from '@/composables/strategus/use-map';
-import { useParty } from '@/composables/strategus/use-party';
-import { useSettlements } from '@/composables/strategus/use-settlements';
-import { useMove } from '@/composables/strategus/use-move';
-import { useTerrain } from '@/composables/strategus/use-terrain';
+import { useMap } from '~/composables/strategus/use-map'
+import { useMove } from '~/composables/strategus/use-move'
+import { useParty } from '~/composables/strategus/use-party'
+import { useSettlements } from '~/composables/strategus/use-settlements'
+import { useTerrain } from '~/composables/strategus/use-terrain'
+import useMainHeaderHeight from '~/composables/use-main-header-height'
+import { MovementTargetType, MovementType } from '~/models/strategus'
+import { PartyStatus } from '~/models/strategus/party'
+import { inSettlementStatuses } from '~/services/strategus-service'
+import { positionToLatLng } from '~/utils/geometry'
 
 definePage({
   meta: {
     layout: 'default',
-    roles: ['User', 'Moderator', 'Admin'],
     noFooter: true,
+    roles: ['User', 'Moderator', 'Admin'],
   },
-});
+})
 
-const mainHeaderHeight = useMainHeaderHeight();
+const mainHeaderHeight = useMainHeaderHeight()
 
 // prettier-ignore
 const {
-  map,
-  mapOptions,
   center,
+  map,
   mapBounds,
+  mapOptions,
   maxBounds,
-  zoom,
+  onMapMoveEnd,
   tileLayerOptions,
-  onMapMoveEnd
-} = useMap();
+  zoom,
+} = useMap()
 
 const {
+  onTerrainUpdated,
   terrain,
   terrainVisibility,
-  toggleTerrainVisibilityLayer,
   toggleEditMode,
-  onTerrainUpdated,
-} = useTerrain(map);
+  toggleTerrainVisibilityLayer,
+} = useTerrain(map)
 
 // prettier-ignore
 const {
   isRegistered,
+  moveParty,
   onRegistered,
   party,
   partySpawn,
-  moveParty,
   visibleParties,
-} = useParty();
+} = useParty()
 
 const {
-  settlements,
-  visibleSettlements,
+  flyToSettlement,
   loadSettlements,
+  settlements,
   shownSearch,
   toggleSearch,
-  flyToSettlement,
-} = useSettlements(map, mapBounds, zoom);
+  visibleSettlements,
+} = useSettlements(map, mapBounds, zoom)
 
 const {
   applyEvents: applyMoveEvents,
+  closeMoveDialog,
   isMoveMode,
-  onStartMove,
-
-  moveTarget,
-  moveTargetType,
 
   moveDialogCoordinates,
   moveDialogMovementTypes,
 
+  moveTarget,
+  moveTargetType,
+
+  onStartMove,
   showMoveDialog,
-  closeMoveDialog,
-} = useMove(map);
+} = useMove(map)
 
 const onPartyClick = (targetParty: PartyCommon) => {
-  if (party.value === null) return;
+  if (party.value === null) { return }
 
   showMoveDialog({
+    movementTypes: [MovementType.Follow, MovementType.Attack],
     target: targetParty,
     targetType: MovementTargetType.Party,
-    movementTypes: [MovementType.Follow, MovementType.Attack],
-  });
-};
+  })
+}
 
 const onSettlementClick = (settlement: SettlementPublic) => {
-  if (party.value === null) return;
+  if (party.value === null) { return }
 
   showMoveDialog({
+    movementTypes: [MovementType.Move, MovementType.Attack],
     target: settlement,
     targetType: MovementTargetType.Settlement,
-    movementTypes: [MovementType.Move, MovementType.Attack],
-  });
-};
+  })
+}
 
 const onMoveDialogConfirm = (mt: MovementType) => {
   if (moveTarget.value !== null) {
@@ -113,8 +113,8 @@ const onMoveDialogConfirm = (mt: MovementType) => {
               ? PartyStatus.FollowingParty
               : PartyStatus.MovingToAttackParty,
           targetedPartyId: moveTarget.value.id,
-        });
-        break;
+        })
+        break
       case MovementTargetType.Settlement:
         moveParty({
           status:
@@ -122,42 +122,47 @@ const onMoveDialogConfirm = (mt: MovementType) => {
               ? PartyStatus.MovingToSettlement
               : PartyStatus.MovingToAttackSettlement,
           targetedSettlementId: moveTarget.value.id,
-        });
-        break;
+        })
+        break
     }
   }
 
-  closeMoveDialog();
-};
+  closeMoveDialog()
+}
 
-const mapIsLoading = ref<boolean>(true);
+const mapIsLoading = ref<boolean>(true)
 const onMapReady = async (map: Map) => {
-  mapBounds.value = map.getBounds();
-  await Promise.all([loadSettlements(), partySpawn()]);
+  mapBounds.value = map.getBounds()
+  await Promise.all([loadSettlements(), partySpawn()])
 
   if (party.value !== null) {
     map.flyTo(positionToLatLng(party.value.position.coordinates), 5, {
       animate: false,
-    });
+    })
   }
 
-  applyMoveEvents();
-  mapIsLoading.value = false;
-};
+  applyMoveEvents()
+  mapIsLoading.value = false
+}
 </script>
 
 <template>
   <div :style="{ height: `calc(100vh - ${mainHeaderHeight}px)` }">
-    <OLoading v-if="mapIsLoading" fullPage active iconSize="xl" />
+    <OLoading
+      v-if="mapIsLoading"
+      full-page
+      active
+      icon-size="xl"
+    />
 
     <LMap
-      v-model:zoom="zoom"
       ref="map"
+      v-model:zoom="zoom"
       :center="center"
       :options="mapOptions"
-      :maxBounds="maxBounds"
+      :max-bounds="maxBounds"
       @ready="onMapReady"
-      @moveEnd="onMapMoveEnd"
+      @move-end="onMapMoveEnd"
     >
       <!-- TODO: FIXME: low res map image -->
       <!-- TODO: FIXME: zIndex -->
@@ -168,40 +173,68 @@ const onMapReady = async (map: Map) => {
       <LTileLayer v-bind="tileLayerOptions" />
       <LControlZoom position="bottomleft" />
 
-      <ControlSearchToggle position="topleft" @click="toggleSearch" />
-      <ControlTerrainVisibilityToggle position="topleft" @click="toggleTerrainVisibilityLayer" />
+      <ControlSearchToggle
+        position="topleft"
+        @click="toggleSearch"
+      />
+      <ControlTerrainVisibilityToggle
+        position="topleft"
+        @click="toggleTerrainVisibilityLayer"
+      />
 
       <!-- TODO: policy -->
-      <ControlTerrainEditToggle position="topleft" @click="toggleEditMode" />
+      <ControlTerrainEditToggle
+        position="topleft"
+        @click="toggleEditMode"
+      />
 
       <ControlMousePosition />
-      <ControlLocateParty v-if="party !== null" :party="party" position="bottomleft" />
+      <ControlLocateParty
+        v-if="party !== null"
+        :party="party"
+        position="bottomleft"
+      />
 
-      <LayerTerrain v-if="terrainVisibility" :data="terrain" @edit="onTerrainUpdated" />
+      <LayerTerrain
+        v-if="terrainVisibility"
+        :data="terrain"
+        @edit="onTerrainUpdated"
+      />
 
-      <MarkerParty v-if="party !== null" :party="party" isSelf @click="onStartMove" />
-      <PartyMovementLine v-if="party !== null && !isMoveMode" :party="party" />
+      <MarkerParty
+        v-if="party !== null"
+        :party="party"
+        is-self
+        @click="onStartMove"
+      />
+      <PartyMovementLine
+        v-if="party !== null && !isMoveMode"
+        :party="party"
+      />
 
-      <LMarkerClusterGroup :showCoverageOnHover="false" chunkedLoading>
+      <LMarkerClusterGroup
+        :show-coverage-on-hover="false"
+        chunked-loading
+      >
         <MarkerParty
           v-for="visibleParty in visibleParties"
+          :key="`party-${visibleParty.id}`"
           :party="visibleParty"
-          :key="'party-' + visibleParty.id"
           @click="onPartyClick(visibleParty)"
         />
       </LMarkerClusterGroup>
 
       <MarkerSettlement
         v-for="settlement in visibleSettlements"
+        :key="`settlement-${settlement.id}`"
         :settlement="settlement"
-        :key="'settlement-' + settlement.id"
         @click="onSettlementClick(settlement)"
       />
 
       <DialogMove
         v-if="moveDialogCoordinates !== null"
-        :latLng="moveDialogCoordinates"
-        :movementTypes="moveDialogMovementTypes"
+        :lat-lng="moveDialogCoordinates"
+        :movement-types="moveDialogMovementTypes"
         @confirm="onMoveDialogConfirm"
         @cancel="closeMoveDialog"
       />
@@ -209,16 +242,23 @@ const onMapReady = async (map: Map) => {
 
     <!-- Dialogs -->
     <div class="absolute left-16 top-6 z-[1000]">
-      <!-- TODO: placement, design-->
-      <SettlementSearch v-if="shownSearch" :settlements="settlements" @select="flyToSettlement" />
+      <!-- TODO: placement, design -->
+      <SettlementSearch
+        v-if="shownSearch"
+        :settlements="settlements"
+        @select="flyToSettlement"
+      />
 
-      <DialogRegistration v-if="!isRegistered" @registered="onRegistered" />
+      <DialogRegistration
+        v-if="!isRegistered"
+        @registered="onRegistered"
+      />
 
       <DialogSettlement
         v-if="
-          party !== null &&
-          party.targetedSettlement !== null &&
-          inSettlementStatuses.has(party.status)
+          party !== null
+            && party.targetedSettlement !== null
+            && inSettlementStatuses.has(party.status)
         "
       />
     </div>

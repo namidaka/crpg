@@ -1,13 +1,13 @@
-it.todo('TODO:', () => {});
+it.todo('... TODO:', () => {})
 
 // import { flushPromises } from '@vue/test-utils';
 // import { createTestingPinia } from '@pinia/testing';
-// import { type Character, CharacteristicConversion } from '@/models/character';
-// import type { User } from '@/models/user';
+// import { type Character, CharacteristicConversion } from '~/models/character';
+// import type { User } from '~/models/user';
 
-// import mockCharacters from '@/__mocks__/characters.json';
-// import mockCharacterStatistics from '@/__mocks__/character-statistics.json';
-// import mockCharacterCharacteristics from '@/__mocks__/character-characteristics.json';
+// import mockCharacters from '~/__mocks__/characters.json';
+// import mockCharacterStatistics from '~/__mocks__/character-statistics.json';
+// import mockCharacterCharacteristics from '~/__mocks__/character-characteristics.json';
 
 // const mockGetCharacterStatistics = vi.fn().mockResolvedValue(mockCharacterStatistics);
 // const mockGetCharacterCharacteristics = vi.fn().mockResolvedValue(mockCharacterCharacteristics);
@@ -28,9 +28,9 @@ it.todo('TODO:', () => {});
 // const mockCanSetCharacterForTournamentValidate = vi.fn().mockReturnValue(true);
 // const mockSetCharacterForTournament = vi.fn().mockResolvedValue(mockCharacters[1]);
 
-// vi.mock('@/services/characters-service', async () => ({
-//   ...(await vi.importActual<typeof import('@/services/characters-service')>(
-//     '@/services/characters-service'
+// vi.mock('~/services/characters-service', async () => ({
+//   ...(await vi.importActual<typeof import('~/services/characters-service')>(
+//     '~/services/characters-service'
 //   )),
 //   getCharacterItems: mockGetCharacterItems,
 //   updateCharacterItems: mockUpdateCharacterItems,
@@ -52,8 +52,8 @@ it.todo('TODO:', () => {});
 //   setCharacterForTournament: mockSetCharacterForTournament,
 // }));
 
-// import { useUserStore } from '@/stores/user';
-// import { mountWithRouter } from '@/__test__/unit/utils';
+// import { useUserStore } from '~/stores/user';
+// import { mountWithRouter } from '~/__test__/unit/utils';
 // import Page from './index.vued].vue';
 
 // const userStore = useUserStore(createTestingPinia());

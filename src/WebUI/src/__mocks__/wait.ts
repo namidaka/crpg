@@ -1,10 +1,13 @@
-export const mockStartMethod = vi.fn();
-export const mockEndMethod = vi.fn();
-export const mockIsMethod = vi.fn();
-export const mockAnyMethod = vi.fn();
+export const mockStartMethod = vi.fn()
+export const mockEndMethod = vi.fn()
+export const mockIsMethod = vi.fn()
+export const mockAnyMethod = vi.fn()
 
-const mock = vi.fn().mockImplementation(() => {
-  ({ start: mockStartMethod, end: mockEndMethod, is: mockIsMethod, any: mockAnyMethod });
-});
+const mock = vi.fn().mockImplementation(() => ({
+  any: mockAnyMethod,
+  end: mockEndMethod,
+  is: mockIsMethod,
+  start: mockStartMethod,
+}))
 
-export default mock;
+export default mock

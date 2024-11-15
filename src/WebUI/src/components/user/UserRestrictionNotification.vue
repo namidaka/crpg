@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { type PublicRestriction } from '@/models/restriction';
-import { parseTimestamp, computeLeftMs } from '@/utils/date';
+import type { PublicRestriction } from '~/models/restriction'
+
+import { computeLeftMs, parseTimestamp } from '~/utils/date'
 
 const props = defineProps<{
-  restriction: PublicRestriction;
-}>();
+  restriction: PublicRestriction
+}>()
 
 const joinRestrictionRemainingDuration = computed(() =>
-  parseTimestamp(computeLeftMs(props.restriction.createdAt, props.restriction.duration))
-);
+  parseTimestamp(computeLeftMs(props.restriction.createdAt, props.restriction.duration)),
+)
 </script>
 
 <template>
@@ -64,7 +65,11 @@ const joinRestrictionRemainingDuration = computed(() =>
             </p>
 
             <ol>
-              <i18n-t scope="global" keypath="user.restriction.guide.step.join" tag="li">
+              <i18n-t
+                scope="global"
+                keypath="user.restriction.guide.step.join"
+                tag="li"
+              >
                 <template #discordLink>
                   <a
                     class="text-content-link hover:text-content-link-hover"
@@ -75,14 +80,18 @@ const joinRestrictionRemainingDuration = computed(() =>
                   </a>
                 </template>
               </i18n-t>
-              <i18n-t scope="global" keypath="user.restriction.guide.step.navigate" tag="li">
+              <i18n-t
+                scope="global"
+                keypath="user.restriction.guide.step.navigate"
+                tag="li"
+              >
                 <template #modMailLink>
                   <!-- prettier-ignore -->
                   <a
-              class="text-content-link hover:text-content-link-hover"
-              target="_blank"
-              href="https://discord.com/channels/279063743839862805/1034895358435799070"
-            >ModMail</a>
+                    class="text-content-link hover:text-content-link-hover"
+                    target="_blank"
+                    href="https://discord.com/channels/279063743839862805/1034895358435799070"
+                  >ModMail</a>
                 </template>
               </i18n-t>
               <li>{{ $t('user.restriction.guide.step.follow') }}</li>

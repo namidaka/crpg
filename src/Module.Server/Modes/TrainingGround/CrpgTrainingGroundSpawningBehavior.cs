@@ -15,6 +15,7 @@ internal class CrpgTrainingGroundSpawningBehavior : CrpgSpawningBehaviorBase
     {
         IsSpawningEnabled = true;
         _server = server;
+        CurrentGameMode = MultiplayerGameType.Duel;
     }
 
     public override void OnTick(float dt)

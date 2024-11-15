@@ -1,79 +1,80 @@
-import { createTestingPinia } from '@pinia/testing';
-import { mountWithRouter } from '@/__test__/unit/utils';
-import { type Character } from '@/models/character';
-import { type User } from '@/models/user';
+// import { createTestingPinia } from '@pinia/testing'
 
-import { useUserStore } from '@/stores/user';
+// import type { Character } from '~/models/character'
+// import type { User } from '~/models/user'
 
-const mountOptions = {
-  global: {
-    plugins: [createTestingPinia()],
-  },
-};
+// import { mountWithRouter } from '~/__test__/unit/utils'
+// import { useUserStore } from '~/stores/user'
 
-const userStore = useUserStore();
+// import Page from './characters.vue'
 
-import Page from './characters.vue';
+// const mountOptions = {
+//   global: {
+//     plugins: [createTestingPinia()],
+//   },
+// }
 
-const routes = [
-  {
-    path: '/characters/',
-    component: Page,
-    children: [
-      {
-        name: 'CharactersId',
-        path: ':id',
-        component: {
-          template: `<div data-aq-characters-id-index-page>CharactersId Index page stub</div>`,
-        },
-      },
-      {
-        name: 'Characters',
-        path: '',
-        component: {
-          template: `<div data-aq-characters-index-page>Characters Index page stub</div>`,
-        },
-      },
-    ],
-  },
-];
-const route = {
-  path: '/characters/2',
-};
+// const userStore = useUserStore()
 
-beforeEach(() => {
-  userStore.$reset();
-});
+// const routes = [
+//   {
+//     children: [
+//       {
+//         component: {
+//           template: `<div data-aq-characters-id-index-page>CharactersId Index page stub</div>`,
+//         },
+//         name: 'CharactersId',
+//         path: ':id',
+//       },
+//       {
+//         component: {
+//           template: `<div data-aq-characters-index-page>Characters Index page stub</div>`,
+//         },
+//         name: 'Characters',
+//         path: '',
+//       },
+//     ],
+//     component: Page,
+//     path: '/characters/',
+//   },
+// ]
+// const route = {
+//   path: '/characters/2',
+// }
 
-it.todo('characters list', async () => {
-  userStore.user = {
-    activeCharacterId: 2,
-  } as User;
-  userStore.characters = [
-    { id: 1, name: 'Applejack', level: 31 },
-    { id: 2, name: 'Spike', level: 1 },
-  ] as Character[];
+// beforeEach(() => {
+//   userStore.$reset()
+// })
 
-  const { wrapper } = await mountWithRouter(mountOptions, routes, route);
+// it.todo('characters list', async () => {
+//   userStore.user = {
+//     activeCharacterId: 2,
+//   } as User
+//   userStore.characters = [
+//     { id: 1, level: 31, name: 'Applejack' },
+//     { id: 2, level: 1, name: 'Spike' },
+//   ] as Character[]
 
-  const charactersList = wrapper.findAllComponents({ name: 'DropdownItem' });
+//   const { wrapper } = await mountWithRouter(mountOptions, routes, route)
 
-  // console.log(wrapper.html());
-  console.log(charactersList.at(0)!.html());
+//   const charactersList = wrapper.findAllComponents({ name: 'DropdownItem' })
 
-  // expect(charactersList.at(0)!.props('to')).toEqual({ name: 'CharactersId', params: { id: 1 } });
-  // expect(charactersList.at(0)!.find('[data-aq-characters-list-item-attr="level"]')!.text()).toEqual(
-  //   '31'
-  // );
-  // expect(
-  //   charactersList.at(0)!.find('[data-aq-characters-list-item-attr="active"]')!.exists()
-  // ).toBeFalsy();
+// console.log(wrapper.html());
+//   console.log(charactersList.at(0)!.html())
 
-  // expect(charactersList.at(1)!.props('to')).toEqual({ name: 'CharactersId', params: { id: 2 } });
-  // expect(
-  //   charactersList.at(1)!.find('[data-aq-characters-list-item-attr="active"]')!.exists()
-  // ).toBeTruthy();
-});
+// expect(charactersList.at(0)!.props('to')).toEqual({ name: 'CharactersId', params: { id: 1 } });
+// expect(charactersList.at(0)!.find('[data-aq-characters-list-item-attr="level"]')!.text()).toEqual(
+//   '31'
+// );
+// expect(
+//   charactersList.at(0)!.find('[data-aq-characters-list-item-attr="active"]')!.exists()
+// ).toBeFalsy();
+
+// expect(charactersList.at(1)!.props('to')).toEqual({ name: 'CharactersId', params: { id: 2 } });
+// expect(
+//   charactersList.at(1)!.find('[data-aq-characters-list-item-attr="active"]')!.exists()
+// ).toBeTruthy();
+// })
 
 // it('router-view - index page', async () => {
 //   const { wrapper } = await mountWithRouter(mountOptions, routes, route);

@@ -1,68 +1,72 @@
-import { DateTime } from 'luxon'; // TODO: someday try to do without this library ;)
-import { isBetween } from '@/utils/date';
-import { Region } from '@/models/region';
+import { DateTime } from 'luxon' // TODO: someday try to do without this library ;)
+
+import type { Region } from '~/models/region'
+
+import { isBetween } from '~/utils/date'
 
 interface HHScheduleTime {
-  hours: number;
-  minutes: number;
+  hours: number
+  minutes: number
 }
 interface HHScheduleConfig {
-  start: HHScheduleTime;
-  end: HHScheduleTime;
-  tz: string;
+  tz: string
+  end: HHScheduleTime
+  start: HHScheduleTime
 }
 
 export const getHHScheduleConfig = () => {
   return import.meta.env.VITE_HH.split(',').reduce(
     (out, cur) => {
-      const [region, start, end, tz] = cur.split('|') as [Region, string, string, string];
+      const [region, start, end, tz] = cur.split('|') as [Region, string, string, string]
 
-      const [startHours, startMinutes] = start.split(':');
-      const [endHours, endMinutes] = end.split(':');
+      const [startHours, startMinutes] = start.split(':')
+      const [endHours, endMinutes] = end.split(':')
 
       out[region] = {
-        start: {
-          hours: Number(startHours),
-          minutes: Number(startMinutes),
-        },
         end: {
           hours: Number(endHours),
           minutes: Number(endMinutes),
         },
+        start: {
+          hours: Number(startHours),
+          minutes: Number(startMinutes),
+        },
         tz,
-      };
+      }
 
-      return out;
+      return out
     },
-    {} as Record<Region, HHScheduleConfig>
-  );
-};
+    {} as Record<Region, HHScheduleConfig>,
+  )
+}
 
 export interface HHEvent {
-  start: Date;
-  end: Date;
+  end: Date
+  start: Date
 }
 
 export const getHHEventByRegion = (region: Region): HHEvent => {
-  const cfg = getHHScheduleConfig()[region];
+  const cfg = getHHScheduleConfig()[region]
 
   const startDt = DateTime.fromObject(
     { hour: cfg.start.hours, minute: cfg.start.minutes, second: 0 },
-    { zone: cfg.tz }
-  );
+    { zone: cfg.tz },
+  )
 
   const endDt = DateTime.fromObject(
     { hour: cfg.end.hours, minute: cfg.end.minutes, second: 0 },
-    { zone: cfg.tz }
-  );
+    { zone: cfg.tz },
+  )
 
   return {
-    start: startDt.setZone(DateTime.local().zoneName!).toJSDate(),
     end: endDt.setZone(DateTime.local().zoneName!).toJSDate(),
-  };
-};
+    start: startDt.setZone(DateTime.local().zoneName!).toJSDate(),
+  }
+}
 
 export const getHHEventRemaining = (event: HHEvent) => {
-  if (!isBetween(new Date(), event.start, event.end)) return 0;
-  return event.end.getTime() - new Date().getTime();
-};
+  if (!isBetween(new Date(), event.start, event.end)) {
+    return 0
+  }
+  return event.end.getTime() - new Date().getTime()
+}

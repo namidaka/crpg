@@ -34,7 +34,7 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
 
     private readonly Dictionary<PlayerId, Team> _playerTeamsBeforeJoiningSpectator;
 
-    public CrpgTeamSelectServerComponent(MultiplayerWarmupComponent warmupComponent, MultiplayerRoundController? roundController)
+    public CrpgTeamSelectServerComponent(MultiplayerWarmupComponent warmupComponent, MultiplayerRoundController? roundController, MultiplayerGameType gameType)
     {
         _warmupComponent = warmupComponent;
         _roundController = roundController;

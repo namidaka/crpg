@@ -12,6 +12,7 @@ internal class CrpgSiegeSpawningBehavior : CrpgSpawningBehaviorBase
     public CrpgSiegeSpawningBehavior(CrpgConstants constants)
         : base(constants)
     {
+        CurrentGameMode = MultiplayerGameType.Siege;
     }
 
     public override void OnTick(float dt)

@@ -1,24 +1,28 @@
 <script setup lang="ts">
-import { useTransition } from '@vueuse/core';
-import { useUserStore } from '@/stores/user';
-import { mapUserToUserPublic } from '@/services/users-service';
-import { logout } from '@/services/auth-service';
+import { useTransition } from '@vueuse/core'
 
-const userStore = useUserStore();
+import { logout } from '~/services/auth-service'
+import { mapUserToUserPublic } from '~/services/users-service'
+import { useUserStore } from '~/stores/user'
 
-const animatedUserGold = useTransition(toRef(() => userStore.user!.gold));
+const userStore = useUserStore()
+
+const animatedUserGold = useTransition(toRef(() => userStore.user!.gold))
 </script>
 
 <template>
   <div class="gap flex items-center gap-3">
     <!-- TODO: improve tooltip, share heirloom, bla bla bla -->
-    <Coin :value="Number(animatedUserGold.toFixed(0))" v-tooltip.bottom="$t('user.field.gold')" />
+    <Coin
+      v-tooltip.bottom="$t('user.field.gold')"
+      :value="Number(animatedUserGold.toFixed(0))"
+    />
 
     <Divider inline />
 
     <Heirloom
-      :value="userStore.user!.heirloomPoints"
       v-tooltip.bottom="$t('user.field.heirloom')"
+      :value="userStore.user!.heirloomPoints"
     />
 
     <Divider inline />
@@ -26,8 +30,8 @@ const animatedUserGold = useTransition(toRef(() => userStore.user!.gold));
     <UserMedia
       :user="mapUserToUserPublic(userStore.user!, userStore.clan)"
       :clan="userStore.clan"
-      :clanRole="userStore.clanMemberRole"
-      hiddenPlatform
+      :clan-role="userStore.clanMemberRole"
+      hidden-platform
       size="xl"
     />
 
@@ -39,14 +43,21 @@ const animatedUserGold = useTransition(toRef(() => userStore.user!.gold));
           :variant="shown ? 'transparent-active' : 'transparent'"
           size="sm"
           rounded
-          iconLeft="dots"
+          icon-left="dots"
         />
       </template>
 
       <template #popper="{ hide }">
-        <SwitchLanguageDropdown #default="{ shown, locale }" placement="left-start">
+        <SwitchLanguageDropdown
+          v-slot="{ shown, locale }"
+          placement="left-start"
+        >
           <DropdownItem :active="shown">
-            <SvgSpriteImg :name="`locale-${locale}`" viewBox="0 0 18 18" class="w-4.5" />
+            <SvgSpriteImg
+              :name="`locale-${locale}`"
+              viewBox="0 0 18 18"
+              class="w-4.5"
+            />
             {{ $t('setting.language') }} | {{ locale.toUpperCase() }}
           </DropdownItem>
         </SwitchLanguageDropdown>

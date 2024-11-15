@@ -1,200 +1,190 @@
 <script setup lang="ts">
-import { useStorage } from '@vueuse/core';
-import { type UserItemsBySlot, UserItem } from '@/models/user';
-import type { EquippedItemId } from '@/models/character';
-import { ItemType } from '@/models/item';
-import { AggregationConfig, AggregationView, SortingConfig } from '@/models/item-search';
-import { extractItemFromUserItem } from '@/services/users-service';
+import { useStorage } from '@vueuse/core'
+
+import type { EquippedItemId } from '~/models/character'
+import type { AggregationConfig, SortingConfig } from '~/models/item-search'
+import type { UserItem, UserItemsBySlot } from '~/models/user'
+
+import { useInventoryDnD } from '~/composables/character/use-inventory-dnd'
+import { useInventoryQuickEquip } from '~/composables/character/use-inventory-quick-equip'
+import { useItemDetail } from '~/composables/character/use-item-detail'
+import { useClanMembers } from '~/composables/clan/use-clan-members'
+import { useStickySidebar } from '~/composables/use-sticky-sidebar'
+import { ItemType } from '~/models/item'
+import { AggregationView } from '~/models/item-search'
 import {
-  updateCharacterItems,
   checkUpkeepIsHigh,
+  updateCharacterItems,
   validateItemNotMeetRequirement,
-} from '@/services/characters-service';
-import { useUserStore } from '@/stores/user';
+} from '~/services/characters-service'
 import {
-  sellUserItem,
-  repairUserItem,
-  upgradeUserItem,
-  reforgeUserItem,
-} from '@/services/users-service';
-import {
-  groupItemsByTypeAndWeaponClass,
-  getCompareItemsResult,
-  getLinkedSlots,
-} from '@/services/item-service';
-import { createItemIndex } from '@/services/item-search-service/indexator';
-import { getSearchResult, getAggregationsConfig } from '@/services/item-search-service';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
-import {
-  returnItemToClanArmory,
-  removeItemFromClanArmory,
   addItemToClanArmory,
   getClanArmoryItemLender,
-} from '@/services/clan-service';
-import { scrollToTop } from '@/utils/scroll';
-import { useItemDetail } from '@/composables/character/use-item-detail';
-import { useStickySidebar } from '@/composables/use-sticky-sidebar';
-import { useInventoryDnD } from '@/composables/character/use-inventory-dnd';
-import { useInventoryQuickEquip } from '@/composables/character/use-inventory-quick-equip';
+  removeItemFromClanArmory,
+  returnItemToClanArmory,
+} from '~/services/clan-service'
+import { getAggregationsConfig, getSearchResult } from '~/services/item-search-service'
+import { createItemIndex } from '~/services/item-search-service/indexator'
 import {
-  characterKey,
+  getCompareItemsResult,
+  getLinkedSlots,
+  groupItemsByTypeAndWeaponClass,
+} from '~/services/item-service'
+import { notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
+import { extractItemFromUserItem, reforgeUserItem, repairUserItem, sellUserItem, upgradeUserItem } from '~/services/users-service'
+import { useUserStore } from '~/stores/user'
+import {
   characterCharacteristicsKey,
   characterHealthPointsKey,
   characterItemsKey,
   characterItemsStatsKey,
+  characterKey,
   equippedItemsBySlotKey,
-} from '@/symbols/character';
-import { mainHeaderHeightKey } from '@/symbols/common';
-import { useClanMembers } from '@/composables/clan/use-clan-members';
+} from '~/symbols/character'
+import { mainHeaderHeightKey } from '~/symbols/common'
+import { scrollToTop } from '~/utils/scroll'
 
 definePage({
-  props: true,
   meta: {
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+  props: true,
+})
 
-const userStore = useUserStore();
-const { user, clan, userItems } = toRefs(userStore);
+const userStore = useUserStore()
+const { clan, user, userItems } = toRefs(userStore)
 
-const character = injectStrict(characterKey);
-const { characterCharacteristics } = injectStrict(characterCharacteristicsKey);
-const healthPoints = injectStrict(characterHealthPointsKey);
-const { characterItems, loadCharacterItems } = injectStrict(characterItemsKey);
-const itemsStats = injectStrict(characterItemsStatsKey);
-const mainHeaderHeight = injectStrict(mainHeaderHeightKey);
+const character = injectStrict(characterKey)
+const { characterCharacteristics } = injectStrict(characterCharacteristicsKey)
+const healthPoints = injectStrict(characterHealthPointsKey)
+const { characterItems, loadCharacterItems } = injectStrict(characterItemsKey)
+const itemsStats = injectStrict(characterItemsStatsKey)
+const mainHeaderHeight = injectStrict(mainHeaderHeightKey)
 
 const upkeepIsHigh = computed(() =>
-  checkUpkeepIsHigh(user.value!.gold, itemsStats.value.averageRepairCostByHour)
-);
-const equippedItemsIds = computed(() => characterItems.value.map(ei => ei.userItem.id));
+  checkUpkeepIsHigh(user.value!.gold, itemsStats.value.averageRepairCostByHour),
+)
+const equippedItemsIds = computed(() => characterItems.value.map(ei => ei.userItem.id))
 
 const onChangeEquippedItems = async (items: EquippedItemId[]) => {
-  await updateCharacterItems(character.value.id, items);
-  await loadCharacterItems(0, { id: character.value.id });
-};
+  await updateCharacterItems(character.value.id, items)
+  await loadCharacterItems(0, { id: character.value.id })
+}
 
 const onSellUserItem = async (itemId: number) => {
   // unEquip linked slots
-  const characterItem = characterItems.value.find(ci => ci.userItem.id === itemId);
+  const characterItem = characterItems.value.find(ci => ci.userItem.id === itemId)
   if (characterItem !== undefined) {
     await updateCharacterItems(character.value.id, [
       ...getLinkedSlots(characterItem.slot, equippedItemsBySlot.value).map(ls => ({
-        userItemId: null,
         slot: ls,
+        userItemId: null,
       })),
-    ]);
+    ])
   }
   // if the item sold is the last item in the active category,
   // you must reset the filter because that category is no longer in inventory
   if (filteredUserItems.value.length === 1) {
-    filterByTypeModel.value = [];
+    filterByTypeModel.value = []
   }
-  await sellUserItem(itemId);
+  await sellUserItem(itemId)
   await Promise.all([
     userStore.fetchUser(),
     userStore.fetchUserItems(),
     loadCharacterItems(0, { id: character.value.id }),
-  ]);
-  notify(t('character.inventory.item.sell.notify.success'));
-};
+  ])
+  notify(t('character.inventory.item.sell.notify.success'))
+}
 
 const onRepairUserItem = async (itemId: number) => {
-  await repairUserItem(itemId);
-  await Promise.all([userStore.fetchUser(), userStore.fetchUserItems()]);
-  notify(t('character.inventory.item.repair.notify.success'));
-};
+  await repairUserItem(itemId)
+  await Promise.all([userStore.fetchUser(), userStore.fetchUserItems()])
+  notify(t('character.inventory.item.repair.notify.success'))
+}
 
 const onUpgradeUserItem = async (itemId: number) => {
-  await upgradeUserItem(itemId);
+  await upgradeUserItem(itemId)
   await Promise.all([
     userStore.fetchUser(),
     userStore.fetchUserItems(),
     loadCharacterItems(0, { id: character.value.id }),
-  ]);
-  notify(t('character.inventory.item.upgrade.notify.success'));
-};
+  ])
+  notify(t('character.inventory.item.upgrade.notify.success'))
+}
 
 const onReforgeUserItem = async (itemId: number) => {
-  await reforgeUserItem(itemId);
+  await reforgeUserItem(itemId)
   await Promise.all([
     userStore.fetchUser(),
     userStore.fetchUserItems(),
     loadCharacterItems(0, { id: character.value.id }),
-  ]);
-  notify(t('character.inventory.item.reforge.notify.success'));
-};
+  ])
+  notify(t('character.inventory.item.reforge.notify.success'))
+}
 
 const onAddItemToClanArmory = async (userItemId: number) => {
   if (filteredUserItems.value.length === 1) {
-    filterByTypeModel.value = [];
+    filterByTypeModel.value = []
   }
-  await addItemToClanArmory(clan.value!.id, userItemId);
+  await addItemToClanArmory(clan.value!.id, userItemId)
   await Promise.all([
     userStore.fetchUser(),
     userStore.fetchUserItems(),
     loadCharacterItems(0, { id: character.value.id }),
-  ]);
-  notify(t('clan.armory.item.add.notify.success'));
-};
+  ])
+  notify(t('clan.armory.item.add.notify.success'))
+}
 
 const onReturnToClanArmory = async (userItemId: number) => {
-  await returnItemToClanArmory(clan.value!.id, userItemId);
+  await returnItemToClanArmory(clan.value!.id, userItemId)
   if (filteredUserItems.value.length === 1) {
-    filterByTypeModel.value = [];
+    filterByTypeModel.value = []
   }
   await Promise.all([
     userStore.fetchUser(),
     userStore.fetchUserItems(),
     loadCharacterItems(0, { id: character.value.id }),
-  ]);
-  notify(t('clan.armory.item.return.notify.success'));
-};
+  ])
+  notify(t('clan.armory.item.return.notify.success'))
+}
 
 const onRemoveFromClanArmory = async (userItemId: number) => {
-  await removeItemFromClanArmory(clan.value!.id, userItemId);
+  await removeItemFromClanArmory(clan.value!.id, userItemId)
   await Promise.all([
     userStore.fetchUser(),
     userStore.fetchUserItems(),
     loadCharacterItems(0, { id: character.value.id }),
-  ]);
-  notify(t('clan.armory.item.remove.notify.success'));
-};
+  ])
+  notify(t('clan.armory.item.remove.notify.success'))
+}
 
 const onClickInventoryItem = async (e: PointerEvent, userItem: UserItem) => {
   if (e.ctrlKey) {
-    await onQuickEquip(userItem);
-  } else {
+    await onQuickEquip(userItem)
+  }
+  else {
     toggleItemDetail(e.target as HTMLElement, {
       id: userItem.item.id,
       userItemId: userItem.id,
-    });
+    })
   }
-};
+}
 
-const hideInArmoryItemsModel = useStorage<boolean>('character-inventory-in-armory-items', true);
-const hasArmoryItems = computed(() => userItems.value.some(ui => ui.isArmoryItem));
+const hideInArmoryItemsModel = useStorage<boolean>('character-inventory-in-armory-items', true)
+const hasArmoryItems = computed(() => userItems.value.some(ui => ui.isArmoryItem))
 
 const flatItems = computed(() =>
   createItemIndex(
     extractItemFromUserItem(
       userItems.value.filter(item =>
-        hideInArmoryItemsModel.value && item.isArmoryItem ? item.userId !== user.value!.id : true
-      )
-    )
-  )
-);
+        hideInArmoryItemsModel.value && item.isArmoryItem ? item.userId !== user.value!.id : true,
+      ),
+    ),
+  ),
+)
 
 const sortingConfig: SortingConfig = {
-  rank_desc: {
-    field: 'rank',
-    order: 'desc',
-  },
-  type_asc: {
-    field: 'type',
-    order: 'asc',
-  },
   price_asc: {
     field: 'price',
     order: 'asc',
@@ -203,73 +193,81 @@ const sortingConfig: SortingConfig = {
     field: 'price',
     order: 'desc',
   },
-};
+  rank_desc: {
+    field: 'rank',
+    order: 'desc',
+  },
+  type_asc: {
+    field: 'type',
+    order: 'asc',
+  },
+}
 const aggregationConfig = {
   type: {
-    title: 'type',
-    description: '',
-    sort: 'term',
-    size: 1000,
-    conjunction: false,
-    view: AggregationView.Radio,
     chosen_filters_on_top: false,
+    conjunction: false,
+    description: '',
+    size: 1000,
+    sort: 'term',
+    title: 'type',
+    view: AggregationView.Radio,
   },
-} as AggregationConfig;
+} as AggregationConfig
 
-const filterByTypeModel = ref<ItemType[]>([]);
-const filterByNameModel = ref<string>('');
-const sortingModel = useStorage<string>('character-inventory-sorting', 'rank_desc');
+const filterByTypeModel = ref<ItemType[]>([])
+const filterByNameModel = ref<string>('')
+const sortingModel = useStorage<string>('character-inventory-sorting', 'rank_desc')
 
 const searchResult = computed(() =>
   getSearchResult({
-    items: flatItems.value,
-    userItemsIds: [],
-    aggregationConfig: aggregationConfig,
-    sortingConfig: sortingConfig,
-    sort: sortingModel.value,
-    page: 1,
-    perPage: 1000,
-    query: filterByNameModel.value,
+    aggregationConfig,
     filter: {
       type: filterByTypeModel.value,
     },
-  })
-);
+    items: flatItems.value,
+    page: 1,
+    perPage: 1000,
+    query: filterByNameModel.value,
+    sort: sortingModel.value,
+    sortingConfig,
+    userItemsIds: [],
+  }),
+)
 
 const filteredUserItems = computed(() => {
-  const foundedItemIds = searchResult.value.data.items.map(item => item.id);
+  const foundedItemIds = searchResult.value.data.items.map(item => item.id)
   return userItems.value
     .filter(
       item =>
-        foundedItemIds.includes(item.item.id) &&
-        (hideInArmoryItemsModel.value && item.isArmoryItem ? item.userId !== user.value!.id : true)
+        foundedItemIds.includes(item.item.id)
+        && (hideInArmoryItemsModel.value && item.isArmoryItem ? item.userId !== user.value!.id : true),
     )
     .sort((a, b) => {
       if (sortingModel.value === 'type_asc') {
-        const itemTypes = Object.values(ItemType);
-        return itemTypes.indexOf(a.item.type) - itemTypes.indexOf(b.item.type);
+        const itemTypes = Object.values(ItemType)
+        return itemTypes.indexOf(a.item.type) - itemTypes.indexOf(b.item.type)
       }
-      return foundedItemIds.indexOf(a.item.id) - foundedItemIds.indexOf(b.item.id);
-    });
-});
+      return foundedItemIds.indexOf(a.item.id) - foundedItemIds.indexOf(b.item.id)
+    })
+})
 
 const totalItemsCost = computed(() =>
-  filteredUserItems.value.reduce((out, item) => out + item.item.price, 0)
-);
+  filteredUserItems.value.reduce((out, item) => out + item.item.price, 0),
+)
 
 const equippedItemsBySlot = computed(() =>
   characterItems.value.reduce((out, ei) => {
-    out[ei.slot] = ei.userItem as UserItem;
-    return out;
-  }, {} as UserItemsBySlot)
-);
-provide(equippedItemsBySlotKey, equippedItemsBySlot);
+    out[ei.slot] = ei.userItem as UserItem
+    return out
+  }, {} as UserItemsBySlot),
+)
+provide(equippedItemsBySlotKey, equippedItemsBySlot)
 
-const { onDragStart, onDragEnd } = useInventoryDnD(equippedItemsBySlot);
+const { onDragEnd, onDragStart } = useInventoryDnD(equippedItemsBySlot)
 
-const { onQuickEquip } = useInventoryQuickEquip(equippedItemsBySlot);
+const { onQuickEquip } = useInventoryQuickEquip(equippedItemsBySlot)
 
-const { openedItems, toggleItemDetail, closeItemDetail, getUniqueId } = useItemDetail();
+const { closeItemDetail, getUniqueId, openedItems, toggleItemDetail } = useItemDetail()
 
 const compareItemsResult = computed(() => {
   // find the open items TODO: spec
@@ -277,34 +275,34 @@ const compareItemsResult = computed(() => {
     createItemIndex(
       extractItemFromUserItem(
         userItems.value.filter(ui =>
-          openedItems.value.some(oi => oi.uniqueId === getUniqueId(ui.item.id, ui.id))
-        )
-      )
-    )
+          openedItems.value.some(oi => oi.uniqueId === getUniqueId(ui.item.id, ui.id)),
+        ),
+      ),
+    ),
   )
     .filter(group => group.items.length >= 2) // there is no point in comparing 1 item;
     .map(group => ({
-      type: group.type,
-      weaponClass: group.weaponClass,
       compareResult: getCompareItemsResult(
         group.items,
-        getAggregationsConfig(group.type, group.weaponClass)
+        getAggregationsConfig(group.type, group.weaponClass),
       ),
-    }));
-});
+      type: group.type,
+      weaponClass: group.weaponClass,
+    }))
+})
 
-const aside = ref<HTMLDivElement | null>(null);
-const { top: stickySidebarTop } = useStickySidebar(aside, mainHeaderHeight.value + 16, 16);
+const aside = ref<HTMLDivElement | null>(null)
+const { top: stickySidebarTop } = useStickySidebar(aside, mainHeaderHeight.value + 16, 16)
 
-const promises: Promise<any>[] = [userStore.fetchUserItems()];
+const promises: Promise<any>[] = [userStore.fetchUserItems()]
 
-const { clanMembers, loadClanMembers } = useClanMembers();
+const { clanMembers, loadClanMembers } = useClanMembers()
 
 if (clan.value) {
-  promises.push(loadClanMembers(0, { id: clan.value.id }));
+  promises.push(loadClanMembers(0, { id: clan.value.id }))
 }
 
-await Promise.all(promises);
+await Promise.all(promises)
 </script>
 
 <template>
@@ -313,23 +311,23 @@ await Promise.all(promises);
       <template v-if="userItems.length !== 0">
         <div class="inventoryGrid relative grid h-full gap-x-3 gap-y-4">
           <div
-            style="grid-area: filter"
             ref="aside"
+            style="grid-area: filter"
             class="sticky space-y-2"
             :style="{ top: `${stickySidebarTop}px` }"
           >
             <OButton
               v-if="hasArmoryItems"
-              :variant="hideInArmoryItemsModel ? 'secondary' : 'primary'"
-              outlined
-              size="xl"
-              rounded
-              icon-left="armory"
               v-tooltip.bottom="
                 hideInArmoryItemsModel
                   ? $t('character.inventory.filter.showInArmory')
                   : $t('character.inventory.filter.hideInArmory')
               "
+              :variant="hideInArmoryItemsModel ? 'secondary' : 'primary'"
+              outlined
+              size="xl"
+              rounded
+              icon-left="armory"
               @click="
                 () => {
                   hideInArmoryItemsModel = !hideInArmoryItemsModel;
@@ -346,7 +344,10 @@ await Promise.all(promises);
             />
           </div>
 
-          <div class="grid grid-cols-3 gap-4 2xl:grid-cols-4" style="grid-area: sort">
+          <div
+            class="grid grid-cols-3 gap-4 2xl:grid-cols-4"
+            style="grid-area: sort"
+          >
             <div class="col-span-2 2xl:col-span-3">
               <OInput
                 v-model="filterByNameModel"
@@ -360,18 +361,25 @@ await Promise.all(promises);
               />
             </div>
 
-            <ItemGridSearch class="col-span-1" v-model="sortingModel" :config="sortingConfig" />
+            <ItemGridSearch
+              v-model="sortingModel"
+              class="col-span-1"
+              :config="sortingConfig"
+            />
           </div>
 
-          <div class="relative h-full" style="grid-area: items">
+          <div
+            class="relative h-full"
+            style="grid-area: items"
+          >
             <div class="grid grid-cols-3 gap-2 2xl:grid-cols-4">
               <CharacterInventoryItemCard
                 v-for="userItem in filteredUserItems"
-                class="cursor-grab"
                 :key="userItem.id"
-                :userItem="userItem"
+                class="cursor-grab"
+                :user-item="userItem"
                 :equipped="equippedItemsIds.includes(userItem.id)"
-                :notMeetRequirement="
+                :not-meet-requirement="
                   validateItemNotMeetRequirement(userItem.item, characterCharacteristics)
                 "
                 :lender="getClanArmoryItemLender(userItem, clanMembers)"
@@ -409,7 +417,11 @@ await Promise.all(promises);
               </template>
 
               <template #sum>
-                <i18n-t scope="global" tag="span" keypath="character.inventory.total.sum">
+                <i18n-t
+                  scope="global"
+                  tag="span"
+                  keypath="character.inventory.total.sum"
+                >
                   <template #sum>
                     <Coin :value="totalItemsCost" />
                   </template>
@@ -427,7 +439,10 @@ await Promise.all(promises);
       />
     </div>
 
-    <div class="sticky left-0 col-span-5 self-start" :style="{ top: `${mainHeaderHeight + 16}px` }">
+    <div
+      class="sticky left-0 col-span-5 self-start"
+      :style="{ top: `${mainHeaderHeight + 16}px` }"
+    >
       <CharacterInventoryDoll @change="onChangeEquippedItems" />
       <div
         class="mt-3 flex w-full justify-center rounded-lg bg-base-200 p-4 backdrop-blur-lg"
@@ -452,7 +467,11 @@ await Promise.all(promises);
         }"
       >
         <div class="inline-flex gap-1.5 align-middle">
-          <SvgSpriteImg name="coin" viewBox="0 0 18 18" class="w-4" />
+          <SvgSpriteImg
+            name="coin"
+            viewBox="0 0 18 18"
+            class="w-4"
+          />
           <span class="text-xs font-bold text-primary">{{ $n(itemsStats.price) }}</span>
         </div>
       </SimpleTableRow>
@@ -465,8 +484,16 @@ await Promise.all(promises);
         }"
       >
         <div class="inline-flex gap-1.5 align-middle">
-          <SvgSpriteImg name="coin" viewBox="0 0 18 18" class="w-4" />
-          <ClosableTooltip :disabled="!upkeepIsHigh" shown placement="top">
+          <SvgSpriteImg
+            name="coin"
+            viewBox="0 0 18 18"
+            class="w-4"
+          />
+          <ClosableTooltip
+            :disabled="!upkeepIsHigh"
+            shown
+            placement="top"
+          >
             <span
               class="text-xs font-bold"
               :class="[upkeepIsHigh ? 'text-status-danger' : 'text-primary']"
@@ -478,7 +505,7 @@ await Promise.all(promises);
                 <h4 class="text-status-warning">
                   {{ $t('character.highUpkeepWarning.title') }}
                 </h4>
-                <div v-html="$t('character.highUpkeepWarning.desc')"></div>
+                <div v-html="$t('character.highUpkeepWarning.desc')" />
               </div>
             </template>
           </ClosableTooltip>
@@ -488,19 +515,19 @@ await Promise.all(promises);
       <CharacterStats
         :characteristics="characterCharacteristics"
         :weight="itemsStats.weight"
-        :longestWeaponLength="itemsStats.longestWeaponLength"
-        :healthPoints="healthPoints"
+        :longest-weapon-length="itemsStats.longestWeaponLength"
+        :health-points="healthPoints"
       />
     </div>
 
     <ItemDetailGroup>
       <template #default="di">
         <CharacterInventoryItemDetail
-          :compareResult="
+          :compare-result="
             compareItemsResult.find(cr => cr.type === flatItems.find(fi => fi.id === di.id)!.type)
               ?.compareResult
           "
-          :userItem="userItems.find(ui => ui.id === di.userItemId)!"
+          :user-item="userItems.find(ui => ui.id === di.userItemId)!"
           :equipped="equippedItemsIds.includes(di.userItemId)"
           :lender="
             getClanArmoryItemLender(userItems.find(ui => ui.id === di.userItemId)!, clanMembers)
@@ -529,19 +556,19 @@ await Promise.all(promises);
               onReforgeUserItem(di.userItemId);
             }
           "
-          @returnToClanArmory="
+          @return-to-clan-armory="
             () => {
               closeItemDetail(di);
               onReturnToClanArmory(di.userItemId);
             }
           "
-          @removeFromClanArmory="
+          @remove-from-clan-armory="
             () => {
               closeItemDetail(di);
               onRemoveFromClanArmory(di.userItemId);
             }
           "
-          @addToClanArmory="
+          @add-to-clan-armory="
             () => {
               closeItemDetail(di);
               onAddItemToClanArmory(di.userItemId);

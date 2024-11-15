@@ -1,10 +1,10 @@
-import { type Party, type PartyCommon } from '@/models/strategus/party';
-import { type SettlementPublic } from '@/models/strategus/settlement';
+import type { Party, PartyCommon } from '~/models/strategus/party'
+import type { SettlementPublic } from '~/models/strategus/settlement'
 
 export interface StrategusUpdate {
-  party: Party;
-  visibleParties: PartyCommon[];
-  visibleSettlements: SettlementPublic[];
+  party: Party
+  visibleParties: PartyCommon[]
+  visibleSettlements: SettlementPublic[]
 }
 
 export enum MovementType {

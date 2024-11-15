@@ -8,6 +8,7 @@ internal class CrpgWarmupSpawningBehavior : CrpgSpawningBehaviorBase
     public CrpgWarmupSpawningBehavior(CrpgConstants constants)
         : base(constants)
     {
+        CurrentGameMode = MultiplayerGameType.FreeForAll;
     }
 
     public override void OnTick(float dt)

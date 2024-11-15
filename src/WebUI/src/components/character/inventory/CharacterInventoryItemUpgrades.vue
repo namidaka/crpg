@@ -1,65 +1,44 @@
 <script setup lang="ts">
-import { ItemCompareMode, ItemRank, type ItemFlat } from '@/models/item';
-import { type UserItem } from '@/models/user';
-import { useItemUpgrades } from '@/composables/item/use-item-upgrades';
-import { useItemReforge } from '@/composables/item/use-item-reforge';
-import { useUserStore } from '@/stores/user';
-import { getRankColor } from '@/services/item-service';
-import {
-  getAggregationsConfig,
-  getVisibleAggregationsConfig,
-} from '@/services/item-search-service';
-import { createItemIndex } from '@/services/item-search-service/indexator';
-import { omitPredicate } from '@/utils/object';
+import type { ItemFlat, ItemRank } from '~/models/item'
+import type { UserItem } from '~/models/user'
 
-const userStore = useUserStore();
+import { useItemReforge } from '~/composables/item/use-item-reforge'
+import { useItemUpgrades } from '~/composables/item/use-item-upgrades'
+import { ItemCompareMode } from '~/models/item'
+import { createItemIndex } from '~/services/item-search-service/indexator'
+import { getItemAggregations, getRankColor } from '~/services/item-service'
+import { useUserStore } from '~/stores/user'
 
 const { userItem } = defineProps<{
-  userItem: UserItem;
-}>();
+  userItem: UserItem
+}>()
 
 const emit = defineEmits<{
-  upgrade: [];
-  reforge: [];
-}>();
+  upgrade: []
+  reforge: []
+}>()
 
-const item = computed(() => createItemIndex([userItem.item])[0]);
+const userStore = useUserStore()
 
-const omitEmptyParam = (field: keyof ItemFlat) => {
-  if (Array.isArray(item.value[field]) && (item.value[field] as string[]).length === 0) {
-    return false;
-  }
-
-  if (item.value[field] === 0) {
-    return false;
-  }
-
-  return true;
-};
-
-const aggregationsConfig = computed(() =>
-  omitPredicate(
-    getVisibleAggregationsConfig(getAggregationsConfig(item.value.type, item.value.weaponClass)),
-    (key: keyof ItemFlat) => omitEmptyParam(key)
-  )
-);
+const item = computed(() => createItemIndex([userItem.item])[0])
+const aggregationsConfig = computed(() => getItemAggregations(item.value))
 
 const {
-  itemUpgrades,
-  isLoading,
-  relativeEntries,
   baseItem,
-  nextItem,
-  validation: upgradeValidation,
   canUpgrade,
-} = useItemUpgrades(item.value, aggregationsConfig.value);
+  isLoading,
+  itemUpgrades,
+  nextItem,
+  relativeEntries,
+  validation: upgradeValidation,
+} = useItemUpgrades(item.value, aggregationsConfig.value)
 
 const {
+  canReforge,
   reforgeCost,
   reforgeCostTable,
   validation: reforgeValidation,
-  canReforge,
-} = useItemReforge(item.value);
+} = useItemReforge(item.value)
 </script>
 
 <template>
@@ -77,7 +56,12 @@ const {
         <Modal :disabled="!canUpgrade">
           <VTooltip>
             <div>
-              <OButton variant="primary" outlined size="lg" :disabled="!canUpgrade">
+              <OButton
+                variant="primary"
+                outlined
+                size="lg"
+                :disabled="!canUpgrade"
+              >
                 {{ $t('action.upgrade') }}
                 <Loom :point="1" />
               </OButton>
@@ -111,8 +95,8 @@ const {
           <template #popper="{ hide }">
             <ConfirmActionForm
               :title="$t('action.confirmation')"
-              :name="'Upgrade item'"
-              :confirmLabel="$t('action.confirm')"
+              name="Upgrade item"
+              :confirm-label="$t('action.confirm')"
               @cancel="hide"
               @confirm="
                 () => {
@@ -131,12 +115,18 @@ const {
                     <Loom :point="1" />
                   </template>
                   <template #oldItem>
-                    <span class="font-bold" :style="{ color: getRankColor(item.rank) }">
+                    <span
+                      class="font-bold"
+                      :style="{ color: getRankColor(item.rank) }"
+                    >
                       {{ item.name }}
                     </span>
                   </template>
                   <template #newItem>
-                    <span class="font-bold" :style="{ color: getRankColor(nextItem.rank) }">
+                    <span
+                      class="font-bold"
+                      :style="{ color: getRankColor(nextItem.rank) }"
+                    >
                       {{ nextItem.name }}
                     </span>
                   </template>
@@ -149,9 +139,17 @@ const {
         <Modal :disabled="!canReforge">
           <VTooltip>
             <div>
-              <OButton variant="primary" outlined size="lg" :disabled="!canReforge">
+              <OButton
+                variant="primary"
+                outlined
+                size="lg"
+                :disabled="!canReforge"
+              >
                 {{ $t('action.reforge') }}
-                <Coin v-if="reforgeValidation.rank" :value="reforgeCost" />
+                <Coin
+                  v-if="reforgeValidation.rank"
+                  :value="reforgeCost"
+                />
               </OButton>
             </div>
 
@@ -163,9 +161,14 @@ const {
                 <p>
                   {{ $t('character.inventory.item.reforge.tooltip.description') }}
                 </p>
-                <OTable :data="reforgeCostTable" bordered narrowed :loading="isLoading">
+                <OTable
+                  :data="reforgeCostTable"
+                  bordered
+                  narrowed
+                  :loading="isLoading"
+                >
                   <OTableColumn
-                    #default="{ row }: { row: [string, number] }"
+                    v-slot="{ row }: { row: [string, number] }"
                     field="rank"
                     :label="
                       $t('character.inventory.item.reforge.tooltip.costTable.cols.rank.label')
@@ -176,7 +179,7 @@ const {
                     </span>
                   </OTableColumn>
                   <OTableColumn
-                    #default="{ row }: { row: [string, number] }"
+                    v-slot="{ row }: { row: [string, number] }"
                     field="rank"
                     :label="
                       $t('character.inventory.item.reforge.tooltip.costTable.cols.cost.label')
@@ -185,7 +188,7 @@ const {
                     <Coin :value="row[1]" />
                   </OTableColumn>
                   <OTableColumn
-                    #default="{ row }: { row: [string, number] }"
+                    v-slot="{ row }: { row: [string, number] }"
                     field="looms"
                     :label="
                       $t('character.inventory.item.reforge.tooltip.costTable.cols.looms.label')
@@ -220,8 +223,8 @@ const {
           <template #popper="{ hide }">
             <ConfirmActionForm
               :title="$t('action.confirmation')"
-              :name="'Reforge item'"
-              :confirmLabel="$t('action.confirm')"
+              name="Reforge item"
+              :confirm-label="$t('action.confirm')"
               @cancel="hide"
               @confirm="
                 () => {
@@ -243,12 +246,18 @@ const {
                     <Loom :point="item.rank" />
                   </template>
                   <template #oldItem>
-                    <span class="font-bold" :style="{ color: getRankColor(item.rank) }">
+                    <span
+                      class="font-bold"
+                      :style="{ color: getRankColor(item.rank) }"
+                    >
                       {{ item.name }}
                     </span>
                   </template>
                   <template #newItem>
-                    <span class="font-bold" :style="{ color: getRankColor(baseItem.rank) }">
+                    <span
+                      class="font-bold"
+                      :style="{ color: getRankColor(baseItem.rank) }"
+                    >
                       {{ baseItem.name }}
                     </span>
                   </template>
@@ -260,16 +269,29 @@ const {
       </div>
     </div>
 
-    <OTable :data="itemUpgrades" bordered narrowed hoverable :selected="item" customRowKey="id">
-      <OTableColumn field="name" #default="{ row: rowItem }: { row: ItemFlat }">
+    <OTable
+      :data="itemUpgrades"
+      bordered
+      narrowed
+      hoverable
+      :selected="item"
+      custom-row-key="id"
+    >
+      <OTableColumn
+        v-slot="{ row: rowItem }: { row: ItemFlat }"
+        field="name"
+      >
         <div class="relative">
           <ShopGridItemName :item="rowItem">
-            <template v-if="item?.id === rowItem.id" #bottom-right>
+            <template
+              v-if="item?.id === rowItem.id"
+              #bottom-right
+            >
               <Tag
+                v-tooltip="$t('character.inventory.item.upgrade.currentItem')"
                 rounded
                 variant="primary"
                 icon="check"
-                v-tooltip="$t('character.inventory.item.upgrade.currentItem')"
               />
             </template>
           </ShopGridItemName>
@@ -278,7 +300,8 @@ const {
 
       <OTableColumn
         v-for="field in Object.keys(aggregationsConfig) as Array<keyof ItemFlat>"
-        #default="{ row: rowItem }: { row: ItemFlat }"
+        :key="field"
+        v-slot="{ row: rowItem }: { row: ItemFlat }"
         :field="field"
         :label="$t(`item.aggregations.${field}.title`)"
         :width="120"
@@ -286,15 +309,19 @@ const {
         <ItemParam
           :item="rowItem"
           :field="field"
-          isCompare
-          :compareMode="ItemCompareMode.Relative"
-          :relativeValue="relativeEntries[field]"
+          is-compare
+          :compare-mode="ItemCompareMode.Relative"
+          :relative-value="relativeEntries[field]"
         />
       </OTableColumn>
 
       <template #empty>
-        <div class="relative min-h-[10rem]">
-          <OLoading active iconSize="xl" :fullPage="false" />
+        <div class="relative min-h-40">
+          <OLoading
+            active
+            icon-size="xl"
+            :full-page="false"
+          />
         </div>
       </template>
     </OTable>

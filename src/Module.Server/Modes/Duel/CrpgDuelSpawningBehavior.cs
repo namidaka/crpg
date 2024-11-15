@@ -17,6 +17,7 @@ internal class CrpgDuelSpawningBehavior : CrpgSpawningBehaviorBase
         UpdatedPlayerPreferredArenaOnce = new HashSet<PlayerId>();
         IsSpawningEnabled = true;
         _duelServer = duelServer;
+        CurrentGameMode = MultiplayerGameType.Duel;
     }
 
     public HashSet<PlayerId> UpdatedPlayerPreferredArenaOnce { get; private set; }

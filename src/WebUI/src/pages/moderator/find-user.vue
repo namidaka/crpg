@@ -3,7 +3,7 @@ definePage({
   meta: {
     roles: ['Moderator', 'Admin'],
   },
-});
+})
 </script>
 
 <template>

@@ -629,30 +629,21 @@ public record SeedDataCommand : IMediatorRequest
             {
                 RestrictedUser = orle,
                 RestrictedByUser = takeo,
-                Duration = TimeSpan.Zero,
+                Duration = TimeSpan.FromDays(9999),
                 Type = RestrictionType.Join,
                 Reason = "INTERNAL REASON: Reason3",
                 PublicReason = "PUBLIC REASON: Reason31",
-                CreatedAt = DateTime.UtcNow.AddDays(-1),
+                CreatedAt = DateTime.Parse("2023-07-12T02:07:52.453109Z"),
             };
             Restriction orleRestriction1 = new()
             {
                 RestrictedUser = orle,
                 RestrictedByUser = takeo,
-                Duration = TimeSpan.FromDays(10),
+                Duration = TimeSpan.FromDays(0),
                 Type = RestrictionType.Join,
                 Reason = "INTERNAL REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.",
                 PublicReason = "PUBLIC REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate",
-                CreatedAt = DateTime.UtcNow,
-            };
-            Restriction orleRestriction2 = new()
-            {
-                RestrictedUser = orle,
-                RestrictedByUser = takeo,
-                Duration = TimeSpan.FromDays(10),
-                Type = RestrictionType.All,
-                Reason = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.z",
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Parse("2023-07-12T14:15:37.199511Z"),
             };
 
             Restriction[] newRestrictions =

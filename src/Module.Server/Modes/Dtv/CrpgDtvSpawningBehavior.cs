@@ -19,6 +19,7 @@ internal class CrpgDtvSpawningBehavior : CrpgSpawningBehaviorBase
         : base(constants)
     {
         _notifiedPlayersAboutSpawnRestriction = new HashSet<PlayerId>();
+        CurrentGameMode = MultiplayerGameType.FreeForAll;
     }
 
     public override void OnTick(float dt)

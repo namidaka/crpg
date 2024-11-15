@@ -1,60 +1,61 @@
-import { mockGet, mockPost, mockDelete, mockPut } from 'vi-fetch';
-import { response } from '@/__mocks__/crpg-client';
-import mockUser from '@/__mocks__/user.json';
-import mockUserPublic from '@/__mocks__/user-public.json';
-import mockUserItems from '@/__mocks__/user-items.json';
+import { mockDelete, mockGet, mockPost, mockPut } from 'vi-fetch'
 
-import type { User, UserItem, UserPublic } from '@/models/user';
+import type { User, UserItem, UserPublic } from '~/models/user'
 
-vi.mock('@/services/auth-service', () => ({
+import { response } from '~/__mocks__/crpg-client'
+import mockUserItems from '~/__mocks__/user-items.json'
+import mockUserPublic from '~/__mocks__/user-public.json'
+import mockUser from '~/__mocks__/user.json'
+
+import {
+  buyUserItem,
+  deleteUser,
+  extractItemFromUserItem,
+  getUser,
+  getUserById,
+  getUserClan,
+  getUserItems,
+  getUserRestrictions,
+  groupUserItemsByType,
+  mapUserToUserPublic,
+  repairUserItem,
+  searchUser,
+  sellUserItem,
+} from './users-service'
+
+vi.mock('~/services/auth-service', () => ({
   getToken: vi.fn().mockResolvedValue('mockedToken'),
-}));
+}))
 
 const { mockedMapRestrictions } = vi.hoisted(() => ({
   mockedMapRestrictions: vi.fn(),
-}));
-vi.mock('@/services/restriction-service', () => ({
+}))
+vi.mock('~/services/restriction-service', () => ({
   mapRestrictions: mockedMapRestrictions,
-}));
+}))
 
 const { mockedMapClanResponse } = vi.hoisted(() => ({
   mockedMapClanResponse: vi.fn(),
-}));
-vi.mock('@/services/clan-service', () => ({ mapClanResponse: mockedMapClanResponse }));
-
-import {
-  getUser,
-  getUserById,
-  deleteUser,
-  extractItemFromUserItem,
-  getUserItems,
-  buyUserItem,
-  repairUserItem,
-  sellUserItem,
-  getUserClan,
-  getUserRestrictions,
-  groupUserItemsByType,
-  searchUser,
-  mapUserToUserPublic,
-} from './users-service';
+}))
+vi.mock('~/services/clan-service', () => ({ mapClanResponse: mockedMapClanResponse }))
 
 it('getUser', async () => {
-  mockGet('/users/self').willResolve(response<User>(mockUser as User));
+  mockGet('/users/self').willResolve(response<User>(mockUser as User))
 
-  expect(await getUser()).toEqual(mockUser);
-});
+  expect(await getUser()).toEqual(mockUser)
+})
 
 it('getUserById', async () => {
-  mockGet('/users/123').willResolve(response<UserPublic>(mockUserPublic as UserPublic));
+  mockGet('/users/123').willResolve(response<UserPublic>(mockUserPublic as UserPublic))
 
-  expect(await getUserById(123)).toEqual(mockUserPublic);
-});
+  expect(await getUserById(123)).toEqual(mockUserPublic)
+})
 
 it('deleteUser', async () => {
-  mockDelete('/users/self').willResolve(null, 204);
+  mockDelete('/users/self').willResolve(null, 204)
 
-  expect(await deleteUser()).toEqual(null);
-});
+  expect(await deleteUser()).toEqual(null)
+})
 
 it('extractItemFromUserItem', () => {
   expect(
@@ -65,85 +66,84 @@ it('extractItemFromUserItem', () => {
           id: '123',
         },
       } as UserItem,
-    ])
+    ]),
   ).toEqual([
     {
       id: '123',
     },
-  ]);
-});
+  ])
+})
 
 it('getUserItems', async () => {
-  mockGet('/users/self/items').willResolve(response(mockUserItems));
+  mockGet('/users/self/items').willResolve(response(mockUserItems))
 
   expect(await getUserItems()).toEqual(
-    mockUserItems.map(ui => ({ ...ui, createdAt: new Date(ui.createdAt) }))
-  );
-});
+    mockUserItems.map(ui => ({ ...ui, createdAt: new Date(ui.createdAt) })),
+  )
+})
 
 it('buyUserItem', async () => {
-  const mock = mockPost('/users/self/items').willResolve(response(mockUserItems[0]));
+  const mock = mockPost('/users/self/items').willResolve(response(mockUserItems[0]))
 
   expect(await buyUserItem('123')).toEqual({
     ...mockUserItems[0],
     createdAt: new Date(mockUserItems[0].createdAt),
-  });
+  })
 
-  expect(mock).toHaveFetchedWithBody({ itemId: '123' });
-});
+  expect(mock).toHaveFetchedWithBody({ itemId: '123' })
+})
 
 it('repairUserItem', async () => {
-  mockPut('/users/self/items/123/repair').willResolve(response(mockUserItems[0]));
+  mockPut('/users/self/items/123/repair').willResolve(response(mockUserItems[0]))
 
   expect(await repairUserItem(123)).toEqual({
     ...mockUserItems[0],
     createdAt: new Date(mockUserItems[0].createdAt),
-  });
-});
+  })
+})
 
 it('sellUserItem', async () => {
-  mockDelete('/users/self/items/123').willResolve(null, 204);
+  mockDelete('/users/self/items/123').willResolve(null, 204)
 
-  expect(await sellUserItem(123)).toEqual(null);
-});
+  expect(await sellUserItem(123)).toEqual(null)
+})
 
 describe('userItems: filterBy, sortBy, groupBy', () => {
   const userItems = [
     {
       id: 1,
       item: {
-        type: 'HeadArmor',
         name: 'Fluttershy',
+        type: 'HeadArmor',
       },
     },
     {
       id: 2,
       item: {
-        type: 'Thrown',
         name: 'Rainbow Dash',
+        type: 'Thrown',
       },
     },
     {
       id: 3,
       item: {
-        type: 'Thrown',
         name: 'Rarity',
+        type: 'Thrown',
       },
     },
-  ] as UserItem[];
+  ] as UserItem[]
 
   it('groupUserItemsByType', () => {
     expect(groupUserItemsByType(userItems)).toMatchObject([
       {
-        type: 'HeadArmor',
         items: [
           {
             id: 1,
           },
         ],
+        type: 'HeadArmor',
       },
       {
-        type: 'Thrown',
         items: [
           {
             id: 2,
@@ -152,58 +152,59 @@ describe('userItems: filterBy, sortBy, groupBy', () => {
             id: 3,
           },
         ],
+        type: 'Thrown',
       },
-    ]);
-  });
-});
+    ])
+  })
+})
 
 describe('getUserClan', () => {
   it('user does`t have a clan', async () => {
-    mockGet('/users/self/clan').willResolve(response(null));
+    mockGet('/users/self/clan').willResolve(response(null))
 
-    expect(await getUserClan()).toEqual(null);
-    expect(mockedMapClanResponse).not.toBeCalled();
-  });
+    expect(await getUserClan()).toEqual(null)
+    expect(mockedMapClanResponse).not.toBeCalled()
+  })
 
   it('user has a clan', async () => {
     mockGet('/users/self/clan').willResolve(
       response({
         clan: {
           id: 1,
-          tag: 'mlp',
           name: 'My Little Pony',
+          tag: 'mlp',
         },
-      })
-    );
+      }),
+    )
 
-    await getUserClan();
-    expect(mockedMapClanResponse).toBeCalled();
-  });
-});
+    await getUserClan()
+    expect(mockedMapClanResponse).toBeCalled()
+  })
+})
 
 it('getUserRestrictions', async () => {
-  const USER_ID = 123;
-  const USER_RESTRICTIONS = [{ id: 1 }];
-  mockGet(`/users/${USER_ID}/restrictions`).willResolve(response(USER_RESTRICTIONS));
+  const USER_ID = 123
+  const USER_RESTRICTIONS = [{ id: 1 }]
+  mockGet(`/users/${USER_ID}/restrictions`).willResolve(response(USER_RESTRICTIONS))
 
-  await getUserRestrictions(USER_ID);
+  await getUserRestrictions(USER_ID)
 
-  expect(mockedMapRestrictions).toBeCalledWith(USER_RESTRICTIONS);
-});
+  expect(mockedMapRestrictions).toBeCalledWith(USER_RESTRICTIONS)
+})
 
 it('searchUser', async () => {
-  const NAME = 'Fluttershy';
+  const NAME = 'Fluttershy'
   const USER = {
     id: 1,
     name: 'Fluttershy',
     platform: 'Steam',
-  };
+  }
 
-  mockGet(`/users/search/?name=${NAME}`, true).willResolve(response(USER));
+  mockGet(`/users/search/?name=${NAME}`, true).willResolve(response(USER))
 
-  expect(await searchUser({ name: NAME })).toEqual(USER);
-});
+  expect(await searchUser({ name: NAME })).toEqual(USER)
+})
 
 it('mapUserToUserPublic', async () => {
-  expect(mapUserToUserPublic(mockUser as User, null)).toEqual(mockUserPublic as UserPublic);
-});
+  expect(mapUserToUserPublic(mockUser as User, null)).toEqual(mockUserPublic as UserPublic)
+})

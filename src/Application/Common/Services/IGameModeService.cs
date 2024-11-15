@@ -18,6 +18,7 @@ internal class GameModeService : IGameModeService
         { GameModeAlias.D, GameMode.CRPGSkirmish },
         { GameModeAlias.F, GameMode.CRPGTeamDeathmatch },
         { GameModeAlias.Z, GameMode.CRPGUnknownGameMode },
+        { GameModeAlias.G, GameMode.CRPGCaptain },
     };
     public GameMode GameModeByInstanceAlias(GameModeAlias alias)
     {

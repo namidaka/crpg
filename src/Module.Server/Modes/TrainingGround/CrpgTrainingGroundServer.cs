@@ -695,7 +695,7 @@ internal class CrpgTrainingGroundServer : MissionMultiplayerGameModeBase
             }
 
             GameNetwork.BeginBroadcastModuleEvent();
-            GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses, Rating = (int)stats.Rating.CompetitiveValue });
+            GameNetwork.WriteMessage(new TrainingGroundDuelPointsUpdateMessage { NetworkCommunicator = component.GetNetworkPeer(), NumberOfWins = component.NumberOfWins, NumberOfLosses = component.NumberOfLosses, Rating = component.Rating });
             GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None);
         }
 

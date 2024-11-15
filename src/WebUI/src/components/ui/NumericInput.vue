@@ -1,95 +1,96 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    modelValue: number;
-    min?: number;
-    max?: number;
-    step?: number;
-    exponential?: number;
-    longPress?: boolean;
-    readonly?: boolean;
+    modelValue: number
+    min?: number
+    max?: number
+    step?: number
+    exponential?: number
+    longPress?: boolean
+    readonly?: boolean
   }>(),
   {
+    longPress: true,
     readonly: false,
     step: 1,
-    longPress: true,
-  }
-);
+  },
+)
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', modelValue: number): void;
-}>();
+  (e: 'update:modelValue', modelValue: number): void
+}>()
 
 const model = computed({
-  set(val: number) {
-    emit('update:modelValue', val);
+  get() {
+    return props.modelValue
   },
 
-  get() {
-    return props.modelValue;
+  set(val: number) {
+    emit('update:modelValue', val)
   },
-});
+})
 
 const decrement = () => {
   if (props.min !== undefined && model.value === props.min) {
-    return;
+    return
   }
 
-  model.value = model.value - props.step;
-};
+  model.value = model.value - props.step
+}
 
 const increment = () => {
   if (props.max !== undefined && model.value === props.max) {
-    return;
+    return
   }
 
-  model.value = model.value + props.step;
-};
+  model.value = model.value + props.step
+}
 
-const timesPressed = ref<number>(1);
-let _intervalRef: number | null = null;
+const timesPressed = ref<number>(1)
+let _intervalRef: number | null = null
 
 const longPressTick = (inc = false) => {
   if (inc) {
-    increment();
-  } else {
-    decrement();
+    increment()
+  }
+  else {
+    decrement()
   }
 
-  // @ts-ignore
+  // @ts-expect-error TODO:
   _intervalRef = setTimeout(
     () => {
-      longPressTick(inc);
+      longPressTick(inc)
     },
-    props.exponential !== undefined ? 250 / (props.exponential * timesPressed.value++) : 250
-  );
-};
+    props.exponential !== undefined ? 250 / (props.exponential * timesPressed.value++) : 250,
+  )
+}
 
 const onCLick = (e: PointerEvent, inc = false) => {
-  if (e.detail !== 0 || e.type !== 'click') return;
+  if (e.detail !== 0 || e.type !== 'click') { return }
 
   if (inc) {
-    increment();
-    return;
+    increment()
+    return
   }
 
-  decrement();
-};
+  decrement()
+}
 
 const onStartLongPress = (e: PointerEvent, inc = false) => {
-  if (!props.longPress) return;
-  if (e.button !== 0 && e.type !== 'touchstart') return;
+  if (!props.longPress) { return }
+  if (e.button !== 0 && e.type !== 'touchstart') { return }
 
-  _intervalRef && clearTimeout(_intervalRef);
-  longPressTick(inc);
-};
+  _intervalRef && clearTimeout(_intervalRef)
+  longPressTick(inc)
+}
 
 const onStopLongPress = () => {
-  if (!_intervalRef) return;
-  timesPressed.value = 1;
-  clearTimeout(_intervalRef);
-  _intervalRef = null;
-};
+  if (!_intervalRef) { return }
+  timesPressed.value = 1
+  clearTimeout(_intervalRef)
+  _intervalRef = null
+}
 </script>
 
 <template>
@@ -101,7 +102,7 @@ const onStopLongPress = () => {
       @touchcancel="onStopLongPress"
     >
       <OButton
-        iconLeft="minus"
+        icon-left="minus"
         rounded
         variant="primary"
         size="2xs"
@@ -130,7 +131,7 @@ const onStopLongPress = () => {
       @touchcancel="onStopLongPress"
     >
       <OButton
-        iconLeft="plus"
+        icon-left="plus"
         rounded
         variant="primary"
         inverted

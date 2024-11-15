@@ -1,18 +1,18 @@
 // TODO: use https://github.com/vueuse/vueuse/issues/2890
 
-import { makeDestructurable } from '@vueuse/shared';
+import { makeDestructurable } from '@vueuse/shared'
 
-export type AnyPromiseFn = (...args: any[]) => Promise<any>;
+export type AnyPromiseFn = (...args: any[]) => Promise<any>
 
 export type UseAsyncCallbackReturn<Fn extends AnyPromiseFn> = readonly [
   Fn,
   Ref<boolean>,
-  Ref<any>
+  Ref<any>,
 ] & {
-  execute: Fn;
-  loading: Ref<boolean>;
-  error: Ref<any>;
-};
+  execute: Fn
+  loading: Ref<boolean>
+  error: Ref<any>
+}
 
 /**
  * Using async functions
@@ -21,24 +21,25 @@ export type UseAsyncCallbackReturn<Fn extends AnyPromiseFn> = readonly [
  * @param fn
  */
 export function useAsyncCallback<T extends AnyPromiseFn>(fn: T): UseAsyncCallbackReturn<T> {
-  const error = ref();
-  const loading = ref(false);
+  const error = ref()
+  const loading = ref(false)
 
   const execute = (async (...args: any[]) => {
     try {
-      loading.value = true;
-      const result = await fn(...args);
-      loading.value = false;
-      return result;
-    } catch (err) {
-      loading.value = false;
-      error.value = err;
-      throw err;
+      loading.value = true
+      const result = await fn(...args)
+      loading.value = false
+      return result
     }
-  }) as T;
+    catch (err) {
+      loading.value = false
+      error.value = err
+      throw err
+    }
+  }) as T
 
   return makeDestructurable(
-    { execute, loading, error } as const,
-    [execute, loading, error] as const
-  );
+    { error, execute, loading } as const,
+    [execute, loading, error] as const,
+  )
 }

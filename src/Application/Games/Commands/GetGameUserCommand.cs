@@ -216,12 +216,7 @@ public record GetGameUserCommand : IMediatorRequest<GameUserViewModel>
                     .Include(ei => ei.UserItem)
                     .LoadAsync(cancellationToken);
 
-                if (!Enum.TryParse(req.Instance, true, out GameModeAlias instanceAlias))
-                {
-                    instanceAlias = GameModeAlias.Z; // Default value if parsing fails.
-                }
-
-                GameMode currentGameMode = _gameModeService.GameModeByInstanceAlias(instanceAlias);
+                GameMode currentGameMode = _gameModeService.GameModeByInstanceAlias(Enum.TryParse(req.Instance[^1..], ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.Z);
 
                 var statistics = await _db.Entry(user.ActiveCharacter)
                     .Collection(c => c.Statistics)

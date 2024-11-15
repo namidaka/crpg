@@ -1,73 +1,73 @@
+import { useClanArmory } from './use-clan-armory'
+
 const {
-  mockedGetClanArmory,
   mockedAddItemToClanArmory,
+  mockedBorrowItemFromClanArmory,
+  mockedGetClanArmory,
   mockedRemoveItemFromClanArmory,
   mockedReturnItemToClanArmory,
-  mockedBorrowItemFromClanArmory,
 } = vi.hoisted(() => ({
-  mockedGetClanArmory: vi.fn().mockResolvedValue([{ id: 1 }]),
   mockedAddItemToClanArmory: vi.fn(),
+  mockedBorrowItemFromClanArmory: vi.fn(),
+  mockedGetClanArmory: vi.fn().mockResolvedValue([{ id: 1 }]),
   mockedRemoveItemFromClanArmory: vi.fn(),
   mockedReturnItemToClanArmory: vi.fn(),
-  mockedBorrowItemFromClanArmory: vi.fn(),
-}));
-vi.mock('@/services/clan-service', () => ({
-  getClanArmory: mockedGetClanArmory,
+}))
+vi.mock('~/services/clan-service', () => ({
   addItemToClanArmory: mockedAddItemToClanArmory,
+  borrowItemFromClanArmory: mockedBorrowItemFromClanArmory,
+  getClanArmory: mockedGetClanArmory,
   removeItemFromClanArmory: mockedRemoveItemFromClanArmory,
   returnItemToClanArmory: mockedReturnItemToClanArmory,
-  borrowItemFromClanArmory: mockedBorrowItemFromClanArmory,
-}));
+}))
 
-import { useClanArmory } from './use-clan-armory';
-
-const clanId = 1;
+const clanId = 1
 
 it('clanArmory', async () => {
-  const { clanArmory, loadClanArmory, isLoadingClanArmory } = useClanArmory(clanId);
+  const { clanArmory, isLoadingClanArmory, loadClanArmory } = useClanArmory(clanId)
 
-  expect(mockedGetClanArmory).not.toBeCalled();
-  expect(clanArmory.value).toEqual([]);
-  expect(isLoadingClanArmory.value).toEqual(false);
+  expect(mockedGetClanArmory).not.toBeCalled()
+  expect(clanArmory.value).toEqual([])
+  expect(isLoadingClanArmory.value).toEqual(false)
 
-  await loadClanArmory();
+  await loadClanArmory()
 
-  expect(mockedGetClanArmory).toBeCalled();
-  expect(clanArmory.value).toEqual([{ id: 1 }]);
-});
+  expect(mockedGetClanArmory).toBeCalled()
+  expect(clanArmory.value).toEqual([{ id: 1 }])
+})
 
 it('addItem', async () => {
-  const itemId = 1;
-  const { addItem } = useClanArmory(clanId);
+  const itemId = 1
+  const { addItem } = useClanArmory(clanId)
 
-  await addItem(itemId);
+  await addItem(itemId)
 
-  expect(mockedAddItemToClanArmory).toBeCalledWith(clanId, itemId);
-});
+  expect(mockedAddItemToClanArmory).toBeCalledWith(clanId, itemId)
+})
 
 it('removeItem', async () => {
-  const itemId = 1;
-  const { removeItem } = useClanArmory(clanId);
+  const itemId = 1
+  const { removeItem } = useClanArmory(clanId)
 
-  await removeItem(itemId);
+  await removeItem(itemId)
 
-  expect(mockedRemoveItemFromClanArmory).toBeCalledWith(clanId, itemId);
-});
+  expect(mockedRemoveItemFromClanArmory).toBeCalledWith(clanId, itemId)
+})
 
 it('borrowItem', async () => {
-  const itemId = 1;
-  const { borrowItem } = useClanArmory(clanId);
+  const itemId = 1
+  const { borrowItem } = useClanArmory(clanId)
 
-  await borrowItem(itemId);
+  await borrowItem(itemId)
 
-  expect(mockedBorrowItemFromClanArmory).toBeCalledWith(clanId, itemId);
-});
+  expect(mockedBorrowItemFromClanArmory).toBeCalledWith(clanId, itemId)
+})
 
 it('returnItem', async () => {
-  const itemId = 1;
-  const { returnItem } = useClanArmory(clanId);
+  const itemId = 1
+  const { returnItem } = useClanArmory(clanId)
 
-  await returnItem(itemId);
+  await returnItem(itemId)
 
-  expect(mockedReturnItemToClanArmory).toBeCalledWith(clanId, itemId);
-});
+  expect(mockedReturnItemToClanArmory).toBeCalledWith(clanId, itemId)
+})

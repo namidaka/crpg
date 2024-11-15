@@ -1,151 +1,153 @@
-import { flushPromises } from '@vue/test-utils';
-import { createTestingPinia } from '@pinia/testing';
-import { mountWithRouter } from '@/__test__/unit/utils';
-import { type Clan } from '@/models/clan';
-import { type User } from '@/models/user';
+import { createTestingPinia } from '@pinia/testing'
+import { flushPromises } from '@vue/test-utils'
 
-const CLAN_FORM = { tag: 'mlp', name: 'My Little Pony New' } as Omit<Clan, 'id'>;
-const { CLAN_ID } = vi.hoisted(() => ({ CLAN_ID: 1 }));
+import type { Clan } from '~/models/clan'
+import type { User } from '~/models/user'
+
+import { mountWithRouter } from '~/__test__/unit/utils'
+import { useUserStore } from '~/stores/user'
+
+import Page from './update.vue'
+
+const CLAN_FORM = { name: 'My Little Pony New', tag: 'mlp' } as Omit<Clan, 'id'>
+const { CLAN_ID } = vi.hoisted(() => ({ CLAN_ID: 1 }))
 const { CLAN } = vi.hoisted(() => ({
   CLAN: {
     id: CLAN_ID,
-    tag: 'mlp',
     name: 'My Little Pony',
+    tag: 'mlp',
   },
-}));
+}))
 
-const { mockedUpdateClan, mockedKickClanMember } = vi.hoisted(() => ({
-  mockedUpdateClan: vi.fn().mockResolvedValue({ id: CLAN_ID }),
+const { mockedKickClanMember, mockedUpdateClan } = vi.hoisted(() => ({
   mockedKickClanMember: vi.fn(),
-}));
-vi.mock('@/services/clan-service', () => ({
-  updateClan: mockedUpdateClan,
+  mockedUpdateClan: vi.fn().mockResolvedValue({ id: CLAN_ID }),
+}))
+vi.mock('~/services/clan-service', () => ({
   kickClanMember: mockedKickClanMember,
-}));
+  updateClan: mockedUpdateClan,
+}))
 
-const { mockedNotify } = vi.hoisted(() => ({ mockedNotify: vi.fn() }));
-vi.mock('@/services/notification-service', () => ({
+const { mockedNotify } = vi.hoisted(() => ({ mockedNotify: vi.fn() }))
+vi.mock('~/services/notification-service', () => ({
   notify: mockedNotify,
-}));
+}))
 
 const { mockedUseClan } = vi.hoisted(() => ({
   mockedUseClan: vi.fn().mockImplementation(() => ({
-    clanId: computed(() => CLAN_ID),
     clan: computed(() => CLAN),
+    clanId: computed(() => CLAN_ID),
     loadClan: vi.fn(),
   })),
-}));
-vi.mock('@/composables/clan/use-clan', () => ({
+}))
+vi.mock('~/composables/clan/use-clan', () => ({
   useClan: mockedUseClan,
-}));
+}))
 
 const { mockedUseClanMembers } = vi.hoisted(() => ({
   mockedUseClanMembers: vi.fn().mockImplementation(() => ({
     isLastMember: computed(() => false),
     loadClanMembers: vi.fn(),
   })),
-}));
-vi.mock('@/composables/clan/use-clan-members', () => ({
+}))
+vi.mock('~/composables/clan/use-clan-members', () => ({
   useClanMembers: mockedUseClanMembers,
-}));
+}))
 
-import { useUserStore } from '@/stores/user';
-import Page from './update.vue';
-
-const userStore = useUserStore(createTestingPinia());
+const userStore = useUserStore(createTestingPinia())
 
 const routes = [
   {
+    component: Page,
     name: 'ClansIdUpdate',
     path: '/clans/:id/update',
-    component: Page,
     props: true,
   },
   {
+    component: {
+      template: `<div></div>`,
+    },
     name: 'ClansId',
     path: '/clans/:id',
-    component: {
-      template: `<div></div>`,
-    },
     props: true,
   },
   {
-    name: 'Clans',
-    path: '/clans',
     component: {
       template: `<div></div>`,
     },
+    name: 'Clans',
+    path: '/clans',
   },
-];
+]
 const route = {
   name: 'ClansIdUpdate',
   params: {
     id: String(CLAN_ID),
   },
-};
+}
 
 const mountOptions = {
   global: {
     stubs: ['ClanForm', 'RouterLink'],
   },
-};
+}
 
 beforeEach(() => {
-  userStore.$reset();
-});
+  userStore.$reset()
+})
 
 it('emit - submit', async () => {
-  const { wrapper, router } = await mountWithRouter(mountOptions, routes, route);
-  const spyRouterReplace = vi.spyOn(router, 'replace');
+  const { router, wrapper } = await mountWithRouter(mountOptions, routes, route)
+  const spyRouterReplace = vi.spyOn(router, 'replace')
 
-  const clanFormComponent = wrapper.findComponent({ name: 'ClanForm' });
+  const clanFormComponent = wrapper.findComponent({ name: 'ClanForm' })
 
-  await clanFormComponent.vm.$emit('submit', CLAN_FORM);
-  await flushPromises();
+  await clanFormComponent.vm.$emit('submit', CLAN_FORM)
+  await flushPromises()
 
-  expect(mockedUpdateClan).toBeCalledWith(CLAN_ID, { ...CLAN, ...CLAN_FORM });
-  expect(userStore.fetchUserClanAndRole).toBeCalled();
+  expect(mockedUpdateClan).toBeCalledWith(CLAN_ID, { ...CLAN, ...CLAN_FORM })
+  expect(userStore.fetchUserClanAndRole).toBeCalled()
   expect(spyRouterReplace).toBeCalledWith({
     name: 'ClansId',
     params: {
       id: CLAN_ID,
     },
-  });
-  expect(mockedNotify).toBeCalledWith('clan.update.notify.success');
-});
+  })
+  expect(mockedNotify).toBeCalledWith('clan.update.notify.success')
+})
 
 describe('delete clan', () => {
-  it("it shouldn't be possible to delete a clan if the member is the only", async () => {
-    const { wrapper } = await mountWithRouter(mountOptions, routes, route);
+  it('it shouldn\'t be possible to delete a clan if the member is the only', async () => {
+    const { wrapper } = await mountWithRouter(mountOptions, routes, route)
 
-    expect(wrapper.find('[data-aq-clan-delete-required-message]').exists()).toStrictEqual(true);
-    expect(wrapper.find('[data-aq-clan-delete-confirm-action-form]').exists()).toStrictEqual(false);
-  });
+    expect(wrapper.find('[data-aq-clan-delete-required-message]').exists()).toStrictEqual(true)
+    expect(wrapper.find('[data-aq-clan-delete-confirm-action-form]').exists()).toStrictEqual(false)
+  })
 
-  it("it should be possible to delete a clan if the member isn't the only", async () => {
-    userStore.user = { id: 1 } as User;
+  it('it should be possible to delete a clan if the member isn\'t the only', async () => {
+    userStore.user = { id: 1 } as User
 
     mockedUseClanMembers.mockImplementationOnce(() => ({
       isLastMember: computed(() => true),
       loadClanMembers: vi.fn(),
-    }));
+    }))
 
-    const { wrapper, router } = await mountWithRouter(mountOptions, routes, route);
-    const spyRouterReplace = vi.spyOn(router, 'replace');
+    const { router, wrapper } = await mountWithRouter(mountOptions, routes, route)
+    const spyRouterReplace = vi.spyOn(router, 'replace')
 
-    const ConfirmActionForm = wrapper.findComponent({ name: 'ConfirmActionForm' });
+    const ConfirmActionForm = wrapper.findComponent({ name: 'ConfirmActionForm' })
 
-    expect(ConfirmActionForm.exists()).toStrictEqual(true);
-    expect(wrapper.find('[data-aq-clan-delete-required-message]').exists()).toStrictEqual(false);
+    expect(ConfirmActionForm.exists()).toStrictEqual(true)
+    expect(wrapper.find('[data-aq-clan-delete-required-message]').exists()).toStrictEqual(false)
 
-    await ConfirmActionForm.vm.$emit('confirm');
-    await flushPromises();
+    await ConfirmActionForm.vm.$emit('confirm')
+    await flushPromises()
 
-    expect(userStore.fetchUserClanAndRole).toBeCalled();
-    expect(mockedNotify).toBeCalledWith('clan.delete.notify.success');
+    expect(userStore.fetchUserClanAndRole).toBeCalled()
+    expect(mockedNotify).toBeCalledWith('clan.delete.notify.success')
     expect(spyRouterReplace).toBeCalledWith({
       name: 'Clans',
-    });
-    expect(mockedKickClanMember).toBeCalledWith(1, 1);
-  });
-});
+    })
+    expect(mockedKickClanMember).toBeCalledWith(1, 1)
+  })
+})

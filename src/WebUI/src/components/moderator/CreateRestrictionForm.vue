@@ -1,60 +1,65 @@
 <script setup lang="ts">
-import { type HumanDuration } from '@/models/datetime';
-import { restrictUser } from '@/services/restriction-service';
-import { type RestrictionCreation, RestrictionType } from '@/models/restriction';
-import { convertHumanDurationToMs } from '@/utils/date';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
+import type { HumanDuration } from '~/models/datetime'
+import type { RestrictionCreation } from '~/models/restriction'
 
-const props = defineProps<{ userId: number }>();
+import { RestrictionType } from '~/models/restriction'
+import { notify } from '~/services/notification-service'
+import { restrictUser } from '~/services/restriction-service'
+import { t } from '~/services/translate-service'
+import { convertHumanDurationToMs } from '~/utils/date'
+
+const props = defineProps<{ userId: number }>()
 
 const emit = defineEmits<{
-  restrictionCreated: [];
-}>();
+  restrictionCreated: []
+}>()
 
 const newRestrictionModel = ref<Omit<RestrictionCreation, 'restrictedUserId'>>({
-  reason: '',
-  publicReason: '',
   duration: 0,
+  publicReason: '',
+  reason: '',
   type: RestrictionType.Join,
-});
+})
 
 const durationModel = ref<HumanDuration>({
   days: 0,
   hours: 0,
   minutes: 0,
-});
+})
 
-const durationSeconds = computed(() => convertHumanDurationToMs(durationModel.value));
+const durationSeconds = computed(() => convertHumanDurationToMs(durationModel.value))
 
 const addRestriction = async () => {
   await restrictUser({
     ...newRestrictionModel.value,
-    restrictedUserId: props.userId,
     duration: durationSeconds.value,
-  });
+    restrictedUserId: props.userId,
+  })
 
-  notify(t('restriction.create.notify.success'));
+  notify(t('restriction.create.notify.success'))
 
   durationModel.value = {
     days: 0,
     hours: 0,
     minutes: 0,
-  };
+  }
 
   newRestrictionModel.value = {
-    reason: '',
-    publicReason: '',
     duration: 0,
+    publicReason: '',
+    reason: '',
     type: RestrictionType.Join,
-  };
+  }
 
-  emit('restrictionCreated');
-};
+  emit('restrictionCreated')
+}
 </script>
 
 <template>
-  <form @submit.prevent="addRestriction" class="space-y-8">
+  <form
+    class="space-y-8"
+    @submit.prevent="addRestriction"
+  >
     <OField>
       <OField :label="$t('restriction.create.form.field.type.label')">
         <VDropdown :triggers="['click']">
@@ -63,13 +68,21 @@ const addRestriction = async () => {
               :label="$t(`restriction.type.${newRestrictionModel.type}`)"
               variant="secondary"
               size="lg"
-              :iconRight="shown ? 'chevron-up' : 'chevron-down'"
+              :icon-right="shown ? 'chevron-up' : 'chevron-down'"
             />
           </template>
 
           <template #popper="{ hide }">
-            <DropdownItem v-for="rt in Object.keys(RestrictionType)" class="min-w-60 max-w-xs">
-              <ORadio v-model="newRestrictionModel.type" :native-value="rt" @change="hide">
+            <DropdownItem
+              v-for="rt in Object.keys(RestrictionType)"
+              :key="rt"
+              class="min-w-60 max-w-xs"
+            >
+              <ORadio
+                v-model="newRestrictionModel.type"
+                :native-value="rt"
+                @change="hide"
+              >
                 {{ $t(`restriction.type.${rt}`) }}
               </ORadio>
             </DropdownItem>
@@ -79,23 +92,41 @@ const addRestriction = async () => {
 
       <OField message="Use a duration of 0 to un-restrict">
         <OField :label="$t('restriction.create.form.field.days.label')">
-          <OInput v-model="durationModel.days" size="lg" class="w-20" required type="number" />
+          <OInput
+            v-model="durationModel.days"
+            size="lg"
+            class="w-20"
+            required
+            type="number"
+          />
         </OField>
 
         <OField :label="$t('restriction.create.form.field.hours.label')">
-          <OInput v-model="durationModel.hours" size="lg" class="w-20" required type="number" />
+          <OInput
+            v-model="durationModel.hours"
+            size="lg"
+            class="w-20"
+            required
+            type="number"
+          />
         </OField>
 
         <OField :label="$t('restriction.create.form.field.minutes.label')">
-          <OInput v-model="durationModel.minutes" size="lg" class="w-20" required type="number" />
+          <OInput
+            v-model="durationModel.minutes"
+            size="lg"
+            class="w-20"
+            required
+            type="number"
+          />
         </OField>
       </OField>
     </OField>
 
     <OField :label="$t('restriction.create.form.field.reason.label')">
       <OInput
-        placeholder=""
         v-model="newRestrictionModel.reason"
+        placeholder=""
         size="lg"
         class="w-96"
         required
@@ -106,8 +137,8 @@ const addRestriction = async () => {
 
     <OField :label="$t('restriction.create.form.field.publicReason.label')">
       <OInput
-        placeholder=""
         v-model="newRestrictionModel.publicReason"
+        placeholder=""
         size="lg"
         class="w-96"
         type="textarea"

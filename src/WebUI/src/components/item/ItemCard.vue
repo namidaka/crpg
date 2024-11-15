@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import { type Item } from '@/models/item';
-import { useItem } from '@/composables/item/use-item';
+import type { Item } from '~/models/item'
+
+import { useItem } from '~/composables/item/use-item'
 
 const { item } = defineProps<{
-  item: Item;
-}>();
+  item: Item
+}>()
 
-const { thumb } = useItem(toRef(() => item));
+const { thumb } = useItem(toRef(() => item))
 </script>
 
 <template>
   <article
-    class="min-h-[5rem] items-center justify-center space-y-1 rounded-lg bg-base-200 ring ring-transparent hover:ring-border-200"
+    class="min-h-20 items-center justify-center space-y-1 rounded-lg bg-base-200 ring ring-transparent hover:ring-border-200"
   >
     <div class="relative h-full">
-      <img :src="thumb" :alt="item.name" class="h-full select-none object-contain" />
+      <img
+        :src="thumb"
+        :alt="item.name"
+        class="h-full select-none object-contain"
+      >
 
       <div class="absolute left-1 top-1 z-10 flex items-center gap-1">
         <ItemRankIcon

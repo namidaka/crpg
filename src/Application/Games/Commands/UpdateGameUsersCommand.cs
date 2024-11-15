@@ -46,12 +46,12 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             CancellationToken cancellationToken)
         {
             var idempotencyKey = await _db.IdempotencyKeys
-                .Where(ik => ik.Key == req.Key.ToString())
+                .Where(ik => ik.Key == req.Key)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (idempotencyKey == null || idempotencyKey.Status != UserUpdateStatus.Completed)
             {
-                IdempotencyKey key = new() { Key = req.Key.ToString(), CreatedAt = DateTime.UtcNow, Status = UserUpdateStatus.Started };
+                IdempotencyKey key = new() { Key = req.Key, CreatedAt = DateTime.UtcNow, Status = UserUpdateStatus.Started };
                 _db.IdempotencyKeys.Add(key);
                 await _db.SaveChangesAsync(cancellationToken);
 

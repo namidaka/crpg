@@ -1,50 +1,51 @@
 <script setup lang="ts">
-import { type Clan } from '@/models/clan';
-import { useClan } from '@/composables/clan/use-clan';
-import { useClanMembers } from '@/composables/clan/use-clan-members';
-import { useUserStore } from '@/stores/user';
-import { updateClan, kickClanMember } from '@/services/clan-service';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
+import type { Clan } from '~/models/clan'
+
+import { useClan } from '~/composables/clan/use-clan'
+import { useClanMembers } from '~/composables/clan/use-clan-members'
+import { kickClanMember, updateClan } from '~/services/clan-service'
+import { notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
+import { useUserStore } from '~/stores/user'
+
+const props = defineProps<{
+  id: string
+}>()
 
 definePage({
-  props: true,
   meta: {
     layout: 'default',
     middleware: 'canUpdateClan', // TODO: ['clanIdParamValidate', 'canManageApplications']
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+  props: true,
+})
 
-const props = defineProps<{
-  id: string;
-}>();
+const userStore = useUserStore()
+const router = useRouter()
 
-const userStore = useUserStore();
-const router = useRouter();
-
-const { clanId, clan, loadClan } = useClan(props.id);
-const { loadClanMembers, isLastMember } = useClanMembers();
+const { clan, clanId, loadClan } = useClan(props.id)
+const { isLastMember, loadClanMembers } = useClanMembers()
 
 const onSubmit = async (form: Omit<Clan, 'id'>) => {
-  const clan = await updateClan(clanId.value, { ...form, id: clanId.value });
-  await userStore.fetchUserClanAndRole();
-  notify(t('clan.update.notify.success'));
-  router.replace({ name: 'ClansId', params: { id: clan.id } });
-};
+  const clan = await updateClan(clanId.value, { ...form, id: clanId.value })
+  await userStore.fetchUserClanAndRole()
+  notify(t('clan.update.notify.success'))
+  router.replace({ name: 'ClansId', params: { id: clan.id } })
+}
 
 const deleteClan = async () => {
-  await kickClanMember(clanId.value, userStore.user!.id); // delete yourself from the clan as the only member === delete the clan
-  userStore.fetchUserClanAndRole();
-  notify(t('clan.delete.notify.success'));
-  return router.replace({ name: 'Clans' });
-};
+  await kickClanMember(clanId.value, userStore.user!.id) // delete yourself from the clan as the only member === delete the clan
+  userStore.fetchUserClanAndRole()
+  notify(t('clan.delete.notify.success'))
+  return router.replace({ name: 'Clans' })
+}
 
-await Promise.all([loadClan(0, { id: clanId.value }), loadClanMembers(0, { id: clanId.value })]);
+await Promise.all([loadClan(0, { id: clanId.value }), loadClanMembers(0, { id: clanId.value })])
 </script>
 
 <template>
-  <div class="px-6 py-6">
+  <div class="p-6">
     <RouterLink :to="{ name: 'ClansId', params: { id: clanId } }">
       <OButton
         v-tooltip.bottom="$t('nav.back')"
@@ -64,12 +65,21 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanMembers(0, { id: c
 
         <div class="container">
           <div class="mx-auto max-w-3xl">
-            <ClanForm :clanId="clanId" :clan="clan!" @submit="onSubmit" />
+            <ClanForm
+              :clan-id="clanId"
+              :clan="clan!"
+              @submit="onSubmit"
+            />
           </div>
         </div>
       </div>
 
-      <i18n-t scope="global" keypath="clan.delete.title" tag="div" class="text-center">
+      <i18n-t
+        scope="global"
+        keypath="clan.delete.title"
+        tag="div"
+        class="text-center"
+      >
         <template #link>
           <Modal closable>
             <span class="cursor-pointer text-status-danger hover:text-opacity-80">
@@ -81,7 +91,7 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanMembers(0, { id: c
                 :title="$t('clan.delete.dialog.title')"
                 :description="$t('clan.delete.dialog.desc')"
                 :name="clan!.name"
-                :confirmLabel="$t('action.delete')"
+                :confirm-label="$t('action.delete')"
                 data-aq-clan-delete-confirm-action-form
                 @cancel="hide"
                 @confirm="

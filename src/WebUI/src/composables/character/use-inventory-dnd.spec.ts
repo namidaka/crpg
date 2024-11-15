@@ -1,12 +1,15 @@
-import { type PartialDeep } from 'type-fest';
-import { createTestingPinia } from '@pinia/testing';
+import type { PartialDeep } from 'type-fest'
 
-import { type UserItem, type UserItemsBySlot } from '@/models/user';
-import { ItemSlot, ItemType } from '@/models/item';
-import { type CharacterCharacteristics } from '@/models/character';
-import { useUserStore } from '@/stores/user';
+import { createTestingPinia } from '@pinia/testing'
 
-const userStore = useUserStore(createTestingPinia());
+import type { UserItem, UserItemsBySlot } from '~/models/user'
+
+import { ItemSlot, ItemType } from '~/models/item'
+import { useUserStore } from '~/stores/user'
+
+import { useInventoryDnD } from './use-inventory-dnd'
+
+const userStore = useUserStore(createTestingPinia())
 
 const {
   mockedEmit,
@@ -18,28 +21,26 @@ const {
   mockedGetAvailableSlotsByItem: vi.fn().mockReturnValue([]),
   mockedGetLinkedSlots: vi.fn().mockReturnValue([]),
   mockedUseInventoryEquipment: vi.fn().mockReturnValue({
-    isEquipItemAllowed: vi.fn().mockReturnValue(true),
     getUnequipItemsLinked: vi.fn(),
+    isEquipItemAllowed: vi.fn().mockReturnValue(true),
   }),
-}));
+}))
 
 vi.mock('vue', async () => ({
   ...(await vi.importActual<typeof import('vue')>('vue')),
   getCurrentInstance: vi.fn().mockImplementation(() => ({
     emit: mockedEmit,
   })),
-}));
+}))
 
-vi.mock('@/services/item-service', () => ({
+vi.mock('~/services/item-service', () => ({
   getAvailableSlotsByItem: mockedGetAvailableSlotsByItem,
   getLinkedSlots: mockedGetLinkedSlots,
-}));
+}))
 
-vi.mock('@/composables/character/use-inventory-equipment', () => ({
+vi.mock('~/composables/character/use-inventory-equipment', () => ({
   useInventoryEquipment: mockedUseInventoryEquipment,
-}));
-
-import { useInventoryDnD } from './use-inventory-dnd';
+}))
 
 const userItemsBySlot: PartialDeep<UserItemsBySlot> = {
   [ItemSlot.Head]: {
@@ -54,283 +55,277 @@ const userItemsBySlot: PartialDeep<UserItemsBySlot> = {
       type: ItemType.OneHandedWeapon,
     },
   },
-};
+}
 
-const characterCharacteristics: PartialDeep<CharacterCharacteristics> = {
-  attributes: {
-    strength: 12,
-  },
-};
-
-const { isEquipItemAllowed, getUnequipItemsLinked } = mockedUseInventoryEquipment();
+const { getUnequipItemsLinked, isEquipItemAllowed } = mockedUseInventoryEquipment()
 
 describe('useInventoryDnD', () => {
   describe('onDragStart', () => {
     it('no item', () => {
-      const { focusedItemId, availableSlots, fromSlot, onDragStart, onDragEnd } = useInventoryDnD(
-        ref(userItemsBySlot as UserItemsBySlot)
-      );
+      const { availableSlots, focusedItemId, fromSlot, onDragEnd, onDragStart } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot),
+      )
 
-      onDragStart(null, null);
+      onDragStart(null, null)
 
-      expect(focusedItemId.value).toEqual(null);
-      expect(availableSlots.value).toEqual([]);
-      expect(fromSlot.value).toEqual(null);
+      expect(focusedItemId.value).toEqual(null)
+      expect(availableSlots.value).toEqual([])
+      expect(fromSlot.value).toEqual(null)
 
-      onDragEnd(); // reset shared state
-    });
+      onDragEnd() // reset shared state
+    })
 
     it('weapon: from inventory, to doll', () => {
-      userStore.$patch({ user: { id: 1 } });
+      userStore.$patch({ user: { id: 1 } })
 
       const userItem: PartialDeep<UserItem> = {
         id: 1,
-        item: { type: ItemType.TwoHandedWeapon, flags: [] },
-      };
+        item: { flags: [], type: ItemType.TwoHandedWeapon },
+      }
 
       const AVAILABLE_SLOTS = [
         ItemSlot.Weapon0,
         ItemSlot.Weapon1,
         ItemSlot.Weapon2,
         ItemSlot.Weapon3,
-      ];
+      ]
 
-      mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS);
+      mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS)
 
-      const { focusedItemId, availableSlots, fromSlot, onDragStart, onDragEnd } = useInventoryDnD(
-        ref(userItemsBySlot as UserItemsBySlot)
-      );
+      const { availableSlots, focusedItemId, fromSlot, onDragEnd, onDragStart } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot),
+      )
 
-      onDragStart(userItem as UserItem, ItemSlot.Weapon1);
+      onDragStart(userItem as UserItem, ItemSlot.Weapon1)
 
-      expect(focusedItemId.value).toEqual(1);
-      expect(availableSlots.value).toEqual(AVAILABLE_SLOTS);
-      expect(fromSlot.value).toEqual(ItemSlot.Weapon1);
+      expect(focusedItemId.value).toEqual(1)
+      expect(availableSlots.value).toEqual(AVAILABLE_SLOTS)
+      expect(fromSlot.value).toEqual(ItemSlot.Weapon1)
 
-      onDragEnd();
-    });
+      onDragEnd()
+    })
 
     it('weapon: from doll, to doll (another slot)', () => {
-      userStore.$patch({ user: { id: 1 } });
+      userStore.$patch({ user: { id: 1 } })
 
       const userItem: PartialDeep<UserItem> = {
         id: 1,
-        item: { type: ItemType.TwoHandedWeapon, flags: [] },
-      };
+        item: { flags: [], type: ItemType.TwoHandedWeapon },
+      }
 
       const AVAILABLE_SLOTS = [
         ItemSlot.Weapon0,
         ItemSlot.Weapon1,
         ItemSlot.Weapon2,
         ItemSlot.Weapon3,
-      ];
+      ]
 
-      mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS);
+      mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS)
 
-      const { focusedItemId, availableSlots, fromSlot, onDragStart, onDragEnd } = useInventoryDnD(
-        ref(userItemsBySlot as UserItemsBySlot)
-      );
+      const { availableSlots, focusedItemId, fromSlot, onDragEnd, onDragStart } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot),
+      )
 
-      onDragStart(userItem as UserItem, null);
+      onDragStart(userItem as UserItem, null)
 
-      expect(focusedItemId.value).toEqual(1);
-      expect(availableSlots.value).toEqual(AVAILABLE_SLOTS);
-      expect(fromSlot.value).toEqual(null);
+      expect(focusedItemId.value).toEqual(1)
+      expect(availableSlots.value).toEqual(AVAILABLE_SLOTS)
+      expect(fromSlot.value).toEqual(null)
 
-      onDragEnd();
-    });
+      onDragEnd()
+    })
 
     it('broken item', () => {
-      userStore.$patch({ user: { id: 1 } });
+      userStore.$patch({ user: { id: 1 } })
 
       const userItem: PartialDeep<UserItem> = {
         id: 42,
         isBroken: true,
-        item: { type: ItemType.HeadArmor, flags: [] },
-      };
+        item: { flags: [], type: ItemType.HeadArmor },
+      }
 
-      const { focusedItemId, availableSlots, fromSlot, onDragStart, onDragEnd } = useInventoryDnD(
-        ref(userItemsBySlot as UserItemsBySlot)
-      );
+      const { availableSlots, focusedItemId, fromSlot, onDragEnd, onDragStart } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot),
+      )
 
-      isEquipItemAllowed.mockReturnValueOnce(false);
+      isEquipItemAllowed.mockReturnValueOnce(false)
 
-      onDragStart(userItem as UserItem, ItemSlot.Head);
+      onDragStart(userItem as UserItem, ItemSlot.Head)
 
-      expect(focusedItemId.value).toEqual(null);
-      expect(availableSlots.value).toEqual([]);
-      expect(fromSlot.value).toEqual(null);
+      expect(focusedItemId.value).toEqual(null)
+      expect(availableSlots.value).toEqual([])
+      expect(fromSlot.value).toEqual(null)
 
-      onDragEnd();
-    });
+      onDragEnd()
+    })
 
     it('isArmoryItem item', () => {
-      userStore.$patch({ user: { id: 1 } });
+      userStore.$patch({ user: { id: 1 } })
 
       const userItem: PartialDeep<UserItem> = {
         id: 42,
-        userId: 1,
         isArmoryItem: true,
-        item: { type: ItemType.HeadArmor, flags: [] },
-      };
+        item: { flags: [], type: ItemType.HeadArmor },
+        userId: 1,
+      }
 
-      const { focusedItemId, availableSlots, fromSlot, onDragStart, onDragEnd } = useInventoryDnD(
-        ref(userItemsBySlot as UserItemsBySlot)
-      );
+      const { availableSlots, focusedItemId, fromSlot, onDragEnd, onDragStart } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot),
+      )
 
-      isEquipItemAllowed.mockReturnValueOnce(false);
+      isEquipItemAllowed.mockReturnValueOnce(false)
 
-      onDragStart(userItem as UserItem, ItemSlot.Head);
+      onDragStart(userItem as UserItem, ItemSlot.Head)
 
-      expect(focusedItemId.value).toEqual(null);
-      expect(availableSlots.value).toEqual([]);
-      expect(fromSlot.value).toEqual(null);
+      expect(focusedItemId.value).toEqual(null)
+      expect(availableSlots.value).toEqual([])
+      expect(fromSlot.value).toEqual(null)
 
-      onDragEnd();
-    });
-  });
+      onDragEnd()
+    })
+  })
 
   it('onDragEnter', () => {
-    const { toSlot, onDragEnter } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot));
+    const { onDragEnter, toSlot } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot))
 
-    expect(toSlot.value).toBeNull();
+    expect(toSlot.value).toBeNull()
 
-    onDragEnter(ItemSlot.Mount);
+    onDragEnter(ItemSlot.Mount)
 
-    expect(toSlot.value).toEqual(ItemSlot.Mount);
-  });
+    expect(toSlot.value).toEqual(ItemSlot.Mount)
+  })
 
   it('onDragLeave', () => {
-    const { toSlot, onDragEnter, onDragLeave } = useInventoryDnD(
-      ref(userItemsBySlot as UserItemsBySlot)
-    );
+    const { onDragEnter, onDragLeave, toSlot } = useInventoryDnD(
+      ref(userItemsBySlot as UserItemsBySlot),
+    )
 
-    onDragEnter(ItemSlot.Mount);
+    onDragEnter(ItemSlot.Mount)
 
-    expect(toSlot.value).toEqual(ItemSlot.Mount);
+    expect(toSlot.value).toEqual(ItemSlot.Mount)
 
-    onDragLeave();
+    onDragLeave()
 
-    expect(toSlot.value).toBeNull();
-  });
+    expect(toSlot.value).toBeNull()
+  })
 
   describe('onDragEnd', () => {
     it('empty slot', () => {
-      const { toSlot, onDragEnter, onDragEnd } = useInventoryDnD(
-        ref(userItemsBySlot as UserItemsBySlot)
-      );
+      const { onDragEnd, onDragEnter, toSlot } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot),
+      )
 
-      onDragEnter(ItemSlot.Mount);
+      onDragEnter(ItemSlot.Mount)
 
-      expect(toSlot.value).toEqual(ItemSlot.Mount);
+      expect(toSlot.value).toEqual(ItemSlot.Mount)
 
-      onDragEnd();
+      onDragEnd()
 
-      expect(mockedEmit).not.toBeCalled();
-      expect(toSlot.value).toBeNull();
-    });
+      expect(mockedEmit).not.toBeCalled()
+      expect(toSlot.value).toBeNull()
+    })
 
     it('empty slot, with toSlot', () => {
-      const { onDragEnd } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot));
+      const { onDragEnd } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot))
 
-      onDragEnd();
+      onDragEnd()
 
-      expect(mockedEmit).not.toBeCalled();
-    });
+      expect(mockedEmit).not.toBeCalled()
+    })
 
     it('with slot, empty toSlot - drag item outside = unEquip item', () => {
-      const { onDragEnd } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot));
+      const { onDragEnd } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot))
 
-      getUnequipItemsLinked.mockReturnValueOnce([{ userItemId: null, slot: ItemSlot.Mount }]);
+      getUnequipItemsLinked.mockReturnValueOnce([{ slot: ItemSlot.Mount, userItemId: null }])
 
-      onDragEnd(null, ItemSlot.Mount);
+      onDragEnd(null, ItemSlot.Mount)
 
-      expect(getUnequipItemsLinked).toBeCalledWith(ItemSlot.Mount, userItemsBySlot);
-      expect(mockedEmit).toBeCalledWith('change', [{ userItemId: null, slot: ItemSlot.Mount }]);
-    });
+      expect(getUnequipItemsLinked).toBeCalledWith(ItemSlot.Mount, userItemsBySlot)
+      expect(mockedEmit).toBeCalledWith('change', [{ slot: ItemSlot.Mount, userItemId: null }])
+    })
 
     it('unEquip item + unEquip linked items', () => {
-      mockedGetLinkedSlots.mockReturnValueOnce([ItemSlot.Body]);
-      const { onDragEnd } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot));
+      mockedGetLinkedSlots.mockReturnValueOnce([ItemSlot.Body])
+      const { onDragEnd } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot))
 
       getUnequipItemsLinked.mockReturnValueOnce([
-        { userItemId: null, slot: ItemSlot.Leg },
-        { userItemId: null, slot: ItemSlot.Body },
-      ]);
+        { slot: ItemSlot.Leg, userItemId: null },
+        { slot: ItemSlot.Body, userItemId: null },
+      ])
 
-      onDragEnd(null, ItemSlot.Leg);
+      onDragEnd(null, ItemSlot.Leg)
 
-      expect(getUnequipItemsLinked).toBeCalledWith(ItemSlot.Leg, userItemsBySlot);
+      expect(getUnequipItemsLinked).toBeCalledWith(ItemSlot.Leg, userItemsBySlot)
       expect(mockedEmit).toBeCalledWith('change', [
-        { userItemId: null, slot: ItemSlot.Leg },
-        { userItemId: null, slot: ItemSlot.Body },
-      ]);
-    });
-  });
+        { slot: ItemSlot.Leg, userItemId: null },
+        { slot: ItemSlot.Body, userItemId: null },
+      ])
+    })
+  })
 
   describe('onDrop', () => {
     it('to empty, not available slots', () => {
-      mockedGetAvailableSlotsByItem.mockReturnValue([ItemSlot.Mount]);
+      mockedGetAvailableSlotsByItem.mockReturnValue([ItemSlot.Mount])
 
       const userItem: PartialDeep<UserItem> = {
         id: 1,
-        item: { type: ItemType.Mount, flags: [] },
-      };
+        item: { flags: [], type: ItemType.Mount },
+      }
 
-      const { onDragStart, onDrop, onDragEnd } = useInventoryDnD(
-        ref(userItemsBySlot as UserItemsBySlot)
-      );
+      const { onDragEnd, onDragStart, onDrop } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot),
+      )
 
-      onDragStart(userItem as UserItem);
+      onDragStart(userItem as UserItem)
 
-      onDrop(ItemSlot.MountHarness);
+      onDrop(ItemSlot.MountHarness)
 
-      expect(mockedEmit).not.toBeCalled();
+      expect(mockedEmit).not.toBeCalled()
 
-      onDragEnd();
-    });
+      onDragEnd()
+    })
 
     it('to empty slot, available slot', () => {
-      mockedGetAvailableSlotsByItem.mockReturnValue([ItemSlot.Mount]);
+      mockedGetAvailableSlotsByItem.mockReturnValue([ItemSlot.Mount])
 
       const userItem: PartialDeep<UserItem> = {
         id: 1,
-        item: { type: ItemType.Mount, flags: [] },
-      };
+        item: { flags: [], type: ItemType.Mount },
+      }
 
-      const { onDragStart, onDrop, onDragEnd } = useInventoryDnD(
-        ref(userItemsBySlot as UserItemsBySlot)
-      );
+      const { onDragEnd, onDragStart, onDrop } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot),
+      )
 
-      onDragStart(userItem as UserItem);
+      onDragStart(userItem as UserItem)
 
-      onDrop(ItemSlot.Mount);
+      onDrop(ItemSlot.Mount)
 
-      expect(mockedEmit).toBeCalledWith('change', [{ userItemId: 1, slot: ItemSlot.Mount }]);
+      expect(mockedEmit).toBeCalledWith('change', [{ slot: ItemSlot.Mount, userItemId: 1 }])
 
-      onDragEnd();
-    });
+      onDragEnd()
+    })
 
     it('to full slot, available slot', () => {
-      mockedGetAvailableSlotsByItem.mockReturnValue([ItemSlot.Head]);
+      mockedGetAvailableSlotsByItem.mockReturnValue([ItemSlot.Head])
 
       const userItem: PartialDeep<UserItem> = {
         id: 1,
-        item: { type: ItemType.HeadArmor, flags: [] },
-      };
+        item: { flags: [], type: ItemType.HeadArmor },
+      }
 
-      const { onDragStart, onDrop, onDragEnd } = useInventoryDnD(
-        ref(userItemsBySlot as UserItemsBySlot)
-      );
+      const { onDragEnd, onDragStart, onDrop } = useInventoryDnD(
+        ref(userItemsBySlot as UserItemsBySlot),
+      )
 
-      onDragStart(userItem as UserItem);
+      onDragStart(userItem as UserItem)
 
-      onDrop(ItemSlot.Head);
+      onDrop(ItemSlot.Head)
 
-      expect(mockedEmit).toBeCalledWith('change', [{ userItemId: 1, slot: ItemSlot.Head }]);
+      expect(mockedEmit).toBeCalledWith('change', [{ slot: ItemSlot.Head, userItemId: 1 }])
 
-      onDragEnd();
-    });
+      onDragEnd()
+    })
 
     it('swap items - drop item from ItemSlot.Weapon1 to ItemSlot.Weapon0', () => {
       const AVAILABLE_SLOTS = [
@@ -338,16 +333,16 @@ describe('useInventoryDnD', () => {
         ItemSlot.Weapon1,
         ItemSlot.Weapon2,
         ItemSlot.Weapon3,
-      ];
+      ]
 
-      mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS);
+      mockedGetAvailableSlotsByItem.mockReturnValue(AVAILABLE_SLOTS)
 
       const userItem: PartialDeep<UserItem> = {
         id: 2,
-        item: { type: ItemType.TwoHandedWeapon, flags: [] },
-      };
+        item: { flags: [], type: ItemType.TwoHandedWeapon },
+      }
 
-      const { onDragStart, onDrop, onDragEnd } = useInventoryDnD(
+      const { onDragEnd, onDragStart, onDrop } = useInventoryDnD(
         ref({
           [ItemSlot.Weapon0]: {
             id: 1,
@@ -361,19 +356,19 @@ describe('useInventoryDnD', () => {
               type: ItemType.TwoHandedWeapon,
             },
           },
-        } as UserItemsBySlot)
-      );
+        } as UserItemsBySlot),
+      )
 
-      onDragStart(userItem as UserItem, ItemSlot.Weapon1);
+      onDragStart(userItem as UserItem, ItemSlot.Weapon1)
 
-      onDrop(ItemSlot.Weapon0);
+      onDrop(ItemSlot.Weapon0)
 
       expect(mockedEmit).toBeCalledWith('change', [
-        { userItemId: 2, slot: ItemSlot.Weapon0 },
-        { userItemId: 1, slot: ItemSlot.Weapon1 },
-      ]);
+        { slot: ItemSlot.Weapon0, userItemId: 2 },
+        { slot: ItemSlot.Weapon1, userItemId: 1 },
+      ])
 
-      onDragEnd();
-    });
-  });
-});
+      onDragEnd()
+    })
+  })
+})
