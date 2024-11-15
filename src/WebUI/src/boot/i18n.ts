@@ -137,21 +137,6 @@ export const i18n = createI18n({
   },
 })
 
-function loadLocaleMessages(locale: string) {
-  return import(`../../locales/${locale}.yml`)
-}
-
-export const install: BootModule = async (app) => {
-  const locale = i18n.global.locale.value
-  // const fallbackLocale = i18n.global.fallbackLocale.value
-
-  // if (fallbackLocale && fallbackLocale !== locale) {
-  //   const fallbackMessages = await loadLocaleMessages(fallbackLocale)
-  //   i18n.global.setLocaleMessage(fallbackLocale, fallbackMessages.default)
-  // }
-
-  const messages = await loadLocaleMessages(locale)
-  i18n.global.setLocaleMessage(locale, messages.default)
-
+export const install: BootModule = (app) => {
   app.use(i18n)
 }

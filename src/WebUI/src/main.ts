@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 
-import { guessDefaultLocale, switchLanguage } from '~/services/translate-service'
+import type { BootModule } from '~/types/boot-module'
 
-import type { BootModule } from './types/boot-module'
+import { guessDefaultLocale, switchLanguage } from '~/services/translate-service'
 
 import 'floating-vue/dist/style.css'
 

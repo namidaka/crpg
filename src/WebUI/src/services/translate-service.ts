@@ -15,7 +15,7 @@ const setCurrentLocale = (locale: any) => {
 }
 
 const loadLocaleMessages = async (locale: any) => {
-  if (!i18n.global.availableLocales.includes(locale) && locale !== defaultLocale()) {
+  if (!i18n.global.availableLocales.includes(locale) && locale !== currentLocale()) {
     const messages = await import(`../../locales/${locale}.yml`)
     i18n.global.setLocaleMessage(locale, messages.default)
   }
