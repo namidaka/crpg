@@ -15,6 +15,7 @@ using Crpg.Domain.Entities.Users;
 using Crpg.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -24,9 +25,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crpg.Persistence.Migrations
 {
     [DbContext(typeof(CrpgDbContext))]
-    partial class CrpgDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241010084030_IdempotencyKeyStringToGuid")]
+    partial class IdempotencyKeyStringToGuid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +47,7 @@ namespace Crpg.Persistence.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "clan_member_role", new[] { "member", "officer", "leader" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "culture", new[] { "neutral", "aserai", "battania", "empire", "khuzait", "looters", "sturgia", "vlandia" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "damage_type", new[] { "undefined", "cut", "pierce", "blunt" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "game_mode", new[] { "crpg_battle", "crpg_conquest", "crpgdtv", "crpg_duel", "crpg_siege", "crpg_team_deathmatch", "crpg_skirmish", "crpg_unknown_game_mode", "crpg_captain" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "game_mode", new[] { "crpg_battle", "crpg_conquest", "crpgdtv", "crpg_duel", "crpg_siege", "crpg_skirmish", "crpg_team_deathmatch", "crpg_unknown_game_mode" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_slot", new[] { "head", "shoulder", "body", "hand", "leg", "mount_harness", "mount", "weapon0", "weapon1", "weapon2", "weapon3", "weapon_extra" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "item_type", new[] { "undefined", "head_armor", "shoulder_armor", "body_armor", "hand_armor", "leg_armor", "mount_harness", "mount", "shield", "bow", "crossbow", "one_handed_weapon", "two_handed_weapon", "polearm", "thrown", "arrows", "bolts", "pistol", "musket", "bullets", "banner" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "languages", new[] { "en", "zh", "ru", "de", "fr", "it", "es", "pl", "uk", "ro", "nl", "tr", "el", "hu", "sv", "cs", "pt", "sr", "bg", "hr", "da", "fi", "no", "be", "lv" });
