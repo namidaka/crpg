@@ -1,7 +1,7 @@
 import { type Position } from 'geojson';
 import { type LatLngBounds, type Map } from 'leaflet';
 import { LMap } from '@vue-leaflet/vue-leaflet';
-import { getSettlements } from '@/services/strategus-service';
+import { getSettlements } from '@/services/strategus-service/settlement';
 import { shouldDisplaySettlement } from '@/services/strategus-service/map';
 import { positionToLatLng } from '@/utils/geometry';
 

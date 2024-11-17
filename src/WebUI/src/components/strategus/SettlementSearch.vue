@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { type SettlementPublic } from '@/models/strategus/settlement';
+import { settlementIconByType } from '@/services/strategus-service/settlement';
 
 const { settlements } = defineProps<{ settlements: SettlementPublic[] }>();
 
@@ -42,12 +43,14 @@ const suggestionsSettlements = computed(() =>
 
     <template #popper>
       <div class="max-h-[20rem] min-w-[14rem] overflow-y-auto">
-        <SettlementMedia
+        <DropdownItem
           v-for="settlement in suggestionsSettlements"
-          :settlement="settlement"
           class="text-black"
           @click="$emit('select', settlement.position.coordinates)"
-        />
+        >
+          <OIcon :icon="settlementIconByType[settlement.type].icon" />
+          <div>{{ settlement.name }}</div>
+        </DropdownItem>
       </div>
     </template>
   </VDropdown>
