@@ -22,11 +22,6 @@ internal class CrpgTrainingGroundScoreboardData : IScoreboardData
                     {
                         return string.Empty;
                     }
-
-                    if (crpgPeer.Clan.Name.Length <= 10)
-                    {
-                        return crpgPeer.Clan.Name;
-                    }
                     else
                     {
                         return crpgPeer.Clan.Tag;
