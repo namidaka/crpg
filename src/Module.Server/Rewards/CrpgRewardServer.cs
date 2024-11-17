@@ -636,12 +636,7 @@ internal class CrpgRewardServer : MissionLogic
         foreach (var equippedItem in crpgPeer.LastSpawnInfo!.EquippedItems)
         {
             var mbItem = Game.Current.ObjectManager.GetObject<ItemObject>(equippedItem.UserItem.ItemId);
-            if (_random.NextDouble() >= _constants.ItemBreakChance)
-            {
-                continue;
-            }
-
-            int repairCost = (int)(mbItem.Value * roundDuration * _constants.ItemRepairCostPerSecond);
+            int repairCost = (int)(mbItem.Value * roundDuration * _constants.ItemRepairCostPerSecond * _constants.ItemBreakChance);
             brokenItems.Add(new CrpgUserDamagedItem
             {
                 UserItemId = equippedItem.UserItem.Id,
