@@ -153,7 +153,7 @@ defineEmits<{
                   <li>
                     <a
                       target="_blank"
-                      href="https://c-rpg.eu/clans"
+                      href="/clans"
                     >Clans hall</a>
                   </li>
                   <li>
