@@ -7,7 +7,7 @@
       <div class="max-w-xs pr-7">
         <OButton
           class="!absolute -right-2 -top-2"
-          iconRight="close"
+          icon-right="close"
           rounded
           size="2xs"
           variant="secondary"

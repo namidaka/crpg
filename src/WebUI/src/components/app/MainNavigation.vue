@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { type PatchNote } from '@/models/patch-note';
-import { useUserStore } from '@/stores/user';
-import Role from '@/models/role';
+import type { PatchNote } from '~/models/patch-note'
 
-defineProps<{ latestPatch?: PatchNote }>();
+import Role from '~/models/role'
+import { useUserStore } from '~/stores/user'
 
-const userStore = useUserStore();
+defineProps<{ latestPatch?: PatchNote }>()
+
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -13,6 +14,7 @@ const userStore = useUserStore();
     <div class="flex items-center rounded-full border border-border-200 hover:border-border-300">
       <OButton
         v-if="latestPatch"
+        v-tooltip.bottom="$t('patchNotes.latestPatch')"
         variant="primary"
         class="cursor-pointer"
         size="sm"
@@ -21,12 +23,15 @@ const userStore = useUserStore();
         icon-left="trumpet"
         :href="latestPatch.url"
         target="_blank"
-        v-tooltip.bottom="$t('patchNotes.latestPatch')"
       >
-        <Tag variant="primary" :label="latestPatch.tagName" />
+        <Tag
+          variant="primary"
+          :label="latestPatch.tagName"
+        />
       </OButton>
 
       <OButton
+        v-tooltip.bottom="$t('nav.main.Community')"
         variant="primary"
         size="sm"
         inverted
@@ -35,28 +40,27 @@ const userStore = useUserStore();
         icon-left="discord"
         href="https://discord.gg/c-rpg"
         target="_blank"
-        v-tooltip.bottom="$t('nav.main.Community')"
       />
 
       <InstallationGuide>
         <OButton
+          v-tooltip.bottom="$t('nav.main.Installation')"
           variant="primary"
           inverted
           rounded
           size="sm"
           icon-left="download"
-          v-tooltip.bottom="$t('nav.main.Installation')"
         />
       </InstallationGuide>
 
       <RouterLink :to="{ name: 'Help' }">
         <OButton
+          v-tooltip.bottom="$t('help.title')"
           variant="primary"
           size="sm"
           inverted
           rounded
           icon-left="help-circle"
-          v-tooltip.bottom="$t('help.title')"
         />
       </RouterLink>
     </div>
@@ -64,7 +68,7 @@ const userStore = useUserStore();
     <RouterLink
       :to="{ name: 'Characters' }"
       class="text-content-300 hover:text-content-100"
-      activeClass="!text-content-100"
+      active-class="!text-content-100"
     >
       {{ $t('nav.main.Characters') }}
     </RouterLink>
@@ -72,23 +76,34 @@ const userStore = useUserStore();
     <RouterLink
       :to="{ name: 'Shop' }"
       class="text-content-300 hover:text-content-100"
-      activeClass="!text-content-100"
+      active-class="!text-content-100"
     >
       {{ $t('nav.main.Shop') }}
     </RouterLink>
 
     <div class="flex items-center gap-1.5">
-      <VTooltip v-if="userStore.clan === null" data-aq-main-nav-link-tooltip="Explanation">
-        <Tag icon="tag" variant="primary" rounded size="sm" />
+      <VTooltip
+        v-if="userStore.clan === null"
+        data-aq-main-nav-link-tooltip="Explanation"
+      >
+        <Tag
+          icon="tag"
+          variant="primary"
+          rounded
+          size="sm"
+        />
         <template #popper>
-          <div class="prose prose-invert" v-html="$t('clanBalancingExplanation')" />
+          <div
+            class="prose prose-invert"
+            v-html="$t('clanBalancingExplanation')"
+          />
         </template>
       </VTooltip>
 
       <RouterLink
         :to="{ name: 'Clans' }"
         class="text-content-300 hover:text-content-100"
-        activeClass="!text-content-100"
+        active-class="!text-content-100"
       >
         {{ $t('nav.main.Clans') }}
       </RouterLink>
@@ -97,9 +112,13 @@ const userStore = useUserStore();
     <RouterLink
       :to="{ name: 'Leaderboard' }"
       class="inline-flex items-center gap-1.5 text-content-300 hover:text-content-100"
-      activeClass="!text-content-100"
+      active-class="!text-content-100"
     >
-      <OIcon icon="trophy-cup" size="xl" class="text-more-support" />
+      <OIcon
+        icon="trophy-cup"
+        size="xl"
+        class="text-more-support"
+      />
       {{ $t('nav.main.Leaderboard') }}
     </RouterLink>
 
@@ -107,7 +126,7 @@ const userStore = useUserStore();
       v-if="[Role.Moderator, Role.Admin].includes(userStore.user!.role)"
       :to="{ name: 'Moderator' }"
       class="text-content-300 hover:text-content-100"
-      activeClass="!text-content-100"
+      active-class="!text-content-100"
       data-aq-main-nav-link="Moderator"
     >
       {{ $t('nav.main.Moderator') }}

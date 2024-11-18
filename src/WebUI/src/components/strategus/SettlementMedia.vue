@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { type SettlementPublic } from '@/models/strategus/settlement';
-import { settlementIconByType } from '@/services/strategus-service/settlement';
+import type { SettlementPublic } from '~/models/strategus/settlement'
 
-const { settlement } = defineProps<{ settlement: SettlementPublic }>();
+import { settlementIconByType } from '~/services/strategus-service/settlement'
 
-const settlementIcon = computed(() => settlementIconByType[settlement.type]);
+const { settlement } = defineProps<{ settlement: SettlementPublic }>()
+
+const settlementIcon = computed(() => settlementIconByType[settlement.type])
 </script>
 
 <template>

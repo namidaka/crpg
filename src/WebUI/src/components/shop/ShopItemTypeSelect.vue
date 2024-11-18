@@ -1,86 +1,99 @@
 <script setup lang="ts">
-import { WeaponClass, ItemType } from '@/models/item';
-import { type Buckets } from '@/models/item-search';
+import type { ItemType, WeaponClass } from '~/models/item'
+import type { Buckets } from '~/models/item-search'
 
 import {
+  hasWeaponClassesByItemType,
   humanizeBucket, // TODO: FIXME:
   itemTypeByWeaponClass,
-  hasWeaponClassesByItemType,
-} from '@/services/item-service';
+} from '~/services/item-service'
 
 const props = defineProps<{
-  itemType: ItemType;
-  weaponClass: WeaponClass | null;
-  itemTypeBuckets: Buckets;
-  weaponClassBuckets: Buckets;
-}>();
+  itemType: ItemType
+  weaponClass: WeaponClass | null
+  itemTypeBuckets: Buckets
+  weaponClassBuckets: Buckets
+}>()
 
 const emit = defineEmits<{
-  (e: 'update:itemType', val: ItemType): void;
-  (e: 'update:weaponClass', val: WeaponClass | null): void;
-}>();
+  (e: 'update:itemType', val: ItemType): void
+  (e: 'update:weaponClass', val: WeaponClass | null): void
+}>()
 
 const itemTypeModel = computed({
-  set(val: ItemType) {
-    emit('update:itemType', val);
+  get() {
+    return props.itemType
   },
 
-  get() {
-    return props.itemType;
+  set(val: ItemType) {
+    emit('update:itemType', val)
   },
-});
+})
 
 const weaponClassModel = computed({
-  set(val: WeaponClass | null) {
-    emit('update:weaponClass', val);
+  get() {
+    return props.weaponClass
   },
 
-  get() {
-    return props.weaponClass;
+  set(val: WeaponClass | null) {
+    emit('update:weaponClass', val)
   },
-});
+})
 
 const subLevelActive = computed(
-  () => hasWeaponClassesByItemType(itemTypeModel.value) && weaponClassModel.value !== null
-);
+  () => hasWeaponClassesByItemType(itemTypeModel.value) && weaponClassModel.value !== null,
+)
 </script>
 
 <template>
   <OTabs
-    contentClass="hidden"
     v-model="itemTypeModel"
+    content-class="hidden"
     :type="subLevelActive ? 'fill-rounded-grouped' : 'fill-rounded'"
     :animated="false"
   >
-    <OTabItem v-for="bucket in itemTypeBuckets" :value="bucket.key" tag="div">
+    <OTabItem
+      v-for="ItemTypebucket in itemTypeBuckets"
+      :key="(ItemTypebucket.key as string)"
+      :value="(ItemTypebucket.key as string)"
+      tag="div"
+    >
       <template #header>
         <OIcon
-          :icon="humanizeBucket('type', bucket.key)!.icon!.name"
+          v-tooltip.bottom="humanizeBucket('type', ItemTypebucket.key)!.label"
+          :icon="humanizeBucket('type', ItemTypebucket.key)!.icon!.name"
           size="2xl"
-          v-tooltip.bottom="humanizeBucket('type', bucket.key)!.label"
         />
 
         <template
           v-if="
-            subLevelActive &&
-            weaponClassModel !== null &&
-            (bucket.key as ItemType) === itemTypeByWeaponClass[weaponClassModel]
+            subLevelActive
+              && weaponClassModel !== null
+              && (ItemTypebucket.key as ItemType) === itemTypeByWeaponClass[weaponClassModel]
           "
         >
-          <OIcon icon="chevron-right" size="lg" class="text-content-400" />
+          <OIcon
+            icon="chevron-right"
+            size="lg"
+            class="text-content-400"
+          />
 
           <OTabs
             v-model="weaponClassModel"
             type="flat-rounded"
-            contentClass="hidden"
+            content-class="hidden"
             :animated="false"
           >
-            <OTabItem v-for="bucket in weaponClassBuckets" :value="bucket.key">
+            <OTabItem
+              v-for="weaponClassBucket in weaponClassBuckets"
+              :key="(weaponClassBucket.key as string)"
+              :value="(weaponClassBucket.key as string)"
+            >
               <template #header>
                 <OIcon
-                  :icon="humanizeBucket('weaponClass', bucket.key)!.icon!.name"
+                  v-tooltip.bottom="humanizeBucket('weaponClass', weaponClassBucket.key)!.label"
+                  :icon="humanizeBucket('weaponClass', weaponClassBucket.key)!.icon!.name"
                   size="2xl"
-                  v-tooltip.bottom="humanizeBucket('weaponClass', bucket.key)!.label"
                 />
               </template>
             </OTabItem>

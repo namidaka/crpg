@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { Platform } from '@/models/platform';
+import { Platform } from '~/models/platform'
 
 const { size = 'sm' } = defineProps<{
-  platform: Platform;
-  platformUserId: number | string;
-  userName: string;
-  size?: 'sm' | 'xl';
-}>();
+  platform: Platform
+  platformUserId: number | string
+  userName: string
+  size?: 'sm' | 'xl'
+}>()
 </script>
 
 <template>
@@ -31,7 +31,10 @@ const { size = 'sm' } = defineProps<{
 
   <!-- TODO: Epic doesn't have a public profile yet https://trello.com/c/FH3mNJ6b/297-profiles -->
   <template v-else-if="platform === Platform.EpicGames">
-    <OIcon icon="epic-games" :size="size" />
+    <OIcon
+      icon="epic-games"
+      :size="size"
+    />
   </template>
 
   <template v-else-if="platform === Platform.Microsoft">
@@ -41,7 +44,10 @@ const { size = 'sm' } = defineProps<{
       target="_blank"
       @click.stop
     >
-      <OIcon icon="xbox" :size="size" />
+      <OIcon
+        icon="xbox"
+        :size="size"
+      />
     </a>
   </template>
 </template>

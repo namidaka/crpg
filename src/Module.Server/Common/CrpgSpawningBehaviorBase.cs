@@ -163,11 +163,14 @@ private int totalNumberOfBots = 800;
             Formation formation = missionPeer.ControlledFormation;
             if (formation == null)
             {
-                formation = missionPeer.Team.FormationsIncludingEmpty.First((Formation x) => x.PlayerOwner == null && x.CountOfUnits == 0);
-                formation.ContainsAgentVisuals = true;
-                if (string.IsNullOrEmpty(formation.BannerCode))
+                formation = missionPeer.Team.FormationsIncludingEmpty.FirstOrDefault((Formation x) => x.PlayerOwner == null && x.CountOfUnits == 0);
+                if (formation != null)
                 {
-                    formation.BannerCode = missionPeer.Peer.BannerCode;
+                    formation.ContainsAgentVisuals = true;
+                    if (string.IsNullOrEmpty(formation.BannerCode))
+                    {
+                        formation.BannerCode = missionPeer.Peer.BannerCode;
+                    }
                 }
             }
 

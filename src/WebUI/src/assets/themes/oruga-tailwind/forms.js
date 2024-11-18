@@ -1,10 +1,37 @@
-const plugin = require('tailwindcss/plugin');
-const svgToDataUri = require('mini-svg-data-uri');
+const svgToDataUri = require('mini-svg-data-uri')
+const plugin = require('tailwindcss/plugin')
 
-// TODO:
+// TODO: rewrite to ts
 // ref: https://github.com/tailwindlabs/tailwindcss-forms/blob/master/src/index.js
 module.exports = plugin(({ addBase, theme }) => {
   addBase({
+    [`[type = 'checkbox'], [type='radio']`]: {
+      'appearance': 'none',
+      // height: theme('spacing.0-8'),
+      // width: theme('spacing.0-8'),
+      'display': 'inline-block',
+      'userSelect': 'none',
+      'verticalAlign': 'middle',
+      // backgroundColor: theme('colors.white'),
+      // borderWidth: theme('borderWidth.2'),
+      // borderColor: theme('colors.black.100'),
+      '&:checked': {
+        backgroundPosition: 'center',
+      },
+      '&:focus': {
+        boxShadow: 'none',
+        outline: 'none',
+      },
+    },
+    [`[type='checkbox']:checked`]: {
+      backgroundImage: `url("${svgToDataUri(
+        `<svg xmlns="http://www.w3.org/2000/svg" fill="${theme(
+          'colors.content.600',
+        )}" viewBox="0 0 10 8"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.33 1.414 3.625 7.121 0 3.498l1.414-1.415 2.21 2.21L7.917 0 9.33 1.414Z"/></svg>`,
+      )}")`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: '75%',
+    },
     [`
           [type='text'],
           [type='email'],
@@ -22,9 +49,10 @@ module.exports = plugin(({ addBase, theme }) => {
           textarea,
           select
         `]: {
-      appearance: 'none',
-      backgroundColor: 'transparent',
       '-moz-appearance': 'textfield',
+      '&::-webkit-inner-spin-button, &::-webkit-outer-spin-button': {
+        '-webkit-appearance': 'none',
+      },
       '&::placeholder': {
         // opacity: 0,
         // fontSize: theme('fontSize.sm'),
@@ -35,11 +63,6 @@ module.exports = plugin(({ addBase, theme }) => {
         //     'transitionTimingFunction.linear'
         // )
       },
-
-      '&::-webkit-inner-spin-button, &::-webkit-outer-spin-button': {
-        '-webkit-appearance': 'none',
-      },
-
       '&:focus': {
         outline: 'none',
         // '&::placeholder': {
@@ -47,33 +70,10 @@ module.exports = plugin(({ addBase, theme }) => {
         //     'transition-delay': theme('transitionDelay.150')
         // }
       },
-    },
-    [`[type = 'checkbox'], [type='radio']`]: {
-      appearance: 'none',
-      // height: theme('spacing.0-8'),
-      // width: theme('spacing.0-8'),
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      userSelect: 'none',
-      // backgroundColor: theme('colors.white'),
-      // borderWidth: theme('borderWidth.2'),
-      // borderColor: theme('colors.black.100'),
-      '&:focus': {
-        outline: 'none',
-        boxShadow: 'none',
-      },
-      '&:checked': {
-        backgroundPosition: 'center',
-      },
-    },
-    [`[type='checkbox']:checked`]: {
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: '75%',
-      backgroundImage: `url("${svgToDataUri(
-        `<svg xmlns="http://www.w3.org/2000/svg" fill="${theme(
-          'colors.content.600'
-        )}" viewBox="0 0 10 8"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.33 1.414 3.625 7.121 0 3.498l1.414-1.415 2.21 2.21L7.917 0 9.33 1.414Z"/></svg>`
-      )}")`,
+
+      'appearance': 'none',
+
+      'backgroundColor': 'transparent',
     },
     // [`[type='radio']`]: {
     //   borderRadius: theme('borderRadius.full'),
@@ -86,5 +86,5 @@ module.exports = plugin(({ addBase, theme }) => {
     //     )}")`,
     //   },
     // },
-  });
-});
+  })
+})

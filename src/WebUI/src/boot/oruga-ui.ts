@@ -1,41 +1,41 @@
+import { type IconDefinition, library } from '@fortawesome/fontawesome-svg-core'
 import {
   FontAwesomeIcon,
   FontAwesomeLayers,
   FontAwesomeLayersText,
-} from '@fortawesome/vue-fontawesome';
-import { library, type IconDefinition } from '@fortawesome/fontawesome-svg-core';
+} from '@fortawesome/vue-fontawesome'
 import {
-  ConfigPlugin,
   OButton,
-  OField,
   OCheckbox,
-  ORadio,
-  OSwitch,
-  OInput,
-  OTable,
-  OTableColumn,
-  OLoading,
-  OTabs,
-  OTabItem,
-  OIcon,
-  OPagination,
-  ONotification,
   OCollapse,
   ODatetimepicker,
-} from '@oruga-ui/oruga-next';
-import VueSlider from 'vue-slider-component';
+  OField,
+  OIcon,
+  OInput,
+  OLoading,
+  ONotification,
+  OPagination,
+  ORadio,
+  OrugaConfig,
+  OSwitch,
+  OTabItem,
+  OTable,
+  OTableColumn,
+  OTabs,
+} from '@oruga-ui/oruga-next'
+import VueSlider from 'vue-slider-component'
 
-import { type BootModule } from '@/types/boot-module';
+import type { BootModule } from '~/types/boot-module'
 
-export const install: BootModule = app => {
+export const install: BootModule = (app) => {
   Object.values(
     import.meta.glob<IconDefinition>('../assets/themes/oruga-tailwind/icons/**/*.ts', {
       eager: true,
       import: 'default',
-    })
-  ).forEach(ic => {
-    library.add(ic);
-  });
+    }),
+  ).forEach((ic) => {
+    library.add(ic)
+  })
 
   app
     .component('OIcon', OIcon)
@@ -58,30 +58,30 @@ export const install: BootModule = app => {
     .component('FontAwesomeLayers', FontAwesomeLayers)
     .component('FontAwesomeLayersText', FontAwesomeLayersText)
     .component('VueSlider', VueSlider)
-    .use(ConfigPlugin, {
+    .use(OrugaConfig, {
       // https://oruga.io/components/Icon.html
-      iconComponent: 'FontAwesomeIcon',
-      iconPack: 'crpg',
       customIconPacks: {
         crpg: {
-          sizes: {
-            default: 'sm',
-            '2xs': '2xs',
-            xs: 'xs',
-            sm: 'sm',
-            lg: 'lg',
-            xl: 'xl',
-            '2xl': '2xl',
-            '3x': '3x',
-            '4x': '4x',
-            '5x': '5x',
-          },
           iconPrefix: 'fa-',
           internalIcons: {
             'close-circle': 'close',
           },
+          sizes: {
+            '2xl': '2xl',
+            '2xs': '2xs',
+            '3x': '3x',
+            '4x': '4x',
+            '5x': '5x',
+            'default': 'sm',
+            'lg': 'lg',
+            'sm': 'sm',
+            'xl': 'xl',
+            'xs': 'xs',
+          },
         },
       },
+      iconComponent: 'FontAwesomeIcon',
+      iconPack: 'crpg',
       useHtml5Validation: false,
-    });
-};
+    })
+}

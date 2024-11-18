@@ -1,9 +1,9 @@
-import { type FeatureCollection, type Feature, type Polygon } from 'geojson';
+import type { Feature, FeatureCollection, Polygon } from 'geojson'
 
 export enum Terrain {
-  'Forest' = 'Forest',
-  'River' = 'River',
-  'Mountain' = 'Mountain', // to Mountain
+  Forest = 'Forest',
+  River = 'River',
+  Mountain = 'Mountain', // to Mountain
 
   // TODO:
   // Roads?
@@ -13,9 +13,9 @@ export enum Terrain {
 }
 
 export interface TerrainProperties {
-  type: Terrain;
+  type: Terrain
 }
 
-export type TerrainFeatureCollection = FeatureCollection<Polygon, TerrainProperties>;
+export type TerrainFeatureCollection = FeatureCollection<Polygon, TerrainProperties>
 
-export type TerrainFeature = Feature<Polygon, TerrainProperties>;
+export type TerrainFeature = Feature<Polygon, TerrainProperties>

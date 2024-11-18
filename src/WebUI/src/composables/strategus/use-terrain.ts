@@ -1,24 +1,21 @@
-import { LMap } from '@vue-leaflet/vue-leaflet';
-import L, { type Map } from 'leaflet';
-import { useStorage } from '@vueuse/core';
-import { v4 as uuidv4 } from 'uuid';
+import type { LMap } from '@vue-leaflet/vue-leaflet'
+import type { Map } from 'leaflet'
 
-import { type TerrainFeatureCollection, Terrain } from '@/models/strategus/terrain';
-import { TerrainColorByType } from '@/services/strategus-service/terrain';
+import { useStorage } from '@vueuse/core'
+import L from 'leaflet'
+import { v4 as uuidv4 } from 'uuid'
+
+import type { TerrainFeatureCollection } from '~/models/strategus/terrain'
+
+import { Terrain } from '~/models/strategus/terrain'
+import { TerrainColorByType } from '~/services/strategus-service/terrain'
 
 export const useTerrain = (map: Ref<typeof LMap | null>) => {
   // FIXME: TODO: migrate to useAsyncState
   const terrain = useStorage<TerrainFeatureCollection>('terrainGeoJSON', {
-    type: 'FeatureCollection',
     features: [
       {
-        type: 'Feature',
-        id: '1',
-        properties: {
-          type: Terrain.Forest,
-        },
         geometry: {
-          type: 'Polygon',
           coordinates: [
             [
               [117.84375, -115.69750123365006],
@@ -26,16 +23,16 @@ export const useTerrain = (map: Ref<typeof LMap | null>) => {
               [120.28125, -116.44772125294892],
             ],
           ],
+          type: 'Polygon',
         },
+        id: '1',
+        properties: {
+          type: Terrain.Forest,
+        },
+        type: 'Feature',
       },
       {
-        type: 'Feature',
-        id: '2',
-        properties: {
-          type: Terrain.River,
-        },
         geometry: {
-          type: 'Polygon',
           coordinates: [
             [
               [122, -116.07251381470937],
@@ -44,141 +41,147 @@ export const useTerrain = (map: Ref<typeof LMap | null>) => {
               [123.4375, -120.29233762676272],
             ],
           ],
+          type: 'Polygon',
         },
+        id: '2',
+        properties: {
+          type: Terrain.River,
+        },
+        type: 'Feature',
       },
     ],
-  });
+    type: 'FeatureCollection',
+  })
 
-  const terrainVisibility = ref<boolean>(false);
+  const terrainVisibility = ref<boolean>(false)
   const toggleTerrainVisibilityLayer = () => {
-    terrainVisibility.value = !terrainVisibility.value;
-  };
+    terrainVisibility.value = !terrainVisibility.value
+  }
 
   const saveTerrain = () => {
-    if (map.value === null) return;
+    if (map.value === null) { return }
 
     const _geoJSON: TerrainFeatureCollection = {
-      type: 'FeatureCollection',
       features: [],
+      type: 'FeatureCollection',
     };
 
-    (map.value.leafletObject as Map).eachLayer(layer => {
-      // TODO: ts-ignore
-      // @ts-ignore
+    (map.value.leafletObject as Map).eachLayer((layer) => {
+      // @ts-expect-error TODO:
       if (layer.internalId && layer instanceof L.Polygon) {
-        const geoJSONShape = layer.toGeoJSON(); // to precise geo shape!
-        // @ts-ignore
-        geoJSONShape.properties = layer.properties;
-        // @ts-ignore
-        geoJSONShape.id = layer.internalId;
-        // @ts-ignore
-        _geoJSON.features.push(geoJSONShape);
+        const geoJSONShape = layer.toGeoJSON() // to precise geo shape!
+        // @ts-expect-error TODO:
+        geoJSONShape.properties = layer.properties
+        // @ts-expect-error TODO:
+        geoJSONShape.id = layer.internalId
+        // @ts-expect-error TODO:
+        _geoJSON.features.push(geoJSONShape)
       }
-    });
+    })
 
-    terrain.value = { ..._geoJSON };
-  };
+    terrain.value = { ..._geoJSON }
+  }
 
-  const editMode = ref<boolean>(false);
-  const isEditorInit = ref<boolean>(false);
+  const editMode = ref<boolean>(false)
+  const isEditorInit = ref<boolean>(false)
   const toggleEditMode = () => {
-    editMode.value = !editMode.value;
+    editMode.value = !editMode.value
 
     if (!isEditorInit.value) {
-      return createEditControls();
+      return createEditControls()
     }
 
-    (map.value!.leafletObject as Map).pm.toggleControls();
-  };
+    (map.value!.leafletObject as Map).pm.toggleControls()
+  }
 
-  const editType = ref<Terrain | null>(null);
+  const editType = ref<Terrain | null>(null)
 
   const setEditType = (type: Terrain) => {
-    editType.value = type;
+    editType.value = type
 
-    if (map.value === null) return;
+    if (map.value === null) { return }
 
     const color = TerrainColorByType[editType.value];
 
     (map.value.leafletObject as Map).pm.setPathOptions({
-      color: color,
+      color,
       fillColor: color,
-    });
-  };
+    })
+  }
 
   const onTerrainUpdated = (event: any) => {
     if (event.type === 'pm:create') {
       event.layer.properties = {
         type: event.shape,
-      };
-      event.layer.internalId = uuidv4();
-      saveTerrain();
-      event.layer.removeFrom(map.value!.leafletObject as Map);
+      }
+      event.layer.internalId = uuidv4()
+      saveTerrain()
+      event.layer.removeFrom(map.value!.leafletObject as Map)
     }
 
     if (event.type === 'pm:remove') {
-      event.layer.off();
-      saveTerrain();
+      event.layer.off()
+      saveTerrain()
     }
 
     if (event.type === 'pm:edit') {
-      saveTerrain();
+      saveTerrain()
     }
-  };
+  }
 
   const createEditControls = () => {
     (map.value!.leafletObject as Map).pm.addControls({
-      position: 'topleft',
+      cutPolygon: false,
       drawCircle: false,
-      drawMarker: false,
       drawCircleMarker: false,
+      drawMarker: false,
+      drawPolygon: false,
       drawPolyline: false,
       drawRectangle: false,
       drawText: false,
-      drawPolygon: false,
+      position: 'topleft',
       rotateMode: false,
-      cutPolygon: false,
     });
 
     (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: Terrain.River,
       block: 'draw',
-      title: 'River',
       className: 'icon-river',
+      name: Terrain.River,
       onClick: () => setEditType(Terrain.River),
+      title: 'River',
     });
     (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: Terrain.Forest,
       block: 'draw',
-      title: 'Forest',
       className: 'icon-forest',
+      name: Terrain.Forest,
       onClick: () => setEditType(Terrain.Forest),
+      title: 'Forest',
     });
     (map.value!.leafletObject as Map).pm.Toolbar.copyDrawControl('Polygon', {
-      name: Terrain.Mountain,
       block: 'draw',
-      title: 'Mountains',
       className: 'icon-mountains',
+      name: Terrain.Mountain,
       onClick: () => setEditType(Terrain.Mountain),
+      title: 'Mountains',
     });
 
     (map.value!.leafletObject as Map).on('pm:create', onTerrainUpdated);
-    (map.value!.leafletObject as Map).on('pm:remove', onTerrainUpdated);
+    (map.value!.leafletObject as Map).on('pm:remove', onTerrainUpdated)
 
-    L.PM.reInitLayer(map.value!.leafletObject);
+    L.PM.reInitLayer(map.value!.leafletObject)
 
-    isEditorInit.value = true;
-  };
+    isEditorInit.value = true
+  }
 
   return {
+    createEditControls,
+    editMode,
+    onTerrainUpdated,
+
     terrain,
     terrainVisibility,
-    toggleTerrainVisibilityLayer,
 
-    editMode,
     toggleEditMode,
-
-    onTerrainUpdated,
-    createEditControls,
-  };
-};
+    toggleTerrainVisibilityLayer,
+  }
+}

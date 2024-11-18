@@ -1,29 +1,50 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '~/stores/user'
 
-const { price, upkeep, inInventory, notEnoughGold } = defineProps<{
-  price: number;
-  upkeep: number;
-  inInventory: boolean;
-  notEnoughGold: boolean;
-}>();
-
-const { user } = toRefs(useUserStore());
+const { inInventory, notEnoughGold, price, upkeep } = defineProps<{
+  price: number
+  upkeep: number
+  inInventory: boolean
+  notEnoughGold: boolean
+}>()
 
 defineEmits<{
-  buy: [];
-}>();
+  buy: []
+}>()
 
-const isExpensive = computed(() => user.value!.gold - price < upkeep);
+const { user } = toRefs(useUserStore())
+
+const isExpensive = computed(() => user.value!.gold - price < upkeep)
 </script>
 
 <template>
   <VTooltip>
     <div>
-      <OButton variant="primary" outlined size="lg" :disabled="notEnoughGold" @click="$emit('buy')">
-        <Coin :value="price" :class="{ 'opacity-50': notEnoughGold }" />
-        <Tag v-if="inInventory" icon="check" size="sm" variant="success" rounded />
-        <Tag v-if="isExpensive" icon="alert" size="sm" variant="warning" rounded />
+      <OButton
+        variant="primary"
+        outlined
+        size="lg"
+        :disabled="notEnoughGold"
+        @click="$emit('buy')"
+      >
+        <Coin
+          :value="price"
+          :class="{ 'opacity-50': notEnoughGold }"
+        />
+        <Tag
+          v-if="inInventory"
+          icon="check"
+          size="sm"
+          variant="success"
+          rounded
+        />
+        <Tag
+          v-if="isExpensive"
+          icon="alert"
+          size="sm"
+          variant="warning"
+          rounded
+        />
       </OButton>
     </div>
 
@@ -38,13 +59,22 @@ const isExpensive = computed(() => user.value!.gold - price < upkeep);
           </Coin>
         </div>
 
-        <p v-if="inInventory" class="text-status-success">
+        <p
+          v-if="inInventory"
+          class="text-status-success"
+        >
           {{ $t('shop.item.buy.tooltip.inInventory') }}
         </p>
-        <p v-if="notEnoughGold" class="text-status-danger">
+        <p
+          v-if="notEnoughGold"
+          class="text-status-danger"
+        >
           {{ $t('shop.item.buy.tooltip.notEnoughGold') }}
         </p>
-        <p v-if="isExpensive" class="text-status-warning">
+        <p
+          v-if="isExpensive"
+          class="text-status-warning"
+        >
           {{ $t('shop.item.expensive') }}
         </p>
       </div>

@@ -1,21 +1,22 @@
 <script setup lang="ts">
-import { type CharacterCharacteristics } from '@/models/character';
-import { computeSpeedStats } from '@/services/characters-service';
+import type { CharacterCharacteristics } from '~/models/character'
 
-type Rows = 'weight' | 'hp';
+import { computeSpeedStats } from '~/services/characters-service'
+
+type Rows = 'weight' | 'hp'
 
 const props = withDefaults(
   defineProps<{
-    characteristics: CharacterCharacteristics;
-    weight: number;
-    longestWeaponLength: number;
-    healthPoints: number;
-    hiddenRows?: Rows[];
+    characteristics: CharacterCharacteristics
+    weight: number
+    longestWeaponLength: number
+    healthPoints: number
+    hiddenRows?: Rows[]
   }>(),
   {
     hiddenRows: () => [],
-  }
-);
+  },
+)
 
 const speedStats = computed(() =>
   computeSpeedStats(
@@ -23,13 +24,16 @@ const speedStats = computed(() =>
     props.characteristics.skills.athletics,
     props.characteristics.attributes.agility,
     props.weight,
-    props.longestWeaponLength
-  )
-);
+    props.longestWeaponLength,
+  ),
+)
 </script>
 
 <template>
-  <SimpleTableRow :label="$t('character.stats.hp.title')" :value="$n(healthPoints)" />
+  <SimpleTableRow
+    :label="$t('character.stats.hp.title')"
+    :value="$n(healthPoints)"
+  />
 
   <SimpleTableRow
     v-if="!hiddenRows.includes('weight')"
@@ -40,9 +44,9 @@ const speedStats = computed(() =>
   <SimpleTableRow
     :label="$t('character.stats.freeWeight.title')"
     :value="
-      $n(Math.min(weight, speedStats.freeWeight), 'decimal') +
-      '/' +
-      $n(speedStats.freeWeight, 'decimal')
+      `${$n(Math.min(weight, speedStats.freeWeight), 'decimal')
+      }/${
+        $n(speedStats.freeWeight, 'decimal')}`
     "
     :tooltip="{
       title: $t('character.stats.freeWeight.title'),

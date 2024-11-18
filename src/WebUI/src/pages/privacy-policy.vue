@@ -4,14 +4,16 @@ definePage({
     layout: 'empty',
     skipAuth: true,
   },
-});
+})
 </script>
 
 <template>
   <div class="flex w-full items-center justify-center py-12">
     <div class="mx-auto max-w-3xl rounded-xl border border-border-200 px-6 py-10">
       <div class="prose prose-invert">
-        <h1 class="text-center">Privacy Policy</h1>
+        <h1 class="text-center">
+          Privacy Policy
+        </h1>
 
         <Divider />
 
@@ -66,10 +68,10 @@ definePage({
             any time without prior notice. Your continued use of our website after any changes to
             this Privacy Policy constitutes your acceptance of the new Privacy Policy.
           </li>
-          
+
           <li>
-              Contact us: If you have any questions or concerns about this privacy policy, please
-              contact us at <a href="mailto:hello@c-rpg.eu">hello@c-rpg.eu</a>.
+            Contact us: If you have any questions or concerns about this privacy policy, please
+            contact us at <a href="mailto:hello@c-rpg.eu">hello@c-rpg.eu</a>.
           </li>
         </ol>
       </div>

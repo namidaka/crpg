@@ -1,13 +1,13 @@
 <script setup lang="ts">
-const props = defineProps<{
-  title?: string;
-  confirmLabel?: string;
-}>();
+defineProps<{
+  title?: string
+  confirmLabel?: string
+}>()
 
 const emit = defineEmits<{
-  (e: 'cancel'): void;
-  (e: 'confirm'): void;
-}>();
+  (e: 'cancel'): void
+  (e: 'confirm'): void
+}>()
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const emit = defineEmits<{
           <OButton
             variant="success"
             size="2xs"
-            iconLeft="check"
+            icon-left="check"
             :label="confirmLabel !== undefined ? confirmLabel : $t('action.confirm')"
             @click="
               () => {
@@ -35,7 +35,7 @@ const emit = defineEmits<{
           <OButton
             variant="danger"
             size="2xs"
-            iconLeft="close"
+            icon-left="close"
             :label="$t('action.cancel')"
             @click="hide"
           />

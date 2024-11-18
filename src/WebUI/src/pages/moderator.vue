@@ -4,13 +4,16 @@ definePage({
     layout: 'default',
     roles: ['Moderator', 'Admin'],
   },
-});
+})
 </script>
 
 <template>
   <div class="py-6">
     <div class="mb-12 flex items-center justify-center gap-2">
-      <RouterLink :to="{ name: 'Moderator' }" v-slot="{ isExactActive }">
+      <RouterLink
+        v-slot="{ isExactActive }"
+        :to="{ name: 'Moderator' }"
+      >
         <OButton
           :variant="isExactActive ? 'transparent-active' : 'transparent'"
           size="lg"
@@ -18,7 +21,10 @@ definePage({
         />
       </RouterLink>
 
-      <RouterLink :to="{ name: 'ModeratorFindUser' }" v-slot="{ isExactActive }">
+      <RouterLink
+        v-slot="{ isExactActive }"
+        :to="{ name: 'ModeratorFindUser' }"
+      >
         <OButton
           :variant="isExactActive ? 'transparent-active' : 'transparent'"
           size="lg"

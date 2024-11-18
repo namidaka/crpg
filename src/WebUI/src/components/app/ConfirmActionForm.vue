@@ -1,53 +1,56 @@
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core';
-import { sameAs } from '@/services/validators-service';
+import { useVuelidate } from '@vuelidate/core'
+
+import { sameAs } from '~/services/validators-service'
 
 const {
-  title,
+  confirmLabel,
   description,
   name,
-  confirmLabel,
   noSelect = false,
+  title,
 } = defineProps<{
-  title?: string;
-  description?: string;
-  name: string;
-  confirmLabel: string;
-  noSelect?: boolean;
-}>();
+  title?: string
+  description?: string
+  name: string
+  confirmLabel: string
+  noSelect?: boolean
+}>()
 
 const emit = defineEmits<{
-  cancel: [];
-  confirm: [];
-}>();
+  cancel: []
+  confirm: []
+}>()
 
-const confirmNameModel = ref<string>('');
+const confirmNameModel = ref<string>('')
 const $v = useVuelidate(
   {
     confirmNameModel: {
       sameAs: sameAs(name, name),
     },
   },
-  { confirmNameModel }
-);
+  { confirmNameModel },
+)
 
 const onCancel = () => {
-  confirmNameModel.value = '';
-  $v.value.$reset();
-  emit('cancel');
-};
+  confirmNameModel.value = ''
+  $v.value.$reset()
+  emit('cancel')
+}
 
 const onConfirm = async () => {
-  if (!(await $v.value.$validate())) return;
+  if (!(await $v.value.$validate())) { return }
 
-  emit('confirm');
-};
+  emit('confirm')
+}
 </script>
 
 <template>
   <div class="max-w-xl space-y-6 px-12 py-11 text-center">
     <slot name="title">
-      <h4 class="text-xl">{{ title }}</h4>
+      <h4 class="text-xl">
+        {{ title }}
+      </h4>
     </slot>
 
     <div class="space-y-4">
@@ -55,9 +58,16 @@ const onConfirm = async () => {
         <p>{{ description }}</p>
       </slot>
 
-      <i18n-t scope="global" keypath="confirm.name" tag="p">
+      <i18n-t
+        scope="global"
+        keypath="confirm.name"
+        tag="p"
+      >
         <template #name>
-          <span class="font-bold text-primary" :class="{ 'select-none': noSelect }">
+          <span
+            class="font-bold text-primary"
+            :class="{ 'select-none': noSelect }"
+          >
             {{ name }}
           </span>
         </template>

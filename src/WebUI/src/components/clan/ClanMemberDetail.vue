@@ -1,51 +1,64 @@
 <script setup lang="ts">
-import { ClanMemberRole, type ClanMember } from '@/models/clan';
+import type { ClanMember } from '~/models/clan'
+
+import { ClanMemberRole } from '~/models/clan'
 
 const props = defineProps<{
-  member: ClanMember;
-  canUpdate: boolean;
-  canKick: boolean;
-}>();
+  member: ClanMember
+  canUpdate: boolean
+  canKick: boolean
+}>()
 
 const emit = defineEmits<{
-  (e: 'kick'): void;
-  (e: 'update', role: ClanMemberRole): void;
-  (e: 'cancel'): void;
-}>();
+  (e: 'kick'): void
+  (e: 'update', role: ClanMemberRole): void
+  (e: 'cancel'): void
+}>()
 
-const memberRoleModel = ref<ClanMemberRole>(props.member.role);
+const memberRoleModel = ref<ClanMemberRole>(props.member.role)
 
-const confirmTransferDialogModel = ref<boolean>(false);
+const confirmTransferDialogModel = ref<boolean>(false)
 
 const onSave = () => {
   if (memberRoleModel.value === ClanMemberRole.Leader) {
-    confirmTransferDialogModel.value = true;
-    return;
+    confirmTransferDialogModel.value = true
+    return
   }
 
   if (memberRoleModel.value !== props.member.role) {
-    emit('update', memberRoleModel.value);
-    return;
+    emit('update', memberRoleModel.value)
+    return
   }
 
-  console.log('sdsd');
-
-  emit('cancel');
-};
+  emit('cancel')
+}
 </script>
 
 <template>
   <div class="">
     <div
-      class="flex items-center justify-center gap-2.5 border-b border-border-200 px-12 pt-11 pb-8 text-content-100"
+      class="flex items-center justify-center gap-2.5 border-b border-border-200 px-12 pb-8 pt-11 text-content-100"
     >
-      <UserMedia :user="member.user" :clanRole="member.role" size="xl" />
+      <UserMedia
+        :user="member.user"
+        :clan-role="member.role"
+        size="xl"
+      />
     </div>
 
-    <div v-if="canUpdate" class="mt-8 border-b border-border-200 px-8 pb-8">
-      <FormGroup icon="member" :label="$t('clan.roleTitle')" :collapsable="false" :bordered="false">
+    <div
+      v-if="canUpdate"
+      class="mt-8 border-b border-border-200 px-8 pb-8"
+    >
+      <FormGroup
+        icon="member"
+        :label="$t('clan.roleTitle')"
+        :collapsable="false"
+        :bordered="false"
+      >
         <ORadio
           v-for="role in Object.keys(ClanMemberRole)"
+          :key="role"
           v-model="memberRoleModel"
           :native-value="role"
         >
@@ -57,7 +70,10 @@ const onSave = () => {
       </FormGroup>
     </div>
 
-    <div v-if="canKick" class="border-b border-border-200 py-8 px-12">
+    <div
+      v-if="canKick"
+      class="border-b border-border-200 px-12 py-8"
+    >
       <i18n-t
         scope="global"
         keypath="clan.member.kick.title"
@@ -79,7 +95,11 @@ const onSave = () => {
                   class="mb-8 flex items-center justify-center gap-2 text-xl text-content-100"
                 >
                   <template #memberName>
-                    <UserMedia :user="member.user" hiddenPlatform size="xl" />
+                    <UserMedia
+                      :user="member.user"
+                      hidden-platform
+                      size="xl"
+                    />
                   </template>
                 </i18n-t>
 
@@ -145,7 +165,7 @@ const onSave = () => {
           :title="$t('clan.member.update.confirmationDialog.title')"
           :description="$t('clan.member.update.confirmationDialog.desc')"
           :name="member.user.name"
-          :confirmLabel="$t('action.confirm')"
+          :confirm-label="$t('action.confirm')"
           @cancel="hide"
           @confirm="
             () => {

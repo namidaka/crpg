@@ -1,11 +1,11 @@
 <script setup lang="ts">
 definePage({
-  name: 'PageNotFound',
   meta: {
-    skipAuth: true,
     layout: 'empty',
+    skipAuth: true,
   },
-});
+  name: 'PageNotFound',
+})
 </script>
 
 <template>

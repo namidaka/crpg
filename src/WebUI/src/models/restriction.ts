@@ -1,4 +1,4 @@
-import { type UserPublic, type UserPrivate } from '@/models/user';
+import type { UserPrivate, UserPublic } from '~/models/user'
 
 export enum RestrictionType {
   Join = 'Join',
@@ -7,31 +7,31 @@ export enum RestrictionType {
 }
 
 export interface Restriction {
-  id: number;
-  restrictedUser: UserPrivate;
-  duration: number;
-  type: RestrictionType;
-  reason: string;
-  publicReason: string;
-  restrictedByUser: UserPublic;
-  createdAt: Date;
+  id: number
+  reason: string
+  createdAt: Date
+  duration: number
+  publicReason: string
+  type: RestrictionType
+  restrictedUser: UserPrivate
+  restrictedByUser: UserPublic
 }
 
 export interface PublicRestriction {
-  id: number;
-  createdAt: Date;
-  duration: number;
-  reason: string;
+  id: number
+  reason: string
+  createdAt: Date
+  duration: number
 }
 
 export interface RestrictionWithActive extends Restriction {
-  active: boolean;
+  active: boolean
 }
 
 export interface RestrictionCreation {
-  restrictedUserId: number;
-  type: RestrictionType;
-  reason: string;
-  publicReason: string;
-  duration: number;
+  reason: string
+  duration: number
+  publicReason: string
+  type: RestrictionType
+  restrictedUserId: number
 }

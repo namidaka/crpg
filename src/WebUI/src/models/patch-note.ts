@@ -1,7 +1,7 @@
 export interface PatchNote {
-  id: string;
-  title: string;
-  tagName: string;
-  url: string;
-  createdAt: Date;
+  id: string
+  url: string
+  title: string
+  tagName: string
+  createdAt: Date
 }

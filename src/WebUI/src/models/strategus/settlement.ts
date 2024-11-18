@@ -1,4 +1,4 @@
-import { type Point } from 'geojson';
+import type { Point } from 'geojson'
 
 export enum SettlementType {
   Village = 'Village',
@@ -7,11 +7,11 @@ export enum SettlementType {
 }
 
 export interface SettlementPublic {
-  id: number;
-  name: string;
-  type: SettlementType;
-  culture: string;
-  position: Point;
-  scene: string;
-  region: string;
+  id: number
+  name: string
+  scene: string
+  region: string
+  culture: string
+  position: Point
+  type: SettlementType
 }

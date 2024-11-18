@@ -1,26 +1,32 @@
-import { type FiltersModel } from '@/models/item-search';
-import { Item, ItemType, WeaponClass, type ItemFlat } from '@/models/item';
+import { pick } from 'es-toolkit'
 
-import { createItemIndex } from '@/services/item-search-service/indexator';
+import type { Item, ItemFlat, WeaponClass } from '~/models/item'
+import type { FiltersModel } from '~/models/item-search'
+
+import { ItemType } from '~/models/item'
 import {
   filterItemsByType,
   filterItemsByWeaponClass,
   generateEmptyFiltersModel,
   getAggregationBy,
   getAggregationsConfig,
-  getVisibleAggregationsConfig,
   getScopeAggregations,
-} from '@/services/item-search-service';
-import { pick } from '@/utils/object';
-import { getWeaponClassesByItemType } from '@/services/item-service';
+  getVisibleAggregationsConfig,
+} from '~/services/item-search-service'
+import { createItemIndex } from '~/services/item-search-service/indexator'
+import { getWeaponClassesByItemType } from '~/services/item-service'
 
 export const useItemsFilter = (items: Item[]) => {
-  const route = useRoute();
-  const router = useRouter();
+  const route = useRoute()
+  const router = useRouter()
 
   const itemTypeModel = computed({
+    get() {
+      return (route.query?.type as ItemType) || ItemType.OneHandedWeapon
+    },
+
     set(val: ItemType) {
-      const weaponClasses = getWeaponClassesByItemType(val);
+      const weaponClasses = getWeaponClassesByItemType(val)
 
       router.push({
         query: {
@@ -30,15 +36,18 @@ export const useItemsFilter = (items: Item[]) => {
           }),
           ...pick(route.query, ['hideOwnedItems']),
         },
-      });
+      })
     },
-
-    get() {
-      return (route.query?.type as ItemType) || ItemType.OneHandedWeapon;
-    },
-  });
+  })
 
   const weaponClassModel = computed({
+    get() {
+      if (route.query?.weaponClass) { return route.query.weaponClass as WeaponClass }
+
+      const weaponClasses = getWeaponClassesByItemType(itemTypeModel.value)
+      return weaponClasses.length !== 0 ? weaponClasses[0] : null
+    },
+
     set(val: WeaponClass | null) {
       router.push({
         query: {
@@ -46,61 +55,53 @@ export const useItemsFilter = (items: Item[]) => {
           weaponClass: val === null ? undefined : val,
           ...pick(route.query, ['hideOwnedItems']),
         },
-      });
+      })
     },
-
-    get() {
-      if (route.query?.weaponClass) return route.query.weaponClass as WeaponClass;
-
-      const weaponClasses = getWeaponClassesByItemType(itemTypeModel.value);
-      return weaponClasses.length !== 0 ? weaponClasses[0] : null;
-    },
-  });
+  })
 
   const filterModel = computed({
+    get() {
+      return {
+        ...generateEmptyFiltersModel(aggregationsConfig.value),
+        // @ts-expect-error TODO:
+        ...('filter' in route.query && (route.query.filter as FiltersModel)),
+      }
+    },
+
     set(val: FiltersModel<string[] | number[]>) {
       router.push({
         query: {
           ...route.query,
-          // @ts-ignore TODO:
+          // @ts-expect-error TODO:
           filter: val,
         },
-      });
+      })
     },
-
-    get() {
-      return {
-        ...generateEmptyFiltersModel(aggregationsConfig.value),
-        // @ts-ignore TODO:
-        ...('filter' in route.query && (route.query.filter as FiltersModel)),
-      };
-    },
-  });
+  })
 
   const updateFilter = (key: keyof ItemFlat, val: string | string[] | number | number[]) => {
     router.push({
       query: {
         ...route.query,
-        // @ts-ignore TODO:
         filter: { ...filterModel.value, [key]: val },
       },
-    });
-  };
+    })
+  }
 
   const hideOwnedItemsModel = computed({
+    get() {
+      return Boolean(route.query.hideOwnedItems) || false
+    },
+
     set(val: boolean) {
       router.push({
         query: {
           ...route.query,
           hideOwnedItems: val === false ? undefined : String(val),
         },
-      });
+      })
     },
-
-    get() {
-      return Boolean(route.query.hideOwnedItems) || false;
-    },
-  });
+  })
 
   const resetFilters = () => {
     router.push({
@@ -118,55 +119,55 @@ export const useItemsFilter = (items: Item[]) => {
           'hideOwnedItems',
         ]), // TODO: keys to config?
       },
-    });
-  };
+    })
+  }
 
-  const flatItems = computed((): ItemFlat[] => createItemIndex(items, true));
+  const flatItems = computed((): ItemFlat[] => createItemIndex(items, true))
 
   const aggregationsConfig = computed(() =>
-    getAggregationsConfig(itemTypeModel.value, weaponClassModel.value)
-  );
+    getAggregationsConfig(itemTypeModel.value, weaponClassModel.value),
+  )
 
   const aggregationsConfigVisible = computed(() =>
-    getVisibleAggregationsConfig(aggregationsConfig.value)
-  );
+    getVisibleAggregationsConfig(aggregationsConfig.value),
+  )
 
   const filteredByTypeFlatItems = computed((): ItemFlat[] =>
-    filterItemsByType(flatItems.value, itemTypeModel.value)
-  );
+    filterItemsByType(flatItems.value, itemTypeModel.value),
+  )
 
   const filteredByClassFlatItems = computed((): ItemFlat[] =>
-    filterItemsByWeaponClass(filteredByTypeFlatItems.value, weaponClassModel.value)
-  );
+    filterItemsByWeaponClass(filteredByTypeFlatItems.value, weaponClassModel.value),
+  )
 
-  const aggregationByType = computed(() => getAggregationBy(flatItems.value, 'type'));
+  const aggregationByType = computed(() => getAggregationBy(flatItems.value, 'type'))
   const aggregationByClass = computed(() =>
-    getAggregationBy(filteredByTypeFlatItems.value, 'weaponClass')
-  );
+    getAggregationBy(filteredByTypeFlatItems.value, 'weaponClass'),
+  )
 
   // needed for the range slider to work normal.
   const scopeAggregations = computed(() =>
-    getScopeAggregations(filteredByClassFlatItems.value, aggregationsConfig.value)
-  );
+    getScopeAggregations(filteredByClassFlatItems.value, aggregationsConfig.value),
+  )
 
   return {
-    itemTypeModel,
-    weaponClassModel,
-    filterModel,
-    updateFilter,
-
-    resetFilters,
-
-    hideOwnedItemsModel,
-
+    aggregationByClass,
+    aggregationByType,
     aggregationsConfig,
     aggregationsConfigVisible,
 
-    filteredByTypeFlatItems,
     filteredByClassFlatItems,
 
-    aggregationByType,
-    aggregationByClass,
+    filteredByTypeFlatItems,
+
+    filterModel,
+    hideOwnedItemsModel,
+
+    itemTypeModel,
+    resetFilters,
+
     scopeAggregations,
-  };
-};
+    updateFilter,
+    weaponClassModel,
+  }
+}

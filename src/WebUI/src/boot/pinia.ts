@@ -1,7 +1,8 @@
-import { createPinia } from 'pinia';
-import { type BootModule } from '@/types/boot-module';
+import { createPinia } from 'pinia'
 
-export const install: BootModule = app => {
-  const pinia = createPinia();
-  app.use(pinia);
-};
+import type { BootModule } from '~/types/boot-module'
+
+export const install: BootModule = (app) => {
+  const pinia = createPinia()
+  app.use(pinia)
+}

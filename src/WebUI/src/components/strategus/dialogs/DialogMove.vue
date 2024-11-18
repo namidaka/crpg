@@ -1,44 +1,50 @@
 <script setup lang="ts">
-import { type LatLngLiteral, type LayerGroup } from 'leaflet';
-import { LLayerGroup, LPopup } from '@vue-leaflet/vue-leaflet';
-import { MovementType } from '@/models/strategus';
+import type { LatLngLiteral, LayerGroup } from 'leaflet'
 
-const { latLng } = defineProps<{ latLng: LatLngLiteral; movementTypes: MovementType[] }>();
+import { LLayerGroup, LPopup } from '@vue-leaflet/vue-leaflet'
+
+import type { MovementType } from '~/models/strategus'
+
+const { latLng } = defineProps<{ latLng: LatLngLiteral, movementTypes: MovementType[] }>()
 
 const emit = defineEmits<{
-  cancel: [];
-  confirm: [movementType: MovementType];
-}>();
+  cancel: []
+  confirm: [movementType: MovementType]
+}>()
 
-const layerGroup = ref<typeof LLayerGroup | null>(null);
+const layerGroup = ref<typeof LLayerGroup | null>(null)
 
-const onCancel = () => emit('cancel');
+const onCancel = () => emit('cancel')
 
 onMounted(() => {
-  (layerGroup.value!.leafletObject as LayerGroup).on('popupclose', onCancel);
-});
+  (layerGroup.value!.leafletObject as LayerGroup).on('popupclose', onCancel)
+})
 
 onBeforeUnmount(() => {
-  (layerGroup.value!.leafletObject as LayerGroup).off('popupclose', onCancel);
-});
+  (layerGroup.value!.leafletObject as LayerGroup).off('popupclose', onCancel)
+})
 
 watch(
   () => latLng,
   () => {
     nextTick().then(() => {
-      (layerGroup.value!.leafletObject as LayerGroup).openPopup(latLng);
-    });
+      (layerGroup.value!.leafletObject as LayerGroup).openPopup(latLng)
+    })
   },
-  { immediate: true }
-);
+  { immediate: true },
+)
 </script>
 
 <template>
   <LLayerGroup ref="layerGroup">
-    <LPopup :latLng="latLng" :options="{ className: 'move-popup', offset: [0, -8] }">
+    <LPopup
+      :lat-lng="latLng"
+      :options="{ className: 'move-popup', offset: [0, -8] }"
+    >
       <div class="mt-4 flex flex-col gap-1 p-2">
         <button
           v-for="mt in movementTypes"
+          :key="mt"
           class="rounded-sm border border-base-500 px-4 py-2 hover:ring"
           @click="emit('confirm', mt)"
         >

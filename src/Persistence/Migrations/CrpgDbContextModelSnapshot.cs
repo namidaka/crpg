@@ -611,8 +611,9 @@ namespace Crpg.Persistence.Migrations
 
             modelBuilder.Entity("Crpg.Domain.Entities.GameServers.IdempotencyKey", b =>
                 {
-                    b.Property<string>("Key")
-                        .HasColumnType("text")
+                    b.Property<Guid>("Key")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
                         .HasColumnName("key");
 
                     b.Property<DateTime>("CreatedAt")
@@ -622,6 +623,10 @@ namespace Crpg.Persistence.Migrations
                     b.Property<UserUpdateStatus>("Status")
                         .HasColumnType("user_update_status")
                         .HasColumnName("status");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.HasKey("Key")
                         .HasName("pk_idempotency_keys");

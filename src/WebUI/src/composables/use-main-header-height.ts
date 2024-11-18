@@ -1,3 +1,3 @@
-import { mainHeaderHeightKey } from '@/symbols/common';
+import { mainHeaderHeightKey } from '~/symbols/common'
 
-export default () => injectStrict(mainHeaderHeightKey);
+export default () => injectStrict(mainHeaderHeightKey)

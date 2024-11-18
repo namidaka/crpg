@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Platform } from '@/models/platform';
-import { type UserPublic } from '@/models/user';
-import { getUserById, searchUser } from '@/services/users-service';
-import { platformToIcon } from '@/services/platform-service';
+import type { UserPublic } from '~/models/user'
+
+import { Platform } from '~/models/platform'
+import { platformToIcon } from '~/services/platform-service'
+import { getUserById, searchUser } from '~/services/users-service'
 
 enum SearchMode {
   Name = 'Name',
@@ -10,48 +11,58 @@ enum SearchMode {
   Id = 'Id',
 }
 
-const activeSearchMode = ref<SearchMode>(SearchMode.Name);
-const users = ref<UserPublic[]>([]);
-const searchByNameModel = ref<string>('');
-const searchByIdModel = ref<number>(0);
-const searchByPlatformModel = ref<{ platform: Platform; platformUserId: string }>({
+const activeSearchMode = ref<SearchMode>(SearchMode.Name)
+const users = ref<UserPublic[]>([])
+const searchByNameModel = ref<string>('')
+const searchByIdModel = ref<number>(0)
+const searchByPlatformModel = ref<{ platform: Platform, platformUserId: string }>({
   platform: Platform.Steam,
   platformUserId: '',
-});
+})
 
 const search = async () => {
   if (activeSearchMode.value === SearchMode.Id) {
-    users.value = [await getUserById(searchByIdModel.value)];
-    return;
+    users.value = [await getUserById(searchByIdModel.value)]
+    return
   }
 
-  const payload =
-    activeSearchMode.value === SearchMode.Name
+  const payload
+    = activeSearchMode.value === SearchMode.Name
       ? {
           name: searchByNameModel.value,
         }
       : {
           platform: searchByPlatformModel.value.platform,
           platformUserId: searchByPlatformModel.value.platformUserId,
-        };
+        }
 
-  users.value = await searchUser(payload);
-};
+  users.value = await searchUser(payload)
+}
 
 const clearUsers = () => {
-  users.value = [];
-};
+  users.value = []
+}
 </script>
 
 <template>
   <div>
-    <OTabs v-model="activeSearchMode" :animated="false" class="mb-8">
-      <OTabItem :label="$t('findUser.mode.Name.label')" :value="SearchMode.Name">
-        <form @submit.prevent="search" class="rounded-xl border border-border-200 p-6">
+    <OTabs
+      v-model="activeSearchMode"
+      :animated="false"
+      class="mb-8"
+    >
+      <OTabItem
+        :label="$t('findUser.mode.Name.label')"
+        :value="SearchMode.Name"
+      >
+        <form
+          class="rounded-xl border border-border-200 p-6"
+          @submit.prevent="search"
+        >
           <OField :label="$t('findUser.mode.Name.field.name.label')">
             <OInput
-              :placeholder="$t('findUser.mode.Name.field.name.placeholder')"
               v-model="searchByNameModel"
+              :placeholder="$t('findUser.mode.Name.field.name.placeholder')"
               size="lg"
               class="w-72"
               required
@@ -70,8 +81,14 @@ const clearUsers = () => {
         </form>
       </OTabItem>
 
-      <OTabItem :label="$t('findUser.mode.Platform.label')" :value="SearchMode.Platform">
-        <form @submit.prevent="search" class="rounded-xl border border-border-200 p-6">
+      <OTabItem
+        :label="$t('findUser.mode.Platform.label')"
+        :value="SearchMode.Platform"
+      >
+        <form
+          class="rounded-xl border border-border-200 p-6"
+          @submit.prevent="search"
+        >
           <OField>
             <OField :label="$t('findUser.mode.Platform.field.platform.label')">
               <VDropdown :triggers="['click']">
@@ -79,15 +96,16 @@ const clearUsers = () => {
                   <OButton
                     variant="secondary"
                     size="lg"
-                    :iconLeft="platformToIcon[searchByPlatformModel.platform]"
+                    :icon-left="platformToIcon[searchByPlatformModel.platform]"
                     :label="$t(`platform.${searchByPlatformModel.platform}`)"
-                    :iconRight="shown ? 'chevron-up' : 'chevron-down'"
+                    :icon-right="shown ? 'chevron-up' : 'chevron-down'"
                   />
                 </template>
 
                 <template #popper="{ hide }">
                   <DropdownItem
                     v-for="p in Object.values(Platform)"
+                    :key="p"
                     :checked="p === searchByPlatformModel.platform"
                     :label="$t(`platform.${p}`)"
                     :icon="platformToIcon[p]"
@@ -105,8 +123,8 @@ const clearUsers = () => {
 
             <OField :label="$t('findUser.mode.Platform.field.platformId.label')">
               <OInput
-                :placeholder="$t('findUser.mode.Platform.field.platformId.placeholder')"
                 v-model="searchByPlatformModel.platformUserId"
+                :placeholder="$t('findUser.mode.Platform.field.platformId.placeholder')"
                 size="lg"
                 class="w-80"
                 required
@@ -126,12 +144,18 @@ const clearUsers = () => {
         </form>
       </OTabItem>
 
-      <OTabItem :label="$t('findUser.mode.Id.label')" :value="SearchMode.Id">
-        <form @submit.prevent="search" class="rounded-xl border border-border-200 p-6">
+      <OTabItem
+        :label="$t('findUser.mode.Id.label')"
+        :value="SearchMode.Id"
+      >
+        <form
+          class="rounded-xl border border-border-200 p-6"
+          @submit.prevent="search"
+        >
           <OField :label="$t('findUser.mode.Id.field.id.label')">
             <OInput
-              :placeholder="$t('findUser.mode.Id.field.id.placeholder')"
               v-model="searchByIdModel"
+              :placeholder="$t('findUser.mode.Id.field.id.placeholder')"
               size="lg"
               class="w-72"
               icon="search"
@@ -152,17 +176,29 @@ const clearUsers = () => {
     </OTabs>
 
     <template v-if="users.length">
-      <h4 class="mb-4">{{ $t('findUser.result.title') }}</h4>
+      <h4 class="mb-4">
+        {{ $t('findUser.result.title') }}
+      </h4>
       <div class="max-h-[480px] space-y-6 overflow-y-auto">
-        <div v-for="user in users" :key="user.id" class="flex items-center gap-2">
+        <div
+          v-for="user in users"
+          :key="user.id"
+          class="flex items-center gap-2"
+        >
           <RouterLink
             :to="{ name: 'ModeratorUserIdRestrictions', params: { id: user.id } }"
             class="inline-block hover:text-content-100"
           >
-            <UserMedia :user="user" size="xl" />
+            <UserMedia
+              :user="user"
+              size="xl"
+            />
           </RouterLink>
 
-          <slot name="user-prepend" v-bind="user" />
+          <slot
+            name="user-prepend"
+            v-bind="user"
+          />
         </div>
       </div>
     </template>

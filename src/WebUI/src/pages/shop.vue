@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { WeaponUsage, type ItemFlat } from '@/models/item';
+import type { ItemFlat } from '~/models/item'
+
+import { useItemsCompare } from '~/composables/shop/use-compare'
+import { useItemsFilter } from '~/composables/shop/use-filters'
+import { useItemsSort } from '~/composables/shop/use-sort'
+import { usePagination } from '~/composables/use-pagination'
+import { useSearchDebounced } from '~/composables/use-search-debounce'
+import { WeaponUsage } from '~/models/item'
+import { getSearchResult } from '~/services/item-search-service'
 import {
-  getItems,
-  getCompareItemsResult,
   canUpgrade,
+  getCompareItemsResult,
+  getItems,
   itemIsNewDays,
-} from '@/services/item-service';
-import { getSearchResult } from '@/services/item-search-service';
-import { notify } from '@/services/notification-service';
-import { t } from '@/services/translate-service';
-import { useUserStore } from '@/stores/user';
-import { useItemsFilter } from '@/composables/shop/use-filters';
-import { useItemsSort } from '@/composables/shop/use-sort';
-import { usePagination } from '@/composables/use-pagination';
-import { useItemsCompare } from '@/composables/shop/use-compare';
-import { useSearchDebounced } from '@/composables/use-search-debounce';
+} from '~/services/item-service'
+import { notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
+import { useUserStore } from '~/stores/user'
 
 definePage({
   meta: {
@@ -22,84 +24,84 @@ definePage({
     noStickyHeader: true,
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+})
 
-const userStore = useUserStore();
-const { userItems, user } = toRefs(userStore);
+const userStore = useUserStore()
+const { user, userItems } = toRefs(userStore)
 
-const userItemsIds = computed(() => userItems.value.map(ui => ui.item.id));
+const userItemsIds = computed(() => userItems.value.map(ui => ui.item.id))
 
-const { state: items, execute: loadItems } = useAsyncState(() => getItems(), [], {
+const { execute: loadItems, state: items } = useAsyncState(() => getItems(), [], {
   immediate: false,
-});
+})
 
-await Promise.all([loadItems(), userStore.fetchUserItems()]);
+await Promise.all([loadItems(), userStore.fetchUserItems()])
 
 const {
-  itemTypeModel,
-  weaponClassModel,
-  filterModel,
-  updateFilter,
-  hideOwnedItemsModel,
-  filteredByClassFlatItems,
+  aggregationByClass,
+  aggregationByType,
   aggregationsConfig,
   aggregationsConfigVisible,
-  aggregationByType,
-  aggregationByClass,
+  filteredByClassFlatItems,
+  filterModel,
+  hideOwnedItemsModel,
+  itemTypeModel,
   scopeAggregations,
-} = useItemsFilter(items.value);
-const { searchModel } = useSearchDebounced();
+  updateFilter,
+  weaponClassModel,
+} = useItemsFilter(items.value)
+const { searchModel } = useSearchDebounced()
 
-const { pageModel, perPageModel, perPageConfig } = usePagination();
-const { sortingModel, sortingConfig, getSortingConfigByField } = useItemsSort(aggregationsConfig);
+const { pageModel, perPageConfig, perPageModel } = usePagination()
+const { getSortingConfigByField, sortingConfig, sortingModel } = useItemsSort(aggregationsConfig)
 
 const {
-  isCompare,
-  toggleCompare,
-  compareList,
-  toggleToCompareList,
   addAllToCompareList,
+  compareList,
+  isCompare,
   removeAllFromCompareList,
-} = useItemsCompare();
+  toggleCompare,
+  toggleToCompareList,
+} = useItemsCompare()
 
 const searchResult = computed(() =>
   getSearchResult({
-    items: filteredByClassFlatItems.value,
-    userItemsIds: hideOwnedItemsModel.value ? userItemsIds.value : [],
     aggregationConfig: aggregationsConfig.value,
-    sortingConfig: sortingConfig.value,
-    sort: sortingModel.value,
-    page: pageModel.value,
-    perPage: perPageModel.value,
-    query: searchModel.value,
     filter: {
       ...filterModel.value,
       ...(isCompare.value && { modId: compareList.value }),
     },
-  })
-);
+    items: filteredByClassFlatItems.value,
+    page: pageModel.value,
+    perPage: perPageModel.value,
+    query: searchModel.value,
+    sort: sortingModel.value,
+    sortingConfig: sortingConfig.value,
+    userItemsIds: hideOwnedItemsModel.value ? userItemsIds.value : [],
+  }),
+)
 
 const compareItemsResult = computed(() =>
   !isCompare.value
     ? null
-    : getCompareItemsResult(searchResult.value.data.items, aggregationsConfig.value)
-);
+    : getCompareItemsResult(searchResult.value.data.items, aggregationsConfig.value),
+)
 
 const buyItem = async (item: ItemFlat) => {
-  await userStore.buyItem(item.id);
+  await userStore.buyItem(item.id)
 
-  notify(t('shop.item.buy.notify.success'));
-};
+  notify(t('shop.item.buy.notify.success'))
+}
 
-const isUpgradableCategory = computed(() => canUpgrade(itemTypeModel.value));
+const isUpgradableCategory = computed(() => canUpgrade(itemTypeModel.value))
 
 const newItemCount = computed(
-  () => searchResult.value.data.aggregations.new.buckets.find(b => b.key === '1')?.doc_count ?? 0
-);
+  () => searchResult.value.data.aggregations.new.buckets.find(b => b.key === '1')?.doc_count ?? 0,
+)
 </script>
 
 <template>
-  <div class="relative space-y-2 px-6 pb-6 pt-6">
+  <div class="relative space-y-2 p-6">
     <!-- <div class="fixed top-4 right-10 z-20 rounded-lg bg-white p-4 shadow-lg">
      <div>baseFilterModel: type: {{ itemTypeModel }} weaponClass: {{ weaponClassModel }}</div>
       <div>filterModel: {{ filterModel }}</div>
@@ -110,12 +112,15 @@ const newItemCount = computed(
     </div> -->
 
     <div class="mb-2 flex items-center gap-6 overflow-x-auto pb-2">
-      <VDropdown :triggers="['click']" placement="bottom-end">
+      <VDropdown
+        :triggers="['click']"
+        placement="bottom-end"
+      >
         <MoreOptionsDropdownButton
           :active="
-            hideOwnedItemsModel ||
-            Boolean('weaponUsage' in filterModel && filterModel['weaponUsage']!.length > 1) ||
-            Boolean('new' in filterModel && filterModel['new']!.length)
+            hideOwnedItemsModel
+              || Boolean('weaponUsage' in filterModel && filterModel.weaponUsage!.length > 1)
+              || Boolean('new' in filterModel && filterModel.new!.length)
           "
         />
 
@@ -127,10 +132,10 @@ const newItemCount = computed(
               :description="$t('item.aggregations.new.description', { days: itemIsNewDays })"
             >
               <OCheckbox
-                :nativeValue="1"
-                :modelValue="filterModel['new']"
+                :native-value="1"
+                :model-value="filterModel.new"
                 :disabled="newItemCount === 0"
-                @update:modelValue="(val: number) => updateFilter('new', val)"
+                @update:model-value="(val) => updateFilter('new', val)"
                 @change="hide"
               >
                 {{ $t('item.aggregations.new.title') }}
@@ -140,7 +145,10 @@ const newItemCount = computed(
           </DropdownItem>
 
           <DropdownItem>
-            <OCheckbox v-model="hideOwnedItemsModel" @change="hide">
+            <OCheckbox
+              v-model="hideOwnedItemsModel"
+              @change="hide"
+            >
               {{ $t('shop.hideOwnedItems.title') }}
             </OCheckbox>
           </DropdownItem>
@@ -151,9 +159,9 @@ const newItemCount = computed(
               :description="$t('shop.nonPrimaryWeaponMode.tooltip.desc')"
             >
               <OCheckbox
-                :nativeValue="WeaponUsage.Secondary"
-                :modelValue="filterModel['weaponUsage']"
-                @update:modelValue="(val: string) => updateFilter('weaponUsage', val)"
+                :native-value="WeaponUsage.Secondary"
+                :model-value="filterModel.weaponUsage"
+                @update:model-value="(val: string) => updateFilter('weaponUsage', val)"
                 @change="hide"
               >
                 {{ $t('shop.nonPrimaryWeaponMode.title') }}
@@ -166,10 +174,10 @@ const newItemCount = computed(
       <div class="h-8 w-px select-none bg-border-200" />
 
       <ShopItemTypeSelect
-        v-model:itemType="itemTypeModel"
-        v-model:weaponClass="weaponClassModel"
-        :itemTypeBuckets="aggregationByType.data.buckets"
-        :weaponClassBuckets="aggregationByClass.data.buckets"
+        v-model:item-type="itemTypeModel"
+        v-model:weapon-class="weaponClassModel"
+        :item-type-buckets="aggregationByType.data.buckets"
+        :weapon-class-buckets="aggregationByClass.data.buckets"
       />
     </div>
 
@@ -180,23 +188,26 @@ const newItemCount = computed(
       bordered
       narrowed
       hoverable
-      sortIcon="chevron-up"
-      sortIconSize="xs"
+      sort-icon="chevron-up"
+      sort-icon-size="xs"
       sticky-header
       :detailed="isUpgradableCategory"
-      detailKey="id"
-      customRowKey="id"
+      detail-key="id"
+      custom-row-key="id"
     >
-      <OTableColumn field="compare" :width="36">
+      <OTableColumn
+        field="compare"
+        :width="36"
+      >
         <template #header>
           <span class="inline-flex items-center">
             <OCheckbox
               v-tooltip="
                 compareList.length ? $t('shop.compare.removeAll') : $t('shop.compare.addAll')
               "
-              :modelValue="compareList.length >= 1"
-              :nativeValue="true"
-              @update:modelValue="
+              :model-value="compareList.length >= 1"
+              :native-value="true"
+              @update:model-value="
                 () =>
                   compareList.length
                     ? removeAllFromCompareList()
@@ -213,9 +224,9 @@ const newItemCount = computed(
                   ? $t('shop.compare.remove')
                   : $t('shop.compare.add')
               "
-              :modelValue="compareList.includes(item.modId)"
-              :nativeValue="true"
-              @update:modelValue="() => toggleToCompareList(item.modId)"
+              :model-value="compareList.includes(item.modId)"
+              :native-value="true"
+              @update:model-value="() => toggleToCompareList(item.modId)"
             />
           </span>
         </template>
@@ -233,31 +244,35 @@ const newItemCount = computed(
               expanded
               clearable
               size="sm"
-              iconRightClickable
+              icon-right-clickable
               data-aq-search-shop-input
             />
           </div>
         </template>
 
         <template #default="{ row: item }: { row: ItemFlat }">
-          <ShopGridItemName :item="item" showTier />
+          <ShopGridItemName
+            :item="item"
+            show-tier
+          />
         </template>
       </OTableColumn>
 
       <OTableColumn
-        v-for="field in Object.keys(aggregationsConfigVisible) as Array<keyof ItemFlat>"
+        v-for="field in (Object.keys(aggregationsConfigVisible) as Array<keyof ItemFlat>)"
+        :key="field"
         :field="field"
         :width="aggregationsConfigVisible[field]?.width ?? 140"
       >
         <template #header>
           <ShopGridFilter
             v-if="field in searchResult.data.aggregations"
-            :scopeAggregation="scopeAggregations[field]"
-            :aggregation="searchResult.data.aggregations[field]"
-            :aggregationConfig="aggregationsConfig[field]!"
-            :filter="filterModel[field]!"
             v-model:sorting="sortingModel"
-            :sortingConfig="getSortingConfigByField(field)"
+            :scope-aggregation="scopeAggregations[field]"
+            :aggregation="searchResult.data.aggregations[field]"
+            :aggregation-config="aggregationsConfig[field]!"
+            :filter="filterModel[field]!"
+            :sorting-config="getSortingConfigByField(field)"
             @update:filter="val => updateFilter(field, val)"
           />
         </template>
@@ -266,20 +281,27 @@ const newItemCount = computed(
           <ItemParam
             :item="item"
             :field="field"
-            :bestValue="compareItemsResult !== null ? compareItemsResult[field] : undefined"
-            :isCompare="isCompare"
+            :best-value="compareItemsResult !== null ? compareItemsResult[field] : undefined"
+            :is-compare="isCompare"
           >
-            <template v-if="field === 'upkeep'" #default="{ rawBuckets }">
+            <template
+              v-if="field === 'upkeep'"
+              #default="{ rawBuckets }"
+            >
               <Coin>
                 {{ $t('item.format.upkeep', { upkeep: $n(rawBuckets as number) }) }}
               </Coin>
             </template>
-            <template v-if="field === 'price'" #default="{ rawBuckets }">
+
+            <template
+              v-else-if="field === 'price'"
+              #default="{ rawBuckets }"
+            >
               <ShopGridItemBuyBtn
-                :price="rawBuckets"
+                :price="(rawBuckets as number)"
                 :upkeep="item.upkeep"
-                :inInventory="userItemsIds.includes(item.id)"
-                :notEnoughGold="user!.gold < item.price"
+                :in-inventory="userItemsIds.includes(item.id)"
+                :not-enough-gold="user!.gold < item.price"
                 @buy="buyItem(item)"
               />
             </template>
@@ -288,7 +310,10 @@ const newItemCount = computed(
       </OTableColumn>
 
       <template #detail="{ row: item }: { row: ItemFlat }">
-        <ShopGridUpgradesTable :item="item" :cols="aggregationsConfigVisible" />
+        <ShopGridUpgradesTable
+          :item="item"
+          :cols="aggregationsConfigVisible"
+        />
       </template>
 
       <template #empty>
@@ -301,9 +326,9 @@ const newItemCount = computed(
             <Pagination
               v-model="pageModel"
               :total="searchResult.pagination.total"
-              :perPage="searchResult.pagination.per_page"
+              :per-page="searchResult.pagination.per_page"
               order="left"
-              withInput
+              with-input
             />
 
             <div class="flex justify-center">
@@ -312,7 +337,7 @@ const newItemCount = computed(
                 variant="primary"
                 size="lg"
                 outlined
-                :iconRight="isCompare ? 'close' : null"
+                :icon-right="isCompare ? 'close' : ''"
                 data-aq-shop-handler="toggle-compare"
                 :label="$t('shop.compare.title')"
                 @click="toggleCompare"
@@ -320,9 +345,21 @@ const newItemCount = computed(
             </div>
 
             <div class="flex items-center justify-end gap-4">
-              <div class="text-content-400">{{ $t('shop.pagination.perPage') }}</div>
-              <OTabs v-model="perPageModel" size="xl" type="bordered-rounded" contentClass="hidden">
-                <OTabItem v-for="pp in perPageConfig" :label="String(pp)" :value="pp" />
+              <div class="text-content-400">
+                {{ $t('shop.pagination.perPage') }}
+              </div>
+              <OTabs
+                v-model="perPageModel"
+                size="xl"
+                type="bordered-rounded"
+                content-class="hidden"
+              >
+                <OTabItem
+                  v-for="pp in perPageConfig"
+                  :key="pp"
+                  :label="String(pp)"
+                  :value="pp"
+                />
               </OTabs>
             </div>
           </div>

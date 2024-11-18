@@ -1,34 +1,36 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
-import { deleteUser } from '@/services/users-service';
-import { logout } from '@/services/auth-service';
-import { t } from '@/services/translate-service';
-import { notify } from '@/services/notification-service';
+import { logout } from '~/services/auth-service'
+import { notify } from '~/services/notification-service'
+import { t } from '~/services/translate-service'
+import { deleteUser } from '~/services/users-service'
+import { useUserStore } from '~/stores/user'
 
 definePage({
   meta: {
     layout: 'default',
     roles: ['User', 'Moderator', 'Admin'],
   },
-});
+})
 
-const userStore = useUserStore();
+const userStore = useUserStore()
 
-await userStore.fetchCharacters();
+await userStore.fetchCharacters()
 
-const canDeleteUser = computed(() => !userStore.characters.length);
+const canDeleteUser = computed(() => !userStore.characters.length)
 
 const onDeleteUser = async () => {
-  await deleteUser();
-  notify(t('user.settings.delete.notify.success'));
-  logout();
-};
+  await deleteUser()
+  notify(t('user.settings.delete.notify.success'))
+  logout()
+}
 </script>
 
 <template>
   <div class="container">
     <div class="mx-auto max-w-2xl py-12">
-      <h1 class="mb-14 text-center text-xl text-content-100">{{ $t('user.settings.title') }}</h1>
+      <h1 class="mb-14 text-center text-xl text-content-100">
+        {{ $t('user.settings.title') }}
+      </h1>
 
       <FormGroup
         icon="alert-circle"
@@ -36,7 +38,11 @@ const onDeleteUser = async () => {
         collapsed
         variant="danger"
       >
-        <div v-if="!canDeleteUser" class="text-status-warning" data-aq-cant-delete-user-message>
+        <div
+          v-if="!canDeleteUser"
+          class="text-status-warning"
+          data-aq-cant-delete-user-message
+        >
           {{ $t('user.settings.delete.validation.hasChar') }}
         </div>
 
@@ -61,8 +67,8 @@ const onDeleteUser = async () => {
                   :name="
                     $t('user.settings.delete.dialog.enterToConfirm', { user: userStore.user!.name })
                   "
-                  :confirmLabel="$t('action.delete')"
-                  noSelect
+                  :confirm-label="$t('action.delete')"
+                  no-select
                   @cancel="hide"
                   @confirm="
                     () => {

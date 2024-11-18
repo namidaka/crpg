@@ -257,7 +257,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         BasicCultureObject cultureTeam1 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue());
         Banner bannerTeam1 = new(cultureTeam1.BannerKey, cultureTeam1.BackgroundColor1, cultureTeam1.ForegroundColor1);
         Mission.Teams.Add(BattleSideEnum.Attacker, cultureTeam1.BackgroundColor1, cultureTeam1.ForegroundColor1, bannerTeam1, false, true);
-        for (int i = 0; i < 42; i++)
+        for (int i = 0; i < 199; i++)
         {
             Formation f = new(Mission.Current.Teams.Attacker, 1);
             Mission.Teams.Attacker.FormationsIncludingEmpty.Add(f);
@@ -266,7 +266,7 @@ internal class CrpgBattleServer : MissionMultiplayerGameModeBase
         BasicCultureObject cultureTeam2 = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue());
         Banner bannerTeam2 = new(cultureTeam2.BannerKey, cultureTeam2.BackgroundColor2, cultureTeam2.ForegroundColor2);
         Mission.Teams.Add(BattleSideEnum.Defender, cultureTeam2.BackgroundColor2, cultureTeam2.ForegroundColor2, bannerTeam2, false, true);
-        for (int i = 0; i < 42; i++)
+        for (int i = 0; i < 199; i++)
         {
             Formation f = new(Mission.Current.Teams.Defender, 1);
             Mission.Teams.Defender.FormationsIncludingEmpty.Add(f);
