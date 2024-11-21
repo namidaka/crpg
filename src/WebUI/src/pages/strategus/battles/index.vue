@@ -103,8 +103,11 @@ await loadBattles()
           field="battle.phase"
           :label="$t('strategus.battle.table.column.when')"
           :width="15"
+          sortable
         >
-          Thu 07:10 AM
+          <div v-if="battle.scheduledFor">
+            {{ $d(battle.scheduledFor, 'short') }}
+          </div>
         </OTableColumn>
 
         <OTableColumn
@@ -152,11 +155,11 @@ await loadBattles()
                 <div v-if="!battle.defender.settlement!.owner">
                   <SvgSpriteImg :name="getIconByCulture(battle.defender!.settlement!.culture) ?? 'culture-neutrals'" viewBox="0 0 18 18" class="w-4" />
                 </div>
-                <div v-else-if="battle.defender.settlement.owner.user?.clan">
-                  <UserClan :clan="battle.defender.settlement.owner.user.clan" />
-                </div>
                 <div>{{ battle.defender?.settlement?.name }}</div>
                 <div><OIcon v-tooltip="$t(`strategus.settlementType.${battle.defender!.settlement.type}`)" :icon="settlementIconByType[battle.defender!.settlement.type].icon" class="self-baseline" /></div>
+              </div>
+              <div v-if="battle.defender.settlement.owner">
+                <UserMedia :user="battle.defender!.settlement.owner!.user" hidden-platform class="max-w-[20rem]" />
               </div>
             </div>
 

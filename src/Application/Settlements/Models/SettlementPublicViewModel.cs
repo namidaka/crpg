@@ -1,4 +1,5 @@
 ﻿using Crpg.Application.Common.Mappings;
+using Crpg.Application.Parties.Models;
 using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.Settlements;
 using NetTopologySuite.Geometries;
@@ -13,4 +14,5 @@ public record SettlementPublicViewModel : IMapFrom<Settlement>
     public Point Position { get; init; } = default!;
     public Culture Culture { get; init; }
     public Region Region { get; init; }
+    public PartyPublicViewModel? Owner { get; init; }
 }
