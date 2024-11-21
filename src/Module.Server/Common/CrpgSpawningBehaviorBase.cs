@@ -135,7 +135,7 @@ private int totalNumberOfBots = 800;
 
             p++;
             BasicCultureObject teamCulture = missionPeer.Team == Mission.AttackerTeam ? cultureTeam1 : cultureTeam2;
-            var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>($"crpg_class_division_{p}");
+            var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>($"crpg_captain_division_{p}");
             // var character = CreateCharacter(crpgPeer.User.Character, _constants);
             var characterSkills = CrpgCharacterBuilder.CreateCharacterSkills(crpgPeer.User!.Character.Characteristics);
             var characterXml = peerClass.HeroCharacter;
@@ -241,7 +241,7 @@ private int totalNumberOfBots = 800;
 
                 for (int i = 0; i < peerNumberOfBots; i++)
                 {
-                    SpawnBotAgent(peerClass.StringId, agent.Team, missionPeer, p);
+                    SpawnBotAgent($"crpg_captain_bot_division_{p}", agent.Team, missionPeer, p);
                 }
             }
 
@@ -295,7 +295,7 @@ private int totalNumberOfBots = 800;
             if (crpgPeer != null && crpgPeer?.User != null)
             {
                 Equipment characterEquipment = CrpgCharacterBuilder.CreateCharacterEquipment(crpgPeer.User.Character.EquippedItems);
-                MultiplayerClassDivisions.MPHeroClass? peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>($"crpg_class_division_{p}");
+                MultiplayerClassDivisions.MPHeroClass? peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>($"crpg_captain_bot_division_{p}");
                 CharacterSkills characterSkills = CrpgCharacterBuilder.CreateCharacterSkills(crpgPeer.User!.Character.Characteristics);
                 BasicCharacterObject? characterXml = peerClass.HeroCharacter;
                 CrpgBattleAgentOrigin troopOrigin = new CrpgBattleAgentOrigin(characterXml, characterSkills);
