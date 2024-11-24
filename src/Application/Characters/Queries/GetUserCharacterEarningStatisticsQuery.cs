@@ -12,6 +12,7 @@ namespace Crpg.Application.Characters.Queries;
 public record GetUserCharacterEarningStatisticsQuery : IMediatorRequest<IList<ActivityLogViewModel>>
 {
     public DateTime From { get; init; }
+    public DateTime? To { get; init; }
     public int CharacterId { get; init; }
     public int UserId { get; init; }
 
@@ -36,7 +37,7 @@ public record GetUserCharacterEarningStatisticsQuery : IMediatorRequest<IList<Ac
                 .Where(l =>
                     l.UserId == req.UserId
                     && l.Type == ActivityLogType.CharacterEarned
-                    && l.CreatedAt >= req.From && l.CreatedAt <= _dateTime.UtcNow
+                    && l.CreatedAt >= req.From && l.CreatedAt <= (req.To ?? _dateTime.UtcNow)
                     && Convert.ToInt32(l.Metadata.First(m => m.Key == "characterId").Value) == req.CharacterId)
                 .ToArrayAsync(cancellationToken);
 

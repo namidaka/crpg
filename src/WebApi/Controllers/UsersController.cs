@@ -381,12 +381,14 @@ public class UsersController : BaseController
     /// Get character exp/gold stats for the current user.
     /// </summary>
     /// <param name="from">Start of the queried time period.</param>
+    /// <param name="to">End of the queried time period. This parameter is optional.</param>
     /// <param name="id">Character id.</param>
     /// <returns>The character earning statistics.</returns>
     /// <response code="200">Ok.</response>
     [HttpGet("self/characters/{id}/earning-statistics")]
     public async Task<ActionResult<Result<IList<ActivityLogViewModel>>>> GetCharacterEarningStatistics(
         [FromQuery] DateTime from,
+        [FromQuery] DateTime? to,
         [FromRoute] int id)
     {
         return ResultToAction(await Mediator.Send(new GetUserCharacterEarningStatisticsQuery
@@ -394,6 +396,7 @@ public class UsersController : BaseController
             UserId = CurrentUser.User!.Id,
             CharacterId = id,
             From = from,
+            To = to,
         }, CancellationToken.None));
     }
 
