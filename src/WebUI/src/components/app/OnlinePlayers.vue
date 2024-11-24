@@ -4,9 +4,7 @@ import { useTransition } from '@vueuse/core'
 import type { GameServerStats } from '~/models/game-server-stats'
 
 import { gameModeToIcon } from '~/services/game-mode-service'
-import { omitEmptyGameMode } from '~/services/game-server-statistics-service'
 import { n } from '~/services/translate-service'
-import { getEntries } from '~/utils/object'
 
 const { gameServerStats, showLabel = false } = defineProps<{
   gameServerStats: GameServerStats | null
@@ -24,17 +22,6 @@ const animatedPlayingCountString = computed(() =>
     ? n(Number(animatedPlayingCount.value.toFixed(0)), 'decimal')
     : gameStatsErrorIndicator,
 )
-
-const omittedEmptyGameServerStats = computed(() => {
-  if (gameServerStats === null) { return {} }
-  return getEntries(gameServerStats.regions).reduce(
-    (out, [region, gameModes]) => {
-      out[region] = omitEmptyGameMode(gameModes!)
-      return out
-    },
-    {} as GameServerStats['regions'],
-  )
-})
 </script>
 
 <template>
@@ -77,7 +64,7 @@ const omittedEmptyGameServerStats = computed(() => {
           data-aq-region-stats
         >
           <div
-            v-for="(regionServerStats, regionKey) in omittedEmptyGameServerStats"
+            v-for="(regionServerStats, regionKey) in gameServerStats.regions"
             :key="regionKey"
             class="flex flex-col gap-3"
           >
