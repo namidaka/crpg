@@ -2,10 +2,16 @@
   "color": [
     "#dd6b66",
     "#759aa0",
-    "#d7ab82"
+    "#d7ab82",
+    "#7289ab",
+    "#91ca8c",
+    "#f49f42"
   ],
   "backgroundColor": "rgba(0,0,0,0)",
-  "textStyle": {},
+  "textStyle": {
+    "fontFamily": "Merriweather",
+    "color": "rgb(255,255,255,1)"
+  },
   "title": {
     "textStyle": {
       "color": "#666666"
@@ -150,11 +156,20 @@
       "iconStyle": {
         "borderColor": "#666"
       }
+    },
+    "feature": {
+      "dataView": {
+        "backgroundColor": "rgba(0, 0, 0, 1)",
+        "textareaColor": "rgba(0, 0, 0, 1)",
+        "textColor": "rgb(255,255,255,1)",
+        "buttonColor": "rgba(210, 188, 138, 1)",
+        "buttonTextColor": "rgba(0, 0, 0, 1)"
+      }
     }
   },
   "legend": {
     "textStyle": {
-      "color": "#999999"
+      "color": "rgb(255,255,255,1)"
     }
   },
   "tooltip": {
@@ -205,5 +220,49 @@
         }
       }
     }
+  },
+  "dataZoom": {
+    "backgroundColor": "rgba(0,0,0,0)",
+    "borderColor": "rgb(35,37,39,1)",
+    "textStyle": {
+      "color": "rgb(255,255,255,1)"
+    },
+    "dataBackground": {
+      "areaStyle": {
+        "color": "rgba(210, 188, 138, .5)"
+      },
+      "lineStyle": {
+        "color": "rgba(210, 188, 138, 1)"
+      }
+    },
+    "selectedDataBackground": {
+      "areaStyle": {
+        "color": "rgba(210, 188, 138, .5)"
+      },
+      "lineStyle": {
+        "color": "rgba(210, 188, 138, 1)"
+      }
+    },
+    "fillerColor": "rgba(210, 188, 138, .1)",
+    "handleStyle": {
+      "color": "rgba(210, 188, 138, 1)",
+      "borderColor": "rgba(210, 188, 138, 1)"
+    },
+    "moveHandleStyle": {
+      "color": "rgba(210, 188, 138, 1)",
+      "borderColor": "rgba(210, 188, 138, 1)"
+    },
+    "moveHandleSize": 12,
+    "emphasis": {
+      "handleStyle": {
+        "color": "rgba(210, 188, 138, 1)",
+        "borderColor": "rgba(210, 188, 138, 1)"
+      },
+      "moveHandleStyle": {
+        "color": "rgba(210, 188, 138, 1)",
+        "borderColor": "rgba(210, 188, 138, 1)"
+      }
+    }
   }
+
 }
