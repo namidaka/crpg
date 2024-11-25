@@ -32,24 +32,25 @@ import { defu } from 'defu'
 import qs from 'qs'
 
 import type { ActivityLog, CharacterEarnedMetadata } from '~/models/activity-logs'
-import type { TimeSeries } from '~/models/timeseries'
-
-import {
+import type {
   type Character,
+
   type CharacterArmorOverall,
   CharacterArmorOverallKey,
   type CharacterCharacteristics,
   CharacterClass,
   type CharacteristicConversion,
   type CharacteristicKey,
-  type CharacterLimitations,
   type CharacterOverallItemsStats,
+  CharacterRespecializeCapability,
   type CharacterSpeedStats,
   type CharacterStatistics,
   type EquippedItem,
   type EquippedItemId,
   type UpdateCharacterRequest,
 } from '~/models/character'
+import type { TimeSeries } from '~/models/timeseries'
+
 import { GameMode } from '~/models/game-mode'
 import { type Item, type ItemArmorComponent, ItemSlot, ItemType } from '~/models/item'
 import { del, get, put } from '~/services/crpg-client'
@@ -72,6 +73,69 @@ export const activateCharacter = (characterId: number, active: boolean) =>
 
 export const respecializeCharacter = (characterId: number) =>
   put<Character>(`/users/self/characters/${characterId}/respecialize`)
+
+export interface RespecCapability {
+  price: number
+  enabled: boolean
+  nextFreeAt: number
+  freeRespecWindowRemain: number
+}
+
+export const getRespecCapability = (
+  character: Character,
+  limitations: CharacterLimitations,
+  userGold: number,
+  cost: number
+  isRecentUser: boolean,
+): RespecCapability => {
+  if (isRecentUser || character.forTournament) {
+    return {
+      enabled: true,
+      freeRespecWindowRemain: 0,
+      nextFreeAt: 0,
+      price: 0,
+    }
+  }
+
+  const freeRespecWindow = new Date(limitations.lastRespecializeAt)
+  freeRespecWindow.setUTCHours(freeRespecWindow.getUTCHours() + freeRespecializePostWindowHours)
+
+  if (freeRespecWindow > new Date()) {
+    return {
+      enabled: true,
+      freeRespecWindowRemain: computeLeftMs(freeRespecWindow, 0), // ?
+      nextFreeAt: 0,
+      price: 0,
+    }
+  }
+
+  const lastRespecDate = new Date(limitations.lastRespecializeAt)
+  const nextFreeAt = new Date(limitations.lastRespecializeAt)
+  nextFreeAt.setUTCDate(nextFreeAt.getUTCDate() + freeRespecializeIntervalDays)
+  nextFreeAt.setUTCMinutes(nextFreeAt.getUTCMinutes() + 5) // 5 minute margin just in case
+
+  if (nextFreeAt < new Date()) {
+    return { enabled: true, freeRespecWindowRemain: 0, nextFreeAt: 0, price: 0 }
+  }
+
+  const decayDivider
+      = (new Date().getTime() - lastRespecDate.getTime()) / (respecializePriceHalfLife * 1000 * 3600)
+
+  const price = Math.floor(
+    Math.floor((character.experience / getExperienceForLevel(30)) * respecializePriceForLevel30)
+    / 2 ** decayDivider,
+  )
+
+  return {
+    enabled: price <= userGold,
+    freeRespecWindowRemain: 0,
+    nextFreeAt: computeLeftMs(nextFreeAt, 0),
+    price,
+  }
+}
+
+export const getCharacterRespecializeCapability = async (characterId: number) =>
+  get<CharacterRespecializeCapability>(`/users/self/characters/${characterId}/respecialize/capability`)
 
 export const tournamentLevelThreshold = 20
 
@@ -163,11 +227,6 @@ export const getCharacterEarningStatistics = async (
     return out
   }, [] as TimeSeries[])
 }
-
-export const getCharacterLimitations = async (characterId: number) =>
-  (await get<CharacterLimitations>(`/users/self/characters/${characterId}/limitations`)) || {
-    lastRespecializeAt: new Date(),
-  }
 
 export const getCharacterCharacteristics = (characterId: number) =>
   get<CharacterCharacteristics>(`/users/self/characters/${characterId}/characteristics`)
@@ -541,65 +600,6 @@ export const getExperienceMultiplierBonusByRetireCount = (retireCount: number) =
 // TODO: Spec
 export const sumExperienceMultiplierBonus = (multiplierA: number, multiplierB: number) => {
   return clamp(multiplierA + multiplierB, 0, maxExperienceMultiplierForGeneration)
-}
-
-export interface RespecCapability {
-  price: number
-  enabled: boolean
-  nextFreeAt: number
-  freeRespecWindowRemain: number
-}
-
-export const getRespecCapability = (
-  character: Character,
-  limitations: CharacterLimitations,
-  userGold: number,
-  isRecentUser: boolean,
-): RespecCapability => {
-  if (isRecentUser || character.forTournament) {
-    return {
-      enabled: true,
-      freeRespecWindowRemain: 0,
-      nextFreeAt: 0,
-      price: 0,
-    }
-  }
-
-  const freeRespecWindow = new Date(limitations.lastRespecializeAt)
-  freeRespecWindow.setUTCHours(freeRespecWindow.getUTCHours() + freeRespecializePostWindowHours)
-
-  if (freeRespecWindow > new Date()) {
-    return {
-      enabled: true,
-      freeRespecWindowRemain: computeLeftMs(freeRespecWindow, 0),
-      nextFreeAt: 0,
-      price: 0,
-    }
-  }
-
-  const lastRespecDate = new Date(limitations.lastRespecializeAt)
-  const nextFreeAt = new Date(limitations.lastRespecializeAt)
-  nextFreeAt.setUTCDate(nextFreeAt.getUTCDate() + freeRespecializeIntervalDays)
-  nextFreeAt.setUTCMinutes(nextFreeAt.getUTCMinutes() + 5) // 5 minute margin just in case
-
-  if (nextFreeAt < new Date()) {
-    return { enabled: true, freeRespecWindowRemain: 0, nextFreeAt: 0, price: 0 }
-  }
-
-  const decayDivider
-    = (new Date().getTime() - lastRespecDate.getTime()) / (respecializePriceHalfLife * 1000 * 3600)
-
-  const price = Math.floor(
-    Math.floor((character.experience / getExperienceForLevel(30)) * respecializePriceForLevel30)
-    / 2 ** decayDivider,
-  )
-
-  return {
-    enabled: price <= userGold,
-    freeRespecWindowRemain: 0,
-    nextFreeAt: computeLeftMs(nextFreeAt, 0),
-    price,
-  }
 }
 
 export const getCharacterSLotsSchema = (): {

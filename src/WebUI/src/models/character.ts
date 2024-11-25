@@ -69,10 +69,6 @@ export enum CharacteristicConversion {
   SkillsToAttributes = 'SkillsToAttributes',
 }
 
-export interface CharacterLimitations {
-  lastRespecializeAt: Date
-}
-
 export interface CharacterStatistics {
   kills: number
   deaths: number

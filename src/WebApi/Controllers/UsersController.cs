@@ -11,7 +11,6 @@ using Crpg.Application.Items.Models;
 using Crpg.Application.Items.Queries;
 using Crpg.Application.Limitations.Models;
 using Crpg.Application.Limitations.Queries;
-using Crpg.Application.Parties.Commands;
 using Crpg.Application.Restrictions.Models;
 using Crpg.Application.Restrictions.Queries;
 using Crpg.Application.Users.Commands;
@@ -416,6 +415,7 @@ public class UsersController : BaseController
         }));
     }
 
+
     /// <summary>
     /// Resets a character rating.
     /// </summary>
@@ -450,6 +450,16 @@ public class UsersController : BaseController
     [HttpPut("self/characters/{id}/respecialize")]
     public Task<ActionResult<Result<CharacterViewModel>>> RespecializeCharacter([FromRoute] int id) =>
         ResultToActionAsync(Mediator.Send(new RespecializeCharacterCommand { CharacterId = id, UserId = CurrentUser.User!.Id }));
+
+    [HttpGet("self/characters/{id}/respecialize/capability")]
+    public Task<ActionResult<Result<CharacterRespecializeCapabilityViewModel>>> GetRespecializeCapability([FromRoute] int id)
+    {
+        return ResultToActionAsync(Mediator.Send(new GetCharacterRespecializeCapabilityQuery
+        {
+            UserId = CurrentUser.User!.Id,
+            CharacterId = id,
+        }));
+    }
 
     /// <summary>
     /// Set the character as tournament character.

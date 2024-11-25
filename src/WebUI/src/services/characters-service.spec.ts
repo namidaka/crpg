@@ -327,6 +327,8 @@ it.each<[Partial<CharacterStatistics>, number]>([
   expect(getCharacterKDARatio(characterStatistics as CharacterStatistics)).toEqual(expectation)
 })
 
+// NOW
+// enabled: true,
 describe('getRespecCapability', () => {
   it.each<[Partial<Character>, CharacterLimitations, number, boolean, Partial<RespecCapability>]>([
     // tournament char - respec is always  free

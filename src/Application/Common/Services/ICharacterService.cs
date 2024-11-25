@@ -4,6 +4,7 @@ using Crpg.Common.Helpers;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Servers;
+using Crpg.Sdk.Abstractions;
 
 namespace Crpg.Application.Common.Services;
 
@@ -34,6 +35,8 @@ internal interface ICharacterService
     Error? Retire(Character character);
 
     void GiveExperience(Character character, int experience, bool useExperienceMultiplier);
+
+    int CalculateRespecializationCost(Character character);
 }
 
 /// <inheritdoc />
@@ -42,15 +45,18 @@ internal class CharacterService : ICharacterService
     private readonly IExperienceTable _experienceTable;
     private readonly ICompetitiveRatingModel _competitiveRatingModel;
     private readonly Constants _constants;
+    private readonly IDateTime _dateTime;
 
     public CharacterService(
         IExperienceTable experienceTable,
         ICompetitiveRatingModel competitiveRatingModel,
+        IDateTime dateTime,
         Constants constants)
     {
         _experienceTable = experienceTable;
         _competitiveRatingModel = competitiveRatingModel;
         _constants = constants;
+        _dateTime = dateTime;
     }
 
     public void SetValuesForNewUserStartingCharacter(Character character)
@@ -215,6 +221,21 @@ internal class CharacterService : ICharacterService
         }
     }
 
-    private int WeaponProficiencyPointsForLevel(int lvl) =>
+    public int WeaponProficiencyPointsForLevel(int lvl) =>
         (int)MathHelper.ApplyPolynomialFunction(lvl, _constants.WeaponProficiencyPointsForLevelCoefs);
+
+    public int CalculateRespecializationCost(Character character)
+    {
+        var freeRespecializeInterval = TimeSpan.FromDays(_constants.FreeRespecializeIntervalDays);
+        if (character.Limitations!.LastRespecializeAt + freeRespecializeInterval < _dateTime.UtcNow)
+        {
+            return 0;
+        }
+
+        TimeSpan timePassed = _dateTime.UtcNow - character.Limitations!.LastRespecializeAt;
+        // 12 Hours half life
+        double decayDivider = Math.Pow(2, timePassed.TotalHours / _constants.RespecializePriceHalfLife);
+
+        return (int)((float)character.Experience / _experienceTable.GetExperienceForLevel(30) * _constants.RespecializePriceForLevel30 / decayDivider);
+    }
 }

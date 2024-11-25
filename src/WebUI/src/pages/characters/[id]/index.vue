@@ -21,6 +21,7 @@ import {
   canSetCharacterForTournamentValidate,
   getCharacterKDARatio,
   getCharacterLimitations,
+  getCharacterRespecializeCapability,
   getCharacterStatistics,
   getDefaultCharacterStatistics,
   getExperienceForLevel,
@@ -69,15 +70,6 @@ const experiencePercentToNextLEvel = computed(() =>
   ),
 )
 
-const respecCapability = computed(() =>
-  getRespecCapability(
-    character.value,
-    characterLimitations.value,
-    userStore.user!.gold,
-    userStore.isRecentUser,
-  ),
-)
-
 const onRespecializeCharacter = async () => {
   userStore.replaceCharacter(await respecializeCharacter(character.value.id))
   userStore.subtractGold(respecCapability.value.price)
@@ -109,6 +101,26 @@ const onSetCharacterForTournament = async () => {
   notify(t('character.settings.tournament.notify.success'))
 }
 
+const loadCharacterRespecializeCapabilitySymbol = Symbol('loadCharacterRespecializeCapability')
+
+const { execute: loadCharacterRespecializeCapability, state: сharacterRespecializeCapability } = useAsyncState(
+  ({ id }: { id: number }) => getCharacterRespecializeCapability(id),
+  0, // ?
+  {
+    immediate: false,
+    resetOnExecute: false,
+  },
+)
+
+const respecCapability = computed(() =>
+  getRespecCapability(
+    character.value,
+    characterLimitations.value,
+    userStore.user!.gold,
+    userStore.isRecentUser,
+  ),
+)
+
 const { execute: loadCharacterStatistics, state: characterStatistics } = useAsyncState(
   ({ id }: { id: number }) => getCharacterStatistics(id),
   {},
@@ -123,10 +135,13 @@ const { subscribe, unsubscribe } = usePollInterval()
 onMounted(() => {
   subscribe(loadCharacterStatisticsKey, () =>
     loadCharacterStatistics(0, { id: character.value.id }))
+
+  subscribe(loadCharacterRespecializeCapabilitySymbol, () => loadCharacterRespecializeCapability(0, { id: character.value.id }))
 })
 
 onBeforeUnmount(() => {
   unsubscribe(loadCharacterStatisticsKey)
+  unsubscribe(loadCharacterRespecializeCapabilitySymbol)
 })
 
 const rankTable = computed(() => createRankTable())
@@ -164,6 +179,7 @@ const fetchPageData = (characterId: number) =>
   Promise.all([
     loadCharacterStatistics(0, { id: characterId }),
     loadCharacterLimitations(0, { id: characterId }),
+    loadCharacterRespecializeCapability(0, { id: characterId }),
   ])
 
 onBeforeRouteUpdate(async (to, from) => {

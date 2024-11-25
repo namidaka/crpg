@@ -26,20 +26,17 @@ public record RespecializeCharacterCommand : IMediatorRequest<CharacterViewModel
         private readonly IMapper _mapper;
         private readonly ICharacterService _characterService;
         private readonly IUserService _userService;
-        private readonly IExperienceTable _experienceTable;
         private readonly IActivityLogService _activityLogService;
         private readonly IDateTime _dateTime;
         private readonly Constants _constants;
 
         public Handler(ICrpgDbContext db, IMapper mapper, ICharacterService characterService, IUserService userService,
-            IExperienceTable experienceTable, IActivityLogService activityLogService, IDateTime dateTime,
-            Constants constants)
+         IActivityLogService activityLogService, IDateTime dateTime, Constants constants)
         {
             _db = db;
             _mapper = mapper;
             _characterService = characterService;
             _userService = userService;
-            _experienceTable = experienceTable;
             _activityLogService = activityLogService;
             _dateTime = dateTime;
             _constants = constants;
@@ -61,7 +58,7 @@ public record RespecializeCharacterCommand : IMediatorRequest<CharacterViewModel
             int price = 0;
             if (!character.ForTournament && !isRecentUser && !IsFreeRespecializationPostWindow(character))
             {
-                price = ResolveRespecializationPrice(character);
+                price = _characterService.CalculateRespecializationCost(character);
                 if (character.User!.Gold < price)
                 {
                     return new(CommonErrors.NotEnoughGold(price, character.User.Gold));
@@ -79,21 +76,6 @@ public record RespecializeCharacterCommand : IMediatorRequest<CharacterViewModel
 
             Logger.LogInformation("User '{0}' respecialized character '{1}'", req.UserId, req.CharacterId);
             return new(_mapper.Map<CharacterViewModel>(character));
-        }
-
-        private int ResolveRespecializationPrice(Character character)
-        {
-            var freeRespecializeInterval = TimeSpan.FromDays(_constants.FreeRespecializeIntervalDays);
-            if (character.Limitations!.LastRespecializeAt + freeRespecializeInterval < _dateTime.UtcNow)
-            {
-                return 0;
-            }
-
-            TimeSpan timePassed = _dateTime.UtcNow - character.Limitations!.LastRespecializeAt;
-            // 12 Hours half life
-            double decayDivider = Math.Pow(2, timePassed.TotalHours / _constants.RespecializePriceHalfLife);
-
-            return (int)((float)character.Experience / _experienceTable.GetExperienceForLevel(30) * _constants.RespecializePriceForLevel30 / decayDivider);
         }
 
         private bool IsFreeRespecializationPostWindow(Character character)
