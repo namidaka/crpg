@@ -13,6 +13,7 @@ using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
 using Crpg.Domain.Entities.Servers;
+using Crpg.Domain.Entities.Settings;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
@@ -70,6 +71,8 @@ public record SeedDataCommand : IMediatorRequest
 
         private async Task AddDevelopmentData()
         {
+            _db.Settings.Add(new() { Key = "DevelopmentMode", Value = "true", Description = "Development mode", DataType = SettingDataType.Boolean });
+
             User takeo = new()
             {
                 PlatformUserId = "76561197987525637",

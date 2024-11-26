@@ -12,6 +12,7 @@ using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
 using Crpg.Domain.Entities.Servers;
+using Crpg.Domain.Entities.Settings;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
@@ -50,6 +51,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         NpgsqlConnection.GlobalTypeMapper.MapEnum<GameMode>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<ActivityLogType>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<UserUpdateStatus>();
+        NpgsqlConnection.GlobalTypeMapper.MapEnum<SettingDataType>();
 #pragma warning restore CS0618
     }
 
@@ -91,6 +93,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     public DbSet<ActivityLog> ActivityLogs { get; set; } = default!;
     public DbSet<ActivityLogMetadata> ActivityLogMetadata { get; set; } = default!;
     public DbSet<IdempotencyKey> IdempotencyKeys { get; set; } = default!;
+    public DbSet<Setting> Settings { get; set; } = default!;
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -155,6 +158,7 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         modelBuilder.HasPostgresEnum<GameMode>();
         modelBuilder.HasPostgresEnum<ActivityLogType>();
         modelBuilder.HasPostgresEnum<UserUpdateStatus>();
+        modelBuilder.HasPostgresEnum<SettingDataType>();
 
         // Ensure that the PostGIS extension is installed.
         modelBuilder.HasPostgresExtension("postgis");

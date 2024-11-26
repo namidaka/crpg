@@ -66,4 +66,5 @@ public enum ErrorCode
     UserNotInAClan,
     UserRoleNotMet,
     PersonalItemAlreadyExist,
+    SettingNotFound,
 }
