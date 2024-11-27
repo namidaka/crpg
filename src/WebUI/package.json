@@ -53,7 +53,7 @@
     "vue-slider-component": "^4.1.0-beta.7"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.9.2",
+    "@antfu/eslint-config": "^3.10.0",
     "@intlify/unplugin-vue-i18n": "^6.0.0",
     "@pinia/testing": "^0.1.7",
     "@tailwindcss/typography": "^0.5.15",

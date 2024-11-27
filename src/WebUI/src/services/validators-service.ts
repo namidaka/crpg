@@ -1,3 +1,5 @@
+import type { ErrorObject } from '@vuelidate/core'
+
 import * as validators from '@vuelidate/validators'
 import { clanBannerKeyRegex, clanTagRegex } from '~root/data/constants.json'
 
@@ -26,6 +28,8 @@ export const clanTagPattern = withI18nMessage(validators.helpers.regex(new RegEx
 export const clanBannerKeyPattern = withI18nMessage(
   validators.helpers.regex(new RegExp(clanBannerKeyRegex)),
 )
+
+export const errorMessagesToString = (errors: ErrorObject[]) => errors.map(e => e.$message).join(', ')
 
 export const discordLinkPattern = withI18nMessage(
   validators.helpers.regex(

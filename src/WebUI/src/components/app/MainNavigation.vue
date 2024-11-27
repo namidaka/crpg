@@ -131,5 +131,15 @@ const userStore = useUserStore()
     >
       {{ $t('nav.main.Moderator') }}
     </RouterLink>
+
+    <RouterLink
+      v-if="[Role.Admin].includes(userStore.user!.role)"
+      :to="{ name: 'Admin' }"
+      class="text-content-300 hover:text-content-100"
+      active-class="!text-content-100"
+      data-aq-main-nav-link="Admin"
+    >
+      {{ $t('nav.main.Admin') }}
+    </RouterLink>
   </nav>
 </template>
