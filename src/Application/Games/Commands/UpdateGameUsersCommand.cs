@@ -66,15 +66,18 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                         continue;
                     }
 
-                    var reward = GiveReward(character, update.Reward, updateGameMode);
+                    var reward = GiveReward(character, update.Reward);
                     UpdateStatistics(updateGameMode, character, update.Statistics);
                     _characterService.UpdateRating(character, updateGameMode, update.Statistics.Rating.Value, update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
                     var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
+
+                    _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, updateGameMode, reward.Experience, reward.Gold));
                     results.Add((character.User!, reward, brokenItems, updateGameMode));
                 }
 
                 key.Status = UserUpdateStatus.Completed;
                 _db.IdempotencyKeys.Update(key);
+
                 await _db.SaveChangesAsync(cancellationToken);
 
                 return new(new UpdateGameUsersResult
@@ -89,7 +92,6 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                         {
                             gameUserViewModel.Character.Statistics = _mapper.Map<CharacterStatisticsViewModel>(relevantStatistic);
                         }
-
                         return new UpdateGameUserResult
                         {
                             User = gameUserViewModel,
@@ -125,15 +127,13 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             return charactersById;
         }
 
-        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward, GameMode gameMode)
+        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward)
         {
             int level = character.Level;
             int experience = character.Experience;
 
             character.User!.Gold += reward.Gold;
             _characterService.GiveExperience(character, reward.Experience, useExperienceMultiplier: true);
-
-            _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, gameMode, reward.Experience, reward.Gold));
 
             return new GameUserEffectiveReward
             {
