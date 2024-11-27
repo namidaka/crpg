@@ -71,7 +71,32 @@ public record SeedDataCommand : IMediatorRequest
 
         private async Task AddDevelopmentData()
         {
-            _db.Settings.Add(new() { Key = "DevelopmentMode", Value = "true", Description = "Development mode", DataType = SettingDataType.Boolean });
+            _db.Settings.Add(new()
+            {
+                Key = "DevelopmentMode",
+                Value = "true",
+                Description = "Development mode",
+                DataType = SettingDataType.Boolean,
+                Private = true,
+            });
+
+            _db.Settings.Add(new()
+            {
+                Key = "discord",
+                Value = "https://discord.gg/x9bA8fFa",
+                Description = "Discrord channel",
+                DataType = SettingDataType.String,
+                Private = false,
+            });
+
+            _db.Settings.Add(new()
+            {
+                Key = "patreon",
+                Value = "https://www.patreon.com/crpg",
+                DataType = SettingDataType.String,
+                Description = string.Empty,
+                Private = false,
+            });
 
             User takeo = new()
             {

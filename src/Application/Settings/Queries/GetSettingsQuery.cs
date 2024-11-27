@@ -10,6 +10,8 @@ namespace Crpg.Application.Settings.Queries;
 
 public record GetSettingsQuery : IMediatorRequest<IList<SettingViewModel>>
 {
+    public bool IsAdmin { get; init; }
+
     internal class Handler : IMediatorRequestHandler<GetSettingsQuery, IList<SettingViewModel>>
     {
         private readonly ICrpgDbContext _db;
@@ -24,7 +26,8 @@ public record GetSettingsQuery : IMediatorRequest<IList<SettingViewModel>>
         public async Task<Result<IList<SettingViewModel>>> Handle(GetSettingsQuery req,
             CancellationToken cancellationToken)
         {
-            return new(await _db.Settings
+             return new(await _db.Settings
+                .Where(s => req.IsAdmin || !s.Private)
                 .ProjectTo<SettingViewModel>(_mapper.ConfigurationProvider)
                 .ToArrayAsync(cancellationToken));
         }

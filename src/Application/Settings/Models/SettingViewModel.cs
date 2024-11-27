@@ -10,4 +10,7 @@ public record SettingViewModel : IMapFrom<Setting>
     public string Value { get; set; } = default!;
     public string? Description { get; set; }
     public SettingDataType DataType { get; set; }
+    public bool Private { get; set; } = true;
+    public DateTime UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

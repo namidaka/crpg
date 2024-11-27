@@ -16,6 +16,7 @@ public record SetSettingCommand : IMediatorRequest<SettingViewModel>
     public string Key { get; set; } = default!;
     public string Value { get; set; } = default!;
     public string? Description { get; set; }
+    public bool? Private { get; set; }
     public SettingDataType DataType { get; set; }
 
     internal class Handler : IMediatorRequestHandler<SetSettingCommand, SettingViewModel>
@@ -39,9 +40,11 @@ public record SetSettingCommand : IMediatorRequest<SettingViewModel>
                 setting.Value = req.Value;
                 setting.DataType = req.DataType;
                 setting.Description = req.Description ?? setting.Description;
+                setting.DataType = req.DataType;
+                setting.Private = req.Private ?? setting.Private;
                 Logger.LogInformation(
-                        "Setting has been updated. Key: '{0}', Value: '{1}', DataType: '{2}'",
-                        req.Key, req.Value.ToString(), req.DataType.ToString());
+                        "Setting has been updated. Key: '{0}', Value: '{1}', DataType: '{2}', Private: '{3}'",
+                        req.Key, req.Value.ToString(), req.DataType.ToString(), setting.Private.ToString());
             }
             else
             {
@@ -50,12 +53,13 @@ public record SetSettingCommand : IMediatorRequest<SettingViewModel>
                     Key = req.Key,
                     Value = req.Value,
                     DataType = req.DataType,
-                    Description = req.Description,
+                    Description = req.Description ?? string.Empty,
+                    Private = req.Private ?? true,
                 };
                 _db.Settings.Add(setting);
                 Logger.LogInformation(
-                        "Setting has been added. Key: '{0}', Value: '{1}', DataType: '{2}'",
-                        req.Key, req.Value.ToString(), req.DataType.ToString());
+                        "Setting has been added. Key: '{0}', Value: '{1}', DataType: '{2}', Private: '{3}'",
+                        req.Key, req.Value.ToString(), req.DataType.ToString(), (req.Private ?? true).ToString());
             }
 
             await _db.SaveChangesAsync(cancellationToken);
