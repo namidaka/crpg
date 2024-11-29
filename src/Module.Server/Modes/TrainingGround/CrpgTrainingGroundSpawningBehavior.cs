@@ -79,7 +79,7 @@ internal class CrpgTrainingGroundSpawningBehavior : CrpgSpawningBehaviorBase
         controlledAgent.FadeOut(true, true);
 
         BasicCultureObject teamCulture = missionPeer.Team == Mission.AttackerTeam ? cultureTeam1 : cultureTeam2;
-        var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>("crpg_class_division");
+        var peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>("crpg_captain_division_1");
         var characterSkills = CrpgCharacterBuilder.CreateCharacterSkills(crpgPeer.User!.Character.Characteristics);
         var characterXml = peerClass.HeroCharacter;
 
