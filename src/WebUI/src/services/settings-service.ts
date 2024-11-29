@@ -1,9 +1,7 @@
-import type { Setting, SettingEdition } from '~/models/setting'
+import type { Settings } from '~/models/setting'
 
-import { del, get, post } from '~/services/crpg-client'
+import { get, patch } from '~/services/crpg-client'
 
-export const getSettings = () => get<Setting[]>('/settings')
+export const getSettings = () => get<Settings>('/settings')
 
-export const setSetting = (setting: SettingEdition) => post('/settings', setting)
-
-export const deleteSetting = (id: number) => del(`/settings/${id}`)
+export const editSettings = (setting: Partial<Settings>) => patch('/settings', setting)

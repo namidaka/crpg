@@ -73,29 +73,13 @@ public record SeedDataCommand : IMediatorRequest
         {
             _db.Settings.Add(new()
             {
-                Key = "DevelopmentMode",
-                Value = "true",
-                Description = "Development mode",
-                DataType = SettingDataType.Boolean,
-                Private = true,
-            });
-
-            _db.Settings.Add(new()
-            {
-                Key = "discord",
-                Value = "https://discord.gg/x9bA8fFa",
-                Description = "Discrord channel",
-                DataType = SettingDataType.String,
-                Private = false,
-            });
-
-            _db.Settings.Add(new()
-            {
-                Key = "patreon",
-                Value = "https://www.patreon.com/crpg",
-                DataType = SettingDataType.String,
-                Description = string.Empty,
-                Private = false,
+                Id = 1,
+                Discord = "https://discord.gg/c-rpg",
+                Steam = "https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589",
+                Patreon = "https://www.patreon.com/crpg",
+                Github = "https://github.com/crpg2/crpg",
+                Reddit = "https://www.reddit.com/r/CRPG_Bannerlord",
+                ModDb = "https://www.moddb.com/mods/crpg",
             });
 
             User takeo = new()

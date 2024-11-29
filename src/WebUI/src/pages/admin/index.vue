@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useToggle } from '@vueuse/core'
+import { capitalize } from 'es-toolkit'
 
-import type { Setting, SettingEdition } from '~/models/setting'
+import type { Settings } from '~/models/setting'
 
-import { deleteSetting, getSettings, setSetting } from '~/services/settings-service'
+import { editSettings, getSettings } from '~/services/settings-service'
 import { useAsyncCallback } from '~/utils/useAsyncCallback'
 
 definePage({
@@ -12,27 +12,25 @@ definePage({
   },
 })
 
-const { execute: loadSettings, state: settings } = useAsyncState(
+const { execute: loadSettings, state: settings, isLoading: isLoadingSettings } = useAsyncState(
   () => getSettings(),
-  [],
+  {
+    discord: '',
+    steam: '',
+    patreon: '',
+    github: '',
+    reddit: '',
+    modDb: '',
+  },
+  {
+    immediate: true,
+  },
 )
 
-const { execute: onSetSetting, loading: editingSetting } = useAsyncCallback(async (setting: SettingEdition) => {
-  await setSetting(setting)
+const { execute: onEditSettings, loading: editingSetting } = useAsyncCallback(async (settings: Partial<Settings>) => {
+  await editSettings(settings)
   await loadSettings()
 })
-
-const { execute: onDeleteSetting, loading: deletingSetting } = useAsyncCallback(async (id: number) => {
-  await deleteSetting(id)
-  await loadSettings()
-})
-
-const onClickSetting = (setting: Setting) => {
-  selectedSetting.value = setting
-}
-
-const selectedSetting = ref<Setting | null>(null)
-const [shownCreateSettingDialog, toggleCreateSettingDialog] = useToggle()
 </script>
 
 <template>
@@ -42,59 +40,48 @@ const [shownCreateSettingDialog, toggleCreateSettingDialog] = useToggle()
         {{ $t('nav.main.Admin') }}
       </h1>
 
-      <div>
-        <div class="mb-8 flex items-center gap-4">
-          <h2 class="text-lg">
-            Settings
-          </h2>
+      <OLoading
+        v-if="isLoadingSettings"
+        active
+        icon-size="xl"
+      />
 
+      <FormGroup label="Settings" icon="settings" class="relative mx-auto w-1/2">
+        <div class="mb-8 space-y-8">
+          <OField v-for="(_, key) in settings" :key="key" :label="capitalize(key)">
+            <OInput
+              v-model="settings[key]"
+              :placeholder="key"
+              type="text"
+              expanded
+              size="lg"
+            />
+          </OField>
+        </div>
+
+        <div class="sticky bottom-0 flex items-center justify-center gap-4 bg-bg-main/50 py-4 backdrop-blur-sm">
           <OButton
-            native-type="submit"
             variant="primary"
-            size="sm"
-            label="Add setting"
-            @click="toggleCreateSettingDialog"
+            size="lg"
+            outlined
+            :label="$t('action.reset')"
+            @click="loadSettings"
           />
+          <ConfirmActionTooltip
+            class="inline"
+            :confirm-label="$t('action.ok')"
+            title="Are you sure you want to remove the setting?"
+            @confirm="onEditSettings(settings)"
+          >
+            <OButton
+              variant="primary"
+              size="lg"
+              :loading="editingSetting"
+              :label="$t('action.save')"
+            />
+          </ConfirmActionTooltip>
         </div>
-
-        <SettingsTable
-          :settings="settings"
-          :loading="editingSetting || deletingSetting"
-          @open-setting="onClickSetting"
-        />
-      </div>
+      </FormGroup>
     </div>
-
-    <Modal
-      closable
-      :auto-hide="false"
-      :shown="shownCreateSettingDialog || Boolean(selectedSetting)"
-      @hide="() => {
-        selectedSetting = null
-        toggleCreateSettingDialog(false)
-      }"
-    >
-      <template #popper="{ hide }">
-        <div class="w-[48rem] space-y-6 p-6">
-          <div class="pb-4 text-center text-xl text-content-100">
-            Setting
-          </div>
-
-          <SettingForm
-            :setting-id="selectedSetting?.id || null"
-            :setting="selectedSetting"
-            @submit="(setting) => {
-              hide();
-              onSetSetting(setting);
-            }"
-            @delete="() => {
-              hide();
-              onDeleteSetting(selectedSetting!.id)
-            }"
-            @cancel="hide"
-          />
-        </div>
-      </template>
-    </Modal>
   </div>
 </template>

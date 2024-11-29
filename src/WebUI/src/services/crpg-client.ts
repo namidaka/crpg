@@ -75,6 +75,10 @@ export function put<T = any>(path: string, body?: any): Promise<T> {
   return send('PUT', path, body)
 }
 
+export function patch<T = any>(path: string, body?: any): Promise<T> {
+  return send('PATCH', path, body)
+}
+
 export function del(path: string): Promise<any> {
   return send('DELETE', path)
 }

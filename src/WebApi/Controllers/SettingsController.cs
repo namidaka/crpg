@@ -18,33 +18,22 @@ public class SettingsController : BaseController
     [HttpGet]
     [Authorize(Policy = UserPolicy)]
     [ResponseCache(Duration = 1 * 60 * 1)] // 1 minutes
-    public Task<ActionResult<Result<IList<SettingViewModel>>>> GetSettings()
+    public Task<ActionResult<Result<SettingViewModel>>> GetSettings()
     {
-        return ResultToActionAsync(Mediator.Send(new GetSettingsQuery { IsAdmin = CurrentUser.User!.Role == Role.Admin }));
+        return ResultToActionAsync(Mediator.Send(new GetSettingsQuery()));
     }
 
     /// <summary>
-    /// Set setting.
+    /// Edit setting.
     /// </summary>
-    /// <param name="setting">Setting payload.</param>
+    /// <param name="settings">Settings payload.</param>
     /// <returns>The setting object.</returns>
     /// <response code="201">Created.</response>
     /// <response code="400">Bad Request.</response>
-    [HttpPost]
+    [HttpPatch]
     [Authorize(Policy = AdminPolicy)]
-    public Task<ActionResult<Result<SettingViewModel>>> SetSetting([FromBody] SetSettingCommand setting)
+    public Task<ActionResult<Result<SettingViewModel>>> EditSetting([FromBody] EditSettingCommand settings)
     {
-        return ResultToCreatedAtActionAsync(nameof(GetSettings), null, null, Mediator.Send(setting));
-    }
-
-    /// <summary>
-    /// Delete setting by id.
-    /// </summary>
-    /// <response code="204">Ok.</response>
-    [HttpDelete("{id}")]
-    [Authorize(Policy = AdminPolicy)]
-    public Task<ActionResult> DeleteSetting(int id)
-    {
-        return ResultToActionAsync(Mediator.Send(new DeleteSettingCommand { Id = id, }, CancellationToken.None));
+        return ResultToCreatedAtActionAsync(nameof(GetSettings), null, null, Mediator.Send(settings));
     }
 }

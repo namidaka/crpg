@@ -51,7 +51,6 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         NpgsqlConnection.GlobalTypeMapper.MapEnum<GameMode>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<ActivityLogType>();
         NpgsqlConnection.GlobalTypeMapper.MapEnum<UserUpdateStatus>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<SettingDataType>();
 #pragma warning restore CS0618
     }
 
@@ -158,7 +157,6 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
         modelBuilder.HasPostgresEnum<GameMode>();
         modelBuilder.HasPostgresEnum<ActivityLogType>();
         modelBuilder.HasPostgresEnum<UserUpdateStatus>();
-        modelBuilder.HasPostgresEnum<SettingDataType>();
 
         // Ensure that the PostGIS extension is installed.
         modelBuilder.HasPostgresExtension("postgis");

@@ -1,5 +1,4 @@
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
@@ -8,11 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Settings.Queries;
 
-public record GetSettingsQuery : IMediatorRequest<IList<SettingViewModel>>
+public record GetSettingsQuery : IMediatorRequest<SettingViewModel>
 {
-    public bool IsAdmin { get; init; }
-
-    internal class Handler : IMediatorRequestHandler<GetSettingsQuery, IList<SettingViewModel>>
+    internal class Handler : IMediatorRequestHandler<GetSettingsQuery, SettingViewModel>
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -23,13 +20,14 @@ public record GetSettingsQuery : IMediatorRequest<IList<SettingViewModel>>
             _mapper = mapper;
         }
 
-        public async Task<Result<IList<SettingViewModel>>> Handle(GetSettingsQuery req,
+        public async Task<Result<SettingViewModel>> Handle(GetSettingsQuery req,
             CancellationToken cancellationToken)
         {
-             return new(await _db.Settings
-                .Where(s => req.IsAdmin || !s.Private)
-                .ProjectTo<SettingViewModel>(_mapper.ConfigurationProvider)
-                .ToArrayAsync(cancellationToken));
+            var settings = await _db.Settings.FirstOrDefaultAsync(cancellationToken);
+
+            return settings == null
+                ? new(CommonErrors.SettingsNotFound(1))
+                : new(_mapper.Map<SettingViewModel>(settings));
         }
     }
 }

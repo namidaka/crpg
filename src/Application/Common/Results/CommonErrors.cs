@@ -364,9 +364,9 @@ internal static class CommonErrors
         Detail = $"User with id '{userId}' is already the owner of a personal item '{itemId}'",
     };
 
-    public static Error SettingNotFound(int settingId) => new(ErrorType.Validation, ErrorCode.SettingNotFound)
+    public static Error SettingsNotFound(int settingId) => new(ErrorType.Validation, ErrorCode.SettingNotFound)
     {
         Title = "Setting was not found",
-        Detail = $"Setting with id '{settingId}' was not found",
+        Detail = $"Settings with id '{settingId}' was not found",
     };
 }
