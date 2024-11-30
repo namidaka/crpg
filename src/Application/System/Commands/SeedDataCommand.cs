@@ -71,16 +71,20 @@ public record SeedDataCommand : IMediatorRequest
 
         private async Task AddDevelopmentData()
         {
-            _db.Settings.Add(new()
+
+            if (!(await _db.Settings.AnyAsync()))
             {
-                Id = 1,
-                Discord = "https://discord.gg/c-rpg",
-                Steam = "https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589",
-                Patreon = "https://www.patreon.com/crpg",
-                Github = "https://github.com/crpg2/crpg",
-                Reddit = "https://www.reddit.com/r/CRPG_Bannerlord",
-                ModDb = "https://www.moddb.com/mods/crpg",
-            });
+                _db.Settings.Add(new()
+                {
+                    Id = 1,
+                    Discord = "https://discord.gg/c-rpg",
+                    Steam = "https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589",
+                    Patreon = "https://www.patreon.com/crpg",
+                    Github = "https://github.com/crpg2/crpg",
+                    Reddit = "https://www.reddit.com/r/CRPG_Bannerlord",
+                    ModDb = "https://www.moddb.com/mods/crpg",
+                });
+            }
 
             User takeo = new()
             {
@@ -129,7 +133,6 @@ public record SeedDataCommand : IMediatorRequest
                 PlatformUserId = "76561198023558734",
                 Platform = Platform.Steam,
                 Name = "droob",
-                ActiveCharacterId = 8,
                 Role = Role.Admin,
                 Gold = 1000000,
                 HeirloomPoints = 12,
@@ -573,32 +576,7 @@ public record SeedDataCommand : IMediatorRequest
 
             UserItem[] newUserItems =
             {
-                takeoItem1,
-                takeoItem2,
-                orleItem1,
-                orleItem2,
-                orleItem3,
-                orleItem4,
-                orleItem5,
-                orleItem6,
-                orleItem7,
-                orleItem8,
-                orleItem9,
-                orleItem10,
-                orleItem11,
-                orleItem12,
-                orleItem13,
-                orleItem14,
-                orleItem15,
-                orleItem16,
-                orleItem17,
-                orleItem18,
-                orleItem19,
-                elmarykItem1,
-                elmarykItem2,
-                laHireItem1,
-                laHirekItem2,
-                laHirekItem3,
+                takeoItem1, takeoItem2, orleItem1, orleItem2, orleItem3, orleItem4, orleItem5, orleItem6, orleItem7, orleItem8, orleItem9, orleItem10, orleItem11, orleItem12, orleItem13, orleItem14, orleItem15, orleItem16, orleItem17, orleItem18, orleItem19, elmarykItem1, elmarykItem2, laHireItem1, laHirekItem2, laHirekItem3,
             };
 
             var existingUserItems = await _db.UserItems.ToDictionaryAsync(pi => pi.ItemId);
@@ -641,26 +619,26 @@ public record SeedDataCommand : IMediatorRequest
             {
                 RestrictedUser = orle,
                 RestrictedByUser = takeo,
-                Duration = TimeSpan.FromDays(9999),
+                Duration = TimeSpan.Zero,
                 Type = RestrictionType.Join,
                 Reason = "INTERNAL REASON: Reason3",
                 PublicReason = "PUBLIC REASON: Reason31",
-                CreatedAt = DateTime.Parse("2023-07-12T02:07:52.453109Z"),
+                CreatedAt = DateTime.UtcNow.AddDays(-1),
             };
             Restriction orleRestriction1 = new()
             {
                 RestrictedUser = orle,
                 RestrictedByUser = takeo,
-                Duration = TimeSpan.FromDays(0),
+                Duration = TimeSpan.FromDays(10),
                 Type = RestrictionType.Join,
                 Reason = "INTERNAL REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate, dignissimos fugiat commodi, quibusdam necessitatibus mollitia neque, quam voluptatibus rem quas. Libero sapiente ullam aliquid.",
                 PublicReason = "PUBLIC REASON: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat deserunt temporibus consectetur perferendis illo cupiditate",
-                CreatedAt = DateTime.Parse("2023-07-12T14:15:37.199511Z"),
+                CreatedAt = DateTime.UtcNow,
             };
 
             Restriction[] newRestrictions =
             {
-                takeoRestriction0, takeoRestriction1, baronCyborgRestriction0, orleRestriction0, orleRestriction1,
+                takeoRestriction0, takeoRestriction1, baronCyborgRestriction0,
             };
 
             _db.Restrictions.RemoveRange(await _db.Restrictions.ToArrayAsync());
@@ -1336,25 +1314,30 @@ public record SeedDataCommand : IMediatorRequest
 
             foreach (var newClanArmoryItem in newClanArmoryItems)
             {
-                // TODO: check if exist
-                // pecores.ArmoryItems.Add(newClanArmoryItem);
+                if (!pecores.ArmoryItems.Contains(newClanArmoryItem))
+                {
+                    pecores.ArmoryItems.Add(newClanArmoryItem);
+                }
             }
 
-            ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHirekItem2, Borrower = orleMember, };
-            ClanArmoryBorrowedItem orleBorrowedItem2 = new() { UserItem = laHirekItem3, Borrower = orleMember, };
-            ClanArmoryBorrowedItem elmarykBorrowedItem1 = new() { UserItem = orleItem1, Borrower = elmarykMember, };
-            ClanArmoryBorrowedItem elmarykBorrowedItem2 = new() { UserItem = takeoItem1, Borrower = elmarykMember, };
-            ClanArmoryBorrowedItem laHireBorrowedItem1 = new() { UserItem = takeoItem2, Borrower = laHireMember, };
+            ClanArmoryBorrowedItem orleBorrowedItem1 = new() { UserItem = laHireClanArmoryItem2.UserItem, Borrower = orleMember };
+            ClanArmoryBorrowedItem orleBorrowedItem2 = new() { UserItem = laHireClanArmoryItem3.UserItem, Borrower = orleMember };
+            ClanArmoryBorrowedItem elmarykBorrowedItem1 = new() { UserItem = orleClanArmoryItem2.UserItem, Borrower = elmarykMember };
+            ClanArmoryBorrowedItem elmarykBorrowedItem2 = new() { UserItem = takeoClanArmoryItem1.UserItem, Borrower = elmarykMember };
+            ClanArmoryBorrowedItem laHireBorrowedItem1 = new() { UserItem = takeoClanArmoryItem2.UserItem, Borrower = laHireMember };
+            ClanArmoryBorrowedItem laHireBorrowedItem2 = new() { UserItem = orleClanArmoryItem15.UserItem, Borrower = laHireMember };
 
             ClanArmoryBorrowedItem[] newClanArmoryBorrowedItems =
             {
-                orleBorrowedItem1, orleBorrowedItem2, elmarykBorrowedItem1, elmarykBorrowedItem2, laHireBorrowedItem1,
+                orleBorrowedItem1, orleBorrowedItem2, elmarykBorrowedItem1, elmarykBorrowedItem2, laHireBorrowedItem1, laHireBorrowedItem2,
             };
 
             foreach (var newClanArmoryBorrowedItem in newClanArmoryBorrowedItems)
             {
-                // TODO: check if exist
-                // pecores.ArmoryBorrowedItems.Add(newClanArmoryBorrowedItem);
+                if (!pecores.ArmoryBorrowedItems.Contains(newClanArmoryBorrowedItem))
+                {
+                    pecores.ArmoryBorrowedItems.Add(newClanArmoryBorrowedItem);
+                }
             }
 
             Clan ats = new()
