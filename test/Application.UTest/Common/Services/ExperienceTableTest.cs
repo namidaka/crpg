@@ -52,7 +52,7 @@ public class ExperienceTableTest
         for (int lvl = Constants.MinimumLevel; lvl <= Constants.MaximumLevel; lvl += 1)
         {
             int xp = ExperienceTable.GetExperienceForLevel(lvl);
-            Assert.That(xp, Is.GreaterThan(xpLastLevel), "Experience for lvl {0} should be greater than for lvl {1}", lvl, lvl - 1);
+            Assert.That(xp, Is.GreaterThan(xpLastLevel), $"Experience for lvl {lvl} should be greater than for lvl {lvl - 1}");
             xpLastLevel = xp;
         }
     }

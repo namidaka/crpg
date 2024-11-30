@@ -74,7 +74,7 @@ public class StrategusSpeedModelTest
                 assuming some of the soldiers have to walk. The more of them walk , the slowest the party get.
                 The speed should strictly decrease.
                 */
-                Assert.Less(speed, previousSpeed);
+                Assert.That(speed, Is.LessThan(previousSpeed));
             }
 
             previousSpeed = speed;
