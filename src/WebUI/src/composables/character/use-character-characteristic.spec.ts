@@ -105,7 +105,6 @@ describe('wasChangeMade', () => {
 })
 
 it.each<[PartialDeep<CharacterCharacteristics>, boolean]>(
-  // prettier-ignore
   [
     [{ attributes: { points: 0 }, skills: { points: 0 }, weaponProficiencies: { points: 0 } }, true],
     [{ attributes: { points: 0 }, skills: { points: 0 }, weaponProficiencies: { points: -10 } }, false],
@@ -123,7 +122,6 @@ it.each<[PartialDeep<CharacterCharacteristics>, boolean]>(
 })
 
 it.each<[PartialDeep<CharacterCharacteristics>, boolean]>(
-  // prettier-ignore
   [
     [{ attributes: { strength: 2 }, skills: { ironFlesh: 1 } }, false],
     [{ attributes: { strength: 3 }, skills: { ironFlesh: 1 } }, true],
@@ -159,7 +157,6 @@ it.each<
     { modelValue?: number, min?: number, max: number },
   ]
 >(
-  // prettier-ignore
   [
     [{ attributes: { points: 0, strength: 0 } }, 'attributes', 'strength', { max: 0 }],
     [{ attributes: { points: 1, strength: 0 } }, 'attributes', 'strength', { max: 1, modelValue: 0 }],
@@ -221,7 +218,6 @@ it.each<
     PartialDeep<CharacterCharacteristics>,
   ]
 >(
-  // prettier-ignore
   [
     [{ attributes: { points: 1, strength: 0 } }, 'attributes', 'strength', 1, { attributes: { points: 0, strength: 1 } }],
     // [{ attributes: { points: 0, strength: 0 } }, 'attributes', 'strength', 1, { attributes: { points: 0, strength: 0 } }],

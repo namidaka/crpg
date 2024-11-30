@@ -38,8 +38,8 @@ const { isLoading, itemUpgrades, relativeEntries } = useItemUpgrades(item, cols)
     </OTableColumn>
 
     <OTableColumn
-      v-for="field in (Object.keys(cols) as Array<keyof ItemFlat>)"
-      :key="field"
+      v-for="(field, idx) in (Object.keys(cols) as Array<keyof ItemFlat>)"
+      :key="idx"
       v-slot="{ row: rowItem }: { row: ItemFlat }"
       :field="field"
       :width="cols[field]?.width ?? 140"

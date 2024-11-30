@@ -102,15 +102,6 @@ const newItemCount = computed(
 
 <template>
   <div class="relative space-y-2 p-6">
-    <!-- <div class="fixed top-4 right-10 z-20 rounded-lg bg-white p-4 shadow-lg">
-     <div>baseFilterModel: type: {{ itemTypeModel }} weaponClass: {{ weaponClassModel }}</div>
-      <div>filterModel: {{ filterModel }}</div>
-      <div>nameModel: {{ nameModel }}</div>
-      <div>sortingModel: {{ sortingModel }}</div>
-      <div>pageModel: {{ pageModel }}</div>
-      <div>searchResult.pagination.total {{ searchResult.pagination.total }}</div>
-    </div> -->
-
     <div class="mb-2 flex items-center gap-6 overflow-x-auto pb-2">
       <VDropdown
         :triggers="['click']"
@@ -259,8 +250,8 @@ const newItemCount = computed(
       </OTableColumn>
 
       <OTableColumn
-        v-for="field in (Object.keys(aggregationsConfigVisible) as Array<keyof ItemFlat>)"
-        :key="field"
+        v-for="(field, idx) in (Object.keys(aggregationsConfigVisible) as Array<keyof ItemFlat>)"
+        :key="idx"
         :field="field"
         :width="aggregationsConfigVisible[field]?.width ?? 140"
       >
