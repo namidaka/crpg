@@ -30,7 +30,7 @@ public class SettingsController : BaseController
     /// <response code="400">Bad Request.</response>
     [HttpPatch]
     [Authorize(Policy = AdminPolicy)]
-    public Task<ActionResult<Result<SettingViewModel>>> EditSetting([FromBody] EditSettingCommand req)
+    public Task<ActionResult<Result<SettingViewModel>>> EditSetting([FromBody] EditSettingsCommand req)
     {
         return ResultToCreatedAtActionAsync(nameof(GetSettings), null, null, Mediator.Send(req));
     }
