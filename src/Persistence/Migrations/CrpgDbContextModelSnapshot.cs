@@ -986,6 +986,51 @@ namespace Crpg.Persistence.Migrations
                     b.ToTable("restrictions", (string)null);
                 });
 
+            modelBuilder.Entity("Crpg.Domain.Entities.Settings.Setting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Discord")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("discord");
+
+                    b.Property<string>("Github")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("github");
+
+                    b.Property<string>("ModDb")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("mod_db");
+
+                    b.Property<string>("Patreon")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("patreon");
+
+                    b.Property<string>("Reddit")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("reddit");
+
+                    b.Property<string>("Steam")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("steam");
+
+                    b.HasKey("Id")
+                        .HasName("pk_settings");
+
+                    b.ToTable("settings", (string)null);
+                });
+
             modelBuilder.Entity("Crpg.Domain.Entities.Settlements.Settlement", b =>
                 {
                     b.Property<int>("Id")
