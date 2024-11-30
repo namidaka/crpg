@@ -2,12 +2,12 @@
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
-using Crpg.Application.Settlements.Models;
+using Crpg.Application.Settings.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Crpg.Application.Settlements.Commands;
+namespace Crpg.Application.Settings.Commands;
 
-public record EditSettingsCommand : IMediatorRequest<SettingViewModel>
+public record EditSettingsCommand : IMediatorRequest<SettingsViewModel>
 {
     public string? Discord { get; set; }
     public string? Steam { get; set; }
@@ -16,7 +16,7 @@ public record EditSettingsCommand : IMediatorRequest<SettingViewModel>
     public string? Reddit { get; set; }
     public string? ModDb { get; set; }
 
-    internal class Handler : IMediatorRequestHandler<EditSettingsCommand, SettingViewModel>
+    internal class Handler : IMediatorRequestHandler<EditSettingsCommand, SettingsViewModel>
     {
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ public record EditSettingsCommand : IMediatorRequest<SettingViewModel>
             _mapper = mapper;
         }
 
-        public async Task<Result<SettingViewModel>> Handle(EditSettingsCommand req, CancellationToken cancellationToken)
+        public async Task<Result<SettingsViewModel>> Handle(EditSettingsCommand req, CancellationToken cancellationToken)
         {
             var existingSettings = await _db.Settings.FirstOrDefaultAsync(cancellationToken);
 
@@ -45,7 +45,7 @@ public record EditSettingsCommand : IMediatorRequest<SettingViewModel>
 
             await _db.SaveChangesAsync(cancellationToken);
 
-            return new(_mapper.Map<SettingViewModel>(existingSettings));
+            return new(_mapper.Map<SettingsViewModel>(existingSettings));
         }
     }
 }

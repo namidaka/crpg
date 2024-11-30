@@ -1,7 +1,7 @@
-using Crpg.Application.Settlements.Commands;
+using Crpg.Application.UTest;
 using NUnit.Framework;
 
-namespace Crpg.Application.UTest.Settings;
+namespace Crpg.Application.Settings.Commands;
 
 public class EditSettingCommandTest : TestBase
 {

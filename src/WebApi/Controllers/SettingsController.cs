@@ -1,7 +1,7 @@
 using Crpg.Application.Common.Results;
+using Crpg.Application.Settings.Commands;
+using Crpg.Application.Settings.Models;
 using Crpg.Application.Settings.Queries;
-using Crpg.Application.Settlements.Commands;
-using Crpg.Application.Settlements.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,7 @@ public class SettingsController : BaseController
     [HttpGet]
     [Authorize(Policy = UserPolicy)]
     // [ResponseCache(Duration = 1 * 60 * 1)] // 1 minutes
-    public Task<ActionResult<Result<SettingViewModel>>> GetSettings()
+    public Task<ActionResult<Result<SettingsViewModel>>> GetSettings()
     {
         return ResultToActionAsync(Mediator.Send(new GetSettingsQuery()));
     }
@@ -30,7 +30,7 @@ public class SettingsController : BaseController
     /// <response code="400">Bad Request.</response>
     [HttpPatch]
     [Authorize(Policy = AdminPolicy)]
-    public Task<ActionResult<Result<SettingViewModel>>> EditSetting([FromBody] EditSettingsCommand req)
+    public Task<ActionResult<Result<SettingsViewModel>>> EditSetting([FromBody] EditSettingsCommand req)
     {
         return ResultToCreatedAtActionAsync(nameof(GetSettings), null, null, Mediator.Send(req));
     }

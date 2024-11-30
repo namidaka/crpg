@@ -1,9 +1,9 @@
 ﻿using Crpg.Application.Common.Mappings;
 using Crpg.Domain.Entities.Settings;
 
-namespace Crpg.Application.Settlements.Models;
+namespace Crpg.Application.Settings.Models;
 
-public record SettingViewModel : IMapFrom<Setting>
+public record SettingsViewModel : IMapFrom<Setting>
 {
     public string Discord { get; set; } = default!;
     public string Steam { get; set; } = default!;
