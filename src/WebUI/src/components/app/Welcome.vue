@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { defaultGold, newUserStartingCharacterLevel } from '~root/data/constants.json'
 
+import { useSettingsStore } from '~/stores/settings'
+
 defineEmits<{
   close: []
 }>()
+
+const { settings } = storeToRefs(useSettingsStore())
 </script>
 
 <template>
@@ -124,7 +128,7 @@ defineEmits<{
                   <li>
                     <a
                       target="_blank"
-                      href="https://discord.gg/c-rpg"
+                      :href="settings.discord"
                       class="!my-0 flex items-center gap-x-1"
                     >
                       <OIcon

@@ -2,11 +2,13 @@
 import type { PatchNote } from '~/models/patch-note'
 
 import Role from '~/models/role'
+import { useSettingsStore } from '~/stores/settings'
 import { useUserStore } from '~/stores/user'
 
 defineProps<{ latestPatch?: PatchNote }>()
 
 const userStore = useUserStore()
+const { settings } = storeToRefs(useSettingsStore())
 </script>
 
 <template>
@@ -38,7 +40,7 @@ const userStore = useUserStore()
         rounded
         tag="a"
         icon-left="discord"
-        href="https://discord.gg/c-rpg"
+        :href="settings.discord"
         target="_blank"
       />
 

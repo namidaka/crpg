@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { useSettingsStore } from '~/stores/settings'
+
 const props = withDefaults(defineProps<{ patreonExpanded?: boolean, size?: string }>(), {
   patreonExpanded: false,
   size: 'xl',
 })
+
+const { settings } = storeToRefs(useSettingsStore())
 
 interface SocialLink {
   id: string
@@ -11,50 +15,54 @@ interface SocialLink {
   title: string
 }
 
-const socialsLinks: SocialLink[] = [
-  {
-    href: 'https://www.patreon.com/crpg',
-    icon: 'patreon',
-    id: 'patreon',
-    title: 'Patreon',
-  },
-  {
-    href: 'https://discord.gg/c-rpg',
-    icon: 'discord',
-    id: 'discord',
-    title: 'Discord',
-  },
-  {
-    href: 'https://www.reddit.com/r/CRPG_Bannerlord',
-    icon: 'reddit',
-    id: 'reddit',
-    title: 'Reddit',
-  },
-  {
-    href: 'https://www.moddb.com/mods/crpg',
-    icon: 'moddb',
-    id: 'moddb',
-    title: 'Moddb',
-  },
-  {
-    href: 'https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589',
-    icon: 'steam',
-    id: 'steam',
-    title: 'Steam',
-  },
-  {
-    href: 'https://github.com/namidaka/crpg',
-    icon: 'github',
-    id: 'github',
-    title: 'Github',
-  },
-]
+const socialsLinks = computed<SocialLink[]>(() => {
+  return [
+    {
+      href: settings.value.patreon,
+      icon: 'patreon',
+      id: 'patreon',
+      title: 'Patreon',
+    },
+    {
+      href: settings.value.discord,
+      icon: 'discord',
+      id: 'discord',
+      title: 'Discord',
+    },
+    {
+      href: settings.value.reddit,
+      icon: 'reddit',
+      id: 'reddit',
+      title: 'Reddit',
+    },
+    {
+      href: settings.value.modDb,
+      icon: 'moddb',
+      id: 'moddb',
+      title: 'Moddb',
+    },
+    {
+      href: settings.value.steam,
+      icon: 'steam',
+      id: 'steam',
+      title: 'Steam',
+    },
+    {
+      href: settings.value.github,
+      icon: 'github',
+      id: 'github',
+      title: 'Github',
+    },
+  ]
+})
 
-const links = computed(() =>
-  props.patreonExpanded ? socialsLinks.filter(l => l.id !== 'patreon') : socialsLinks,
-)
+const links = computed(() => {
+  return props.patreonExpanded
+    ? socialsLinks.value.filter(l => l.id !== 'patreon')
+    : socialsLinks.value
+})
 
-const patreonLink = computed(() => socialsLinks.find(l => l.id === 'patreon')!)
+const patreonLink = computed(() => socialsLinks.value.find(l => l.id === 'patreon')!)
 </script>
 
 <template>
