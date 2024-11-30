@@ -44,3 +44,15 @@ public class BattleFighter
     public Settlement? Settlement { get; set; }
     public Battle? Battle { get; set; }
 }
+
+public class TimeRange
+{
+    public DateTime Start { get; set; }
+    public DateTime End { get; set; }
+
+    public TimeRange(DateTime start, DateTime end)
+    {
+        Start = start;
+        End = end;
+    }
+}

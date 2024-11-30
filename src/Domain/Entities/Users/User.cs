@@ -1,4 +1,5 @@
 using Crpg.Domain.Common;
+using Crpg.Domain.Entities.Battles;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Clans;
 using Crpg.Domain.Entities.Items;
@@ -24,6 +25,7 @@ public class User : AuditableEntity
     public float ExperienceMultiplier { get; set; }
     public Role Role { get; set; }
     public Region Region { get; set; }
+    public TimeRange AvailablePeriode { get; set; }
 
     /// <summary>
     /// True if the user is donating on https://www.patreon.com/crpg.
