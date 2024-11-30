@@ -1,10 +1,5 @@
-using Crpg.Domain.Common;
-
 namespace Crpg.Domain.Entities.Settings;
 
-/// <summary>
-/// TODO:
-/// </summary>
 public class Setting
 {
     public int Id { get; set; } = 1;

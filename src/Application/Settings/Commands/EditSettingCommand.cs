@@ -5,18 +5,20 @@ using Crpg.Application.Common.Results;
 using Crpg.Application.Settlements.Models;
 using Crpg.Domain.Entities.Settings;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using LoggerFactory = Crpg.Logging.LoggerFactory;
 
 namespace Crpg.Application.Settlements.Commands;
 
 public record EditSettingCommand : IMediatorRequest<SettingViewModel>
 {
-    private readonly SettingEdition updatedSettings = default!;
+    public string? Discord { get; set; }
+    public string? Steam { get; set; }
+    public string? Patreon { get; set; }
+    public string? Github { get; set; }
+    public string? Reddit { get; set; }
+    public string? ModDb { get; set; }
 
     internal class Handler : IMediatorRequestHandler<EditSettingCommand, SettingViewModel>
     {
-        private static readonly ILogger Logger = LoggerFactory.CreateLogger<AddSettlementItemCommand>();
         private readonly ICrpgDbContext _db;
         private readonly IMapper _mapper;
 
@@ -28,22 +30,19 @@ public record EditSettingCommand : IMediatorRequest<SettingViewModel>
 
         public async Task<Result<SettingViewModel>> Handle(EditSettingCommand req, CancellationToken cancellationToken)
         {
-            var existingSettings = await _db.Settings.FirstOrDefaultAsync();
+            var existingSettings = await _db.Settings.FirstOrDefaultAsync(cancellationToken);
 
             if (existingSettings == null)
             {
                 return new(CommonErrors.SettingsNotFound(1));
             }
 
-            foreach (var setting in typeof(EditSettingCommand).GetProperties())
-            {
-                object? newValue = setting.GetValue(req.updatedSettings);
-                if (newValue != null)
-                {
-                    var targetProperty = typeof(Setting).GetProperty(setting.Name);
-                    targetProperty?.SetValue(existingSettings, newValue);
-                }
-            }
+            existingSettings.Discord = req.Discord ?? existingSettings.Discord;
+            existingSettings.Steam = req.Steam ?? existingSettings.Steam;
+            existingSettings.Patreon = req.Patreon ?? existingSettings.Patreon;
+            existingSettings.Github = req.Github ?? existingSettings.Github;
+            existingSettings.Reddit = req.Reddit ?? existingSettings.Reddit;
+            existingSettings.ModDb = req.ModDb ?? existingSettings.ModDb;
 
             await _db.SaveChangesAsync(cancellationToken);
 

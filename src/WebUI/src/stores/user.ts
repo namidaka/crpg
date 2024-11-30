@@ -27,7 +27,6 @@ interface State {
 }
 
 export const useUserStore = defineStore('user', {
-
   state: (): State => ({
     characters: [],
     clan: null,

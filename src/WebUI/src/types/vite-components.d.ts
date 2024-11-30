@@ -82,6 +82,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SettingForm: typeof import('./../components/admin/SettingForm.vue')['default']
+    SettingsForm: typeof import('./../components/admin/SettingsForm.vue')['default']
     SettingsTable: typeof import('./../components/admin/SettingsTable.vue')['default']
     SettingValue: typeof import('./../components/admin/SettingValue.vue')['default']
     SettlementMedia: typeof import('./../components/strategus/SettlementMedia.vue')['default']
