@@ -32,7 +32,6 @@ PRs or PRs with no context might get ignored.
 
 - Install VS Code extension [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 - Run the `Remote-Containers: Open Folder in Container` command from the Command Palette (F1)
-- For frontend development it is recommended to enable [Takeover mode](https://vuejs.org/guide/typescript/overview.html#volar-takeover-mode). Unfortunately, for [now](https://github.com/microsoft/vscode-remote-release/issues/415#issuecomment-1145477164) in manual mode
 
 [More info about dev containers](https://code.visualstudio.com/docs/remote/containers).
 
@@ -40,7 +39,7 @@ PRs or PRs with no context might get ignored.
 
 #### Web API (src/WebApi)
 
-- Download [.NET 7 SDK](https://dotnet.microsoft.com/download)
+- Download [.NET 8 SDK](https://dotnet.microsoft.com/download)
 - Download your favorite IDE: [Visual Studio](https://visualstudio.microsoft.com/vs), [Visual Studio Code](https://code.visualstudio.com), [Rider](https://www.jetbrains.com/rider)...
 - Open the solution file Crpg.sln
 - Run `dotnet dev-certs https --trust` to be able to launch the API with HTTPS. The authentication creates a cookie
