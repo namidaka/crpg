@@ -67,6 +67,12 @@ public static class DependencyInjection
                                 .MapEnum<UserUpdateStatus>())
                     .UseSnakeCaseNamingConvention();
 
+                // TODO: FIXME: https://github.com/dotnet/efcore/issues/35110
+                options.ConfigureWarnings(warnings =>
+                {
+                    warnings.Log(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning);
+                });
+
                 if (appEnv.Environment == HostingEnvironment.Development)
                 {
                     options
