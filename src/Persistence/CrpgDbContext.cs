@@ -1,7 +1,6 @@
 using Crpg.Application.Common.Exceptions;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Domain.Common;
-using Crpg.Domain.Entities;
 using Crpg.Domain.Entities.ActivityLogs;
 using Crpg.Domain.Entities.Battles;
 using Crpg.Domain.Entities.Characters;
@@ -11,48 +10,17 @@ using Crpg.Domain.Entities.Items;
 using Crpg.Domain.Entities.Limitations;
 using Crpg.Domain.Entities.Parties;
 using Crpg.Domain.Entities.Restrictions;
-using Crpg.Domain.Entities.Servers;
 using Crpg.Domain.Entities.Settings;
 using Crpg.Domain.Entities.Settlements;
 using Crpg.Domain.Entities.Users;
 using Crpg.Sdk.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 
 namespace Crpg.Persistence;
 
 public class CrpgDbContext : DbContext, ICrpgDbContext
 {
     private readonly IDateTime? _dateTime;
-
-    static CrpgDbContext()
-    {
-#pragma warning disable CS0618 // Since 7.0, should use NpgsqlDataSourceBuilder but it breaks the migrations. I think there is an issue in npgsql.
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<Platform>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<Role>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<CharacterClass>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<RestrictionType>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<Culture>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<ItemType>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<ItemSlot>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<DamageType>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<WeaponClass>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<ClanMemberRole>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<ClanInvitationType>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<ClanInvitationStatus>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<PartyStatus>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<SettlementType>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<BattlePhase>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<BattleSide>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<BattleFighterApplicationStatus>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<BattleMercenaryApplicationStatus>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<Region>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<Languages>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<GameMode>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<ActivityLogType>();
-        NpgsqlConnection.GlobalTypeMapper.MapEnum<UserUpdateStatus>();
-#pragma warning restore CS0618
-    }
 
     public CrpgDbContext(DbContextOptions<CrpgDbContext> options)
         : base(options)
@@ -134,30 +102,6 @@ public class CrpgDbContext : DbContext, ICrpgDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CrpgDbContext).Assembly);
-        modelBuilder.HasPostgresEnum<Platform>();
-        modelBuilder.HasPostgresEnum<Role>();
-        modelBuilder.HasPostgresEnum<CharacterClass>();
-        modelBuilder.HasPostgresEnum<RestrictionType>();
-        modelBuilder.HasPostgresEnum<Culture>();
-        modelBuilder.HasPostgresEnum<ItemType>();
-        modelBuilder.HasPostgresEnum<ItemSlot>();
-        modelBuilder.HasPostgresEnum<DamageType>();
-        modelBuilder.HasPostgresEnum<WeaponClass>();
-        modelBuilder.HasPostgresEnum<ClanMemberRole>();
-        modelBuilder.HasPostgresEnum<ClanInvitationType>();
-        modelBuilder.HasPostgresEnum<ClanInvitationStatus>();
-        modelBuilder.HasPostgresEnum<PartyStatus>();
-        modelBuilder.HasPostgresEnum<SettlementType>();
-        modelBuilder.HasPostgresEnum<BattlePhase>();
-        modelBuilder.HasPostgresEnum<BattleSide>();
-        modelBuilder.HasPostgresEnum<BattleFighterApplicationStatus>();
-        modelBuilder.HasPostgresEnum<BattleMercenaryApplicationStatus>();
-        modelBuilder.HasPostgresEnum<Region>();
-        modelBuilder.HasPostgresEnum<Languages>();
-        modelBuilder.HasPostgresEnum<GameMode>();
-        modelBuilder.HasPostgresEnum<ActivityLogType>();
-        modelBuilder.HasPostgresEnum<UserUpdateStatus>();
-
         // Ensure that the PostGIS extension is installed.
         modelBuilder.HasPostgresExtension("postgis");
     }

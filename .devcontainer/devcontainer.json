@@ -5,10 +5,7 @@
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
-      // Update 'VARIANT' to pick a .NET Core version: 3.1, 6.0
-      // Append -bullseye or -focal to pin to an OS version.
-      "VARIANT": "8.0", // https://mcr.microsoft.com/v2/vscode/devcontainers/dotnet/tags/list
-      // Options
+      "VARIANT": "9.0", // https://mcr.microsoft.com/v2/vscode/devcontainers/dotnet/tags/list
       "NODE_VERSION": "lts/*" // https://mcr.microsoft.com/v2/vscode/devcontainers/typescript-node/tags/list
     }
   },
@@ -22,10 +19,10 @@
         "dbaeumer.vscode-eslint",
         "eamodio.gitlens",
         "Vue.volar",
+        "antfu.goto-alias",
         "bradlc.vscode-tailwindcss",
         "naumovs.color-highlight",
         "streetsidesoftware.code-spell-checker",
-        "antfu.goto-alias",
         "cweijan.vscode-database-client2",
         "ms-dotnettools.csdevkit"
       ],

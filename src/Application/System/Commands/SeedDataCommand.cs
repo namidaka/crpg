@@ -71,8 +71,7 @@ public record SeedDataCommand : IMediatorRequest
 
         private async Task AddDevelopmentData()
         {
-
-            if (!(await _db.Settings.AnyAsync()))
+            if (!await _db.Settings.AnyAsync())
             {
                 _db.Settings.Add(new()
                 {
@@ -2185,7 +2184,7 @@ public record SeedDataCommand : IMediatorRequest
             };
 
             Battle[] newBattles = { nideonBattle, plainBattle, hertogeaBattle, leblenionBattle };
-            if (!(await _db.Battles.AnyAsync()))
+            if (!await _db.Battles.AnyAsync())
             {
                 _db.Battles.AddRange(newBattles);
             }
