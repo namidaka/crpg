@@ -291,7 +291,7 @@ const newItemCount = computed(
               <ShopGridItemBuyBtn
                 :price="(rawBuckets as number)"
                 :upkeep="item.upkeep"
-                :in-inventory="userItemsIds.includes(item.id)"
+                :in-inventory-count="userItemsIds.filter(id => id === item.id).length"
                 :not-enough-gold="user!.gold < item.price"
                 @buy="buyItem(item)"
               />

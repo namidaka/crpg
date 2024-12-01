@@ -773,7 +773,7 @@ shop:
         success: Item was successfully purchased
       tooltip:
         buy: Buy item
-        inInventory: The item is already in your inventory
+        inInventory: The item is already in your inventory ({count})
         notEnoughGold: Not enough gold
     weaponUsage:
       title: Not a primary usage mode
