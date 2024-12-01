@@ -71,7 +71,13 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                     _characterService.UpdateRating(character, updateGameMode, update.Statistics.Rating.Value, update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
                     var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
 
-                    _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, updateGameMode, reward.Experience, reward.Gold));
+                    // avoid warmup
+                    if (reward.Experience != 0)
+                    {
+                        int totalRepairCost = brokenItems.Sum(item => item.RepairCost);
+                        _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, updateGameMode, reward.Experience, reward.Gold - totalRepairCost));
+                    }
+
                     results.Add((character.User!, reward, brokenItems, updateGameMode));
                 }
 
@@ -92,6 +98,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                         {
                             gameUserViewModel.Character.Statistics = _mapper.Map<CharacterStatisticsViewModel>(relevantStatistic);
                         }
+
                         return new UpdateGameUserResult
                         {
                             User = gameUserViewModel,
