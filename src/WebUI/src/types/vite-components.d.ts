@@ -61,7 +61,6 @@ declare module 'vue' {
     ItemRankIcon: typeof import('./../components/item/ItemRankIcon.vue')['default']
     Kbd: typeof import('./../components/ui/Kbd.vue')['default']
     KbdCombination: typeof import('./../components/ui/KbdCombination.vue')['default']
-    KbdGroup: typeof import('./../components/ui/KbdGroup.vue')['default']
     LayerTerrain: typeof import('./../components/strategus/map/layers/LayerTerrain.vue')['default']
     Login: typeof import('./../components/app/Login.vue')['default']
     Loom: typeof import('./../components/app/Loom.vue')['default']

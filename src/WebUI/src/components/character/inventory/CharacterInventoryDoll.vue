@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { vOnLongPress } from '@vueuse/components'
+
 import type { EquippedItemId } from '~/models/character'
 import type { ItemSlot } from '~/models/item'
 
@@ -16,19 +18,15 @@ import {
   equippedItemsBySlotKey,
 } from '~/symbols/character'
 
-const emit = defineEmits<{
-  (e: 'change', items: EquippedItemId[]): void
-  (e: 'sell', itemId: number): void
+defineEmits<{
+  change: [items: EquippedItemId[]] // used in useInventoryDnD
 }>()
+
 const equippedItemsBySlot = injectStrict(equippedItemsBySlotKey)
 const itemsStats = injectStrict(characterItemsStatsKey)
 const { characterCharacteristics } = injectStrict(characterCharacteristicsKey)
 
 const slotsSchema = getCharacterSLotsSchema()
-
-const onUnEquipItem = (slot: ItemSlot) => {
-  emit('change', [{ slot, userItemId: null }])
-}
 
 const onClickInventoryDollSlot = (e: PointerEvent, slot: ItemSlot) => {
   if (equippedItemsBySlot.value[slot] === undefined) {
@@ -36,7 +34,7 @@ const onClickInventoryDollSlot = (e: PointerEvent, slot: ItemSlot) => {
   }
 
   if (e.ctrlKey) {
-    onQuickUnequip(slot)
+    onQuickUnEquip(slot)
   }
   else {
     toggleItemDetail(e.target as HTMLElement, {
@@ -56,8 +54,7 @@ const {
   onDrop,
   toSlot,
 } = useInventoryDnD(equippedItemsBySlot)
-
-const { onQuickUnequip } = useInventoryQuickEquip(equippedItemsBySlot)
+const { onQuickUnEquip } = useInventoryQuickEquip(equippedItemsBySlot)
 
 const { toggleItemDetail } = useItemDetail()
 </script>
@@ -80,6 +77,12 @@ const { toggleItemDetail } = useItemDetail()
       <CharacterInventoryDollSlot
         v-for="slot in slotGroup"
         :key="slot.key"
+        v-on-long-press="[
+          () => {
+            onQuickUnEquip(slot.key)
+          },
+          { delay: 500 },
+        ]"
         :item-slot="slot.key"
         :placeholder="slot.placeholderIcon"
         :user-item="equippedItemsBySlot[slot.key]"
@@ -100,13 +103,12 @@ const { toggleItemDetail } = useItemDetail()
         "
         :remove="fromSlot === slot.key && !toSlot"
         draggable="true"
+        @dragstart="onDragStart(equippedItemsBySlot[slot.key], slot.key)"
         @dragend="(_e: DragEvent) => onDragEnd(_e, slot.key)"
         @drop="onDrop(slot.key)"
         @dragover.prevent="onDragEnter(slot.key)"
         @dragleave.prevent="onDragLeave"
         @dragenter.prevent
-        @dragstart="onDragStart(equippedItemsBySlot[slot.key], slot.key)"
-        @un-equip="onUnEquipItem(slot.key)"
         @click="e => onClickInventoryDollSlot(e, slot.key)"
       />
     </div>

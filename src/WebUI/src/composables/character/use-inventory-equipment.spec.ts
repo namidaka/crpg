@@ -76,7 +76,7 @@ describe('useInventoryEquipment', () => {
     })
   })
 
-  describe('getUnequipItemsLinked', () => {
+  describe('getUnEquipItemsLinked', () => {
     it('returns unequip items correctly', () => {
       const equippedItemsBySlot: PartialDeep<EquippedItemsBySlot> = {
         [ItemSlot.Body]: {
@@ -100,9 +100,9 @@ describe('useInventoryEquipment', () => {
       }
 
       mockedGetLinkedSlots.mockReturnValueOnce([ItemSlot.Body])
-      const { getUnequipItemsLinked } = useInventoryEquipment()
+      const { getUnEquipItemsLinked } = useInventoryEquipment()
 
-      const result = getUnequipItemsLinked(ItemSlot.Leg, equippedItemsBySlot as EquippedItemsBySlot)
+      const result = getUnEquipItemsLinked(ItemSlot.Leg, equippedItemsBySlot as EquippedItemsBySlot)
 
       expect(mockedGetLinkedSlots).toBeCalledWith(ItemSlot.Leg, equippedItemsBySlot as EquippedItemsBySlot)
       expect(result).toStrictEqual([
