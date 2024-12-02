@@ -1,4 +1,9 @@
-﻿using NetworkMessages.FromClient;
+﻿using Crpg.Module.Api.Models.Restrictions;
+using Crpg.Module.Api.Models.Users;
+#if CRPG_SERVER
+using Crpg.Module.Common.ChatCommands;
+#endif
+using NetworkMessages.FromClient;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Diamond;
@@ -7,6 +12,7 @@ using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.MountAndBlade.Network.Messages;
+using static TaleWorlds.MountAndBlade.MovementOrder;
 
 namespace Crpg.Module.Common.Commander;
 internal class CrpgCommanderPollComponent : MissionNetwork
@@ -223,6 +229,15 @@ internal class CrpgCommanderPollComponent : MissionNetwork
         if (_isKickPollOngoing)
         {
             RejectPollOnServer(pollCreatorPeer, MultiplayerPollRejectReason.HasOngoingPoll);
+            return;
+        }
+
+        CrpgUser? crpgUser = targetPeer.GetComponent<MissionPeer>().GetComponent<CrpgPeer>().User;
+        if (crpgUser?.Restrictions.Any(r => r.Type == CrpgRestrictionType.Chat) ?? false)
+        {
+            GameNetwork.BeginModuleEventAsServer(pollCreatorPeer);
+            GameNetwork.WriteMessage(new CommanderChatCommand { RejectReason = CommanderChatCommandRejectReason.TargetIsMuted });
+            GameNetwork.EndModuleEventAsServer();
             return;
         }
 
