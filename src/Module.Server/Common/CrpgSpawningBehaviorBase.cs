@@ -294,7 +294,7 @@ private int totalNumberOfBots = 800;
             var crpgPeer = peer.GetComponent<CrpgPeer>();
             if (crpgPeer != null && crpgPeer?.User != null)
             {
-                Equipment characterEquipment = CrpgCharacterBuilder.CreateCharacterEquipment(crpgPeer.User.Character.EquippedItems);
+                Equipment characterEquipment = CrpgCharacterBuilder.CreateBotCharacterEquipment(crpgPeer.User.Character.EquippedItems);
                 MultiplayerClassDivisions.MPHeroClass? peerClass = MBObjectManager.Instance.GetObject<MultiplayerClassDivisions.MPHeroClass>($"crpg_captain_bot_division_{p}");
                 CharacterSkills characterSkills = CrpgCharacterBuilder.CreateCharacterSkills(crpgPeer.User!.Character.Characteristics);
                 BasicCharacterObject? characterXml = peerClass.HeroCharacter;

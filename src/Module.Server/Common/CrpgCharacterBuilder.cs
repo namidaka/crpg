@@ -62,6 +62,18 @@ internal static class CrpgCharacterBuilder
         return equipment;
     }
 
+    public static Equipment CreateBotCharacterEquipment(IList<CrpgEquippedItem> equippedItems)
+    {
+        Equipment equipment = new();
+        foreach (var equippedItem in equippedItems)
+        {
+            var index = ItemSlotToIndex[equippedItem.Slot];
+            AddBotEquipment(equipment, index, equippedItem.UserItem.ItemId);
+        }
+
+        return equipment;
+    }
+
     public static void AssignArmorsToTroopOrigin(CrpgBattleAgentOrigin origin, List<CrpgEquippedItem> items)
     {
         if (items == null)
@@ -110,6 +122,35 @@ internal static class CrpgCharacterBuilder
         {
             Debug.Print($"Cannot equip item '{itemId} on slot {idx}");
             return;
+        }
+
+        EquipmentElement equipmentElement = new(itemObject);
+        equipments.AddEquipmentToSlotWithoutAgent(idx, equipmentElement);
+    }
+
+    private static void AddBotEquipment(Equipment equipments, EquipmentIndex idx, string itemId)
+    {
+        var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(itemId);
+        if (itemObject == null)
+        {
+            Debug.Print($"Cannot equip unknown item '{itemId}'");
+            return;
+        }
+
+        if (!Equipment.IsItemFitsToSlot(idx, itemObject))
+        {
+            Debug.Print($"Cannot equip item '{itemId} on slot {idx}");
+            return;
+        }
+
+        if (itemObject.ItemType == ItemObject.ItemTypeEnum.Bow)
+        {
+            itemObject = MBObjectManager.Instance.GetObject<ItemObject>(itemId.Replace("crpg", "dtv"));
+            if (itemObject == null)
+            {
+                Debug.Print($"Cannot find appropriate bot item for '{itemId}'");
+                return;
+            }
         }
 
         EquipmentElement equipmentElement = new(itemObject);
