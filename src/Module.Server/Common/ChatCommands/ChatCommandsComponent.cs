@@ -2,7 +2,12 @@
 using Crpg.Module.Common.Network;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.Network.Messages;
 using Crpg.Module.Api.Models.Users;
+using Crpg.Module.Helpers;
+using TaleWorlds.Core;
+using PlayerMessageAll = NetworkMessages.FromClient.PlayerMessageAll;
+using PlayerMessageTeam = NetworkMessages.FromClient.PlayerMessageTeam;
 
 
 #if CRPG_SERVER
@@ -13,17 +18,14 @@ using Crpg.Module.Common.ChatCommands.User;
 
 namespace Crpg.Module.Common.ChatCommands;
 
-internal class ChatCommandsComponent : MissionLogic
+internal class ChatCommandsComponent : MissionNetwork
 {
     public const char CommandPrefix = '!';
-
-    private readonly ChatBox _chatBox;
     private readonly List<QueuedMessageInfo> _queuedServerMessages;
     private readonly ChatCommand[] _commands;
 
-    public ChatCommandsComponent(ChatBox chatBox, ICrpgClient crpgClient)
+    public ChatCommandsComponent(ICrpgClient crpgClient)
     {
-        _chatBox = chatBox;
         _queuedServerMessages = new List<QueuedMessageInfo>();
 #if CRPG_SERVER
         _commands = new ChatCommand[]
@@ -104,19 +106,6 @@ internal class ChatCommandsComponent : MissionLogic
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.IncludeUnsynchronizedClients);
     }
 
-    public override void OnBehaviorInitialize()
-    {
-        _chatBox.OnMessageReceivedAtDedicatedServer = (Action<NetworkCommunicator, string>)Delegate.Combine(
-            OnMessageReceivedAtDedicatedServer,
-            _chatBox.OnMessageReceivedAtDedicatedServer);
-    }
-
-    public override void OnRemoveBehavior()
-    {
-        _chatBox.OnMessageReceivedAtDedicatedServer = (Action<NetworkCommunicator, string>)Delegate.Remove(
-            _chatBox.OnMessageReceivedAtDedicatedServer,
-            OnMessageReceivedAtDedicatedServer)!;
-    }
 
 #if CRPG_SERVER
     public override void OnMissionTick(float dt)
@@ -137,37 +126,53 @@ internal class ChatCommandsComponent : MissionLogic
     }
 #endif
 
-    private void OnMessageReceivedAtDedicatedServer(NetworkCommunicator fromPeer, string message)
+    protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
     {
-        if (message.Length == 0 || message[0] != CommandPrefix)
+        if (!GameNetwork.IsServer)
         {
             return;
         }
 
-        string[] tokens = message.Substring(1).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        registerer.Register<PlayerMessageAll>(HandleClientEventPlayerMessage);
+        registerer.Register<PlayerMessageTeam>(HandleClientEventPlayerMessage);
+    }
+
+    private bool HandleClientEventPlayerMessage(NetworkCommunicator peer, GameNetworkMessage message)
+    {
+        string chatMessage = string.Empty;
+        if (message is PlayerMessageTeam teamMessage)
+        {
+            chatMessage = teamMessage.Message;
+        }
+        else if (message is PlayerMessageAll allMessage)
+        {
+            chatMessage = allMessage.Message;
+        }
+
+        if (chatMessage.Length == 0 || chatMessage[0] != CommandPrefix)
+        {
+            return true;
+        }
+
+        string[] tokens = chatMessage.Substring(1).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         if (tokens.Length == 0)
         {
-            return;
+            return true;
         }
 
         string name = tokens[0].ToLowerInvariant();
         var command = _commands.FirstOrDefault(c => c.Name == name);
         if (command == null)
         {
-            return;
+            return true;
         }
 
-        _ = HideChatInput(fromPeer);
-        command.Execute(fromPeer, tokens.Skip(1).ToArray());
-    }
+        // Set an empty receiver list so no one actually reads this message. (It's nicer than the "You are muted" message.)
+        ReflectionHelper.SetProperty(message, "ReceiverList", new List<VirtualPlayer>());
 
-    // Hacky workaround until we can actually control which message should be sent to everyone.
-    private async Task HideChatInput(NetworkCommunicator fromPeer)
-    {
-        bool muted = fromPeer.IsMuted;
-        fromPeer.IsMuted = true;
-        await Task.Delay(100);
-        fromPeer.IsMuted = muted;
+        command.Execute(peer, tokens.Skip(1).ToArray());
+
+        return true;
     }
 
     private class QueuedMessageInfo

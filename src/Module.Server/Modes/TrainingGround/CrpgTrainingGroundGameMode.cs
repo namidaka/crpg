@@ -117,7 +117,7 @@ internal class CrpgTrainingGroundGameMode : MissionBasedMultiplayerGameMode
                     new AgentHumanAILogic(), // bot intelligence
                     new EquipmentControllerLeaveLogic(),
                     new CrpgUserManagerServer(crpgClient, _constants),
-                    new ChatCommandsComponent(chatBox, crpgClient),
+                    new ChatCommandsComponent(crpgClient),
                     new CrpgActivityLogsBehavior(null, chatBox, crpgClient),
                     new ServerMetricsBehavior(),
                     new NotAllPlayersReadyComponent(),

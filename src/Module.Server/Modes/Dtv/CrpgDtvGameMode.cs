@@ -142,7 +142,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new CrpgUserManagerServer(crpgClient, _constants),
                 new KickInactiveBehavior(inactiveTimeLimit: 120, warmupComponent),
                 new MapPoolComponent(),
-                new ChatCommandsComponent(chatBox, crpgClient),
+                new ChatCommandsComponent(crpgClient),
                 new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                 new ServerMetricsBehavior(),
                 new NotAllPlayersReadyComponent(),
