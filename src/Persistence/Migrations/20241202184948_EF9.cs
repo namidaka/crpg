@@ -5,7 +5,7 @@
 namespace Crpg.Persistence.Migrations;
 
 /// <inheritdoc />
-public partial class UpdateRelationships : Migration
+public partial class EF9 : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
