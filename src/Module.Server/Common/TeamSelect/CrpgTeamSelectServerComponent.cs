@@ -163,7 +163,10 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
 
         foreach (Agent agent in Mission.Current.Agents.ToList())
         {
-            agent.FadeOut(true, true);
+            if (agent != null && agent.IsActive())
+            {
+                agent.FadeOut(true, true);
+            }
         }
 
         var crpgNetworkPeers = GetCrpgNetworkPeers();
