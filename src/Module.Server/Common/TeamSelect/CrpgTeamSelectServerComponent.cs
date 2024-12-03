@@ -160,6 +160,12 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
             balanceOnce: CrpgServerConfiguration.TeamBalanceOnce);
 
         Dictionary<int, Team> usersToMove = ResolveTeamMoves(current: gameMath, target: balancedGameMatch);
+
+        foreach (Agent agent in Mission.Current.Agents)
+        {
+            agent.FadeOut(true, true);
+        }
+
         var crpgNetworkPeers = GetCrpgNetworkPeers();
         SendSwapNotification(usersToMove, crpgNetworkPeers);
 
