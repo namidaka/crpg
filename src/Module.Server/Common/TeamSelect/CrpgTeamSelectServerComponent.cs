@@ -161,7 +161,7 @@ internal class CrpgTeamSelectServerComponent : MultiplayerTeamSelectComponent
 
         Dictionary<int, Team> usersToMove = ResolveTeamMoves(current: gameMath, target: balancedGameMatch);
 
-        foreach (Agent agent in Mission.Current.Agents)
+        foreach (Agent agent in Mission.Current.Agents.ToList())
         {
             agent.FadeOut(true, true);
         }
