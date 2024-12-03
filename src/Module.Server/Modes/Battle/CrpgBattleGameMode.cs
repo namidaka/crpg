@@ -115,6 +115,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
 
 #if CRPG_SERVER
         ICrpgClient crpgClient = CrpgClient.Create();
+        Game.Current.GetGameHandler<ChatCommandsComponent>()?.InitChatCommands(crpgClient);
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
 
         MultiplayerRoundController roundController = new(); // starts/stops round, ends match
@@ -191,7 +192,6 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new CrpgUserManagerServer(crpgClient, _constants),
                     new KickInactiveBehavior(inactiveTimeLimit: 60, warmupComponent),
                     new MapPoolComponent(),
-                    new ChatCommandsComponent(crpgClient),
                     new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                     new ServerMetricsBehavior(),
                     new NotAllPlayersReadyComponent(),

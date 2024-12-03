@@ -18,49 +18,61 @@ using Crpg.Module.Common.ChatCommands.User;
 
 namespace Crpg.Module.Common.ChatCommands;
 
-internal class ChatCommandsComponent : MissionNetwork
+internal class ChatCommandsComponent : GameHandler
 {
     public const char CommandPrefix = '!';
     private readonly List<QueuedMessageInfo> _queuedServerMessages;
-    private readonly ChatCommand[] _commands;
+    private ChatCommand[] _commands = default!;
 
-    public ChatCommandsComponent(ICrpgClient crpgClient)
+    public ChatCommandsComponent()
     {
         _queuedServerMessages = new List<QueuedMessageInfo>();
+    }
+
+    public void InitChatCommands(ICrpgClient crpgClient)
+    {
 #if CRPG_SERVER
         _commands = new ChatCommand[]
         {
-            new PingCommand(this),
-            new SuicideCommand(this),
-            new PlayerListCommand(this),
-            new KickCommand(this),
-            new KillCommand(this),
-            new KillAllCommand(this),
-            new TeleportCommand(this),
-            new AnnouncementCommand(this),
-            new MuteCommand(this, crpgClient),
-            new BanCommand(this, crpgClient),
-            new MapCommand(this),
-            new HotConstantUpdateCommand(this),
-            new OrderCommand(this),
-            new HelpCommand(this),
+                new PingCommand(this),
+                new SuicideCommand(this),
+                new PlayerListCommand(this),
+                new KickCommand(this),
+                new KillCommand(this),
+                new KillAllCommand(this),
+                new TeleportCommand(this),
+                new AnnouncementCommand(this),
+                new MuteCommand(this, crpgClient),
+                new BanCommand(this, crpgClient),
+                new MapCommand(this),
+                new HotConstantUpdateCommand(this),
+                new OrderCommand(this),
+                new HelpCommand(this),
         };
 #else
-        _commands = Array.Empty<ChatCommand>();
+            _commands = Array.Empty<ChatCommand>();
 #endif
     }
 
-    public void ServerSendMessageToAdmins(Color color, string message)
-{
-    foreach (var peer in GameNetwork.NetworkPeers)
+    public override void OnAfterSave()
     {
-        var user = peer.GetComponent<CrpgPeer>()?.User;
-        if (user != null && (user.Role == CrpgUserRole.Admin || user.Role == CrpgUserRole.Moderator))
+    }
+
+    public override void OnBeforeSave()
+    {
+    }
+
+    public void ServerSendMessageToAdmins(Color color, string message)
+    {
+        foreach (var peer in GameNetwork.NetworkPeers)
         {
-            ServerSendMessageToPlayer(peer, color, message);
+            var user = peer.GetComponent<CrpgPeer>()?.User;
+            if (user != null && (user.Role == CrpgUserRole.Admin || user.Role == CrpgUserRole.Moderator))
+            {
+                ServerSendMessageToPlayer(peer, color, message);
+            }
         }
     }
-}
 
     public void ServerSendMessageToPlayer(NetworkCommunicator targetPlayer, Color color, string message)
     {
@@ -106,9 +118,8 @@ internal class ChatCommandsComponent : MissionNetwork
         GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.IncludeUnsynchronizedClients);
     }
 
-
 #if CRPG_SERVER
-    public override void OnMissionTick(float dt)
+    protected override void OnTick(float dt)
     {
         for (int i = 0; i < _queuedServerMessages.Count; i++)
         {
@@ -126,15 +137,26 @@ internal class ChatCommandsComponent : MissionNetwork
     }
 #endif
 
-    protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
+    protected override void OnGameNetworkBegin()
+    {
+        AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegisterer.RegisterMode.Add);
+    }
+
+    protected override void OnGameNetworkEnd()
+    {
+        AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegisterer.RegisterMode.Remove);
+    }
+
+    private void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegisterer.RegisterMode mode)
     {
         if (!GameNetwork.IsServer)
         {
             return;
         }
 
-        registerer.Register<PlayerMessageAll>(HandleClientEventPlayerMessage);
-        registerer.Register<PlayerMessageTeam>(HandleClientEventPlayerMessage);
+        GameNetwork.NetworkMessageHandlerRegisterer handlerRegisterer = new(mode);
+        handlerRegisterer.Register<PlayerMessageAll>(HandleClientEventPlayerMessage);
+        handlerRegisterer.Register<PlayerMessageTeam>(HandleClientEventPlayerMessage);
     }
 
     private bool HandleClientEventPlayerMessage(NetworkCommunicator peer, GameNetworkMessage message)
@@ -169,7 +191,6 @@ internal class ChatCommandsComponent : MissionNetwork
 
         // Set an empty receiver list so no one actually reads this message. (It's nicer than the "You are muted" message.)
         ReflectionHelper.SetProperty(message, "ReceiverList", new List<VirtualPlayer>());
-
         command.Execute(peer, tokens.Skip(1).ToArray());
 
         return true;
