@@ -50,7 +50,7 @@ internal class ChatCommandsComponent : GameHandler
                 new HelpCommand(this),
         };
 #else
-            _commands = Array.Empty<ChatCommand>();
+        _commands = Array.Empty<ChatCommand>();
 #endif
     }
 

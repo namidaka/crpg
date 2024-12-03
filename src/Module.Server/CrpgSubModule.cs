@@ -14,14 +14,10 @@ using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Engine.InputSystem;
-
 using TaleWorlds.MountAndBlade.GameKeyCategory;
-using Crpg.Module.Common.ChatCommands;
-
-
-
 
 #if CRPG_SERVER
+using Crpg.Module.Common.ChatCommands;
 using TaleWorlds.MountAndBlade.DedicatedCustomServer;
 using TaleWorlds.MountAndBlade.ListedServer;
 using TaleWorlds.PlayerServices;
