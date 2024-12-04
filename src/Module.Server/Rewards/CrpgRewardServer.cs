@@ -345,7 +345,19 @@ internal class CrpgRewardServer : MissionLogic
 
             SetUserAsLoading(userUpdates.Select(u => u.UserId), crpgPeerByCrpgUserId, true);
             var res = (await _crpgClient.UpdateUsersAsync(request)).Data!;
-            SendRewardToPeers(res.UpdateResults, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
+            var fulfilledUpdates = res.UpdateResults.Where(u => u.EffectiveReward != null);
+            var rejectedUpdates = res.UpdateResults.Where(u => u.EffectiveReward == null);
+
+            SendRewardToPeers(fulfilledUpdates, crpgPeerByCrpgUserId, valorousPlayerIds, compensationByCrpgUserId, lowPopulationServer, isDuel);
+
+            if (rejectedUpdates.Count() != 0)
+            {
+                var rejectedPeers = crpgPeerByCrpgUserId
+                    .Where(kvp => rejectedUpdates.Any(ur => ur.User.Id == kvp.Key))
+                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+                SendErrorToPeers(rejectedPeers);
+            }
         }
         catch (Exception e)
         {
@@ -663,8 +675,13 @@ internal class CrpgRewardServer : MissionLogic
         }
     }
 
-    private void SendRewardToPeers(IList<UpdateCrpgUserResult> updateResults,
-        Dictionary<int, CrpgPeer> crpgPeerByCrpgUserId, HashSet<PlayerId> valorousPlayerIds, Dictionary<int, int> compensationByCrpgUserId, bool lowPopulation, bool isDuel = false)
+    private void SendRewardToPeers(
+        IList<UpdateCrpgUserResult> updateResults,
+        Dictionary<int, CrpgPeer> crpgPeerByCrpgUserId,
+        HashSet<PlayerId> valorousPlayerIds,
+        Dictionary<int, int> compensationByCrpgUserId,
+        bool lowPopulation,
+        bool isDuel = false)
     {
         foreach (var updateResult in updateResults)
         {

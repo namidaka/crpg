@@ -24,9 +24,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
     internal class Handler : IMediatorRequestHandler<UpdateGameUsersCommand, UpdateGameUsersResult>
     {
         private static readonly ILogger Logger = LoggerFactory.CreateLogger<UpdateGameUsersCommand>();
-
         private readonly ICrpgDbContext _db;
-
         private readonly IMapper _mapper;
         private readonly ICharacterService _characterService;
         private readonly IActivityLogService _activityLogService;
@@ -44,85 +42,91 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
         public async Task<Result<UpdateGameUsersResult>> Handle(UpdateGameUsersCommand req,
             CancellationToken cancellationToken)
         {
-            var charactersById = await LoadCharacters(req.Updates, cancellationToken);
             List<UpdateGameUserResult> updateResults = new(req.Updates.Count);
             GameMode updateGameMode = _gameModeService.GameModeByInstanceAlias(
                     Enum.TryParse(req.Instance[^1..], ignoreCase: true, out GameModeAlias instanceAlias)
                         ? instanceAlias
                         : GameModeAlias.Z);
-
-            foreach (var update in req.Updates)
             {
-                if (!charactersById.TryGetValue(update.CharacterId, out Character? character))
+                foreach (var update in req.Updates)
                 {
-                    Logger.LogWarning("Character with id '{0}' doesn't exist", update.CharacterId);
-                    continue;
-                }
+                    var character = await _db.Characters
+                        .Include(c => c.User!.ClanMembership)
+                        .Include(ei => ei.EquippedItems)
+                        .FirstOrDefaultAsync(c => c.Id == update.CharacterId, cancellationToken);
 
-                try
-                {
-                    var reward = GiveReward(character, update.Reward);
-                    UpdateStatistics(updateGameMode, character, update.Statistics);
-                    _characterService.UpdateRating(
-                        character,
-                        updateGameMode,
-                        update.Statistics.Rating.Value,
-                        update.Statistics.Rating.Deviation,
-                        update.Statistics.Rating.Volatility,
-                        isGameUserUpdate: true);
-
-                    var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
-
-                    if (reward.Experience != 0)
+                    if (character == null)
                     {
-                        int totalRepairCost = brokenItems.Sum(item => item.RepairCost);
-                        _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(
-                            character.UserId,
-                            character.Id,
+                        Logger.LogWarning("Character with id '{0}' doesn't exist", update.CharacterId);
+                        continue;
+                    }
+
+                    character!.Experience += 1;
+
+                    try
+                    {
+                        var reward = GiveReward(character, update.Reward);
+                        UpdateStatistics(updateGameMode, character, update.Statistics);
+                        _characterService.UpdateRating(
+                            character,
                             updateGameMode,
-                            reward.Experience,
-                            reward.Gold - totalRepairCost));
+                            update.Statistics.Rating.Value,
+                            update.Statistics.Rating.Deviation,
+                            update.Statistics.Rating.Volatility,
+                            isGameUserUpdate: true);
+
+                        var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
+
+                        if (reward.Experience != 0)
+                        {
+                            int totalRepairCost = brokenItems.Sum(item => item.RepairCost);
+                            _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(
+                                character.UserId,
+                                character.Id,
+                                updateGameMode,
+                                reward.Experience,
+                                reward.Gold - totalRepairCost));
+                        }
+
+                        await _db.SaveChangesAsync(cancellationToken);
+
+                        var gameUserViewModel = _mapper.Map<GameUserViewModel>(character.User!);
+
+                        var relevantStatistic = character.Statistics.FirstOrDefault(s => s.GameMode == updateGameMode);
+                        if (relevantStatistic != null)
+                        {
+                            gameUserViewModel.Character.Statistics = _mapper.Map<CharacterStatisticsViewModel>(relevantStatistic);
+                        }
+
+                        updateResults.Add(new UpdateGameUserResult
+                        {
+                            User = gameUserViewModel,
+                            EffectiveReward = reward,
+                            RepairedItems = brokenItems,
+                        });
                     }
-
-                    await _db.SaveChangesAsync(cancellationToken);
-
-                    var gameUserViewModel = _mapper.Map<GameUserViewModel>(character.User!);
-
-                    var relevantStatistic = character.Statistics.FirstOrDefault(s => s.GameMode == updateGameMode);
-                    if (relevantStatistic != null)
+                    catch (DbUpdateConcurrencyException ex)
                     {
-                        gameUserViewModel.Character.Statistics = _mapper.Map<CharacterStatisticsViewModel>(relevantStatistic);
+                        var entry = ex.Entries.FirstOrDefault();
+                        if (entry != null)
+                        {
+                            await entry.ReloadAsync();
+                        }
+
+                        var gameUserViewModel = _mapper.Map<GameUserViewModel>(character.User!);
+
+                        var relevantStatistic = character.Statistics.FirstOrDefault(s => s.GameMode == updateGameMode);
+                        if (relevantStatistic != null)
+                        {
+                            gameUserViewModel.Character.Statistics = _mapper.Map<CharacterStatisticsViewModel>(relevantStatistic);
+                        }
+
+                        Logger.LogError(ex, "Concurrency error while saving updates for CharacterId: {0}", update.CharacterId);
+                        updateResults.Add(new UpdateGameUserResult
+                        {
+                            User = gameUserViewModel,
+                        });
                     }
-
-                    updateResults.Add(new UpdateGameUserResult
-                    {
-                        Status = 1,
-                        User = gameUserViewModel,
-                        EffectiveReward = reward,
-                        RepairedItems = brokenItems,
-                    });
-                }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    Logger.LogError(ex, "Concurrency error while saving updates for CharacterId: {0}", update.CharacterId);
-                    updateResults.Add(new UpdateGameUserResult
-                    {
-                        Status = 2,
-                        User = null,
-                        EffectiveReward = null,
-                        RepairedItems = default!,
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, "Error while processing update for CharacterId: {0}", update.CharacterId);
-                    updateResults.Add(new UpdateGameUserResult
-                    {
-                        Status = 2,
-                        User = null,
-                        EffectiveReward = null,
-                        RepairedItems = default!,
-                    });
                 }
             }
 
@@ -130,24 +134,6 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             {
                 UpdateResults = updateResults,
             });
-        }
-
-        private async Task<Dictionary<int, Character>> LoadCharacters(IList<GameUserUpdate> updates, CancellationToken cancellationToken)
-        {
-            int[] characterIds = updates.Select(u => u.CharacterId).ToArray();
-            var charactersById = await _db.Characters
-                .Include(c => c.User!.ClanMembership)
-                .Where(c => characterIds.Contains(c.Id))
-                .ToDictionaryAsync(c => c.Id, cancellationToken);
-
-            // Load items in a separate query to avoid cartesian explosion. The items will be automatically set
-            // to their respective character.
-            await _db.EquippedItems
-                .Where(ei => characterIds.Contains(ei.CharacterId))
-                .Include(ei => ei.UserItem)
-                .LoadAsync(cancellationToken);
-
-            return charactersById;
         }
 
         private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward)
