@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import type { Battle } from '~/models/strategus/battle'
+
 import { useBattleFighters } from '~/composables/strategus/use-battle-fighters'
+import { useBattleMercenaries } from '~/composables/strategus/use-battle-mercenaries'
 import { useBattle } from '~/composables/strategus/use-battles'
 import { useLanguages } from '~/composables/use-language'
 import { usePagination } from '~/composables/use-pagination'
 import { useRegion } from '~/composables/use-region'
 import { useSearchDebounced } from '~/composables/use-search-debounce'
 import { Culture } from '~/models/culture'
-import { type Battle, BattlePhase } from '~/models/strategus/battle'
+import { BattlePhase, BattleSide } from '~/models/strategus/battle'
 import { itemCultureToIcon } from '~/services/item-service' // TODO: culture service
 import { getBattles } from '~/services/strategus-service/battle-service'
 import { settlementIconByType } from '~/services/strategus-service/settlement'
@@ -17,7 +20,8 @@ const props = defineProps<{
 }>()
 
 const getIconByCulture = (cultureString: string) => itemCultureToIcon[Culture[cultureString as keyof typeof Culture] || Culture.Neutral]
-const { battleFighters, battleFightersCount, loadBattleFighters } = useBattleFighters()
+const { battleFighters, battleFightersCount, battleFightersAttackers, battleFightersDefenders, loadBattleFighters } = useBattleFighters()
+const { battleMercenaries, battleMercenariesCount, battleMercenariesAttackers, battleMercenariesDefenders, loadBattleMercenaries } = useBattleFighters()
 
 definePage({
   meta: {
@@ -44,14 +48,33 @@ await fetchPageData(props.id)
   <div v-if="battle !== null" class="pb-12 pt-24">
     <div class="container mb-8">
       <Heading class="mb-5" title="Siege of Epicrotea" />
-      <div class="mx-auto flex max-w-7xl flex-row gap-x-5">
+      <div class="mx-auto mb-16 flex max-w-7xl flex-row gap-x-5">
         <div class="basis-1/6">
+          <h1 class="mb-8 text-center text-xl text-content-100">
+            {{ $t('Attackers') }}
+          </h1>
+
           <div
-            v-for="fighter in battleFighters"
+            v-for="fighter in battleFightersAttackers"
             :key="fighter.id"
-            class="flex flex-col gap-3"
+            class="flex flex-col gap-3 pb-4"
           >
-            {{ fighter.party?.user.name }}
+            <div v-if="fighter.party?.user">
+              <UserMedia
+                :user="fighter.party.user"
+                hidden-platform
+                size="xl"
+              />
+              commanding: x troops
+            </div>
+            <div v-if="fighter.settlement?.owner">
+              <UserMedia
+                :user="fighter.settlement.owner.user"
+                hidden-platform
+                size="xl"
+              />
+              commanding: x troops
+            </div>
           </div>
         </div>
         <div class="basis-4/6 justify-center">
@@ -140,7 +163,7 @@ await fetchPageData(props.id)
                 <div class="flex grow flex-col">
                   {{ battle.attacker.party?.clan.name }}
                   <div class="text-2xs">
-                    <OIcon icon="child" size="sm" />500 <span class="text-base-500">(5.8%)</span>
+                    <OIcon icon="child" size="sm" />{{ battle.attackerTotalTroops }} <span class="text-base-500">({{ (battle.attackerTotalTroops / (battle.attackerTotalTroops + battle.defenderTotalTroops) * 100).toFixed(2) }} %)</span>
                   </div>
                 </div>
               </div>
@@ -148,7 +171,7 @@ await fetchPageData(props.id)
                 <div class="flex grow flex-col">
                   {{ battle.defender.settlement.owner.clan.name }}
                   <div class="text-2xs">
-                    <span class="text-base-500">(94.2%) </span>8000<OIcon icon="child" size="sm" />
+                    <span class="text-base-500">({{ (battle.defenderTotalTroops / (battle.attackerTotalTroops + battle.defenderTotalTroops) * 100).toFixed(2) }} %) </span>{{ battle.defenderTotalTroops }}<OIcon icon="child" size="sm" />
                   </div>
                 </div>
                 <div>
@@ -165,17 +188,36 @@ await fetchPageData(props.id)
           </div>
         </div>
         <div class="basis-1/6 text-right">
-          <div>{{ battle.defender?.settlement?.name }} <OIcon v-tooltip="$t(`strategus.settlementType.${battle.defender!.settlement.type}`)" :icon="settlementIconByType[battle.defender!.settlement.type].icon" class="self-baseline" /></div>
-          <div>{{ battle.defenderTotalTroops }} Troops</div>
-          Commanded by:
-          <UserMedia
-            class="justify-end"
-            :user="battle.defender?.settlement?.owner?.user"
-            hidden-platform
-            size="xl"
-          />
+          <h1 class="mb-8 text-center text-xl text-content-100">
+            {{ $t('Defenders') }}
+          </h1>
+          <div
+            v-for="fighter in battleFightersDefenders"
+            :key="fighter.id"
+            class="flex flex-col gap-3 pb-4"
+          >
+            <div v-if="fighter.party?.user">
+              <UserMedia
+                :user="fighter.party.user"
+                hidden-platform
+                size="xl"
+                class="justify-end"
+              />
+              commanding: x troops
+            </div>
+            <div v-if="fighter.settlement?.owner">
+              <UserMedia
+                :user="fighter.settlement.owner.user"
+                hidden-platform
+                size="xl"
+                class="justify-end"
+              />
+              commanding: x troops
+            </div>
+          </div>
         </div>
       </div>
+      <Divider />
     </div>
   </div>
 </template>
