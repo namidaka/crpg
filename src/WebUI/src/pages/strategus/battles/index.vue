@@ -57,6 +57,9 @@ const rowClass = (battle: Battle) => {
   return isClanBattle ? 'text-primary' : 'text-content-100'
 }
 
+const onClickRow = (battle: Battle) =>
+  router.push({ name: 'StrategusBattlesId', params: { id: battle.id } })
+
 await loadBattles()
 </script>
 

@@ -2213,10 +2213,25 @@ public record SeedDataCommand : IMediatorRequest
                     },
                     new BattleFighter
                     {
+                        Party = kedrynFuelParty,
+                        Side = BattleSide.Attacker,
+                    },
+                    new BattleFighter
+                    {
+                        Party = ilyaParty,
+                        Side = BattleSide.Attacker,
+                    },
+                    new BattleFighter
+                    {
                         Party = null,
                         Settlement = epicrotea,
                         Side = BattleSide.Defender,
                         Commander = true,
+                    },
+                    new BattleFighter
+                    {
+                        Party = luqeroParty,
+                        Side = BattleSide.Defender,
                     },
                 },
                 MercenaryApplications = {},
