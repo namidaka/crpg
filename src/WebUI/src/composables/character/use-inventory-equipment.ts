@@ -24,7 +24,7 @@ export const useInventoryEquipment = () => {
     return true
   }
 
-  const getUnequipItemsLinked = (slot: ItemSlot, equippedItemsBySlot: EquippedItemsBySlot) => {
+  const getUnEquipItemsLinked = (slot: ItemSlot, equippedItemsBySlot: EquippedItemsBySlot) => {
     return [
       { slot, userItemId: null },
       ...getLinkedSlots(slot, equippedItemsBySlot).map(ls => ({
@@ -35,7 +35,7 @@ export const useInventoryEquipment = () => {
   }
 
   return {
-    getUnequipItemsLinked,
+    getUnEquipItemsLinked,
     isEquipItemAllowed,
   }
 }

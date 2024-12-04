@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user'
 
-const { inInventory, notEnoughGold, price, upkeep } = defineProps<{
+const { inInventoryCount = 0, notEnoughGold, price, upkeep } = defineProps<{
   price: number
   upkeep: number
-  inInventory: boolean
+  inInventoryCount: number
   notEnoughGold: boolean
 }>()
 
@@ -32,11 +32,11 @@ const isExpensive = computed(() => user.value!.gold - price < upkeep)
           :class="{ 'opacity-50': notEnoughGold }"
         />
         <Tag
-          v-if="inInventory"
-          icon="check"
+          v-if="inInventoryCount > 0"
           size="sm"
-          variant="success"
+          variant="primary"
           rounded
+          :label="String(inInventoryCount)"
         />
         <Tag
           v-if="isExpensive"
@@ -60,10 +60,10 @@ const isExpensive = computed(() => user.value!.gold - price < upkeep)
         </div>
 
         <p
-          v-if="inInventory"
-          class="text-status-success"
+          v-if="inInventoryCount > 0"
+          class="text-primary"
         >
-          {{ $t('shop.item.buy.tooltip.inInventory') }}
+          {{ $t('shop.item.buy.tooltip.inInventory', { count: inInventoryCount }) }}
         </p>
         <p
           v-if="notEnoughGold"

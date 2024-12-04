@@ -17,7 +17,7 @@ namespace Crpg.Module.GUI;
 [OverrideView(typeof(CrpgMissionMultiplayerEscapeMenu))]
 internal class CrpgEscapeMenu : MissionGauntletMultiplayerEscapeMenu
 {
-    private const string CrpgWebsite = "https://c-rpg.eu";
+    private const string CrpgWebsite = "https://c-rpg.eu/characters/";
     private readonly MissionMultiplayerGameModeBaseClient _gameModeClient;
 
     public CrpgEscapeMenu(string gameMode, MissionMultiplayerGameModeBaseClient gameModeClient)

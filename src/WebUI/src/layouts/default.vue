@@ -5,10 +5,13 @@ import { useGameServerStats } from '~/composables/use-game-server-stats'
 import { useHappyHours } from '~/composables/use-hh'
 import { usePatchNotes } from '~/composables/use-patch-notes'
 import { usePollInterval } from '~/composables/use-poll-interval'
+import { useSettingsStore } from '~/stores/settings'
 import { useUserStore } from '~/stores/user'
 import { mainHeaderHeightKey } from '~/symbols/common'
 
 const userStore = useUserStore()
+const settingsStore = useSettingsStore()
+
 const fetchUserPollId = Symbol('fetchUser')
 
 const route = useRoute()
@@ -22,6 +25,7 @@ const promises: Array<Promise<any>> = [
   loadGameServerStats(),
   userStore.fetchUserRestriction(),
   userStore.fetchUserClanAndRole(),
+  settingsStore.loadSettings(),
 ]
 
 const mainHeader = ref<HTMLDivElement | null>(null)

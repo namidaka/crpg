@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { vOnLongPress } from '@vueuse/components'
 import { useStorage } from '@vueuse/core'
 
 import type { EquippedItemId } from '~/models/character'
@@ -159,9 +160,9 @@ const onRemoveFromClanArmory = async (userItemId: number) => {
   notify(t('clan.armory.item.remove.notify.success'))
 }
 
-const onClickInventoryItem = async (e: PointerEvent, userItem: UserItem) => {
+const onClickInventoryItem = (e: PointerEvent, userItem: UserItem) => {
   if (e.ctrlKey) {
-    await onQuickEquip(userItem)
+    onQuickEquip(userItem)
   }
   else {
     toggleItemDetail(e.target as HTMLElement, {
@@ -264,7 +265,6 @@ const equippedItemsBySlot = computed(() =>
 provide(equippedItemsBySlotKey, equippedItemsBySlot)
 
 const { onDragEnd, onDragStart } = useInventoryDnD(equippedItemsBySlot)
-
 const { onQuickEquip } = useInventoryQuickEquip(equippedItemsBySlot)
 
 const { closeItemDetail, getUniqueId, openedItems, toggleItemDetail } = useItemDetail()
@@ -376,6 +376,12 @@ await Promise.all(promises)
               <CharacterInventoryItemCard
                 v-for="userItem in filteredUserItems"
                 :key="userItem.id"
+                v-on-long-press="[
+                  () => {
+                    onQuickEquip(userItem)
+                  },
+                  { delay: 500 },
+                ]"
                 class="cursor-grab"
                 :user-item="userItem"
                 :equipped="equippedItemsIds.includes(userItem.id)"

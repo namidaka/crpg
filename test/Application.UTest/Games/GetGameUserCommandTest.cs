@@ -97,7 +97,7 @@ public class GetGameUserCommandTest : TestBase
         var gameUser = result.Data!;
         Assert.That(gameUser.Character.Name, Is.EqualTo("Warrior"));
         Assert.That(gameUser.Character.EquippedItems, Is.Not.Empty);
-        Assert.That(gameUser.Character.Characteristics.Attributes.Points, Is.EqualTo(1));
+        Assert.That(gameUser.Character.Characteristics.Skills.Points, Is.EqualTo(5));
         Assert.That(gameUser.Character.Characteristics.Attributes.Strength, Is.EqualTo(18));
         Assert.That(gameUser.Character.Characteristics.Attributes.Agility, Is.EqualTo(18));
         Assert.That(gameUser.Restrictions, Is.Empty);

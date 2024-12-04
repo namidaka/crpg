@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useSettingsStore } from '~/stores/settings'
+
 const props = withDefaults(defineProps<{ stopPropagation?: boolean }>(), {
   stopPropagation: true,
 })
@@ -7,6 +9,8 @@ const router = useRouter()
 
 const err = ref<Error | null>(null)
 const info = ref<string | null>(null)
+
+const { settings } = storeToRefs(useSettingsStore())
 
 onErrorCaptured((_err, _vm, _info) => {
   console.error(_err) // TODO: send to datadog
@@ -55,7 +59,7 @@ const goToRootPage = () => {
               <template #discordLink>
                 <a
                   class="text-content-link hover:text-content-link-hover"
-                  href="https://discord.gg/c-rpg"
+                  :href="settings.discord"
                   target="_blank"
                 >
                   Discord

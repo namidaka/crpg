@@ -23,7 +23,7 @@ internal class CrpgTrainingGroundScoreboardData : IScoreboardData
                         return string.Empty;
                     }
 
-                    if (crpgPeer.Clan.Name.Length <= 10)
+                    if (!crpgPeer.Clan.Name.Any(c => c >= '\u4e00' && c <= '\u9fa5') && crpgPeer.Clan.Name.Length <= 10)
                     {
                         return crpgPeer.Clan.Name;
                     }

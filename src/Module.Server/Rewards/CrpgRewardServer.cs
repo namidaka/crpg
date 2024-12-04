@@ -249,8 +249,13 @@ internal class CrpgRewardServer : MissionLogic
             return;
         }
 
-        bool veryLowPopulationServer = networkPeers.Length < 2;
-        bool lowPopulationServer = !_isLowPopulationUpkeepEnabled && networkPeers.Length < 12;
+        var playingPeers = networkPeers
+            .Select(p => p.GetComponent<MissionPeer>())
+            .Where(mp => mp != null && mp.Team != Mission.SpectatorTeam)
+            .ToList();
+
+        bool veryLowPopulationServer = playingPeers.Count < 2;
+        bool lowPopulationServer = !_isLowPopulationUpkeepEnabled && playingPeers.Count < 12;
         // Force constant multiplier if there is low population.
         constantMultiplier = veryLowPopulationServer ? ExperienceMultiplierMin : constantMultiplier;
 

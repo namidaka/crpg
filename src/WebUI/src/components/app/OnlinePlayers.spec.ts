@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 
 import type { GameServerStats } from '~/models/game-server-stats'
 
+import { GameMode } from '~/models/game-mode'
 import { Region } from '~/models/region'
 
 import OnlinePlayersVue from './OnlinePlayers.vue'
@@ -28,10 +29,12 @@ it('testing api returning gameStats valid', async () => {
     gameServerStats: {
       regions: {
         [Region.Eu]: {
-          playingCount: 0,
+          [GameMode.Battle]: {
+            playingCount: 12,
+          },
         },
       },
-      total: { playingCount: 0 },
+      total: { playingCount: 12 },
     },
     showLabel: false,
   })
@@ -39,7 +42,7 @@ it('testing api returning gameStats valid', async () => {
   const onlinePlayersDiv = wrapper.find('[data-aq-online-players-count]')
   const regionsPopperContent = wrapper.find('[data-aq-region-stats]')
 
-  expect(onlinePlayersDiv.text()).toEqual('0')
+  expect(onlinePlayersDiv.text()).toEqual('12')
   expect(regionsPopperContent.exists()).toBeTruthy()
 })
 

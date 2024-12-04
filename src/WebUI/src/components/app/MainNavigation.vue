@@ -2,11 +2,13 @@
 import type { PatchNote } from '~/models/patch-note'
 
 import Role from '~/models/role'
+import { useSettingsStore } from '~/stores/settings'
 import { useUserStore } from '~/stores/user'
 
 defineProps<{ latestPatch?: PatchNote }>()
 
 const userStore = useUserStore()
+const { settings } = storeToRefs(useSettingsStore())
 </script>
 
 <template>
@@ -38,7 +40,7 @@ const userStore = useUserStore()
         rounded
         tag="a"
         icon-left="discord"
-        href="https://discord.gg/c-rpg"
+        :href="settings.discord"
         target="_blank"
       />
 
@@ -130,6 +132,16 @@ const userStore = useUserStore()
       data-aq-main-nav-link="Moderator"
     >
       {{ $t('nav.main.Moderator') }}
+    </RouterLink>
+
+    <RouterLink
+      v-if="[Role.Admin].includes(userStore.user!.role)"
+      :to="{ name: 'Admin' }"
+      class="text-content-300 hover:text-content-100"
+      active-class="!text-content-100"
+      data-aq-main-nav-link="Admin"
+    >
+      {{ $t('nav.main.Admin') }}
     </RouterLink>
   </nav>
 </template>

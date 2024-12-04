@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PublicRestriction } from '~/models/restriction'
 
+import { useSettingsStore } from '~/stores/settings'
 import { computeLeftMs, parseTimestamp } from '~/utils/date'
 
 const props = defineProps<{
@@ -10,6 +11,8 @@ const props = defineProps<{
 const joinRestrictionRemainingDuration = computed(() =>
   parseTimestamp(computeLeftMs(props.restriction.createdAt, props.restriction.duration)),
 )
+
+const { settings } = storeToRefs(useSettingsStore())
 </script>
 
 <template>
@@ -74,7 +77,7 @@ const joinRestrictionRemainingDuration = computed(() =>
                   <a
                     class="text-content-link hover:text-content-link-hover"
                     target="_blank"
-                    href="https://discord.gg/c-rpg"
+                    :href="settings.discord"
                   >
                     Discord
                   </a>

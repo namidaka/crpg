@@ -334,7 +334,6 @@ export const aggregationsConfig: AggregationConfig = {
 }
 
 export const aggregationsKeysByItemType: Partial<Record<ItemType, Array<keyof ItemFlat>>>
-  // prettier-ignore
   = {
     [ItemType.Arrows]: [
       'damageType',
@@ -519,7 +518,6 @@ export const aggregationsKeysByItemType: Partial<Record<ItemType, Array<keyof It
   }
 
 export const aggregationsKeysByWeaponClass: Partial<Record<WeaponClass, Array<keyof ItemFlat>>>
-  // prettier-ignore
   = {
     [WeaponClass.Dagger]: [
       'length',

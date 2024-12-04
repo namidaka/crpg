@@ -126,6 +126,7 @@ nav:
     Shop: Shop
     Clans: Clans
     Moderator: Moderator
+    Admin: Admin
     Builder: Builder
     Leaderboard: Leaderboard
     Community: Community
@@ -179,7 +180,7 @@ shortcuts:
     ctrl: CTRL
     lmb: LMB
   hints:
-    equip: to equip/unequip item
+    equip: or long press - to equip/unequip item
 
 setting:
   language: Language
@@ -772,7 +773,7 @@ shop:
         success: Item was successfully purchased
       tooltip:
         buy: Buy item
-        inInventory: The item is already in your inventory
+        inInventory: The item is already in your inventory ({count})
         notEnoughGold: Not enough gold
     weaponUsage:
       title: Not a primary usage mode

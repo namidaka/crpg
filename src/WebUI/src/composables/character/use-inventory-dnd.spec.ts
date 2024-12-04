@@ -21,7 +21,7 @@ const {
   mockedGetAvailableSlotsByItem: vi.fn().mockReturnValue([]),
   mockedGetLinkedSlots: vi.fn().mockReturnValue([]),
   mockedUseInventoryEquipment: vi.fn().mockReturnValue({
-    getUnequipItemsLinked: vi.fn(),
+    getUnEquipItemsLinked: vi.fn(),
     isEquipItemAllowed: vi.fn().mockReturnValue(true),
   }),
 }))
@@ -57,7 +57,7 @@ const userItemsBySlot: PartialDeep<UserItemsBySlot> = {
   },
 }
 
-const { getUnequipItemsLinked, isEquipItemAllowed } = mockedUseInventoryEquipment()
+const { getUnEquipItemsLinked, isEquipItemAllowed } = mockedUseInventoryEquipment()
 
 describe('useInventoryDnD', () => {
   describe('onDragStart', () => {
@@ -236,11 +236,11 @@ describe('useInventoryDnD', () => {
     it('with slot, empty toSlot - drag item outside = unEquip item', () => {
       const { onDragEnd } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot))
 
-      getUnequipItemsLinked.mockReturnValueOnce([{ slot: ItemSlot.Mount, userItemId: null }])
+      getUnEquipItemsLinked.mockReturnValueOnce([{ slot: ItemSlot.Mount, userItemId: null }])
 
       onDragEnd(null, ItemSlot.Mount)
 
-      expect(getUnequipItemsLinked).toBeCalledWith(ItemSlot.Mount, userItemsBySlot)
+      expect(getUnEquipItemsLinked).toBeCalledWith(ItemSlot.Mount, userItemsBySlot)
       expect(mockedEmit).toBeCalledWith('change', [{ slot: ItemSlot.Mount, userItemId: null }])
     })
 
@@ -248,14 +248,14 @@ describe('useInventoryDnD', () => {
       mockedGetLinkedSlots.mockReturnValueOnce([ItemSlot.Body])
       const { onDragEnd } = useInventoryDnD(ref(userItemsBySlot as UserItemsBySlot))
 
-      getUnequipItemsLinked.mockReturnValueOnce([
+      getUnEquipItemsLinked.mockReturnValueOnce([
         { slot: ItemSlot.Leg, userItemId: null },
         { slot: ItemSlot.Body, userItemId: null },
       ])
 
       onDragEnd(null, ItemSlot.Leg)
 
-      expect(getUnequipItemsLinked).toBeCalledWith(ItemSlot.Leg, userItemsBySlot)
+      expect(getUnEquipItemsLinked).toBeCalledWith(ItemSlot.Leg, userItemsBySlot)
       expect(mockedEmit).toBeCalledWith('change', [
         { slot: ItemSlot.Leg, userItemId: null },
         { slot: ItemSlot.Body, userItemId: null },

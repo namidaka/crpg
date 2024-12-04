@@ -3,6 +3,7 @@
 
 import type { BarSeriesOption } from 'echarts/charts'
 import type {
+  DataZoomComponentOption,
   GridComponentOption,
   LegendComponentOption,
   ToolboxComponentOption,
@@ -13,6 +14,7 @@ import type { DurationLike } from 'luxon'
 
 import { BarChart } from 'echarts/charts'
 import {
+  DataZoomComponent,
   GridComponent,
   LegendComponent,
   ToolboxComponent,
@@ -30,7 +32,7 @@ import { CharacterEarningType, getCharacterEarningStatistics } from '~/services/
 import { d } from '~/services/translate-service'
 import { characterKey } from '~/symbols/character'
 
-use([ToolboxComponent, BarChart, TooltipComponent, LegendComponent, GridComponent, SVGRenderer])
+use([ToolboxComponent, BarChart, TooltipComponent, LegendComponent, DataZoomComponent, GridComponent, SVGRenderer])
 registerTheme('crpg', theme)
 type EChartsOption = ComposeOption<
   | LegendComponentOption
@@ -38,6 +40,7 @@ type EChartsOption = ComposeOption<
   | TooltipComponentOption
   | GridComponentOption
   | BarSeriesOption
+  | DataZoomComponentOption
 >
 
 definePage({
@@ -114,8 +117,21 @@ const getStart = (zoom: Zoom) => {
 
 const zoomModel = ref<Zoom>(Zoom['1h'])
 const start = computed(() => getStart(zoomModel.value))
+const end = ref<Date>(new Date())
 
 const statTypeModel = ref<CharacterEarningType>(CharacterEarningType.Exp)
+
+const dataZoom = ref<[number, number]>([start.value.getTime(), end.value.getTime()])
+const setDataZoom = (start: number, end: number) => {
+  dataZoom.value = [start, end]
+}
+
+const onDataZoomChanged = () => {
+  const option = chart.value?.getOption()
+  // @ts-expect-error TODO: write types
+  setDataZoom(option.dataZoom[0].startValue, option.dataZoom[0].endValue)
+}
+
 const { execute: loadCharacterEarningStatistics, state: characterEarningStatistics }
   = await useAsyncState(
     ({ id }: { id: number }) => getCharacterEarningStatistics(id, statTypeModel.value, start.value),
@@ -149,18 +165,29 @@ watch(statTypeModel, () => onUpdate(character.value.id))
 watch(zoomModel, () => {
   setZoom()
   onUpdate(character.value.id)
+  setDataZoom(start.value.getTime(), end.value.getTime())
 })
+
+// const [from, to] = dataZoom.value
+// && ts.data.every(([date]) => {
+//           const time = date.getTime()
+//           console.table({ time, from, to, d: time >= from, v: time <= to })
+//           return time >= from && time <= to
+//         })
 
 const total = computed(() =>
   characterEarningStatistics.value
     .filter(ts => activeSeries.value.includes(ts.name))
     .flatMap(ts => ts.data)
+    .filter(([date]) => {
+      const time = date.getTime()
+      const [from, to] = dataZoom.value
+      return time >= from && time <= to
+    })
     .reduce((total, [_date, value]) => total + value, 0),
 )
 
 const chart = shallowRef<InstanceType<typeof VChart> | null>(null)
-
-const end = ref<Date>(new Date())
 
 const option = shallowRef<EChartsOption>({
   legend: {
@@ -172,11 +199,14 @@ const option = shallowRef<EChartsOption>({
   },
   series: characterEarningStatistics.value.map(toBarSeries),
   toolbox: {
+    show: true,
+    right: 0,
+    top: 0,
     feature: {
-      dataView: { readOnly: false, show: true },
-      saveAsImage: { show: true },
+      dataView: {
+        readOnly: true,
+      },
     },
-    show: false, // TODO:
   },
   tooltip: {
     axisPointer: {
@@ -204,6 +234,12 @@ const option = shallowRef<EChartsOption>({
     },
     type: 'value',
   },
+  dataZoom: [
+    {
+      type: 'slider',
+      labelFormatter: value => d(new Date(value), 'short'),
+    },
+  ],
 })
 
 const setZoom = () => {
@@ -300,6 +336,7 @@ await fetchPageData(character.value.id)
         :loading="loading"
         :loading-options="loadingOptions"
         @legendselectchanged="onLegendSelectChanged"
+        @datazoom="onDataZoomChanged"
       />
     </div>
   </div>

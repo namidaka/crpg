@@ -46,12 +46,12 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             CancellationToken cancellationToken)
         {
             var idempotencyKey = await _db.IdempotencyKeys
-                .Where(ik => ik.Key == req.Key.ToString())
+                .Where(ik => ik.Key == req.Key)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (idempotencyKey == null || idempotencyKey.Status != UserUpdateStatus.Completed)
             {
-                IdempotencyKey key = new() { Key = req.Key.ToString(), CreatedAt = DateTime.UtcNow, Status = UserUpdateStatus.Started };
+                IdempotencyKey key = new() { Key = req.Key, CreatedAt = DateTime.UtcNow, Status = UserUpdateStatus.Started };
                 _db.IdempotencyKeys.Add(key);
                 await _db.SaveChangesAsync(cancellationToken);
 
@@ -66,15 +66,24 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                         continue;
                     }
 
-                    var reward = GiveReward(character, update.Reward, updateGameMode);
+                    var reward = GiveReward(character, update.Reward);
                     UpdateStatistics(updateGameMode, character, update.Statistics);
                     _characterService.UpdateRating(character, updateGameMode, update.Statistics.Rating.Value, update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
                     var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
+
+                    // avoid warmup
+                    if (reward.Experience != 0)
+                    {
+                        int totalRepairCost = brokenItems.Sum(item => item.RepairCost);
+                        _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, updateGameMode, reward.Experience, reward.Gold - totalRepairCost));
+                    }
+
                     results.Add((character.User!, reward, brokenItems, updateGameMode));
                 }
 
                 key.Status = UserUpdateStatus.Completed;
                 _db.IdempotencyKeys.Update(key);
+
                 await _db.SaveChangesAsync(cancellationToken);
 
                 return new(new UpdateGameUsersResult
@@ -125,15 +134,13 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             return charactersById;
         }
 
-        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward, GameMode gameMode)
+        private GameUserEffectiveReward GiveReward(Character character, GameUserReward reward)
         {
             int level = character.Level;
             int experience = character.Experience;
 
             character.User!.Gold += reward.Gold;
             _characterService.GiveExperience(character, reward.Experience, useExperienceMultiplier: true);
-
-            _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, gameMode, reward.Experience, reward.Gold));
 
             return new GameUserEffectiveReward
             {

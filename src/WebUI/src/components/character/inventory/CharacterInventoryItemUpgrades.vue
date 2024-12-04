@@ -299,8 +299,8 @@ const {
       </OTableColumn>
 
       <OTableColumn
-        v-for="field in Object.keys(aggregationsConfig) as Array<keyof ItemFlat>"
-        :key="field"
+        v-for="(field, idx) in Object.keys(aggregationsConfig) as Array<keyof ItemFlat>"
+        :key="idx"
         v-slot="{ row: rowItem }: { row: ItemFlat }"
         :field="field"
         :label="$t(`item.aggregations.${field}.title`)"

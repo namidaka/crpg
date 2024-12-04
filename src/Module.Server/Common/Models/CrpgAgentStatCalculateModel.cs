@@ -271,12 +271,14 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                 agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, mbSkills);
                 InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
             }
-            else if (agentCharacterId.StartsWith("crpg_character"))
+            else if (agentCharacterId.StartsWith("crpg_captain_bot"))
             {
+                string[] parts = agentCharacterId.Split('_');
+                string id = parts.Last();
                 var crpgNetworkPeers = GameNetwork.NetworkPeers.Where(p =>
                     p.GetComponent<CrpgPeer>() != null);
                 var ownerNetworkPeer =
-                    crpgNetworkPeers.FirstOrDefault(p => p.ControlledAgent?.Character.StringId.Contains(agentCharacterId) ?? false);
+                    crpgNetworkPeers.FirstOrDefault(p => p.ControlledAgent?.Character.StringId.Contains($"crpg_captain_{id}") ?? false);
                 if (ownerNetworkPeer?.GetComponent<CrpgPeer>()?.User != null && agent.Origin is not CrpgBattleAgentOrigin)
                 {
                     var characteristics = ownerNetworkPeer.GetComponent<CrpgPeer>().User!.Character.Characteristics;
@@ -284,14 +286,13 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
                     agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, mbSkills);
                     InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
                 }
-
             }
         }/*
             else if (agent.Character.StringId.StartsWith("crpg_h")
             {
-                agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, crpgComponent._mbSkills);
-                InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
-            }*/
+            agent.Origin = new CrpgBattleAgentOrigin(agent.Origin?.Troop, crpgComponent._mbSkills);
+            InitializeAgentStats(agent, agent.SpawnEquipment, props, null!);
+        }*/
 
 
         MissionEquipment equipment = agent.Equipment;

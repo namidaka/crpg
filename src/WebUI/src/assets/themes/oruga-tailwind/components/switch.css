@@ -8,6 +8,9 @@
 .o-switch--left {
 }
 
+.o-switch__label{
+ @apply ml-3
+}
 .o-switch--rounded {
   @apply rounded-full;
 }

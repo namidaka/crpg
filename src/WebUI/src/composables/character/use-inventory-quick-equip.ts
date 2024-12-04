@@ -4,7 +4,7 @@ import type { UserItem } from '~/models/user'
 
 import { useInventoryEquipment } from '~/composables/character/use-inventory-equipment'
 import { updateCharacterItems } from '~/services/characters-service'
-import { checkIsWeaponBySlot, getAvailableSlotsByItem } from '~/services/item-service'
+import { getAvailableSlotsByItem, isWeaponBySlot } from '~/services/item-service'
 import { useUserStore } from '~/stores/user'
 import { characterItemsKey, characterKey } from '~/symbols/character'
 
@@ -12,7 +12,7 @@ export const useInventoryQuickEquip = (equippedItemsBySlot: Ref<EquippedItemsByS
   const { user } = toRefs(useUserStore())
   const character = injectStrict(characterKey)
   const { loadCharacterItems } = injectStrict(characterItemsKey)
-  const { getUnequipItemsLinked, isEquipItemAllowed } = useInventoryEquipment()
+  const { getUnEquipItemsLinked, isEquipItemAllowed } = useInventoryEquipment()
 
   const onQuickEquip = async (item: UserItem) => {
     if (!item || !isEquipItemAllowed(item, user.value!.id)) { return }
@@ -27,8 +27,8 @@ export const useInventoryQuickEquip = (equippedItemsBySlot: Ref<EquippedItemsByS
     }
   }
 
-  const onQuickUnequip = async (slot: ItemSlot) => {
-    const items: EquippedItemId[] = getUnequipItemsLinked(slot, equippedItemsBySlot.value)
+  const onQuickUnEquip = async (slot: ItemSlot) => {
+    const items: EquippedItemId[] = getUnEquipItemsLinked(slot, equippedItemsBySlot.value)
 
     await updateItems(items)
   }
@@ -40,12 +40,12 @@ export const useInventoryQuickEquip = (equippedItemsBySlot: Ref<EquippedItemsByS
 
   const getTargetSlot = (slots: ItemSlot[]): ItemSlot | undefined => {
     return slots
-      .filter(slot => checkIsWeaponBySlot(slot) ? !equippedItemsBySlot.value[slot] : true)
+      .filter(slot => isWeaponBySlot(slot) ? !equippedItemsBySlot.value[slot] : true)
       .at(0)
   }
 
   return {
     onQuickEquip,
-    onQuickUnequip,
+    onQuickUnEquip,
   }
 }

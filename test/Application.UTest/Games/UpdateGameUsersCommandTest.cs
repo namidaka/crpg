@@ -92,9 +92,6 @@ public class UpdateGameUsersCommandTest : TestBase
 
         Mock<IActivityLogService> activityLogServiceMock = new() { DefaultValue = DefaultValue.Mock };
         Mock<IGameModeService> gameModeServiceServiceMock = new();
-        // gameModeServiceServiceMock
-        //     .Setup(m => m.GameModeByInstanceAlias(It.Is<GameModeAlias>(a => a == GameModeAlias.A)))
-        //     .Returns(GameMode.CRPGBattle);
 
         UpdateGameUsersCommand.Handler handler = new(ActDb, Mapper, characterServiceMock.Object, activityLogServiceMock.Object, gameModeServiceServiceMock.Object);
         var result = await handler.Handle(new UpdateGameUsersCommand
@@ -123,6 +120,10 @@ public class UpdateGameUsersCommandTest : TestBase
                         },
                     },
                     Instance = "crpg01a",
+                    BrokenItems = new[]
+                    {
+                        new GameUserDamagedItem { UserItemId = user.Characters[0].EquippedItems[0].UserItemId, RepairCost = 30 },
+                    },
                 },
             },
         }, CancellationToken.None);
@@ -132,14 +133,13 @@ public class UpdateGameUsersCommandTest : TestBase
         Assert.That(data.UpdateResults[0].User.Id, Is.EqualTo(user.Id));
         Assert.That(data.UpdateResults[0].User.Platform, Is.EqualTo(Platform.Steam));
         Assert.That(data.UpdateResults[0].User.PlatformUserId, Is.EqualTo("1"));
-        Assert.That(data.UpdateResults[0].User.Gold, Is.EqualTo(1000 + 200));
+        Assert.That(data.UpdateResults[0].User.Gold, Is.EqualTo(1000 + 200 - 30));
         Assert.That(data.UpdateResults[0].User.Character.Name, Is.EqualTo("a"));
         Assert.That(data.UpdateResults[0].User.Character.EquippedItems.Count, Is.EqualTo(1));
         Assert.That(data.UpdateResults[0].User.Restrictions, Is.Empty);
         Assert.That(data.UpdateResults[0].EffectiveReward.Experience, Is.EqualTo(10));
         Assert.That(data.UpdateResults[0].EffectiveReward.Gold, Is.EqualTo(200));
         Assert.That(data.UpdateResults[0].EffectiveReward.LevelUp, Is.False);
-        Assert.That(data.UpdateResults[0].RepairedItems, Is.Empty);
 
         var dbCharacter = await AssertDb.Characters.FirstAsync(c => c.Id == user.Characters[0].Id);
         CharacterStatistics? charStats = dbCharacter.Statistics.FirstOrDefault(s => s.GameMode == GameMode.CRPGBattle);
@@ -153,7 +153,7 @@ public class UpdateGameUsersCommandTest : TestBase
         gameModeServiceServiceMock.Verify(m =>
             m.GameModeByInstanceAlias(It.IsAny<GameModeAlias>()), Times.Once);
         activityLogServiceMock.Verify(m =>
-            m.CreateCharacterEarnedLog(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameMode>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            m.CreateCharacterEarnedLog(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameMode>(), It.IsAny<int>(), It.Is<int>(x => x == 200 - 30)), Times.Once);
     }
 
     [Test]
