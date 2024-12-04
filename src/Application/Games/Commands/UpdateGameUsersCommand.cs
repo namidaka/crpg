@@ -7,7 +7,6 @@ using Crpg.Application.Common.Services;
 using Crpg.Application.Games.Models;
 using Crpg.Domain.Entities.Characters;
 using Crpg.Domain.Entities.Servers;
-using Crpg.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using LoggerFactory = Crpg.Logging.LoggerFactory;
@@ -27,6 +26,7 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
         private static readonly ILogger Logger = LoggerFactory.CreateLogger<UpdateGameUsersCommand>();
 
         private readonly ICrpgDbContext _db;
+
         private readonly IMapper _mapper;
         private readonly ICharacterService _characterService;
         private readonly IActivityLogService _activityLogService;
@@ -45,9 +45,11 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
             CancellationToken cancellationToken)
         {
             var charactersById = await LoadCharacters(req.Updates, cancellationToken);
-            List<(User user, GameUserEffectiveReward reward, List<GameRepairedItem> repairedItems, GameMode gameMode)> results = new(req.Updates.Count);
-
-            GameMode updateGameMode = _gameModeService.GameModeByInstanceAlias(Enum.TryParse(req.Instance[^1..], ignoreCase: true, out GameModeAlias instanceAlias) ? instanceAlias : GameModeAlias.Z);
+            List<UpdateGameUserResult> updateResults = new(req.Updates.Count);
+            GameMode updateGameMode = _gameModeService.GameModeByInstanceAlias(
+                    Enum.TryParse(req.Instance[^1..], ignoreCase: true, out GameModeAlias instanceAlias)
+                        ? instanceAlias
+                        : GameModeAlias.Z);
 
             foreach (var update in req.Updates)
             {
@@ -57,41 +59,76 @@ public record UpdateGameUsersCommand : IMediatorRequest<UpdateGameUsersResult>
                     continue;
                 }
 
-                var reward = GiveReward(character, update.Reward);
-                UpdateStatistics(updateGameMode, character, update.Statistics);
-                _characterService.UpdateRating(character, updateGameMode, update.Statistics.Rating.Value, update.Statistics.Rating.Deviation, update.Statistics.Rating.Volatility, isGameUserUpdate: true);
-                var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
-
-                // avoid warmup
-                if (reward.Experience != 0)
+                try
                 {
-                    int totalRepairCost = brokenItems.Sum(item => item.RepairCost);
-                    _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(character.UserId, character.Id, updateGameMode, reward.Experience, reward.Gold - totalRepairCost));
-                }
+                    var reward = GiveReward(character, update.Reward);
+                    UpdateStatistics(updateGameMode, character, update.Statistics);
+                    _characterService.UpdateRating(
+                        character,
+                        updateGameMode,
+                        update.Statistics.Rating.Value,
+                        update.Statistics.Rating.Deviation,
+                        update.Statistics.Rating.Volatility,
+                        isGameUserUpdate: true);
 
-                results.Add((character.User!, reward, brokenItems, updateGameMode));
-            }
+                    var brokenItems = await RepairOrBreakItems(character, update.BrokenItems, cancellationToken);
 
-            return new(new UpdateGameUsersResult
-            {
-                UpdateResults = results.Select(r =>
-                {
-                    var gameUserViewModel = _mapper.Map<GameUserViewModel>(r.user);
+                    if (reward.Experience != 0)
+                    {
+                        int totalRepairCost = brokenItems.Sum(item => item.RepairCost);
+                        _db.ActivityLogs.Add(_activityLogService.CreateCharacterEarnedLog(
+                            character.UserId,
+                            character.Id,
+                            updateGameMode,
+                            reward.Experience,
+                            reward.Gold - totalRepairCost));
+                    }
 
-                    // Only include relevant statistic in response
-                    var relevantStatistic = r.user.ActiveCharacter?.Statistics.FirstOrDefault(s => s.GameMode == r.gameMode);
+                    await _db.SaveChangesAsync(cancellationToken);
+
+                    var gameUserViewModel = _mapper.Map<GameUserViewModel>(character.User!);
+
+                    var relevantStatistic = character.Statistics.FirstOrDefault(s => s.GameMode == updateGameMode);
                     if (relevantStatistic != null)
                     {
                         gameUserViewModel.Character.Statistics = _mapper.Map<CharacterStatisticsViewModel>(relevantStatistic);
                     }
 
-                    return new UpdateGameUserResult
+                    updateResults.Add(new UpdateGameUserResult
                     {
+                        Status = 1,
                         User = gameUserViewModel,
-                        EffectiveReward = r.reward,
-                        RepairedItems = r.repairedItems,
-                    };
-                }).ToArray(),
+                        EffectiveReward = reward,
+                        RepairedItems = brokenItems,
+                    });
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    Logger.LogError(ex, "Concurrency error while saving updates for CharacterId: {0}", update.CharacterId);
+                    updateResults.Add(new UpdateGameUserResult
+                    {
+                        Status = 2,
+                        User = null,
+                        EffectiveReward = null,
+                        RepairedItems = default!,
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, "Error while processing update for CharacterId: {0}", update.CharacterId);
+                    updateResults.Add(new UpdateGameUserResult
+                    {
+                        Status = 2,
+                        User = null,
+                        EffectiveReward = null,
+                        RepairedItems = default!,
+                    });
+                }
+            }
+
+            return new(new UpdateGameUsersResult
+            {
+                UpdateResults = updateResults,
             });
         }
 
