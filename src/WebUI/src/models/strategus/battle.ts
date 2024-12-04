@@ -31,6 +31,7 @@ export interface Battle {
 }
 
 export interface BattleFighter {
+  id: number
   commander: boolean
   party: PartyCommon | null
   settlement: SettlementPublic | null

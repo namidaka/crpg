@@ -20,3 +20,11 @@ export const getBattles = async (
   phases.forEach(p => params.append('phase[]', p))
   return await get<Battle[]>(`/battles?${params}`)
 }
+
+export const getBattle = async (
+  id: number,
+) => {
+  return await get<Battle>(`/battles/${id}`)
+}
+
+export const getBattleFighters = async (id: number) => get<BattleFighter[]>(`/battles/${id}/fighters`)
