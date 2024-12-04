@@ -28,3 +28,5 @@ export const getBattle = async (
 }
 
 export const getBattleFighters = async (id: number) => get<BattleFighter[]>(`/battles/${id}/fighters`)
+
+export const getBattleMercenaries = async (id: number) => get<BattleMercenary[]>(`/battles/${id}/mercenaries`)
