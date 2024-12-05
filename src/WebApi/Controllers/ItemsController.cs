@@ -51,4 +51,19 @@ public class ItemsController : BaseController
         req = req with { ItemId = id, UserId = CurrentUser.User!.Id };
         return ResultToActionAsync(Mediator.Send(req));
     }
+
+    /// <summary>
+    /// Refund item.
+    /// </summary>
+    /// <param name="id">Item id.</param>
+    /// <param name="req">Value.</param>
+    /// <response code="200">OK.</response>
+    /// <response code="400">Bad Request.</response>
+    [Authorize(Policy = AdminPolicy)]
+    [HttpPost("{id}/refund")]
+    public Task<ActionResult> RefundItem([FromRoute] string id, [FromBody] RefundItemCommand req)
+    {
+        req = req with { ItemId = id, UserId = CurrentUser.User!.Id };
+        return ResultToActionAsync(Mediator.Send(req));
+    }
 }
