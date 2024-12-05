@@ -4,6 +4,7 @@ import type { Character } from '~/models/character'
 import type { Region } from '~/models/region'
 import type { PartyCommon } from '~/models/strategus/party'
 import type { SettlementPublic } from '~/models/strategus/settlement'
+import type { UserPublic } from '~/models/user'
 
 export enum BattlePhase {
   Preparation = 'Preparation',
@@ -40,6 +41,7 @@ export interface BattleFighter {
 }
 
 export interface BattleMercenary {
+  user: UserPublic
   character: Character
   captain: BattleFighter
   side: BattleSide

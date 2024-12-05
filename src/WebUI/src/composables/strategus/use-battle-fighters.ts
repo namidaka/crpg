@@ -2,7 +2,7 @@ import { BattleSide } from '~/models/strategus/battle'
 import { getBattleFighters } from '~/services/strategus-service/battle-service'
 
 export const useBattleFighters = () => {
-  const { execute: loadBattleFighters, state: battleFighters } = useAsyncState(
+  const { execute: loadBattleFighters, isLoading: battleFightersLoading, state: battleFighters } = useAsyncState(
     ({ id }: { id: number }) => getBattleFighters(id),
     [],
     {
@@ -19,6 +19,7 @@ export const useBattleFighters = () => {
     battleFighters.value.filter(fighter => fighter.side === BattleSide.Defender))
 
   return {
+    battleFightersLoading,
     battleFighters,
     battleFightersCount,
     battleFightersAttackers,
