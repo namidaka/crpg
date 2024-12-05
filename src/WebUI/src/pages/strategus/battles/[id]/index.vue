@@ -11,7 +11,7 @@ import { useSearchDebounced } from '~/composables/use-search-debounce'
 import { Culture } from '~/models/culture'
 import { BattlePhase, BattleSide } from '~/models/strategus/battle'
 import { itemCultureToIcon } from '~/services/item-service' // TODO: culture service
-import { getBattles } from '~/services/strategus-service/battle-service'
+import { canManageApplicationsValidate, getBattleFighter, getBattles } from '~/services/strategus-service/battle-service'
 import { settlementIconByType } from '~/services/strategus-service/settlement'
 import { useUserStore } from '~/stores/user'
 
@@ -38,6 +38,11 @@ const userStore = useUserStore()
 const { battle, battleId, loadBattle } = useBattle(props.id)
 
 const isSelfUser = (row: BattleMercenary) => row.character.id === userStore.user?.activeCharacterId
+const selfFighter = computed(() => getBattleFighter(battleFighters.value, userStore.user!.id))
+
+const canManageApplications = computed(() =>
+  selfFighter.value !== null,
+)
 
 const rowClass = (row: BattleMercenary): string =>
   isSelfUser(row) ? 'text-primary' : 'text-content-100'
@@ -170,18 +175,19 @@ await fetchPageData(props.id)
 
             <Divider />
           </div>
-
-          <div class="mb-20 flex items-center justify-center gap-3">
-            <OButton
-              tag="router-link"
-              variant="primary"
-              outlined
-              size="xl"
-            >
-              {{ $t('clan.application.title') }}
-            </OButton>
-          </div>
-
+          <template v-if="canManageApplications">
+            <div class="mb-20 flex items-center justify-center gap-3">
+              <OButton
+                v-if="canManageApplications"
+                tag="router-link"
+                variant="primary"
+                outlined
+                size="xl"
+              >
+                {{ $t('clan.application.title') }}
+              </OButton>
+            </div>
+          </template>
           <div>
             <div class="grid grid-cols-2">
               <div class="flex flex-row text-base text-white">
