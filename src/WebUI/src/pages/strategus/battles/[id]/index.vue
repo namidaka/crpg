@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Battle } from '~/models/strategus/battle'
+import type { Battle, BattleMercenary } from '~/models/strategus/battle'
 
 import { useBattleFighters } from '~/composables/strategus/use-battle-fighters'
 import { useBattleMercenaries } from '~/composables/strategus/use-battle-mercenaries'
@@ -20,8 +20,8 @@ const props = defineProps<{
 }>()
 
 const getIconByCulture = (cultureString: string) => itemCultureToIcon[Culture[cultureString as keyof typeof Culture] || Culture.Neutral]
-const { battleFighters, battleFightersCount, battleFightersAttackers, battleFightersDefenders, loadBattleFighters } = useBattleFighters()
-const { battleMercenaries, battleMercenariesCount, battleMercenariesAttackers, battleMercenariesDefenders, loadBattleMercenaries } = useBattleFighters()
+const { battleFightersLoading, battleFighters, battleFightersCount, battleFightersAttackers, battleFightersDefenders, loadBattleFighters } = useBattleFighters()
+const { battleMercenariesLoading, battleMercenaries, battleMercenariesCount, battleMercenariesAttackers, battleMercenariesDefenders, loadBattleMercenaries } = useBattleMercenaries()
 
 definePage({
   meta: {
@@ -37,8 +37,25 @@ const userStore = useUserStore()
 
 const { battle, battleId, loadBattle } = useBattle(props.id)
 
+const isSelfUser = (row: BattleMercenary) => row.character.id === userStore.user?.activeCharacterId
+
+const rowClass = (row: BattleMercenary): string =>
+  isSelfUser(row) ? 'text-primary' : 'text-content-100'
+
+const attackerMercenarySlots = computed(() => {
+  return battleFightersAttackers.value.reduce((total, fighter) => {
+    return total + (fighter.mercenarySlots || 0) // Add the value or 0 if it's undefined
+  }, 0)
+})
+
+const defenderMercenarySlots = computed(() => {
+  return battleFightersDefenders.value.reduce((total, fighter) => {
+    return total + (fighter.mercenarySlots || 0) // Add the value or 0 if it's undefined
+  }, 0)
+})
+
 const fetchPageData = async (battleId: number) => {
-  await Promise.all([loadBattle(0, { id: battleId }), loadBattleFighters(0, { id: battleId })])
+  await Promise.all([loadBattle(0, { id: battleId }), loadBattleFighters(0, { id: battleId }), loadBattleMercenaries(0, { id: battleId })])
 }
 
 await fetchPageData(props.id)
@@ -125,15 +142,29 @@ await fetchPageData(props.id)
 
             <div class="flex items-center gap-1.5">
               <OIcon
+                icon="leader"
+                size="lg"
+                class="text-content-100"
+              />
+              <span
+                class="text-content-200"
+              >
+                {{ battleFightersCount }}
+              </span>
+            </div>
+
+            <div class="h-8 w-px select-none bg-border-200" />
+
+            <div class="flex items-center gap-1.5">
+              <OIcon
                 icon="member"
                 size="lg"
                 class="text-content-100"
               />
               <span
                 class="text-content-200"
-                data-aq-clan-info="member-count"
               >
-                {{ battleFightersCount }}
+                {{ battleMercenariesCount }}
               </span>
             </div>
 
@@ -184,6 +215,22 @@ await fetchPageData(props.id)
             </div>
             <div class="my-4 h-2.5 w-full rounded-full bg-base-400">
               <div class="h-2.5 rounded-full bg-base-500" style="width: 5.8%" />
+            </div>
+            <div class="grid grid-cols-2">
+              <div class="inline-flex flex-row gap-1.5 text-base text-white">
+                <OIcon
+                  icon="member"
+                  class="text-content-100"
+                />
+                {{ battleMercenariesCount }} / {{ attackerMercenarySlots }}
+              </div>
+              <div class="inline-flex flex-row-reverse gap-1.5 text-base text-white">
+                <OIcon
+                  icon="member"
+                  class="text-content-100"
+                />
+                {{ battleMercenariesCount }} / {{ defenderMercenarySlots }}
+              </div>
             </div>
           </div>
         </div>

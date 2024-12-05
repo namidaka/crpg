@@ -2,7 +2,7 @@ import { BattleSide } from '~/models/strategus/battle'
 import { getBattleMercenaries } from '~/services/strategus-service/battle-service'
 
 export const useBattleMercenaries = () => {
-  const { execute: loadBattleMercenaries, state: battleMercenaries } = useAsyncState(
+  const { execute: loadBattleMercenaries, isLoading: battleMercenariesLoading, state: battleMercenaries } = useAsyncState(
     ({ id }: { id: number }) => getBattleMercenaries(id),
     [],
     {
@@ -19,6 +19,7 @@ export const useBattleMercenaries = () => {
     battleMercenaries.value.filter(mercenary => mercenary.side === BattleSide.Defender))
 
   return {
+    battleMercenariesLoading,
     battleMercenaries,
     battleMercenariesCount,
     battleMercenariesAttackers,

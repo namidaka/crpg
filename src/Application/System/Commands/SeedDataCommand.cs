@@ -2210,16 +2210,19 @@ public record SeedDataCommand : IMediatorRequest
                         Party = droobParty,
                         Side = BattleSide.Attacker,
                         Commander = true,
+                        MercenarySlots = 7,
                     },
                     new BattleFighter
                     {
                         Party = kedrynFuelParty,
                         Side = BattleSide.Attacker,
+                        MercenarySlots = 1,
                     },
                     new BattleFighter
                     {
                         Party = ilyaParty,
                         Side = BattleSide.Attacker,
+                        MercenarySlots = 1,
                     },
                     new BattleFighter
                     {
@@ -2227,11 +2230,36 @@ public record SeedDataCommand : IMediatorRequest
                         Settlement = epicrotea,
                         Side = BattleSide.Defender,
                         Commander = true,
+                        MercenarySlots = 80,
                     },
                     new BattleFighter
                     {
                         Party = luqeroParty,
                         Side = BattleSide.Defender,
+                        MercenarySlots = 11,
+                    },
+                },
+                Mercenaries =
+                {
+                    new BattleMercenary
+                    {
+                    Side = BattleSide.Attacker,
+                    Character = kadseCharacter0,
+                    },
+                    new BattleMercenary
+                    {
+                    Side = BattleSide.Defender,
+                    Character = takeoCharacter0,
+                    },
+                    new BattleMercenary
+                    {
+                    Side = BattleSide.Attacker,
+                    Character = namidakaCharacter0,
+                    },
+                    new BattleMercenary
+                    {
+                    Side = BattleSide.Defender,
+                    Character = krogCharacter0,
                     },
                 },
                 MercenaryApplications = {},
