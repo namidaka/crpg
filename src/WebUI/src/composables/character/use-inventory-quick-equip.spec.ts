@@ -37,7 +37,7 @@ const {
   mockedLoadCharacterItems: vi.fn(),
   mockedUpdateCharacterItems: vi.fn(),
   mockedUseInventoryEquipment: vi.fn().mockReturnValue({
-    getUnequipItemsLinked: vi.fn(),
+    getUnEquipItemsLinked: vi.fn(),
     isEquipItemAllowed: vi.fn().mockReturnValue(true),
   }),
 }))
@@ -216,7 +216,7 @@ describe('useInventoryQuickEquip', () => {
     })
   })
 
-  describe('onQuickUnequip', () => {
+  describe('onQuickUnEquip', () => {
     it('should update items', () => {
       const userItemsBySlot: PartialDeep<UserItemsBySlot> = {
         [ItemSlot.Weapon0]: {
@@ -227,19 +227,19 @@ describe('useInventoryQuickEquip', () => {
         },
       }
 
-      const { onQuickUnequip } = useInventoryQuickEquip(ref(userItemsBySlot as UserItemsBySlot))
-      const { getUnequipItemsLinked } = mockedUseInventoryEquipment()
+      const { onQuickUnEquip } = useInventoryQuickEquip(ref(userItemsBySlot as UserItemsBySlot))
+      const { getUnEquipItemsLinked } = mockedUseInventoryEquipment()
 
-      getUnequipItemsLinked.mockReturnValueOnce([
+      getUnEquipItemsLinked.mockReturnValueOnce([
         {
           slot: ItemSlot.Weapon0,
           userItemId: null,
         },
       ])
 
-      onQuickUnequip(ItemSlot.Weapon0)
+      onQuickUnEquip(ItemSlot.Weapon0)
 
-      expect(getUnequipItemsLinked).toBeCalledWith(ItemSlot.Weapon0, userItemsBySlot)
+      expect(getUnEquipItemsLinked).toBeCalledWith(ItemSlot.Weapon0, userItemsBySlot)
       expect(mockedUpdateCharacterItems).toBeCalledWith(1, [
         {
           slot: ItemSlot.Weapon0,

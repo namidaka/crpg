@@ -178,7 +178,7 @@ shortcuts:
     ctrl: CTRL
     lmb: ЛКМ
   hints:
-    equip: экипировать/снять
+    equip: или долгое нажатие - экипировать/снять
 
 setting:
   language: Язык

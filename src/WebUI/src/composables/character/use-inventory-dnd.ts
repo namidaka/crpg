@@ -14,8 +14,8 @@ const toSlot = ref<ItemSlot | null>(null)
 
 export const useInventoryDnD = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) => {
   const { user } = toRefs(useUserStore())
-  const { emit } = getCurrentInstance() as NonNullable<ReturnType<typeof getCurrentInstance>>
-  const { getUnequipItemsLinked, isEquipItemAllowed } = useInventoryEquipment()
+  const { emit } = getCurrentInstance() as NonNullable<ReturnType<typeof getCurrentInstance>> // TODO: FIXME: refactoring
+  const { getUnEquipItemsLinked, isEquipItemAllowed } = useInventoryEquipment()
 
   const onDragStart = (item: UserItem | null = null, slot: ItemSlot | null = null) => {
     if (!item || !isEquipItemAllowed(item, user.value!.id)) { return }
@@ -38,7 +38,7 @@ export const useInventoryDnD = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) =
 
   const onDragEnd = (_e: DragEvent | null = null, slot: ItemSlot | null = null) => {
     if (slot && !toSlot.value) {
-      const items: EquippedItemId[] = getUnequipItemsLinked(slot, equippedItemsBySlot.value)
+      const items: EquippedItemId[] = getUnEquipItemsLinked(slot, equippedItemsBySlot.value)
 
       emit('change', items) // drop outside
     }

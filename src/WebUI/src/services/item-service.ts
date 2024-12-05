@@ -764,7 +764,7 @@ export const reforgeCostByRank: Record<ItemRank, number> = {
 
 export const itemIsNewDays = 1
 
-export const checkIsWeaponBySlot = (slot: ItemSlot) => weaponSlots.includes(slot)
+export const isWeaponBySlot = (slot: ItemSlot) => weaponSlots.includes(slot)
 
 const itemParamIsEmpty = (field: keyof ItemFlat, itemFlat: ItemFlat) => {
   const value = itemFlat[field]

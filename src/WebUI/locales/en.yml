@@ -180,7 +180,7 @@ shortcuts:
     ctrl: CTRL
     lmb: LMB
   hints:
-    equip: to equip/unequip item
+    equip: or long press - to equip/unequip item
 
 setting:
   language: Language
