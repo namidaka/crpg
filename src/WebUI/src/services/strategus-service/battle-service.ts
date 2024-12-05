@@ -27,6 +27,9 @@ export const getBattle = async (
   return await get<Battle>(`/battles/${id}`)
 }
 
+export const getBattleFighter = (battleFighters: BattleFighter[], userId: number) =>
+  battleFighters.find(f => (f.party?.user.id || f.settlement?.owner?.user) === userId) || null
+
 export const getBattleFighters = async (id: number) => get<BattleFighter[]>(`/battles/${id}/fighters`)
 
 export const getBattleMercenaries = async (id: number) => get<BattleMercenary[]>(`/battles/${id}/mercenaries`)
