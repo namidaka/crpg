@@ -167,7 +167,7 @@ datadog_checks:
               min_collection_interval: 60
             - name: cRPG Launcher
               method: HEAD
-              url: "https://{{ crpg_domain_name }}/cRPG.zip"
+              url: "https://{{ crpg_domain_name }}/LauncherV3.exe"
               allow_redirects: true
               min_collection_interval: 60
             - name: Steam Open-ID

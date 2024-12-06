@@ -103,6 +103,10 @@ internal class CrpgCommanderBehaviorClient : MissionNetwork
         {
             textObject = new("{=sisK3HPI}You are muted.");
         }
+        else if (message.RejectReason == CommanderChatCommandRejectReason.TargetIsMuted)
+        {
+            textObject = new("{=aB5Qq8bC}The target player is muted.");
+        }
         else
         {
             textObject = new("{=uRmpZM0q}Please wait {COOLDOWN} seconds before issuing a new order!",

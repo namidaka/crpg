@@ -14,12 +14,10 @@ using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Engine.InputSystem;
-
 using TaleWorlds.MountAndBlade.GameKeyCategory;
 
-
-
 #if CRPG_SERVER
+using Crpg.Module.Common.ChatCommands;
 using TaleWorlds.MountAndBlade.DedicatedCustomServer;
 using TaleWorlds.MountAndBlade.ListedServer;
 using TaleWorlds.PlayerServices;
@@ -113,6 +111,12 @@ internal class CrpgSubModule : MBSubModuleBase
         base.OnGameInitializationFinished(game);
         AddMaps();
         Debug.Print($"Now Adding Maps", color: Debug.DebugColor.Cyan);
+
+        // Add the chat command handler here so network messages are being processed first.
+        if (game.GetGameHandler<ChatCommandsComponent>() == null)
+        {
+            game.AddGameHandler<ChatCommandsComponent>();
+        }
     }
 
     private static void AddMaps()

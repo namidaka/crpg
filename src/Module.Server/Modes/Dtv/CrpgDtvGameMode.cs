@@ -90,6 +90,7 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
 
 #if CRPG_SERVER
         ICrpgClient crpgClient = CrpgClient.Create();
+        Game.Current.GetGameHandler<ChatCommandsComponent>()?.InitChatCommands(crpgClient);
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
 
         CrpgWarmupComponent warmupComponent = new(_constants, notificationsComponent, () =>
@@ -142,7 +143,6 @@ internal class CrpgDtvGameMode : MissionBasedMultiplayerGameMode
                 new CrpgUserManagerServer(crpgClient, _constants),
                 new KickInactiveBehavior(inactiveTimeLimit: 120, warmupComponent),
                 new MapPoolComponent(),
-                new ChatCommandsComponent(chatBox, crpgClient),
                 new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                 new ServerMetricsBehavior(),
                 new NotAllPlayersReadyComponent(),

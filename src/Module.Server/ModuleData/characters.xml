@@ -417,7 +417,7 @@
         <equipment slot="Gloves" id="Item.crpg_mail_mitten_v2_h0" />
         <equipment slot="Leg" id="Item.crpg_mail_chausses_v2_h0" />
         <equipment slot="Item0" id="Item.crpg_decorated_broadsword_v1_h0" />
-        <equipment slot="Item1" id="Item.crpg_wide_heater_shield_v3_h0" />
+        <equipment slot="Item1" id="Item.crpg_wide_heater_shield_v4_h0" />
       </EquipmentRoster>
     </Equipments>
   </NPCCharacter>
