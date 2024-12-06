@@ -1,4 +1,3 @@
 mp_tdm_map_001_spring
 mp_tdm_map_004a
 mp_tdm_map_003
-crpg_duel_overgrown
