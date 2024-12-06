@@ -82,6 +82,7 @@ public record SeedDataCommand : IMediatorRequest
                     Github = "https://github.com/crpg2/crpg",
                     Reddit = "https://www.reddit.com/r/CRPG_Bannerlord",
                     ModDb = "https://www.moddb.com/mods/crpg",
+                    HappyHours = "Eu|00:00|23:59|Europe/Paris,Na|20:00|22:00|America/Chicago",
                 });
             }
 
@@ -2252,11 +2253,11 @@ public record SeedDataCommand : IMediatorRequest
             }
             else
             {
-                // auto disable item
-                if (item.Id.StartsWith("crpg_disabled_"))
-                {
-                    item.Enabled = false;
-                }
+                // // auto disable item
+                // if (item.Id.StartsWith("crpg_disabled_"))
+                // {
+                //     item.Enabled = false;
+                // }
 
                 _db.Items.Add(item);
             }

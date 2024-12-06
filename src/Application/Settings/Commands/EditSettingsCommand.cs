@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Text.RegularExpressions;
+using AutoMapper;
 using Crpg.Application.Common.Interfaces;
 using Crpg.Application.Common.Mediator;
 using Crpg.Application.Common.Results;
 using Crpg.Application.Settings.Models;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crpg.Application.Settings.Commands;
@@ -15,6 +17,16 @@ public record EditSettingsCommand : IMediatorRequest<SettingsViewModel>
     public string? Github { get; set; }
     public string? Reddit { get; set; }
     public string? ModDb { get; set; }
+    public string? HappyHours { get; set; }
+
+    public class Validator : AbstractValidator<EditSettingsCommand>
+    {
+        public Validator()
+        {
+            RuleFor(c => c.HappyHours)
+                .Matches(new Regex(@"(\w+)\|(\d{2}:\d{2})\|(\d{2}:\d{2})\|([\w/]+)", RegexOptions.Compiled));
+        }
+    }
 
     internal class Handler : IMediatorRequestHandler<EditSettingsCommand, SettingsViewModel>
     {
@@ -42,6 +54,7 @@ public record EditSettingsCommand : IMediatorRequest<SettingsViewModel>
             existingSettings.Github = req.Github ?? existingSettings.Github;
             existingSettings.Reddit = req.Reddit ?? existingSettings.Reddit;
             existingSettings.ModDb = req.ModDb ?? existingSettings.ModDb;
+            existingSettings.HappyHours = req.HappyHours ?? existingSettings.HappyHours;
 
             await _db.SaveChangesAsync(cancellationToken);
 
