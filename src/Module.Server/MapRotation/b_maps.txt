@@ -8,7 +8,7 @@ crpg_conquest_fjallborn
 crpg_conquest_ardumu
 crpg_conquest_neuenburg
 crpg_conquest_darkwood
-crpg_conquest_skalalanding
+crpg_conquest_poppyhills
 crpg_conquest_hailescastle
 crpg_conquest_thewhitecity
 crpg_conquest_jameyyedcastle
