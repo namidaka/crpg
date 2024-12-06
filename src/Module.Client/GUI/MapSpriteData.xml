@@ -17,7 +17,7 @@
   <SpriteCategories>
     <SpriteCategory>
       <Name>ui_mploading</Name>
-      <SpriteSheetCount>146</SpriteSheetCount>
+      <SpriteSheetCount>151</SpriteSheetCount>
       <SpriteSheetSize ID="1" Width="3840" Height="1935" />
       <SpriteSheetSize ID="2" Width="3840" Height="1935" />
       <SpriteSheetSize ID="3" Width="3383" Height="1902" />
@@ -152,6 +152,11 @@
       <SpriteSheetSize ID="144" Width="1920" Height="1080" />
       <SpriteSheetSize ID="145" Width="1920" Height="1080" />
       <SpriteSheetSize ID="146" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="147" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="148" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="149" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="150" Width="1920" Height="1080" />
+      <SpriteSheetSize ID="151" Width="1920" Height="1080" />
       <AlwaysLoad />
     </SpriteCategory>
   </SpriteCategories>
@@ -1353,6 +1358,51 @@
       <SheetY>0</SheetY>
       <CategoryName>ui_mploading</CategoryName>
     </SpritePart>
+    <SpritePart>
+      <SheetID>147</SheetID>
+      <Name>crpg_battle_overgrown</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>148</SheetID>
+      <Name>crpg_duel_overgrown</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>149</SheetID>
+      <Name>crpg_captain_chauxforest</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>150</SheetID>
+      <Name>crpg_captain_howlingmeadow</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>151</SheetID>
+      <Name>crpg_conquest_poppyhills</Name>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mploading</CategoryName>
+    </SpritePart>
   </SpriteParts>
   <Sprites>
     <GenericSprite>
@@ -1886,6 +1936,27 @@
     <GenericSprite>
       <Name>crpg_dtv_monolith</Name>
       <SpritePartName>crpg_dtv_monolith</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_battle_overgrown</Name>
+      <SpritePartName>crpg_battle_overgrown</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_duel_overgrown</Name>
+      <SpritePartName>crpg_duel_overgrown</SpritePartName>
+    </GenericSprite>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_captain_chauxforest</Name>
+      <SpritePartName>crpg_captain_chauxforest</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_captain_howlingmeadow</Name>
+      <SpritePartName>crpg_captain_howlingmeadow</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>crpg_conquest_poppyhills</Name>
+      <SpritePartName>crpg_conquest_poppyhills</SpritePartName>
     </GenericSprite>
   </Sprites>
 </SpriteData>

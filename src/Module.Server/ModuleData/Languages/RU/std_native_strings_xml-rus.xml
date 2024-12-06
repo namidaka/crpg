@@ -131,7 +131,13 @@
     <string id="B3Rsk3r6" text= "вританнис" />
     <string id="FrStHv3N" text= "Фростхейвен" />
     <string id="W3stV33N" text= "Вествин" />
+    <string id="0V3RGRO1" text= "заросли" />
+    <string id="0V3RGRO2" text= "заросли" />
+    <string id="CH4XFORR" text= "Лес Шо" />
+    <string id="vwrgB0YT" text= "Воющая поляна" />
 
+
+    <!-- Conquest Maps -->
     <string id="9Mpawm9h" text="Акра" />
     <string id="6KypSnaa" text="Ардуму" />
     <string id="caA2XOEy" text="Фредериксборг" />
@@ -151,6 +157,7 @@
     <string id="tw1tEC1t" text= "Белый город" />
     <string id="B3BB4nB8" text= "Беббанбург" />
     <string id="D43Kw00D" text= "Темное дерево" />
+    <string id="P0PPyH1l" text= "Маковые холмы" />
 
     <!-- DTV Maps -->
     <string id="ArnxGr8j1j" text="Лагерь" />
