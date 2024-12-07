@@ -1,17 +1,18 @@
 <script setup lang="ts">
-defineProps<{
+const { disabled = false } = defineProps<{
   title?: string
   confirmLabel?: string
+  disabled?: boolean
 }>()
 
-const emit = defineEmits<{
-  (e: 'cancel'): void
-  (e: 'confirm'): void
+defineEmits<{
+  cancel: []
+  confirm: []
 }>()
 </script>
 
 <template>
-  <VTooltip :triggers="['click']">
+  <VTooltip :triggers="['click']" :disabled>
     <slot />
     <template #popper="{ hide }">
       <div class="space-y-3">
@@ -27,7 +28,7 @@ const emit = defineEmits<{
             :label="confirmLabel !== undefined ? confirmLabel : $t('action.confirm')"
             @click="
               () => {
-                emit('confirm');
+                $emit('confirm');
                 hide();
               }
             "
@@ -37,7 +38,12 @@ const emit = defineEmits<{
             size="2xs"
             icon-left="close"
             :label="$t('action.cancel')"
-            @click="hide"
+            @click="
+              () => {
+                $emit('cancel');
+                hide();
+              }
+            "
           />
         </div>
       </div>

@@ -33,10 +33,6 @@ describe('userStore', () => {
     store = useUserStore()
   })
 
-  afterEach(() => {
-    store.$reset()
-  })
-
   it('references a store', () => {
     expect(store).toBeDefined()
   })
@@ -106,16 +102,6 @@ describe('userStore', () => {
       expect(store.userItems).toEqual(mockUserItems)
     })
 
-    it('addUserItem', () => {
-      expect(store.userItems).toEqual([])
-
-      store.addUserItem({ id: 1 } as UserItem)
-      expect(store.userItems).toEqual([{ id: 1 }])
-
-      store.addUserItem({ id: 2 } as UserItem)
-      expect(store.userItems).toEqual([{ id: 1 }, { id: 2 }])
-    })
-
     it('subtractGold', () => {
       store.$patch({ user: { gold: 100 } })
 
@@ -134,7 +120,7 @@ describe('userStore', () => {
 
     describe('fetchUserClanAndRole', () => {
       it('not in a clan', async () => {
-        mockedGetUserClan.mockReturnValue(null)
+        mockedGetUserClan.mockResolvedValue({ clan: null, role: null })
 
         await store.fetchUserClanAndRole()
 
@@ -144,7 +130,7 @@ describe('userStore', () => {
 
       it('has some clan and role', async () => {
         const USER_CLAN = { clan: { id: 1, tag: 'mlp' }, role: 'Member' }
-        mockedGetUserClan.mockReturnValue(USER_CLAN)
+        mockedGetUserClan.mockResolvedValue(USER_CLAN)
 
         await store.fetchUserClanAndRole()
 

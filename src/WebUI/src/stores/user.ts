@@ -4,9 +4,7 @@ import {
 } from '~root/data/constants.json'
 
 import type { Character } from '~/models/character'
-import type { Clan, ClanMemberRole } from '~/models/clan'
-import type { PublicRestriction } from '~/models/restriction'
-import type { User, UserItem } from '~/models/user'
+import type { UserItem } from '~/models/user'
 
 import { getCharacters } from '~/services/characters-service'
 import {
@@ -16,105 +14,95 @@ import {
   getUserItems,
   getUserRestriction,
 } from '~/services/users-service'
+import { useAsyncCallback } from '~/utils/useAsyncCallback'
 
-interface State {
-  user: User | null
-  clan: Clan | null
-  userItems: UserItem[]
-  characters: Character[]
-  clanMemberRole: ClanMemberRole | null
-  restriction: PublicRestriction | null
-}
+export const useUserStore = defineStore('user', () => {
+  const { state: user, execute: fetchUser } = useAsyncState(() => getUser(), null, { resetOnExecute: false, immediate: false })
 
-export const useUserStore = defineStore('user', {
-  state: (): State => ({
-    characters: [],
+  const { state: characters, execute: fetchCharacters } = useAsyncState(() => getCharacters(), [], { resetOnExecute: false, immediate: false })
+
+  const { state: userItems, execute: fetchUserItems } = useAsyncState(() => getUserItems(), [], { resetOnExecute: false, immediate: false })
+
+  const activeCharacterId = computed(() => user.value?.activeCharacterId || characters.value?.[0]?.id || null)
+
+  const validateCharacter = (id: number) => {
+    return characters.value.some(c => c.id === id)
+  }
+
+  const replaceCharacter = (character: Character) => {
+    characters.value.splice(
+      characters.value.findIndex(c => c.id === character.id),
+      1,
+      character,
+    )
+  }
+
+  // TODO: mby to backend?
+  const isRecentUser = computed(() => {
+    if (user.value === null || characters.value.length === 0) {
+      return false
+    }
+
+    const hasHighLevelCharacter = characters.value.some(
+      c => c.level > newUserStartingCharacterLevel,
+    )
+    const totalExperience = characters.value.reduce((total, c) => total + c.experience, 0)
+    const wasRetired = user.value.experienceMultiplier !== defaultExperienceMultiplier
+
+    return (
+      !hasHighLevelCharacter
+      && !wasRetired
+      && totalExperience < 12000000 // protection against abusers of free re-specialization mechanics
+    )
+  })
+
+  const { state: restriction, execute: fetchUserRestriction } = useAsyncState(() => getUserRestriction(), null, { resetOnExecute: false, immediate: false })
+
+  const subtractGold = (loss: number) => {
+    if (!user.value) { return }
+    user.value.gold -= loss
+  }
+
+  const addUserItem = (userItem: UserItem) => {
+    userItems.value.push(userItem)
+  }
+
+  const { execute: buyItem, loading: buyingItem } = useAsyncCallback(async (itemId: string) => {
+    const userItem = await buyUserItem(itemId)
+    addUserItem(userItem)
+    subtractGold(userItem.item.price)
+  })
+
+  const { state: userClan, execute: fetchUserClanAndRole } = useAsyncState(() => getUserClan(), {
     clan: null,
-    clanMemberRole: null,
-    restriction: null,
-    user: null,
-    userItems: [],
-  }),
+    role: null,
+  }, { resetOnExecute: false, immediate: false })
 
-  getters: {
-    activeCharacterId: state => state.user?.activeCharacterId || state.characters?.[0]?.id || null,
+  return {
+    user,
+    fetchUser,
+    isRecentUser,
+    subtractGold,
 
-    isRecentUser: (state) => {
-      if (state.user === null || state.characters.length === 0) {
-        return false
-      }
+    characters,
+    fetchCharacters,
+    activeCharacterId,
+    validateCharacter,
+    replaceCharacter,
 
-      // TODO: SPEC
-      // mby to service?
-      const hasHighLevelCharacter = state.characters.some(
-        c => c.level > newUserStartingCharacterLevel,
-      )
-      const totalExperience = state.characters.reduce((total, c) => total + c.experience, 0)
-      const wasRetired = state.user.experienceMultiplier !== defaultExperienceMultiplier
+    userItems,
+    fetchUserItems,
 
-      return (
-        !hasHighLevelCharacter
-        && !wasRetired
-        //
-        && totalExperience < 12000000 // protection against abusers of free re-specialization mechanics
-      )
-    },
-  },
+    buyItem,
+    buyingItem,
 
-  actions: {
-    addUserItem(userItem: UserItem) {
-      this.userItems.push(userItem)
-    },
+    restriction,
+    fetchUserRestriction,
 
-    async buyItem(itemId: string) {
-      const userItem = await buyUserItem(itemId)
-      this.addUserItem(userItem)
-      this.subtractGold(userItem.item.price)
-    },
+    clan: toRef(() => userClan.value.clan),
+    clanMemberRole: toRef(() => userClan.value.role),
 
-    async fetchCharacters() {
-      this.characters = await getCharacters()
-    },
-
-    async fetchUser() {
-      this.user = await getUser()
-    },
-
-    async fetchUserClanAndRole() {
-      const userClanAndRole = await getUserClan()
-
-      if (userClanAndRole === null) {
-        this.clan = null
-        this.clanMemberRole = null
-        return
-      }
-
-      this.clan = userClanAndRole.clan
-      this.clanMemberRole = userClanAndRole.role
-    },
-
-    async fetchUserItems() {
-      this.userItems = await getUserItems()
-    },
-
-    async fetchUserRestriction() {
-      this.restriction = await getUserRestriction()
-    },
-
-    replaceCharacter(character: Character) {
-      this.characters.splice(
-        this.characters.findIndex(c => c.id === character.id),
-        1,
-        character,
-      )
-    },
-
-    subtractGold(loss: number) {
-      this.user!.gold -= loss
-    },
-
-    validateCharacter(id: number) {
-      return this.characters.some(c => c.id === id)
-    },
-  },
+    userClan,
+    fetchUserClanAndRole,
+  }
 })

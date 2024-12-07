@@ -29,13 +29,17 @@ definePage({
 const userStore = useUserStore()
 const { user, userItems } = toRefs(userStore)
 
-const userItemsIds = computed(() => userItems.value.map(ui => ui.item.id))
-
 const { execute: loadItems, state: items } = useAsyncState(() => getItems(), [], {
   immediate: false,
 })
 
 await Promise.all([loadItems(), userStore.fetchUserItems()])
+
+const userItemsIds = computed(() => userItems.value.map(ui => ui.item.id))
+
+const getInInventoryItems = (baseId: string) => {
+  return userItems.value.filter(ui => ui.item.baseId === baseId)
+}
 
 const {
   aggregationByClass,
@@ -185,6 +189,7 @@ const newItemCount = computed(
       :detailed="isUpgradableCategory"
       detail-key="id"
       custom-row-key="id"
+      :loading="userStore.buyingItem"
     >
       <OTableColumn
         field="compare"
@@ -291,7 +296,7 @@ const newItemCount = computed(
               <ShopGridItemBuyBtn
                 :price="(rawBuckets as number)"
                 :upkeep="item.upkeep"
-                :in-inventory-count="userItemsIds.filter(id => id === item.id).length"
+                :in-inventory-items="getInInventoryItems(item.baseId)"
                 :not-enough-gold="user!.gold < item.price"
                 @buy="buyItem(item)"
               />

@@ -11,6 +11,7 @@ export const i18n = createI18n({
   locale: import.meta.env.VITE_LOCALE_DEFAULT,
   missingWarn: false,
   fallbackWarn: false,
+  legacy: false,
   datetimeFormats: {
     cn: {
       long: {

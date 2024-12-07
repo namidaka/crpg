@@ -4,6 +4,7 @@ import {
   itemReforgeCostPerRank,
   itemRepairCostPerSecond,
   itemSellCostPenalty,
+  itemSellGracePeriodMinutes,
 } from '~root/data/constants.json'
 import { omitBy } from 'es-toolkit'
 
@@ -708,8 +709,8 @@ export const getItemFieldRelativeDiffStr = (value: number, relativeValue: number
 }
 
 export const getItemGraceTimeEnd = (userItem: UserItem) => {
-  const graceTimeEnd = userItem.createdAt
-  graceTimeEnd.setHours(graceTimeEnd.getHours() + 1) // TODO: to constants
+  const graceTimeEnd = new Date(userItem.createdAt)
+  graceTimeEnd.setMinutes(graceTimeEnd.getMinutes() + itemSellGracePeriodMinutes)
   return graceTimeEnd
 }
 
