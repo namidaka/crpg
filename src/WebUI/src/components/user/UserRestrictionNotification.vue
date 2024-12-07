@@ -89,7 +89,6 @@ const { settings } = storeToRefs(useSettingsStore())
                 tag="li"
               >
                 <template #modMailLink>
-                  <!-- prettier-ignore -->
                   <a
                     class="text-content-link hover:text-content-link-hover"
                     target="_blank"

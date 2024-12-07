@@ -380,7 +380,6 @@ const onShare = () => {
                   <template #popper>
                     <div class="prose prose-invert">
                       <h4>
-                        <!-- prettier-ignore -->
                         {{ $t(`character.characteristic.${fieldsGroup.key}.children.${field.key}.title`) }}
                       </h4>
 
@@ -403,8 +402,6 @@ const onShare = () => {
                           </span>
                         </template>
                       </i18n-t>
-
-                      <!-- prettier-ignore -->
                       <p
                         v-if="$t(`character.characteristic.${fieldsGroup.key}.children.${field.key}.requires`) !== ''"
                         class="text-status-warning"

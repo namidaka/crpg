@@ -95,7 +95,6 @@ watch(
                 tag="li"
               >
                 <template #steamWorkshopsLink>
-                  <!-- prettier-ignore -->
                   <a
                     target="_blank"
                     href="steam://openurl/https://steamcommunity.com/sharedfiles/filedetails/?id=2878356589"
