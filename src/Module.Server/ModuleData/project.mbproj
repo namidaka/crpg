@@ -12,4 +12,6 @@
   <file id="soln_skins" name="ModuleData/skins.xml" type="skin" />
   <file id="soln_collision_infos" name="ModuleData/collision_infos.xml" type="collision_infos" />
   <file id="soln_physics_materials" name="ModuleData/physics_materials.xml" type="physics_material" />
+  <file id="soln_action_sets" name="ModuleData/action_sets.xml" type="action_set" />
+  <file id="soln_action_types" name="ModuleData/action_types.xml" type="action_type" />
 </base>
