@@ -7,7 +7,7 @@ const { item } = defineProps<{
   item: Item
 }>()
 
-const { thumb } = useItem(toRef(() => item))
+const { thumb } = useItem(() => item)
 </script>
 
 <template>
@@ -19,6 +19,7 @@ const { thumb } = useItem(toRef(() => item))
         :src="thumb"
         :alt="item.name"
         class="h-full select-none object-contain"
+        @onContextMenu.prevent
       >
 
       <div class="absolute left-1 top-1 z-10 flex items-center gap-1">

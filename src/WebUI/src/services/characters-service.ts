@@ -29,6 +29,7 @@ import {
   weaponProficiencyPointsForWeaponMasterCoefs,
 } from '~root/data/constants.json'
 import { defu } from 'defu'
+import { clamp } from 'es-toolkit'
 import qs from 'qs'
 
 import type { ActivityLog, CharacterEarnedMetadata } from '~/models/activity-logs'
@@ -57,7 +58,7 @@ import { armorTypes, computeAverageRepairCostPerHour } from '~/services/item-ser
 import { t } from '~/services/translate-service'
 import { getIndexToIns, range } from '~/utils/array'
 import { computeLeftMs } from '~/utils/date'
-import { applyPolynomialFunction, clamp, roundFLoat } from '~/utils/math'
+import { applyPolynomialFunction, roundFLoat } from '~/utils/math'
 
 export const getCharacters = () => get<Character[]>('/users/self/characters')
 

@@ -6,6 +6,7 @@ import {
 import type { Character } from '~/models/character'
 import type { UserItem } from '~/models/user'
 
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { getCharacters } from '~/services/characters-service'
 import {
   buyUserItem,
@@ -14,7 +15,6 @@ import {
   getUserItems,
   getUserRestriction,
 } from '~/services/users-service'
-import { useAsyncCallback } from '~/utils/useAsyncCallback'
 
 export const useUserStore = defineStore('user', () => {
   const { state: user, execute: fetchUser } = useAsyncState(() => getUser(), null, { resetOnExecute: false, immediate: false })

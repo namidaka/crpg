@@ -6,9 +6,9 @@ import type {
   PartyStatusUpdateRequest,
 } from '~/models/strategus/party'
 
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { PartyStatus } from '~/models/strategus/party'
 import { getUpdate, updatePartyStatus } from '~/services/strategus-service'
-import { useAsyncCallback } from '~/utils/useAsyncCallback'
 
 // Shared state
 // TODO: https://vueuse.org/shared/createGlobalState/

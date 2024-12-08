@@ -1,3 +1,5 @@
+import { useToggle } from '@vueuse/core'
+
 import type { EquippedItemId, EquippedItemsBySlot } from '~/models/character'
 import type { ItemSlot } from '~/models/item'
 import type { UserItem } from '~/models/user'
@@ -13,11 +15,14 @@ const fromSlot = ref<ItemSlot | null>(null)
 const toSlot = ref<ItemSlot | null>(null)
 
 export const useInventoryDnD = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) => {
+  const [dragging, toggleDragging] = useToggle()
+
   const { user } = toRefs(useUserStore())
   const { emit } = getCurrentInstance() as NonNullable<ReturnType<typeof getCurrentInstance>> // TODO: FIXME: refactoring
   const { getUnEquipItemsLinked, isEquipItemAllowed } = useInventoryEquipment()
 
   const onDragStart = (item: UserItem | null = null, slot: ItemSlot | null = null) => {
+    toggleDragging(true)
     if (!item || !isEquipItemAllowed(item, user.value!.id)) { return }
 
     focusedItemId.value = item.id
@@ -47,6 +52,7 @@ export const useInventoryDnD = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) =
     availableSlots.value = []
     fromSlot.value = null
     toSlot.value = null
+    toggleDragging(false)
   }
 
   const onDrop = (slot: ItemSlot) => {
@@ -67,6 +73,7 @@ export const useInventoryDnD = (equippedItemsBySlot: Ref<EquippedItemsBySlot>) =
   }
 
   return {
+    dragging: readonly(dragging),
     availableSlots: readonly(availableSlots),
     focusedItemId: readonly(focusedItemId),
     fromSlot: readonly(fromSlot),

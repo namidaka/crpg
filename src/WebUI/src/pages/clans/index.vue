@@ -27,17 +27,18 @@ const { execute: loadClans, state: clans } = useAsyncState(() => getClans(), [],
 })
 
 const { regionModel, regions } = useRegion()
-const { languages, languagesModel } = useLanguages()
-const aggregatedLanguages = computed(() =>
-  languages.filter(l => clans.value.some(c => c.clan.languages.includes(l))),
-)
-watch(regionModel, () => {
-  languagesModel.value = []
-})
+const { languages, languagesModel, resetLanguagesModel } = useLanguages()
 
 const filteredClans = computed(() =>
   getFilteredClans(clans.value, regionModel.value, languagesModel.value, searchModel.value),
 )
+
+const aggregatedLanguages = computed(() =>
+  languages.filter(l =>
+    clans.value.filter(c => c.clan.region === regionModel.value)
+      .some(c => c.clan.languages.includes(l))),
+)
+watch(regionModel, resetLanguagesModel)
 
 const rowClass = (clan: ClanWithMemberCount<Clan>) =>
   userStore.clan?.id === clan.clan.id ? 'text-primary' : 'text-content-100'

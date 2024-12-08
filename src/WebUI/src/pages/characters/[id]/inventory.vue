@@ -11,6 +11,7 @@ import { useInventoryQuickEquip } from '~/composables/character/use-inventory-qu
 import { useItemDetail } from '~/composables/character/use-item-detail'
 import { useClanMembers } from '~/composables/clan/use-clan-members'
 import { useStickySidebar } from '~/composables/use-sticky-sidebar'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { ItemType } from '~/models/item'
 import { AggregationView } from '~/models/item-search'
 import {
@@ -68,14 +69,22 @@ const upkeepIsHigh = computed(() =>
 )
 const equippedItemsIds = computed(() => characterItems.value.map(ei => ei.userItem.id))
 
-const onChangeEquippedItems = async (items: EquippedItemId[]) => {
+const { execute: onChangeEquippedItems, loading: changingEquippedItems } = useAsyncCallback(async (items: EquippedItemId[]) => {
   await updateCharacterItems(character.value.id, items)
   await loadCharacterItems(0, { id: character.value.id })
+})
+
+const refreshData = async () => {
+  await Promise.all([
+    userStore.fetchUser(),
+    userStore.fetchUserItems(),
+    loadCharacterItems(0, { id: character.value.id }),
+  ])
 }
 
-const onSellUserItem = async (itemId: number) => {
+const { execute: onSellUserItem, loading: sellingUserItem } = useAsyncCallback(async (userItemId: number) => {
   // unEquip linked slots
-  const characterItem = characterItems.value.find(ci => ci.userItem.id === itemId)
+  const characterItem = characterItems.value.find(ci => ci.userItem.id === userItemId)
   if (characterItem !== undefined) {
     await updateCharacterItems(character.value.id, [
       ...getLinkedSlots(characterItem.slot, equippedItemsBySlot.value).map(ls => ({
@@ -89,76 +98,52 @@ const onSellUserItem = async (itemId: number) => {
   if (filteredUserItems.value.length === 1) {
     filterByTypeModel.value = []
   }
-  await sellUserItem(itemId)
-  await Promise.all([
-    userStore.fetchUser(),
-    userStore.fetchUserItems(),
-    loadCharacterItems(0, { id: character.value.id }),
-  ])
+  await sellUserItem(userItemId)
+  await refreshData()
   notify(t('character.inventory.item.sell.notify.success'))
-}
+})
 
-const onRepairUserItem = async (itemId: number) => {
-  await repairUserItem(itemId)
+const { execute: onRepairUserItem, loading: repairingUserItem } = useAsyncCallback(async (userItemId: number) => {
+  await repairUserItem(userItemId)
   await Promise.all([userStore.fetchUser(), userStore.fetchUserItems()])
   notify(t('character.inventory.item.repair.notify.success'))
-}
+})
 
-const onUpgradeUserItem = async (itemId: number) => {
-  await upgradeUserItem(itemId)
-  await Promise.all([
-    userStore.fetchUser(),
-    userStore.fetchUserItems(),
-    loadCharacterItems(0, { id: character.value.id }),
-  ])
+const { execute: onUpgradeUserItem, loading: upgradingUserItem } = useAsyncCallback(async (userItemId: number) => {
+  await upgradeUserItem(userItemId)
+  await refreshData()
   notify(t('character.inventory.item.upgrade.notify.success'))
-}
+})
 
-const onReforgeUserItem = async (itemId: number) => {
-  await reforgeUserItem(itemId)
-  await Promise.all([
-    userStore.fetchUser(),
-    userStore.fetchUserItems(),
-    loadCharacterItems(0, { id: character.value.id }),
-  ])
+const { execute: onReforgeUserItem, loading: reforgingUserItem } = useAsyncCallback(async (userItemId: number) => {
+  await reforgeUserItem(userItemId)
+  await refreshData()
   notify(t('character.inventory.item.reforge.notify.success'))
-}
+})
 
-const onAddItemToClanArmory = async (userItemId: number) => {
+const { execute: onAddItemToClanArmory, loading: addingItemToClanArmory } = useAsyncCallback(async (userItemId: number) => {
   if (filteredUserItems.value.length === 1) {
     filterByTypeModel.value = []
   }
   await addItemToClanArmory(clan.value!.id, userItemId)
-  await Promise.all([
-    userStore.fetchUser(),
-    userStore.fetchUserItems(),
-    loadCharacterItems(0, { id: character.value.id }),
-  ])
+  await refreshData()
   notify(t('clan.armory.item.add.notify.success'))
-}
+})
 
-const onReturnToClanArmory = async (userItemId: number) => {
+const { execute: onReturnToClanArmory, loading: returningItemToClanArmory } = useAsyncCallback(async (userItemId: number) => {
   await returnItemToClanArmory(clan.value!.id, userItemId)
   if (filteredUserItems.value.length === 1) {
     filterByTypeModel.value = []
   }
-  await Promise.all([
-    userStore.fetchUser(),
-    userStore.fetchUserItems(),
-    loadCharacterItems(0, { id: character.value.id }),
-  ])
+  await refreshData()
   notify(t('clan.armory.item.return.notify.success'))
-}
+})
 
-const onRemoveFromClanArmory = async (userItemId: number) => {
+const { execute: onRemoveFromClanArmory, loading: removingItemToClanArmory } = useAsyncCallback(async (userItemId: number) => {
   await removeItemFromClanArmory(clan.value!.id, userItemId)
-  await Promise.all([
-    userStore.fetchUser(),
-    userStore.fetchUserItems(),
-    loadCharacterItems(0, { id: character.value.id }),
-  ])
+  await refreshData()
   notify(t('clan.armory.item.remove.notify.success'))
-}
+})
 
 const onClickInventoryItem = (e: PointerEvent, userItem: UserItem) => {
   if (e.ctrlKey) {
@@ -264,7 +249,7 @@ const equippedItemsBySlot = computed(() =>
 )
 provide(equippedItemsBySlotKey, equippedItemsBySlot)
 
-const { onDragEnd, onDragStart } = useInventoryDnD(equippedItemsBySlot)
+const { onDragEnd, onDragStart, dragging } = useInventoryDnD(equippedItemsBySlot)
 const { onQuickEquip } = useInventoryQuickEquip(equippedItemsBySlot)
 
 const { closeItemDetail, getUniqueId, openedItems, toggleItemDetail } = useItemDetail()
@@ -307,6 +292,19 @@ await Promise.all(promises)
 
 <template>
   <div class="relative grid grid-cols-12 gap-5">
+    <OLoading
+      full-page
+      :active="
+        changingEquippedItems
+          || sellingUserItem
+          || repairingUserItem
+          || upgradingUserItem
+          || reforgingUserItem
+          || addingItemToClanArmory
+          || returningItemToClanArmory
+          || removingItemToClanArmory"
+      icon-size="xl"
+    />
     <div class="col-span-5">
       <template v-if="userItems.length !== 0">
         <div class="inventoryGrid relative grid h-full gap-x-3 gap-y-4">
@@ -378,7 +376,7 @@ await Promise.all(promises)
                 :key="userItem.id"
                 v-on-long-press="[
                   () => {
-                    onQuickEquip(userItem)
+                    !dragging && onQuickEquip(userItem)
                   },
                   { delay: 500 },
                 ]"

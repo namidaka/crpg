@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import type { ItemFlat } from '~/models/item'
 
+import { useItem } from '~/composables/item/use-item'
 import { WeaponUsage } from '~/models/item'
-import { getItemImage, getRankColor, weaponClassToIcon } from '~/services/item-service'
+import { weaponClassToIcon } from '~/services/item-service'
 
 const { item, showTier = false } = defineProps<{
   item: ItemFlat
   showTier?: boolean
 }>()
 
-const thumb = computed(() => getItemImage(item.baseId))
-const rankColor = computed(() => getRankColor(item.rank))
+const { rankColor, thumb } = useItem(() => item)
 </script>
 
 <template>

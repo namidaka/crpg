@@ -21,8 +21,13 @@ export const useLanguages = () => {
 
   const languages = Object.keys(Language) as Language[]
 
+  const resetLanguagesModel = () => {
+    languagesModel.value = []
+  }
+
   return {
     languages,
     languagesModel,
+    resetLanguagesModel,
   }
 }

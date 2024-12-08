@@ -2,6 +2,7 @@
 import type { SkillKey } from '~/models/character'
 
 import { useCharacterCharacteristic } from '~/composables/character/use-character-characteristic'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { CharacteristicConversion } from '~/models/character'
 import {
   characteristicBonusByKey,
@@ -18,7 +19,6 @@ import {
   characterKey,
 } from '~/symbols/character'
 import { sleep } from '~/utils/promise'
-import { useAsyncCallback } from '~/utils/useAsyncCallback'
 
 definePage({
   meta: {
@@ -62,11 +62,8 @@ const { execute: onCommitCharacterCharacteristics, loading: commitingCharacterCh
   setCharacterCharacteristics(
     await updateCharacterCharacteristics(character.value.id, characteristics.value),
   )
-
   reset()
-
   await userStore.fetchCharacters()
-
   notify(t('character.characteristic.commit.notify'))
 })
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { logout } from '~/services/auth-service'
 import { notify } from '~/services/notification-service'
 import { t } from '~/services/translate-service'
@@ -18,11 +19,11 @@ await userStore.fetchCharacters()
 
 const canDeleteUser = computed(() => !userStore.characters.length)
 
-const onDeleteUser = async () => {
+const { execute: onDeleteUser } = useAsyncCallback(async () => {
   await deleteUser()
   notify(t('user.settings.delete.notify.success'))
   logout()
-}
+})
 </script>
 
 <template>
