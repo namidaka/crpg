@@ -57,7 +57,6 @@ that can be enabled:
 - Game server statistics: `Datadog:ApiKey` + `Datadog:ApplicationKey`
 - Patch notes: `Github:AccessToken`
 - Patreon donor synchronization: `Patreon:AccessToken`
-- Afdian donor synchronization: `Afdian:AccessToken`
 
 #### Web UI (src/WebUI)
 
