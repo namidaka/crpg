@@ -6,6 +6,7 @@ import { useItemsFilter } from '~/composables/shop/use-filters'
 import { useItemsSort } from '~/composables/shop/use-sort'
 import { usePagination } from '~/composables/use-pagination'
 import { useSearchDebounced } from '~/composables/use-search-debounce'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { WeaponUsage } from '~/models/item'
 import { getSearchResult } from '~/services/item-search-service'
 import {
@@ -91,11 +92,10 @@ const compareItemsResult = computed(() =>
     : getCompareItemsResult(searchResult.value.data.items, aggregationsConfig.value),
 )
 
-const buyItem = async (item: ItemFlat) => {
+const { execute: buyItem } = useAsyncCallback(async (item: ItemFlat) => {
   await userStore.buyItem(item.id)
-
   notify(t('shop.item.buy.notify.success'))
-}
+})
 
 const isUpgradableCategory = computed(() => canUpgrade(itemTypeModel.value))
 

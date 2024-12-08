@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { usePlatform } from '~/composables/use-platform'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { Platform } from '~/models/platform'
 import { login } from '~/services/auth-service'
 import { platformToIcon } from '~/services/platform-service'
 import { useUserStore } from '~/stores/user'
-import { useAsyncCallback } from '~/utils/useAsyncCallback'
 
 const { user } = toRefs(useUserStore())
 const { changePlatform, platform } = usePlatform()

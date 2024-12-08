@@ -19,6 +19,7 @@ public record UserPrivateViewModel : IMapFrom<User>
     public Region Region { get; init; }
     public DateTime UpdatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
+    public bool IsDonor { get; set; }
     public string Note { get; init; } = string.Empty;
     public int? ActiveCharacterId { get; init; }
     public ClanPublicViewModel? Clan { get; init; }

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { clamp } from 'es-toolkit'
+
 import Role from '~/models/role'
 import {
   getAutoRetireCount,
@@ -74,31 +76,40 @@ const selectedCharacter = computed(() =>
   characters.value.find(c => c.id === rewardFormModel.value.characterId),
 )
 
+const tryParseNumber = (value: string): number => {
+  if (value === '-') {
+    value = '-0'
+  }
+  return Number(value.replace(/[^.0-9\\-]/g, ''))
+}
+
 // TODO: to cmp, or composable
 const experienceModel = computed({
   get() {
-    return n(rewardFormModel.value.experience)
+    return n(rewardFormModel.value.experience || 0)
   },
-  set(_val: string) {
-    if (_val === '-') {
-      _val = '-0'
-    }
-    const val = Number(_val.replace(/[^.0-9\\-]/g, ''))
-    rewardFormModel.value.experience = val
+  set(val: string) {
+    rewardFormModel.value.experience = clamp(tryParseNumber(val), 0, Infinity)
   },
 })
 
-// TODO: to cmp, or composable
+// TODO: mask to cmp, or composable
 const goldModel = computed({
   get() {
-    return n(rewardFormModel.value.gold)
+    return n(rewardFormModel.value.gold || 0)
   },
-  set(_val: string) {
-    if (_val === '-') {
-      _val = '-0'
-    }
-    const val = Number(_val.replace(/[^.0-9\\-]/g, ''))
-    rewardFormModel.value.gold = val
+  set(val: string) {
+    rewardFormModel.value.gold = clamp(tryParseNumber(val), user.value!.gold * -1, Infinity)
+  },
+})
+
+// TODO: mask to cmp, or composable
+const heirloomPointsModel = computed({
+  get() {
+    return n(rewardFormModel.value.heirloomPoints || 0)
+  },
+  set(val: string) {
+    rewardFormModel.value.heirloomPoints = clamp(tryParseNumber(val), user.value!.heirloomPoints * -1, Infinity)
   },
 })
 
@@ -222,6 +233,9 @@ const totalRewardValues = computed(() => {
         <SimpleTableRow label="Heirloom">
           <Heirloom :value="user.heirloomPoints" />
         </SimpleTableRow>
+        <SimpleTableRow label="Donor">
+          {{ user.isDonor }}
+        </SimpleTableRow>
       </div>
     </FormGroup>
 
@@ -283,10 +297,9 @@ const totalRewardValues = computed(() => {
             </template>
 
             <OInput
-              v-model="rewardFormModel.heirloomPoints"
+              v-model="heirloomPointsModel"
               placeholder="Heirloom points"
               size="lg"
-              type="number"
               expanded
             />
           </OField>
@@ -373,8 +386,7 @@ const totalRewardValues = computed(() => {
           </OField>
 
           <div class="col-span-2 space-y-4">
-            <Divider />
-
+            <!-- TODO: to cmp -->
             <div
               v-if="rewardFormModel.heirloomPoints"
               class="flex items-center gap-2 font-bold"
@@ -385,7 +397,7 @@ const totalRewardValues = computed(() => {
                 class="text-primary"
               />
               {{ $n(user!.heirloomPoints) }}
-              <span>-></span>
+              ->
               <span
                 :class="[
                   rewardFormModel.heirloomPoints < 0 ? 'text-status-danger' : 'text-status-success',
@@ -405,7 +417,7 @@ const totalRewardValues = computed(() => {
                 class="w-4.5"
               />
               {{ $n(user!.gold) }}
-              <span>-></span>
+              ->
               <span
                 :class="[rewardFormModel.gold < 0 ? 'text-status-danger' : 'text-status-success']"
               >
@@ -421,7 +433,7 @@ const totalRewardValues = computed(() => {
                   class="text-primary"
                 />
                 {{ $n(selectedCharacter!.experience) }}
-                <span>-></span>
+                ->
                 <span
                   :class="[
                     rewardFormModel.experience < 0 ? 'text-status-danger' : 'text-status-success',
@@ -440,7 +452,7 @@ const totalRewardValues = computed(() => {
               >
                 <span>exp. multi</span>
                 {{ $n(user!.experienceMultiplier) }}
-                <span>-></span>
+                ->
                 <span class="text-status-success">
                   {{ $n(totalRewardValues.experienceMultiplier) }}
                 </span>

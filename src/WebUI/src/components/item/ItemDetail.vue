@@ -15,7 +15,7 @@ const { compareResult, item } = defineProps<{
   compareResult?: CompareItemsResult // TODO: hmm
 }>()
 
-const { rankColor, thumb } = useItem(toRef(() => item))
+const { rankColor, thumb } = useItem(() => item)
 
 const { copy } = useClipboard()
 const onNameCopy = () => {

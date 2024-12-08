@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Settings } from '~/models/setting'
 
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { editSettings } from '~/services/settings-service'
 import { useSettingsStore } from '~/stores/settings'
-import { useAsyncCallback } from '~/utils/useAsyncCallback'
 
 definePage({
   meta: {

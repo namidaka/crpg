@@ -50,7 +50,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  (e: 'submit', form: Omit<Clan, 'id'>): void
+  submit: [Omit<Clan, 'id'>]
 }>()
 
 const clanFormModel = ref<Omit<Clan, 'id'>>(props.clan)

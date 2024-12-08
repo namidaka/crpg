@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { groupBy } from 'es-toolkit'
+import { groupBy, inRange } from 'es-toolkit'
 
 import type { Rank } from '~/models/competitive'
-
-import { inRange } from '~/utils/math'
 
 const { competitiveValue = null, rankTable } = defineProps<{
   competitiveValue?: number | null

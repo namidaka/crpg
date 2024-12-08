@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useToggle } from '@vueuse/core'
+
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import {
   activateCharacter,
   deleteCharacter,
@@ -32,7 +35,7 @@ const currentCharacterIsActive = computed(
   () => user.value?.activeCharacterId === currentCharacterId.value,
 )
 
-const onUpdateCharacter = async ({ name }: { name: string }) => {
+const { execute: onUpdateCharacter } = useAsyncCallback(async ({ name }: { name: string }) => {
   if (currentCharacter.value === undefined) { return }
 
   if (name !== currentCharacter.value.name) {
@@ -40,9 +43,9 @@ const onUpdateCharacter = async ({ name }: { name: string }) => {
   }
 
   notify(t('character.settings.update.notify.success'))
-}
+})
 
-const onDeleteCharacter = async () => {
+const { execute: onDeleteCharacter } = useAsyncCallback(async () => {
   if (currentCharacter.value === undefined) { return }
 
   if (currentCharacter.value.id === userStore.user!.activeCharacterId) {
@@ -66,24 +69,25 @@ const onDeleteCharacter = async () => {
   }
 
   userStore.fetchCharacters()
-}
+})
 
-const onActivateCharacter = async (id: number, status: boolean) => {
+const { execute: onActivateCharacter } = useAsyncCallback(async (id: number, status: boolean) => {
   await activateCharacter(id, status)
   await userStore.fetchUser()
 
   notify(t('character.settings.update.notify.success'))
-}
+})
 
-const shownCreateCharacterGuideModal = ref<boolean>(false)
-const onCreateNewCharacter = async () => {
+const [shownCreateCharacterGuideModal, toggleCreateCharacterGuideModal] = useToggle()
+
+const { execute: onCreateNewCharacter } = useAsyncCallback(async () => {
   if (user.value?.activeCharacterId !== null && user.value?.activeCharacterId !== undefined) {
     await activateCharacter(user.value.activeCharacterId, false)
     await userStore.fetchUser()
   }
 
-  shownCreateCharacterGuideModal.value = true
-}
+  toggleCreateCharacterGuideModal(true)
+})
 
 if (userStore.characters.length === 0) {
   await userStore.fetchCharacters()
@@ -234,7 +238,7 @@ if (userStore.characters.length === 0) {
 
     <CharacterCreateModal
       :shown="shownCreateCharacterGuideModal"
-      @apply-hide="shownCreateCharacterGuideModal = false"
+      @apply-hide="toggleCreateCharacterGuideModal(false)"
     />
   </div>
 </template>

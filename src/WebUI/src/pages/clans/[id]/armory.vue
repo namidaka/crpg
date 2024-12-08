@@ -8,6 +8,7 @@ import { useClan } from '~/composables/clan/use-clan'
 import { useClanArmory } from '~/composables/clan/use-clan-armory'
 import { useClanMembers } from '~/composables/clan/use-clan-members'
 import { usePagination } from '~/composables/use-pagination'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { ItemType } from '~/models/item'
 import { AggregationView } from '~/models/item-search'
 import {
@@ -43,23 +44,23 @@ const { borrowItem, clanArmory, isLoadingClanArmory, loadClanArmory, removeItem,
   = useClanArmory(clanId.value)
 const { clanMembers, loadClanMembers } = useClanMembers()
 
-const onBorrowFromClanArmory = async (userItemId: number) => {
+const { execute: onBorrowFromClanArmory } = useAsyncCallback(async (userItemId: number) => {
   await borrowItem(userItemId)
   await Promise.all([userStore.fetchUser(), userStore.fetchUserItems(), loadClanArmory()])
   notify(t('clan.armory.item.borrow.notify.success'))
-}
+})
 
-const onRemoveFromClanArmory = async (userItemId: number) => {
+const { execute: onRemoveFromClanArmory } = useAsyncCallback(async (userItemId: number) => {
   await removeItem(userItemId)
   await Promise.all([userStore.fetchUser(), userStore.fetchUserItems(), loadClanArmory()])
   notify(t('clan.armory.item.remove.notify.success'))
-}
+})
 
-const onReturnFromClanArmory = async (userItemId: number) => {
+const { execute: onReturnFromClanArmory } = useAsyncCallback(async (userItemId: number) => {
   await returnItem(userItemId)
   await Promise.all([userStore.fetchUser(), userStore.fetchUserItems(), loadClanArmory()])
   notify(t('clan.armory.item.return.notify.success'))
-}
+})
 
 const sortingConfig: SortingConfig = {
   rank_desc: {

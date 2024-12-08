@@ -7,10 +7,6 @@ export const applyPolynomialFunction = (x: number, coefficients: number[]): numb
   return r
 }
 
-export const clamp = (num: number, min: number, max: number): number => {
-  return Math.min(Math.max(num, min), max)
-}
-
 export const roundFLoat = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
 
 export const percentOf = (val: number, of: number) => {
@@ -18,6 +14,3 @@ export const percentOf = (val: number, of: number) => {
 
   return (val / of) * 100
 }
-
-export const inRange = (x: number, min: number, max: number) =>
-  x >= Math.min(min, max) && x < Math.max(min, max)

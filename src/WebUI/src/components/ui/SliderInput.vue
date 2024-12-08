@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { clamp } from '~/utils/math'
+import { clamp } from 'es-toolkit'
 
 const props = defineProps<{
   min: number
