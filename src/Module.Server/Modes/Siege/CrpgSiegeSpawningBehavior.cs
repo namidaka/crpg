@@ -22,7 +22,7 @@ internal class CrpgSiegeSpawningBehavior : CrpgSpawningBehaviorBase
 
         SpawnAgents();
         SpawnBotAgents();
-        _timeSinceSpawnEnabled += dt;
+        TimeSinceSpawnEnabled += dt;
     }
 
     protected override bool IsRoundInProgress()
@@ -43,7 +43,7 @@ internal class CrpgSiegeSpawningBehavior : CrpgSpawningBehaviorBase
         int respawnPeriod = missionPeer.Team.Side == BattleSideEnum.Defender
             ? MultiplayerOptions.OptionType.RespawnPeriodTeam2.GetIntValue()
             : MultiplayerOptions.OptionType.RespawnPeriodTeam1.GetIntValue();
-        if (_timeSinceSpawnEnabled != 0 && _timeSinceSpawnEnabled % respawnPeriod > 1)
+        if (TimeSinceSpawnEnabled != 0 && TimeSinceSpawnEnabled % respawnPeriod > 1)
         {
             return false;
         }
