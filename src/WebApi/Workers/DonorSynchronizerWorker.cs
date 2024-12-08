@@ -72,10 +72,10 @@ internal class DonorSynchronizerWorker : BackgroundService
                 continue;
             }
 
-            string[] noteLines = member.Attributes.Note.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            string[] noteLines = member.Attributes.Note.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             foreach (string noteLine in noteLines)
             {
-                string[] noteParts = noteLine.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                string[] noteParts = noteLine.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                 if (noteParts.Length == 2 && noteParts[0] == "steam")
                 {
                     steamIds.Add(noteParts[1]);
