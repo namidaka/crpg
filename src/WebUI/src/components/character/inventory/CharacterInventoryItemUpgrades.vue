@@ -21,7 +21,7 @@ const emit = defineEmits<{
 const userStore = useUserStore()
 
 const item = computed(() => createItemIndex([userItem.item])[0])
-const aggregationsConfig = computed(() => getItemAggregations(item.value))
+const aggregationsConfig = computed(() => getItemAggregations(item.value, false))
 
 const {
   baseItem,

@@ -782,9 +782,10 @@ const itemParamIsEmpty = (field: keyof ItemFlat, itemFlat: ItemFlat) => {
 }
 
 // TODO: spec
-export const getItemAggregations = (itemFlat: ItemFlat) => {
+export const getItemAggregations = (itemFlat: ItemFlat, omitEmpty = true) => {
   const aggsConfig = getVisibleAggregationsConfig(
     getAggregationsConfig(itemFlat.type, itemFlat.weaponClass),
   )
-  return omitBy(aggsConfig, (_value, field) => itemParamIsEmpty(field, itemFlat))
+
+  return omitEmpty ? omitBy(aggsConfig, (_value, field) => itemParamIsEmpty(field, itemFlat)) : aggsConfig
 }
