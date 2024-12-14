@@ -128,51 +128,58 @@ internal class CrpgSubModule : MBSubModuleBase
 
         string currentConfigFilePath = TaleWorlds.MountAndBlade.Module.CurrentModule.StartupInfo.CustomGameServerConfigFile;
         string mapconfigfilepath = Path.Combine(Directory.GetCurrentDirectory(), ModuleHelper.GetModuleFullPath("cRPG"), currentConfigFilePath.Replace(".txt", string.Empty) + "_maps.txt");
+
         if (File.Exists(mapconfigfilepath))
         {
             try
             {
                 string[] maps = File.ReadAllLines(mapconfigfilepath);
 
-                int startIndex = Random.Next(maps.Length); // Random start index between 0 and maps.Length - 1
-                for (int i = 0; i < maps.Length; i++)
+                // Remove empty or invalid map entries
+                maps = maps.Where(map => !string.IsNullOrWhiteSpace(map)).ToArray();
+
+                // Shuffle maps using Fisher-Yates Shuffle
+                Debug.Print("Shuffling maps for random order.", color: Debug.DebugColor.Cyan);
+                for (int i = maps.Length - 1; i > 0; i--)
                 {
-                    int currentIndex = (startIndex + i) % maps.Length;
-                    string map = maps[currentIndex];
+                    int j = Random.Next(i + 1);
+                    (maps[i], maps[j]) = (maps[j], maps[i]);
+                }
 
-                    if (map == string.Empty)
-                    {
-                        continue;
-                    }
+                // Debug: Print shuffled map list
+                Debug.Print("Shuffled map order:", color: Debug.DebugColor.Green);
+                foreach (string map in maps)
+                {
+                    Debug.Print($"- {map}", color: Debug.DebugColor.Green);
+                }
 
+                // Add each map to the server's usable maps and automated battle pool
+                foreach (string map in maps)
+                {
                     if (ServerSideIntermissionManager.Instance != null)
                     {
                         ServerSideIntermissionManager.Instance.AddMapToUsableMaps(map);
                         ServerSideIntermissionManager.Instance.AddMapToAutomatedBattlePool(map);
-                        Debug.Print($"added {map} to map pool", color: Debug.DebugColor.Red);
+                        Debug.Print($"Added {map} to usable maps and automated battle pool.", color: Debug.DebugColor.Red);
                     }
                     else
                     {
-                        for (int j = 0; j < 10; j++)
-                        {
-                            Debug.Print($"There's no instance of ServerSideIntermissionManager", color: Debug.DebugColor.Red);
-                        }
+                        Debug.Print("ServerSideIntermissionManager instance is null. Unable to add maps.", color: Debug.DebugColor.Red);
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.Print($"could not read the map file {mapconfigfilepath}", color: Debug.DebugColor.Red);
-                Debug.Print($"{e.Message}", color: Debug.DebugColor.Red);
+                Debug.Print($"Error reading the map file {mapconfigfilepath}: {e.Message}", color: Debug.DebugColor.Red);
             }
         }
         else
         {
-            Debug.Print("No separate map file");
+            Debug.Print($"Map configuration file not found: {mapconfigfilepath}", color: Debug.DebugColor.Red);
         }
 
         _mapPoolAdded = true;
-        return;
+        Debug.Print("Finished adding maps to the rotation.", color: Debug.DebugColor.Cyan);
     }
 
 #endif
