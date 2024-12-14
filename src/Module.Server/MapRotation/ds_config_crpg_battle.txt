@@ -1,5 +1,5 @@
-ServerName Livetest c-rpg.eu works now 800
-GameType cRPGCaptain
+ServerName Test Battle
+GameType cRPGBattle
 WelcomeMessage yoyoyooooo
 AllowPollsToKickPlayers True
 AllowPollsToChangeMaps True
@@ -20,11 +20,12 @@ NumberOfBotsTeam2 0
 NumberOfBotsPerFormation 10
 RoundTotal 10
 MapTimeLimit 8
-RoundTimeLimit 600
-WarmupTimeLimit 1
+RoundTimeLimit 60
+WarmupTimeLimit 60
 crpg_happy_hours 19:00-23:00,Central European Standard Time
 start_game
 set_automated_battle_count -1
 enable_automated_battle_switching
 crpg_frozen_bots False
 crpg_apply_harmony_patches
+GamePassword yoyo
