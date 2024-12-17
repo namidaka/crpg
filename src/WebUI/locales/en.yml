@@ -1486,12 +1486,32 @@ strategus:
     join: 'You will join the campaign in region: {region}'
     hint: 'If this doesn''t seem right you can try re-login or contact an administrator'
   battle:
+    application:
+      page:
+        title: Manage Applications
+      table:
+        column:
+          actions: Actions
+          name: Name
+          note: Note
+          troops: Troops
+          wage: Requested Wage
+      title: Applications
+      manage: Manage Applications
+      mercenary:
+        title: Apply as Mercenary
+    attackers: Attackers
+    defenders: Defenders
+    manage:
+      title: Battle Management
+    settlement:
+      title: Siege of {settlement}
+    party:
+      title: Battle of {nearestSettlement} {terrain}
     table:
       column:
         when: When
         phase: Current Phase
-        attacker: Attacker
-        defender: Defender
 
   movementType:
     Move: Move

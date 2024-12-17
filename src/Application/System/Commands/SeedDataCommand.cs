@@ -2082,7 +2082,7 @@ public record SeedDataCommand : IMediatorRequest
             };
             Battle plainBattle = new()
             {
-                Phase = BattlePhase.Preparation,
+                Phase = BattlePhase.Hiring,
                 Region = Region.Eu,
                 Position = new Point(107.187, -110.164),
                 Fighters =
@@ -2107,7 +2107,8 @@ public record SeedDataCommand : IMediatorRequest
                         Status = BattleFighterApplicationStatus.Pending,
                     },
                 },
-                CreatedAt = DateTime.UtcNow,
+                ScheduledFor = DateTime.UtcNow.AddHours(2),
+                CreatedAt = DateTime.UtcNow.AddHours(-2),
             };
             Battle hertogeaBattle = new()
             {
@@ -2262,7 +2263,27 @@ public record SeedDataCommand : IMediatorRequest
                     Character = krogCharacter0,
                     },
                 },
-                MercenaryApplications = {},
+                MercenaryApplications =
+                {
+                    new BattleMercenaryApplication
+                    {
+                        Character = falcomCharacter0,
+                        Side = BattleSide.Attacker,
+                        Status = BattleMercenaryApplicationStatus.Pending,
+                    },
+                    new BattleMercenaryApplication
+                    {
+                        Character = victorhh888Character0,
+                        Side = BattleSide.Defender,
+                        Status = BattleMercenaryApplicationStatus.Pending,
+                    },
+                    new BattleMercenaryApplication
+                    {
+                        Character = sellkaCharacter0,
+                        Side = BattleSide.Defender,
+                        Status = BattleMercenaryApplicationStatus.Pending,
+                    },
+                },
                 ScheduledFor = DateTime.UtcNow.AddHours(3),
                 CreatedAt = DateTime.UtcNow.AddHours(-4),
 

@@ -55,5 +55,7 @@ declare module 'vue-router/auto-routes' {
     'Strategus': RouteRecordInfo<'Strategus', '/strategus', Record<never, never>, Record<never, never>>,
     'StrategusBattles': RouteRecordInfo<'StrategusBattles', '/strategus/battles', Record<never, never>, Record<never, never>>,
     'StrategusBattlesId': RouteRecordInfo<'StrategusBattlesId', '/strategus/battles/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    'StrategusBattlesIdApplications': RouteRecordInfo<'StrategusBattlesIdApplications', '/strategus/battles/:id/applications', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    'StrategusBattlesIdManage': RouteRecordInfo<'StrategusBattlesIdManage', '/strategus/battles/:id/manage', { id: ParamValue<true> }, { id: ParamValue<false> }>,
   }
 }

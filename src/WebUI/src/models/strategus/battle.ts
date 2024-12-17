@@ -40,9 +40,38 @@ export interface BattleFighter {
   mercenarySlots: number
 }
 
+export enum BattleFighterApplicationStatus {
+  Pending = 'Pending',
+  Declined = 'Declined',
+  Accepted = 'Accepted',
+}
+
+export interface BattleFighterApplication {
+  id: number
+  party: PartyCommon
+  battleSide: BattleSide
+  status: BattleFighterApplicationStatus
+}
+
 export interface BattleMercenary {
   user: UserPublic
   character: Character
   captain: BattleFighter
   side: BattleSide
+}
+
+export enum BattleMercenaryApplicationStatus {
+  Pending = 'Pending',
+  Declined = 'Declined',
+  Accepted = 'Accepted',
+}
+
+export interface BattleMercenaryApplication {
+  id: number
+  user: UserPublic
+  character: Character
+  battleSide: BattleSide
+  wage: number
+  note: string
+  status: BattleMercenaryApplicationStatus
 }

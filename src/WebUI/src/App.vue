@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core'
 </script>
 
 <template>
