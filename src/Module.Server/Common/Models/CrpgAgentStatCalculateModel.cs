@@ -1,3 +1,4 @@
+using Crpg.Module.Api.Models.Items;
 using Crpg.Module.Helpers;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -273,7 +274,29 @@ internal class CrpgAgentStatCalculateModel : AgentStatCalculateModel
 
         BasicCharacterObject character = agent.Character;
         MissionEquipment equipment = agent.Equipment;
-        props.WeaponsEncumbrance = equipment.GetTotalWeightOfWeapons();
+
+        float weaponsEncumbrance = equipment.GetTotalWeightOfWeapons();
+        for (EquipmentIndex i = EquipmentIndex.WeaponItemBeginSlot; i < EquipmentIndex.NumAllWeaponSlots; i += 1)
+        {
+            var weapon = agent.Equipment[i];
+            if (weapon.IsEmpty || weapon.IsAnyConsumable() || weapon.CurrentUsageItem.IsShield)
+            {
+                continue;
+            }
+
+            var weaponComponentData = weapon.GetWeaponComponentDataForUsage(weapon.CurrentUsageIndex);
+            bool isMeleeWeapon = WeaponClassesAffectedByPowerStrike.Contains(weaponComponentData.WeaponClass);
+            if (!isMeleeWeapon)
+            {
+                continue;
+            }
+
+            weaponsEncumbrance -= weapon.Item.Weight;
+            weaponsEncumbrance += CrpgWeaponWeightModel.GetCustomWeight(weapon.GetWeaponData(false).GetItemObject().WeaponComponent);
+        }
+
+        Debug.Print($"Total Weapon Encumbrance: {weaponsEncumbrance}");
+        props.WeaponsEncumbrance = weaponsEncumbrance;
         EquipmentIndex wieldedItemIndex3 = agent.GetWieldedItemIndex(Agent.HandIndex.MainHand);
         WeaponComponentData? equippedItem = wieldedItemIndex3 != EquipmentIndex.None
             ? equipment[wieldedItemIndex3].CurrentUsageItem
