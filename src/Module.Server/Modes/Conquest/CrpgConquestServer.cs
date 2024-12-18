@@ -9,6 +9,7 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.MissionRepresentatives;
 using TaleWorlds.MountAndBlade.Objects;
 using TaleWorlds.ObjectSystem;
+using Crpg.Module.Modes.Siege;
 
 namespace Crpg.Module.Modes.Conquest;
 
@@ -319,6 +320,11 @@ internal class CrpgConquestServer : MissionMultiplayerGameModeBase, IAnalyticsFl
 
         _rewardTickTimer = new MissionTimer(duration: CrpgServerConfiguration.RewardTick);
         _wasCurrentStageNotifiedAboutOvertime = false;
+
+        if (SpawnComponent.SpawningBehavior is CrpgSiegeSpawningBehavior s)
+        {
+            s.SetSpawnOverride(0.5f);
+        }
     }
 
     private void TickFlags()
