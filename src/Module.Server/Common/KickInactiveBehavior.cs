@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Common.TeamSelect;
+﻿using Crpg.Module.Api.Models.Users;
+using Crpg.Module.Common.TeamSelect;
 using Crpg.Module.Notifications;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
@@ -17,7 +18,9 @@ internal class KickInactiveBehavior : MissionBehavior
     private readonly MultiplayerWarmupComponent _warmupComponent;
     private readonly Dictionary<PlayerId, ActivityStatus> _lastActiveStatuses;
     private readonly CrpgTeamSelectServerComponent? _crpgTeamSelectServerComponent;
+    private MultiplayerGameType _gameType;
     private Timer? _checkTimer;
+    private Timer? _battleTimer;
 
     public KickInactiveBehavior(
         float inactiveTimeLimit,
@@ -32,6 +35,19 @@ internal class KickInactiveBehavior : MissionBehavior
 
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
 
+    public override void OnBehaviorInitialize()
+    {
+        _gameType = Mission.Current.GetMissionBehavior<MissionMultiplayerGameModeBase>().GetMissionType();
+    }
+
+    public override void OnClearScene()
+    {
+        if (_gameType == MultiplayerGameType.Battle)
+        {
+            _battleTimer = new Timer(Mission.CurrentTime, 65f, false);
+        }
+    }
+
     public override void OnMissionTick(float dt)
     {
         if (_warmupComponent.IsInWarmup)
@@ -45,11 +61,21 @@ internal class KickInactiveBehavior : MissionBehavior
             return;
         }
 
+        if (_gameType == MultiplayerGameType.Battle)
+        {
+            _battleTimer ??= new Timer(Mission.CurrentTime, 65f, false);
+            if (_battleTimer.Check(Mission.CurrentTime))
+            {
+                return;
+            }
+        }
+
         foreach (var networkPeer in GameNetwork.NetworkPeers)
         {
             var playerId = networkPeer.VirtualPlayer.Id;
             var agent = networkPeer.ControlledAgent;
-            if (agent == null || !agent.IsActive())
+            var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
+            if (agent == null || !agent.IsActive() || crpgPeer.User!.Role == CrpgUserRole.Admin)
             {
                 _lastActiveStatuses.Remove(playerId);
                 continue;
@@ -89,12 +115,20 @@ internal class KickInactiveBehavior : MissionBehavior
 
             if (MissionTime.Now - lastActiveStatus.LastActive > _inactiveTimeLimit)
             {
-                var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
                 Debug.Print($"Kick inactive user {crpgPeer.User!.Character.Name} ({crpgPeer.User.Platform}#{crpgPeer.User.PlatformUserId})");
 
                 if (_crpgTeamSelectServerComponent != null)
                 {
                     _crpgTeamSelectServerComponent.ChangeTeamServer(networkPeer, Mission.SpectatorTeam);
+                    GameNetwork.BeginModuleEventAsServer(networkPeer);
+                    GameNetwork.WriteMessage(new CrpgNotificationId
+                    {
+                        Type = CrpgNotificationType.Notification,
+                        TextId = "str_notification",
+                        TextVariation = "moved_to_spectator",
+                        SoundEvent = string.Empty,
+                    });
+                    GameNetwork.EndModuleEventAsServer();
                 }
                 else
                 {
@@ -113,7 +147,7 @@ internal class KickInactiveBehavior : MissionBehavior
                     Type = CrpgNotificationType.Notification,
                     TextId = "str_notification",
                     TextVariation = "inactivity_warning",
-                    SoundEvent = string.Empty,
+                    SoundEvent = "event:/ui/notification/alert",
                     Variables = { ["SECONDS"] = warningTime.ToString() },
                 });
                 GameNetwork.EndModuleEventAsServer();
