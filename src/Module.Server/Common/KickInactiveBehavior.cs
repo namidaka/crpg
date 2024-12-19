@@ -1,4 +1,5 @@
-﻿using Crpg.Module.Notifications;
+﻿using Crpg.Module.Common.TeamSelect;
+using Crpg.Module.Notifications;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Diamond;
@@ -15,15 +16,18 @@ internal class KickInactiveBehavior : MissionBehavior
     private readonly MissionTime _inactiveTimeLimit;
     private readonly MultiplayerWarmupComponent _warmupComponent;
     private readonly Dictionary<PlayerId, ActivityStatus> _lastActiveStatuses;
+    private readonly CrpgTeamSelectServerComponent? _crpgTeamSelectServerComponent;
     private Timer? _checkTimer;
 
     public KickInactiveBehavior(
         float inactiveTimeLimit,
-        MultiplayerWarmupComponent warmupComponent)
+        MultiplayerWarmupComponent warmupComponent,
+        CrpgTeamSelectServerComponent? teamSelectComponent = null)
     {
         _inactiveTimeLimit = MissionTime.Seconds(inactiveTimeLimit);
         _warmupComponent = warmupComponent;
         _lastActiveStatuses = new Dictionary<PlayerId, ActivityStatus>();
+        _crpgTeamSelectServerComponent = teamSelectComponent;
     }
 
     public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
@@ -87,7 +91,16 @@ internal class KickInactiveBehavior : MissionBehavior
             {
                 var crpgPeer = networkPeer.GetComponent<CrpgPeer>();
                 Debug.Print($"Kick inactive user {crpgPeer.User!.Character.Name} ({crpgPeer.User.Platform}#{crpgPeer.User.PlatformUserId})");
-                KickHelper.Kick(networkPeer, DisconnectType.Inactivity);
+
+                if (_crpgTeamSelectServerComponent != null)
+                {
+                    _crpgTeamSelectServerComponent.ChangeTeamServer(networkPeer, Mission.SpectatorTeam);
+                }
+                else
+                {
+                    KickHelper.Kick(networkPeer, DisconnectType.Inactivity);
+                }
+
                 return;
             }
 
