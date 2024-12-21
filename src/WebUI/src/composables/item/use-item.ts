@@ -1,11 +1,10 @@
-import type { Item } from '~/models/item'
+import type { Item, ItemFlat } from '~/models/item'
 
 import { getItemImage, getRankColor } from '~/services/item-service'
 
-export const useItem = (item: Ref<Item>) => {
-  const rankColor = computed(() => getRankColor(item.value.rank))
-
-  const thumb = computed(() => getItemImage(item.value.baseId))
+export const useItem = (item: MaybeRefOrGetter<Item | ItemFlat>) => {
+  const rankColor = computed(() => getRankColor(toValue(item).rank))
+  const thumb = computed(() => getItemImage(toValue(item).baseId))
 
   return {
     rankColor,

@@ -206,18 +206,6 @@ export const useCharacterCharacteristic = (
     characteristicKey: CharacteristicKey,
     newCharacteristicValue: number,
   ) => {
-    // console.log('111');
-
-    // const requirementsSatisfied = characteristicRequirementsSatisfied(
-    //   characteristicSectionKey,
-    //   characteristicKey,
-    //   newCharacteristicValue,
-    //   characteristics.value
-    // );
-    // if (!requirementsSatisfied) return;
-
-    // console.log('222');
-
     const characteristicInitialSection = characteristicsInitial.value![
       characteristicSectionKey
     ] as any
@@ -225,17 +213,10 @@ export const useCharacterCharacteristic = (
     const characteristicSection = characteristics.value![characteristicSectionKey] as any
 
     const oldCharacteristicValue = characteristicSection[characteristicKey]
-    // const oldPoints = characteristicSection.points;
 
     const costToIncrease
       = characteristicCost(characteristicSectionKey, characteristicKey, oldCharacteristicValue)
       - characteristicCost(characteristicSectionKey, characteristicKey, newCharacteristicValue)
-
-    // TODO:
-    // console.log('222', { oldPoints, costToIncrease });
-    // if (oldPoints + costToIncrease < 0) {
-    //   return;
-    // }
 
     characteristicDeltaSection.points += costToIncrease
 
@@ -302,7 +283,6 @@ export const useCharacterCharacteristic = (
       max: value + (costToIncrease <= points && requirementsSatisfied ? 1 : 0),
       min: initialValue, // TODO: can to default for builder
       modelValue: value,
-      // controls: initialPoints !== 0, // hide controls (+/-) if there is no points to give // TODO:
     }
   }
 

@@ -11,7 +11,7 @@ namespace Crpg.Module.Common;
 
 internal abstract class CrpgSpawningBehaviorBase : SpawningBehaviorBase
 {
-    private protected float _timeSinceSpawnEnabled;
+    protected static float TimeSinceSpawnEnabled { get; set; }
     private readonly CrpgConstants _constants;
 
     private readonly List<WeaponClass> allowedSpawnWeaponClass = new()
@@ -53,7 +53,7 @@ private int totalNumberOfBots = 800;
         int respawnPeriod = team.Side == BattleSideEnum.Defender
         ? MultiplayerOptions.OptionType.RespawnPeriodTeam2.GetIntValue()
         : MultiplayerOptions.OptionType.RespawnPeriodTeam1.GetIntValue();
-        float timeSinceLastRespawn = _timeSinceSpawnEnabled % respawnPeriod;
+        float timeSinceLastRespawn = TimeSinceSpawnEnabled % respawnPeriod;
         float timeUntilNextRespawn = respawnPeriod - timeSinceLastRespawn;
 
         if (timeUntilNextRespawn <= 1.0f)

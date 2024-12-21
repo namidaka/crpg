@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { UserPublic } from '~/models/user'
-
 import { Platform } from '~/models/platform'
 import { platformToIcon } from '~/services/platform-service'
 import { getUserById, searchUser } from '~/services/users-service'
@@ -12,7 +10,6 @@ enum SearchMode {
 }
 
 const activeSearchMode = ref<SearchMode>(SearchMode.Name)
-const users = ref<UserPublic[]>([])
 const searchByNameModel = ref<string>('')
 const searchByIdModel = ref<number>(0)
 const searchByPlatformModel = ref<{ platform: Platform, platformUserId: string }>({
@@ -20,10 +17,9 @@ const searchByPlatformModel = ref<{ platform: Platform, platformUserId: string }
   platformUserId: '',
 })
 
-const search = async () => {
+const { state: users, execute: search } = useAsyncState(async () => {
   if (activeSearchMode.value === SearchMode.Id) {
-    users.value = [await getUserById(searchByIdModel.value)]
-    return
+    return [await getUserById(searchByIdModel.value)]
   }
 
   const payload
@@ -36,8 +32,8 @@ const search = async () => {
           platformUserId: searchByPlatformModel.value.platformUserId,
         }
 
-  users.value = await searchUser(payload)
-}
+  return await searchUser(payload)
+}, [], { immediate: false })
 
 const clearUsers = () => {
   users.value = []

@@ -47,6 +47,7 @@ const onClickInventoryDollSlot = (e: PointerEvent, slot: ItemSlot) => {
 const {
   availableSlots,
   fromSlot,
+  dragging,
   onDragEnd,
   onDragEnter,
   onDragLeave,
@@ -79,7 +80,7 @@ const { toggleItemDetail } = useItemDetail()
         :key="slot.key"
         v-on-long-press="[
           () => {
-            onQuickUnEquip(slot.key)
+            !dragging && onQuickUnEquip(slot.key)
           },
           { delay: 500 },
         ]"

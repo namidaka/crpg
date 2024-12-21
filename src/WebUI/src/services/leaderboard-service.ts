@@ -1,3 +1,4 @@
+import { inRange } from 'es-toolkit'
 import qs from 'qs'
 
 import type { CharacterClass } from '~/models/character'
@@ -14,7 +15,6 @@ import type { UserPublic } from '~/models/user'
 import { RankGroup } from '~/models/competitive'
 import { mapClanResponse } from '~/services/clan-service'
 import { get } from '~/services/crpg-client'
-import { inRange } from '~/utils/math'
 import { getEntries } from '~/utils/object'
 
 interface UserPublicRaw extends Omit<UserPublic, 'clan'> {

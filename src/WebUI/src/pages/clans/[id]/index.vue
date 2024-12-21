@@ -7,6 +7,7 @@ import { useClan } from '~/composables/clan/use-clan'
 import { useClanApplications } from '~/composables/clan/use-clan-applications'
 import { useClanMembers } from '~/composables/clan/use-clan-members'
 import { usePagination } from '~/composables/use-pagination'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { ClanMemberRole } from '~/models/clan'
 import {
   canKickMemberValidate,
@@ -72,32 +73,34 @@ const canUpdateMember = computed(() =>
   selfMember.value === null ? false : canUpdateMemberValidate(selfMember.value.role),
 )
 
-const updateMember = async (userId: number, selectedRole: ClanMemberRole) => {
+const { execute: updateMember } = useAsyncCallback(async (userId: number, selectedRole: ClanMemberRole) => {
   await updateClanMember(clanId.value, userId, selectedRole)
   await Promise.all([loadClanMembers(0, { id: clanId.value }), userStore.fetchUserClanAndRole()])
   notify(t('clan.member.update.notify.success'))
-}
+})
 
 const canKickMember = (member: ClanMember): boolean => {
   if (selfMember.value === null) { return false }
   return canKickMemberValidate(selfMember.value, member, clanMembers.value.length)
 }
 
-const kickMember = async (member: ClanMember) => {
-  const isSelfMember = checkIsSelfMember(member)
-
+const { execute: kickMember } = useAsyncCallback(async (member: ClanMember) => {
   await kickClanMember(clanId.value, member.user.id)
   await loadClanMembers(0, { id: clanId.value })
+
+  const isSelfMember = checkIsSelfMember(member)
+
   if (isSelfMember) {
     await userStore.fetchUserClanAndRole()
   }
   notify(
     isSelfMember ? t('clan.member.leave.notify.success') : t('clan.member.kick.notify.success'),
   )
-}
+})
 
 const clanMemberDetailModal = ref<boolean>(false)
 const selectedCLanMemberId = ref<number | null>(null)
+
 const onOpenMemberDetail = (member: ClanMember) => {
   if (selfMember.value === null || checkIsSelfMember(member)) { return }
 

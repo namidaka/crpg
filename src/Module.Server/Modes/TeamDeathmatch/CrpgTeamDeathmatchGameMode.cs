@@ -91,6 +91,7 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
 
 #if CRPG_SERVER
         ICrpgClient crpgClient = CrpgClient.Create();
+        Game.Current.GetGameHandler<ChatCommandsComponent>()?.InitChatCommands(crpgClient);
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
         CrpgTeamDeathmatchSpawningBehavior spawnBehavior = new(_constants);
         //MultiplayerRoundController roundController = new(); // starts/stops round, ends match
@@ -142,9 +143,8 @@ internal class CrpgTeamDeathmatchGameMode : MissionBasedMultiplayerGameMode
                 new AgentHumanAILogic(),
                 new MultiplayerAdminComponent(),
                 new CrpgUserManagerServer(crpgClient, _constants),
-                new KickInactiveBehavior(inactiveTimeLimit: 60, warmupComponent),
+                new KickInactiveBehavior(inactiveTimeLimit: 60, warmupComponent, teamSelectComponent),
                 new MapPoolComponent(),
-                new ChatCommandsComponent(chatBox, crpgClient),
                 new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                 new ServerMetricsBehavior(),
                 new NotAllPlayersReadyComponent(),

@@ -3956,25 +3956,25 @@
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_rhomphaia_handle_h0" name="{=aQa3tp6Q}Decorated Long Pine Shaft" tier="5" piece_type="Handle" mesh="spear_handle_8" length="230" weight="1.15" CraftingCost="110">
+  <CraftingPiece id="crpg_rhomphaia_handle_h0" name="{=aQa3tp6Q}Decorated Long Pine Shaft" tier="5" piece_type="Handle" mesh="spear_handle_8" length="230" weight="1.4" CraftingCost="110">
     <BuildData piece_offset="22.9" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_rhomphaia_handle_h1" name="{=aQa3tp6Q}Decorated Long Pine Shaft" tier="5" piece_type="Handle" mesh="spear_handle_8" length="230" weight="1.15" CraftingCost="110">
+  <CraftingPiece id="crpg_rhomphaia_handle_h1" name="{=aQa3tp6Q}Decorated Long Pine Shaft" tier="5" piece_type="Handle" mesh="spear_handle_8" length="230" weight="1.4" CraftingCost="110">
     <BuildData piece_offset="22.9" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_rhomphaia_handle_h2" name="{=aQa3tp6Q}Decorated Long Pine Shaft" tier="5" piece_type="Handle" mesh="spear_handle_8" length="230" weight="1.15" CraftingCost="110">
+  <CraftingPiece id="crpg_rhomphaia_handle_h2" name="{=aQa3tp6Q}Decorated Long Pine Shaft" tier="5" piece_type="Handle" mesh="spear_handle_8" length="230" weight="1.4" CraftingCost="110">
     <BuildData piece_offset="22.9" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_rhomphaia_handle_h3" name="{=aQa3tp6Q}Decorated Long Pine Shaft" tier="5" piece_type="Handle" mesh="spear_handle_8" length="230" weight="1.15" CraftingCost="110">
+  <CraftingPiece id="crpg_rhomphaia_handle_h3" name="{=aQa3tp6Q}Decorated Long Pine Shaft" tier="5" piece_type="Handle" mesh="spear_handle_8" length="230" weight="1.4" CraftingCost="110">
     <BuildData piece_offset="22.9" />
     <Materials>
       <Material id="Wood" count="1" />
@@ -6044,7 +6044,7 @@
       <Material id="Iron3" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_rhomphaia_blade_h0" name="{=kaikaikai}Bent Razor Head" tier="4" piece_type="Blade" mesh="spear_blade_44" length="80" weight="0.66" excluded_item_usage_features="shield:thrust">
+  <CraftingPiece id="crpg_rhomphaia_blade_h0" name="{=kaikaikai}Bent Razor Head" tier="4" piece_type="Blade" mesh="spear_blade_44" length="80" weight="0.7" excluded_item_usage_features="shield:thrust">
     <BladeData stack_amount="2" physics_material="wood_weapon" body_name="bo_spear_b">
       <Swing damage_type="Cut" damage_factor="4.7" />
     </BladeData>
@@ -6055,7 +6055,7 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_rhomphaia_blade_h1" name="{=kaikaikai}Bent Razor Head" tier="4" piece_type="Blade" mesh="spear_blade_44" length="80" weight="0.66" excluded_item_usage_features="shield:thrust">
+  <CraftingPiece id="crpg_rhomphaia_blade_h1" name="{=kaikaikai}Bent Razor Head" tier="4" piece_type="Blade" mesh="spear_blade_44" length="80" weight="0.7" excluded_item_usage_features="shield:thrust">
     <BladeData stack_amount="2" physics_material="wood_weapon" body_name="bo_spear_b">
       <Swing damage_type="Cut" damage_factor="4.9" />
     </BladeData>
@@ -6066,7 +6066,7 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_rhomphaia_blade_h2" name="{=kaikaikai}Bent Razor Head" tier="4" piece_type="Blade" mesh="spear_blade_44" length="80" weight="0.66" excluded_item_usage_features="shield:thrust">
+  <CraftingPiece id="crpg_rhomphaia_blade_h2" name="{=kaikaikai}Bent Razor Head" tier="4" piece_type="Blade" mesh="spear_blade_44" length="80" weight="0.7" excluded_item_usage_features="shield:thrust">
     <BladeData stack_amount="2" physics_material="wood_weapon" body_name="bo_spear_b">
       <Swing damage_type="Cut" damage_factor="5.1" />
     </BladeData>
@@ -6077,7 +6077,7 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_rhomphaia_blade_h3" name="{=kaikaikai}Bent Razor Head" tier="4" piece_type="Blade" mesh="spear_blade_44" length="80" weight="0.63" excluded_item_usage_features="shield:thrust">
+  <CraftingPiece id="crpg_rhomphaia_blade_h3" name="{=kaikaikai}Bent Razor Head" tier="4" piece_type="Blade" mesh="spear_blade_44" length="80" weight="0.67" excluded_item_usage_features="shield:thrust">
     <BladeData stack_amount="2" physics_material="wood_weapon" body_name="bo_spear_b">
       <Swing damage_type="Cut" damage_factor="5.1" />
     </BladeData>
@@ -24940,9 +24940,34 @@
       <Material id="Iron3" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_awlpike_blade_h0" name="{=}Awlpike Blade" tier="4" piece_type="Blade" mesh="awlpike_blade" length="85.8" weight="0.45" excluded_item_usage_features="swing">
+  <CraftingPiece id="crpg_awlpike_blade_h0" name="{=}Awlpike Blade" tier="4" piece_type="Blade" mesh="awlpike_blade" length="85.8" weight="0.45">
+    <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
+      <Thrust damage_type="Pierce" damage_factor="2.8" />
+      <Swing damage_type="Blunt" damage_factor="2.0" />
+    </BladeData>
+    <Materials>
+      <Material id="Iron4" count="2" />
+    </Materials>
+    <Flags>
+      <Flag name="CanDismount" />
+    </Flags>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_awlpike_blade_h1" name="{=}Awlpike Blade" tier="4" piece_type="Blade" mesh="awlpike_blade" length="85.8" weight="0.4">
+    <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
+      <Thrust damage_type="Pierce" damage_factor="2.8" />
+      <Swing damage_type="Blunt" damage_factor="2.0" />
+    </BladeData>
+    <Materials>
+      <Material id="Iron4" count="2" />
+    </Materials>
+    <Flags>
+      <Flag name="CanDismount" />
+    </Flags>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_awlpike_blade_h2" name="{=}Awlpike Blade" tier="4" piece_type="Blade" mesh="awlpike_blade" length="85.8" weight="0.4">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.9" />
+      <Swing damage_type="Blunt" damage_factor="2.1" />
     </BladeData>
     <Materials>
       <Material id="Iron4" count="2" />
@@ -24951,31 +24976,10 @@
       <Flag name="CanDismount" />
     </Flags>
   </CraftingPiece>
-  <CraftingPiece id="crpg_awlpike_blade_h1" name="{=}Awlpike Blade" tier="4" piece_type="Blade" mesh="awlpike_blade" length="85.8" weight="0.4" excluded_item_usage_features="swing">
+  <CraftingPiece id="crpg_awlpike_blade_h3" name="{=}Awlpike Blade" tier="4" piece_type="Blade" mesh="awlpike_blade" length="85.8" weight="0.35">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.9" />
-    </BladeData>
-    <Materials>
-      <Material id="Iron4" count="2" />
-    </Materials>
-    <Flags>
-      <Flag name="CanDismount" />
-    </Flags>
-  </CraftingPiece>
-  <CraftingPiece id="crpg_awlpike_blade_h2" name="{=}Awlpike Blade" tier="4" piece_type="Blade" mesh="awlpike_blade" length="85.8" weight="0.4 " excluded_item_usage_features="swing">
-    <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
-      <Thrust damage_type="Pierce" damage_factor="3.0" />
-    </BladeData>
-    <Materials>
-      <Material id="Iron4" count="2" />
-    </Materials>
-    <Flags>
-      <Flag name="CanDismount" />
-    </Flags>
-  </CraftingPiece>
-  <CraftingPiece id="crpg_awlpike_blade_h3" name="{=}Awlpike Blade" tier="4" piece_type="Blade" mesh="awlpike_blade" length="85.8" weight="0.35" excluded_item_usage_features="swing">
-    <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
-      <Thrust damage_type="Pierce" damage_factor="3.0" />
+      <Swing damage_type="Blunt" damage_factor="2.1" />
     </BladeData>
     <Materials>
       <Material id="Iron4" count="2" />
@@ -26420,7 +26424,7 @@
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_burgundian_glaive_blade_h0" name="{=kaikaikai}Burgundian Glaive Blade" tier="3" piece_type="Blade" mesh="burgundian_glaive_head" culture="Culture.vlandia" length="56.8" weight="0.28">
+  <CraftingPiece id="crpg_burgundian_glaive_blade_h0" name="{=kaikaikai}Burgundian Glaive Blade" tier="3" piece_type="Blade" mesh="burgundian_glaive_head" culture="Culture.vlandia" length="56.8" weight="0.31">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.0" />
       <Swing damage_type="Cut" damage_factor="4.3" />
@@ -26432,7 +26436,7 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_burgundian_glaive_blade_h1" name="{=kaikaikai}Burgundian Glaive Blade" tier="3" piece_type="Blade" mesh="burgundian_glaive_head" culture="Culture.vlandia" length="56.8" weight="0.25">
+  <CraftingPiece id="crpg_burgundian_glaive_blade_h1" name="{=kaikaikai}Burgundian Glaive Blade" tier="3" piece_type="Blade" mesh="burgundian_glaive_head" culture="Culture.vlandia" length="56.8" weight="0.28">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.0" />
       <Swing damage_type="Cut" damage_factor="4.4" />
@@ -26444,7 +26448,7 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_burgundian_glaive_blade_h2" name="{=kaikaikai}Burgundian Glaive Blade" tier="3" piece_type="Blade" mesh="burgundian_glaive_head" culture="Culture.vlandia" length="56.8" weight="0.25">
+  <CraftingPiece id="crpg_burgundian_glaive_blade_h2" name="{=kaikaikai}Burgundian Glaive Blade" tier="3" piece_type="Blade" mesh="burgundian_glaive_head" culture="Culture.vlandia" length="56.8" weight="0.28">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.2" />
       <Swing damage_type="Cut" damage_factor="4.5" />
@@ -26456,7 +26460,7 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_burgundian_glaive_blade_h3" name="{=kaikaikai}Burgundian Glaive Blade" tier="3" piece_type="Blade" mesh="burgundian_glaive_head" culture="Culture.vlandia" length="56.8" weight="0.25">
+  <CraftingPiece id="crpg_burgundian_glaive_blade_h3" name="{=kaikaikai}Burgundian Glaive Blade" tier="3" piece_type="Blade" mesh="burgundian_glaive_head" culture="Culture.vlandia" length="56.8" weight="0.28">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.2" />
       <Swing damage_type="Cut" damage_factor="4.7" />
@@ -26468,25 +26472,25 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_burgundian_glaive_handle_h0" name="Long Polearm Shaft with Langets" tier="2" piece_type="Handle" mesh="burgundian_glaive_shaft" length="215" weight="1.5" CraftingCost="120">
+  <CraftingPiece id="crpg_burgundian_glaive_handle_h0" name="Long Polearm Shaft with Langets" tier="2" piece_type="Handle" mesh="burgundian_glaive_shaft" length="215" weight="1.7" CraftingCost="120">
     <BuildData previous_piece_offset="0" next_piece_offset="0.25" piece_offset="25" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_burgundian_glaive_handle_h1" name="Long Polearm Shaft with Langets" tier="2" piece_type="Handle" mesh="burgundian_glaive_shaft" length="215" weight="1.5" CraftingCost="120">
+  <CraftingPiece id="crpg_burgundian_glaive_handle_h1" name="Long Polearm Shaft with Langets" tier="2" piece_type="Handle" mesh="burgundian_glaive_shaft" length="215" weight="1.7" CraftingCost="120">
     <BuildData previous_piece_offset="0" next_piece_offset="0.25" piece_offset="25" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_burgundian_glaive_handle_h2" name="Long Polearm Shaft with Langets" tier="2" piece_type="Handle" mesh="burgundian_glaive_shaft" length="215" weight="1.5" CraftingCost="120">
+  <CraftingPiece id="crpg_burgundian_glaive_handle_h2" name="Long Polearm Shaft with Langets" tier="2" piece_type="Handle" mesh="burgundian_glaive_shaft" length="215" weight="1.7" CraftingCost="120">
     <BuildData previous_piece_offset="0" next_piece_offset="0.25" piece_offset="25" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_burgundian_glaive_handle_h3" name="Long Polearm Shaft with Langets" tier="2" piece_type="Handle" mesh="burgundian_glaive_shaft" length="215" weight="1.5" CraftingCost="120">
+  <CraftingPiece id="crpg_burgundian_glaive_handle_h3" name="Long Polearm Shaft with Langets" tier="2" piece_type="Handle" mesh="burgundian_glaive_shaft" length="215" weight="1.7" CraftingCost="120">
     <BuildData previous_piece_offset="0" next_piece_offset="0.25" piece_offset="25" />
     <Materials>
       <Material id="Wood" count="1" />
@@ -28078,6 +28082,82 @@
     <BuildData piece_offset="-6.5" previous_piece_offset="0.0" next_piece_offset="0" />
   </CraftingPiece>
   <CraftingPiece id="crpg_langes_messer_handle_h3" name="{=}Langes Messer Handle" tier="3" piece_type="Handle" mesh="langes_messer_handle" culture="Culture.khuzait" length="24.6" weight="1.27">
+    <BuildData piece_offset="-6.5" previous_piece_offset="0.0" next_piece_offset="0" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_blade_h0" name="{=}Langes Messer Blade" tier="4" piece_type="Blade" mesh="langes_messer_blade" culture="Culture.battania" length="98.5" weight="0.5">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
+      <Thrust damage_type="Pierce" damage_factor="2.2" />
+      <Swing damage_type="Cut" damage_factor="3.5" />
+    </BladeData>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_blade_h1" name="{=}Langes Messer Blade" tier="4" piece_type="Blade" mesh="langes_messer_blade" culture="Culture.battania" length="98.5" weight="0.5">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
+      <Thrust damage_type="Pierce" damage_factor="2.2" />
+      <Swing damage_type="Cut" damage_factor="3.6" />
+    </BladeData>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_blade_h2" name="{=}Langes Messer Blade" tier="4" piece_type="Blade" mesh="langes_messer_blade" culture="Culture.battania" length="98.5" weight="0.5">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
+      <Thrust damage_type="Pierce" damage_factor="2.4" />
+      <Swing damage_type="Cut" damage_factor="3.7" />
+    </BladeData>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_blade_h3" name="{=}Langes Messer Blade" tier="4" piece_type="Blade" mesh="langes_messer_blade" culture="Culture.battania" length="98.5" weight="0.5">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
+      <Thrust damage_type="Pierce" damage_factor="2.6" />
+      <Swing damage_type="Cut" damage_factor="3.8" />
+    </BladeData>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_pommel_h0" name="{=}Langes Messer Pommel" tier="4" piece_type="Pommel" mesh="langes_messer_pommel" culture="Culture.battania" length="6.21" weight="0.45">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_pommel_h1" name="{=}Langes Messer Pommel" tier="4" piece_type="Pommel" mesh="langes_messer_pommel" culture="Culture.battania" length="6.21" weight="0.45">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_pommel_h2" name="{=}Langes Messer Pommel" tier="4" piece_type="Pommel" mesh="langes_messer_pommel" culture="Culture.battania" length="6.21" weight="0.45">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_pommel_h3" name="{=}Langes Messer Pommel" tier="4" piece_type="Pommel" mesh="langes_messer_pommel" culture="Culture.battania" length="6.21" weight="0.45">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_guard_h0" name="{=}Langes Messer Guard" tier="5" piece_type="Guard" mesh="langes_messer_guard" culture="Culture.battania" length="0.96" weight="0.65">
+    <BuildData next_piece_offset="0" />
+    <StatContributions armor_bonus="3" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_guard_h1" name="{=}Langes Messer Guard" tier="5" piece_type="Guard" mesh="langes_messer_guard" culture="Culture.battania" length="0.96" weight="0.65">
+    <BuildData next_piece_offset="0" />
+    <StatContributions armor_bonus="3" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_guard_h2" name="{=}Langes Messer Guard" tier="5" piece_type="Guard" mesh="langes_messer_guard" culture="Culture.battania" length="0.96" weight="0.65">
+    <BuildData next_piece_offset="0" />
+    <StatContributions armor_bonus="3" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_guard_h3" name="{=}Langes Messer Guard" tier="5" piece_type="Guard" mesh="langes_messer_guard" culture="Culture.battania" length="0.96" weight="0.65">
+    <BuildData next_piece_offset="0" />
+    <StatContributions armor_bonus="3" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_handle_h0" name="{=}Langes Messer Handle" tier="3" piece_type="Handle" mesh="langes_messer_handle" culture="Culture.khuzait" length="24.6" weight="0.65">
+    <BuildData piece_offset="-6.5" previous_piece_offset="0.0" next_piece_offset="0" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_handle_h1" name="{=}Langes Messer Handle" tier="3" piece_type="Handle" mesh="langes_messer_handle" culture="Culture.khuzait" length="24.6" weight="0.65">
+    <BuildData piece_offset="-6.5" previous_piece_offset="0.0" next_piece_offset="0" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_handle_h2" name="{=}Langes Messer Handle" tier="3" piece_type="Handle" mesh="langes_messer_handle" culture="Culture.khuzait" length="24.6" weight="0.65">
+    <BuildData piece_offset="-6.5" previous_piece_offset="0.0" next_piece_offset="0" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_onehand_langes_messer_handle_h3" name="{=}Langes Messer Handle" tier="3" piece_type="Handle" mesh="langes_messer_handle" culture="Culture.khuzait" length="24.6" weight="0.65">
     <BuildData piece_offset="-6.5" previous_piece_offset="0.0" next_piece_offset="0" />
   </CraftingPiece>
   <CraftingPiece id="crpg_cutlass_blade_h0" name="{=}Cutlass Blade" tier="4" piece_type="Blade" mesh="cutlass_blade" culture="Culture.battania" length="67.4" weight="1.5">
@@ -30628,6 +30708,118 @@
       <Material id="Iron3" count="1" />
     </Materials>
   </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_blade_h0" name="{=}Zweihander Blade" tier="4" piece_type="Blade" mesh="zweihander_blade" culture="Culture.battania" length="100" weight="2.0">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
+      <Thrust damage_type="Pierce" damage_factor="2.6" />
+      <Swing damage_type="Cut" damage_factor="4.0" />
+    </BladeData>
+    <Materials>
+      <Material id="Iron5" count="4" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_blade_h1" name="{=}Zweihander Blade" tier="4" piece_type="Blade" mesh="zweihander_blade" culture="Culture.battania" length="100" weight="2.0">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
+      <Thrust damage_type="Pierce" damage_factor="2.7" />
+      <Swing damage_type="Cut" damage_factor="4.1" />
+    </BladeData>
+    <Materials>
+      <Material id="Iron5" count="4" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_blade_h2" name="{=}Zweihander Blade" tier="4" piece_type="Blade" mesh="zweihander_blade" culture="Culture.battania" length="100" weight="2.0">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
+      <Thrust damage_type="Pierce" damage_factor="2.8" />
+      <Swing damage_type="Cut" damage_factor="4.2" />
+    </BladeData>
+    <Materials>
+      <Material id="Iron5" count="4" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_blade_h3" name="{=}Zweihander Blade" tier="4" piece_type="Blade" mesh="zweihander_blade" culture="Culture.battania" length="100" weight="2.0">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
+      <Thrust damage_type="Pierce" damage_factor="2.9" />
+      <Swing damage_type="Cut" damage_factor="4.3" />
+    </BladeData>
+    <Materials>
+      <Material id="Iron5" count="4" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_pommel_h0" name="{=}Zweihander Pommel" tier="4" piece_type="Pommel" mesh="zweihander_pommel" culture="Culture.battania" length="8.56" weight="0.12">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_pommel_h1" name="{=}Zweihander Pommel" tier="4" piece_type="Pommel" mesh="zweihander_pommel" culture="Culture.battania" length="8.56" weight="0.12">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_pommel_h2" name="{=}Zweihander Pommel" tier="4" piece_type="Pommel" mesh="zweihander_pommel" culture="Culture.battania" length="8.56" weight="0.12">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_pommel_h3" name="{=}Zweihander Pommel" tier="4" piece_type="Pommel" mesh="zweihander_pommel" culture="Culture.battania" length="8.56" weight="0.12">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_guard_h0" name="{=}Zweihander Guard" tier="5" piece_type="Guard" mesh="zweihander_guard" culture="Culture.battania" length="4.8" weight="0.1">
+    <BuildData next_piece_offset="-15" />
+    <StatContributions armor_bonus="3" />
+    <Materials>
+      <Material id="Iron5" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_guard_h1" name="{=}Zweihander Guard" tier="5" piece_type="Guard" mesh="zweihander_guard" culture="Culture.battania" length="4.8" weight="0.1">
+    <BuildData next_piece_offset="-15" />
+    <StatContributions armor_bonus="3" />
+    <Materials>
+      <Material id="Iron5" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_guard_h2" name="{=}Zweihander Guard" tier="5" piece_type="Guard" mesh="zweihander_guard" culture="Culture.battania" length="4.8" weight="0.1">
+    <BuildData next_piece_offset="-15" />
+    <StatContributions armor_bonus="3" />
+    <Materials>
+      <Material id="Iron5" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_guard_h3" name="{=}Zweihander Guard" tier="5" piece_type="Guard" mesh="zweihander_guard" culture="Culture.battania" length="4.8" weight="0.1">
+    <BuildData next_piece_offset="-15" />
+    <StatContributions armor_bonus="3" />
+    <Materials>
+      <Material id="Iron5" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_handle_h0" name="{=}Zweihander Handle" tier="3" piece_type="Handle" mesh="zweihander_handle" culture="Culture.khuzait" length="36" weight="0.1">
+    <BuildData piece_offset="-8" previous_piece_offset="-9.0" next_piece_offset="-8.0" />
+    <Materials>
+      <Material id="Iron3" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_handle_h1" name="{=}Zweihander Handle" tier="3" piece_type="Handle" mesh="zweihander_handle" culture="Culture.khuzait" length="36" weight="0.1">
+    <BuildData piece_offset="-8" previous_piece_offset="-9.0" next_piece_offset="-8.0" />
+    <Materials>
+      <Material id="Iron3" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_handle_h2" name="{=}Zweihander Handle" tier="3" piece_type="Handle" mesh="zweihander_handle" culture="Culture.khuzait" length="36" weight="0.1">
+    <BuildData piece_offset="-8" previous_piece_offset="-9.0" next_piece_offset="-8.0" />
+    <Materials>
+      <Material id="Iron3" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_pole_zweihander_handle_h3" name="{=}Zweihander Handle" tier="3" piece_type="Handle" mesh="zweihander_handle" culture="Culture.khuzait" length="36" weight="0.1">
+    <BuildData piece_offset="-8" previous_piece_offset="-9.0" next_piece_offset="-8.0" />
+    <Materials>
+      <Material id="Iron3" count="1" />
+    </Materials>
+  </CraftingPiece>
   <CraftingPiece id="crpg_executionerssword_blade_h0" name="{=}Executioners Blade" tier="4" piece_type="Blade" mesh="executionerssword_blade" culture="Culture.battania" length="95.5" weight="2.5" excluded_item_usage_features="thrust">
     <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
       <Swing damage_type="blunt" damage_factor="2.9" />
@@ -32056,7 +32248,7 @@
       <Material id="Iron4" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_german_halberd_blade_h0" name="{=kaikaikai}German Halberd Blade" tier="3" piece_type="Blade" mesh="german_halberd_blade" culture="Culture.vlandia" length="68.8" weight="0.53">
+  <CraftingPiece id="crpg_german_halberd_blade_h0" name="{=kaikaikai}German Halberd Blade" tier="3" piece_type="Blade" mesh="german_halberd_blade" culture="Culture.vlandia" length="68.8" weight="0.56">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.1" />
       <Swing damage_type="Cut" damage_factor="4.4" />
@@ -32069,7 +32261,7 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_german_halberd_blade_h1" name="{=kaikaikai}German Halberd Blade" tier="3" piece_type="Blade" mesh="german_halberd_blade" culture="Culture.vlandia" length="68.8" weight="0.53">
+  <CraftingPiece id="crpg_german_halberd_blade_h1" name="{=kaikaikai}German Halberd Blade" tier="3" piece_type="Blade" mesh="german_halberd_blade" culture="Culture.vlandia" length="68.8" weight="0.56">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.2" />
       <Swing damage_type="Cut" damage_factor="4.6" />
@@ -32082,7 +32274,7 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_german_halberd_blade_h2" name="{=kaikaikai}German Halberd Blade" tier="3" piece_type="Blade" mesh="german_halberd_blade" culture="Culture.vlandia" length="68.8" weight="0.49">
+  <CraftingPiece id="crpg_german_halberd_blade_h2" name="{=kaikaikai}German Halberd Blade" tier="3" piece_type="Blade" mesh="german_halberd_blade" culture="Culture.vlandia" length="68.8" weight="0.52">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.3" />
       <Swing damage_type="Cut" damage_factor="4.6" />
@@ -32095,7 +32287,7 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_german_halberd_blade_h3" name="{=kaikaikai}German Halberd Blade" tier="3" piece_type="Blade" mesh="german_halberd_blade" culture="Culture.vlandia" length="68.8" weight="0.49">
+  <CraftingPiece id="crpg_german_halberd_blade_h3" name="{=kaikaikai}German Halberd Blade" tier="3" piece_type="Blade" mesh="german_halberd_blade" culture="Culture.vlandia" length="68.8" weight="0.52">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.5" />
       <Swing damage_type="Cut" damage_factor="4.7" />
@@ -32108,25 +32300,25 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_german_halberd_handle_h0" name="German Halberd Handle" tier="2" piece_type="Handle" mesh="german_halberd_handle" length="169" weight="1.5" CraftingCost="120">
+  <CraftingPiece id="crpg_german_halberd_handle_h0" name="German Halberd Handle" tier="2" piece_type="Handle" mesh="german_halberd_handle" length="169" weight="1.7" CraftingCost="120">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="30" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_german_halberd_handle_h1" name="German Halberd Handle" tier="2" piece_type="Handle" mesh="german_halberd_handle" length="169" weight="1.5" CraftingCost="120">
+  <CraftingPiece id="crpg_german_halberd_handle_h1" name="German Halberd Handle" tier="2" piece_type="Handle" mesh="german_halberd_handle" length="169" weight="1.7" CraftingCost="120">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="30" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_german_halberd_handle_h2" name="German Halberd Handle" tier="2" piece_type="Handle" mesh="german_halberd_handle" length="169" weight="1.5" CraftingCost="120">
+  <CraftingPiece id="crpg_german_halberd_handle_h2" name="German Halberd Handle" tier="2" piece_type="Handle" mesh="german_halberd_handle" length="169" weight="1.7" CraftingCost="120">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="30" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_german_halberd_handle_h3" name="German Halberd Handle" tier="2" piece_type="Handle" mesh="german_halberd_handle" length="169" weight="1.5" CraftingCost="120">
+  <CraftingPiece id="crpg_german_halberd_handle_h3" name="German Halberd Handle" tier="2" piece_type="Handle" mesh="german_halberd_handle" length="169" weight="1.7" CraftingCost="120">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="30" />
     <Materials>
       <Material id="Wood" count="1" />
@@ -32224,37 +32416,37 @@
       <Material id="Iron3" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_bamboospear_blade_h0" name="{=Meow}Bamboo Spear Blade" tier="4" piece_type="Blade" mesh="bamboospear_blade" length="47.6" weight="0.05" excluded_item_usage_features="swing">
+  <CraftingPiece id="crpg_bamboospear_blade_h0" name="{=Meow}Bamboo Spear Blade" tier="4" piece_type="Blade" mesh="bamboospear_blade" length="47.6" weight="0.05">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.2" />
-      <Swing damage_type="Blunt" damage_factor="0" />
+      <Swing damage_type="Blunt" damage_factor="1.5" />
     </BladeData>
     <Materials>
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_bamboospear_blade_h1" name="{=Meow}Bamboo Spear Blade" tier="4" piece_type="Blade" mesh="bamboospear_blade" length="47.6" weight="0.05" excluded_item_usage_features="swing">
+  <CraftingPiece id="crpg_bamboospear_blade_h1" name="{=Meow}Bamboo Spear Blade" tier="4" piece_type="Blade" mesh="bamboospear_blade" length="47.6" weight="0.05">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.3" />
-      <Swing damage_type="Blunt" damage_factor="0" />
+      <Swing damage_type="Blunt" damage_factor="1.5" />
     </BladeData>
     <Materials>
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_bamboospear_blade_h2" name="{=Meow}Bamboo Spear Blade" tier="4" piece_type="Blade" mesh="bamboospear_blade" length="47.6" weight="0.05" excluded_item_usage_features="swing">
+  <CraftingPiece id="crpg_bamboospear_blade_h2" name="{=Meow}Bamboo Spear Blade" tier="4" piece_type="Blade" mesh="bamboospear_blade" length="47.6" weight="0.05">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.4" />
-      <Swing damage_type="Blunt" damage_factor="0" />
+      <Swing damage_type="Blunt" damage_factor="1.6" />
     </BladeData>
     <Materials>
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_bamboospear_blade_h3" name="{=Meow}Bamboo Spear Blade" tier="4" piece_type="Blade" mesh="bamboospear_blade" length="47.6" weight="0.05" excluded_item_usage_features="swing">
+  <CraftingPiece id="crpg_bamboospear_blade_h3" name="{=Meow}Bamboo Spear Blade" tier="4" piece_type="Blade" mesh="bamboospear_blade" length="47.6" weight="0.05">
     <BladeData stack_amount="3" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Pierce" damage_factor="2.5" />
-      <Swing damage_type="Blunt" damage_factor="0" />
+      <Swing damage_type="Blunt" damage_factor="1.6" />
     </BladeData>
     <Materials>
       <Material id="Iron4" count="2" />
@@ -32408,6 +32600,7 @@
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
       <Flag name="CanHook" type="WeaponFlags" />
+      <Flag name="CanKnockDown" />
     </Flags>
     <Materials>
       <Material id="Iron4" count="2" />
@@ -32421,6 +32614,7 @@
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
       <Flag name="CanHook" type="WeaponFlags" />
+      <Flag name="CanKnockDown" />
     </Flags>
     <Materials>
       <Material id="Iron4" count="2" />
@@ -32429,11 +32623,12 @@
   <CraftingPiece id="crpg_candycane_pole_blade_h2" name="Candycane Pole Blade" tier="3" piece_type="Blade" mesh="candycane_pole_head" culture="Culture.vlandia" length="16.8" weight="0.9">
     <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Blunt" damage_factor="2.2" />
-      <Swing damage_type="Blunt" damage_factor="2.8" />
+      <Swing damage_type="Blunt" damage_factor="2.9" />
     </BladeData>
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
       <Flag name="CanHook" type="WeaponFlags" />
+      <Flag name="CanKnockDown" />
     </Flags>
     <Materials>
       <Material id="Iron4" count="2" />
@@ -32442,99 +32637,108 @@
   <CraftingPiece id="crpg_candycane_pole_blade_h3" name="Candycane Pole Blade" tier="3" piece_type="Blade" mesh="candycane_pole_head" culture="Culture.vlandia" length="16.8" weight="0.9">
     <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_spear_b">
       <Thrust damage_type="Blunt" damage_factor="2.2" />
-      <Swing damage_type="Blunt" damage_factor="3" />
+      <Swing damage_type="Blunt" damage_factor="3.0" />
     </BladeData>
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
       <Flag name="CanHook" type="WeaponFlags" />
+      <Flag name="CanKnockDown" />
     </Flags>
     <Materials>
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_handle_h0" name="Candycane Pole Handle" tier="2" piece_type="Handle" mesh="candycane_pole_handle" length="143" weight="1.5">
+  <CraftingPiece id="crpg_candycane_pole_handle_h0" name="Candycane Pole Handle" tier="2" piece_type="Handle" mesh="candycane_pole_handle" length="143" weight="0.9">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="20" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_handle_h1" name="Candycane Pole Handle" tier="2" piece_type="Handle" mesh="candycane_pole_handle" length="143" weight="1.5">
+  <CraftingPiece id="crpg_candycane_pole_handle_h1" name="Candycane Pole Handle" tier="2" piece_type="Handle" mesh="candycane_pole_handle" length="143" weight="0.9">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="20" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_handle_h2" name="Candycane Pole Handle" tier="2" piece_type="Handle" mesh="candycane_pole_handle" length="143" weight="1.5">
+  <CraftingPiece id="crpg_candycane_pole_handle_h2" name="Candycane Pole Handle" tier="2" piece_type="Handle" mesh="candycane_pole_handle" length="143" weight="0.9">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="20" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_handle_h3" name="Candycane Pole Handle" tier="2" piece_type="Handle" mesh="candycane_pole_handle" length="143" weight="1.5">
+  <CraftingPiece id="crpg_candycane_pole_handle_h3" name="Candycane Pole Handle" tier="2" piece_type="Handle" mesh="candycane_pole_handle" length="143" weight="0.8">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="20" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_guard_h0" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_pole_guard_h0" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_guard_h1" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_pole_guard_h1" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_guard_h2" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_pole_guard_h2" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_guard_h3" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_pole_guard_h3" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_pommel_h0" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_pole_pommel_h0" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_pommel_h1" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_pole_pommel_h1" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_pommel_h2" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_pole_pommel_h2" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_pole_pommel_h3" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_pole_pommel_h3" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_blade_h0" name="Candycane 2H Blade" tier="3" piece_type="Blade" mesh="candycane_2h_head" culture="Culture.vlandia" length="15.5" weight="0.9">
+  <CraftingPiece id="crpg_candycane_2h_blade_h0" name="Candycane 2H Blade" tier="3" piece_type="Blade" mesh="candycane_2h_head" culture="Culture.vlandia" length="15.5" weight="1.5">
+    <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_mace_a">
+      <Swing damage_type="Blunt" damage_factor="2.5" />
+    </BladeData>
+    <Flags>
+      <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
+      <Flag name="CanHook" type="WeaponFlags" />
+      <Flag name="CanKnockDown" />
+      <Flag name="CanCrushThrough" />
+    </Flags>
+    <Materials>
+      <Material id="Iron4" count="2" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_candycane_2h_blade_h1" name="Candycane 2H Blade" tier="3" piece_type="Blade" mesh="candycane_2h_head" culture="Culture.vlandia" length="15.5" weight="1.5">
     <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_mace_a">
       <Swing damage_type="Blunt" damage_factor="2.6" />
     </BladeData>
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
       <Flag name="CanHook" type="WeaponFlags" />
+      <Flag name="CanKnockDown" />
+      <Flag name="CanCrushThrough" />
     </Flags>
     <Materials>
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_blade_h1" name="Candycane 2H Blade" tier="3" piece_type="Blade" mesh="candycane_2h_head" culture="Culture.vlandia" length="15.5" weight="0.9">
+  <CraftingPiece id="crpg_candycane_2h_blade_h2" name="Candycane 2H Blade" tier="3" piece_type="Blade" mesh="candycane_2h_head" culture="Culture.vlandia" length="15.5" weight="1.5">
     <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_mace_a">
       <Swing damage_type="Blunt" damage_factor="2.7" />
     </BladeData>
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
       <Flag name="CanHook" type="WeaponFlags" />
+      <Flag name="CanKnockDown" />
+      <Flag name="CanCrushThrough" />
     </Flags>
     <Materials>
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_blade_h2" name="Candycane 2H Blade" tier="3" piece_type="Blade" mesh="candycane_2h_head" culture="Culture.vlandia" length="15.5" weight="0.9">
+  <CraftingPiece id="crpg_candycane_2h_blade_h3" name="Candycane 2H Blade" tier="3" piece_type="Blade" mesh="candycane_2h_head" culture="Culture.vlandia" length="15.5" weight="1.5">
     <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_mace_a">
       <Swing damage_type="Blunt" damage_factor="2.8" />
     </BladeData>
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
       <Flag name="CanHook" type="WeaponFlags" />
-    </Flags>
-    <Materials>
-      <Material id="Iron4" count="2" />
-    </Materials>
-  </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_blade_h3" name="Candycane 2H Blade" tier="3" piece_type="Blade" mesh="candycane_2h_head" culture="Culture.vlandia" length="15.5" weight="0.9">
-    <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_mace_a">
-      <Swing damage_type="Blunt" damage_factor="2.9" />
-    </BladeData>
-    <Flags>
-      <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
-      <Flag name="CanHook" type="WeaponFlags" />
+      <Flag name="CanKnockDown" />
+      <Flag name="CanCrushThrough" />
     </Flags>
     <Materials>
       <Material id="Iron4" count="2" />
@@ -32564,26 +32768,26 @@
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_guard_h0" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_2h_guard_h0" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.5" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_guard_h1" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_2h_guard_h1" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.5" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_guard_h2" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_2h_guard_h2" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.5" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_guard_h3" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_2h_guard_h3" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.5" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_pommel_h0" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_2h_pommel_h0" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.5" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_pommel_h1" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_2h_pommel_h1" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.5" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_pommel_h2" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_2h_pommel_h2" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.5" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_2h_pommel_h3" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_2h_pommel_h3" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.5" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_blade_h0" name="Candycane 1H Blade" tier="3" piece_type="Blade" mesh="candycane_1h_head" culture="Culture.vlandia" length="14.3" weight="0.7">
+  <CraftingPiece id="crpg_candycane_1h_blade_h0" name="Candycane 1H Blade" tier="3" piece_type="Blade" mesh="candycane_1h_head" culture="Culture.vlandia" length="14.3" weight="1.2">
     <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_mace_a">
-      <Thrust damage_type="Blunt" damage_factor="1.5" />
-      <Swing damage_type="Blunt" damage_factor="2.0" />
+      <Thrust damage_type="Blunt" damage_factor="1.8" />
+      <Swing damage_type="Blunt" damage_factor="2.4" />
     </BladeData>
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
@@ -32593,10 +32797,10 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_blade_h1" name="Candycane 1H Blade" tier="3" piece_type="Blade" mesh="candycane_1h_head" culture="Culture.vlandia" length="14.3" weight="0.7">
+  <CraftingPiece id="crpg_candycane_1h_blade_h1" name="Candycane 1H Blade" tier="3" piece_type="Blade" mesh="candycane_1h_head" culture="Culture.vlandia" length="14.3" weight="1.2">
     <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_mace_a">
-      <Thrust damage_type="Blunt" damage_factor="1.5" />
-      <Swing damage_type="Blunt" damage_factor="2.1" />
+      <Thrust damage_type="Blunt" damage_factor="1.8" />
+      <Swing damage_type="Blunt" damage_factor="2.5" />
     </BladeData>
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
@@ -32606,10 +32810,10 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_blade_h2" name="Candycane 1H Blade" tier="3" piece_type="Blade" mesh="candycane_1h_head" culture="Culture.vlandia" length="14.3" weight="0.7">
+  <CraftingPiece id="crpg_candycane_1h_blade_h2" name="Candycane 1H Blade" tier="3" piece_type="Blade" mesh="candycane_1h_head" culture="Culture.vlandia" length="14.3" weight="1.2">
     <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_mace_a">
-      <Thrust damage_type="Blunt" damage_factor="1.5" />
-      <Swing damage_type="Blunt" damage_factor="2.2" />
+      <Thrust damage_type="Blunt" damage_factor="1.8" />
+      <Swing damage_type="Blunt" damage_factor="2.6" />
     </BladeData>
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
@@ -32619,10 +32823,10 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_blade_h3" name="Candycane 1H Blade" tier="3" piece_type="Blade" mesh="candycane_1h_head" culture="Culture.vlandia" length="14.3" weight="0.7">
+  <CraftingPiece id="crpg_candycane_1h_blade_h3" name="Candycane 1H Blade" tier="3" piece_type="Blade" mesh="candycane_1h_head" culture="Culture.vlandia" length="14.3" weight="1.2">
     <BladeData stack_amount="3" blade_length="109.0" blade_width="13.5" physics_material="wood_weapon" body_name="bo_mace_a">
-      <Thrust damage_type="Blunt" damage_factor="1.5" />
-      <Swing damage_type="Blunt" damage_factor="2.3" />
+      <Thrust damage_type="Blunt" damage_factor="1.8" />
+      <Swing damage_type="Blunt" damage_factor="2.7" />
     </BladeData>
     <Flags>
       <Flag name="CanBePickedUpFromCorpse" type="ItemFlags" />
@@ -32632,45 +32836,45 @@
       <Material id="Iron4" count="2" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_handle_h0" name="Candycane 1H Handle" tier="2" piece_type="Handle" mesh="candycane_1h_handle" length="67.3" weight="1.0">
+  <CraftingPiece id="crpg_candycane_1h_handle_h0" name="Candycane 1H Handle" tier="2" piece_type="Handle" mesh="candycane_1h_handle" length="67.3" weight="0.4">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="20" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_handle_h1" name="Candycane 1H Handle" tier="2" piece_type="Handle" mesh="candycane_1h_handle" length="67.3" weight="1.0">
+  <CraftingPiece id="crpg_candycane_1h_handle_h1" name="Candycane 1H Handle" tier="2" piece_type="Handle" mesh="candycane_1h_handle" length="67.3" weight="0.4">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="20" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_handle_h2" name="Candycane 1H Handle" tier="2" piece_type="Handle" mesh="candycane_1h_handle" length="67.3" weight="1.0">
+  <CraftingPiece id="crpg_candycane_1h_handle_h2" name="Candycane 1H Handle" tier="2" piece_type="Handle" mesh="candycane_1h_handle" length="67.3" weight="0.4">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="20" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_handle_h3" name="Candycane 1H Handle" tier="2" piece_type="Handle" mesh="candycane_1h_handle" length="67.3" weight="1.0">
+  <CraftingPiece id="crpg_candycane_1h_handle_h3" name="Candycane 1H Handle" tier="2" piece_type="Handle" mesh="candycane_1h_handle" length="67.3" weight="0.4">
     <BuildData previous_piece_offset="0" next_piece_offset="0" piece_offset="20" />
     <Materials>
       <Material id="Wood" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_guard_h0" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_1h_guard_h0" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_guard_h1" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_1h_guard_h1" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_guard_h2" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_1h_guard_h2" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_guard_h3" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_1h_guard_h3" name="{=koX9okuG}None" tier="1" piece_type="Guard" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_pommel_h0" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_1h_pommel_h0" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_pommel_h1" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_1h_pommel_h1" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_pommel_h2" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_1h_pommel_h2" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
-  <CraftingPiece id="crpg_candycane_1h_pommel_h3" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0" is_default="true">
+  <CraftingPiece id="crpg_candycane_1h_pommel_h3" name="{=koX9okuG}None" tier="1" piece_type="Pommel" mesh="" culture="Culture.empire" length="0" weight="0.4" is_default="true">
   </CraftingPiece>
   <CraftingPiece id="crpg_short_bardiche_blade_h0" name="{=}Short Bardiche Head" tier="4" piece_type="Blade" mesh="axe_craft_16_head" distance_to_next_piece="28.8" distance_to_previous_piece="6" weight="0.9">
     <BuildData piece_offset="-12" />
@@ -34012,7 +34216,7 @@
       <Material id="Iron2" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_greatlongaxe_blade_h0" name="{=Salt}Great Long Axe Head" tier="3" piece_type="Blade" mesh="greataxe_blade" length="25.5" distance_to_next_piece="14.96" distance_to_previous_piece="2.712" weight="0.16">
+  <CraftingPiece id="crpg_greatlongaxe_blade_h0" name="{=Salt}Great Long Axe Head" tier="3" piece_type="Blade" mesh="greataxe_blade" length="25.5" distance_to_next_piece="14.96" distance_to_previous_piece="2.712" weight="0.40">
     <BuildData piece_offset="-14.0" />
     <BladeData stack_amount="0" blade_length="28.366" blade_width="28.192" physics_material="metal_weapon" body_name="bo_axe_longer_b">
       <Thrust damage_type="Blunt" damage_factor="2.0" />
@@ -34027,7 +34231,7 @@
       <Material id="Iron3" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_greatlongaxe_blade_h1" name="{=Salt}Great Long Axe Head" tier="3" piece_type="Blade" mesh="greataxe_blade" length="25.5" distance_to_next_piece="14.96" distance_to_previous_piece="2.712" weight="0.16">
+  <CraftingPiece id="crpg_greatlongaxe_blade_h1" name="{=Salt}Great Long Axe Head" tier="3" piece_type="Blade" mesh="greataxe_blade" length="25.5" distance_to_next_piece="14.96" distance_to_previous_piece="2.712" weight="0.40">
     <BuildData piece_offset="-14.0" />
     <BladeData stack_amount="0" blade_length="28.366" blade_width="28.192" physics_material="metal_weapon" body_name="bo_axe_longer_b">
       <Thrust damage_type="Blunt" damage_factor="2.0" />
@@ -34042,7 +34246,7 @@
       <Material id="Iron3" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_greatlongaxe_blade_h2" name="{=Salt}Great Long Axe Head" tier="3" piece_type="Blade" mesh="greataxe_blade" length="25.5" distance_to_next_piece="14.96" distance_to_previous_piece="2.712" weight="0.16">
+  <CraftingPiece id="crpg_greatlongaxe_blade_h2" name="{=Salt}Great Long Axe Head" tier="3" piece_type="Blade" mesh="greataxe_blade" length="25.5" distance_to_next_piece="14.96" distance_to_previous_piece="2.712" weight="0.40">
     <BuildData piece_offset="-14.0" />
     <BladeData stack_amount="0" blade_length="28.366" blade_width="28.192" physics_material="metal_weapon" body_name="bo_axe_longer_b">
       <Thrust damage_type="Blunt" damage_factor="2.2" />
@@ -34057,7 +34261,7 @@
       <Material id="Iron3" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_greatlongaxe_blade_h3" name="{=Salt}Great Long Axe Head" tier="3" piece_type="Blade" mesh="greataxe_blade" length="25.5" distance_to_next_piece="14.96" distance_to_previous_piece="2.712" weight="0.16">
+  <CraftingPiece id="crpg_greatlongaxe_blade_h3" name="{=Salt}Great Long Axe Head" tier="3" piece_type="Blade" mesh="greataxe_blade" length="25.5" distance_to_next_piece="14.96" distance_to_previous_piece="2.712" weight="0.40">
     <BuildData piece_offset="-14.0" />
     <BladeData stack_amount="0" blade_length="28.366" blade_width="28.192" physics_material="metal_weapon" body_name="bo_axe_longer_b">
       <Thrust damage_type="Blunt" damage_factor="2.2" />
@@ -34072,28 +34276,28 @@
       <Material id="Iron3" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_greatlongaxe_handle_h0" name="{=Salt}Great Long Axe Handle" tier="5" piece_type="Handle" mesh="long_greataxe_handle" length="129" weight="2.0" item_holster_pos_shift="0,0,-0.1">
+  <CraftingPiece id="crpg_greatlongaxe_handle_h0" name="{=Salt}Great Long Axe Handle" tier="5" piece_type="Handle" mesh="long_greataxe_handle" length="129" weight="0.9" item_holster_pos_shift="0,0,-0.1">
     <BuildData piece_offset="28" next_piece_offset="12.0" />
     <Materials>
       <Material id="Wood" count="1" />
       <Material id="Iron5" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_greatlongaxe_handle_h1" name="{=Salt}Great Long Axe Handle" tier="5" piece_type="Handle" mesh="long_greataxe_handle" length="129" weight="1.9" item_holster_pos_shift="0,0,-0.1">
+  <CraftingPiece id="crpg_greatlongaxe_handle_h1" name="{=Salt}Great Long Axe Handle" tier="5" piece_type="Handle" mesh="long_greataxe_handle" length="129" weight="0.85" item_holster_pos_shift="0,0,-0.1">
     <BuildData piece_offset="28" next_piece_offset="12.0" />
     <Materials>
       <Material id="Wood" count="1" />
       <Material id="Iron5" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_greatlongaxe_handle_h2" name="{=Salt}Great Long Axe Handle" tier="5" piece_type="Handle" mesh="long_greataxe_handle" length="129" weight="1.9" item_holster_pos_shift="0,0,-0.1">
+  <CraftingPiece id="crpg_greatlongaxe_handle_h2" name="{=Salt}Great Long Axe Handle" tier="5" piece_type="Handle" mesh="long_greataxe_handle" length="129" weight="0.8" item_holster_pos_shift="0,0,-0.1">
     <BuildData piece_offset="28" next_piece_offset="12.0" />
     <Materials>
       <Material id="Wood" count="1" />
       <Material id="Iron5" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_greatlongaxe_handle_h3" name="{=Salt}Great Long Axe Handle" tier="5" piece_type="Handle" mesh="long_greataxe_handle" length="129" weight="1.8" item_holster_pos_shift="0,0,-0.1">
+  <CraftingPiece id="crpg_greatlongaxe_handle_h3" name="{=Salt}Great Long Axe Handle" tier="5" piece_type="Handle" mesh="long_greataxe_handle" length="129" weight="0.7" item_holster_pos_shift="0,0,-0.1">
     <BuildData piece_offset="28" next_piece_offset="12.0" />
     <Materials>
       <Material id="Wood" count="1" />
@@ -34448,7 +34652,7 @@
       <Material id="Iron4" count="1" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_large_falchion_blade_h0" name="{=Salt}Large Falchion Blade Head" tier="3" piece_type="Blade" mesh="cleaver_blade_2" culture="Culture.aserai" length="100.1" weight="1.2">
+  <CraftingPiece id="crpg_large_falchion_blade_h0" name="{=Salt}Large Falchion Blade Head" tier="3" piece_type="Blade" mesh="cleaver_blade_2" culture="Culture.aserai" length="100.1" weight="1.2" excluded_item_usage_features="thrust">
     <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
       <Swing damage_type="Cut" damage_factor="4.0" />
     </BladeData>
@@ -34456,7 +34660,7 @@
       <Material id="Iron4" count="4" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_large_falchion_blade_h1" name="{=Salt}Large Falchion Blade Head" tier="3" piece_type="Blade" mesh="cleaver_blade_2" culture="Culture.aserai" length="100.1" weight="1.17">
+  <CraftingPiece id="crpg_large_falchion_blade_h1" name="{=Salt}Large Falchion Blade Head" tier="3" piece_type="Blade" mesh="cleaver_blade_2" culture="Culture.aserai" length="100.1" weight="1.17" excluded_item_usage_features="thrust">
     <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
       <Swing damage_type="Cut" damage_factor="4.1" />
     </BladeData>
@@ -34464,7 +34668,7 @@
       <Material id="Iron4" count="4" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_large_falchion_blade_h2" name="{=Salt}Large Falchion Blade Head" tier="3" piece_type="Blade" mesh="cleaver_blade_2" culture="Culture.aserai" length="100.1" weight="1.17">
+  <CraftingPiece id="crpg_large_falchion_blade_h2" name="{=Salt}Large Falchion Blade Head" tier="3" piece_type="Blade" mesh="cleaver_blade_2" culture="Culture.aserai" length="100.1" weight="1.17" excluded_item_usage_features="thrust">
     <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
       <Swing damage_type="Cut" damage_factor="4.3" />
     </BladeData>
@@ -34472,7 +34676,7 @@
       <Material id="Iron4" count="4" />
     </Materials>
   </CraftingPiece>
-  <CraftingPiece id="crpg_large_falchion_blade_h3" name="{=Salt}Large Falchion Blade Head" tier="3" piece_type="Blade" mesh="cleaver_blade_2" culture="Culture.aserai" length="100.1" weight="1.1">
+  <CraftingPiece id="crpg_large_falchion_blade_h3" name="{=Salt}Large Falchion Blade Head" tier="3" piece_type="Blade" mesh="cleaver_blade_2" culture="Culture.aserai" length="100.1" weight="1.1" excluded_item_usage_features="thrust">
     <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed">
       <Swing damage_type="Cut" damage_factor="4.3" />
     </BladeData>
@@ -35159,5 +35363,81 @@
   </CraftingPiece>
   <CraftingPiece id="crpg_horsemansaxe2_pommel_h3" name="{=}Horseman's Axe Pommel" tier="4" piece_type="Pommel" mesh="horsemans_axe_pommel" culture="Culture.battania" length="6.85" weight="0.7">
     <BuildData next_piece_offset="0" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_blade_h0" name="{=}Saxon Sword Blade" tier="4" piece_type="Blade" mesh="cts_saxon_sword_blade" culture="Culture.battania" length="74" weight="0.75">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed" holster_mesh="cts_saxon_sword_scabard" holster_mesh_length="101">
+      <Thrust damage_type="Pierce" damage_factor="1.8" />
+      <Swing damage_type="Cut" damage_factor="3.6" />
+    </BladeData>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_blade_h1" name="{=}Saxon Sword Blade" tier="4" piece_type="Blade" mesh="cts_saxon_sword_blade" culture="Culture.battania" length="74" weight="0.75">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed" holster_mesh="cts_saxon_sword_scabard" holster_mesh_length="101">
+      <Thrust damage_type="Pierce" damage_factor="1.8" />
+      <Swing damage_type="Cut" damage_factor="3.7" />
+    </BladeData>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_blade_h2" name="{=}Saxon Sword Blade" tier="4" piece_type="Blade" mesh="cts_saxon_sword_blade" culture="Culture.battania" length="74" weight="0.75">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed" holster_mesh="cts_saxon_sword_scabard" holster_mesh_length="101">
+      <Thrust damage_type="Pierce" damage_factor="1.8" />
+      <Swing damage_type="Cut" damage_factor="3.8" />
+    </BladeData>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_blade_h3" name="{=}Saxon Sword Blade" tier="4" piece_type="Blade" mesh="cts_saxon_sword_blade" culture="Culture.battania" length="74" weight="0.75">
+    <BladeData stack_amount="2" physics_material="metal_weapon" body_name="bo_sword_one_handed" holster_mesh="cts_saxon_sword_scabard" holster_mesh_length="101">
+      <Thrust damage_type="Pierce" damage_factor="1.9" />
+      <Swing damage_type="Cut" damage_factor="3.8" />
+    </BladeData>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_pommel_h0" name="{=}Saxon Sword Pommel" tier="4" piece_type="Pommel" mesh="cts_saxon_sword_pommel" full_scale="false" culture="Culture.battania" length="5.4" weight="0.5">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_pommel_h1" name="{=}Saxon Sword Pommel" tier="4" piece_type="Pommel" mesh="cts_saxon_sword_pommel" full_scale="false" culture="Culture.battania" length="5.4" weight="0.5">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_pommel_h2" name="{=}Saxon Sword Pommel" tier="4" piece_type="Pommel" mesh="cts_saxon_sword_pommel" full_scale="false" culture="Culture.battania" length="5.4" weight="0.5">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_pommel_h3" name="{=}Saxon Sword Pommel" tier="4" piece_type="Pommel" mesh="cts_saxon_sword_pommel" full_scale="false" culture="Culture.battania" length="5.4" weight="0.4">
+    <BuildData next_piece_offset="0" />
+    <Materials>
+      <Material id="Iron4" count="1" />
+    </Materials>
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_guard_h0" name="{=}Saxon Sword Guard" tier="5" piece_type="Guard" mesh="cts_saxon_sword_guard" full_scale="false" culture="Culture.battania" length="4.16" weight="0.5">
+    <BuildData next_piece_offset="2" />
+    <StatContributions armor_bonus="0" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_guard_h1" name="{=}Saxon Sword Guard" tier="5" piece_type="Guard" mesh="cts_saxon_sword_guard" full_scale="false" culture="Culture.battania" length="4.16" weight="0.5">
+    <BuildData next_piece_offset="2" />
+    <StatContributions armor_bonus="0" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_guard_h2" name="{=}Saxon Sword Guard" tier="5" piece_type="Guard" mesh="cts_saxon_sword_guard" full_scale="false" culture="Culture.battania" length="4.16" weight="0.5">
+    <BuildData next_piece_offset="2" />
+    <StatContributions armor_bonus="0" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_guard_h3" name="{=}Saxon Sword Guard" tier="5" piece_type="Guard" mesh="cts_saxon_sword_guard" full_scale="false" culture="Culture.battania" length="4.16" weight="0.5">
+    <BuildData next_piece_offset="2" />
+    <StatContributions armor_bonus="0" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_handle_h0" name="{=}Saxon Sword Handle" tier="3" piece_type="Handle" mesh="cts_saxon_sword_handle" full_scale="false" culture="Culture.khuzait" length="14" weight="0.5">
+    <BuildData piece_offset="0" previous_piece_offset="1" next_piece_offset="2" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_handle_h1" name="{=}Saxon Sword Handle" tier="3" piece_type="Handle" mesh="cts_saxon_sword_handle" full_scale="false" culture="Culture.khuzait" length="14" weight="0.5">
+    <BuildData piece_offset="0" previous_piece_offset="1" next_piece_offset="2" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_handle_h2" name="{=}Saxon Sword Handle" tier="3" piece_type="Handle" mesh="cts_saxon_sword_handle" full_scale="false" culture="Culture.khuzait" length="14" weight="0.5">
+    <BuildData piece_offset="0" previous_piece_offset="1" next_piece_offset="2" />
+  </CraftingPiece>
+  <CraftingPiece id="crpg_cts_saxon_sword_handle_h3" name="{=}Saxon Sword Handle" tier="3" piece_type="Handle" mesh="cts_saxon_sword_handle" full_scale="false" culture="Culture.khuzait" length="14" weight="0.5">
+    <BuildData piece_offset="0" previous_piece_offset="1" next_piece_offset="2" />
   </CraftingPiece>
 </CraftingPieces>

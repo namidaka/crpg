@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 // TODO: FIXME: composition + components
-
 import type { BarSeriesOption } from 'echarts/charts'
 import type {
   DataZoomComponentOption,
@@ -28,6 +27,7 @@ import VChart from 'vue-echarts'
 import type { TimeSeries } from '~/models/timeseries'
 
 import theme from '~/assets/themes/oruga-tailwind/echart-theme.json'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { CharacterEarningType, getCharacterEarningStatistics } from '~/services/characters-service'
 import { d } from '~/services/translate-service'
 import { characterKey } from '~/symbols/character'
@@ -148,7 +148,7 @@ const extractTSName = (ts: TimeSeries) => ts.name
 const legend = ref<string[]>(characterEarningStatistics.value.map(extractTSName))
 const activeSeries = ref<string[]>(characterEarningStatistics.value.map(extractTSName))
 
-const onUpdate = async (characterId: number) => {
+const { execute: onUpdate } = useAsyncCallback(async (characterId: number) => {
   await loadCharacterEarningStatistics(0, { id: characterId })
   option.value = {
     ...option.value,
@@ -159,7 +159,7 @@ const onUpdate = async (characterId: number) => {
     series: characterEarningStatistics.value.map(toBarSeries),
   }
   activeSeries.value = characterEarningStatistics.value.map(extractTSName)
-}
+})
 
 watch(statTypeModel, () => onUpdate(character.value.id))
 watch(zoomModel, () => {
@@ -167,13 +167,6 @@ watch(zoomModel, () => {
   onUpdate(character.value.id)
   setDataZoom(start.value.getTime(), end.value.getTime())
 })
-
-// const [from, to] = dataZoom.value
-// && ts.data.every(([date]) => {
-//           const time = date.getTime()
-//           console.table({ time, from, to, d: time >= from, v: time <= to })
-//           return time >= from && time <= to
-//         })
 
 const total = computed(() =>
   characterEarningStatistics.value

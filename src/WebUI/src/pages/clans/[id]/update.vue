@@ -3,6 +3,7 @@ import type { Clan } from '~/models/clan'
 
 import { useClan } from '~/composables/clan/use-clan'
 import { useClanMembers } from '~/composables/clan/use-clan-members'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { kickClanMember, updateClan } from '~/services/clan-service'
 import { notify } from '~/services/notification-service'
 import { t } from '~/services/translate-service'
@@ -27,25 +28,30 @@ const router = useRouter()
 const { clan, clanId, loadClan } = useClan(props.id)
 const { isLastMember, loadClanMembers } = useClanMembers()
 
-const onSubmit = async (form: Omit<Clan, 'id'>) => {
+const { execute: onUpdateClan, loading: updatingClan } = useAsyncCallback(async (form: Omit<Clan, 'id'>) => {
   const clan = await updateClan(clanId.value, { ...form, id: clanId.value })
   await userStore.fetchUserClanAndRole()
   notify(t('clan.update.notify.success'))
   router.replace({ name: 'ClansId', params: { id: clan.id } })
-}
+})
 
-const deleteClan = async () => {
+const { execute: onDeleteClan, loading: deletingClan } = useAsyncCallback(async () => {
   await kickClanMember(clanId.value, userStore.user!.id) // delete yourself from the clan as the only member === delete the clan
   userStore.fetchUserClanAndRole()
   notify(t('clan.delete.notify.success'))
   return router.replace({ name: 'Clans' })
-}
+})
 
 await Promise.all([loadClan(0, { id: clanId.value }), loadClanMembers(0, { id: clanId.value })])
 </script>
 
 <template>
   <div class="p-6">
+    <OLoading
+      full-page
+      :active="updatingClan || deletingClan"
+      icon-size="xl"
+    />
     <RouterLink :to="{ name: 'ClansId', params: { id: clanId } }">
       <OButton
         v-tooltip.bottom="$t('nav.back')"
@@ -68,7 +74,7 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanMembers(0, { id: c
             <ClanForm
               :clan-id="clanId"
               :clan="clan!"
-              @submit="onSubmit"
+              @submit="onUpdateClan"
             />
           </div>
         </div>
@@ -96,7 +102,7 @@ await Promise.all([loadClan(0, { id: clanId.value }), loadClanMembers(0, { id: c
                 @cancel="hide"
                 @confirm="
                   () => {
-                    deleteClan();
+                    onDeleteClan();
                     hide();
                   }
                 "

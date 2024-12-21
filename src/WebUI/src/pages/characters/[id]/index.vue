@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTransition } from '@vueuse/core'
+import { useToggle, useTransition } from '@vueuse/core'
 import {
   experienceMultiplierByGeneration,
   freeRespecializeIntervalDays,
@@ -15,6 +15,7 @@ import type {
 
 import { useGameMode } from '~/composables/use-game-mode'
 import { usePollInterval } from '~/composables/use-poll-interval'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { GameMode } from '~/models/game-mode'
 import {
   canRetireValidate,
@@ -78,7 +79,7 @@ const respecCapability = computed(() =>
   ),
 )
 
-const onRespecializeCharacter = async () => {
+const { execute: onRespecializeCharacter, loading: respecializingCharacter } = useAsyncCallback(async () => {
   userStore.replaceCharacter(await respecializeCharacter(character.value.id))
   userStore.subtractGold(respecCapability.value.price)
   await Promise.all([
@@ -86,28 +87,30 @@ const onRespecializeCharacter = async () => {
     loadCharacterCharacteristics(0, { id: character.value.id }),
   ])
   notify(t('character.settings.respecialize.notify.success'))
-}
+})
 
 const canRetire = computed(() => canRetireValidate(character.value.level))
-const onRetireCharacter = async () => {
+
+const { execute: onRetireCharacter, loading: retiringCharacter } = useAsyncCallback(async () => {
   userStore.replaceCharacter(await retireCharacter(character.value.id))
   await Promise.all([
     userStore.fetchUser(),
     loadCharacterCharacteristics(0, { id: character.value.id }),
   ])
   notify(t('character.settings.retire.notify.success'))
-}
-const shownRetireConfirmTooltip = ref<boolean>(false)
+})
+
+const [shownRetireConfirmTooltip, toggleRetireConfirmTooltip] = useToggle()
 
 const canSetCharacterForTournament = computed(() =>
   canSetCharacterForTournamentValidate(character.value),
 )
 
-const onSetCharacterForTournament = async () => {
+const { execute: onSetCharacterForTournament } = useAsyncCallback(async () => {
   userStore.replaceCharacter(await setCharacterForTournament(character.value.id))
   await loadCharacterCharacteristics(0, { id: character.value.id })
   notify(t('character.settings.tournament.notify.success'))
-}
+})
 
 const { execute: loadCharacterStatistics, state: characterStatistics } = useAsyncState(
   ({ id }: { id: number }) => getCharacterStatistics(id),
@@ -119,15 +122,6 @@ const { execute: loadCharacterStatistics, state: characterStatistics } = useAsyn
 )
 
 const { subscribe, unsubscribe } = usePollInterval()
-
-onMounted(() => {
-  subscribe(loadCharacterStatisticsKey, () =>
-    loadCharacterStatistics(0, { id: character.value.id }))
-})
-
-onBeforeUnmount(() => {
-  unsubscribe(loadCharacterStatisticsKey)
-})
 
 const rankTable = computed(() => createRankTable())
 
@@ -168,7 +162,12 @@ const fetchPageData = (characterId: number) =>
 
 onBeforeRouteUpdate(async (to, from) => {
   if (to.name === from.name && 'id' in to.params) {
-    await fetchPageData(Number(to.params.id))
+    const characterId = Number(to.params.id)
+    await fetchPageData(characterId)
+    unsubscribe(loadCharacterStatisticsKey)
+    subscribe(loadCharacterStatisticsKey, () => {
+      loadCharacterStatistics(0, { id: characterId })
+    })
   }
   return true
 })
@@ -178,6 +177,11 @@ await fetchPageData(character.value.id)
 
 <template>
   <div class="mx-auto max-w-2xl space-y-12 pb-12">
+    <OLoading
+      full-page
+      :active="respecializingCharacter || retiringCharacter"
+      icon-size="xl"
+    />
     <FormGroup
       :label="$t('character.settings.group.overview.title')"
       :collapsable="false"
@@ -501,9 +505,7 @@ await fetchPageData(character.value.id)
           <!--  -->
           <Modal
             @apply-hide="
-              () => {
-                shownRetireConfirmTooltip = false;
-              }
+              () => toggleRetireConfirmTooltip(false)
             "
           >
             <VTooltip placement="auto">
@@ -629,9 +631,7 @@ await fetchPageData(character.value.id)
                 :confirm-label="$t('action.apply')"
                 @cancel="hide"
                 @confirm="
-                  () => {
-                    shownRetireConfirmTooltip = true;
-                  }
+                  () => toggleRetireConfirmTooltip(true)
                 "
               >
                 <template #title>

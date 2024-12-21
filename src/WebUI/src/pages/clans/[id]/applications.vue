@@ -4,6 +4,7 @@ import type { ClanInvitation } from '~/models/clan'
 import { useClan } from '~/composables/clan/use-clan'
 import { useClanApplications } from '~/composables/clan/use-clan-applications'
 import { usePagination } from '~/composables/use-pagination'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { respondToClanInvitation } from '~/services/clan-service'
 import { notify } from '~/services/notification-service'
 import { t } from '~/services/translate-service'
@@ -25,20 +26,24 @@ const { clanId } = useClan(props.id)
 const { applications, loadClanApplications } = useClanApplications()
 const { pageModel, perPage } = usePagination()
 
-const respond = async (application: ClanInvitation, status: boolean) => {
+const { execute: respond, loading: responding } = useAsyncCallback(async (application: ClanInvitation, status: boolean) => {
   await respondToClanInvitation(clanId.value, application.id, status)
   await loadClanApplications(0, { id: clanId.value })
-
   status
     ? notify(t('clan.application.respond.accept.notify.success'))
     : notify(t('clan.application.respond.decline.notify.success'))
-}
+})
 
 await loadClanApplications(0, { id: clanId.value })
 </script>
 
 <template>
   <div class="p-6">
+    <OLoading
+      full-page
+      :active="responding"
+      icon-size="xl"
+    />
     <OButton
       v-tooltip.bottom="$t('nav.back')"
       tag="router-link"

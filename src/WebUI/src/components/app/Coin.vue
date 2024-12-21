@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { value = 0 } = defineProps<{ value?: number }>()
+const { value } = defineProps<{ value?: number }>()
 </script>
 
 <template>
@@ -10,6 +10,6 @@ const { value = 0 } = defineProps<{ value?: number }>()
       class="w-4"
     />
     <slot v-if="$slots.default" />
-    <template v-else>{{ $n(value) }}</template>
+    <template v-else-if="value !== undefined">{{ $n(value) }}</template>
   </span>
 </template>

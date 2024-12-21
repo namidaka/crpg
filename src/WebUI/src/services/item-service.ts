@@ -4,6 +4,7 @@ import {
   itemReforgeCostPerRank,
   itemRepairCostPerSecond,
   itemSellCostPenalty,
+  itemSellGracePeriodMinutes,
 } from '~root/data/constants.json'
 import { omitBy } from 'es-toolkit'
 
@@ -708,8 +709,8 @@ export const getItemFieldRelativeDiffStr = (value: number, relativeValue: number
 }
 
 export const getItemGraceTimeEnd = (userItem: UserItem) => {
-  const graceTimeEnd = userItem.createdAt
-  graceTimeEnd.setHours(graceTimeEnd.getHours() + 1) // TODO: to constants
+  const graceTimeEnd = new Date(userItem.createdAt)
+  graceTimeEnd.setMinutes(graceTimeEnd.getMinutes() + itemSellGracePeriodMinutes)
   return graceTimeEnd
 }
 
@@ -781,9 +782,10 @@ const itemParamIsEmpty = (field: keyof ItemFlat, itemFlat: ItemFlat) => {
 }
 
 // TODO: spec
-export const getItemAggregations = (itemFlat: ItemFlat) => {
+export const getItemAggregations = (itemFlat: ItemFlat, omitEmpty = true) => {
   const aggsConfig = getVisibleAggregationsConfig(
     getAggregationsConfig(itemFlat.type, itemFlat.weaponClass),
   )
-  return omitBy(aggsConfig, (_value, field) => itemParamIsEmpty(field, itemFlat))
+
+  return omitEmpty ? omitBy(aggsConfig, (_value, field) => itemParamIsEmpty(field, itemFlat)) : aggsConfig
 }

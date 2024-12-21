@@ -11,9 +11,6 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Source.Missions;
 using TaleWorlds.MountAndBlade.Multiplayer;
 
-
-
-
 #if CRPG_SERVER
 using Crpg.Module.Api;
 using Crpg.Module.Common.ChatCommands;
@@ -115,6 +112,7 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
 
 #if CRPG_SERVER
         ICrpgClient crpgClient = CrpgClient.Create();
+        Game.Current.GetGameHandler<ChatCommandsComponent>()?.InitChatCommands(crpgClient);
         ChatBox chatBox = Game.Current.GetGameHandler<ChatBox>();
 
         MultiplayerRoundController roundController = new(); // starts/stops round, ends match
@@ -189,9 +187,8 @@ internal class CrpgBattleGameMode : MissionBasedMultiplayerGameMode
                     new AgentHumanAILogic(), // bot intelligence
                     new MultiplayerAdminComponent(), // admin UI to kick player or restart game
                     new CrpgUserManagerServer(crpgClient, _constants),
-                    new KickInactiveBehavior(inactiveTimeLimit: 60, warmupComponent),
+                    new KickInactiveBehavior(inactiveTimeLimit: 30, warmupComponent, teamSelectComponent),
                     new MapPoolComponent(),
-                    new ChatCommandsComponent(chatBox, crpgClient),
                     new CrpgActivityLogsBehavior(warmupComponent, chatBox, crpgClient),
                     new ServerMetricsBehavior(),
                     new NotAllPlayersReadyComponent(),

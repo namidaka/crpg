@@ -2880,4 +2880,76 @@
     </ItemComponent>
     <Flags UseTeamColor="false" />
   </Item>
+  <Item id="crpg_cts_saxon_cape_h0" name="{=Salt}Sutton Cape" mesh="cts_saxon_cape" is_merchandise="true" culture="Culture.vlandia" weight="0.8477576" appearance="2" Type="Cape">
+    <ItemComponent>
+      <Armor body_armor="5" arm_armor="5" modifier_group="cloth_unarmoured" material_type="Cloth" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_cts_saxon_cape_h1" name="{=Salt}Sutton Cape +1" mesh="cts_saxon_cape" is_merchandise="true" culture="Culture.vlandia" weight="0.8477576" appearance="2" Type="Cape">
+    <ItemComponent>
+      <Armor body_armor="7" arm_armor="5" modifier_group="cloth_unarmoured" material_type="Cloth" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_cts_saxon_cape_h2" name="{=Salt}Sutton Cape +2" mesh="cts_saxon_cape" is_merchandise="true" culture="Culture.vlandia" weight="0.8477576" appearance="2" Type="Cape">
+    <ItemComponent>
+      <Armor body_armor="8" arm_armor="5" modifier_group="cloth_unarmoured" material_type="Cloth" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_cts_saxon_cape_h3" name="{=Salt}Sutton Cape +3" mesh="cts_saxon_cape" is_merchandise="true" culture="Culture.vlandia" weight="0.8477576" appearance="2" Type="Cape">
+    <ItemComponent>
+      <Armor body_armor="9" arm_armor="6" modifier_group="cloth_unarmoured" material_type="Cloth" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_aa_flutedpauldrons_h0" name="{=AppleTruce}Fluted Pauldrons" mesh="aa_flutedpauldrons" culture="Culture.vlandia" weight="3.467257" appearance="1" Type="Cape" is_merchandise="true">
+    <ItemComponent>
+      <Armor body_armor="16" modifier_group="plate" material_type="Plate" arm_armor="11" head_armor="0" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_aa_flutedpauldrons_h1" name="{=AppleTruce}Fluted Pauldrons +1" mesh="aa_flutedpauldrons" culture="Culture.vlandia" weight="3.467257" appearance="1" Type="Cape" is_merchandise="true">
+    <ItemComponent>
+      <Armor body_armor="18" modifier_group="plate" material_type="Plate" arm_armor="11" head_armor="0" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_aa_flutedpauldrons_h2" name="{=AppleTruce}Fluted Pauldrons +2" mesh="aa_flutedpauldrons" culture="Culture.vlandia" weight="3.467257" appearance="1" Type="Cape" is_merchandise="true">
+    <ItemComponent>
+      <Armor body_armor="19" modifier_group="plate" material_type="Plate" arm_armor="11" head_armor="0" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_aa_flutedpauldrons_h3" name="{=AppleTruce}Fluted Pauldrons +3" mesh="aa_flutedpauldrons" culture="Culture.vlandia" weight="3.467257" appearance="1" Type="Cape" is_merchandise="true">
+    <ItemComponent>
+      <Armor body_armor="20" modifier_group="plate" material_type="Plate" arm_armor="12" head_armor="0" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_aa_flutedgorgetpauldrons_h0" name="{=AppleTruce}Fluted Pauldrons with Gorget" mesh="aa_flutedgorgetpauldrons" culture="Culture.vlandia" weight="4.02408" appearance="1" Type="Cape" is_merchandise="true">
+    <ItemComponent>
+      <Armor body_armor="18" modifier_group="plate" material_type="Plate" arm_armor="8" head_armor="4" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_aa_flutedgorgetpauldrons_h1" name="{=AppleTruce}Fluted Pauldrons with Gorget +1" mesh="aa_flutedgorgetpauldrons" culture="Culture.vlandia" weight="4.02408" appearance="1" Type="Cape" is_merchandise="true">
+    <ItemComponent>
+      <Armor body_armor="20" modifier_group="plate" material_type="Plate" arm_armor="8" head_armor="4" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_aa_flutedgorgetpauldrons_h2" name="{=AppleTruce}Fluted Pauldrons with Gorget +2" mesh="aa_flutedgorgetpauldrons" culture="Culture.vlandia" weight="4.02408" appearance="1" Type="Cape" is_merchandise="true">
+    <ItemComponent>
+      <Armor body_armor="21" modifier_group="plate" material_type="Plate" arm_armor="8" head_armor="4" />
+    </ItemComponent>
+    <Flags />
+  </Item>
+  <Item id="crpg_aa_flutedgorgetpauldrons_h3" name="{=AppleTruce}Fluted Pauldrons with Gorget +3" mesh="aa_flutedgorgetpauldrons" culture="Culture.vlandia" weight="4.02408" appearance="1" Type="Cape" is_merchandise="true">
+    <ItemComponent>
+      <Armor body_armor="22" modifier_group="plate" material_type="Plate" arm_armor="9" head_armor="4" />
+    </ItemComponent>
+    <Flags />
+  </Item>
 </Items>

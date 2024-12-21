@@ -23,6 +23,7 @@ public class Constants
     public float ItemBreakChance { get; set; }
     public int BrokenItemRepairPenaltySeconds { get; set; }
     public float ItemSellCostPenalty { get; set; }
+    public int ItemSellGracePeriodMinutes { get; set; }
     public float[] ItemReforgeCostPerRank { get; set; } = Array.Empty<float>();
     public int MinimumLevel { get; set; }
     public int MaximumLevel { get; set; }

@@ -24,6 +24,7 @@ crpg_battle_persia
 crpg_battle_pompeii
 crpg_battle_ketilsfarm
 crpg_battle_ghosttown
+crpg_battle_overgrown
 mp_skirmish_map_020
 crpg_battle_fieldbytheriver
 crpg_battle_dragonsroost

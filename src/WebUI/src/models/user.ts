@@ -30,6 +30,7 @@ export interface UserPrivate extends UserPublic {
   note: string
   createdAt: Date
   updatedAt: Date
+  isDonor: boolean
   heirloomPoints: number
   experienceMultiplier: number
   activeCharacterId: number | null

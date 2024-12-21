@@ -2,6 +2,7 @@
 import type { SkillKey } from '~/models/character'
 
 import { useCharacterCharacteristic } from '~/composables/character/use-character-characteristic'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { CharacteristicConversion } from '~/models/character'
 import {
   characteristicBonusByKey,
@@ -17,6 +18,7 @@ import {
   characterItemsStatsKey,
   characterKey,
 } from '~/symbols/character'
+import { sleep } from '~/utils/promise'
 
 definePage({
   meta: {
@@ -56,23 +58,23 @@ const healthPoints = computed(() =>
   ),
 )
 
-const onCommitCharacterCharacteristics = async () => {
+const { execute: onCommitCharacterCharacteristics, loading: commitingCharacterCharacteristics } = useAsyncCallback(async () => {
   setCharacterCharacteristics(
     await updateCharacterCharacteristics(character.value.id, characteristics.value),
   )
-
   reset()
-
   await userStore.fetchCharacters()
-
   notify(t('character.characteristic.commit.notify'))
-}
+})
 
-const onConvertCharacterCharacteristics = async (conversion: CharacteristicConversion) => {
-  setCharacterCharacteristics(
-    await convertCharacterCharacteristics(character.value.id, conversion),
-  )
-}
+const { execute: onConvertCharacterCharacteristics, loading: convertingCharacterCharacteristics } = useAsyncCallback(async (conversion: CharacteristicConversion) => {
+  await Promise.all([
+    setCharacterCharacteristics(
+      await convertCharacterCharacteristics(character.value.id, conversion),
+    ),
+    sleep(400),
+  ])
+})
 
 onBeforeRouteUpdate(() => {
   reset()
@@ -82,6 +84,10 @@ onBeforeRouteUpdate(() => {
 
 <template>
   <div class="relative mx-auto max-w-4xl">
+    <OLoading
+      :active="convertingCharacterCharacteristics || commitingCharacterCharacteristics"
+      icon-size="xl"
+    />
     <div class="statsGrid mb-8 grid gap-6">
       <div
         v-for="fieldsGroup in formSchema"
@@ -116,9 +122,7 @@ onBeforeRouteUpdate(() => {
               :disabled="!canConvertAttributesToSkills"
               icon-right="convert"
               data-aq-convert-attributes-action
-              @click="
-                onConvertCharacterCharacteristics(CharacteristicConversion.AttributesToSkills)
-              "
+              @click="onConvertCharacterCharacteristics(CharacteristicConversion.AttributesToSkills) "
             />
             <template #popper>
               <div class="prose prose-invert">
@@ -152,9 +156,7 @@ onBeforeRouteUpdate(() => {
               :disabled="!canConvertSkillsToAttributes"
               icon-right="convert"
               data-aq-convert-skills-action
-              @click="
-                onConvertCharacterCharacteristics(CharacteristicConversion.SkillsToAttributes)
-              "
+              @click="onConvertCharacterCharacteristics(CharacteristicConversion.SkillsToAttributes)"
             />
             <template #popper>
               <div class="prose prose-invert">
@@ -210,7 +212,6 @@ onBeforeRouteUpdate(() => {
               <template #popper>
                 <div class="prose prose-invert">
                   <h4>
-                    <!-- prettier-ignore -->
                     {{ $t(`character.characteristic.${fieldsGroup.key}.children.${field.key}.title`) }}
                   </h4>
 
@@ -234,7 +235,6 @@ onBeforeRouteUpdate(() => {
                     </template>
                   </i18n-t>
 
-                  <!-- prettier-ignore -->
                   <p
                     v-if="$t(`character.characteristic.${fieldsGroup.key}.children.${field.key}.requires`) !== ''"
                     class="text-status-warning"
@@ -271,7 +271,7 @@ onBeforeRouteUpdate(() => {
     </div>
 
     <div
-      class="sticky bottom-0 left-0 flex w-full grid-cols-3 items-center justify-center gap-2 bg-bg-main bg-opacity-10 py-4 backdrop-blur-sm"
+      class="sticky bottom-0 left-0 flex w-full grid-cols-3 items-center justify-center gap-2  bg-opacity-10 py-4 backdrop-blur-sm"
     >
       <OButton
         :disabled="!wasChangeMade"

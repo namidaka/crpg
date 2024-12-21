@@ -742,7 +742,8 @@ shop:
         success: Предмет успешно куплен
       tooltip:
         buy: Купить предмет
-        inInventory: Предмет уже в инвентаре ({count})
+        inInventory: 'Предмет уже в инвентаре: {items}'
+        inInventoryConfirm: Такой предмет уже в вашем инвентаре
         notEnoughGold: Не хватает золота
     weaponUsage:
       title: Не является основным режимом использования

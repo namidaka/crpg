@@ -93,10 +93,11 @@ interface UserClan {
   role: ClanMemberRole
 }
 
-export const getUserClan = async () => {
+export const getUserClan = async (): Promise<{ clan: Clan | null, role: ClanMemberRole | null }> => {
   const userClan = await get<UserClan | null>('/users/self/clan')
+
   if (userClan === null || userClan.clan === null) {
-    return null
+    return { clan: null, role: null }
   }
   // do conversion since argb values are stored as numbers in db and we need strings
   return { clan: mapClanResponse(userClan.clan), role: userClan.role }

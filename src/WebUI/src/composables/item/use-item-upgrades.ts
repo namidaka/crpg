@@ -1,9 +1,10 @@
+import { clamp } from 'es-toolkit'
+
 import type { ItemFlat } from '~/models/item'
 import type { AggregationConfig } from '~/models/item-search'
 
 import { getItemUpgrades, getRelativeEntries } from '~/services/item-service'
 import { useUserStore } from '~/stores/user'
-import { clamp } from '~/utils/math'
 
 export const useItemUpgrades = (item: ItemFlat, cols: AggregationConfig) => {
   const userStore = useUserStore()

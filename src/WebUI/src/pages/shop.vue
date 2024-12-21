@@ -6,6 +6,7 @@ import { useItemsFilter } from '~/composables/shop/use-filters'
 import { useItemsSort } from '~/composables/shop/use-sort'
 import { usePagination } from '~/composables/use-pagination'
 import { useSearchDebounced } from '~/composables/use-search-debounce'
+import { useAsyncCallback } from '~/composables/utils/use-async-callback'
 import { WeaponUsage } from '~/models/item'
 import { getSearchResult } from '~/services/item-search-service'
 import {
@@ -29,13 +30,17 @@ definePage({
 const userStore = useUserStore()
 const { user, userItems } = toRefs(userStore)
 
-const userItemsIds = computed(() => userItems.value.map(ui => ui.item.id))
-
 const { execute: loadItems, state: items } = useAsyncState(() => getItems(), [], {
   immediate: false,
 })
 
 await Promise.all([loadItems(), userStore.fetchUserItems()])
+
+const userItemsIds = computed(() => userItems.value.map(ui => ui.item.id))
+
+const getInInventoryItems = (baseId: string) => {
+  return userItems.value.filter(ui => ui.item.baseId === baseId)
+}
 
 const {
   aggregationByClass,
@@ -87,11 +92,10 @@ const compareItemsResult = computed(() =>
     : getCompareItemsResult(searchResult.value.data.items, aggregationsConfig.value),
 )
 
-const buyItem = async (item: ItemFlat) => {
+const { execute: buyItem } = useAsyncCallback(async (item: ItemFlat) => {
   await userStore.buyItem(item.id)
-
   notify(t('shop.item.buy.notify.success'))
-}
+})
 
 const isUpgradableCategory = computed(() => canUpgrade(itemTypeModel.value))
 
@@ -185,6 +189,7 @@ const newItemCount = computed(
       :detailed="isUpgradableCategory"
       detail-key="id"
       custom-row-key="id"
+      :loading="userStore.buyingItem"
     >
       <OTableColumn
         field="compare"
@@ -291,7 +296,7 @@ const newItemCount = computed(
               <ShopGridItemBuyBtn
                 :price="(rawBuckets as number)"
                 :upkeep="item.upkeep"
-                :in-inventory-count="userItemsIds.filter(id => id === item.id).length"
+                :in-inventory-items="getInInventoryItems(item.baseId)"
                 :not-enough-gold="user!.gold < item.price"
                 @buy="buyItem(item)"
               />

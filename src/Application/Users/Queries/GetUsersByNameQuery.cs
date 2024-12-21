@@ -28,7 +28,7 @@ public record GetUsersByNameQuery : IMediatorRequest<UserPrivateViewModel[]>
         {
             return new(await _db.Users
                 .Where(u => u.Name.ToLower().Contains(req.Name.ToLower()))
-                .Take(10)
+                .Take(50)
                 .ProjectTo<UserPrivateViewModel>(_mapper.ConfigurationProvider)
                 .ToArrayAsync(cancellationToken));
         }

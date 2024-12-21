@@ -48,7 +48,6 @@ export const getFilteredClans = (
   search: string,
 ) => {
   const searchQuery = search.toLowerCase()
-
   return clans.filter(
     c =>
       c.clan.region === region

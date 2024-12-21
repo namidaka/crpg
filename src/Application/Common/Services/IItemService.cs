@@ -26,7 +26,7 @@ internal class ItemService : IItemService
     {
         int price = userItem.Item!.Price;
         // If the item was recently bought it is sold at 100% of its original price.
-        int sellPrice = userItem.CreatedAt + TimeSpan.FromHours(1) < _dateTime.UtcNow
+        int sellPrice = userItem.CreatedAt + TimeSpan.FromMinutes(_constants.ItemSellGracePeriodMinutes) < _dateTime.UtcNow
             ? (int)(price * _constants.ItemSellCostPenalty)
             : price;
         userItem.User!.Gold += sellPrice;

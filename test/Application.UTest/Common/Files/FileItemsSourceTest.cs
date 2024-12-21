@@ -134,14 +134,30 @@ public class FileItemsSourceTest
                 {
                     string closestItemId = TestHelper.FindClosestString(itemId, combinedItems);
                     Assert.Fail($"Character item {itemId} was not found in items.json. Did you mean {closestItemId}?");
-                    charactersDoc
-                    .Descendants("equipment")
-                    .First(el => el.Attribute("id")!.Value == "Item." + itemId).Attribute("id")!.Value = "Item." + closestItemId;
+
+                    var botEuipmentElement = charactersDoc
+                        .Descendants("equipment")
+                        .FirstOrDefault(el => el.Attribute("id")!.Value == "Item." + itemId);
+
+                    if (botEuipmentElement != null)
+                    {
+                        botEuipmentElement.Attribute("id")!.Value = "Item." + closestItemId;
+                    }
+
+                    var dtvEquipmentElement = dtvCharactersDoc
+                        .Descendants("equipment")
+                        .FirstOrDefault(el => el.Attribute("id")!.Value == "Item." + itemId);
+
+                    if (dtvEquipmentElement != null)
+                    {
+                        dtvEquipmentElement.Attribute("id")!.Value = "Item." + closestItemId;
+                    }
                 }
             }
 
             //uncomment to automatically replace with suggestions
             //charactersDoc.Save(charactersFilePath);
+            //dtvCharactersDoc.Save(dtvCharactersFilePath);
         });
     }
 }

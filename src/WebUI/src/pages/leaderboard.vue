@@ -54,14 +54,11 @@ const {
       region: regionModel.value,
     }),
   [],
-  {},
 )
 
 watch(
   () => route.query,
-  async () => {
-    await loadLeaderBoard()
-  },
+  () => loadLeaderBoard(),
 )
 
 const rankTable = computed(() => createRankTable())
